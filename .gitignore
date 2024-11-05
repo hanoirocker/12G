@@ -2,7 +2,7 @@
 # Unity folders and files
 ###
 [Aa]ssets/*
-![Aa]ssets/_Project/Scripts/*
+![Aa]ssets/_Project*
 [Bb]uild/
 [Ll]ogs/
 [Uu]serSettings/
@@ -15,6 +15,8 @@
 sysinfo.txt
 # Unity3D generated meta files
 *.pidb.meta
+# Multimedia files
+*.mp4
 
 ###
 # VS/MD solution and project files
