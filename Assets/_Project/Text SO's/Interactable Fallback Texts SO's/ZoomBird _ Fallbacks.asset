@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef261853c753748f0a8958f19e9b0878, type: 3}
+  m_Name: ZoomBird _ Fallbacks
+  m_EditorClassIdentifier: 
+  interactableFallbackStructures:
+  - language: 0
+    interactableFallbacksTexts:
+    - "La escoba de la y una bolsa me vendr\xEDan bien para esto. Ambas est\xE1n
+      a\xFAn en la cocina si no mal recuerdo."
+    - Aun me falta una bolsa.
+    - Aun me falta la escoba.
+  - language: 1
+    interactableFallbacksTexts:
+    - 'The broom and a bag would come in handy for this. They are both still in the
+      kitchen if I recall correctly. '
+    - I still need a bag.
+    - 'I still need the broom. '

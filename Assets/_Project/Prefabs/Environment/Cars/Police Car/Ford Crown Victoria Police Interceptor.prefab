@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1760824327296752933
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.95264816
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.010000229
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -30.220995
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5515285100303877801, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 733392ae4f441420aae0c0b324c67ef7, type: 2}
+    - target: {fileID: -4024122847128463018, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7e2be82f8ec074c53a95dc781229d8c0, type: 2}
+    - target: {fileID: -936522309453505719, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4e2b673ba521d40d6a56e631d9bb0d50, type: 2}
+    - target: {fileID: -826068172836390608, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dcccbc3e67e22470fad8a28c5b3663a2, type: 2}
+    - target: {fileID: -612876727159099963, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3e7ea111e2df34998b86699c099eb694, type: 2}
+    - target: {fileID: 919132149155446097, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_Name
+      value: Ford Crown Victoria Police Interceptor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1519996565385280901, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 733392ae4f441420aae0c0b324c67ef7, type: 2}
+    - target: {fileID: 5194378985096011087, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 733392ae4f441420aae0c0b324c67ef7, type: 2}
+    - target: {fileID: 6917730519378198968, guid: c8aa2f610e7244da1b411c08be31c365,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 733392ae4f441420aae0c0b324c67ef7, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c8aa2f610e7244da1b411c08be31c365, type: 3}

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1868b6d0c0577408aab9bfcf936e011e, type: 3}
+  m_Name: BirdsEventObservations
+  m_EditorClassIdentifier: 
+  eventsObservations:
+  - language: 0
+    eventObservationTexts:
+    - "Parece que algo pas\xF3 arriba, mejor reviso qu\xE9 fue eso."
+    - Uff, voy a tener que limpiar esto si no quiero que vuelvan y me culpen por
+      esta desastre.
+    - "Y ahora qu\xE9 m..."
+    - 'Mejor tiro esto en el garage antes que me olvide ... '
+    - 'Mejor tiro esto en el garage antes que me olvide ... '
+    - Listo. A otra cosa.
+  - language: 1
+    eventObservationTexts:
+    - 'Looks like something happened upstairs. I better check what that was. '
+    - 'Ugh, I''m going to have to clean this up if I don''t want them to come back
+      and blame me for this mess. '
+    - What the f...
+    - I better throw this in the garage before I forget...
+    - Done. On to something else.

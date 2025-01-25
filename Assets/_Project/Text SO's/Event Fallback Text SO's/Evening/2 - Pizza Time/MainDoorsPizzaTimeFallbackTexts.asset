@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474dc7d1d7ae1467db907bdc6a3a97e1, type: 3}
+  m_Name: MainDoorsPizzaTimeFallbackTexts
+  m_EditorClassIdentifier: 
+  eventName: Birds
+  eventsFallbackTexts:
+  - language: 0
+    eventsFallbacksTexts:
+    - El hambre no puede esperar!
+    - "Ahora mismo prefiero abrir otra puerta. La de la heladera ser\xEDa ideal."
+  - language: 1
+    eventsFallbacksTexts:
+    - Hunger cannot wait!
+    - Right now I'd rather open another door. The one to the fridge would be ideal.

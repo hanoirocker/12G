@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7979864975995440825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1283310280506295863}
+  - component: {fileID: -8670472878399415371}
+  - component: {fileID: 6113371688507028799}
+  - component: {fileID: 16511013110617599}
+  - component: {fileID: 1097355951355560857}
+  - component: {fileID: 3589704192555117271}
+  - component: {fileID: 5800766916588275488}
+  m_Layer: 0
+  m_Name: Pizza Time
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1283310280506295863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979864975995440825}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8670472878399415371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979864975995440825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47f47edf35bc437f918fee2821aedf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialTime: 4
+  policeCar: {fileID: 1685838650072420695, guid: 7f4e70cdb88954f6f958563881b159ec,
+    type: 3}
+  chairMovingSound: {fileID: 8300000, guid: c0015c81f70b8426284ac6ab2242929e, type: 3}
+  mainDoorsFallbacksTextsSO: {fileID: 11400000, guid: 4d174e73ffa724850b2f7b84a94e90c0,
+    type: 2}
+  eventsObservationsTextsSO: {fileID: 11400000, guid: d81864e3fc02e43939006c89de016350,
+    type: 2}
+  eventsControlCanvasInteractionTextSO_eating: {fileID: 11400000, guid: d1a23fbab00764c07be4cc9bc3a80906,
+    type: 2}
+  eventsControlCanvasInteractionTextSO_standup: {fileID: 11400000, guid: bb491d19eafa34a099f319159ed86a55,
+    type: 2}
+  onControlCanvasControls: {fileID: 11400000, guid: 18ed3eac9dddd437281c87a3cb0eb108,
+    type: 2}
+  onImageCanvasControls: {fileID: 11400000, guid: 6ed7b5d382bf14b7b8225d4b72510118,
+    type: 2}
+  onObservationCanvasShowText: {fileID: 11400000, guid: 21665bdceeba748ad93c85a910b97415,
+    type: 2}
+  onInteractionCanvasShowText: {fileID: 11400000, guid: 6443abf2bf85845498159e5a01a28243,
+    type: 2}
+  onInteractionCanvasControls: {fileID: 11400000, guid: b4a74bc53b9144d37b48a814bbba6dc6,
+    type: 2}
+  onVirtualCamerasControl: {fileID: 11400000, guid: 3acb40e7a3c524168b69676446ac2f6a,
+    type: 2}
+  onPlayerControls: {fileID: 11400000, guid: 451880e154eb744aaa22ab8cf5b0b202, type: 2}
+  onControlCanvasSetInteractionOptions: {fileID: 11400000, guid: 2d2876dd06799469eab991b1765d3d76,
+    type: 2}
+  plateCanBePicked: {fileID: 11400000, guid: a36e4dabbb2a0477b83cd547effc278e, type: 2}
+  pizzaCanBePicked: {fileID: 11400000, guid: 67449ce2b2a9249a19763a26874df351, type: 2}
+  updateFallbackTexts: {fileID: 11400000, guid: 960edcd17c689451396d8aef90eb3b02,
+    type: 2}
+--- !u!114 &6113371688507028799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979864975995440825}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a118582521db14ba48a7d0ea8930b381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventSO: {fileID: 11400000, guid: c9a9e2604510f4e4da41036cba739c52, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -8670472878399415371}
+        m_TargetAssemblyTypeName: TwelveG.GameManager.PizzaTimeEvent, Assembly-CSharp
+        m_MethodName: AllowNextActions
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &16511013110617599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979864975995440825}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a118582521db14ba48a7d0ea8930b381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventSO: {fileID: 11400000, guid: 80aaa92d0cfcf41d6acd3dafcd64ef00, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -8670472878399415371}
+        m_TargetAssemblyTypeName: TwelveG.GameManager.PizzaTimeEvent, Assembly-CSharp
+        m_MethodName: AllowNextActions
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1097355951355560857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979864975995440825}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a118582521db14ba48a7d0ea8930b381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventSO: {fileID: 11400000, guid: acd49d1c9421446ada16f03875470081, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -8670472878399415371}
+        m_TargetAssemblyTypeName: TwelveG.GameManager.PizzaTimeEvent, Assembly-CSharp
+        m_MethodName: AllowNextActions
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!82 &3589704192555117271
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979864975995440825}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -6313895024748503208, guid: 07db4a1b218ee4e38a8e407224fd17d8,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.6
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &5800766916588275488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979864975995440825}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a118582521db14ba48a7d0ea8930b381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventSO: {fileID: 11400000, guid: f5ea691da945a41a281ad466997ede20, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -8670472878399415371}
+        m_TargetAssemblyTypeName: TwelveG.GameManager.PizzaTimeEvent, Assembly-CSharp
+        m_MethodName: AllowNextActions
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

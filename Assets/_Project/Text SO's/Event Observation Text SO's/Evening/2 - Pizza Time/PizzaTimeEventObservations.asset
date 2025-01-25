@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1868b6d0c0577408aab9bfcf936e011e, type: 3}
+  m_Name: PizzaTimeEventObservations
+  m_EditorClassIdentifier: 
+  eventsObservations:
+  - language: 0
+    eventObservationTexts:
+    - "Mi est\xF3mago comienza a hablar ... y creo que mi padre de hecho dej\xF3
+      pizza en la heladera. Veamos ..."
+    - Al fin!
+  - language: 1
+    eventObservationTexts:
+    - My stomach starts talking... and I think my dad actually left pizza in the
+      fridge. Let's see...
+    - Finally!

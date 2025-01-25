@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff6f20f49af74d8998ef5c1095dc456, type: 3}
+  m_Name: EveningDialogDatabaseSO
+  m_EditorClassIdentifier: 
+  eventsList:
+  - eventName: Wake Up
+    eventDialogs:
+    - character: 0
+      dialog: Mierda!
+  - eventName: Birds
+    eventDialogs:
+    - character: 0
+      dialog: Mejor subo a ver que fue ese ruido ...
+    - character: 0
+      dialog: Deberia limpiar este desastre antes que vuelvan mis padres y lo vean.
+    - character: 0
+      dialog: Otra ave? Dios.
+    - character: 0
+      dialog: Creo que tirar esto en el garage es la mejor opcion.
+    - character: 0
+      dialog: A otra cosa.
+  - eventName: Pizza Time
+    eventDialogs:
+    - character: 0
+      dialog: El hambre ya esta pegando
+    - character: 0
+      dialog: Momento de goce!
+  - eventName: Lost Signal
+    eventDialogs:
+    - character: 0
+      dialog: Hora del vicio! Ya deberia haber gente conectada a Discordia.
+    - character: 0
+      dialog: Que raro, sera que la cagaron con la ultima actualizacion?
+    - character: 0
+      dialog: 'Mejor ir al grano ... '
+    - character: 0
+      dialog: ....
+    - character: 0
+      dialog: Ok, parece que estoy realmente aislado del mundo digital.
+  - eventName: Lost Signal 2
+    eventDialogs:
+    - character: 0
+      dialog: Donde mierda deje mi celular? Mica deberia estar teniendo problemas
+        tambien con su internet.
+    - character: 0
+      dialog: Que raro, sera que la cagaron con la ultima actualizacion?
