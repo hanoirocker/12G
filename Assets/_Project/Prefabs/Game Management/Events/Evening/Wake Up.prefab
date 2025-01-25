@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4230050014451919552
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4908581799131376003}
+  - component: {fileID: 3363650890541891479}
+  - component: {fileID: 7904694877436071669}
+  m_Layer: 0
+  m_Name: Wake Up
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4908581799131376003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4230050014451919552}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3363650890541891479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4230050014451919552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88aca259127db41bfbd0b4aff0b0c6d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialTime: 3
+  updateFallbackTexts: {fileID: 11400000, guid: 960edcd17c689451396d8aef90eb3b02,
+    type: 2}
+  eventsObservationsTextsSO: {fileID: 11400000, guid: bc095278633774cf78f78098afb5ada4,
+    type: 2}
+  eventsInteractionTextsSO: {fileID: 11400000, guid: 95d73f83fe7e14d86bdf668972bc186e,
+    type: 2}
+  test: {fileID: 11400000, guid: 556e863acebde487f83c6ec96b3a8108, type: 2}
+  onControlCanvasControls: {fileID: 11400000, guid: 18ed3eac9dddd437281c87a3cb0eb108,
+    type: 2}
+  onImageCanvasControls: {fileID: 11400000, guid: 6ed7b5d382bf14b7b8225d4b72510118,
+    type: 2}
+  onObservationCanvasShowText: {fileID: 11400000, guid: 21665bdceeba748ad93c85a910b97415,
+    type: 2}
+  onInteractionCanvasShowText: {fileID: 11400000, guid: 6443abf2bf85845498159e5a01a28243,
+    type: 2}
+  onInteractionCanvasControls: {fileID: 11400000, guid: b4a74bc53b9144d37b48a814bbba6dc6,
+    type: 2}
+  onVirtualCamerasControl: {fileID: 11400000, guid: 3acb40e7a3c524168b69676446ac2f6a,
+    type: 2}
+  onPlayerControls: {fileID: 11400000, guid: 451880e154eb744aaa22ab8cf5b0b202, type: 2}
+  onControlCanvasSetInteractionOptions: {fileID: 11400000, guid: 2d2876dd06799469eab991b1765d3d76,
+    type: 2}
+  playWakeUpVCAnimation: {fileID: 11400000, guid: a5ac32080ee2c40f0a927e8a4e9845ea,
+    type: 2}
+  playCrashingWindowSound: {fileID: 11400000, guid: 7f19d8987ec97492f9b7a0d8d9948b03,
+    type: 2}
+--- !u!114 &7904694877436071669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4230050014451919552}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a118582521db14ba48a7d0ea8930b381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventSO: {fileID: 11400000, guid: 75525fc9241884d579b6d9b78c0d63e9, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3363650890541891479}
+        m_TargetAssemblyTypeName: TwelveG.GameManager.WakeUpEvent, Assembly-CSharp
+        m_MethodName: AllowNextActions
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
