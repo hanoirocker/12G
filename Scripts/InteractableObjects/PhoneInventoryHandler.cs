@@ -1,6 +1,8 @@
 namespace TwelveG.InteractableObjects
 {
     using System.Collections;
+    using System.Collections.Generic;
+    using TwelveG.Localization;
     using UnityEngine;
 
     public class PhoneInventoryHandler : MonoBehaviour
@@ -10,6 +12,9 @@ namespace TwelveG.InteractableObjects
 
         [Header("Sound settings")]
         [SerializeField] private AudioClip messageSendClip;
+
+        [Header("Interaction Texts SO's")]
+        [SerializeField] private List<ObservationTextSO> observationTextSOs = new List<ObservationTextSO>();
 
         [Header("EventSOs settings")]
         [SerializeField] private GameEventSO onObservationCanvasShowText;
@@ -30,25 +35,35 @@ namespace TwelveG.InteractableObjects
             // Aca cambia a la pantalla de apps
             ChangePhoneScreen();
             yield return new WaitForSeconds(3f);
-            onObservationCanvasShowText.Raise(this, "MANDAR MENSAJE A MICA: LOCALIZATION!");
+
+            // Mejor le escribo a Mica sobre todo esto ..
+            onObservationCanvasShowText.Raise(this, observationTextSOs[0]);
             yield return new WaitForSeconds(2f);
+
             // Aca cambia a la pantalla de contactos
             ChangePhoneScreen();
             yield return new WaitForSeconds(1.5f);
+
             // Aca cambia a la pantalla de Mica 1
             ChangePhoneScreen();
             yield return new WaitForSeconds(3f);
+
             // Aca cambia a la pantalla de Mica 2 (envia 1er mensaje)
             ChangePhoneScreen();
             GetComponent<AudioSource>().PlayOneShot(messageSendClip);
+
             yield return new WaitForSeconds(8f);
-            onObservationCanvasShowText.Raise(this, "...........: LOCALIZATION!");
+            // ............................................;
+            onObservationCanvasShowText.Raise(this, observationTextSOs[1]);
+
             // Aca cambia a la pantalla de Mica 3 (envia 2do mensaje)
             yield return new WaitForSeconds(4f);
             ChangePhoneScreen();
             GetComponent<AudioSource>().PlayOneShot(messageSendClip);
+
             yield return new WaitForSeconds(7f);
-            onObservationCanvasShowText.Raise(this, "FUCK THIS SHIT: LOCALIZATION!");
+            // ME CAGO EN TODO. Voy directo a su casa.
+            onObservationCanvasShowText.Raise(this, observationTextSOs[2]);
 
             GetComponent<Animation>().PlayQueued("Phone Inventory - Hide Phone");
 
