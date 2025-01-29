@@ -1,16 +1,12 @@
-# This .gitignore file should be placed at the root of your Unity project directory
-#
-# Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
-#
-/[Aa]nimations/
-/[Ff]x's/
-/[Ll]ocalization/
-/[Mm]aterials/
-/[Bb]uilds/
-/[Pp]ictures and Stickers/
-/[Pp]refabs/
-/[Ss]cenes/
-/[Ss]ettings/
-/[Ss]ound Config/
-/[Tt]extures/
-/[Vv]ideos/
+# Ignorar todo por defecto
+*
+
+# Permitir solo las carpetas deseadas
+!/[Ss]cripts/
+!/[Tt]ext SO's/
+otras 
+# Asegurar que los archivos dentro de esas carpetas sean rastreados
+!/[Ss]cripts/**
+!/[Tt]ext SO's/**
+
+.DS_Store
