@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
+  m_Name: EventObservation - Lost Signal 2 - 0
+  m_EditorClassIdentifier: 
+  observationTextsStructure:
+  - language: 0
+    observationText: "\xA1Mi tel\xE9fono! Necesito hablar con Mica y ver si soy el
+      \xFAnico con esta suerte. Pero .. \xBFD\xF3nde lo habr\xE9 dejado?"
+  - language: 1
+    observationText: My phone! I need to talk to Mica and see if I'm the only one
+      this lucky. But... Where did I leave it?

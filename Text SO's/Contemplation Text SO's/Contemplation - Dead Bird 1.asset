@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
+  m_Name: Contemplation - Dead Bird 1
+  m_EditorClassIdentifier: 
+  contemplationTextsStructure:
+  - language: 0
+    contemplationTexts:
+    - "No tiene sentido en absoluto. Habr\xE1 simplemente perdido su rumbo? Nah ..."
+    - "Definitivamente no volver\xE1 a volar."
+    - "Este desastre no se va a limpiar por s\xED solo, mejor comienzo ya."
+  - language: 1
+    contemplationTexts:
+    - It makes no sense at all. Did he just lose his way? Nah...
+    - Definitely won't fly again.
+    - 'This mess isn''t going to clean itself up, I better get started now. '
