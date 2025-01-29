@@ -13,11 +13,13 @@ namespace TwelveG.InteractableObjects
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO;
+        [SerializeField] private ObservationTextSO observationTextSO;
 
         [Header("EventsSO references")]
-        public GameEventSO onVirtualCamerasControl;
-        public GameEventSO onDialogCanvasShowDialog;
-        public GameEventSO onPlayerControls;
+        [SerializeField] private GameEventSO onMainCameraSettings;
+        [SerializeField] private GameEventSO onVirtualCamerasControl;
+        [SerializeField] private GameEventSO onObservationCanvasShowText;
+        [SerializeField] private GameEventSO onPlayerControls;
 
         [Header("References")]
         [SerializeField] private GameObject pickableObject;
@@ -60,21 +62,24 @@ namespace TwelveG.InteractableObjects
             GetComponent<SphereCollider>().enabled = false;
             onPlayerControls.Raise(this, "DisablePlayerCapsule");
 
+            onMainCameraSettings.Raise(this, "EasyInOut2");
+
             onVirtualCamerasControl.Raise(this, "EnablePhoneVC");
             onVirtualCamerasControl.Raise(this, "DisablePlayerVC");
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
 
             phoneAnimation.Play();
 
             yield return new WaitUntil(() => !phoneAnimation.isPlaying);
 
             yield return new WaitForSeconds(0.5f);
-            onDialogCanvasShowDialog.Raise(this, "LOCALIZATION!");
+            onObservationCanvasShowText.Raise(this, observationTextSO);
             yield return new WaitForSeconds(0.5f);
 
             pickableObject.SetActive(true);
             pickableObject.GetComponent<PickableItem>().canBePicked = true;
+
             // Esperar hasta que el jugador levante tome el teléfono y lo agregue
             // al inventario.
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
@@ -83,12 +88,12 @@ namespace TwelveG.InteractableObjects
 
             onVirtualCamerasControl.Raise(this, "EnablePlayerVC");
             onVirtualCamerasControl.Raise(this, "DisablePhoneVC");
-            yield return new WaitForSeconds(1f);
+
+            yield return new WaitForSeconds(2.5f);
+            onMainCameraSettings.Raise(this, "Cut");
+
             onPlayerControls.Raise(this, "EnablePlayerCapsule");
 
-            // Esperar hasta que termine la transición entre las dos cámaras
-            yield return new WaitForSeconds(1.5f);
-            // Destruir el gameobject padre aca
             Destroy(phoneParent);
         }
 

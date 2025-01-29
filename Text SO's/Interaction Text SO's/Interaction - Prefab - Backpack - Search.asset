@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: Buscar
+    interactionText: BUSCAR
   - language: 1
-    interactionText: Search
+    interactionText: SEARCH

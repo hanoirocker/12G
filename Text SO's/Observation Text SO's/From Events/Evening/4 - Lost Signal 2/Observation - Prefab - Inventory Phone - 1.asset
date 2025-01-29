@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8daa743a17a204232a4e109d49181525, type: 3}
-  m_Name: Interaction - PC
+  m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
+  m_Name: Observation - Prefab - Inventory Phone - 1
   m_EditorClassIdentifier: 
-  interactionTextsStructure:
+  observationTextsStructure:
   - language: 0
-    interactionText: USAR PC
+    observationText: ............................................
   - language: 1
-    interactionText: USE PC
+    observationText: ............................................

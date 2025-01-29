@@ -41,7 +41,6 @@ namespace TwelveG.Utils
             // print("From VirtualCamerasHandler, active VC: " + currentActiveCamera.gameObject.name);
         }
 
-
         // TODO: ver la forma de simplificar el sistema, actualmente si se desactiva o activa una cam != playerVC, 
         // se asume que se debe modificar playerVC. Y si en algun momento queremos pasar de una cámara a otra que no sea playerVC?
         public void VirtualCamerasControls(Component sender, object data)

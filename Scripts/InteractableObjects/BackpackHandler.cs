@@ -10,18 +10,18 @@ namespace TwelveG.InteractableObjects
 
     public class BackpackHandler : MonoBehaviour, IInteractable
     {
-        [Header("Text Settings")]
-        [SerializeField] private List<string> searchingTexts = new List<string>();
-
         [Header("Sound settings")]
         [SerializeField] private List<AudioClip> searchingSounds = null;
 
-        [Header("Interaction Texts SO")]
+        [Header("Interaction Texts SO's")]
         [SerializeField] private InteractionTextSO interactionTextsSO;
+        [SerializeField] private List<ObservationTextSO> searchingTexts = new List<ObservationTextSO>();
 
-        public GameEventSO onObservationCanvasShowText;
-        public GameEventSO onPlayerControls;
-        public GameEventSO onVirtualCamerasControl;
+        [Header("EventsSO references")]
+        [SerializeField] private GameEventSO onObservationCanvasShowText;
+        [SerializeField] private GameEventSO onPlayerControls;
+        [SerializeField] private GameEventSO onVirtualCamerasControl;
+        [SerializeField] private GameEventSO onMainCameraSettings;
 
         private AudioSource audioSource;
         private Animation backpackAnimation = null;
@@ -57,7 +57,11 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator CheckBag(PlayerInteraction playerCameraObject)
         {
+            canBeInteractedWith = false;
+
             onPlayerControls.Raise(this, "DisablePlayerCapsule");
+
+            onMainCameraSettings.Raise(this, "EasyInOut2");
 
             onVirtualCamerasControl.Raise(this, "EnableBackpackVC");
 
@@ -68,7 +72,8 @@ namespace TwelveG.InteractableObjects
             yield return new WaitUntil(() => !audioSource.isPlaying);
 
             yield return new WaitForSeconds(1f);
-            onObservationCanvasShowText.Raise(this, "Un par de forros sin usar");
+            // Un par de forros ( sin usar obviamente )
+            onObservationCanvasShowText.Raise(this, searchingTexts[0]);
             yield return new WaitForSeconds(1f);
 
             backpackAnimation.PlayQueued("Night - Backpack - Search 2");
@@ -77,7 +82,8 @@ namespace TwelveG.InteractableObjects
             yield return new WaitUntil(() => !audioSource.isPlaying);
 
             yield return new WaitForSeconds(1f);
-            onObservationCanvasShowText.Raise(this, "Caramelos");
+            // Caramelos cubiertos de pelos?
+            onObservationCanvasShowText.Raise(this, searchingTexts[1]);
             yield return new WaitForSeconds(1f);
 
             backpackAnimation.PlayQueued("Night - Backpack - Search 3");
@@ -86,14 +92,22 @@ namespace TwelveG.InteractableObjects
             yield return new WaitUntil(() => !audioSource.isPlaying);
 
             yield return new WaitForSeconds(1f);
-            onObservationCanvasShowText.Raise(this, "Definitivamente no");
+            // Definitivamente no está aca dentro
+            onObservationCanvasShowText.Raise(this, searchingTexts[2]);
             yield return new WaitForSeconds(1f);
 
             onVirtualCamerasControl.Raise(this, "DisableBackpackVC");
 
             onPlayerControls.Raise(this, "EnablePlayerCapsule");
 
-            this.enabled = false;
+            // Esperar hasta que transicione de cámaras para resetear
+            // el modo de transición
+            yield return new WaitForSeconds(2.5f);
+            onMainCameraSettings.Raise(this, "Cut");
+
+            // Si no mal recuerdo, la última vez que revisé mi celular fue mientras miraba la TV hoy por la mañana
+            yield return new WaitForSeconds(3f);
+            onObservationCanvasShowText.Raise(this, searchingTexts[3]);
         }
 
         public void SetVCAnimationComponent(Component sender, object data)
