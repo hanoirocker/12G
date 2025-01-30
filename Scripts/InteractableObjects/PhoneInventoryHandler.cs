@@ -1,5 +1,6 @@
 namespace TwelveG.InteractableObjects
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using TwelveG.Localization;
@@ -8,7 +9,8 @@ namespace TwelveG.InteractableObjects
     public class PhoneInventoryHandler : MonoBehaviour
     {
         [Header("Screens references")]
-        [SerializeField] private GameObject[] phoneScreens;
+        [SerializeField] private GameObject[] phoneScreens_es;
+        [SerializeField] private GameObject[] phoneScreens_en;
 
         [Header("Sound settings")]
         [SerializeField] private AudioClip messageSendClip;
@@ -22,12 +24,46 @@ namespace TwelveG.InteractableObjects
         [Header("Specific EventSOs settings")]
         [SerializeField] private GameEventSO finishedUsingPhone;
 
+        private GameObject[] currentPhoneScreenList = null;
+        private LocalizationManager localizationManager;
         private int screenIndex = 0;
+        private string currentLanguage = null;
+
+        private void Awake()
+        {
+            localizationManager = LocalizationManager.Instance;
+        }
 
         void Start()
         {
+            currentLanguage = localizationManager.GetCurrentLanguageCode();
+            SetCurrentPhoneScreenList();
             GetComponent<Animation>().PlayQueued("Phone Inventory - Show Phone");
             StartCoroutine(PhoneInventoryCoroutine());
+        }
+
+        private void SetCurrentPhoneScreenList()
+        {
+            if (currentLanguage == "es")
+            {
+                currentPhoneScreenList = phoneScreens_es;
+            }
+            else if (currentLanguage == "en")
+            {
+                currentPhoneScreenList = phoneScreens_en;
+            }
+        }
+
+        public void UpdatePhoneScreenListOnLanguageChanged()
+        {
+            string updatedLanguage = localizationManager.GetCurrentLanguageCode();
+
+            if (currentLanguage == updatedLanguage) { return; }
+
+            currentLanguage = updatedLanguage;
+            currentPhoneScreenList[screenIndex - 1].SetActive(false);
+            SetCurrentPhoneScreenList();
+            currentPhoneScreenList[screenIndex - 1].SetActive(true);
         }
 
         private IEnumerator PhoneInventoryCoroutine()
@@ -82,12 +118,12 @@ namespace TwelveG.InteractableObjects
 
             if (screenIndex == 0)
             {
-                phoneScreens[0].SetActive(true);
+                currentPhoneScreenList[0].SetActive(true);
             }
             else
             {
-                phoneScreens[screenIndex - 1].SetActive(false);
-                phoneScreens[screenIndex].SetActive(true);
+                currentPhoneScreenList[screenIndex - 1].SetActive(false);
+                currentPhoneScreenList[screenIndex].SetActive(true);
             }
 
             screenIndex += 1;
