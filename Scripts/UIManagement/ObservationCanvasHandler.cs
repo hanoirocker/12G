@@ -38,7 +38,7 @@ namespace TwelveG.UIManagement
         {
             lastObservationTextSORecieved = observationTextSO;
             string textToShow = Utils.TextFunctions.RetrieveObservationText(
-                GetComponentInParent<LocalizationData>().CurrentLanguage,
+                GetComponentInParent<UIHandler>().CurrentLanguage,
                 lastObservationTextSORecieved
             );
             observationCanvasText.text = textToShow;
@@ -47,10 +47,10 @@ namespace TwelveG.UIManagement
             observationCanvas.enabled = false;
         }
 
-        public void UpdateTextOnLanguageChanged(Component sender, object languageCode)
+        public void UpdateCanvasTextOnLanguageChanged()
         {
             string textToShow = Utils.TextFunctions.RetrieveObservationText(
-                (string)languageCode,
+                GetComponentInParent<UIHandler>().CurrentLanguage,
                 lastObservationTextSORecieved
             );
             observationCanvasText.text = textToShow;

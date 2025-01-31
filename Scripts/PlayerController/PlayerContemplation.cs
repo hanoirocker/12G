@@ -24,7 +24,6 @@ namespace TwelveG.PlayerController
         public GameEventSO onContemplationCanvasControls;
         public GameEventSO onContemplationCanvasShowText;
 
-        private LocalizationData localizationData;
         private CameraZoom cameraZoom;
         private IContemplable lastContemplatedObject = null;
         private int defaultTextCounter = 0;
@@ -32,7 +31,6 @@ namespace TwelveG.PlayerController
 
         private void Awake()
         {
-            localizationData = GetComponentInParent<LocalizationData>();
             cameraZoom = GetComponent<CameraZoom>();
         }
 
@@ -85,7 +83,7 @@ namespace TwelveG.PlayerController
             // Logica dentro de ContemplateObject.
             if (!contemplableObj.HasReachedMaxContemplations())
             {
-                contemplationText = contemplableObj.GetContemplationText(localizationData.CurrentLanguage);
+                contemplationText = contemplableObj.GetContemplationText(LocalizationManager.Instance.GetCurrentLanguageCode());
 
                 onContemplationCanvasShowText.Raise(this, contemplationText);
             }

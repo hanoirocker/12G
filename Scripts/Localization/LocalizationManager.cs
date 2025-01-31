@@ -1,59 +1,55 @@
-using UnityEngine;
-using UnityEngine.Localization.Settings;
-
-public class LocalizationManager : MonoBehaviour
+namespace TwelveG.Localization
 {
-    public static LocalizationManager Instance { get; private set; }
+    using UnityEngine;
+    using UnityEngine.Localization.Settings;
 
-    public GameEventSO onLanguageChanged;
-
-    private void Awake()
+    public class LocalizationManager : MonoBehaviour
     {
-        if (Instance == null)
+        public static LocalizationManager Instance { get; private set; }
+
+        public GameEventSO onLanguageChanged;
+
+        private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+
+        private void Start()
         {
-            Destroy(gameObject);
-        }
-    }
-
-    private void Start()
-    {
-        onLanguageChanged.Raise(this, GetCurrentLanguageCode());
-        print("Enviando desde LocalizationManager, lang code: " + GetCurrentLanguageCode());
-    }
-
-
-    public void ChangeLanguage(string languageCode)
-    {
-        var locale = LocalizationSettings.AvailableLocales.GetLocale(languageCode);
-        if (locale != null)
-        {
-            LocalizationSettings.SelectedLocale = locale;
             onLanguageChanged.Raise(this, GetCurrentLanguageCode());
         }
 
-        print("Language now is: " + GetCurrentLanguageCode());
-    }
+        public void ChangeLanguage(string languageCode)
+        {
+            var locale = LocalizationSettings.AvailableLocales.GetLocale(languageCode);
+            if (locale != null)
+            {
+                LocalizationSettings.SelectedLocale = locale;
+                onLanguageChanged.Raise(this, GetCurrentLanguageCode());
+            }
+        }
 
-    public string GetCurrentLanguageCode()
-    {
-         // Retorna el código del idioma activo
-        return LocalizationSettings.SelectedLocale.Identifier.Code;
-    }
+        public string GetCurrentLanguageCode()
+        {
+            return LocalizationSettings.SelectedLocale.Identifier.Code;
+        }
 
-    // Función para cambiar de idioma en botones del Language Canvas
-    public void SetLanguageToEnglish()
-    {
-        ChangeLanguage("en");
-    }
+        public void SetLanguageToEnglish()
+        {
+            ChangeLanguage("en");
+        }
 
-    // Función para cambiar de idioma en botones del Language Canvas
-    public void SetLanguageToSpanish()
-    {
-        ChangeLanguage("es");
+        public void SetLanguageToSpanish()
+        {
+            ChangeLanguage("es");
+        }
     }
 }

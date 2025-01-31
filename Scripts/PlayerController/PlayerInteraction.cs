@@ -19,14 +19,8 @@ namespace TwelveG.PlayerController
         public GameEventSO onObservationCanvasShowText;
 
         private Collider lastColliderInteractedWith;
-        private LocalizationData localizationData;
         private bool canvasIsShowing;
         private InteractionTextSO canvasText;
-
-        private void Awake()
-        {
-            localizationData = GetComponentInParent<LocalizationData>();
-        }
 
         private void Start()
         {
