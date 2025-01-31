@@ -20,14 +20,8 @@ namespace TwelveG.PlayerController
         public GameEventSO onInteractionCanvasShowText;
         public GameEventSO onInteractionCanvasControls;
 
-        private LocalizationData localizationData;
         private bool canvasIsShowing;
         private InteractionTextSO canvasText;
-
-        private void Awake() 
-        {
-            localizationData = GetComponentInParent<LocalizationData>();
-        }
 
         private void Start()
         {

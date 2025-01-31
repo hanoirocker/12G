@@ -59,7 +59,7 @@ namespace TwelveG.UIManagement
             {
                 lastEventControlCanvasInteractionTextSORecieved = (EventsControlCanvasInteractionTextSO)data;
                 string textToShow = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
-                    GetComponentInParent<LocalizationData>().CurrentLanguage,
+                    GetComponentInParent<UIHandler>().CurrentLanguage,
                     lastEventControlCanvasInteractionTextSORecieved
                 );
                 specificOptions.text = textToShow;
@@ -71,18 +71,19 @@ namespace TwelveG.UIManagement
             specificOptions.text = defaultOptionText;
         }
 
-        public void UpdateTextOnLanguageChanged(Component sender, object languageCode)
+        public void UpdateCanvasTextOnLanguageChanged()
         {
-            // Actualiza el Titulo del componente
+            string newLanguageSet = GetComponentInParent<UIHandler>().CurrentLanguage;
+
             string updatedHeadTitleText = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
-                (string)languageCode,
+                newLanguageSet,
                 headTitleTextSO
             );
             controlsHeadTitle.text = updatedHeadTitleText;
 
             // Actualiza las opciones basicas del componente
             string updatedDefaultOptionsText = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
-                (string)languageCode,
+                newLanguageSet,
                 defaultOptionsTextsSO
             );
             defaultOptions.text = updatedDefaultOptionsText;
@@ -93,7 +94,7 @@ namespace TwelveG.UIManagement
             if(lastEventControlCanvasInteractionTextSORecieved == null) { return; }
 
             string updatedSpecificOptionsText = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
-                (string)languageCode,
+                newLanguageSet,
                 lastEventControlCanvasInteractionTextSORecieved
             );
             specificOptions.text = updatedSpecificOptionsText;

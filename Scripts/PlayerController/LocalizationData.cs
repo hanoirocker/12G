@@ -14,7 +14,6 @@ namespace TwelveG.Localization
 
         public void SetCurrentLanguage(Component sender, object data)
         {
-            // print("Recibiendo en " + gameObject.name + " Localization Data script, desde " + sender.gameObject.name + ", lang code: " + (string)data);
             CurrentLanguage = (string)data;
         }
     }
