@@ -7,7 +7,7 @@ namespace TwelveG.InteractableObjects
         EmptyTrashBag,
         FullTrashBag,
         Batteries,
-        Key,
+        FatherOfficeKey,
         Broom,
         Food,
         Plate,

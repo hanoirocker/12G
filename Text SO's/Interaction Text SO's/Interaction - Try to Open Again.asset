@@ -16,4 +16,4 @@ MonoBehaviour:
   - language: 0
     interactionText: Intentar abrir .. nuevamente?
   - language: 1
-    interactionText: Intentar abrir again?
+    interactionText: try to open ... again?

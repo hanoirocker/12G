@@ -30,7 +30,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private List<ItemType> objectsNeededType;
 
         [Header("Audio settings")]
-        // [SerializeField] private AudioClip lockedSound = null;
+        [SerializeField] private AudioClip lockedSound = null;
         // [SerializeField] private AudioClip unclockedSound = null;
         [SerializeField] private AudioClip openingDoorSound;
         [SerializeField] private AudioClip closingDoorSound;
@@ -109,10 +109,10 @@ namespace TwelveG.InteractableObjects
 
         public InteractionTextSO RetrieveInteractionSO()
         {
-            return GetDoorTextForCanvas(doorIsLocked, doorIsOpened);
+            return GetDoorTextForCanvas();
         }
 
-        private InteractionTextSO GetDoorTextForCanvas(bool doorIsLocked, bool doorIsOpened)
+        private InteractionTextSO GetDoorTextForCanvas()
         {
             if (doorIsLocked)
             {
@@ -137,8 +137,8 @@ namespace TwelveG.InteractableObjects
                 }
                 else
                 {
-                    // audioSource.PlayOneShot(lockedSound);
-                    print("Deberia sonar a que no puede abrirla");
+                    doorPickAnimation.Play();
+                    audioSource.PlayOneShot(lockedSound);
                     lockedIndex += 1;
                     return false;
                 }
