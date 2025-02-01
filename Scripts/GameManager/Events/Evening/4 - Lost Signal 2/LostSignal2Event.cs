@@ -66,7 +66,10 @@ namespace TwelveG.GameManager
                 eventObservationsTextsSOs[1]
             );
 
-            // Aca deberia pasar el sucidio de Fernandez.
+            // Aca se instancian los coliders sobre ventanas y puertas
+            // que den visualmente a la camioneta del vecino de enfrente.
+            // Si el jugador los choca, se dispara evento carAlarmTrigger
+            // recibido por Front House Pickup (Alarms) para el suicido.
             Instantiate(carAlarmCollidersPrefab);
 
             // Unity Event (AlarmHandler - carAlarmStopped):
