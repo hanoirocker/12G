@@ -6,6 +6,9 @@ namespace TwelveG.InteractableObjects
 
     public class MainDoorsHandler : MonoBehaviour, IInteractable
     {
+        [SerializeField] private bool isMainEntranceDoor;
+        [SerializeField] private ObservationTextSO observationFallbackTextDefault = null;
+
         private ObservationTextSO observationFallbackTextRecieved = null;
 
         private bool canBeinteractedWith = true;
@@ -44,7 +47,8 @@ namespace TwelveG.InteractableObjects
 
         public ObservationTextSO GetFallBackText()
         {
-            return observationFallbackTextRecieved;
+            if(isMainEntranceDoor) { return observationFallbackTextRecieved; }
+            return observationFallbackTextDefault;
         }
     }
 }

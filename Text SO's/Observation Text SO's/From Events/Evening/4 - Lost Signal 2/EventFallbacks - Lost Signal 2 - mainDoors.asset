@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
-  m_Name: EventFallbacks - Lost Signal - mainDoors
+  m_Name: EventFallbacks - Lost Signal 2 - mainDoors
   m_EditorClassIdentifier: 
   observationTextsStructure:
   - language: 0
-    observationText: "\xBFRealmente afuera podr\xEDa haber algo mas entretenido que
-      mi PC? Lo dudo."
+    observationText: "Necesito encontrar ese tel\xE9fono primero .."
   - language: 1
-    observationText: Could there really be anything more entertaining than my PC
-      outside? I doubt it.
+    observationText: I need to find my phone first..

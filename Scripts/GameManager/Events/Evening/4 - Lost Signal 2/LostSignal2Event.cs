@@ -17,14 +17,16 @@ namespace TwelveG.GameManager
 
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
+        [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
 
         [Header("EventsSO references")]
-        public GameEventSO onObservationCanvasShowText;
+        [SerializeField] private GameEventSO onObservationCanvasShowText;
 
         [Header("Other eventsSO references")]
-        public GameEventSO enableBackpack;
-        public GameEventSO disableBackpack;
-        public GameEventSO enablePhone;
+        [SerializeField] private GameEventSO updateFallbackTexts;
+        [SerializeField] private GameEventSO enableBackpack;
+        [SerializeField] private GameEventSO disableBackpack;
+        [SerializeField] private GameEventSO enablePhone;
 
         private bool allowNextAction = false;
 
@@ -33,6 +35,9 @@ namespace TwelveG.GameManager
             print("<------ LOST SIGNAL 2 EVENT NOW -------->");
 
             yield return new WaitForSeconds(initialTime);
+
+            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+
             // Esto sera recibido por Backpack para activar el interactuable
             // y desactivar el contemplable.
             enableBackpack.Raise(this, null);
