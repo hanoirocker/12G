@@ -85,10 +85,10 @@ namespace TwelveG.InteractableObjects
             // Comentar siguiente bloque al testear evento
             GetComponentInChildren<SphereCollider>().enabled = false;
             // if(microwaveLight) {microwaveLight.enabled = true;}
-            
             audioSource.PlayOneShot(heatingSound);
             yield return new WaitUntil(() => !audioSource.isPlaying);
             // microwaveLight.enabled = false;
+
             GetComponentInChildren<SphereCollider>().enabled = true;
 
             yield return new WaitUntil(() => rotativeDrawerHandler.DoorIsOpen());

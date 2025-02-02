@@ -103,12 +103,15 @@ namespace TwelveG.GameManager
             onImageCanvasControls.Raise(this, "FadeInImage");
             yield return new WaitForSeconds(1f);
 
-            onControlCanvasControls.Raise(this, "ShowControlCanvas");
-
             onControlCanvasSetInteractionOptions.Raise(
                 this,
                 eventsControlCanvasInteractionTextSO_eating
             );
+
+            onControlCanvasControls.Raise(this, "ActivateControlCanvas");
+            onControlCanvasControls.Raise(this, "ShowControlCanvas");
+
+            onPlayerControls.Raise(this, "EnablePlayerShortcuts");
 
             // Unity Event (PizzaSliceHandler - instantiatePoliceCar)
             // Avisa que va por la segunda mordida y se debe instanciar el auto de policia
@@ -136,7 +139,7 @@ namespace TwelveG.GameManager
 
             onPlayerControls.Raise(this, "DisableHeadLookAround");
 
-            onControlCanvasControls.Raise(this, "ResetEventControlsOptions");
+            onControlCanvasControls.Raise(this, "ResetControlCanvasSpecificOptions");
 
             onControlCanvasControls.Raise(this, "HideControlCanvas");
 

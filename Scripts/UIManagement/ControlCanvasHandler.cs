@@ -66,9 +66,12 @@ namespace TwelveG.UIManagement
             }
         }
 
-        private void ResetEventControlsspecificOptions()
+        private void ResetControlCanvasSpecificOptions()
         {
             specificOptions.text = defaultOptionText;
+            // Previene que si el jugador cambia de idioma luego de eliminar las opciones extra
+            // aún se pueda imprimir lo último recibido en base al SO.
+            lastEventControlCanvasInteractionTextSORecieved = null;
         }
 
         public void UpdateCanvasTextOnLanguageChanged()
@@ -118,9 +121,9 @@ namespace TwelveG.UIManagement
             {
                 ToogleControlCanvas();
             }
-            else if ((string)data == "ResetEventControlsspecificOptions")
+            else if ((string)data == "ResetControlCanvasSpecificOptions")
             {
-                ResetEventControlsspecificOptions();
+                ResetControlCanvasSpecificOptions();
             }
             else if ((string)data == "HideControlCanvas")
             {

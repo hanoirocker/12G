@@ -57,7 +57,7 @@ namespace TwelveG.UIManagement
 
         public void UpdateCanvasTextOnLanguageChanged()
         {
-            if (lastEventInteractionTextSORecieved != null)
+            if (lastEventInteractionTextSORecieved != null & interactionCavas.isActiveAndEnabled)
             {
                 interactionCavas.enabled = false;
                 string textToShow = Utils.TextFunctions.RetrieveEventInteractionText(
