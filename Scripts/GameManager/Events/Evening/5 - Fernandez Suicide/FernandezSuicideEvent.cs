@@ -1,0 +1,62 @@
+namespace TwelveG.GameManager
+{
+    using System.Collections;
+    using System.Collections.Generic;
+    using TwelveG.Localization;
+    using UnityEngine;
+
+    public class FernandezSuicideEvent : GameEventBase
+    {
+        [Header("References")]
+        [SerializeField] private GameObject suicideTriggerColliders;
+
+        [Header("Event options")]
+        [SerializeField, Range(1, 10)] private int initialTime = 1;
+
+        [Header("Text event SO")]
+        // [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
+        // [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+
+        [Header("EventsSO references")]
+        // [SerializeField] private GameEventSO onObservationCanvasShowText;
+
+        [Header("Other eventsSO references")]
+        // [SerializeField] private GameEventSO updateFallbackTexts;
+        // [SerializeField] private GameEventSO enableBackpack;
+        // [SerializeField] private GameEventSO disableBackpack;
+        // [SerializeField] private GameEventSO enablePhone;
+
+        private bool allowNextAction = false;
+
+        public override IEnumerator Execute()
+        {
+            print("<------ F. SUICIDE EVENT NOW -------->");
+
+            yield return new WaitForSeconds(initialTime);
+    
+            // Aca se instancian los coliders sobre ventanas y puertas
+            // que den visualmente a la camioneta del vecino de enfrente.
+            // Si el jugador los choca, se dispara evento carAlarmTrigger
+            // recibido por Front House Pickup (Alarms) para el suicido.
+            Instantiate(suicideTriggerColliders);
+
+            // Unity Event (AlarmHandler - carAlarmStopped):
+            // Se recibe cuando la alarma deja de sonar
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            // updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+
+        }
+
+        public void AllowNextActions(Component sender, object data)
+        {
+            allowNextAction = true;
+        }
+
+        public void ResetAllowNextActions()
+        {
+            allowNextAction = false;
+        }
+    }
+}
