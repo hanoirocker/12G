@@ -7,12 +7,7 @@ namespace TwelveG.GameManager
 
     public class LostSignal2Event : GameEventBase
     {
-        [Header("References")]
-        [SerializeField] private GameObject carAlarmCollidersPrefab;
-
         [Header("Event options")]
-        [TextArea(2, 25)]
-        [SerializeField] private string defaultEventControlOptions;
         [SerializeField, Range(1, 10)] private int initialTime = 1;
 
         [Header("Text event SO")]
@@ -65,17 +60,6 @@ namespace TwelveG.GameManager
                 this,
                 eventObservationsTextsSOs[1]
             );
-
-            // Aca se instancian los coliders sobre ventanas y puertas
-            // que den visualmente a la camioneta del vecino de enfrente.
-            // Si el jugador los choca, se dispara evento carAlarmTrigger
-            // recibido por Front House Pickup (Alarms) para el suicido.
-            Instantiate(carAlarmCollidersPrefab);
-
-            // Unity Event (AlarmHandler - carAlarmStopped):
-            // Se recibe cuando la alarma deja de sonar
-            yield return new WaitUntil(() => allowNextAction);
-            ResetAllowNextActions();
         }
 
         public void AllowNextActions(Component sender, object data)
