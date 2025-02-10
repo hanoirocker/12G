@@ -4,9 +4,10 @@
 # Permitir solo las carpetas deseadas
 !/[Ss]cripts/
 !/[Tt]ext SO's/
-otras 
+
 # Asegurar que los archivos dentro de esas carpetas sean rastreados
 !/[Ss]cripts/**
 !/[Tt]ext SO's/**
 
+# Extensiones únicas
 .DS_Store
