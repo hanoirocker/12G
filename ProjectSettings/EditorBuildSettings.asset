@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_Project/Scenes/Afternoon Scene.unity
+    guid: 0c02d05bf7df94558825e192593e6728
+  - enabled: 1
+    path: Assets/_Project/Scenes/Evening Scene.unity
+    guid: d482212d34ade2a4fade9afc510b1e29
+  - enabled: 1
+    path: Assets/_Project/Scenes/Night Scene.unity
+    guid: 276529b97785c488597913eaaed132b7
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 2b0e3503ae77146bdbc2a2f650cdd9f0,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 5f8b53e5982744f97be318d4ae86d8df,
+      type: 2}
