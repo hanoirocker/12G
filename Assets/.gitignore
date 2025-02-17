@@ -1,0 +1,8 @@
+*
+
+# Incluir únicamnete _Project
+!_Project/
+!_Project/**
+!_Project/.gitignore
+
+!.gitignore

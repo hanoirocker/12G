@@ -1,35 +1,20 @@
 # Ignorar todo por defecto
 *
 
-# Permitir solo las carpetas deseadas
-!/.github/
-!/[Aa]nimations/
-!/[Ff]onts/
-!/[Ff]xs/
-!/[Ii]mages/
-!/[Ll]ocalization/
-!/[Mm]aterials/
-!/[Pp]refabs/
-!/[Ss]cenes/
-!/[Ss]cripts/
-!/[Tt]ext SO's/
-!/[Ss]ound/
+# Incluir todas las carpetas dentro de Assets/_Project/
+!Assets/
+!Assets/**
 
-!.gitattributes
+# Incluir archivos específicos de ProjectSettings y Packages
+!ProjectSettings/
+!Packages/
+!ProjectSettings/**
+!Packages/**
 
-# Asegurar que los archivos dentro de esas carpetas sean rastreados
-!/.github/**
-!/[Aa]nimations/**
-!/[Ff]onts/**
-!/[Ff]xs/**
-!/[Ii]mages/**
-!/[Ll]ocalization/**
-!/[Mm]aterials/**
-!/[Pp]refabs/**
-!/[Ss]cenes/**
-!/[Ss]cripts/**
-!/[Tt]ext SO's/**
-!/[Ss]ound/**
+# Excluir carpetas que no deben compartirse
+Library/
+Logs/
+Temp/
 
-# Extensiones únicas
+# Ignorar extensiones y archivos no deseados
 .DS_Store
