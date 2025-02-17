@@ -6,6 +6,8 @@
 !/[Aa]nimations/
 !/[Ff]onts/
 !/[Ff]xs/
+!/[Ii]mages/
+!/[Ll]ocalization/
 !/[Mm]aterials/
 !/[Pp]refabs/
 !/[Ss]cenes/
@@ -20,6 +22,8 @@
 !/[Aa]nimations/**
 !/[Ff]onts/**
 !/[Ff]xs/**
+!/[Ii]mages/**
+!/[Ll]ocalization/**
 !/[Mm]aterials/**
 !/[Pp]refabs/**
 !/[Ss]cenes/**
