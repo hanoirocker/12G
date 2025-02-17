@@ -2,12 +2,26 @@
 *
 
 # Permitir solo las carpetas deseadas
+!/[Aa]nimations/
+!/[Ff]xs/
+!/[Mm]aterials/
+!/[Pp]refabs/
+!/[Ss]cenes/
 !/[Ss]cripts/
 !/[Tt]ext SO's/
+!/[Ss]ound/
+
+!.gitattributes
 
 # Asegurar que los archivos dentro de esas carpetas sean rastreados
+!/[Aa]nimations/**
+!/[Ff]xs/**
+!/[Mm]aterials/**
+!/[Pp]refabs/**
+!/[Ss]cenes/**
 !/[Ss]cripts/**
 !/[Tt]ext SO's/**
+!/[Ss]ound/**
 
 # Extensiones únicas
 .DS_Store
