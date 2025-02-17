@@ -6,3 +6,6 @@
 !_Project/.gitignore
 
 !.gitignore
+
+# Ignorar extensiones y archivos no deseados
+.DS_Store
