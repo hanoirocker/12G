@@ -2,7 +2,9 @@
 *
 
 # Permitir solo las carpetas deseadas
+!/.github/
 !/[Aa]nimations/
+!/[Ff]onts/
 !/[Ff]xs/
 !/[Mm]aterials/
 !/[Pp]refabs/
@@ -14,7 +16,9 @@
 !.gitattributes
 
 # Asegurar que los archivos dentro de esas carpetas sean rastreados
+!/.github/**
 !/[Aa]nimations/**
+!/[Ff]onts/**
 !/[Ff]xs/**
 !/[Mm]aterials/**
 !/[Pp]refabs/**
