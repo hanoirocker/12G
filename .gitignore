@@ -5,6 +5,8 @@
 !Assets/
 !Assets/**
 
+!.gitattributes
+
 # Incluir archivos específicos de ProjectSettings y Packages
 !ProjectSettings/
 !Packages/
