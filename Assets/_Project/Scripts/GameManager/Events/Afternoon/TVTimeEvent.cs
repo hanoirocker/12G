@@ -79,7 +79,8 @@ namespace TwelveG.GameManager
 
             onPlayerControls.Raise(this, new TogglePlayerMainCamera(false));
 
-            onPlayerDirectorControls.Raise(this, "EnableTimeline2Director");
+            // Activar TVTime - Main News timeline.
+            onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(0, true));
 
             // TODO: reemplazar por el valor del timeline `TV focus timeline`.
             yield return new WaitForSeconds(30f);

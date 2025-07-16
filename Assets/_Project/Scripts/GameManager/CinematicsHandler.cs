@@ -1,25 +1,23 @@
 namespace TwelveG.GameManager
 {
-    using UnityEngine;
+  using System.Collections.Generic;
+  using UnityEngine;
     using UnityEngine.Playables;
 
     public class CinematicsHandler : MonoBehaviour
     {
-        [SerializeField] private PlayableDirector timeline1Director;
-        [SerializeField] private PlayableDirector timeline2Director;
+        [SerializeField] private List<PlayableDirector> timelineDirectors = new();
 
         public void PlayerDirectorsControls(Component sender, object data)
         {
-            if(data != null)
+            switch (data)
             {
-                if((string)data == "EnableTimeline1Director")
-                {
-                    timeline1Director.enabled = true;
-                }
-                else if((string)data == "EnableTimeline2Director")
-                {
-                    timeline2Director.enabled = true;
-                }
+                case ToggleTimelineDirector director:
+                    timelineDirectors[director.Index].enabled = director.Enable;
+                    break;
+                default:
+                    Debug.LogWarning($"[CinematicsHandler] Received unknown command: {data}");
+                    break;
             }
         }
     }

@@ -15,6 +15,7 @@ namespace TwelveG.Utils
             }
         }
 
+        // TODO: implement new eventSO structure
         public void CameraSettings(Component sender, object data)
         {
             if ((string)data == "EasyInOut2")
