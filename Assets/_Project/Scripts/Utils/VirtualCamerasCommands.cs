@@ -1,5 +1,7 @@
 namespace TwelveG.Utils
 {
+  using Cinemachine;
+
   public abstract class VirtualCamerasCommandsBase { }
 
   public enum VirtualCameraTarget
@@ -24,4 +26,24 @@ namespace TwelveG.Utils
       Enabled = enabled;
     }
   }
+
+  public class SetCameraBlend : VirtualCamerasCommandsBase
+  {
+    public CinemachineBlendDefinition.Style Style;
+    public int Time;
+    public SetCameraBlend(CinemachineBlendDefinition.Style style, int time) =>
+      (Style, Time) = (style, time);
+  }
+
+  public class SetLinealCameraBlend : VirtualCamerasCommandsBase
+  {
+    public int Time;
+    public SetLinealCameraBlend(int time) => Time = time;
+  }
+
+  public class SetCustomCameraBlend : VirtualCamerasCommandsBase
+  {
+    public int Time;
+    public SetCustomCameraBlend(int time) => Time = time;
+   }
 }
