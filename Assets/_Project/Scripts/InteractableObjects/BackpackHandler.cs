@@ -6,7 +6,8 @@ namespace TwelveG.InteractableObjects
     using Cinemachine;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
-    using UnityEngine;
+  using TwelveG.Utils;
+  using UnityEngine;
 
     public class BackpackHandler : MonoBehaviour, IInteractable
     {
@@ -59,11 +60,11 @@ namespace TwelveG.InteractableObjects
         {
             canBeInteractedWith = false;
 
-            onPlayerControls.Raise(this, "DisablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
 
             onMainCameraSettings.Raise(this, "EasyInOut2");
 
-            onVirtualCamerasControl.Raise(this, "EnableBackpackVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, true));
 
             yield return new WaitUntil(() => backpackAnimation != null);
             backpackAnimation.PlayQueued("Night - Backpack - Search 1");
@@ -96,9 +97,9 @@ namespace TwelveG.InteractableObjects
             onObservationCanvasShowText.Raise(this, searchingTexts[2]);
             yield return new WaitForSeconds(1f);
 
-            onVirtualCamerasControl.Raise(this, "DisableBackpackVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
 
-            onPlayerControls.Raise(this, "EnablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
             // Esperar hasta que transicione de cámaras para resetear
             // el modo de transición

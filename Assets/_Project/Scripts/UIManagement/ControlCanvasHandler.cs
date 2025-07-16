@@ -28,29 +28,9 @@ namespace TwelveG.UIManagement
             HideControlCanvas();
         }
 
-        private void ToogleControlCanvas()
-        {
-            controlCanvas.enabled = !controlCanvas.enabled;
-        }
-
-        private void ShowControlCanvas()
-        {
-            controlCanvas.enabled = true;
-        }
-
         private void HideControlCanvas()
         {
             controlCanvas.enabled = false;
-        }
-
-        private void DeactivateControlCanvas()
-        {
-            controlCanvas.gameObject.SetActive(false);
-        }
-
-        private void ActivateControlCanvas()
-        {
-            controlCanvas.gameObject.SetActive(true);
         }
 
         public void SetInteractionSpecificOptions(Component sender, object data)
@@ -64,14 +44,6 @@ namespace TwelveG.UIManagement
                 );
                 specificOptions.text = textToShow;
             }
-        }
-
-        private void ResetControlCanvasSpecificOptions()
-        {
-            specificOptions.text = defaultOptionText;
-            // Previene que si el jugador cambia de idioma luego de eliminar las opciones extra
-            // aún se pueda imprimir lo último recibido en base al SO.
-            lastEventControlCanvasInteractionTextSORecieved = null;
         }
 
         public void UpdateCanvasTextOnLanguageChanged()
@@ -94,7 +66,7 @@ namespace TwelveG.UIManagement
             // Actualiza las opciones específicas envidas en el último
             // EventsControlCanvasInteractionTextSO recibido y guardado.
             // Si no se envió el evento pero se inició la escena y se ejecutó el seteo de lenguaje, retorna.
-            if(lastEventControlCanvasInteractionTextSORecieved == null) { return; }
+            if (lastEventControlCanvasInteractionTextSORecieved == null) { return; }
 
             string updatedSpecificOptionsText = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
                 newLanguageSet,
@@ -105,29 +77,26 @@ namespace TwelveG.UIManagement
 
         public void ControlCanvasControls(Component sender, object data)
         {
-            if ((string)data == "DeactivateControlCanvas")
+            switch (data)
             {
-                DeactivateControlCanvas();
-            }
-            else if ((string)data == "ActivateControlCanvas")
-            {
-                ActivateControlCanvas();
-            }
-            else if ((string)data == "ShowControlCanvas")
-            {
-                ShowControlCanvas();
-            }
-            else if ((string)data == "ToogleControlCanvas")
-            {
-                ToogleControlCanvas();
-            }
-            else if ((string)data == "ResetControlCanvasSpecificOptions")
-            {
-                ResetControlCanvasSpecificOptions();
-            }
-            else if ((string)data == "HideControlCanvas")
-            {
-                HideControlCanvas();
+                case ActivateCanvas cmd:
+                    controlCanvas.gameObject.SetActive(cmd.Activate);
+                    break;
+                case EnableCanvas cmd:
+                    controlCanvas.enabled = cmd.Enabled;
+                    break;
+                case AlternateCanvasCurrentState:
+                    controlCanvas.enabled = !controlCanvas.enabled;
+                    break;
+                case ResetControlCanvasSpecificOptions:
+                    specificOptions.text = defaultOptionText;
+                    // Previene que si el jugador cambia de idioma luego de eliminar las opciones extra
+                    // aún se pueda imprimir lo último recibido en base al SO.
+                    lastEventControlCanvasInteractionTextSORecieved = null;
+                    break;
+                default:
+                    Debug.LogWarning($"[ControlCanvasHandler] Received unknown command: {data}");
+                    break;
             }
         }
     }

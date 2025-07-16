@@ -79,7 +79,7 @@ namespace TwelveG.PlayerController
             // Hide the canvas if not looking at an item object
             if (canvasIsShowing)
             {
-                onInteractionCanvasControls.Raise(this, "HideText");
+                onInteractionCanvasControls.Raise(this, new HideText());
                 canvasIsShowing = false;
             }
         }

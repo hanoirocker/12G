@@ -40,9 +40,20 @@ namespace TwelveG.UIManagement
 
         public void ContemplationCanvasControls(Component sender, object data)
         {
-            if ((string)data == "HideContemplationCanvas")
+            switch (data)
             {
-                HideContemplationCanvas();
+                case EnableCanvas cmd:
+                    contemplationCanvas.enabled = cmd.Enabled;
+                    break;
+                case ActivateCanvas cmd:
+                    contemplationCanvas.gameObject.SetActive(cmd.Activate);
+                    break;
+                case AlternateCanvasCurrentState:
+                    contemplationCanvas.enabled = !contemplationCanvas.enabled;
+                    break;
+                default:
+                    Debug.LogWarning($"[ContemplationCanvasHandler] Received unknown command: {data}");
+                    break;
             }
         }
     }

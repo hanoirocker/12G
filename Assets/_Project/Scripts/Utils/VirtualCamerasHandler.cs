@@ -29,7 +29,6 @@ namespace TwelveG.Utils
 
         private void GetCurrentActiveCamera()
         {
-            List<CinemachineVirtualCamera> virtualCameras = new List<CinemachineVirtualCamera>();
             CinemachineVirtualCamera[] listOfVirtualCameras = GetComponentsInChildren<CinemachineVirtualCamera>();
             foreach (CinemachineVirtualCamera vc in listOfVirtualCameras)
             {
@@ -45,88 +44,33 @@ namespace TwelveG.Utils
         // se asume que se debe modificar playerVC. Y si en algun momento queremos pasar de una cámara a otra que no sea playerVC?
         public void VirtualCamerasControls(Component sender, object data)
         {
-            if ((string)data == "EnablePlayerVC")
+            if (data is ToggleVirtualCamera cmd)
             {
-                playerVC.enabled = true;
-                currentActiveCamera = playerVC;
-            }
-            else if ((string)data == "DisablePlayerVC")
-            {
-                playerVC.enabled = false;
-            }
-            else if ((string)data == "EnableWakeUpVC")
-            {
-                wakeUpVC.enabled = true;
-                playerVC.enabled = false;
-                currentActiveCamera = wakeUpVC;
-            }
-            else if ((string)data == "DisableWakeUpVC")
-            {
-                playerVC.enabled = true;
-                wakeUpVC.enabled = false;
-                currentActiveCamera = playerVC;
-            }
-            else if ((string)data == "EnableKitchenDeskVC")
-            {
-                kitchenDeskVC.enabled = true;
-                playerVC.enabled = false;
-                currentActiveCamera = kitchenDeskVC;
-            }
-            else if ((string)data == "DisableKitchenDeskVC")
-            {
-                playerVC.enabled = true;
-                kitchenDeskVC.enabled = false;
-                currentActiveCamera = playerVC;
-            }
-            else if ((string)data == "EnablePCVC")
-            {
-                pCVC.enabled = true;
-                playerVC.enabled = false;
-                currentActiveCamera = pCVC;
-            }
-            else if ((string)data == "DisablePCVC")
-            {
-                playerVC.enabled = true;
-                pCVC.enabled = false;
-                currentActiveCamera = playerVC;
-            }
-            else if ((string)data == "EnableBedVC")
-            {
-                bedVC.enabled = true;
-                playerVC.enabled = false;
-                currentActiveCamera = bedVC;
-            }
-            else if ((string)data == "DisableBedVC")
-            {
-                playerVC.enabled = true;
-                bedVC.enabled = false;
-                currentActiveCamera = playerVC;
-            }
-            else if ((string)data == "EnableBackpackVC")
-            {
-                backpackVC.enabled = true;
-                playerVC.enabled = false;
-                currentActiveCamera = backpackVC;
+                CinemachineVirtualCamera targetVC = GetVCByEnum(cmd.Target);
 
-                ReturnVCInstance();
+                if (targetVC == null)
+                {
+                    Debug.LogWarning($"[VirtualCamerasHandler] Cámara no encontrada para: {cmd.Target}");
+                    return;
+                }
+
+                targetVC.enabled = cmd.Enabled;
+
+                if (cmd.Target != VirtualCameraTarget.Player)
+                    playerVC.enabled = !cmd.Enabled;
+
+                currentActiveCamera = cmd.Enabled ? targetVC : playerVC;
+
+                if (cmd.Target == VirtualCameraTarget.Backpack && cmd.Enabled)
+                {
+                    ReturnVCInstance();
+                }
+
+                setCurrentCamera.Raise(this, currentActiveCamera);
             }
-            else if ((string)data == "DisableBackpackVC")
+            else
             {
-                playerVC.enabled = true;
-                backpackVC.enabled = false;
-                currentActiveCamera = playerVC;
-            }
-            else if ((string)data == "EnablePhoneVC")
-            {
-                phoneVC.enabled = true;
-                playerVC.enabled = false;
-                currentActiveCamera = phoneVC;
-            }
-            else if ((string)data == "DisablePhoneVC")
-            {
-                playerVC.enabled = true;
-                phoneVC.enabled = false;
-                currentActiveCamera = playerVC;
+                Debug.LogWarning($"[VirtualCamerasHandler] Comando desconocido recibido: {data}");
             }
 
             setCurrentCamera.Raise(this, currentActiveCamera);
@@ -135,6 +79,21 @@ namespace TwelveG.Utils
         private void ReturnVCInstance()
         {
             returnCurrentCamera.Raise(this, currentActiveCamera);
+        }
+
+        private CinemachineVirtualCamera GetVCByEnum(VirtualCameraTarget target)
+        {
+            return target switch
+            {
+                VirtualCameraTarget.Player => playerVC,
+                VirtualCameraTarget.WakeUp => wakeUpVC,
+                VirtualCameraTarget.KitchenDesk => kitchenDeskVC,
+                VirtualCameraTarget.Bed => bedVC,
+                VirtualCameraTarget.PC => pCVC,
+                VirtualCameraTarget.Backpack => backpackVC,
+                VirtualCameraTarget.Phone => phoneVC,
+                _ => null
+            };
         }
     }
 }

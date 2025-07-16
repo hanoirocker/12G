@@ -4,6 +4,9 @@ namespace TwelveG.GameManager
     using UnityEngine.SceneManagement;
     using System.Collections;
     using TwelveG.Localization;
+    using TwelveG.PlayerController;
+    using TwelveG.Utils;
+    using TwelveG.UIManagement;
 
     public class TVTimeEvent : GameEventBase
     {
@@ -36,27 +39,27 @@ namespace TwelveG.GameManager
         {
             print("<------ TV TIME EVENT NOW -------->");
 
-            onPlayerControls.Raise(this, "DisablePlayerShortcuts");
+            onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
 
-            onVirtualCamerasControl.Raise(this, "EnableWakeUpVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
 
             enableTVHandler.Raise(this, null);
 
-            onImageCanvasControls.Raise(this, "WakeUpBlinking");
+            onImageCanvasControls.Raise(this, new WakeUpBlinking());
 
             activateRemoteController.Raise(this, null);
 
-            onImageCanvasControls.Raise(this, "FadeInImage");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
 
             yield return new WaitForSeconds(10f);
 
-            onPlayerControls.Raise(this, "EnableHeadLookAround");
+            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(true));
 
-            onControlCanvasControls.Raise(this, "ActivateControlCanvas");
+            onControlCanvasControls.Raise(this, new ActivateCanvas(true));
 
-            onControlCanvasControls.Raise(this, "ShowControlCanvas");
+            onControlCanvasControls.Raise(this, new EnableCanvas(true));
 
-            onPlayerControls.Raise(this, "EnablePlayerShortcuts");
+            onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
 
             allowPlayerToHandleTV.Raise(this, null);
 
@@ -65,23 +68,23 @@ namespace TwelveG.GameManager
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onControlCanvasControls.Raise(this, "DeactivateControlCanvas");
+            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
 
-            // onPlayerControls.Raise(this, "DisablePlayerShortcuts");
+            // onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
 
-            onCinematicCanvasControls.Raise(this, "ShowBars");
+            onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
             yield return new WaitForSeconds(3f);
 
-            onPlayerControls.Raise(this, "DisableHeadLookAround");
+            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
 
-            onPlayerControls.Raise(this, "DisableMainCamera");
+            onPlayerControls.Raise(this, new TogglePlayerMainCamera(false));
 
             onPlayerDirectorControls.Raise(this, "EnableTimeline2Director");
 
             // TODO: reemplazar por el valor del timeline `TV focus timeline`.
             yield return new WaitForSeconds(30f);
 
-            onCinematicCanvasControls.Raise(this, "HideBars");
+            onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
 
             yield return new WaitForSeconds(3f);
 
@@ -93,11 +96,11 @@ namespace TwelveG.GameManager
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
-            onInteractionCanvasControls.Raise(this, "VanishTextEffect");
+            onInteractionCanvasControls.Raise(this, new VanishTextEffect());
             yield return new WaitForSeconds(2f);
 
 
-            onImageCanvasControls.Raise(this, "LongFadeOutImage");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 5f));
             yield return new WaitForSeconds(5f);
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

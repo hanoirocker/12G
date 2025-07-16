@@ -4,6 +4,7 @@ namespace TwelveG.GameManager
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine.SceneManagement;
+    using TwelveG.UIManagement;
 
     public class EventController : MonoBehaviour
     {
@@ -88,7 +89,7 @@ namespace TwelveG.GameManager
 
         private void ExecuteFreeRoam()
         {
-            onImageCanvasControls.Raise(this, "FadeInImage");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
 
             // FOR TESTING;
         }
@@ -126,7 +127,7 @@ namespace TwelveG.GameManager
             {
                 correspondingEvents[currentEventIndex].gameObject.SetActive(true);
                 SetUpCurrentEvent();
-                onImageCanvasControls.Raise(this, "FadeInImage");
+                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
                 yield return StartCoroutine(correspondingEvents[eventIndexToLoad].Execute());
             }
         }

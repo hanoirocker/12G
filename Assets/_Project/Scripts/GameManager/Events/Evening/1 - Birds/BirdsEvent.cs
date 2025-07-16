@@ -5,8 +5,10 @@ namespace TwelveG.GameManager
     using TwelveG.Localization;
     using TwelveG.UIManagement;
     using System.Collections.Generic;
+  using TwelveG.PlayerController;
+  using TwelveG.Utils;
 
-    public class BirdsEvent : GameEventBase
+  public class BirdsEvent : GameEventBase
     {
         [Header("Zoom references: ")]
         [SerializeField] private GameObject zoomBirdPrefab;
@@ -45,13 +47,13 @@ namespace TwelveG.GameManager
             // zoomBird inicia con su collider interactuable apagado, se prende con el próximo eventoSO.
             destroyWindowToReplace.Raise(this, null);
 
-            onVirtualCamerasControl.Raise(this, "EnablePlayerVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Player, true));
 
-            onPlayerControls.Raise(this, "EnablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
-            onControlCanvasControls.Raise(this, "ActivateControlCanvas");
+            onControlCanvasControls.Raise(this, new ActivateCanvas(true));
 
-            onImageCanvasControls.Raise(this, "FadeInImage");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
             yield return new WaitForSeconds(1f);
 
             // Parece que algo pasó arriba, mejor reviso qué fue eso.

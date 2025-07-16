@@ -2,6 +2,9 @@ namespace TwelveG.GameManager
 {
     using System.Collections;
     using TwelveG.Localization;
+    using TwelveG.PlayerController;
+    using TwelveG.UIManagement;
+    using TwelveG.Utils;
     using UnityEngine;
 
     public class LostSignalEvent : GameEventBase
@@ -22,7 +25,7 @@ namespace TwelveG.GameManager
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private ObservationTextSO eventsObservationTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
-        
+
         [Header("Other eventsSO references")]
         public GameEventSO enablePC;
         [SerializeField] private GameEventSO updateFallbackTexts;
@@ -48,17 +51,17 @@ namespace TwelveG.GameManager
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onImageCanvasControls.Raise(this, "FadeOutImage");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
 
-            onPlayerControls.Raise(this, "DisablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
 
             yield return new WaitForSeconds(1f);
 
-            onVirtualCamerasControl.Raise(this, "EnablePCVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, true));
 
-            onPlayerControls.Raise(this, "EnableHeadLookAround");
+            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(true));
 
-            onImageCanvasControls.Raise(this, "FadeInImage");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
 
             // Unity Event (PCHandler - onPC):
             // El jugador abandona la PC y vuelve a retomar control
@@ -69,20 +72,20 @@ namespace TwelveG.GameManager
             onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
-            onImageCanvasControls.Raise(this, "FadeOutImage2");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
             yield return new WaitForSeconds(2f);
 
-            onInteractionCanvasControls.Raise(this, "HideText");
+            onInteractionCanvasControls.Raise(this, new HideText());
 
-            onControlCanvasControls.Raise(this, "HideControlCanvas");
+            onControlCanvasControls.Raise(this, new EnableCanvas(false));
 
-            onVirtualCamerasControl.Raise(this, "DisablePCVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, false));
 
-            onPlayerControls.Raise(this, "DisableHeadLookAround");
+            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
 
-            onImageCanvasControls.Raise(this, "FadeInImage2");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
 
-            onPlayerControls.Raise(this, "EnablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
         }
 

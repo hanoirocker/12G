@@ -3,6 +3,9 @@ namespace TwelveG.GameManager
     using System.Collections;
     using System.Collections.Generic;
     using TwelveG.Localization;
+    using TwelveG.PlayerController;
+    using TwelveG.UIManagement;
+    using TwelveG.Utils;
     using UnityEngine;
 
     public class PizzaTimeEvent : GameEventBase
@@ -81,9 +84,9 @@ namespace TwelveG.GameManager
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onImageCanvasControls.Raise(this, "FadeOutImage");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
 
-            onPlayerControls.Raise(this, "DisablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
 
             if (chairMovingSound)
             {
@@ -96,11 +99,11 @@ namespace TwelveG.GameManager
                 yield return new WaitForSeconds(1);
             }
 
-            onVirtualCamerasControl.Raise(this, "EnableKitchenDeskVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));
 
-            onPlayerControls.Raise(this, "EnableHeadLookAround");
+            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(true));
 
-            onImageCanvasControls.Raise(this, "FadeInImage");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
             yield return new WaitForSeconds(1f);
 
             onControlCanvasSetInteractionOptions.Raise(
@@ -108,10 +111,10 @@ namespace TwelveG.GameManager
                 eventsControlCanvasInteractionTextSO_eating
             );
 
-            onControlCanvasControls.Raise(this, "ActivateControlCanvas");
-            onControlCanvasControls.Raise(this, "ShowControlCanvas");
+            onControlCanvasControls.Raise(this, new ActivateCanvas(true));
+            onControlCanvasControls.Raise(this, new EnableCanvas(true));
 
-            onPlayerControls.Raise(this, "EnablePlayerShortcuts");
+            onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
 
             // Unity Event (PizzaSliceHandler - instantiatePoliceCar)
             // Avisa que va por la segunda mordida y se debe instanciar el auto de policia
@@ -135,22 +138,22 @@ namespace TwelveG.GameManager
             // para levantarse de la silla.
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
-            onInteractionCanvasControls.Raise(this, "HideText");
+            onInteractionCanvasControls.Raise(this, new HideText());
 
-            onPlayerControls.Raise(this, "DisableHeadLookAround");
+            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
 
-            onControlCanvasControls.Raise(this, "ResetControlCanvasSpecificOptions");
+            onControlCanvasControls.Raise(this, new ResetControlCanvasSpecificOptions());
 
-            onControlCanvasControls.Raise(this, "HideControlCanvas");
+            onControlCanvasControls.Raise(this, new EnableCanvas(false));
 
-            onImageCanvasControls.Raise(this, "FadeOutImage2");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
             yield return new WaitForSeconds(2f);
 
-            onPlayerControls.Raise(this, "EnablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
-            onVirtualCamerasControl.Raise(this, "DisableKitchenDeskVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, false));
 
-            onImageCanvasControls.Raise(this, "FadeInImage2");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
 
             yield return new WaitForSeconds(2f);
         }

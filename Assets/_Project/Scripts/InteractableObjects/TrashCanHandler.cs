@@ -75,14 +75,14 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator TrowObjectsIntoCan(PlayerInteraction playerCamera)
         {
-            onPlayerControls.Raise(this, "DisablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
 
             Quaternion targetRotation = doorIsOpen ? initialRotation : initialRotation * Quaternion.Euler(-90, 0, 0);
             yield return StartCoroutine(RotateTop(targetRotation));
 
             if (fadesImage)
             {
-                onImageCanvasControls.Raise(this, "FadeOutImage");
+                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
                 yield return new WaitForSeconds(1f);
             }
 
@@ -94,12 +94,12 @@ namespace TwelveG.InteractableObjects
 
             if (fadesImage)
             {
-                onImageCanvasControls.Raise(this, "FadeInImage");
+                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
                 yield return new WaitForSeconds(1f);
             }
 
             trowAwayTrash.Raise(this, null);
-            onPlayerControls.Raise(this, "EnablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
         }
 
         private void ToggleTop()

@@ -1,4 +1,4 @@
-namespace AudioManager
+namespace TwelveG.AudioManager
 {
     using UnityEngine;
 

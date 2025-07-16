@@ -1,7 +1,5 @@
-namespace AudioManager
+namespace TwelveG.AudioManager
 {
-    using System;
-    using System.Collections;
     using TwelveG.UIManagement;
     using UnityEngine;
     using UnityEngine.Audio;
@@ -12,15 +10,23 @@ namespace AudioManager
 
         public void MainAudioControls(Component sender, object data)
         {
-            if ((string)data == "ActivatePauseMenu")
+            switch (data)
             {
-                SetInGameVol(-80f);
-                SetMusicVol(-80f);
-            }
-            else if ((string)data == "DeactivatePauseMenu")
-            {
-                SetInGameVol(0f);
-                SetMusicVol(0f);
+                case ActivateCanvas cmd:
+                    if (cmd.Activate)
+                    {
+                        SetInGameVol(-80f);
+                        SetMusicVol(-80f);
+                    }
+                    else
+                    {
+                        SetInGameVol(0f);
+                        SetMusicVol(0f);
+                    }
+                    break;
+                default:
+                    Debug.LogWarning($"[MainAudioControls] Received unknown command: {data}");
+                    break;
             }
         }
 

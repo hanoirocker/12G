@@ -6,6 +6,7 @@ namespace TwelveG.InteractableObjects
     using System.Linq;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
+    using TwelveG.UIManagement;
     using UnityEngine;
 
     public class CleanBirdsHandler : MonoBehaviour, IInteractable
@@ -98,13 +99,13 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator CleanBirds(List<GameObject> objectsToModify, PlayerInteraction playerCamera)
         {
-            onPlayerControls.Raise(this, "DisablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
 
             audioSource.Play();
 
             if (fadesImage)
             {
-                onImageCanvasControls.Raise(this, "FadeOutImage");
+                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
                 yield return new WaitForSeconds(1f);
             }
 
@@ -127,11 +128,11 @@ namespace TwelveG.InteractableObjects
 
             if (fadesImage)
             {
-                onImageCanvasControls.Raise(this, "FadeInImage");
+                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
                 yield return new WaitForSeconds(1f);
             }
 
-            onPlayerControls.Raise(this, "EnablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
             cleanZoomBird.Raise(this, null);
 
@@ -180,8 +181,8 @@ namespace TwelveG.InteractableObjects
             }
             else
             {
-               //"La escoba de la cocina y una bolsa me vendrian bien para esto...";
-               return observationTextSO_noneItem;
+                //"La escoba de la cocina y una bolsa me vendrian bien para esto...";
+                return observationTextSO_noneItem;
             }
         }
     }

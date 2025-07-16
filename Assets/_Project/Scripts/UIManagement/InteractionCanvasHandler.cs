@@ -71,22 +71,22 @@ namespace TwelveG.UIManagement
 
         public void InteractionCanvasControls(Component sender, object data)
         {
-            if ((string)data == "HideText")
+            switch (data)
             {
-                HideText();
-            }
-            if ((string)data == "VanishTextEffect")
-            {
-                StartCoroutine(VanishTextEffect());
+                case HideText:
+                    interactionCavas.enabled = false;
+                    break;
+                case VanishTextEffect:
+                    StartCoroutine(VanishTextEffectCoroutine());
+                    break;
+                default:
+                    Debug.LogWarning($"[InteractionCanvasHandler] Received unknown command: {data}");
+                    break;
             }
         }
 
-        private void HideText()
-        {
-            interactionCavas.enabled = false;
-        }
 
-        private IEnumerator VanishTextEffect()
+        private IEnumerator VanishTextEffectCoroutine()
         {
             float duration = 2f;
 

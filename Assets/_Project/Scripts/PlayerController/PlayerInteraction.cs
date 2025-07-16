@@ -3,6 +3,7 @@ namespace TwelveG.PlayerController
     using System;
     using System.Collections;
     using TwelveG.Localization;
+    using TwelveG.UIManagement;
     using UnityEngine;
 
     public class PlayerInteraction : MonoBehaviour
@@ -40,7 +41,7 @@ namespace TwelveG.PlayerController
                 if (objectHasInteractableComponent && interactObj.CanBeInteractedWith(this))
                 {
                     canvasText = interactObj.RetrieveInteractionSO();
-                    if(canvasText != null) { ShowUI(canvasText); }
+                    if (canvasText != null) { ShowUI(canvasText); }
 
                     if (Input.GetKeyDown(KeyCode.E))
                     {
@@ -66,7 +67,7 @@ namespace TwelveG.PlayerController
         {
             ObservationTextSO observationTextSO = interactObj.GetFallBackText();
 
-            if(observationTextSO == null) { yield return null; }
+            if (observationTextSO == null) { yield return null; }
 
             onObservationCanvasShowText.Raise(this, observationTextSO);
             lastColliderInteractedWith.GetComponent<Collider>().enabled = false;
@@ -83,18 +84,12 @@ namespace TwelveG.PlayerController
             }
         }
 
-        private void ChangeUI(IInteractable interactObj)
-        {
-            canvasText = interactObj.RetrieveInteractionSO();
-            onInteractionCanvasShowText.Raise(this, canvasText);
-        }
-
         private void HideUI()
         {
             // Ocultar el canvas de interaction si no se mira al objeto interactuable
             if (canvasIsShowing)
             {
-                onInteractionCanvasControls.Raise(this, "HideText");
+                onInteractionCanvasControls.Raise(this, new HideText());
                 canvasIsShowing = false;
             }
         }

@@ -1,6 +1,7 @@
 namespace TwelveG.UIManagement
 {
-    using UnityEngine;
+  using TwelveG.PlayerController;
+  using UnityEngine;
 
     public class ResumeButtonHandler : MonoBehaviour
     {
@@ -9,8 +10,8 @@ namespace TwelveG.UIManagement
 
         public void ResumeGameButtonClick()
         {
-            onPauseMenuControls.Raise(this, "DeactivatePauseMenu");
-            onPlayerControls.Raise(this, "EnablePlayerCapsule");
+            onPauseMenuControls.Raise(this, new ActivateCanvas(false));
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
         }
     }
 }

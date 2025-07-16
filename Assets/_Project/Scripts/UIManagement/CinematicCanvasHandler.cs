@@ -1,7 +1,6 @@
 namespace TwelveG.UIManagement
 {
     using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
 
     public class CinematicCanvasHandler : MonoBehaviour
@@ -26,13 +25,21 @@ namespace TwelveG.UIManagement
 
         public void CinematicCanvasControls(Component sender, object data)
         {
-            if((string)data == "ShowBars")
+            switch (data)
             {
-                ShowBars();
-            }
-            else if((string)data == "HideBars")
-            {
-                StartCoroutine(HideBars());
+                case ShowCinematicBars cmd:
+                    if (cmd.Show)
+                    {
+                        ShowBars();
+                    }
+                    else
+                    {
+                        StartCoroutine(HideBars());
+                    }
+                    break;
+                default:
+                    Debug.LogWarning($"[CinematicCanvasHandler] Received unknown command: {data}");
+                    break;
             }
         }
     }

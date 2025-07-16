@@ -19,45 +19,31 @@ namespace TwelveG.PlayerController
         // - PlayerContemplación? Depende de la VC que se active --> agregar condicional eventualmente.
         public void PlayerControls(Component sender, object data)
         {
-            if((string)data == "EnablePlayerShortcuts")
+            switch (data)
             {
-                playerShortcuts.enabled = true;
-            }
-            else if((string)data == "DisablePlayerShortcuts")
-            {
-                playerShortcuts.enabled = false;
-            }
-            else if((string)data == "EnablePlayerCapsule")
-            {
-                playerCapsule.SetActive(true);
-            }
-            else if((string)data == "DisablePlayerCapsule")
-            {
-                playerCapsule.SetActive(false);
-            }
-            else if((string)data == "EnableHeadLookAround")
-            {
-                headLookAround.enabled = true;
-            }
-            else if((string)data == "DisableHeadLookAround")
-            {
-                headLookAround.enabled = false;
-            }
-            else if((string)data == "DisableMainCamera")
-            {
-                mainCamera.SetActive(false);
-            }
-            else if((string)data == "EnableMainCamera")
-            {
-                mainCamera.SetActive(true);
-            }
-            else if((string)data == "DisableCameraZoom")
-            {
-                cameraZoom.enabled = false;
-            }
-            else if((string)data == "EnableCameraZoom")
-            {
-                cameraZoom.enabled = true;
+                case TogglePlayerShortcuts cmd:
+                    playerShortcuts.enabled = cmd.Enabled;
+                    break;
+
+                case TogglePlayerHeadLookAround cmd:
+                    headLookAround.enabled = cmd.Enabled;
+                    break;
+
+                case TogglePlayerCapsule cmd:
+                    playerCapsule.SetActive(cmd.Enabled);
+                    break;
+
+                case TogglePlayerMainCamera cmd:
+                    mainCamera.SetActive(cmd.Enabled);
+                    break;
+
+                case TogglePlayerCameraZoom cmd:
+                    cameraZoom.enabled = cmd.Enabled;
+                    break;
+
+                default:
+                    Debug.LogWarning($"[PlayerHandler] Comando desconocido recibido: {data}");
+                    break;
             }
         }
 

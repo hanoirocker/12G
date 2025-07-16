@@ -4,7 +4,8 @@ namespace TwelveG.PlayerController
     using System.Collections;
     using System.Collections.Generic;
     using TwelveG.Localization;
-    using UnityEngine;
+  using TwelveG.UIManagement;
+  using UnityEngine;
 
     public class PlayerContemplation : MonoBehaviour
     {
@@ -36,7 +37,7 @@ namespace TwelveG.PlayerController
 
         private void Start()
         {   
-            onContemplationCanvasControls.Raise(this, "HideContemplationCanvas");
+            onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
         }
 
         private void Update()
@@ -49,7 +50,7 @@ namespace TwelveG.PlayerController
             {
                 // TODO (OPTIMIZE): HACER ALGO CON ESTO, no se puede enviar una señal por frame
                 // si el jugador no está presionando el botón derecho!
-                onContemplationCanvasControls.Raise(this, "HideContemplationCanvas");
+                onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
                 lastContemplatedObject?.IsAbleToBeContemplate(true);
             }
         }

@@ -24,7 +24,7 @@ namespace TwelveG.UIManagement
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        public bool isGamePaused()
+        public bool IsGamePaused()
         {
             return gameIsPaused;
         }
@@ -42,13 +42,21 @@ namespace TwelveG.UIManagement
 
         public void PauseMenuCanvasControl(Component sender, object data)
         {
-            if(!gameIsPaused && (string)data == "ActivatePauseMenu")
+            switch (data)
             {
-                PauseGame();
-            }
-            else if(gameIsPaused && (string)data == "DeactivatePauseMenu")
-            {
-                ResumeGame();
+                case ActivateCanvas cmd:
+                    if (!cmd.Activate && gameIsPaused)
+                    {
+                        ResumeGame();
+                    }
+                    else if (cmd.Activate && !gameIsPaused)
+                    {
+                        PauseGame();
+                    }
+                    break;
+                default:
+                    Debug.LogWarning($"[PauseMenuCanvasControl] Received unknown command: {data}");
+                    break;
             }
         }
     }

@@ -34,13 +34,13 @@ namespace TwelveG.GameManager
             // playerShortcuts.enabled = false;
 
             // controlCanvasHandler.DeactivateControlCanvas();
-            onControlCanvasControls.Raise(this, "DeactivateControlCanvas");
+            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
 
             // mainCamera.SetActive(true);
             // cameraZoom.enabled = false;
 
             // yield return imageCanvasHandler.WakeUpBlinking();
-            onImageCanvasControls.Raise(this, "WakeUpBlinking");
+            onImageCanvasControls.Raise(this, new WakeUpBlinking());
             yield return new WaitForSeconds(5f);
 
             // playerShortcuts.enabled = true;
@@ -58,7 +58,7 @@ namespace TwelveG.GameManager
             onInteractionCanvasShowText.Raise(this, "LEVANTARSE [E]");
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
             // interactionCanvasHandler.HideText();
-            onInteractionCanvasControls.Raise(this, "HideText");
+            onInteractionCanvasControls.Raise(this, new HideText());
 
             // animationComponent = bedVC.GetComponent<Animation>();
             animationComponent.enabled = true;
@@ -66,7 +66,7 @@ namespace TwelveG.GameManager
             yield return new WaitUntil(() => !animationComponent.isPlaying);
 
             // yield return imageCanvasHandler.FadeOutImage(0.5f);
-            onImageCanvasControls.Raise(this, "FadeOutImage");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
             yield return new WaitForSeconds(1f);            
 
             // bedVC.enabled = false;

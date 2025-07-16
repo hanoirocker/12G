@@ -19,18 +19,18 @@ namespace TwelveG.PlayerController
         {
             if (Input.GetKeyDown(KeyCode.H))
             {
-                onControlCanvasControls.Raise(this, "ToogleControlCanvas");
+                onControlCanvasControls.Raise(this, new AlternateCanvasCurrentState());
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (!PauseMenuCanvasHandler.gameIsPaused)
                 {
-                    onPauseMenuToogle.Raise(this, "ActivatePauseMenu");
+                    onPauseMenuToogle.Raise(this, new ActivateCanvas(true));
                     playerHandler.DisablePlayerCapsule();
                 }
                 else
                 {
-                    onPauseMenuToogle.Raise(this, "DeactivatePauseMenu");
+                    onPauseMenuToogle.Raise(this, new ActivateCanvas(false));
                     playerHandler.EnablePlayerCapsule();
                 }
             }

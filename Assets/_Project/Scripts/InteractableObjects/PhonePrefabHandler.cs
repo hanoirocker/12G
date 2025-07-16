@@ -3,7 +3,8 @@ namespace TwelveG.InteractableObjects
     using System.Collections;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
-    using UnityEngine;
+  using TwelveG.Utils;
+  using UnityEngine;
 
     public class PhonePrefabHandler : MonoBehaviour, IInteractable
     {
@@ -60,12 +61,12 @@ namespace TwelveG.InteractableObjects
         {
             canBeInteractedWith = false;
             GetComponent<SphereCollider>().enabled = false;
-            onPlayerControls.Raise(this, "DisablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
 
             onMainCameraSettings.Raise(this, "EasyInOut2");
 
-            onVirtualCamerasControl.Raise(this, "EnablePhoneVC");
-            onVirtualCamerasControl.Raise(this, "DisablePlayerVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Phone, true));
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Player, false));
 
             yield return new WaitForSeconds(2f);
 
@@ -86,13 +87,13 @@ namespace TwelveG.InteractableObjects
 
             GetComponentInParent<MeshRenderer>().enabled = false;
 
-            onVirtualCamerasControl.Raise(this, "EnablePlayerVC");
-            onVirtualCamerasControl.Raise(this, "DisablePhoneVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Player, true));
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Phone, false));
 
             yield return new WaitForSeconds(2.5f);
             onMainCameraSettings.Raise(this, "Cut");
 
-            onPlayerControls.Raise(this, "EnablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
             Destroy(phoneParent);
         }

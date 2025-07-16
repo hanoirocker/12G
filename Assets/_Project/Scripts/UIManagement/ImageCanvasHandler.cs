@@ -46,12 +46,7 @@ namespace TwelveG.UIManagement
             canvasGroup.alpha = endAlpha;
         }
 
-        private void BlackOutScreen()
-        {
-            canvasGroup.alpha = 1;
-        }
-
-        private IEnumerator WakeUpBlinking()
+        private IEnumerator WakeUpBlinkingCoroutine()
         {
             canvasIsShowing = true;
             yield return FadeInImage(0.5f);
@@ -62,30 +57,26 @@ namespace TwelveG.UIManagement
 
         public void ImageCanvasControls(Component sender, object data)
         {
-            if ((string)data == "WakeUpBlinking")
+            switch (data)
             {
-                StartCoroutine(WakeUpBlinking());
-                return;
-            }
-            else if ((string)data == "FadeInImage")
-            {
-                StartCoroutine(FadeInImage(1f));
-            }
-            else if ((string)data == "FadeInImage2")
-            {
-                StartCoroutine(FadeInImage(2f));
-            }
-            else if ((string)data == "FadeOutImage")
-            {
-                StartCoroutine(FadeOutImage(1f));
-            }
-            else if ((string)data == "FadeOutImage2")
-            {
-                StartCoroutine(FadeOutImage(2f));
-            }
-            else if ((string)data == "LongFadeOutImage")
-            {
-                StartCoroutine(FadeOutImage(5f));
+                case WakeUpBlinking:
+                    StartCoroutine(WakeUpBlinkingCoroutine());
+                    break;
+
+                case FadeImage fade:
+                    if (fade.FadeType == FadeType.FadeIn)
+                    {
+                        StartCoroutine(FadeInImage(fade.Duration));
+                    }
+                    else if (fade.FadeType == FadeType.FadeOut)
+                    {
+                        StartCoroutine(FadeOutImage(fade.Duration));
+                    }
+                    break;
+
+                default:
+                    Debug.LogWarning($"[ImageCanvasHandler] Received unknown command: {data?.GetType().Name}");
+                    break;
             }
         }
     }

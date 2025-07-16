@@ -1,8 +1,10 @@
 namespace TwelveG.GameManager
 {
     using System.Collections;
-    using System.Collections.Generic;
     using TwelveG.Localization;
+    using TwelveG.PlayerController;
+    using TwelveG.UIManagement;
+    using TwelveG.Utils;
     using UnityEngine;
 
     public class WakeUpEvent : GameEventBase
@@ -36,22 +38,22 @@ namespace TwelveG.GameManager
 
             yield return new WaitForSeconds(initialTime);
 
-            onPlayerControls.Raise(this, "DisablePlayerCapsule");
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
 
-            onVirtualCamerasControl.Raise(this, "EnableWakeUpVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
 
-            onPlayerControls.Raise(this, "DisablePlayerShortcuts");
+            onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
 
-            onControlCanvasControls.Raise(this, "DeactivateControlCanvas");
+            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
 
-            onPlayerControls.Raise(this, "EnableMainCamera");
+            onPlayerControls.Raise(this, new TogglePlayerMainCamera(true));
 
-            onPlayerControls.Raise(this, "DisableCameraZoom");
+            onPlayerControls.Raise(this, new TogglePlayerCameraZoom(false));
 
             playCrashingWindowSound.Raise(this, null);
             yield return new WaitForSeconds(3f);
 
-            onImageCanvasControls.Raise(this, "WakeUpBlinking");
+            onImageCanvasControls.Raise(this, new WakeUpBlinking());
             yield return new WaitForSeconds(2f);
 
             // QUE MIERDA FUE ESO?
@@ -64,7 +66,7 @@ namespace TwelveG.GameManager
             // ligarlo a cuando el canvas ya no esté mostrando el texto.
             yield return new WaitForSeconds(4f);
 
-            onPlayerControls.Raise(this, "EnablePlayerShortcuts");
+            onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
 
             // LEVANTARSE [E]
             // TODO (FIX): si mientras se muestra el texto, se cambia de locale, aparece
@@ -77,7 +79,7 @@ namespace TwelveG.GameManager
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
-            onInteractionCanvasControls.Raise(this, "HideText");
+            onInteractionCanvasControls.Raise(this, new HideText());
 
             playWakeUpVCAnimation.Raise(this, null);
 
@@ -87,20 +89,20 @@ namespace TwelveG.GameManager
             ResetAllowNextActions();
 
 
-            onImageCanvasControls.Raise(this, "FadeOutImage");
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
             yield return new WaitForSeconds(1f);
 
-            onVirtualCamerasControl.Raise(this, "DisableWakeUpVC");
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, false));
 
-            onPlayerControls.Raise(this, "EnableCameraZoom");
+            onPlayerControls.Raise(this, new TogglePlayerCameraZoom(true));
 
-            onPlayerControls.Raise(this, "EnablePlayerShortcuts");
+            onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
 
         }
 
         public void AllowNextActions(Component sender, object data)
         {
-            print(gameObject.name + "recieved event sent by: " + sender.gameObject.name);
+            print(gameObject.name + " recieved event sent by: " + sender.gameObject.name);
             allowNextAction = true;
         }
 
