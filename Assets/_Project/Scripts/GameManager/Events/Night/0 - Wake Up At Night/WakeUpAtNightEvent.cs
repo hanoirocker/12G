@@ -14,6 +14,7 @@ namespace TwelveG.GameManager
         [SerializeField] private string defaultEventControlOptions;
 
         [Header("EventsSO references")]
+        public GameEventSO onRainStart;
         public GameEventSO onControlCanvasControls;
         public GameEventSO onImageCanvasControls;
         public GameEventSO onDialogCanvasShowDialog;
@@ -26,6 +27,7 @@ namespace TwelveG.GameManager
         public override IEnumerator Execute()
         {
             print("<------ WAKE UP AT NIGHT EVENT NOW -------->");
+            onRainStart.Raise(this, null);
 
             // Parpadeo del jugador y activación de controles de menú
             // playerCapsule.SetActive(false);

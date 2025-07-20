@@ -17,9 +17,11 @@ namespace TwelveG.GameManager
         public bool freeRoam = false;
         public bool loadSpecificEvent = false;
         public int eventIndexToLoad = 0;
+        public bool isRaining = false;
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onImageCanvasControls;
+        [SerializeField] private GameEventSO onRainStart;
 
         [Header("Text event SO")]
 
@@ -38,9 +40,18 @@ namespace TwelveG.GameManager
         void Start()
         {
             currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            VerifySpecificTestSettings();
             InstantiateSceneEventsParent();
             PopulateEventsLists();
             VerifyRunTimeMode();
+        }
+
+        private void VerifySpecificTestSettings()
+        {
+            if (isRaining)
+            {
+                onRainStart.Raise(this, null);
+            }
         }
 
         private void InstantiateSceneEventsParent()

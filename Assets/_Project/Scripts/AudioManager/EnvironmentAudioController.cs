@@ -95,7 +95,7 @@ namespace TwelveG.AudioManager
                     nightSounds?.SetActive(true);
                     break;
                 default:
-                    Debug.LogWarning("[EnvironmentAudioController]: Unknown scene index.");
+                    Debug.LogWarning("[EnvironmentAudioController]: Scene index unknown.");
                     break;
             }
         }
