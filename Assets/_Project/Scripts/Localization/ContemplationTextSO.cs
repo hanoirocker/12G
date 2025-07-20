@@ -15,5 +15,4 @@ namespace TwelveG.Localization
             public List<string> contemplationTexts;
         }
     }
-
 }

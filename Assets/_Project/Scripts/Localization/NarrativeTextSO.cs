@@ -1,0 +1,18 @@
+namespace TwelveG.Localization
+{
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    [CreateAssetMenu(fileName = "NarrativeTexts", menuName = "SO's/NarrativeTextsSO", order = 0)]
+    public class NarrativeTextSO : ScriptableObject
+    {
+        public List<NarrativeTextsStructure> narrativeTextsStructure;
+
+        [System.Serializable]
+        public class NarrativeTextsStructure
+        {
+            public LanguagesEnum language;
+            public List<string> NarrativeTexts;
+        }
+    }
+}
