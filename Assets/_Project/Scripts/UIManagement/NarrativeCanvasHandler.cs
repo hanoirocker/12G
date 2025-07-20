@@ -7,14 +7,22 @@ namespace TwelveG.UIManagement
 
     public class NarrativeCanvasHandler : MonoBehaviour
     {
-        private TextMeshProUGUI narrativeCanvasText;
+        [SerializeField] private TextMeshProUGUI title;
+        [SerializeField] private TextMeshProUGUI phrase;
+
+        // TODO?: almacenar objeto NarrativeTextSO por si habilitamos el cambio de lenguage
+        // mientras se muestra este canvas evento.
+
+        [Header("Game Event SO's")]
+        [SerializeField] private GameEventSO onFinishedNarrativeCouritine;
+
         private Canvas narrativeCanvas;
-        private EventsInteractionTextsSO lastEventInteractionTextSORecieved = null;
+        private CanvasGroup canvasGroup;
 
         private void Awake()
         {
             narrativeCanvas = GetComponent<Canvas>();
-            narrativeCanvasText = GetComponentInChildren<TextMeshProUGUI>();
+            canvasGroup = GetComponent<CanvasGroup>();
         }
 
         private void Start()
@@ -27,73 +35,63 @@ namespace TwelveG.UIManagement
             return narrativeCanvas.isActiveAndEnabled;
         }
 
-        public void UpdateCanvasTextOnLanguageChanged()
+        public void ShowNarrativeCanvas(Component sender, object data)
         {
-            if (lastEventInteractionTextSORecieved != null & narrativeCanvas.isActiveAndEnabled)
+            if (data != null)
             {
-                narrativeCanvas.enabled = false;
-                string textToShow = Utils.TextFunctions.RetrieveEventInteractionText(
-                    GetComponentInParent<UIHandler>().CurrentLanguage,
-                    lastEventInteractionTextSORecieved
-                );
-                narrativeCanvasText.text = textToShow;
+                NarrativeTextSO narrativeTextSO = (NarrativeTextSO)data;
+                string actualLanguageCode = GetComponentInParent<UIHandler>().CurrentLanguage;
+                var languageStructure = narrativeTextSO.narrativeTextsStructure
+                .Find(texts => texts.language.ToString().Equals(actualLanguageCode, System.StringComparison.OrdinalIgnoreCase));
+                title.text = languageStructure.title;
+                phrase.text = languageStructure.phrase;
                 narrativeCanvas.enabled = true;
+                StartCoroutine(NarrativeCanvasCoroutine());
             }
         }
 
-        public void InteractionCanvasControls(Component sender, object data)
+        private IEnumerator NarrativeCanvasCoroutine()
         {
-            switch (data)
+            float startAlpha = 0f;
+            float endAlpha = 1f;
+            float elapsed = 0f;
+            float duration = 1f;
+
+            // Fade In
+            while (elapsed < duration)
             {
-                case HideText:
-                    narrativeCanvas.enabled = false;
-                    break;
-                case VanishTextEffect:
-                    StartCoroutine(VanishTextEffectCoroutine());
-                    break;
-                default:
-                    Debug.LogWarning($"[NarrativeCanvasHandler] Received unknown command: {data}");
-                    break;
-            }
-        }
-
-
-        private IEnumerator VanishTextEffectCoroutine()
-        {
-            float duration = 2f;
-
-            float startAlpha = 1;
-            float endAlpha = 0f;
-
-            float startFontSize = narrativeCanvasText.fontSize;
-            float maxFontSize = narrativeCanvasText.fontSize * 1.25f;
-            float textElapsedDuration = 0.15f * duration;
-
-            float totalElapsedTime = 0f;
-            while (totalElapsedTime < duration)
-            {
-                if (totalElapsedTime < textElapsedDuration)
-                {
-                    narrativeCanvasText.fontSize = Mathf.Lerp(startFontSize, maxFontSize, totalElapsedTime / textElapsedDuration);
-                }
-                else
-                {
-                    narrativeCanvasText.fontSize = Mathf.Lerp(maxFontSize, startFontSize, totalElapsedTime / duration);
-                }
-
-                narrativeCanvasText.alpha = Mathf.Lerp(startAlpha, endAlpha, totalElapsedTime / duration);
-                totalElapsedTime += Time.deltaTime;
+                canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+                elapsed += Time.deltaTime;
                 yield return null;
             }
+            canvasGroup.alpha = endAlpha;
 
-            narrativeCanvasText.alpha = endAlpha;
-            narrativeCanvasText.text = "";
+            // Esperar texto visible
+            yield return new WaitForSeconds(8f);
+
+            // Fade Out
+            startAlpha = 1f;
+            endAlpha = 0f;
+            elapsed = 0f;
+            duration = 3f;
+
+            while (elapsed < duration)
+            {
+                canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            canvasGroup.alpha = endAlpha;
+
+            // Desactivar canvas y emitir evento
             narrativeCanvas.enabled = false;
+            onFinishedNarrativeCouritine.Raise(this, null);
         }
 
-        public void ChangeText(string textGiven)
-        {
-            narrativeCanvasText.text = textGiven;
-        }
+
+        // public void ChangeText(string textGiven)
+        // {
+        //     narrativeCanvasText.text = textGiven;
+        // }
     }
 }

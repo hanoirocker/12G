@@ -12,7 +12,8 @@ namespace TwelveG.Localization
         public class NarrativeTextsStructure
         {
             public LanguagesEnum language;
-            public List<string> NarrativeTexts;
+            public string title;
+            public string phrase;
         }
     }
 }
