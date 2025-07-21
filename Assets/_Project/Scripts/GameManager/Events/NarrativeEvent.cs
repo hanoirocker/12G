@@ -5,6 +5,9 @@ namespace TwelveG.GameManager
   using TwelveG.Localization;
   using System.Collections.Generic;
   using UnityEngine.SceneManagement;
+  using TwelveG.PlayerController;
+  using TwelveG.Utils;
+  using TwelveG.UIManagement;
 
   public class NarrativeEvent : GameEventBase
   {
@@ -13,6 +16,8 @@ namespace TwelveG.GameManager
 
     [Header("EventsSO references")]
     public GameEventSO onShowNarrativeIntro;
+    [SerializeField] private GameEventSO onControlCanvasControls;
+    [SerializeField] private GameEventSO onPlayerControls;
 
     private bool allowNextAction = false;
     private NarrativeTextSO introTextSO;
@@ -20,6 +25,15 @@ namespace TwelveG.GameManager
     public override IEnumerator Execute()
     {
       print("<------ TEXT CANVAS EVENT NOW -------->");
+
+      onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+
+      onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
+
+      onControlCanvasControls.Raise(this, new ActivateCanvas(false));
+
+      onPlayerControls.Raise(this, new TogglePlayerCameraZoom(false));
+
       introTextSO = narrativeIntroTextSOs[SceneManager.GetActiveScene().buildIndex];
 
       onShowNarrativeIntro.Raise(
@@ -30,7 +44,7 @@ namespace TwelveG.GameManager
       // Unity Event (NarrativeCanvasHandler - allowNextAction):
       // Se recibe cuando termina la corrutina del canvas
       yield return new WaitUntil(() => allowNextAction);
-      
+
       yield return new WaitForSeconds(3f);
     }
 

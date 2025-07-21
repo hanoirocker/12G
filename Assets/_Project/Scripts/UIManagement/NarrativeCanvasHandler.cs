@@ -18,26 +18,10 @@ namespace TwelveG.UIManagement
         [Header("Game Event SO's")]
         [SerializeField] private GameEventSO onFinishedNarrativeCouritine;
 
-        private Canvas narrativeCanvas;
-
-
-        private void Awake()
-        {
-            narrativeCanvas = GetComponent<Canvas>();
-        }
-
-        private void Start()
-        {
-            narrativeCanvas.enabled = false;
-        }
-
-        public bool IsShowingText()
-        {
-            return narrativeCanvas.isActiveAndEnabled;
-        }
-
         public void ShowNarrativeCanvas(Component sender, object data)
         {
+
+
             if (data != null)
             {
                 NarrativeTextSO narrativeTextSO = (NarrativeTextSO)data;
@@ -46,7 +30,7 @@ namespace TwelveG.UIManagement
                 .Find(texts => texts.language.ToString().Equals(actualLanguageCode, System.StringComparison.OrdinalIgnoreCase));
                 title.text = languageStructure.title;
                 phrase.text = languageStructure.phrase;
-                narrativeCanvas.enabled = true;
+                GetComponent<Canvas>().enabled = true;
                 StartCoroutine(NarrativeCanvasCoroutine());
             }
         }
@@ -87,14 +71,8 @@ namespace TwelveG.UIManagement
             logoCanvasGroup.alpha = endAlpha;
 
             // Desactivar canvas y emitir evento
-            narrativeCanvas.enabled = false;
+            GetComponent<Canvas>().enabled  = false;
             onFinishedNarrativeCouritine.Raise(this, null);
         }
-
-
-        // public void ChangeText(string textGiven)
-        // {
-        //     narrativeCanvasText.text = textGiven;
-        // }
     }
 }
