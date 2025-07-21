@@ -13,6 +13,7 @@ namespace TwelveG.Localization
         {
             public LanguagesEnum language;
             public string title;
+            public string content;
             public string phrase;
         }
     }
