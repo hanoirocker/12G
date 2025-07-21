@@ -9,6 +9,8 @@ namespace TwelveG.UIManagement
     {
         [SerializeField] private TextMeshProUGUI title;
         [SerializeField] private TextMeshProUGUI phrase;
+        [SerializeField] private CanvasGroup textCanvasGroup;
+        [SerializeField] private CanvasGroup logoCanvasGroup;
 
         // TODO?: almacenar objeto NarrativeTextSO por si habilitamos el cambio de lenguage
         // mientras se muestra este canvas evento.
@@ -17,12 +19,11 @@ namespace TwelveG.UIManagement
         [SerializeField] private GameEventSO onFinishedNarrativeCouritine;
 
         private Canvas narrativeCanvas;
-        private CanvasGroup canvasGroup;
+
 
         private void Awake()
         {
             narrativeCanvas = GetComponent<Canvas>();
-            canvasGroup = GetComponent<CanvasGroup>();
         }
 
         private void Start()
@@ -60,11 +61,11 @@ namespace TwelveG.UIManagement
             // Fade In
             while (elapsed < duration)
             {
-                canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+                textCanvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-            canvasGroup.alpha = endAlpha;
+            textCanvasGroup.alpha = endAlpha;
 
             // Esperar texto visible
             yield return new WaitForSeconds(8f);
@@ -77,11 +78,13 @@ namespace TwelveG.UIManagement
 
             while (elapsed < duration)
             {
-                canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+                textCanvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+                logoCanvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-            canvasGroup.alpha = endAlpha;
+            textCanvasGroup.alpha = endAlpha;
+            logoCanvasGroup.alpha = endAlpha;
 
             // Desactivar canvas y emitir evento
             narrativeCanvas.enabled = false;

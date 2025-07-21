@@ -31,7 +31,7 @@ namespace TwelveG.GameManager
       // Se recibe cuando termina la corrutina del canvas
       yield return new WaitUntil(() => allowNextAction);
       
-      yield return new WaitForSeconds(5f);
+      yield return new WaitForSeconds(3f);
     }
 
     public void AllowNextActions(Component sender, object data)
