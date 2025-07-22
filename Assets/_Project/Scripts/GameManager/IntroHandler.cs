@@ -3,7 +3,6 @@ namespace TwelveG.GameManager
   using UnityEngine;
   using System.Collections;
   using TwelveG.UIManagement;
-  using GameSceneManager;
   using TwelveG.AudioManager;
   using UnityEngine.SceneManagement;
 

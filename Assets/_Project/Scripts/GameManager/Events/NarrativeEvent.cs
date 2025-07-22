@@ -34,7 +34,7 @@ namespace TwelveG.GameManager
 
       onPlayerControls.Raise(this, new TogglePlayerCameraZoom(false));
 
-      introTextSO = narrativeIntroTextSOs[SceneManager.GetActiveScene().buildIndex];
+      introTextSO = narrativeIntroTextSOs[SceneManager.GetActiveScene().buildIndex - 2];
 
       onShowNarrativeIntro.Raise(
           this,

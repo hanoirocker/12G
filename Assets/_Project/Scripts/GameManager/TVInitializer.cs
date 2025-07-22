@@ -14,9 +14,7 @@ namespace TwelveG.GameManager
 
         private void VerifySceneTV()
         {
-            int currentScene = SceneManager.GetActiveScene().buildIndex;
-
-            if (currentScene == 1)
+            if (SceneManager.GetActiveScene().buildIndex - 2 == 1)
             {
                 tvEvening.SetActive(true);
             }

@@ -36,7 +36,7 @@ namespace TwelveG.AudioManager
 
         private void Start()
         {
-            currentScene = SceneManager.GetActiveScene().buildIndex;
+            currentScene = SceneManager.GetActiveScene().buildIndex - 2;
             VerifySceneEnvironmentSounds();
         }
 

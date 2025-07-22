@@ -29,8 +29,8 @@ namespace TwelveG.GameManager
         private List<GameEventBase> correspondingEvents = new List<GameEventBase>();
         private Transform playerContainerTransform;
 
-        private int currentSceneIndex = 0;
-        private int currentEventIndex = 0;
+        private int currentSceneIndex;
+        private int currentEventIndex;
 
         private void Awake()
         {
@@ -39,7 +39,7 @@ namespace TwelveG.GameManager
 
         void Start()
         {
-            currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            currentSceneIndex = SceneManager.GetActiveScene().buildIndex - 2;
             VerifySpecificTestSettings();
             InstantiateSceneEventsParent();
             PopulateEventsLists();
@@ -66,6 +66,9 @@ namespace TwelveG.GameManager
                     break;
                 case 2: // Night
                     eventsParent = Instantiate(nightEventsPrefab, this.transform);
+                    break;
+                default:
+                    Debug.LogError("[InstantiateSceneEventsParent]: Index not found");
                     break;
             }
         }
