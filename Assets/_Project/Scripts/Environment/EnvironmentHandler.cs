@@ -1,6 +1,5 @@
 namespace TwelveG.Environment
 {
-    using System;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 

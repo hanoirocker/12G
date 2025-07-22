@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Project/Scenes/Intro - Disclaimer.unity
+    guid: 0f3a8162af66f4641bec511eb5371f41
+  - enabled: 1
+    path: Assets/_Project/Scenes/Main Menu.unity
+    guid: 1860ad709a8044c6dbea7dfbdcbaf1b5
+  - enabled: 1
     path: Assets/_Project/Scenes/Afternoon Scene.unity
     guid: 0c02d05bf7df94558825e192593e6728
   - enabled: 1
