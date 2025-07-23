@@ -1,12 +1,23 @@
 namespace TwelveG.AudioManager
 {
+    using System.Collections;
     using TwelveG.UIManagement;
     using UnityEngine;
     using UnityEngine.Audio;
 
+    public enum AudioGroup
+    {
+        masterVol,
+        musicVol,
+        uiVol,
+        inGameVol
+    }
+
     public class MainAudioController : MonoBehaviour
     {
         [SerializeField] private AudioMixer masterMixer;
+
+        // private float _currentVolume;
 
         public void MainAudioControls(Component sender, object data)
         {
@@ -28,6 +39,34 @@ namespace TwelveG.AudioManager
                     Debug.LogWarning($"[MainAudioControls] Received unknown command: {data}");
                     break;
             }
+        }
+
+        public void FadeAudioGroup(AudioGroup audioGroup, float from, float to, float duration)
+        {
+            StartCoroutine(FadeAudioCoroutine(audioGroup.ToString(), from, to, duration));
+        }
+
+        private IEnumerator FadeAudioCoroutine(string audioGroup, float from, float to, float duration)
+        {
+            float elapsed = 0f;
+            // // Get the channel current volume
+            // masterMixer.GetFloat(audioGroup, out _currentVolume);
+            // _currentVolume = Mathf.Pow(10, _currentVolume / 20);
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float newVolume = Mathf.Lerp(from, to, elapsed / duration);
+                masterMixer.SetFloat(audioGroup, Mathf.Log10(newVolume) * 20);
+                yield return null;
+            }
+
+            masterMixer.SetFloat(audioGroup, Mathf.Log10(to) * 20);
+        }
+
+        public void SetMasterVoume(float masterVol)
+        {
+            masterMixer.SetFloat("masterVol", masterVol);
         }
 
         public void SetMusicVol(float musicVol)

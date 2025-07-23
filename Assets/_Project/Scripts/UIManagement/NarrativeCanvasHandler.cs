@@ -20,8 +20,6 @@ namespace TwelveG.UIManagement
 
         public void ShowNarrativeCanvas(Component sender, object data)
         {
-
-
             if (data != null)
             {
                 NarrativeTextSO narrativeTextSO = (NarrativeTextSO)data;
