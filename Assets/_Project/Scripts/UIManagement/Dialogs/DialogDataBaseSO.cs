@@ -1,4 +1,4 @@
-namespace TwelveG.UIManagement
+namespace TwelveG.UIController
 {
     using System;
     using System.Collections.Generic;

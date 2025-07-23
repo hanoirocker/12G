@@ -2,7 +2,7 @@ namespace TwelveG.PlayerController
 {
     using System.Collections.Generic;
     using TwelveG.Localization;
-    using TwelveG.UIManagement;
+    using TwelveG.UIController;
     using UnityEngine;
     using UnityEngine.Video;
 

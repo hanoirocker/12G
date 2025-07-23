@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace TwelveG.GameManager
+namespace TwelveG.GameController
 {
     public interface IEvent
     {

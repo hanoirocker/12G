@@ -6,7 +6,7 @@ namespace TwelveG.InteractableObjects
     using System.Linq;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
-    using TwelveG.UIManagement;
+    using TwelveG.UIController;
     using UnityEngine;
 
     public class CleanBirdsHandler : MonoBehaviour, IInteractable

@@ -1,4 +1,4 @@
-namespace TwelveG.UIManagement
+namespace TwelveG.UIController
 {
 
   public abstract class InteractionCanvasCommandsBase { }

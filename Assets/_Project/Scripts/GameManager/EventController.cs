@@ -1,10 +1,10 @@
-namespace TwelveG.GameManager
+namespace TwelveG.GameController
 {
     using UnityEngine;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine.SceneManagement;
-    using TwelveG.UIManagement;
+    using TwelveG.UIController;
 
     public class EventController : MonoBehaviour
     {

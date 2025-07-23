@@ -1,4 +1,4 @@
-namespace TwelveG.Environment
+namespace TwelveG.EnvironmentController
 {
     using TwelveG.Localization;
     using TwelveG.PlayerController;

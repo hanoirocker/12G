@@ -1,4 +1,4 @@
-namespace TwelveG.GameManager
+namespace TwelveG.GameController
 {
   using UnityEngine;
   using System.Collections;
@@ -7,7 +7,7 @@ namespace TwelveG.GameManager
   using UnityEngine.SceneManagement;
   using TwelveG.PlayerController;
   using TwelveG.Utils;
-  using TwelveG.UIManagement;
+  using TwelveG.UIController;
 
   public class NarrativeEvent : GameEventBase
   {

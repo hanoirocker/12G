@@ -1,10 +1,10 @@
-namespace TwelveG.GameManager
+namespace TwelveG.GameController
 {
     using System.Collections;
     using System.Collections.Generic;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
-    using TwelveG.UIManagement;
+    using TwelveG.UIController;
     using TwelveG.Utils;
     using UnityEngine;
 

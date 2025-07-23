@@ -1,9 +1,9 @@
-namespace TwelveG.GameManager
+namespace TwelveG.GameController
 {
   using UnityEngine;
   using System.Collections;
-  using TwelveG.UIManagement;
-  using TwelveG.AudioManager;
+  using TwelveG.UIController;
+  using TwelveG.AudioController;
   using UnityEngine.SceneManagement;
 
   // TODO?: Skip canvas logic

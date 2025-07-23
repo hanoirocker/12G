@@ -1,6 +1,6 @@
 namespace TwelveG.PlayerController
 {
-    using TwelveG.UIManagement;
+    using TwelveG.UIController;
     using UnityEngine;
 
     public class PlayerShortcuts : MonoBehaviour

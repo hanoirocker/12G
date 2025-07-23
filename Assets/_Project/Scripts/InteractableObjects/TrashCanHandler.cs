@@ -4,10 +4,9 @@ namespace TwelveG.InteractableObjects
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using AudioManager;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
-    using TwelveG.UIManagement;
+    using TwelveG.UIController;
     using UnityEngine;
 
     public class TrashCanHandler : MonoBehaviour, IInteractable

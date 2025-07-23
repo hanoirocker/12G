@@ -2,7 +2,7 @@ namespace TwelveG.PlayerController
 {
     using TwelveG.InteractableObjects;
     using TwelveG.Localization;
-    using TwelveG.UIManagement;
+    using TwelveG.UIController;
     using UnityEngine;
 
     public class PlayerAddItem : MonoBehaviour

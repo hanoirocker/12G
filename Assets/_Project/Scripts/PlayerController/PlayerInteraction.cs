@@ -3,7 +3,7 @@ namespace TwelveG.PlayerController
     using System;
     using System.Collections;
     using TwelveG.Localization;
-    using TwelveG.UIManagement;
+    using TwelveG.UIController;
     using UnityEngine;
 
     public class PlayerInteraction : MonoBehaviour

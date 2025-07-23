@@ -1,4 +1,4 @@
-namespace TwelveG.GameManager
+namespace TwelveG.GameController
 {
     using UnityEngine;
     using UnityEngine.SceneManagement;

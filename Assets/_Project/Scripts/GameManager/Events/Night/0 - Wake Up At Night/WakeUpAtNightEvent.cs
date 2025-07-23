@@ -1,9 +1,9 @@
-namespace TwelveG.GameManager
+namespace TwelveG.GameController
 {
     using System.Collections;
     using Cinemachine;
     using TwelveG.PlayerController;
-    using TwelveG.UIManagement;
+    using TwelveG.UIController;
     using UnityEngine;
 
     public class WakeUpAtNightEvent : GameEventBase

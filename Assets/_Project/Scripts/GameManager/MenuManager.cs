@@ -1,8 +1,8 @@
-namespace TwelveG.GameManager
+namespace TwelveG.GameController
 {
     using System.Collections;
-    using TwelveG.AudioManager;
-    using TwelveG.UIManagement;
+    using TwelveG.AudioController;
+    using TwelveG.UIController;
     using UnityEngine;
 
     public class MenuManager : MonoBehaviour

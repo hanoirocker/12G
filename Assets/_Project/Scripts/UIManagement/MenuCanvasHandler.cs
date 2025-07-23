@@ -1,5 +1,5 @@
 
-namespace TwelveG.UIManagement
+namespace TwelveG.UIController
 {
   using System.Collections;
   using UnityEngine;

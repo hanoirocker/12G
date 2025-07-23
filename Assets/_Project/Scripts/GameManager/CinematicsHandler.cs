@@ -1,4 +1,4 @@
-namespace TwelveG.GameManager
+namespace TwelveG.GameController
 {
   using System.Collections.Generic;
   using UnityEngine;

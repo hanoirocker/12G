@@ -4,7 +4,7 @@ namespace TwelveG.PlayerController
     using System.Collections;
     using System.Collections.Generic;
     using TwelveG.Localization;
-  using TwelveG.UIManagement;
+  using TwelveG.UIController;
   using UnityEngine;
 
     public class PlayerContemplation : MonoBehaviour
