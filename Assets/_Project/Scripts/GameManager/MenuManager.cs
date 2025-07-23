@@ -7,7 +7,7 @@ namespace TwelveG.GameController
 
     public class MenuManager : MonoBehaviour
     {
-        [SerializeField] private MainAudioController mainAudioController;
+        [SerializeField] private AudioManager mainAudioController;
         [SerializeField] private GameObject menuEnvironment;
         [SerializeField] private MenuCanvasHandler menuCanvasHandler;
 

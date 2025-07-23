@@ -20,7 +20,7 @@ namespace TwelveG.GameController
     // [SerializeField] private GameEventSO onIntroScreenSkip;
 
     private readonly bool userRequestedSkip = false;
-    private IntroAudioController introAudioController;
+    private AudioFaderHandler introAudioController;
     private DisclaimerCanvasHandler disclaimerHandler;
     private InformationCanvasHandler informationHandler;
 
@@ -29,7 +29,7 @@ namespace TwelveG.GameController
     {
       disclaimerHandler = disclaimerCanvas.GetComponent<DisclaimerCanvasHandler>();
       informationHandler = informationCanvas.GetComponent<InformationCanvasHandler>();
-      introAudioController = audioGO.GetComponent<IntroAudioController>();
+      introAudioController = audioGO.GetComponent<AudioFaderHandler>();
     }
 
     private void Start()

@@ -4,7 +4,7 @@ namespace TwelveG.AudioController
     using UnityEngine;
 
     [RequireComponent(typeof(GameEventListener))]
-    public class IntroAudioController : MonoBehaviour
+    public class AudioFaderHandler : MonoBehaviour
     {
         private AudioSource audioSource;
 

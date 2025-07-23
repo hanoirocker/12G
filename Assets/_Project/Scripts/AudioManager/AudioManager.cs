@@ -13,7 +13,7 @@ namespace TwelveG.AudioController
         inGameVol
     }
 
-    public class MainAudioController : MonoBehaviour
+    public class AudioManager : MonoBehaviour
     {
         [SerializeField] private AudioMixer masterMixer;
 
