@@ -7,7 +7,6 @@ namespace TwelveG.UIController
   using UnityEngine;
   using UnityEngine.Localization.Settings;
 
-  // TODO?: Skip canvas logic
   [RequireComponent(typeof(GameEventListener))]
   public class DisclaimerCanvasHandler : IntroCanvasBase
   {
@@ -18,12 +17,15 @@ namespace TwelveG.UIController
     [SerializeField] private List<CanvasGroup> canvasGroups = new();
     [SerializeField] private CanvasGroup textsCanvasGroup = new();
 
+    [Header("Game Event SO's")]
+    [SerializeField] private GameEventSO onDisclaimerFadeInFinished;
+    [SerializeField] private GameEventSO onDisclaimerFadeOutFinished;
+
     [Header("Narrative Text SO")]
     [SerializeField] private NarrativeTextSO disclaimerTextSO;
 
     private Canvas disclaimerCanvas;
     private bool canvasGroupsReady = false;
-    // private bool skipRequested = false;
 
     private void Awake()
     {
@@ -44,7 +46,17 @@ namespace TwelveG.UIController
       canvasGroupsReady = true;
     }
 
-    public IEnumerator RunSequence()
+    public void DisclaimerFadeIn(Component sender, object data)
+    {
+      StartCoroutine(DisclaimerFadeInSequence());
+    }
+
+    public void DisclaimerFadeOut(Component sender, object data)
+    {
+      StartCoroutine(DisclaimerFadeOutSequence());
+    }
+
+    private IEnumerator DisclaimerFadeInSequence()
     {
       yield return new WaitUntil(() => canvasGroupsReady);
 
@@ -65,13 +77,14 @@ namespace TwelveG.UIController
       yield return FadeCanvasGroup(canvasGroups[1], 0f, 1f, 2f, 7f); // Content
       yield return FadeCanvasGroup(canvasGroups[2], 0f, 1f, 6f, 4f); // Phrase
 
-      yield return FadeCanvasGroup(textsCanvasGroup, 1f, 0f, 3f);
-      disclaimerCanvas.enabled = false;
+      onDisclaimerFadeInFinished.Raise(this, null);
     }
 
-    public void SkipSequence(Component sender, object data)
+    private IEnumerator DisclaimerFadeOutSequence()
     {
-      // skipRequested = true;
+      yield return FadeCanvasGroup(textsCanvasGroup, 1f, 0f, 3f);
+
+      onDisclaimerFadeOutFinished.Raise(this, null);
     }
   }
 }

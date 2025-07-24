@@ -6,7 +6,6 @@ namespace TwelveG.GameController
   using TwelveG.AudioController;
   using UnityEngine.SceneManagement;
 
-  // TODO?: Skip canvas logic
   public class IntroManager : MonoBehaviour
   {
     [SerializeField] public GameObject disclaimerCanvas;
@@ -15,9 +14,6 @@ namespace TwelveG.GameController
 
     [Header("Settings:")]
     public bool allowSkip = false;
-
-    // [Header("Game Event SO:")]
-    // [SerializeField] private GameEventSO onIntroScreenSkip;
 
     private readonly bool userRequestedSkip = false;
     private AudioFaderHandler introAudioController;
@@ -37,17 +33,9 @@ namespace TwelveG.GameController
       disclaimerCanvas.SetActive(false);
       informationCanvas.SetActive(false);
 
-      StartCoroutine(introAudioController.AudioFadeInSequence());
+      // StartCoroutine(introAudioController.AudioFadeInSequence());
       StartCoroutine(RunIntroSequence());
     }
-
-    // private void Update()
-    // {
-    //   if (allowSkip && Input.anyKeyDown)
-    //   {
-    //     onIntroScreenSkip.Raise(this, null);
-    //   }
-    // }
 
     private IEnumerator RunIntroSequence()
     {

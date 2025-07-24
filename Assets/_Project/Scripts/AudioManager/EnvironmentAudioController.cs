@@ -36,7 +36,7 @@ namespace TwelveG.AudioController
 
         private void Start()
         {
-            currentScene = SceneManager.GetActiveScene().buildIndex - 2;
+            currentScene = SceneManager.GetActiveScene().buildIndex;
             VerifySceneEnvironmentSounds();
         }
 
@@ -86,12 +86,18 @@ namespace TwelveG.AudioController
             switch (currentScene)
             {
                 case 0:
-                    afternoonSounds?.SetActive(true);
+                    // TODO: introSounds
                     break;
                 case 1:
-                    eveningSounds?.SetActive(true);
+                    // TODO: mainMenuSounds
                     break;
                 case 2:
+                    afternoonSounds?.SetActive(true);
+                    break;
+                case 3:
+                    eveningSounds?.SetActive(true);
+                    break;
+                case 4:
                     nightSounds?.SetActive(true);
                     break;
                 default:

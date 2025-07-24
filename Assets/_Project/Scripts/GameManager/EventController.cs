@@ -9,9 +9,10 @@ namespace TwelveG.GameController
     public class EventController : MonoBehaviour
     {
         [Header("Testing Settings")]
-        [SerializeField] private GameObject afternoonEventsPrefab;
-        [SerializeField] private GameObject eveningEventsPrefab;
-        [SerializeField] private GameObject nightEventsPrefab;
+        public GameObject introEvents;
+        public GameObject afternoonEvents;
+        public GameObject eveningEvents;
+        public GameObject nightEvents;
 
         [Header("Testing Settings")]
         public bool freeRoam = false;
@@ -20,26 +21,26 @@ namespace TwelveG.GameController
         public bool isRaining = false;
 
         [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onImageCanvasControls;
-        [SerializeField] private GameEventSO onRainStart;
+        public GameEventSO onImageCanvasControls;
+        public GameEventSO onRainStart;
 
         [Header("Text event SO")]
 
         private GameObject eventsParent = null;
         private List<GameEventBase> correspondingEvents = new List<GameEventBase>();
-        private Transform playerContainerTransform;
+        // private Transform playerContainerTransform;
 
         private int currentSceneIndex;
         private int currentEventIndex;
 
-        private void Awake()
-        {
-            playerContainerTransform = GameObject.FindGameObjectWithTag("FreeRoam").GetComponent<Transform>();
-        }
+        // private void Awake()
+        // {
+        //     playerContainerTransform = GameObject.FindGameObjectWithTag("FreeRoam").GetComponent<Transform>();
+        // }
 
         void Start()
         {
-            currentSceneIndex = SceneManager.GetActiveScene().buildIndex - 2;
+            currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             VerifySpecificTestSettings();
             InstantiateSceneEventsParent();
             PopulateEventsLists();
@@ -58,14 +59,19 @@ namespace TwelveG.GameController
         {
             switch (currentSceneIndex)
             {
-                case 0: // Afternoon
-                    eventsParent = Instantiate(afternoonEventsPrefab, this.transform);
+                case 0: // Intro
+                    eventsParent = Instantiate(introEvents, this.transform);
                     break;
-                case 1: // Evening
-                    eventsParent = Instantiate(eveningEventsPrefab, this.transform);
+                case 1: // Main Menu (No tiene eventos)
                     break;
-                case 2: // Night
-                    eventsParent = Instantiate(nightEventsPrefab, this.transform);
+                case 2: // Afternoon
+                    eventsParent = Instantiate(afternoonEvents, this.transform);
+                    break;
+                case 3: // Evening
+                    eventsParent = Instantiate(eveningEvents, this.transform);
+                    break;
+                case 4: // Night
+                    eventsParent = Instantiate(nightEvents, this.transform);
                     break;
                 default:
                     Debug.LogError("[InstantiateSceneEventsParent]: Index not found");
@@ -75,8 +81,11 @@ namespace TwelveG.GameController
 
         private void PopulateEventsLists()
         {
-            GameEventBase[] eventArray = eventsParent.GetComponentsInChildren<GameEventBase>();
-            correspondingEvents = new List<GameEventBase>(eventArray);
+            if (eventsParent != null) // Puede ser null cuando la escena es el Main Menu
+            {
+                GameEventBase[] eventArray = eventsParent.GetComponentsInChildren<GameEventBase>();
+                correspondingEvents = new List<GameEventBase>(eventArray);
+            }
         }
 
         public bool loadSpecificEventEnabled()

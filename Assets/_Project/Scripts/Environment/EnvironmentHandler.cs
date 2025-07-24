@@ -19,13 +19,19 @@ namespace TwelveG.EnvironmentController
         {
             switch (currentScene)
             {
-                case 0: // Afternoon
+                case 0: // Intro
+                    // SetIntroConfigs();
+                    break;
+                case 1: // Main Menu
+                    // SetMainMenuConfigs();
+                    break;
+                case 2: // Afternoon
                     // SetAfternoonConfigs();
                     break;
-                case 1: // Evening
+                case 3: // Evening
                     // SetEveningConfigs();
                     break;
-                case 2: // Night
+                case 4: // Night
                     // SetNightConfigs();
                     break;
             }

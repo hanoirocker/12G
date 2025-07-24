@@ -6,7 +6,6 @@ namespace TwelveG.UIController
   using UnityEngine;
   using UnityEngine.Localization.Settings;
 
-  // TODO?: Skip canvas logic
   [RequireComponent(typeof(GameEventListener))]
   public class InformationCanvasHandler : IntroCanvasBase
   {
@@ -15,17 +14,14 @@ namespace TwelveG.UIController
     [SerializeField] private TextMeshProUGUI content;
     [SerializeField] private CanvasGroup elementsCanvasGroup;
 
-    [Header("Settings")]
-    [SerializeField, Range(1f, 7f)] float fadeDuration;
-
     [Header("Game Event SO's")]
-    [SerializeField] GameEventSO onIntroAudioFadeOut;
+    [SerializeField] private GameEventSO onInformationFadeInFinished;
+    [SerializeField] private GameEventSO onInformationFadeOutFinished;
 
     [Header("Narrative Text SO")]
     [SerializeField] private NarrativeTextSO disclaimerTextSO;
 
     private Canvas informationCanvas;
-    // private bool skipRequested = false;
 
     private void Awake()
     {
@@ -37,7 +33,29 @@ namespace TwelveG.UIController
       elementsCanvasGroup.alpha = 0;
     }
 
-    public IEnumerator RunSequence()
+    public void InformationCanvasFadeIn(Component sender, object data)
+    {
+      if (data == null)
+      {
+        Debug.LogError($"[InformationCanvasFadeOut]: empty fadeInDuration param");
+        return;
+      }
+  
+      StartCoroutine(InformationFadeInSequence((float)data));
+    }
+
+    public void InformationCanvasFadeOut(Component sender, object data)
+    {
+      if (data == null)
+      {
+        Debug.LogError($"[InformationCanvasFadeOut]: empty fadeOutDuration param");
+        return;
+      }
+
+      StartCoroutine(InformationFadeOutSequence((float)data));
+    }
+
+    public IEnumerator InformationFadeInSequence(float fadeInDuration)
     {
       var currentLanguage = LocalizationSettings.SelectedLocale.Identifier.Code;
       var localizedText = disclaimerTextSO.narrativeTextsStructure
@@ -51,18 +69,16 @@ namespace TwelveG.UIController
 
       informationCanvas.enabled = true;
 
-      yield return FadeCanvasGroup(elementsCanvasGroup, 0f, 1f, 3f, 8f); // All elements fade in
+      yield return FadeCanvasGroup(elementsCanvasGroup, 0f, 1f, fadeInDuration, 8f); // All elements fade in
 
-      onIntroAudioFadeOut.Raise(this, fadeDuration);
-
-      yield return FadeCanvasGroup(elementsCanvasGroup, 1f, 0f, fadeDuration, 2f); // All elements fade out
-
-      informationCanvas.enabled = false;
+      onInformationFadeInFinished.Raise(this, null);
     }
 
-    public void SkipSequence(Component sender, object data)
+    public IEnumerator InformationFadeOutSequence(float fadeOutDuration)
     {
-      // skipRequested = true;
+      yield return FadeCanvasGroup(elementsCanvasGroup, 1f, 0f, fadeOutDuration, 2f); // All elements fade out
+
+      onInformationFadeOutFinished.Raise(this, null);
     }
   }
 }

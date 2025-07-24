@@ -15,9 +15,30 @@ namespace TwelveG.AudioController
 
     public class AudioManager : MonoBehaviour
     {
+        public static AudioManager Instance;
+
+        [Header("Main references")]
         [SerializeField] private AudioMixer masterMixer;
 
-        // private float _currentVolume;
+        [Header("Children references")]
+        [SerializeField] private AudioPoolsHandler audioPoolsHandler;
+        [SerializeField] private AudioFaderHandler audioFaderHandler;
+
+        public AudioPoolsHandler PoolsHandler => audioPoolsHandler;
+        public AudioFaderHandler FaderHandler => audioFaderHandler;
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
 
         public void MainAudioControls(Component sender, object data)
         {
