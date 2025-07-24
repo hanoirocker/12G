@@ -36,7 +36,7 @@ namespace TwelveG.GameController
                 introSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
                 introSource.clip = introTrack;
                 introSource.volume = 0f;
-                fadeInCoroutine = StartCoroutine(AudioManager.Instance.FaderHandler.RunAudioFadeIn(introSource, 0f, 1f, fadeInDuration));
+                fadeInCoroutine = StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(introSource, 0f, 1f, fadeInDuration));
             }
 
             // Activar Information canvas y correr corrutina
@@ -62,7 +62,7 @@ namespace TwelveG.GameController
             }
 
             // Fade out del audio al mismo tiempo
-            yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioFadeOutSequence(introSource, fadeOutDuration));
+            yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(introSource, fadeOutDuration));
 
             // DisclaimerCanvasHandler: envia onInformationFadeOutFinished
             yield return new WaitUntil(() => allowNextAction);

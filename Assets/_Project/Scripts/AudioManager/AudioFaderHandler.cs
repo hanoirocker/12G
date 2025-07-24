@@ -2,10 +2,13 @@ namespace TwelveG.AudioController
 {
   using System.Collections;
   using UnityEngine;
+  using UnityEngine.Audio;
 
   public class AudioFaderHandler : MonoBehaviour
   {
-    public IEnumerator RunAudioFadeIn(AudioSource source, float from, float to, float duration)
+    [SerializeField] private AudioMixer masterMixer;
+
+    public IEnumerator AudioSourceFadeIn(AudioSource source, float from, float to, float duration)
     {
       source.Play();
 
@@ -21,7 +24,7 @@ namespace TwelveG.AudioController
       source.volume = to;
     }
 
-    public IEnumerator AudioFadeOutSequence(AudioSource source, float duration)
+    public IEnumerator AudioSourceFadeOut(AudioSource source, float duration)
     {
       if (source == null || !source.isPlaying)
         yield break;
@@ -38,6 +41,33 @@ namespace TwelveG.AudioController
 
       source.volume = 0f;
       source.Stop();
+    }
+
+    public void FadeAudioGroup(AudioGroup audioGroup, float from, float to, float duration)
+    {
+      StartCoroutine(FadeAudioCoroutine(audioGroup.ToString(), from, to, duration));
+    }
+
+    public IEnumerator FadeAudioCoroutine(string audioGroup, float from, float to, float duration)
+    {
+      float elapsed = 0f;
+
+      // TODO: Implementar variable `bool fromCurrentVolume`
+      // para aplicar fade desde último volumen del grupo
+
+      // // Get the channel current volume
+      // masterMixer.GetFloat(audioGroup, out _currentVolume);
+      // _currentVolume = Mathf.Pow(10, _currentVolume / 20);
+
+      while (elapsed < duration)
+      {
+        elapsed += Time.deltaTime;
+        float newVolume = Mathf.Lerp(from, to, elapsed / duration);
+        masterMixer.SetFloat(audioGroup, Mathf.Log10(newVolume) * 20);
+        yield return null;
+      }
+
+      masterMixer.SetFloat(audioGroup, Mathf.Log10(to) * 20);
     }
   }
 }

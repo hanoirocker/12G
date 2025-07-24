@@ -41,6 +41,13 @@ namespace TwelveG.GameController
         void Start()
         {
             currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+            if (currentSceneIndex == 1) // Main Menu Scene
+            {
+                
+                return;
+            }
+
             VerifySpecificTestSettings();
             InstantiateSceneEventsParent();
             PopulateEventsLists();
@@ -61,8 +68,6 @@ namespace TwelveG.GameController
             {
                 case 0: // Intro
                     eventsParent = Instantiate(introEvents, this.transform);
-                    break;
-                case 1: // Main Menu (No tiene eventos)
                     break;
                 case 2: // Afternoon
                     eventsParent = Instantiate(afternoonEvents, this.transform);

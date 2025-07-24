@@ -8,13 +8,31 @@ namespace TwelveG.UIController
   {
     [SerializeField] CanvasGroup backGroundCanvasGroup;
 
-
-    public void FadeBackgroundCanvas(float from, float to, float duration, float waitAfter = 0f)
+    public void MenuBGFadeInCanvas(Component sender, object data)
     {
-      StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, from, to, duration, waitAfter));
+      if (data != null)
+      {
+        StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 1f, 0f, (float)data));
+      }
+      else
+      {
+        Debug.LogError($"[MenuBGFadeInCanvas]: Duration param not passed on Raise at {sender.name} ");
+      }
     }
 
-    private IEnumerator FadeCanvasCoroutine(CanvasGroup group, float from, float to, float duration, float waitAfter = 0f)
+    public void MenuBGFadeOutCanvas(Component sender, object data)
+    {
+      if (data != null)
+      {
+        StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 0f, 1f, (float)data));
+      }
+      else
+      {
+        Debug.LogError($"[MenuBGFadeOutCanvas]: Duration param not passed on Raise at {sender.name} ");
+      }
+    }
+
+    private IEnumerator FadeCanvasCoroutine(CanvasGroup group, float from, float to, float duration)
     {
       float elapsed = 0f;
 

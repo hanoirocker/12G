@@ -36,7 +36,7 @@ namespace TwelveG.GameController
             source.clip = introTrack;
             source.volume = 0f;
             GameManager.Instance.GetComponentInChildren<InformationEvent>().introSource = source;
-            yield return StartCoroutine(AudioManager.Instance.FaderHandler.RunAudioFadeIn(source, 0f, 1f, 2f));
+            yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(source, 0f, 1f, 2f));
 
             // DisclaimerCanvasHandler: envia onDisclaimerFadeInFinished
             yield return new WaitUntil(() => allowNextAction);
