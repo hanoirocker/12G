@@ -4,20 +4,19 @@ namespace TwelveG.GameController
   using System.Collections;
   using TwelveG.Localization;
   using System.Collections.Generic;
-  using UnityEngine.SceneManagement;
   using TwelveG.PlayerController;
-  using TwelveG.Utils;
   using TwelveG.UIController;
+  using UnityEngine.SceneManagement;
 
   public class NarrativeEvent : GameEventBase
   {
     [Header("Text event SO")]
-    [SerializeField] private List<NarrativeTextSO> narrativeIntroTextSOs = new();
+    public List<NarrativeTextSO> narrativeIntroTextSOs = new List<NarrativeTextSO>();
 
     [Header("EventsSO references")]
     public GameEventSO onShowNarrativeIntro;
-    [SerializeField] private GameEventSO onControlCanvasControls;
-    [SerializeField] private GameEventSO onPlayerControls;
+    public GameEventSO onControlCanvasControls;
+    public GameEventSO onPlayerControls;
 
     private bool allowNextAction = false;
     private NarrativeTextSO introTextSO;

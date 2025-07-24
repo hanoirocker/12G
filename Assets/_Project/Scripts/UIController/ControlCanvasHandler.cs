@@ -39,7 +39,7 @@ namespace TwelveG.UIController
             {
                 lastEventControlCanvasInteractionTextSORecieved = (EventsControlCanvasInteractionTextSO)data;
                 string textToShow = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
-                    GetComponentInParent<UIHandler>().CurrentLanguage,
+                    LocalizationManager.Instance.GetCurrentLanguageCode(),
                     lastEventControlCanvasInteractionTextSORecieved
                 );
                 specificOptions.text = textToShow;
@@ -48,7 +48,7 @@ namespace TwelveG.UIController
 
         public void UpdateCanvasTextOnLanguageChanged()
         {
-            string newLanguageSet = GetComponentInParent<UIHandler>().CurrentLanguage;
+            string newLanguageSet = LocalizationManager.Instance.GetCurrentLanguageCode();;
 
             string updatedHeadTitleText = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
                 newLanguageSet,

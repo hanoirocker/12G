@@ -31,7 +31,7 @@ namespace TwelveG.UIController
         {
             if (data != null)
             {
-                string actualLanguageCode = GetComponentInParent<UIHandler>().CurrentLanguage;
+                string actualLanguageCode = LocalizationManager.Instance.GetCurrentLanguageCode();;
                 string textToShow = Utils.TextFunctions.RetrieveInteractionText(
                     actualLanguageCode,
                     (InteractionTextSO)data
@@ -47,7 +47,7 @@ namespace TwelveG.UIController
             {
                 lastEventInteractionTextSORecieved = (EventsInteractionTextsSO)data;
                 string textToShow = Utils.TextFunctions.RetrieveEventInteractionText(
-                    GetComponentInParent<UIHandler>().CurrentLanguage,
+                    LocalizationManager.Instance.GetCurrentLanguageCode(),
                     lastEventInteractionTextSORecieved
                 );
                 interactionCanvasText.text = textToShow;
@@ -61,7 +61,7 @@ namespace TwelveG.UIController
             {
                 interactionCavas.enabled = false;
                 string textToShow = Utils.TextFunctions.RetrieveEventInteractionText(
-                    GetComponentInParent<UIHandler>().CurrentLanguage,
+                    LocalizationManager.Instance.GetCurrentLanguageCode(),
                     lastEventInteractionTextSORecieved
                 );
                 interactionCanvasText.text = textToShow;

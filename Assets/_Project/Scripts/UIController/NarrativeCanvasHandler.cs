@@ -23,7 +23,7 @@ namespace TwelveG.UIController
             if (data != null)
             {
                 NarrativeTextSO narrativeTextSO = (NarrativeTextSO)data;
-                string actualLanguageCode = GetComponentInParent<UIHandler>().CurrentLanguage;
+                string actualLanguageCode = LocalizationManager.Instance.GetCurrentLanguageCode();
                 var languageStructure = narrativeTextSO.narrativeTextsStructure
                 .Find(texts => texts.language.ToString().Equals(actualLanguageCode, System.StringComparison.OrdinalIgnoreCase));
                 title.text = languageStructure.title;

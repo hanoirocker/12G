@@ -28,15 +28,15 @@ namespace TwelveG.GameController
 
         private GameObject eventsParent = null;
         private List<GameEventBase> correspondingEvents = new List<GameEventBase>();
-        // private Transform playerContainerTransform;
+        private Transform playerContainerTransform;
 
         private int currentSceneIndex;
         private int currentEventIndex;
 
-        // private void Awake()
-        // {
-        //     playerContainerTransform = GameObject.FindGameObjectWithTag("FreeRoam").GetComponent<Transform>();
-        // }
+        private void Awake()
+        {
+            playerContainerTransform = GameObject.FindGameObjectWithTag("FreeRoam").GetComponent<Transform>();
+        }
 
         void Start()
         {
@@ -44,7 +44,7 @@ namespace TwelveG.GameController
 
             if (currentSceneIndex == 1) // Main Menu Scene
             {
-                
+
                 return;
             }
 

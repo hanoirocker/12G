@@ -14,7 +14,7 @@ namespace TwelveG.GameController
 
         private void VerifySceneTV()
         {
-            if (SceneManager.GetActiveScene().buildIndex == 2)
+            if (SceneManager.GetActiveScene().buildIndex == 3) // Evening
             {
                 tvEvening.SetActive(true);
             }

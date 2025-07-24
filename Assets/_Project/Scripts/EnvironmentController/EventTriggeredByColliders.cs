@@ -2,16 +2,16 @@ namespace TwelveG.EnvironmentController
 {
     using UnityEngine;
 
-    public class CarAlarmTriggerByColliders : MonoBehaviour
+    public class EventTriggeredByColliders : MonoBehaviour
     {
-        public GameEventSO carAlarmTrigger;
+        public GameEventSO eventTriggered;
 
         private void OnTriggerEnter(Collider other)
         {
             // Verifica si el objeto que entra es el jugador.
             if (other.gameObject.CompareTag("Player"))
             {
-                carAlarmTrigger.Raise(this, null);
+                eventTriggered.Raise(this, null);
                 Destroy(gameObject);
             }
         }
