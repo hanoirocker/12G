@@ -1,4 +1,3 @@
-
 namespace TwelveG.AudioController
 {
   using UnityEngine;
