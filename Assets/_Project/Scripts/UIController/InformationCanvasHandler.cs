@@ -1,25 +1,18 @@
 namespace TwelveG.UIController
 {
   using System.Collections;
-  using TMPro;
   using TwelveG.Localization;
   using UnityEngine;
-  using UnityEngine.Localization.Settings;
 
   [RequireComponent(typeof(GameEventListener))]
   public class InformationCanvasHandler : IntroCanvasBase
   {
     [Header("References")]
-    [SerializeField] private TextMeshProUGUI title;
-    [SerializeField] private TextMeshProUGUI content;
     [SerializeField] private CanvasGroup elementsCanvasGroup;
 
     [Header("Game Event SO's")]
     [SerializeField] private GameEventSO onInformationFadeInFinished;
     [SerializeField] private GameEventSO onInformationFadeOutFinished;
-
-    [Header("Narrative Text SO")]
-    [SerializeField] private NarrativeTextSO disclaimerTextSO;
 
     private Canvas informationCanvas;
 
@@ -28,7 +21,12 @@ namespace TwelveG.UIController
       informationCanvas = GetComponent<Canvas>();
     }
 
-    void Start()
+    private void OnEnable()
+    {
+      UpdateCanvasTextOnLanguageChanged(LocalizationManager.Instance.GetCurrentLanguageCode());
+    }
+
+    private void Start()
     {
       elementsCanvasGroup.alpha = 0;
     }
@@ -40,7 +38,7 @@ namespace TwelveG.UIController
         Debug.LogError($"[InformationCanvasFadeOut]: empty fadeInDuration param");
         return;
       }
-  
+
       StartCoroutine(InformationFadeInSequence((float)data));
     }
 
@@ -57,15 +55,6 @@ namespace TwelveG.UIController
 
     public IEnumerator InformationFadeInSequence(float fadeInDuration)
     {
-      var currentLanguage = LocalizationSettings.SelectedLocale.Identifier.Code;
-      var localizedText = disclaimerTextSO.narrativeTextsStructure
-        .Find(entry => entry.language.ToString().Equals(currentLanguage, System.StringComparison.OrdinalIgnoreCase));
-
-      if (localizedText != null)
-      {
-        title.text = localizedText.title;
-        content.text = localizedText.content;
-      }
 
       informationCanvas.enabled = true;
 
@@ -79,6 +68,16 @@ namespace TwelveG.UIController
       yield return FadeCanvasGroup(elementsCanvasGroup, 1f, 0f, fadeOutDuration, 2f); // All elements fade out
 
       onInformationFadeOutFinished.Raise(this, null);
+    }
+
+    // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos
+    // en relación a sus propios assets SO
+    public void UpdateCanvasTextOnLanguageChanged(string languageCode)
+    {
+      foreach (UpdateTextHandler updateTextHandler in GetComponentsInChildren<UpdateTextHandler>())
+      {
+        updateTextHandler.UpdateText(languageCode);
+      }
     }
   }
 }
