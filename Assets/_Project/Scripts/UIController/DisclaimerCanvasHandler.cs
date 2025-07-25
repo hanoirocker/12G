@@ -10,10 +10,7 @@ namespace TwelveG.UIController
   [RequireComponent(typeof(GameEventListener))]
   public class DisclaimerCanvasHandler : IntroCanvasBase
   {
-    [SerializeField] private TextMeshProUGUI title;
-    [SerializeField] private TextMeshProUGUI content;
-    [SerializeField] private TextMeshProUGUI phrase;
-
+    [Header("References")]
     [SerializeField] private List<CanvasGroup> canvasGroups = new();
     [SerializeField] private CanvasGroup textsCanvasGroup = new();
 
@@ -21,15 +18,17 @@ namespace TwelveG.UIController
     [SerializeField] private GameEventSO onDisclaimerFadeInFinished;
     [SerializeField] private GameEventSO onDisclaimerFadeOutFinished;
 
-    [Header("Narrative Text SO")]
-    [SerializeField] private NarrativeTextSO disclaimerTextSO;
-
     private Canvas disclaimerCanvas;
     private bool canvasGroupsReady = false;
 
     private void Awake()
     {
       disclaimerCanvas = GetComponent<Canvas>();
+    }
+
+    private void OnEnable()
+    {
+      UpdateCanvasTextOnLanguageChanged(LocalizationManager.Instance.GetCurrentLanguageCode());
     }
 
     private void Start()
@@ -46,30 +45,9 @@ namespace TwelveG.UIController
       canvasGroupsReady = true;
     }
 
-    public void DisclaimerFadeIn(Component sender, object data)
-    {
-      StartCoroutine(DisclaimerFadeInSequence());
-    }
-
-    public void DisclaimerFadeOut(Component sender, object data)
-    {
-      StartCoroutine(DisclaimerFadeOutSequence());
-    }
-
     private IEnumerator DisclaimerFadeInSequence()
     {
       yield return new WaitUntil(() => canvasGroupsReady);
-
-      var currentLanguage = LocalizationSettings.SelectedLocale.Identifier.Code;
-      var localizedText = disclaimerTextSO.narrativeTextsStructure
-        .Find(entry => entry.language.ToString().Equals(currentLanguage, System.StringComparison.OrdinalIgnoreCase));
-
-      if (localizedText != null)
-      {
-        title.text = localizedText.title;
-        content.text = localizedText.content;
-        phrase.text = localizedText.phrase;
-      }
 
       disclaimerCanvas.enabled = true;
 
@@ -85,6 +63,26 @@ namespace TwelveG.UIController
       yield return FadeCanvasGroup(textsCanvasGroup, 1f, 0f, 3f);
 
       onDisclaimerFadeOutFinished.Raise(this, null);
+    }
+
+    public void DisclaimerFadeIn(Component sender, object data)
+    {
+      StartCoroutine(DisclaimerFadeInSequence());
+    }
+
+    public void DisclaimerFadeOut(Component sender, object data)
+    {
+      StartCoroutine(DisclaimerFadeOutSequence());
+    }
+
+    // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos
+    // en relación a sus propios assets SO
+    public void UpdateCanvasTextOnLanguageChanged(string languageCode)
+    {
+      foreach (UpdateTextHandler updateTextHandler in GetComponentsInChildren<UpdateTextHandler>())
+      {
+        updateTextHandler.UpdateText(languageCode);
+      }
     }
   }
 }

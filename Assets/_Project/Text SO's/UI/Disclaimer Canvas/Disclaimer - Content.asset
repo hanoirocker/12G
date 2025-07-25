@@ -9,22 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5134743924ea4731b5149b95b88a468, type: 3}
-  m_Name: Intro - Disclaimer
+  m_Script: {fileID: 11500000, guid: 16d9a8e54e1054f03bd40c7a55a3b0b2, type: 3}
+  m_Name: Disclaimer - Content
   m_EditorClassIdentifier: 
-  narrativeTextsStructure:
+  uImenuTextStructure:
   - language: 0
-    title: ADVERTENCIA
-    content: "Este juego contiene im\xE1genes fuertes, luces parpadeantes, sonidos
+    value: "Este juego contiene im\xE1genes fuertes, luces parpadeantes, sonidos
       de alta frecuencia y tem\xE1ticas de salud mental. Se recomienda jugar con
       auriculares en un ambiente oscuro y en completo aislamiento para una experiencia
       inmersiva."
-    phrase: "Lo que escuchar\xE1s no siempre es real. Lo que ver\xE1s, quiz\xE1s
-      tampoco. Lo que sentir\xE1s... eso s\xED ser\xE1 tuyo."
   - language: 1
-    title: WARNING
-    content: This game contains strong images, flashing lights, high-frequency sounds,
+    value: This game contains strong images, flashing lights, high-frequency sounds,
       and mental health themes. It is recommended to play with headphones in a dark
       environment and in complete isolation for an immersive experience.
-    phrase: What you hear isn't always real. What you see might not be either. What
-      you feel... that will be yours.

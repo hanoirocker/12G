@@ -19,7 +19,6 @@ namespace TwelveG.UIController
     private  void OnEnable()
     {
       UpdateCanvasTextOnLanguageChanged(LocalizationManager.Instance.GetCurrentLanguageCode());
-
     }
 
     // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos
