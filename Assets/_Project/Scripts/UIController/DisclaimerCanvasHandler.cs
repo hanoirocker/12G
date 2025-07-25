@@ -2,10 +2,8 @@ namespace TwelveG.UIController
 {
   using System.Collections;
   using System.Collections.Generic;
-  using TMPro;
   using TwelveG.Localization;
   using UnityEngine;
-  using UnityEngine.Localization.Settings;
 
   [RequireComponent(typeof(GameEventListener))]
   public class DisclaimerCanvasHandler : IntroCanvasBase

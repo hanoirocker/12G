@@ -1,7 +1,6 @@
 namespace TwelveG.UIController
 {
   using System.Collections.Generic;
-  using TwelveG.Localization;
   using UnityEngine;
 
   public enum CanvasHandlerType
