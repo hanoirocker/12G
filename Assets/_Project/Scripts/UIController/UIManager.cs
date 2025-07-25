@@ -1,6 +1,7 @@
 namespace TwelveG.UIController
 {
   using System.Collections.Generic;
+  using TwelveG.Localization;
   using UnityEngine;
 
   public enum CanvasHandlerType
@@ -30,6 +31,7 @@ namespace TwelveG.UIController
 
     [Header("Canvas mappings")]
     public List<CanvasEntry> canvasMappings;
+    public GameObject inGameCanvas;
 
     private Dictionary<CanvasHandlerType, GameObject> canvasDict;
 
@@ -66,6 +68,15 @@ namespace TwelveG.UIController
       else
       {
         Debug.LogWarning("[UIManager] Tipo de datos inválido para activación de canvas");
+      }
+    }
+
+    // Llamado por GameManager luego de cargar y detectar índice de escena
+    public void ToggleInGameCanvas(Component sender, object data)
+    {
+      if (data != null)
+      {
+        inGameCanvas.SetActive((bool)data);
       }
     }
 

@@ -11,16 +11,16 @@ namespace TwelveG.AudioController
       if (other.CompareTag("Player"))
       {
         Debug.Log($"Entered zone {gameObject.name}");
-        EnvironmentAudioController.Instance.EnteredAcousticZone(audioZoneTransform);
+        AudioManager.Instance.RainHandler.EnteredAcousticZone(audioZoneTransform, AudioPoolType.Rain);
       }
     }
-
+ 
     private void OnTriggerExit(Collider other)
     {
       if (other.CompareTag("Player"))
       {
         Debug.Log($"Exited zone {gameObject.name}");
-        EnvironmentAudioController.Instance.ExitedAcousticZone(audioZoneTransform);
+        AudioManager.Instance.RainHandler.EnteredAcousticZone(audioZoneTransform, AudioPoolType.Rain);
       }
     }
   }

@@ -8,6 +8,8 @@ namespace TwelveG.AudioController
     Rain,
     BGMusic,
     UI,
+    Environment,
+    Interaction,
   }
 
   public class AudioPoolsHandler : MonoBehaviour
@@ -15,6 +17,8 @@ namespace TwelveG.AudioController
     [Header("Audio Source Pools")]
     [SerializeField] private List<AudioSource> rainSources;
     [SerializeField] private List<AudioSource> BGMusicSources;
+    [SerializeField] private List<AudioSource> EnvironmentSources;
+    [SerializeField] private List<AudioSource> InteractionSources;
     [SerializeField] private List<AudioSource> UISources;
 
     private Dictionary<AudioPoolType, List<AudioSource>> poolMap;
@@ -25,8 +29,21 @@ namespace TwelveG.AudioController
       {
         { AudioPoolType.Rain, rainSources },
         { AudioPoolType.BGMusic, BGMusicSources },
+        { AudioPoolType.Environment, EnvironmentSources },
+        { AudioPoolType.Interaction, InteractionSources },
         { AudioPoolType.UI, UISources }
       };
+    }
+
+    public List<AudioSource> ReturnAudioSourceByType(AudioPoolType audioPoolType)
+    {
+      if (!poolMap.TryGetValue(audioPoolType, out var sources))
+      {
+        Debug.LogError($"[AudioPoolsHandler]: No se encontró lista para pool '{audioPoolType}'");
+        return null;
+      }
+
+      return sources;
     }
 
     public AudioSource ReturnFreeAudioSource(AudioPoolType audioPoolType)

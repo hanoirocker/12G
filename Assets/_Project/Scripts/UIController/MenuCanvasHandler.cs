@@ -1,12 +1,36 @@
-
 namespace TwelveG.UIController
 {
   using System.Collections;
+  using TwelveG.Localization;
   using UnityEngine;
 
   public class MenuCanvasHandler : MonoBehaviour
   {
-    [SerializeField] CanvasGroup backGroundCanvasGroup;
+    [Header("References")]
+    [SerializeField] private CanvasGroup backGroundCanvasGroup;
+
+    private Canvas menuCanvas;
+
+    private void Awake()
+    {
+      menuCanvas = GetComponent<Canvas>();
+    }
+
+    private  void OnEnable()
+    {
+      UpdateCanvasTextOnLanguageChanged(LocalizationManager.Instance.GetCurrentLanguageCode());
+
+    }
+
+    // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos
+    // en relación a sus propios assets SO
+    public void UpdateCanvasTextOnLanguageChanged(string languageCode)
+    {
+      foreach (UpdateTextHandler updateTextHandler in GetComponentsInChildren<UpdateTextHandler>())
+      {
+        updateTextHandler.UpdateText(languageCode);
+      }
+    }
 
     public void MenuBGFadeInCanvas(Component sender, object data)
     {

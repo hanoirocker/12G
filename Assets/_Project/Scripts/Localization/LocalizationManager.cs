@@ -22,11 +22,6 @@ namespace TwelveG.Localization
             }
         }
 
-        private void Start()
-        {
-            onLanguageChanged.Raise(this, GetCurrentLanguageCode());
-        }
-
         public void ChangeLanguage(string languageCode)
         {
             var locale = LocalizationSettings.AvailableLocales.GetLocale(languageCode);

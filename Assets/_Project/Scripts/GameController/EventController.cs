@@ -35,16 +35,13 @@ namespace TwelveG.GameController
 
         private void Awake()
         {
-            playerContainerTransform = GameObject.FindGameObjectWithTag("FreeRoam").GetComponent<Transform>();
+            currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         }
 
         void Start()
         {
-            currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
             if (currentSceneIndex == 1) // Main Menu Scene
             {
-
                 return;
             }
 
@@ -117,8 +114,16 @@ namespace TwelveG.GameController
 
         private void ExecuteFreeRoam()
         {
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            if (currentEventIndex != 0 || currentEventIndex != 0)
+            {
+                playerContainerTransform = GameObject.FindGameObjectWithTag("FreeRoam").GetComponent<Transform>();
+                if (playerContainerTransform == null)
+                {
+                    Debug.LogError("[EventController]: FreeRoam prefab not found on scene!");
+                }
 
+                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            }
             // FOR TESTING;
         }
 

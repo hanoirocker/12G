@@ -1,5 +1,6 @@
 namespace TwelveG.GameController
 {
+  using System.Collections;
   using UnityEditor;
   using UnityEngine;
   using UnityEngine.SceneManagement;
@@ -8,7 +9,11 @@ namespace TwelveG.GameController
   {
     public static GameManager Instance;
 
+    [Header("References")]
     public GameObject scene;
+
+    [Header("Game Event SO's")]
+    public GameEventSO onToggleInGameCanvasAll;
 
     private EventController eventController;
     private MenuHandler menuHandler;
@@ -36,14 +41,29 @@ namespace TwelveG.GameController
     {
       currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-      if (currentSceneIndex == 1) // Main Menu Scene
+      switch (currentSceneIndex)
       {
-        menuHandler.enabled = true;
-        return;
-      }
-      else // Intro / Afternoon / Evening / Night / Credits
-      {
-        eventController.enabled = true;
+        case 0: // Intro
+          eventController.enabled = true;
+          break;
+        case 1: // Main Menu
+          menuHandler.enabled = true;
+          return;
+        case 2: // Afternoon
+          onToggleInGameCanvasAll.Raise(this, true);
+          eventController.enabled = true;
+          break;
+        case 3: // Evening
+          onToggleInGameCanvasAll.Raise(this, true);
+          eventController.enabled = true;
+          break;
+        case 4: // Night
+          onToggleInGameCanvasAll.Raise(this, true);
+          eventController.enabled = true;
+          break;
+        default:
+          Debug.LogError("[InstantiateSceneEventsParent]: Index not found");
+          break;
       }
     }
 

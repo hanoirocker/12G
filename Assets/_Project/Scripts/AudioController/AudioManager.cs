@@ -1,5 +1,6 @@
 namespace TwelveG.AudioController
 {
+    using System;
     using TwelveG.UIController;
     using UnityEngine;
     using UnityEngine.Audio;
@@ -22,9 +23,13 @@ namespace TwelveG.AudioController
         [Header("Children references")]
         [SerializeField] private AudioPoolsHandler audioPoolsHandler;
         [SerializeField] private AudioFaderHandler audioFaderHandler;
+        [SerializeField] private EnvironmentAudioHandler audioEnvironmentHandler;
+        [SerializeField] private AudioRainZoneHandler audioRainHandler;
 
         public AudioPoolsHandler PoolsHandler => audioPoolsHandler;
         public AudioFaderHandler FaderHandler => audioFaderHandler;
+        public EnvironmentAudioHandler EnvironmentHandler => audioEnvironmentHandler;
+        public AudioRainZoneHandler RainHandler => audioRainHandler;
 
         private void Awake()
         {
