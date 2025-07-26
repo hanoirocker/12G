@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16d9a8e54e1054f03bd40c7a55a3b0b2, type: 3}
-  m_Name: Main Options - Video
+  m_Name: Labels - Exit
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: VIDEO
+    value: SALIR
   - language: 1
-    value: VIDEO
+    value: LEAVE

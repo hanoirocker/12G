@@ -1,7 +1,6 @@
 namespace TwelveG.UIController
 {
   using System.Collections;
-  using TwelveG.Localization;
   using UnityEngine;
 
   public class MenuCanvasHandler : MonoBehaviour
@@ -16,9 +15,18 @@ namespace TwelveG.UIController
       menuCanvas = GetComponent<Canvas>();
     }
 
-    private  void OnEnable()
+    private IEnumerator FadeCanvasCoroutine(CanvasGroup group, float from, float to, float duration)
     {
-      UpdateCanvasTextOnLanguageChanged(LocalizationManager.Instance.GetCurrentLanguageCode());
+      float elapsed = 0f;
+
+      while (elapsed < duration)
+      {
+        group.alpha = Mathf.Lerp(from, to, elapsed / duration);
+        elapsed += Time.deltaTime;
+        yield return null;
+      }
+
+      group.alpha = to;
     }
 
     // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos
@@ -55,18 +63,20 @@ namespace TwelveG.UIController
       }
     }
 
-    private IEnumerator FadeCanvasCoroutine(CanvasGroup group, float from, float to, float duration)
+    public void NewGameCanvasOption()
     {
-      float elapsed = 0f;
+      Debug.LogWarning($"[MenuCanvasHandler]: Starting new game sequence");
+    }
 
-      while (elapsed < duration)
-      {
-        group.alpha = Mathf.Lerp(from, to, elapsed / duration);
-        elapsed += Time.deltaTime;
-        yield return null;
-      }
+    public void LoadGameCanvasOption()
+    {
+      Debug.LogWarning($"[MenuCanvasHandler]: Loading games canvas");
+    }
 
-      group.alpha = to;
+    public void QuitGameCanvasOption()
+    {
+      Debug.LogWarning($"[MenuCanvasHandler]: Quitting game");
+      Application.Quit();
     }
   }
 }

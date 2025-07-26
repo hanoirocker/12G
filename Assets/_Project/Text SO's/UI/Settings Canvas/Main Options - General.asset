@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: 
+    value: GENERAL
   - language: 1
-    value: 
+    value: GENERAL

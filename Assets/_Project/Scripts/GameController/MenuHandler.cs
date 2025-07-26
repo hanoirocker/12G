@@ -28,8 +28,9 @@ namespace TwelveG.GameController
     private IEnumerator WaitForSceneToRender()
     {
       onActivateCanvas.Raise(this, CanvasHandlerType.MainMenu);
-      yield return new WaitForSeconds(4f); // TODO: Aprox? --> Basar en configs de video guardadas O async load desde Intro
-                                           // `AsyncOperations loadOperations = SceneManager.LoadSceneAsync(sceneToLoad);`
+      // TODO: Aprox? --> Basar en configs de video guardadas O async load desde Intro
+      // `AsyncOperations loadOperations = SceneManager.LoadSceneAsync(sceneToLoad);`
+      yield return new WaitForSeconds(4f);
 
       onMenuBGFadeIn.Raise(this, blackFadeOutDuration);
 
