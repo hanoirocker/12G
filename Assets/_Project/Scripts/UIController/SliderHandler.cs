@@ -7,7 +7,7 @@ namespace TwelveG.GameController
   public class SliderHandler : MonoBehaviour
   {
     [Header("References")]
-    [SerializeField] private TextMeshProUGUI volumeTextValue = null;
+    [SerializeField] private TextMeshProUGUI textComponent = null;
 
     private Slider volumeSlider = null;
 
@@ -22,10 +22,10 @@ namespace TwelveG.GameController
       // de parámetro de audio previamente guardado. Sino, el valor es 0.5 (default value)
     }
 
-    public void SetSliderVolume(float volume)
+    public void SetSliderValue(float value)
     {
       // Llamar a AudioManager para cada tipo de slider
-      volumeTextValue.text = volume.ToString("0.0");
+      textComponent.text = value.ToString("0.0");
     }
   }
 }

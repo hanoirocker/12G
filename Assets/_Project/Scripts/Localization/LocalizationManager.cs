@@ -7,6 +7,7 @@ namespace TwelveG.Localization
     {
         public static LocalizationManager Instance { get; private set; }
 
+        [Header("Game Event SO's")]
         public GameEventSO onLanguageChanged;
 
         private void Awake()

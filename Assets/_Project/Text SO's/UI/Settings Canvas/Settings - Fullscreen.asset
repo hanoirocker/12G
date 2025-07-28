@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16d9a8e54e1054f03bd40c7a55a3b0b2, type: 3}
-  m_Name: General Options - General
+  m_Name: Settings - Fullscreen
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: CONFIGURACIONES GENERALES
+    value: Pantalla Completa
   - language: 1
-    value: GENERAL SETTINGS
+    value: Fullscreen

@@ -16,7 +16,8 @@ namespace TwelveG.UIController
     PauseMenu,
     Cinematic,
     Control,
-    BlackBG
+    BlackBG,
+    Settings
   }
 
   public class UIManager : MonoBehaviour
