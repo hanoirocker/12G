@@ -1,8 +1,8 @@
 namespace TwelveG.GameController
 {
     using UnityEngine;
-  using UnityEngine.EventSystems;
-  using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+    using UnityEngine.UI;
 
     public class SettingsCanvasHandler : MonoBehaviour
     {
@@ -21,7 +21,8 @@ namespace TwelveG.GameController
             defaultOptions.SetActive(true);
             lastActiveOptions = defaultOptions;
 
-            // Opcional: Ejecuta el onClick
+            // Al iniciar el Settings Canvas, selecciona y presiona la opción por defecto
+            // (General Options panel gameobject)
             EventSystem.current.SetSelectedGameObject(defaultOptionsButton.gameObject);
             defaultOptionsButton.onClick.Invoke();
         }
