@@ -73,16 +73,11 @@ namespace TwelveG.GameController
             }
         }
 
-        private bool loadSpecificEventEnabled()
-        {
-            return loadSpecificEvent;
-        }
-
         private void VerifyRunTimeMode()
         {
             if (loadSpecificEvent)
             {
-                StartCoroutine(ExecuteSpecificEvent());
+                StartCoroutine(ExecuteEvents(true));
                 return;
             }
             else if (freeRoam)
@@ -91,7 +86,7 @@ namespace TwelveG.GameController
             }
             else
             {
-                StartCoroutine(ExecuteEvents());
+                StartCoroutine(ExecuteEvents(false));
             }
         }
 
@@ -110,12 +105,20 @@ namespace TwelveG.GameController
             // FOR TESTING;
         }
 
-        private IEnumerator ExecuteEvents()
+        private IEnumerator ExecuteEvents(bool fromIndex)
         {
+            if (fromIndex) { currentEventIndex = eventIndexToLoad; }
+
             while (currentEventIndex < correspondingEvents.Count)
             {
                 correspondingEvents[currentEventIndex].gameObject.SetActive(true);
                 SetUpCurrentEvent();
+
+                if (fromIndex)
+                {
+                    onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+                }
+
                 yield return StartCoroutine(correspondingEvents[currentEventIndex].Execute());
                 Destroy(correspondingEvents[currentEventIndex].gameObject);
                 currentEventIndex++;
@@ -132,19 +135,6 @@ namespace TwelveG.GameController
             foreach (GameEventListener listener in listeners)
             {
                 listener.enabled = true;
-            }
-        }
-
-        private IEnumerator ExecuteSpecificEvent()
-        {
-            currentEventIndex = eventIndexToLoad;
-
-            if (eventIndexToLoad >= 0 && eventIndexToLoad < correspondingEvents.Count)
-            {
-                correspondingEvents[currentEventIndex].gameObject.SetActive(true);
-                SetUpCurrentEvent();
-                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-                yield return StartCoroutine(correspondingEvents[eventIndexToLoad].Execute());
             }
         }
 
