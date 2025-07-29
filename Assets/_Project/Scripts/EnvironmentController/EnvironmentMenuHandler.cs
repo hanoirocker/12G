@@ -6,9 +6,11 @@ namespace TwelveG.EnvironmentController
     public class EnvironmentMenuHandler : MonoBehaviour, IDataPersistence
     {
         [Header("Scene References")]
-        [SerializeField] private Transform sunTransform;
+        [SerializeField] private GameObject directionalLightObj;
         [SerializeField] private GameObject flogPlanes;
         [SerializeField] private GameObject rainFX;
+        [SerializeField] private GameObject streetLightsOn;
+        [SerializeField] private GameObject housesLightsOn;
 
         [Header("Skybox Materials by Scene")]
         [SerializeField] private Material skyboxAfternoon;
@@ -20,6 +22,10 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private Vector3 sunRotScene3;
         [SerializeField] private Vector3 sunRotScene4;
 
+        [Header("Realtime Sun Colors")]
+        [SerializeField] private Color sunColorScene2;
+        [SerializeField] private Color sunColorScene3;
+
         [Header("Realtime Shadow Colors")]
         [SerializeField] private Color shadowColorScene2;
         [SerializeField] private Color shadowColorScene3;
@@ -30,15 +36,14 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private Color fogColorScene3;
         [SerializeField] private Color fogColorScene4;
 
-        // Valores de posición y rotación para cada escena
-        // private readonly Vector3 sunPosScene2 = new Vector3(10f, 20f, 0f);
-        // private readonly Vector3 sunRotScene2 = new Vector3(50f, 0f, 0f);
+        private Light directionalLight;
+        private Transform directionalLightTransform;
 
-        // private readonly Vector3 sunPosScene3 = new Vector3(0f, 30f, -10f);
-        // private readonly Vector3 sunRotScene3 = new Vector3(75f, 45f, 0f);
-
-        // private readonly Vector3 sunPosScene4 = new Vector3(-10f, 15f, 5f);
-        // private readonly Vector3 sunRotScene4 = new Vector3(90f, 90f, 0f);
+        private void Awake()
+        {
+            directionalLight = directionalLightObj.GetComponent<Light>();
+            directionalLightTransform = directionalLightObj.GetComponent<Transform>();
+        }
 
         private void OnLastSceneSavedSettings(GameData data)
         {
@@ -46,23 +51,28 @@ namespace TwelveG.EnvironmentController
             switch (data.sceneIndex)
             {
                 case 2:
-                    sunTransform.rotation = Quaternion.Euler(sunRotScene2);
+                    directionalLight.color = sunColorScene2;
+                    directionalLightTransform.rotation = Quaternion.Euler(sunRotScene2);
                     RenderSettings.skybox = skyboxAfternoon;
                     RenderSettings.subtractiveShadowColor = shadowColorScene2;
                     RenderSettings.fogColor = fogColorScene2;
                     break;
 
                 case 3:
-                    sunTransform.rotation = Quaternion.Euler(sunRotScene3);
+                    directionalLight.color = sunColorScene3;
+                    directionalLightTransform.rotation = Quaternion.Euler(sunRotScene3);
                     RenderSettings.skybox = skyboxEvening;
                     RenderSettings.subtractiveShadowColor = shadowColorScene3;
                     RenderSettings.fogColor = fogColorScene3;
                     break;
 
                 case 4:
+                    streetLightsOn.SetActive(true);
+                    housesLightsOn.SetActive(true);
+                    directionalLightObj.SetActive(false);
                     flogPlanes.SetActive(true);
                     rainFX.SetActive(true);
-                    sunTransform.rotation = Quaternion.Euler(sunRotScene4);
+                    directionalLightTransform.rotation = Quaternion.Euler(sunRotScene4);
                     RenderSettings.skybox = skyboxNight;
                     RenderSettings.ambientLight = shadowColorScene4;
                     RenderSettings.fogColor = fogColorScene4;
@@ -73,12 +83,7 @@ namespace TwelveG.EnvironmentController
                     break;
             }
 
-            if (sunTransform.TryGetComponent<Light>(out var directionalLight))
-            {
-                RenderSettings.sun = directionalLight;
-            }
-
-            DynamicGI.UpdateEnvironment();
+            // DynamicGI.UpdateEnvironment();
         }
 
         public void LoadData(GameData data)
