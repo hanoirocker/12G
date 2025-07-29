@@ -1,7 +1,9 @@
 namespace TwelveG.UIController
 {
   using System.Collections.Generic;
+  using TwelveG.SaveSystem;
   using UnityEngine;
+  using UnityEngine.UI;
 
   public enum CanvasHandlerType
   {
@@ -20,7 +22,7 @@ namespace TwelveG.UIController
     Settings
   }
 
-  public class UIManager : MonoBehaviour
+  public class UIManager : MonoBehaviour, IDataPersistence
   {
     [System.Serializable]
     public class CanvasEntry
@@ -28,6 +30,8 @@ namespace TwelveG.UIController
       public CanvasHandlerType type;
       public GameObject canvasObject;
     }
+    [Header("References")]
+    [SerializeField] private Button continueBtn;
 
     [Header("Canvas mappings")]
     public List<CanvasEntry> canvasMappings;
@@ -95,6 +99,16 @@ namespace TwelveG.UIController
         Debug.LogWarning("[UIManager] Tipo de datos inválido para activación de canvas");
       }
 
+    }
+
+    public void LoadData(GameData data)
+    {
+      if(data.sceneIndex < 2) { continueBtn.interactable = false; } 
+    }
+
+    public void SaveData(ref GameData data)
+    {
+      // throw new System.NotImplementedException($"{gameObject.name}");
     }
   }
 }

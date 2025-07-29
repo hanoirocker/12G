@@ -60,6 +60,8 @@ namespace TwelveG.SaveSystem
                 dataPersistenceObj.SaveData(ref gameData);
             }
 
+            // Incrementar valor de savesNumber
+            gameData.savesNumber += 1;
             // Guardar data usando el data handler
             dataHandler.Save(gameData);
         }

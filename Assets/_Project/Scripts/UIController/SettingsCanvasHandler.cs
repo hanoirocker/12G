@@ -19,7 +19,7 @@ namespace TwelveG.GameController
         [Header("General Settings Refs")]
         // [SerializeField] private TMP_Dropdown localesDropdown;
         [SerializeField] GameObject generalOptionsPanel;
-        [SerializeField, Range(0, 1)] int defaultLocaleIndex = 0;
+        // [SerializeField, Range(0, 1)] int defaultLocaleIndex = 0;
 
         [Header("Graphics Settings Refs")]
         [SerializeField] private TMP_Dropdown resolutionDropdown;
