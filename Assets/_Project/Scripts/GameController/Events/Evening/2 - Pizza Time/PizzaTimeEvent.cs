@@ -84,9 +84,10 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
 
             if (chairMovingSound)
             {
@@ -146,14 +147,14 @@ namespace TwelveG.GameController
 
             onControlCanvasControls.Raise(this, new EnableCanvas(false));
 
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
             yield return new WaitForSeconds(2f);
-
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, false));
 
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
+
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
             yield return new WaitForSeconds(2f);
         }
