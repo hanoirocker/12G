@@ -126,7 +126,6 @@ namespace TwelveG.GameController
 
         public void SetLanguage(int localeIndex)
         {
-            print("localeIndex: " + localeIndex);
             _localeIndex = localeIndex;
         }
 

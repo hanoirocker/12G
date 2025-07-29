@@ -1,14 +1,17 @@
 namespace TwelveG.Localization
 {
+    using TwelveG.SaveSystem;
     using UnityEngine;
     using UnityEngine.Localization.Settings;
 
-    public class LocalizationManager : MonoBehaviour
+    public class LocalizationManager : MonoBehaviour, IDataPersistence
     {
         public static LocalizationManager Instance { get; private set; }
 
         [Header("Game Event SO's")]
         public GameEventSO onLanguageChanged;
+
+        private string currentLanCode;
 
         private void Awake()
         {
@@ -21,6 +24,8 @@ namespace TwelveG.Localization
             {
                 Destroy(gameObject);
             }
+
+            currentLanCode = GetCurrentLanguageCode();
         }
 
         public void ChangeLanguage(string languageCode)
@@ -29,6 +34,7 @@ namespace TwelveG.Localization
             if (locale != null)
             {
                 LocalizationSettings.SelectedLocale = locale;
+                currentLanCode = languageCode;
                 onLanguageChanged.Raise(this, null);
             }
         }
@@ -46,6 +52,16 @@ namespace TwelveG.Localization
         public void SetLanguageToSpanish()
         {
             ChangeLanguage("es");
+        }
+
+        public void LoadData(GameData gameData)
+        {
+            ChangeLanguage(gameData.languageCode);
+        }
+
+        public void SaveData(ref GameData gameData)
+        {
+            gameData.languageCode = currentLanCode;
         }
     }
 }
