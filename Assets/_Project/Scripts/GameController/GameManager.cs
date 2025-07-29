@@ -37,7 +37,6 @@ namespace TwelveG.GameController
 
     private void VerifySceneType()
     {
-      currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
       switch (currentSceneIndex)
       {
@@ -51,16 +50,19 @@ namespace TwelveG.GameController
           menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
           eventController.enabled = true;
+          eventController.BuildEvents();
           break;
         case 3: // Evening
           menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
           eventController.enabled = true;
+          eventController.BuildEvents();
           break;
         case 4: // Night
           menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
           eventController.enabled = true;
+          eventController.BuildEvents();
           break;
         default:
           Debug.LogError("[InstantiateSceneEventsParent]: Index not found");

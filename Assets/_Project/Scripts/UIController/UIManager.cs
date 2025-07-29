@@ -33,6 +33,7 @@ namespace TwelveG.UIController
     }
     [Header("References")]
     [SerializeField] private Button continueBtn;
+    [SerializeField] private LoadingSceneCanvasHandler loadingSceneCanvasHandler;
 
     [Header("Canvas mappings")]
     public List<CanvasEntry> canvasMappings;
@@ -104,7 +105,8 @@ namespace TwelveG.UIController
 
     public void LoadData(GameData data)
     {
-      if(data.sceneIndex < 2) { continueBtn.interactable = false; } 
+      loadingSceneCanvasHandler.sceneToLoadIndex = data.sceneIndex;
+      if (data.sceneIndex < 2) { continueBtn.interactable = false; }
     }
 
     public void SaveData(ref GameData data)

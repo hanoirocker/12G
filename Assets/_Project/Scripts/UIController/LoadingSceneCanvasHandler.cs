@@ -12,8 +12,10 @@ namespace TwelveG.UIController
     [SerializeField] private GameObject continueText;
 
     [Header("Transition Settings")]
+    public int sceneToLoadIndex;
     [SerializeField,  Range(0.25f, 2f)] private float blinkSpeed = 2f;
     [SerializeField, Range(1f, 3f)] private float delayBeforeText = 2f;
+    [SerializeField, Range(0.25f, 1f)] private float blinkTime = 0.25f;
 
     [Header("Game Event SO's")]
     [SerializeField] private GameEventSO onActivateCanvas;
@@ -46,11 +48,10 @@ namespace TwelveG.UIController
 
     private IEnumerator LoadSceneCoroutine()
     {
-      AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(3);
+      AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoadIndex);
       asyncLoad.allowSceneActivation = false;
 
       // Parpadeo del logo mientras carga
-      float blinkTime = 0f;
 
       while (asyncLoad.progress < 0.9f)
       {

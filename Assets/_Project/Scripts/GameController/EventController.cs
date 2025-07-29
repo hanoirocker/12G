@@ -33,24 +33,6 @@ namespace TwelveG.GameController
         private int currentSceneIndex;
         private int currentEventIndex;
 
-        private void Awake()
-        {
-            currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        }
-
-        void Start()
-        {
-            if (currentSceneIndex == 1) // Main Menu Scene
-            {
-                return;
-            }
-
-            VerifySpecificTestSettings();
-            InstantiateSceneEventsParent();
-            PopulateEventsLists();
-            VerifyRunTimeMode();
-        }
-
         private void VerifySpecificTestSettings()
         {
             if (isRaining)
@@ -87,10 +69,11 @@ namespace TwelveG.GameController
             {
                 GameEventBase[] eventArray = eventsParent.GetComponentsInChildren<GameEventBase>();
                 correspondingEvents = new List<GameEventBase>(eventArray);
+                print("Events list count: " + correspondingEvents.Count);
             }
         }
 
-        public bool loadSpecificEventEnabled()
+        private bool loadSpecificEventEnabled()
         {
             return loadSpecificEvent;
         }
@@ -152,7 +135,7 @@ namespace TwelveG.GameController
             }
         }
 
-        public IEnumerator ExecuteSpecificEvent()
+        private IEnumerator ExecuteSpecificEvent()
         {
             currentEventIndex = eventIndexToLoad;
 
@@ -163,6 +146,21 @@ namespace TwelveG.GameController
                 onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
                 yield return StartCoroutine(correspondingEvents[eventIndexToLoad].Execute());
             }
+        }
+
+        public void BuildEvents()
+        {
+            currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+            if (currentSceneIndex == 1) // Main Menu Scene
+            {
+                return;
+            }
+
+            VerifySpecificTestSettings();
+            InstantiateSceneEventsParent();
+            PopulateEventsLists();
+            VerifyRunTimeMode();
         }
     }
 }
