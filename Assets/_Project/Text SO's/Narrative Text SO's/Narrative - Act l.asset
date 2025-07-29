@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeTextsStructure:
   - language: 0
-    title: "Acto I \u2013 \u201CReverberaci\xF3n Diurna\u201D"
+    title: "\u201CReverberaci\xF3n Diurna\u201D"
+    content: 
     phrase: Un fin de semana como cualquier otro.
   - language: 1
-    title: "Act I \u2013 \u201CDaytime Reverberation\u201D"
+    title: "\u201CDaytime Reverberation\u201D"
+    content: 
     phrase: A weekend like any other.

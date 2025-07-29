@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeTextsStructure:
   - language: 0
-    title: "Acto III \u2013 \u201CLas Horas Rojas\u201D"
+    title: "\u201CLas Horas Rojas\u201D"
+    content: 
     phrase: La noche es un abismo donde la realidad se retuerce.
   - language: 1
-    title: "Act III \u2013 \u201CThe Red Hours\u201D"
+    title: "\u201CThe Red Hours\u201D"
+    content: 
     phrase: The night is an abyss where reality twists.

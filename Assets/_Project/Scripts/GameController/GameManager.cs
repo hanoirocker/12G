@@ -42,6 +42,8 @@ namespace TwelveG.GameController
       {
         case 0: // Intro
           eventController.enabled = true;
+          onToggleInGameCanvasAll.Raise(this, false);
+          eventController.BuildEvents();
           break;
         case 1: // Main Menu
           menuHandler.enabled = true;

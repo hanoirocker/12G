@@ -7,7 +7,6 @@ namespace TwelveG.UIController
   public class LoadingSceneCanvasHandler : MonoBehaviour
   {
     [Header("References")]
-    [SerializeField] private CanvasGroup panelCanvasGroup;
     [SerializeField] private CanvasGroup logoCanvasGroup;
     [SerializeField] private GameObject continueText;
 
@@ -16,9 +15,6 @@ namespace TwelveG.UIController
     [SerializeField,  Range(0.25f, 2f)] private float blinkSpeed = 2f;
     [SerializeField, Range(1f, 3f)] private float delayBeforeText = 2f;
     [SerializeField, Range(0.25f, 1f)] private float blinkTime = 0.25f;
-
-    [Header("Game Event SO's")]
-    [SerializeField] private GameEventSO onActivateCanvas;
 
     private Canvas menuCanvas;
 
@@ -73,12 +69,8 @@ namespace TwelveG.UIController
       // Esperar input del jugador
       yield return new WaitUntil(() => Input.anyKeyDown);
 
-      // Fade out del canvas acá si querés (por ejemplo animación o fade manual)
-      yield return StartCoroutine(FadeCanvasCoroutine(panelCanvasGroup, 1, 0, 1f));
-
       // Ahora sí, activar la escena cargada
       asyncLoad.allowSceneActivation = true;
-
     }
   }
 }

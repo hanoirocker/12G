@@ -23,8 +23,8 @@ namespace TwelveG.UIController
     private IEnumerator NewGameCanvasCroroutine()
     {
       yield return StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 0, 1, timeTillLoadScene));
-
       onActivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
+      gameObject.SetActive(false);
     }
 
     private IEnumerator FadeCanvasCoroutine(CanvasGroup group, float from, float to, float duration)
