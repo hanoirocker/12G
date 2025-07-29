@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: VIDEO SETTINGS
-  - language: 1
     value: CONFIGURACIONES DE VIDEO
+  - language: 1
+    value: VIDEO SETTINGS

@@ -29,7 +29,7 @@ namespace TwelveG.Localization
             if (locale != null)
             {
                 LocalizationSettings.SelectedLocale = locale;
-                onLanguageChanged.Raise(this, GetCurrentLanguageCode());
+                onLanguageChanged.Raise(this, null);
             }
         }
 

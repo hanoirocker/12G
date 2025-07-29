@@ -38,8 +38,6 @@ namespace TwelveG.UIController
     {
       var languageStructure = uIOptionTextSO.uImenuTextStructure
         .Find(texts => texts.language.ToString().Equals(languageCode, System.StringComparison.OrdinalIgnoreCase));
-      // print("Texto del componente: " + GetComponent<TextMeshProUGUI>().text);
-      // print("Texto de la estructure: " + languageStructure.value);
       GetComponent<TextMeshProUGUI>().text = languageStructure.value;
     }
 
@@ -53,6 +51,7 @@ namespace TwelveG.UIController
       {
         dropdown.options[i].text = languageStructure.values[i];
       }
+      dropdown.RefreshShownValue();
     }
   }
 }
