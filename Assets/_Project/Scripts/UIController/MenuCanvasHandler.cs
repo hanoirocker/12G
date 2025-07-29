@@ -8,11 +8,23 @@ namespace TwelveG.UIController
     [Header("References")]
     [SerializeField] private CanvasGroup backGroundCanvasGroup;
 
+    [Header("Settings")]
+    [SerializeField, Range(0.5f, 3f)] private float timeTillLoadScene = 1.5f;
+
+    [Header("Game Event SO's")]
+    [SerializeField] private GameEventSO onActivateCanvas;
     private Canvas menuCanvas;
 
     private void Awake()
     {
       menuCanvas = GetComponent<Canvas>();
+    }
+
+    private IEnumerator NewGameCanvasCroroutine()
+    {
+      yield return StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 0, 1, timeTillLoadScene));
+
+      onActivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
     }
 
     private IEnumerator FadeCanvasCoroutine(CanvasGroup group, float from, float to, float duration)
@@ -65,9 +77,12 @@ namespace TwelveG.UIController
 
     public void NewGameCanvasOption()
     {
-      Debug.LogWarning($"[MenuCanvasHandler]: Starting new game sequence");
+      StartCoroutine(NewGameCanvasCroroutine());
     }
 
+    // Si bien es igual a NewGameCanvasOption(), queda para recordar que quizás en el futuro
+    // sea buena idea implementar un UI de selección de partida al presionar 'Continue Btn'
+    // en vez de directamente cargar la escena.
     public void LoadGameCanvasOption()
     {
       Debug.LogWarning($"[MenuCanvasHandler]: Loading games canvas");

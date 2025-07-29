@@ -1,7 +1,5 @@
 namespace TwelveG.GameController
 {
-  using System.Collections;
-  using UnityEditor;
   using UnityEngine;
   using UnityEngine.SceneManagement;
 
@@ -50,14 +48,17 @@ namespace TwelveG.GameController
           menuHandler.enabled = true;
           return;
         case 2: // Afternoon
+          menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
           eventController.enabled = true;
           break;
         case 3: // Evening
+          menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
           eventController.enabled = true;
           break;
         case 4: // Night
+          menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
           eventController.enabled = true;
           break;

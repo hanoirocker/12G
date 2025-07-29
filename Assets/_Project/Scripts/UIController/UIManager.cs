@@ -19,7 +19,8 @@ namespace TwelveG.UIController
     Cinematic,
     Control,
     BlackBG,
-    Settings
+    Settings,
+    LoadScene
   }
 
   public class UIManager : MonoBehaviour, IDataPersistence
