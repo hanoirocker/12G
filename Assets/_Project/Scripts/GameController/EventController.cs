@@ -69,7 +69,6 @@ namespace TwelveG.GameController
             {
                 GameEventBase[] eventArray = eventsParent.GetComponentsInChildren<GameEventBase>();
                 correspondingEvents = new List<GameEventBase>(eventArray);
-                print("Events list count: " + correspondingEvents.Count);
             }
         }
 

@@ -98,7 +98,7 @@ namespace TwelveG.UIController
       }
       else
       {
-        Debug.LogWarning("[UIManager] Tipo de datos inválido para activación de canvas");
+        Debug.LogError("[UIManager] Tipo de datos inválido para activación de canvas");
       }
 
     }
@@ -113,13 +113,12 @@ namespace TwelveG.UIController
       {
         continueBtn.interactable = false;
         loadingSceneCanvasHandler.sceneToLoadIndex = 2;
-        print("ELSE: loadingSceneCanvasHandler.sceneToLoadIndex: " + loadingSceneCanvasHandler.sceneToLoadIndex);
       }
     }
 
     public void SaveData(ref GameData data)
     {
-      // throw new System.NotImplementedException($"{gameObject.name}");
+      return;
     }
   }
 }
