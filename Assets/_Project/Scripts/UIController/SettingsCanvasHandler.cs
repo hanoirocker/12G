@@ -2,6 +2,7 @@ namespace TwelveG.GameController
 {
     using System.Collections.Generic;
     using TMPro;
+    using TwelveG.AudioController;
     using TwelveG.Localization;
     using UnityEngine;
     using UnityEngine.EventSystems;
@@ -112,6 +113,7 @@ namespace TwelveG.GameController
             // - Fijarse si existe una configuración general de audio guardada
             // - Si existe, chequear si los valores difieren. De ser los mismos, no hacer nada
             // - De ser distintos o no existir, aplicar y luego sobreescribir / guardar
+
         }
 
         // Al cambiar estas configs generales, el impacto no sucede hasta aplicar
@@ -122,6 +124,30 @@ namespace TwelveG.GameController
             // - Fijarse si existe una configuración de video guardada
             // - Si existe, chequear si los valores difieren. De ser los mismos, no hacer nada
             // - De ser distintos o no existir, aplicar y luego sobreescribir / guardar
+        }
+
+        public void SetAudioSettings(Slider slider)
+        {
+            float decibelValue = AudioUtils.NormalizedToDecibels(slider.value);
+
+            switch (slider.name)
+            {
+                case "Master Slider":
+                    AudioManager.Instance.SetMasterVol(decibelValue);
+                    break;
+                case "Music Slider":
+                    AudioManager.Instance.SetMusicVol(decibelValue);
+                    break;
+                case "Interface Slider":
+                    AudioManager.Instance.SetInterfaceVol(decibelValue);
+                    break;
+                case "SFX Slider":
+                    AudioManager.Instance.SetSFXVol(decibelValue);
+                    break;
+                default:
+                    Debug.LogWarning($"[SettingsCanvasHandler] slider.name not recognized: {slider.name}");
+                    break;
+            }
         }
 
         public void SetLanguage(int localeIndex)

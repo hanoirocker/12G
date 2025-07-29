@@ -50,12 +50,12 @@ namespace TwelveG.AudioController
                 case ActivateCanvas cmd:
                     if (cmd.Activate)
                     {
-                        SetInGameVol(-80f);
+                        SetSFXVol(-80f);
                         SetMusicVol(-80f);
                     }
                     else
                     {
-                        SetInGameVol(0f);
+                        SetSFXVol(0f);
                         SetMusicVol(0f);
                     }
                     break;
@@ -65,7 +65,7 @@ namespace TwelveG.AudioController
             }
         }
 
-        public void SetMasterVoume(float masterVol)
+        public void SetMasterVol(float masterVol)
         {
             masterMixer.SetFloat("masterVol", masterVol);
         }
@@ -75,12 +75,12 @@ namespace TwelveG.AudioController
             masterMixer.SetFloat("musicVol", musicVol);
         }
 
-        public void SetUIVol(float uiVol)
+        public void SetInterfaceVol(float uiVol)
         {
             masterMixer.SetFloat("uiVol", uiVol);
         }
 
-        public void SetInGameVol(float inGameVol)
+        public void SetSFXVol(float inGameVol)
         {
             masterMixer.SetFloat("inGameVol", inGameVol);
         }
