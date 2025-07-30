@@ -22,7 +22,6 @@ namespace TwelveG.SaveSystem
     {
       this.sceneIndex = 0;
       this.eventIndex = 0;
-
       this.savesNumber = 0;
 
       this.languageCode = "en";

@@ -4,7 +4,7 @@ namespace TwelveG.SaveSystem
     using System.Linq;
     using System.Collections.Generic;
 
-  public class DataPersistenceManager : MonoBehaviour
+    public class DataPersistenceManager : MonoBehaviour
     {
         [Header("File Storage Config")]
         [SerializeField] private string fileName;
@@ -47,6 +47,13 @@ namespace TwelveG.SaveSystem
             return new List<IDataPersistence>(dataPersistenceObjects);
         }
 
+        // Para testear - La idea no es que el juego se guarde automáticamente
+        // Cuando el jugador abandone la partida. O si? hmmmm
+        private void OnApplicationQuit()
+        {
+            SavePersistenceData();
+        }
+
         public void NewGame()
         {
             gameData = new GameData();
@@ -85,13 +92,6 @@ namespace TwelveG.SaveSystem
             {
                 dataPersistenceObj.LoadData(gameData);
             }
-        }
-
-        // Para testear - La idea no es que el juego se guarde automáticamente
-        // Cuando el jugador abandone la partida. O si? hmmmm
-        private void OnApplicationQuit()
-        {
-            SavePersistenceData();
         }
     }
 }

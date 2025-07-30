@@ -1,9 +1,10 @@
 namespace TwelveG.GameController
 {
+  using TwelveG.SaveSystem;
   using UnityEngine;
   using UnityEngine.SceneManagement;
 
-  public class GameManager : MonoBehaviour
+  public class GameManager : MonoBehaviour, IDataPersistence
   {
     public static GameManager Instance;
 
@@ -82,6 +83,16 @@ namespace TwelveG.GameController
     private void OnDestroy()
     {
       SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void LoadData(GameData data)
+    {
+      return;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+      return;
     }
   }
 }

@@ -52,13 +52,6 @@ namespace TwelveG.AudioController
     {
       float elapsed = 0f;
 
-      // TODO: Implementar variable `bool fromCurrentVolume`
-      // para aplicar fade desde último volumen del grupo
-
-      // // Get the channel current volume
-      // masterMixer.GetFloat(audioGroup, out _currentVolume);
-      // _currentVolume = Mathf.Pow(10, _currentVolume / 20);
-
       while (elapsed < duration)
       {
         elapsed += Time.deltaTime;

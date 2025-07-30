@@ -4,6 +4,7 @@ namespace TwelveG.GameController
     using TMPro;
     using TwelveG.AudioController;
     using TwelveG.Localization;
+    using TwelveG.SaveSystem;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
@@ -105,17 +106,6 @@ namespace TwelveG.GameController
             generalOptionsPanel.SetActive(true);
         }
 
-        // Al moder el slider de audio, impacta directamente en el AudioManager
-        // Si no se aplican cambios, se resetea al último valor guardado, o a los default
-        public void ApplyAudioSettings()
-        {
-            // TODO:
-            // - Fijarse si existe una configuración general de audio guardada
-            // - Si existe, chequear si los valores difieren. De ser los mismos, no hacer nada
-            // - De ser distintos o no existir, aplicar y luego sobreescribir / guardar
-
-        }
-
         // Al cambiar estas configs generales, el impacto no sucede hasta aplicar
         // Si no se aplican cambios, se resetea al último valor guardado, o a los default
         public void ApplyVideoSettings()
@@ -128,26 +118,29 @@ namespace TwelveG.GameController
 
         public void SetAudioSettings(Slider slider)
         {
-            float decibelValue = AudioUtils.NormalizedToDecibels(slider.value);
-
             switch (slider.name)
             {
                 case "Master Slider":
-                    AudioManager.Instance.SetMasterVol(decibelValue);
+                    AudioManager.Instance.SetMasterVol(slider.value);
                     break;
                 case "Music Slider":
-                    AudioManager.Instance.SetMusicVol(decibelValue);
+                    AudioManager.Instance.SetMusicVol(slider.value);
                     break;
                 case "Interface Slider":
-                    AudioManager.Instance.SetInterfaceVol(decibelValue);
+                    AudioManager.Instance.SetInterfaceVol(slider.value);
                     break;
                 case "SFX Slider":
-                    AudioManager.Instance.SetSFXVol(decibelValue);
+                    AudioManager.Instance.SetSFXVol(slider.value);
                     break;
                 default:
                     Debug.LogWarning($"[SettingsCanvasHandler] slider.name not recognized: {slider.name}");
                     break;
             }
+        }
+
+        public void ApplyAudioSettings()
+        {
+            DataPersistenceManager.Instance.SavePersistenceData();
         }
 
         public void SetLanguage(int localeIndex)
