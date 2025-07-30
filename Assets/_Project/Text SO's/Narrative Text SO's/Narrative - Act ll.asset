@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeTextsStructure:
   - language: 0
-    title: "\"Fractura del Silencio\u201D"
+    title: Fractura del Silencio
     content: 
-    phrase: "La luz ya no abriga, solo revela. Y el sonido dej\xF3 de ser compa\xF1\xEDa."
+    phrase: "\"La luz ya no abriga, solo revela. Y el sonido dej\xF3 de ser compa\xF1\xEDa.\""
   - language: 1
-    title: '"Fracture of Silence"'
+    title: Fracture of Silence
     content: 
-    phrase: Light no longer shelters, it only reveals. And sound ceased to be our
-      companion.
+    phrase: '"Light no longer shelters, it only reveals. And sound ceased to be our
+      companion."'

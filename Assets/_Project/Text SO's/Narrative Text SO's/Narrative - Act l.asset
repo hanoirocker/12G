@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeTextsStructure:
   - language: 0
-    title: "\u201CReverberaci\xF3n Diurna\u201D"
+    title: Resonancia Diurna
     content: 
-    phrase: Un fin de semana como cualquier otro.
+    phrase: '"Un fin de semana como cualquier otro."'
   - language: 1
-    title: "\u201CDaytime Reverberation\u201D"
+    title: Daytime Resonance
     content: 
-    phrase: A weekend like any other.
+    phrase: '"A weekend like any other."'

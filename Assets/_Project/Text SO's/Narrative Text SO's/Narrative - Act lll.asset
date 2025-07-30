@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeTextsStructure:
   - language: 0
-    title: "\u201CLas Horas Rojas\u201D"
+    title: Las Horas Rojas
     content: 
-    phrase: La noche es un abismo donde la realidad se retuerce.
+    phrase: '"La noche es un abismo donde la realidad se retuerce."'
   - language: 1
-    title: "\u201CThe Red Hours\u201D"
+    title: The Red Hours
     content: 
-    phrase: The night is an abyss where reality twists.
+    phrase: '"The night is an abyss where reality twists."'
