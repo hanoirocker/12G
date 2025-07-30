@@ -138,6 +138,11 @@ namespace TwelveG.GameController
             }
         }
 
+        public void CancelModifications()
+        {
+            AudioManager.Instance.ResetVolumesToInitialValues();
+        }
+
         public void ApplyAudioSettings()
         {
             DataPersistenceManager.Instance.SavePersistenceData();
@@ -188,11 +193,13 @@ namespace TwelveG.GameController
             {
                 case "General Btn":
                     lastActiveOptions = generalOptions;
+                    AudioManager.Instance.ResetVolumesToInitialValues();
                     break;
                 case "Audio Btn":
                     lastActiveOptions = audioOptions;
                     break;
                 case "Video Btn":
+                    AudioManager.Instance.ResetVolumesToInitialValues();
                     lastActiveOptions = videoOptions;
                     break;
                 default:

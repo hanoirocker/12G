@@ -108,6 +108,14 @@ namespace TwelveG.AudioController
             return defaultValue;
         }
 
+        public void ResetVolumesToInitialValues()
+        {
+            SetMasterVol(initialMasterVol);
+            SetMusicVol(initialMusicVol);
+            SetInterfaceVol(initialInterfaceVol);
+            SetSFXVol(initialSFXVol);
+        }
+
         public void SetMasterVol(float masterVol)
         {
             masterMixer.SetFloat("masterVol", AudioUtils.NormalizedToDecibels(masterVol));
@@ -149,18 +157,19 @@ namespace TwelveG.AudioController
             initialSFXVol = data.sfxVolume;
 
             // Iniciar Valores
-            SetMasterVol(initialMasterVol);
-            SetMusicVol(initialMusicVol);
-            SetInterfaceVol(initialInterfaceVol);
-            SetSFXVol(initialSFXVol);
+            ResetVolumesToInitialValues();
         }
 
         public void SaveData(ref GameData data)
         {
             data.masterVolume = GetCurrentChannelVolume("masterVol");
-            data.musicVolume = GetCurrentChannelVolume("musicVol"); ;
-            data.interfaceVolume = GetCurrentChannelVolume("uiVol"); ;
-            data.sfxVolume = GetCurrentChannelVolume("inGameVol"); ;
+            initialMasterVol = data.masterVolume;
+            data.musicVolume = GetCurrentChannelVolume("musicVol");
+            initialMusicVol = data.musicVolume;
+            data.interfaceVolume = GetCurrentChannelVolume("uiVol");
+            initialInterfaceVol = data.interfaceVolume;
+            data.sfxVolume = GetCurrentChannelVolume("inGameVol");
+            initialSFXVol = data.sfxVolume;
         }
     }
 }
