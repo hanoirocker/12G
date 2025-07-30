@@ -13,6 +13,7 @@ namespace TwelveG.UIController
 
     [Header("Game Event SO's")]
     [SerializeField] private GameEventSO onActivateCanvas;
+    [SerializeField] private GameEventSO onPlayGame;
     private Canvas menuCanvas;
 
     private void Awake()
@@ -20,10 +21,14 @@ namespace TwelveG.UIController
       menuCanvas = GetComponent<Canvas>();
     }
 
-    private IEnumerator NewGameCanvasCroroutine()
+    private IEnumerator StartPlaying(bool isNewGame)
     {
       yield return StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 0, 1, timeTillLoadScene));
       onActivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
+
+      // Evento escuchado por Loading Scene Canvas, para saber si debe cargar
+      // una escena en particular o iniciar la primera escena jugable (Afternoon, indice 2)
+      onPlayGame.Raise(this, isNewGame);
       gameObject.SetActive(false);
     }
 
@@ -75,17 +80,9 @@ namespace TwelveG.UIController
       }
     }
 
-    public void NewGameCanvasOption()
+    public void PlayOption(bool isNewGame)
     {
-      StartCoroutine(NewGameCanvasCroroutine());
-    }
-
-    // Si bien es igual a NewGameCanvasOption(), queda para recordar que quizás en el futuro
-    // sea buena idea implementar un UI de selección de partida al presionar 'Continue Btn'
-    // en vez de directamente cargar la escena.
-    public void LoadGameCanvasOption()
-    {
-      Debug.LogWarning($"[MenuCanvasHandler]: Loading games canvas");
+      StartCoroutine(StartPlaying(isNewGame));
     }
 
     public void QuitGameCanvasOption()

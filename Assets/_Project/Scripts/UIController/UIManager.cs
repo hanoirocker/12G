@@ -105,15 +105,7 @@ namespace TwelveG.UIController
 
     public void LoadData(GameData data)
     {
-      if (data.sceneIndex >= 2)
-      {
-        loadingSceneCanvasHandler.sceneToLoadIndex = data.sceneIndex;
-      }
-      else
-      {
-        continueBtn.interactable = false;
-        loadingSceneCanvasHandler.sceneToLoadIndex = 2;
-      }
+      if (data.sceneIndex <= 1) { continueBtn.interactable = false; }
     }
 
     public void SaveData(ref GameData data)

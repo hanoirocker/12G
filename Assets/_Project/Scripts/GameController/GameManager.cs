@@ -16,7 +16,9 @@ namespace TwelveG.GameController
 
     private EventController eventController;
     private MenuHandler menuHandler;
-    private int currentSceneIndex;
+    private int currentSceneIndex = 0;
+    private int currentEventIndex = 0;
+    private int sceneToLoadIndex = 0;
 
     private void Awake()
     {
@@ -85,14 +87,39 @@ namespace TwelveG.GameController
       SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    public int GetSceneToLoadIndex()
+    {
+      return sceneToLoadIndex;
+    }
+
+    // 'currentEventIndex' se actualizará mediante el EventController antes de iniciar
+    // cada corrutina dentro de la lista.
+    public void UpdateEventIndex(int index)
+    {
+      currentEventIndex = index;
+    }
+
     public void LoadData(GameData data)
     {
-      return;
+      // Misma condición para hacer aparecer el botón de 'Continue'
+      // en el Menu Canvas.
+      // Sólo se considera el eventIndex si la última escena jugada y guardada
+      // fue Afternoon.
+      if (data.sceneIndex > 1)
+      {
+        currentEventIndex = data.eventIndex;
+        sceneToLoadIndex = data.sceneIndex;
+      }
     }
 
     public void SaveData(ref GameData data)
     {
-      return;
+      data.sceneIndex = currentSceneIndex;
+
+      if (currentSceneIndex > 1)
+      {
+        data.eventIndex = currentEventIndex;
+      }
     }
   }
 }

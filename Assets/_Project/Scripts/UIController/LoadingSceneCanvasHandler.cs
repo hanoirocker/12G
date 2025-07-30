@@ -1,6 +1,7 @@
 namespace TwelveG.UIController
 {
   using System.Collections;
+  using TwelveG.GameController;
   using UnityEngine;
   using UnityEngine.SceneManagement;
 
@@ -11,39 +12,26 @@ namespace TwelveG.UIController
     [SerializeField] private GameObject continueText;
 
     [Header("Transition Settings")]
-    public int sceneToLoadIndex;
-    [SerializeField,  Range(0.25f, 2f)] private float blinkSpeed = 2f;
+
+    [SerializeField, Range(0.25f, 2f)] private float blinkSpeed = 2f;
     [SerializeField, Range(1f, 3f)] private float delayBeforeText = 2f;
     [SerializeField, Range(0.25f, 1f)] private float blinkTime = 0.25f;
 
     private Canvas menuCanvas;
+    private int sceneToLoadIndex = 2; 
 
     private void Awake()
     {
       menuCanvas = GetComponent<Canvas>();
     }
 
-    private void OnEnable()
+    private IEnumerator LoadSceneCoroutine(bool isNewGame)
     {
-      StartCoroutine(LoadSceneCoroutine());
-    }
-
-    private IEnumerator FadeCanvasCoroutine(CanvasGroup group, float from, float to, float duration)
-    {
-      float elapsed = 0f;
-
-      while (elapsed < duration)
+      if (!isNewGame)
       {
-        group.alpha = Mathf.Lerp(from, to, elapsed / duration);
-        elapsed += Time.deltaTime;
-        yield return null;
+        sceneToLoadIndex = GameManager.Instance.GetSceneToLoadIndex();
       }
 
-      group.alpha = to;
-    }
-
-    private IEnumerator LoadSceneCoroutine()
-    {
       AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoadIndex);
       asyncLoad.allowSceneActivation = false;
 
@@ -71,6 +59,14 @@ namespace TwelveG.UIController
 
       // Ahora sí, activar la escena cargada
       asyncLoad.allowSceneActivation = true;
+    }
+
+    public void LoadSceneSequence(Component sender, object data)
+    {
+      if (data != null)
+      {
+        StartCoroutine(LoadSceneCoroutine((bool)data));
+      }
     }
   }
 }

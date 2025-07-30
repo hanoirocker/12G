@@ -118,6 +118,7 @@ namespace TwelveG.GameController
                     onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
                 }
 
+                GameManager.Instance.UpdateEventIndex(currentEventIndex);
                 yield return StartCoroutine(correspondingEvents[currentEventIndex].Execute());
                 Destroy(correspondingEvents[currentEventIndex].gameObject);
                 currentEventIndex++;
@@ -140,11 +141,6 @@ namespace TwelveG.GameController
         public void BuildEvents()
         {
             currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-            if (currentSceneIndex == 1) // Main Menu Scene
-            {
-                return;
-            }
 
             VerifySpecificTestSettings();
             InstantiateSceneEventsParent();
