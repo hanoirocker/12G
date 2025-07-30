@@ -30,7 +30,7 @@ namespace TwelveG.AudioController
           volumeSlider.value = AudioManager.Instance.GetInitialChannelVolume(AudioGroup.inGameVol);
           break;
         case "Interface Slider":
-          volumeSlider.value = AudioManager.Instance.GetInitialChannelVolume(AudioGroup.musicVol);
+          volumeSlider.value = AudioManager.Instance.GetInitialChannelVolume(AudioGroup.uiVol);
           break;
         default:
           Debug.LogError($"[AudioSliderHandler]: can't recognize volumeSlider.name {volumeSlider.name}");

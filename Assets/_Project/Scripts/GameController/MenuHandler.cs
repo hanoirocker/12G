@@ -35,7 +35,6 @@ namespace TwelveG.GameController
 
       onMenuBGFadeIn.Raise(this, blackFadeOutDuration);
 
-      print(AudioManager.Instance.GetInitialChannelVolume(AudioGroup.masterVol));
       AudioManager.Instance.FaderHandler.FadeAudioGroup(
         AudioGroup.masterVol,
         -88f,

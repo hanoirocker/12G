@@ -52,14 +52,6 @@ namespace TwelveG.AudioController
             }
         }
 
-        private void Start()
-        {
-            SetMasterVol(initialMasterVol);
-            SetMusicVol(initialMusicVol);
-            SetInterfaceVol(initialInterfaceVol);
-            SetSFXVol(initialSFXVol);
-        }
-
         public void MainAudioControls(Component sender, object data)
         {
             switch (data)
@@ -150,11 +142,17 @@ namespace TwelveG.AudioController
                 return;
             }
 
-            // Si se guardó mas de una vez, cargar los valores guardados.
+            // Si se guardó antes, cargar los valores guardados.
             initialMasterVol = data.masterVolume;
             initialInterfaceVol = data.interfaceVolume;
             initialMusicVol = data.musicVolume;
             initialSFXVol = data.sfxVolume;
+
+            // Iniciar Valores
+            SetMasterVol(initialMasterVol);
+            SetMusicVol(initialMusicVol);
+            SetInterfaceVol(initialInterfaceVol);
+            SetSFXVol(initialSFXVol);
         }
 
         public void SaveData(ref GameData data)
