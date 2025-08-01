@@ -3,7 +3,6 @@
 - Los eventos se actualizan y guardan correctamente
 
 TOFIX:
-- El Pause Menu Canvas no responde a ningún input
 - No están ejecutandose las transiciones desde la Player VC hacia la BagVC y a la PhoneVC. Quizas falta especificar el tipo de transicion?
 
 TODO:

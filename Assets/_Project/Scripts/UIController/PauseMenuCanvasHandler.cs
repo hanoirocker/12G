@@ -1,37 +1,22 @@
 namespace TwelveG.UIController
 {
-    using UnityEngine;
+  using TwelveG.PlayerController;
+  using UnityEngine;
 
     public class PauseMenuCanvasHandler : MonoBehaviour
     {
-        [SerializeField] private GameObject pauseMenuPanel;
+        public static bool gameIsPaused;
 
-        public static bool gameIsPaused = false;
+        [Header("Game Event SO's")]
+        [SerializeField] private GameEventSO onPlayerControls;
 
-        private void Start()
+        private void OnEnable()
         {
-            gameIsPaused = false;
+            SetPauseGameSettings();
         }
 
-        private void ResumeGame()
+        private void SetPauseGameSettings()
         {
-            pauseMenuPanel.SetActive(false);
-            Time.timeScale = 1f;
-            gameIsPaused = false;
-
-            // Ocultar el cursor y bloquearlo en el centro de la pantalla
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-
-        public bool IsGamePaused()
-        {
-            return gameIsPaused;
-        }
-
-        private void PauseGame()
-        {
-            pauseMenuPanel.SetActive(true);
             Time.timeScale = 0f;
             gameIsPaused = true;
 
@@ -40,24 +25,24 @@ namespace TwelveG.UIController
             Cursor.lockState = CursorLockMode.None;
         }
 
-        public void PauseMenuCanvasControl(Component sender, object data)
+        private void OnDisable()
         {
-            switch (data)
-            {
-                case ActivateCanvas cmd:
-                    if (!cmd.Activate && gameIsPaused)
-                    {
-                        ResumeGame();
-                    }
-                    else if (cmd.Activate && !gameIsPaused)
-                    {
-                        PauseGame();
-                    }
-                    break;
-                default:
-                    Debug.LogWarning($"[PauseMenuCanvasControl] Received unknown command: {data}");
-                    break;
-            }
+            SetResumeGameSettings();
+        }
+
+        private void SetResumeGameSettings()
+        {
+            Time.timeScale = 1f;
+            gameIsPaused = false;
+
+            // Ocultar el cursor y bloquearlo en el centro de la pantalla
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        public void ResumeGameOption()
+        {
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
         }
     }
 }

@@ -5,8 +5,10 @@ namespace TwelveG.PlayerController
 
     public class PlayerShortcuts : MonoBehaviour
     {
-        public GameEventSO onPauseMenuToogle;
+        [Header("Game Event So's")]
         public GameEventSO onControlCanvasControls;
+        public GameEventSO onActivateCanvas;
+        public GameEventSO onDeactivateCanvas;
 
         private PlayerHandler playerHandler;
 
@@ -23,14 +25,15 @@ namespace TwelveG.PlayerController
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
+                print("gameIsPaused: " + PauseMenuCanvasHandler.gameIsPaused);
                 if (!PauseMenuCanvasHandler.gameIsPaused)
                 {
-                    onPauseMenuToogle.Raise(this, new ActivateCanvas(true));
+                    onActivateCanvas.Raise(this, CanvasHandlerType.PauseMenu);
                     playerHandler.DisablePlayerCapsule();
                 }
                 else
                 {
-                    onPauseMenuToogle.Raise(this, new ActivateCanvas(false));
+                    onDeactivateCanvas.Raise(this, CanvasHandlerType.PauseMenu);
                     playerHandler.EnablePlayerCapsule();
                 }
             }
