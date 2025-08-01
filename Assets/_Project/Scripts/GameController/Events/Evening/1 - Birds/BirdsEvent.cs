@@ -5,13 +5,13 @@ namespace TwelveG.GameController
     using TwelveG.Localization;
     using TwelveG.UIController;
     using System.Collections.Generic;
-  using TwelveG.PlayerController;
-  using TwelveG.Utils;
+    using TwelveG.PlayerController;
+    using TwelveG.Utils;
+    using Cinemachine;
 
-  public class BirdsEvent : GameEventBase
+    public class BirdsEvent : GameEventBase
     {
         [Header("Zoom references: ")]
-        [SerializeField] private GameObject zoomBirdPrefab;
         [SerializeField] private GameObject crashingBirdPrefab;
 
         [Header("Text event SO")]
@@ -24,6 +24,7 @@ namespace TwelveG.GameController
         public GameEventSO onObservationCanvasShowText;
         public GameEventSO onVirtualCamerasControl;
         public GameEventSO onPlayerControls;
+        public GameEventSO onMainCameraSettings;
 
         [Header("Other eventsSO references")]
         public GameEventSO trashBagCanBePicked;
@@ -47,8 +48,8 @@ namespace TwelveG.GameController
             // zoomBird inicia con su collider interactuable apagado, se prende con el próximo eventoSO.
             destroyWindowToReplace.Raise(this, null);
 
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Player, true));
-
+            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
             onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
             onControlCanvasControls.Raise(this, new ActivateCanvas(true));

@@ -33,16 +33,6 @@ namespace TwelveG.Utils
                     Debug.LogWarning($"[MainCameraHandler] Received unknown command: {data}");
                     break;
             }
-            // if ((string)data == "EasyInOut2")
-            // {
-            //     CinemachineBrain cinemachineBrain = GetComponent<CinemachineBrain>();
-            //     cinemachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, 2f);
-            // }
-            // else if ((string)data == "Cut")
-            // {
-            //     CinemachineBrain cinemachineBrain = GetComponent<CinemachineBrain>();
-            //     cinemachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0f);
-            // }
         }
     }
 }
