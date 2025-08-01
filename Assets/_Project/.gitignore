@@ -2,6 +2,13 @@ Videos/
 Textures/
 Models/
 
+Scenes/Afternoon Scene/
+Scenes/Evening Scene/
+Scenes/Night Scene/
+Scenes/Menu Afternoon Scene/
+Scenes/Menu Evening Scene/
+Scenes/Menu Night Scene/
+
 !.gitignore
 
 # Ignorar extensiones y archivos no deseados
