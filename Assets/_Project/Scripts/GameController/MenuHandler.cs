@@ -12,7 +12,7 @@ namespace TwelveG.GameController
 
     [Header("Game Event SO")]
     public GameEventSO onActivateCanvas;
-    public GameEventSO onMenuBGFadeIn;
+    public GameEventSO onImageCanvasControls;
 
     private void Start()
     {
@@ -27,11 +27,12 @@ namespace TwelveG.GameController
 
     private IEnumerator WaitForSceneToRender()
     {
+      // Activar Canvas de Menu
       onActivateCanvas.Raise(this, CanvasHandlerType.MainMenu);
 
       yield return new WaitForSeconds(1f);
 
-      onMenuBGFadeIn.Raise(this, blackFadeInDuration);
+      onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, blackFadeInDuration));
 
       AudioManager.Instance.FaderHandler.FadeAudioGroup(
         AudioGroup.masterVol,

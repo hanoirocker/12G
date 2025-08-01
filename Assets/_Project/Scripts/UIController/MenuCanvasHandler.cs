@@ -9,7 +9,7 @@ namespace TwelveG.UIController
     [SerializeField] private CanvasGroup backGroundCanvasGroup;
 
     [Header("Settings")]
-    [SerializeField, Range(0.5f, 3f)] private float timeTillLoadScene = 1.5f;
+    [SerializeField, Range(0.5f, 3f)] private float fadeOutDuration = 1.5f;
 
     [Header("Game Event SO's")]
     [SerializeField] private GameEventSO onPlayGame;
@@ -23,7 +23,7 @@ namespace TwelveG.UIController
 
     private IEnumerator StartPlaying(bool isNewGame)
     {
-      yield return StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 0, 1, timeTillLoadScene));
+      yield return StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 0, 1, fadeOutDuration));
       // Escuchado por GameManager para luego llamar al SceneLoaderHandler.
       onPlayGame.Raise(this, isNewGame);
       gameObject.SetActive(false);
@@ -50,30 +50,6 @@ namespace TwelveG.UIController
       foreach (UpdateTextHandler updateTextHandler in GetComponentsInChildren<UpdateTextHandler>())
       {
         updateTextHandler.UpdateText(languageCode);
-      }
-    }
-
-    public void MenuBGFadeInCanvas(Component sender, object data)
-    {
-      if (data != null)
-      {
-        StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 1f, 0f, (float)data));
-      }
-      else
-      {
-        Debug.LogError($"[MenuBGFadeInCanvas]: Duration param not passed on Raise at {sender.name} ");
-      }
-    }
-
-    public void MenuBGFadeOutCanvas(Component sender, object data)
-    {
-      if (data != null)
-      {
-        StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 0f, 1f, (float)data));
-      }
-      else
-      {
-        Debug.LogError($"[MenuBGFadeOutCanvas]: Duration param not passed on Raise at {sender.name} ");
       }
     }
 
