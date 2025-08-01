@@ -20,7 +20,7 @@ namespace TwelveG.GameController
       // master en 0 para TODAS las escenas .. y eventualmente esperar a ser llamado por el manager
       // luego de cargar los componentes de la escena. (ES BUENA)
 
-      AudioManager.Instance.SetMasterVol(-88f);
+      AudioManager.Instance.SetMasterVol(0);
 
       StartCoroutine(WaitForSceneToRender());
     }
@@ -37,7 +37,7 @@ namespace TwelveG.GameController
 
       AudioManager.Instance.FaderHandler.FadeAudioGroup(
         AudioGroup.masterVol,
-        -88f,
+        0,
         AudioManager.Instance.GetInitialChannelVolume(AudioGroup.masterVol),
         blackFadeOutDuration
       );

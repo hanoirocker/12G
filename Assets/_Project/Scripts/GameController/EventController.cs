@@ -91,17 +91,15 @@ namespace TwelveG.GameController
 
         private void ExecuteFreeRoam()
         {
-            if (currentEventIndex != 0 || currentEventIndex != 0)
-            {
-                playerContainerTransform = GameObject.FindGameObjectWithTag("FreeRoam").GetComponent<Transform>();
-                if (playerContainerTransform == null)
-                {
-                    Debug.LogError("[EventController]: FreeRoam prefab not found on scene!");
-                }
+            playerContainerTransform = GameObject.FindGameObjectWithTag("FreeRoam")
+                .GetComponent<Transform>();
 
-                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            if (playerContainerTransform == null)
+            {
+                Debug.LogError("[EventController]: FreeRoam prefab not found on scene!");
             }
-            // FOR TESTING;
+
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
         }
 
         private IEnumerator ExecuteEvents(bool fromIndex)
@@ -123,6 +121,10 @@ namespace TwelveG.GameController
                 Destroy(correspondingEvents[currentEventIndex].gameObject);
                 currentEventIndex++;
             }
+            // Resetear a cero el índice de evento luego de haber jugado todos los eventos
+            // de la escena.
+            currentEventIndex = 0;
+            GameManager.Instance.LoadNextScene();
         }
 
         // La idea de esta función es que antes que se ejecute la corrutina de cada evento base

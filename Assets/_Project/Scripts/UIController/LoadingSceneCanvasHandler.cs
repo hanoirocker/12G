@@ -18,19 +18,14 @@ namespace TwelveG.UIController
     [SerializeField, Range(0.25f, 1f)] private float blinkTime = 0.25f;
 
     private Canvas menuCanvas;
-    private int sceneToLoadIndex = 2; 
 
     private void Awake()
     {
       menuCanvas = GetComponent<Canvas>();
     }
 
-    private IEnumerator LoadSceneCoroutine(bool isNewGame)
+    private IEnumerator LoadSceneCoroutine(int sceneToLoadIndex)
     {
-      if (!isNewGame)
-      {
-        sceneToLoadIndex = GameManager.Instance.GetSceneToLoadIndex();
-      }
 
       AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoadIndex);
       asyncLoad.allowSceneActivation = false;
@@ -65,7 +60,7 @@ namespace TwelveG.UIController
     {
       if (data != null)
       {
-        StartCoroutine(LoadSceneCoroutine((bool)data));
+        StartCoroutine(LoadSceneCoroutine((int)data));
       }
     }
   }

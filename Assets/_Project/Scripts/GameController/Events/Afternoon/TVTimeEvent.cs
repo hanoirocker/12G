@@ -103,8 +103,6 @@ namespace TwelveG.GameController
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 5f));
             yield return new WaitForSeconds(5f);
-
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
         public void AllowNextActions(Component sender, object data)

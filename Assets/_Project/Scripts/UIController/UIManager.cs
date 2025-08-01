@@ -105,7 +105,7 @@ namespace TwelveG.UIController
 
     public void LoadData(GameData data)
     {
-      if (data.sceneIndex <= 1) { continueBtn.interactable = false; }
+      if (data.savedSceneIndex <= 1) { continueBtn.interactable = false; }
     }
 
     public void SaveData(ref GameData data)

@@ -59,12 +59,12 @@ namespace TwelveG.AudioController
                 case ActivateCanvas cmd:
                     if (cmd.Activate)
                     {
-                        SetSFXVol(-80f);
-                        SetMusicVol(-80f);
+                        SetSFXVol(0);
+                        SetMusicVol(0);
                     }
                     else
                     {
-                        SetSFXVol(0f);
+                        SetSFXVol(0);
                         SetMusicVol(0f);
                     }
                     break;
