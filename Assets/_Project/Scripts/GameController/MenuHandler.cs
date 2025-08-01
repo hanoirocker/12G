@@ -8,7 +8,7 @@ namespace TwelveG.GameController
   public class MenuHandler : MonoBehaviour
   {
     [Header("Settings")]
-    [SerializeField, Range(1f, 5f)] float blackFadeOutDuration;
+    [SerializeField, Range(1f, 5f)] float blackFadeInDuration;
 
     [Header("Game Event SO")]
     public GameEventSO onActivateCanvas;
@@ -29,17 +29,15 @@ namespace TwelveG.GameController
     {
       onActivateCanvas.Raise(this, CanvasHandlerType.MainMenu);
 
-      // TODO: Aprox? --> Basar en configs de video guardadas O async load desde Intro
-      // `AsyncOperations loadOperations = SceneManager.LoadSceneAsync(sceneToLoad);`
-      yield return new WaitForSeconds(4f);
+      yield return new WaitForSeconds(1f);
 
-      onMenuBGFadeIn.Raise(this, blackFadeOutDuration);
+      onMenuBGFadeIn.Raise(this, blackFadeInDuration);
 
       AudioManager.Instance.FaderHandler.FadeAudioGroup(
         AudioGroup.masterVol,
         0,
         AudioManager.Instance.GetInitialChannelVolume(AudioGroup.masterVol),
-        blackFadeOutDuration
+        blackFadeInDuration
       );
     }
   }

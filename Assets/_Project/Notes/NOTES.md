@@ -4,7 +4,7 @@
 
 TOFIX:
 - Si uno decide continuar el juego, actualmente se arranca a jugar desde el evento 0, no desde el último valor de savedEventIndex
-- Luego de presionar cualquier tecla para arrancar la nueva escena, el Loading Scene Canvas desaparece y se ve la cámara del jugador por unos instantes.
+- Luego de presionar cualquier tecla para arrancar la nueva escena, el Loading Scene Canvas desaparece y se ve la cámara del jugador por unos instantes. Esto sucede porque al cargarse la escena nueva desaparece la instancia de UI de la escena anterior, desapareciendo el Canvas.
 
 TODO:
 

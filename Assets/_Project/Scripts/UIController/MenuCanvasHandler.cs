@@ -1,7 +1,6 @@
 namespace TwelveG.UIController
 {
   using System.Collections;
-  using TwelveG.GameController;
   using UnityEngine;
 
   public class MenuCanvasHandler : MonoBehaviour
@@ -13,7 +12,6 @@ namespace TwelveG.UIController
     [SerializeField, Range(0.5f, 3f)] private float timeTillLoadScene = 1.5f;
 
     [Header("Game Event SO's")]
-    [SerializeField] private GameEventSO onActivateCanvas;
     [SerializeField] private GameEventSO onPlayGame;
 
     private Canvas menuCanvas;
@@ -25,12 +23,9 @@ namespace TwelveG.UIController
 
     private IEnumerator StartPlaying(bool isNewGame)
     {
-      int sceneToLoad = isNewGame ? 2 : GameManager.Instance.GetSavedSceneIndex();
       yield return StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 0, 1, timeTillLoadScene));
-      onActivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
-
-      // Evento escuchado por Loading Scene Canvas
-      onPlayGame.Raise(this, sceneToLoad);
+      // Escuchado por GameManager para luego llamar al SceneLoaderHandler.
+      onPlayGame.Raise(this, isNewGame);
       gameObject.SetActive(false);
     }
 

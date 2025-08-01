@@ -22,6 +22,7 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         public GameEventSO onImageCanvasControls;
+        public GameEventSO onDeactivateCanvas;
         public GameEventSO onRainStart;
 
         [Header("Text event SO")]
@@ -118,13 +119,13 @@ namespace TwelveG.GameController
 
                 GameManager.Instance.UpdateEventIndex(currentEventIndex);
                 yield return StartCoroutine(correspondingEvents[currentEventIndex].Execute());
+                onDeactivateCanvas.Raise(this, CanvasHandlerType.BlackBG);
                 Destroy(correspondingEvents[currentEventIndex].gameObject);
                 currentEventIndex++;
             }
             // Resetear a cero el índice de evento luego de haber jugado todos los eventos
             // de la escena.
             currentEventIndex = 0;
-            GameManager.Instance.LoadNextScene();
         }
 
         // La idea de esta función es que antes que se ejecute la corrutina de cada evento base

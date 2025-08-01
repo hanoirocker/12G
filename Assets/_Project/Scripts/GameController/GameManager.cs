@@ -2,7 +2,6 @@ namespace TwelveG.GameController
 {
   using System.Collections;
   using TwelveG.SaveSystem;
-  using TwelveG.UIController;
   using UnityEngine;
   using UnityEngine.SceneManagement;
 
@@ -15,11 +14,10 @@ namespace TwelveG.GameController
 
     [Header("Game Event SO's")]
     public GameEventSO onToggleInGameCanvasAll;
-    public GameEventSO onPlayGame;
-    public GameEventSO onActivateCanvas;
 
     private EventsHandler eventController;
     private MenuHandler menuHandler;
+    private SceneLoaderHandler sceneLoaderHandler;
     private int currentSceneIndex = 0;
     private int _savedSceneIndex = 0;
     private int currentEventIndex = 0;
@@ -46,7 +44,7 @@ namespace TwelveG.GameController
 
     private void VerifySceneType()
     {
-      if (eventController == null || menuHandler == null)
+      if (eventController == null || menuHandler == null || sceneLoaderHandler == null)
       {
         Debug.LogWarning("Componentes de escena no asignados. Reintentando...");
         StartCoroutine(InitializeSceneComponents());
@@ -57,30 +55,25 @@ namespace TwelveG.GameController
       {
         case 0: // Intro
           menuHandler.enabled = false;
-          eventController.enabled = true;
           onToggleInGameCanvasAll.Raise(this, false);
           eventController.BuildEvents();
           break;
         case 1: // Main Menu
-          eventController.enabled = false;
           menuHandler.enabled = true;
           return;
         case 2: // Afternoon
           menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
-          eventController.enabled = true;
           eventController.BuildEvents();
           break;
         case 3: // Evening
           menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
-          eventController.enabled = true;
           eventController.BuildEvents();
           break;
         case 4: // Night
           menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
-          eventController.enabled = true;
           eventController.BuildEvents();
           break;
         default:
@@ -114,13 +107,9 @@ namespace TwelveG.GameController
       {
         eventController = currentSceneObj.GetComponent<EventsHandler>();
         menuHandler = currentSceneObj.GetComponent<MenuHandler>();
+        sceneLoaderHandler = currentSceneObj.GetComponent<SceneLoaderHandler>();
         VerifySceneType();
       }
-    }
-
-    public int GetSavedSceneIndex()
-    {
-      return _savedSceneIndex;
     }
 
     // 'currentEventIndex' se actualizará mediante el EventController antes de iniciar
@@ -130,23 +119,9 @@ namespace TwelveG.GameController
       currentEventIndex = index;
     }
 
-    public void LoadNextScene()
+    public void PlayGame(Component sender, object isNewGame)
     {
-      if (currentSceneIndex + 1 <= 4)
-      {
-        // Activa Loading Scene Canvas (Escucha UI Manager)
-        onActivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
-        // Cargar siguiente escena (Escucha Loading Scene Canvas)
-        onPlayGame.Raise(this, currentSceneIndex + 1);
-      }
-      if (currentSceneIndex + 1 == 5)
-      {
-        // Cargar créditos
-      }
-      if (currentSceneIndex + 1 == 6)
-      {
-        // Volver desde créditos a Menú principal
-      }
+      sceneLoaderHandler.LoadNextSceneSequence((bool)isNewGame ? 2 : _savedSceneIndex);
     }
 
     public void LoadData(GameData data)
