@@ -105,23 +105,32 @@ namespace TwelveG.GameController
 
         private IEnumerator ExecuteEvents(bool fromIndex)
         {
+            // Si loadSpecificEvent = true, ejecutar eventos desde el definido en el editor
             if (fromIndex) { currentEventIndex = eventIndexToLoad; }
 
-            while (currentEventIndex < correspondingEvents.Count)
+            int savedEventIndex = GameManager.Instance.ReturnSavedEventIndex();
+
+            // Si existe índice de evento guardado mayor 0 (Narrative Event), ejecutar desde ahí
+            if (currentSceneIndex >= 2 && savedEventIndex > 0)
             {
-                correspondingEvents[currentEventIndex].gameObject.SetActive(true);
-                SetUpCurrentEvent();
-
-                if (fromIndex)
-                {
-                    onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-                }
-
-                GameManager.Instance.UpdateEventIndex(currentEventIndex);
-                yield return StartCoroutine(correspondingEvents[currentEventIndex].Execute());
-                Destroy(correspondingEvents[currentEventIndex].gameObject);
-                currentEventIndex++;
+                currentEventIndex = savedEventIndex;
             }
+
+            while (currentEventIndex < correspondingEvents.Count)
+                {
+                    correspondingEvents[currentEventIndex].gameObject.SetActive(true);
+                    SetUpCurrentEvent();
+
+                    if (fromIndex || (currentSceneIndex >= 2 && savedEventIndex > 0))
+                    {
+                        onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+                    }
+
+                    GameManager.Instance.UpdateEventIndex(currentEventIndex);
+                    yield return StartCoroutine(correspondingEvents[currentEventIndex].Execute());
+                    Destroy(correspondingEvents[currentEventIndex].gameObject);
+                    currentEventIndex++;
+                }
             // Resetear a cero el índice de evento luego de haber jugado todos los eventos
             // de la escena.
             currentEventIndex = 0;

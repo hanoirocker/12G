@@ -1,15 +1,15 @@
 Últimos cambios:
-- Se cargan correctamente las escenas desde Nuevo Juego o Continuar
+- Se cargan correctamente las escenas y eventos desde Nuevo Juego o Continuar
 - Los eventos se actualizan y guardan correctamente
-- Los canvas funcionan correctamente
 
 TOFIX:
-- Si uno decide continuar el juego, actualmente se arranca a jugar desde el evento 0, no desde el último valor de savedEventIndex
+- El Pause Menu Canvas no responde a ningún input
+- No están ejecutandose las transiciones desde la Player VC hacia la BagVC y a la PhoneVC. Quizas falta especificar el tipo de transicion?
 
 TODO:
 
-- REFACTOR GAMEMANAGER AND EVENTCONTROLLER: No puede haber tánta lógica distinta para ciclos tan similares. Encontrar alguna forma de Ejecutar los comandos
-  del Event Controller pasando parámetros específicos desde el manager. 
 - Implementar cambios de Video del Settings Menu
 
 TOCHECK:
+
+- Actualmente si se continua una partida anterior, se carga la escena y se ejecuta desde el evento guardado PERO .. los objetos alterados en eventos anteriores no aparecen en las nuevas ubicaciones. Vale la pena guarda la información de todos estos objetos y setearlos al iniciar la partida guardada? O lo mejor es guardar únicamente por escenas? Quizas rompiendo las escenas en otras escenas mas chicas a modo checkpoints mas cercanos con el Environment y sus objetos modificados ... 
