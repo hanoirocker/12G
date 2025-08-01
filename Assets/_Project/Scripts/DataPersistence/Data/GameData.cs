@@ -5,7 +5,6 @@ namespace TwelveG.SaveSystem
   {
     // Scene data
     public int savedSceneIndex;
-    public int savedEventIndex;
     public int savesNumber;
 
     // Localization
@@ -21,7 +20,6 @@ namespace TwelveG.SaveSystem
     public GameData()
     {
       this.savedSceneIndex = 0;
-      this.savedEventIndex = 0;
       this.savesNumber = 0;
 
       this.languageCode = "en";

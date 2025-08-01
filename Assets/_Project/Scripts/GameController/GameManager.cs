@@ -20,8 +20,6 @@ namespace TwelveG.GameController
     private SceneLoaderHandler sceneLoaderHandler;
     private int currentSceneIndex = 0;
     private int _savedSceneIndex = 0;
-    private int currentEventIndex = 0;
-    private int _savedEventIndex = 0;
 
     // Evita que los GameManager temporales ejecuten la lógica
     // Solo la instancia persistente procesa la carga de escena!
@@ -113,18 +111,6 @@ namespace TwelveG.GameController
       }
     }
 
-    public int ReturnSavedEventIndex()
-    {
-      return _savedEventIndex;
-    }
-
-    // 'currentEventIndex' se actualizará mediante el EventController antes de iniciar
-    // cada corrutina dentro de la lista.
-    public void UpdateEventIndex(int index)
-    {
-      currentEventIndex = index;
-    }
-
     public void PlayGame(Component sender, object isNewGame)
     {
       sceneLoaderHandler.LoadNextSceneSequence((bool)isNewGame ? 2 : _savedSceneIndex);
@@ -138,7 +124,6 @@ namespace TwelveG.GameController
       // fue Afternoon.
       if (data.savedSceneIndex > 1)
       {
-        _savedEventIndex = data.savedEventIndex;
         _savedSceneIndex = data.savedSceneIndex;
       }
     }
@@ -146,11 +131,6 @@ namespace TwelveG.GameController
     public void SaveData(ref GameData data)
     {
       data.savedSceneIndex = currentSceneIndex;
-
-      if (currentSceneIndex > 1)
-      {
-        data.savedEventIndex = currentEventIndex;
-      }
     }
   }
 }

@@ -108,29 +108,20 @@ namespace TwelveG.GameController
             // Si loadSpecificEvent = true, ejecutar eventos desde el definido en el editor
             if (fromIndex) { currentEventIndex = eventIndexToLoad; }
 
-            int savedEventIndex = GameManager.Instance.ReturnSavedEventIndex();
-
-            // Si existe índice de evento guardado mayor 0 (Narrative Event), ejecutar desde ahí
-            // if (currentSceneIndex >= 2 && savedEventIndex > 0)
-            // {
-            //     currentEventIndex = savedEventIndex;
-            // }
-
             while (currentEventIndex < correspondingEvents.Count)
+            {
+                correspondingEvents[currentEventIndex].gameObject.SetActive(true);
+                SetUpCurrentEvent();
+
+                if (fromIndex)
                 {
-                    correspondingEvents[currentEventIndex].gameObject.SetActive(true);
-                    SetUpCurrentEvent();
-
-                    if (fromIndex || (currentSceneIndex >= 2 && savedEventIndex > 0))
-                    {
-                        onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-                    }
-
-                    GameManager.Instance.UpdateEventIndex(currentEventIndex);
-                    yield return StartCoroutine(correspondingEvents[currentEventIndex].Execute());
-                    Destroy(correspondingEvents[currentEventIndex].gameObject);
-                    currentEventIndex++;
+                    onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
                 }
+
+                yield return StartCoroutine(correspondingEvents[currentEventIndex].Execute());
+                Destroy(correspondingEvents[currentEventIndex].gameObject);
+                currentEventIndex++;
+            }
             // Resetear a cero el índice de evento luego de haber jugado todos los eventos
             // de la escena.
             currentEventIndex = 0;
