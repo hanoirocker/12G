@@ -23,16 +23,6 @@ namespace TwelveG.UIController
             controlCanvas = GetComponent<Canvas>();
         }
 
-        private void Start()
-        {
-            HideControlCanvas();
-        }
-
-        private void HideControlCanvas()
-        {
-            controlCanvas.enabled = false;
-        }
-
         public void SetInteractionSpecificOptions(Component sender, object data)
         {
             if (data != null)

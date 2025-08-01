@@ -29,6 +29,8 @@ namespace TwelveG.GameController
 
         [Header("Other eventsSO references")]
         public GameEventSO enableTVHandler;
+        public GameEventSO onDeactivateCanvas;
+        public GameEventSO onActivateCanvas;
         public GameEventSO allowPlayerToHandleTV;
         public GameEventSO disableTVHandler;
         public GameEventSO activateRemoteController;
@@ -39,24 +41,19 @@ namespace TwelveG.GameController
         {
             print("<------ TV TIME EVENT NOW -------->");
 
-            onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
-
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
-
             enableTVHandler.Raise(this, null);
 
+            onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
+            yield return new WaitForSeconds(2f);
             onImageCanvasControls.Raise(this, new WakeUpBlinking());
 
             activateRemoteController.Raise(this, null);
-
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(5f);
 
             onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(true));
 
-            onControlCanvasControls.Raise(this, new ActivateCanvas(true));
-
+            onActivateCanvas.Raise(this, CanvasHandlerType.Control);
             onControlCanvasControls.Raise(this, new EnableCanvas(true));
 
             onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
@@ -68,7 +65,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
+            onDeactivateCanvas.Raise(this, CanvasHandlerType.Control);
 
             // onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
 
