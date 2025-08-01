@@ -6,7 +6,7 @@ namespace TwelveG.GameController
     using UnityEngine.SceneManagement;
     using TwelveG.UIController;
 
-    public class EventController : MonoBehaviour
+    public class EventsHandler : MonoBehaviour
     {
         [Header("Testing Settings")]
         public GameObject introEvents;

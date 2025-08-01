@@ -11,14 +11,14 @@ namespace TwelveG.GameController
     public static GameManager Instance;
 
     [Header("References")]
-    public GameObject scene;
+    public GameObject handlers;
 
     [Header("Game Event SO's")]
     public GameEventSO onToggleInGameCanvasAll;
     public GameEventSO onPlayGame;
     public GameEventSO onActivateCanvas;
 
-    private EventController eventController;
+    private EventsHandler eventController;
     private MenuHandler menuHandler;
     private int currentSceneIndex = 0;
     private int _savedSceneIndex = 0;
@@ -109,10 +109,10 @@ namespace TwelveG.GameController
       // Esperar un frame a que todos los componentes estén listos.
       yield return null;
 
-      GameObject currentSceneObj = GetComponentInChildren<EventController>().gameObject;
+      GameObject currentSceneObj = GetComponentInChildren<EventsHandler>().gameObject;
       if (currentSceneObj != null)
       {
-        eventController = currentSceneObj.GetComponent<EventController>();
+        eventController = currentSceneObj.GetComponent<EventsHandler>();
         menuHandler = currentSceneObj.GetComponent<MenuHandler>();
         VerifySceneType();
       }
