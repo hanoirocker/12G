@@ -1,7 +1,9 @@
 namespace TwelveG.UIController
 {
-  using TwelveG.PlayerController;
-  using UnityEngine;
+    using TwelveG.PlayerController;
+    using TwelveG.SaveSystem;
+    using UnityEngine;
+    using UnityEngine.UI;
 
     public class PauseMenuCanvasHandler : MonoBehaviour
     {
@@ -40,9 +42,29 @@ namespace TwelveG.UIController
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        public void ResumeGameOption()
+        public void OnPauseMenuButtonClicked(Button btn)
         {
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+            switch (btn.name)
+            {
+                case "Settings Btn":
+                    // Load Settings canvas
+                    print("TODO: Open Setting Canvas now!");
+                    break;
+                case "Save Btn":
+                    print("Saving data!");
+                    DataPersistenceManager.Instance.SavePersistenceData();
+                    break;
+                case "Return Btn":
+                    onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+                    break;
+                case "Quit Btn":
+                    print("Quitting game!");
+                    Application.Quit();
+                    break;
+                default:
+                    Debug.LogError($"[PauseMenuCanvasHandler]: clickedButton not recognized");
+                    break;
+            }
         }
     }
 }
