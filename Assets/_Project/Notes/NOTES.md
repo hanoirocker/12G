@@ -4,11 +4,10 @@
 - El Pause Menu Canvas fue modificado.
 
 TOFIX:
-- No están ejecutandose las transiciones desde la Player VC hacia la BagVC y a la PhoneVC. Quizas falta especificar el tipo de transicion?
+
 
 TODO:
-- Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica
-- Del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
+- Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
 - Implementar cambios de Video del Settings Menu
 
 TOCHECK:

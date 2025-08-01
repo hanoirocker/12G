@@ -111,10 +111,10 @@ namespace TwelveG.GameController
             int savedEventIndex = GameManager.Instance.ReturnSavedEventIndex();
 
             // Si existe índice de evento guardado mayor 0 (Narrative Event), ejecutar desde ahí
-            if (currentSceneIndex >= 2 && savedEventIndex > 0)
-            {
-                currentEventIndex = savedEventIndex;
-            }
+            // if (currentSceneIndex >= 2 && savedEventIndex > 0)
+            // {
+            //     currentEventIndex = savedEventIndex;
+            // }
 
             while (currentEventIndex < correspondingEvents.Count)
                 {

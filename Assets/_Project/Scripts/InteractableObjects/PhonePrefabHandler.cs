@@ -1,14 +1,18 @@
 namespace TwelveG.InteractableObjects
 {
     using System.Collections;
+    using Cinemachine;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
-  using TwelveG.Utils;
-  using UnityEngine;
+    using TwelveG.Utils;
+    using UnityEngine;
 
     public class PhonePrefabHandler : MonoBehaviour, IInteractable
     {
-        [Header("Prefab instances")]
+        [Header("Settings")]
+        [SerializeField, Range(2, 4)] private int cameraTrasitionTime = 2;
+
+        [Header("Prefab Instances")]
         [SerializeField] private GameObject phoneParent;
         [SerializeField] private Animation phoneAnimation;
 
@@ -61,14 +65,11 @@ namespace TwelveG.InteractableObjects
         {
             canBeInteractedWith = false;
             GetComponent<SphereCollider>().enabled = false;
+
             onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
-
-            onMainCameraSettings.Raise(this, "EasyInOut2");
-
+            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Phone, true));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Player, false));
-
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(cameraTrasitionTime);
 
             phoneAnimation.Play();
 
@@ -87,12 +88,9 @@ namespace TwelveG.InteractableObjects
 
             GetComponentInParent<MeshRenderer>().enabled = false;
 
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Player, true));
+            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Phone, false));
-
-            yield return new WaitForSeconds(2.5f);
-            onMainCameraSettings.Raise(this, "Cut");
-
+            yield return new WaitForSeconds(cameraTrasitionTime - 0.5f);
             onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
             Destroy(phoneParent);

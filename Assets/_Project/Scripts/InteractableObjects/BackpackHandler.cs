@@ -6,11 +6,13 @@ namespace TwelveG.InteractableObjects
     using Cinemachine;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
-  using TwelveG.Utils;
-  using UnityEngine;
+    using TwelveG.Utils;
+    using UnityEngine;
 
     public class BackpackHandler : MonoBehaviour, IInteractable
     {
+        [Header("Settings")]
+        [SerializeField, Range(2, 4)] private int cameraTrasitionTime = 2;
         [Header("Sound settings")]
         [SerializeField] private List<AudioClip> searchingSounds = null;
 
@@ -61,10 +63,9 @@ namespace TwelveG.InteractableObjects
             canBeInteractedWith = false;
 
             onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
-
-            onMainCameraSettings.Raise(this, "EasyInOut2");
-
+            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, true));
+            yield return new WaitForSeconds(cameraTrasitionTime);
 
             yield return new WaitUntil(() => backpackAnimation != null);
             backpackAnimation.PlayQueued("Night - Backpack - Search 1");
@@ -97,14 +98,11 @@ namespace TwelveG.InteractableObjects
             onObservationCanvasShowText.Raise(this, searchingTexts[2]);
             yield return new WaitForSeconds(1f);
 
+
+            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
-
+            yield return new WaitForSeconds(cameraTrasitionTime);
             onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
-
-            // Esperar hasta que transicione de cámaras para resetear
-            // el modo de transición
-            yield return new WaitForSeconds(2.5f);
-            onMainCameraSettings.Raise(this, "Cut");
 
             // Si no mal recuerdo, la última vez que revisé mi celular fue mientras miraba la TV hoy por la mañana
             yield return new WaitForSeconds(3f);
