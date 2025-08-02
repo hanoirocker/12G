@@ -1,7 +1,6 @@
 namespace TwelveG.GameController
 {
     using UnityEngine;
-    using UnityEngine.SceneManagement;
     using System.Collections;
     using TwelveG.Localization;
     using TwelveG.PlayerController;

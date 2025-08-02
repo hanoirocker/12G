@@ -1,5 +1,6 @@
 namespace TwelveG.PlayerController
 {
+    using System.Collections;
     using System.Collections.Generic;
     using TwelveG.Localization;
     using TwelveG.UIController;
@@ -8,10 +9,20 @@ namespace TwelveG.PlayerController
 
     public class TVHandler : MonoBehaviour
     {
-        public int initialChannelIndex = 0;
+        [System.Serializable]
+        public class TVChannel
+        {
+            public string channelName;
+            public VideoClip videoClip;
+            public RenderTexture renderTexture;
+            public bool isNewsChannel;
+            [HideInInspector] public double lastPlaybackTime;
+            [HideInInspector] public bool isPrepared;
+        }
 
-        [SerializeField] List<GameObject> planes;
-        [SerializeField] List<VideoPlayer> videoPlayers;
+        public int initialChannelIndex = 0;
+        public List<TVChannel> channels;
+
         [SerializeField] EventsControlCanvasInteractionTextSO interactWithTVSO;
         [SerializeField] EventsControlCanvasInteractionTextSO interactWithRCSO;
         [SerializeField] List<GameEventListener> eventListenersToToggle;
@@ -20,71 +31,196 @@ namespace TwelveG.PlayerController
         public GameEventSO onControlCanvasSetInteractionOptions;
         public GameEventSO hasReachedNews;
 
+        [Header("TV Components")]
+        public Renderer tvScreenRenderer;
+        public VideoPlayer mainVideoPlayer;
+
+        private Material tvScreenMaterial;
         private GameObject remoteControl;
         private Animator animator = null;
 
-        private int newsChannelIndex;
-        private bool tvIsActive;
+        private int newsChannelIndex = -1;
         private bool playerIsInteracting;
         private bool playerIsAllowedToInteract;
         private float tvVolume = 1f;
 
         private int currentChannelIndex;
-        private int previousChannelIndex;
+        private bool isChangingChannel;
+        private bool tvInitialized;
+
+        private void Awake()
+        {
+            // Crear material dinámico para la pantalla
+            tvScreenMaterial = new Material(tvScreenRenderer.material);
+            tvScreenRenderer.material = tvScreenMaterial;
+
+            // Configurar video player
+            mainVideoPlayer.playOnAwake = false;
+            mainVideoPlayer.isLooping = true;
+            mainVideoPlayer.source = VideoSource.VideoClip;
+        }
 
         private void OnEnable()
         {
-            foreach (GameEventListener gameEventListener in eventListenersToToggle)
+            foreach (GameEventListener listener in eventListenersToToggle)
             {
-                gameEventListener.enabled = true;
+                listener.enabled = true;
             }
 
             currentChannelIndex = initialChannelIndex;
             onControlCanvasSetInteractionOptions.Raise(this, interactWithTVSO);
-            ToogleTV();
+            playerIsInteracting = false;
+            playerIsAllowedToInteract = true;
+
+            StartCoroutine(InitializeTV());
         }
 
-        private void Start()
+        private IEnumerator InitializeTV()
         {
-            previousChannelIndex = currentChannelIndex;
-            playerIsInteracting = false;
-            playerIsAllowedToInteract = false;
-            newsChannelIndex = GetMainVideoIndex();
+            // Buscar canal de noticias
+            for (int i = 0; i < channels.Count; i++)
+            {
+                if (channels[i].isNewsChannel)
+                {
+                    newsChannelIndex = i;
+                    break;
+                }
+            }
+
+            // Precargar canal inicial
+            yield return StartCoroutine(PrepareChannel(currentChannelIndex));
+            PlayCurrentChannel();
+
+            tvInitialized = true;
         }
 
         private void Update()
         {
+            if (!tvInitialized) return;
+
+            // Interacción básica con la TV
             if (playerIsAllowedToInteract && Input.GetKeyDown(KeyCode.E))
             {
-                PlayerState(!playerIsInteracting);
-                PlayRemoteControlClips();
+                TogglePlayerInteraction();
             }
+
+            // Controles del TV cuando está interactuando
+            if (playerIsInteracting && !isChangingChannel)
+            {
+                HandleTVControls();
+            }
+        }
+
+        private void TogglePlayerInteraction()
+        {
+            playerIsInteracting = !playerIsInteracting;
 
             if (playerIsInteracting)
             {
-                TVInteraction();
+                onControlCanvasSetInteractionOptions.Raise(this, interactWithRCSO);
+                ShowRemoteControl(true);
             }
-
-            HasReachedNews();
-            return;
+            else
+            {
+                onControlCanvasSetInteractionOptions.Raise(this, interactWithTVSO);
+                ShowRemoteControl(false);
+            }
         }
 
-        private int GetMainVideoIndex()
+        private void HandleTVControls()
         {
-            for (int i = 0; i < videoPlayers.Count; i++)
+            // Control de volumen
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                if (videoPlayers[i].gameObject.CompareTag("Main Video"))
+                tvVolume = Mathf.Clamp01(tvVolume + 0.1f);
+                mainVideoPlayer.SetDirectAudioVolume(0, tvVolume);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                tvVolume = Mathf.Clamp01(tvVolume - 0.1f);
+                mainVideoPlayer.SetDirectAudioVolume(0, tvVolume);
+            }
+            // Cambio de canal
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                StartCoroutine(SwitchChannel((currentChannelIndex - 1 + channels.Count) % channels.Count));
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                StartCoroutine(SwitchChannel((currentChannelIndex + 1) % channels.Count));
+            }
+        }
+
+        private IEnumerator PrepareChannel(int channelIndex)
+        {
+            TVChannel channel = channels[channelIndex];
+            
+            if (!channel.isPrepared)
+            {
+                mainVideoPlayer.clip = channel.videoClip;
+                mainVideoPlayer.targetTexture = channel.renderTexture;
+                mainVideoPlayer.Prepare();
+                
+                // Esperar a que el video esté preparado
+                while (!mainVideoPlayer.isPrepared)
                 {
-                    return i;
+                    yield return null;
                 }
+                
+                channel.isPrepared = true;
             }
-            return 0;
         }
 
-
-        private void PlayRemoteControlClips()
+        private void PlayCurrentChannel()
         {
-            if (playerIsInteracting)
+            TVChannel channel = channels[currentChannelIndex];
+            
+            // Configurar pantalla
+            tvScreenMaterial.mainTexture = channel.renderTexture;
+            
+            // Configurar y reproducir video
+            mainVideoPlayer.clip = channel.videoClip;
+            mainVideoPlayer.targetTexture = channel.renderTexture;
+            mainVideoPlayer.time = channel.lastPlaybackTime;
+            mainVideoPlayer.SetDirectAudioVolume(0, tvVolume);
+            mainVideoPlayer.Play();
+        }
+
+        private IEnumerator SwitchChannel(int newChannelIndex)
+        {
+            if (newChannelIndex == currentChannelIndex || isChangingChannel) yield break;
+            
+            isChangingChannel = true;
+            
+            // Guardar tiempo actual del canal
+            channels[currentChannelIndex].lastPlaybackTime = mainVideoPlayer.time;
+            
+            // Preparar nuevo canal si es necesario
+            if (!channels[newChannelIndex].isPrepared)
+            {
+                yield return StartCoroutine(PrepareChannel(newChannelIndex));
+            }
+            
+            // Actualizar canal actual
+            currentChannelIndex = newChannelIndex;
+            
+            // Cambiar a nuevo canal
+            PlayCurrentChannel();
+            isChangingChannel = false;
+            
+            // Comprobar si es canal de noticias
+            if (currentChannelIndex == newsChannelIndex)
+            {
+                hasReachedNews.Raise(this, null);
+                DisableAllGameEventListeners();
+            }
+        }
+
+        private void ShowRemoteControl(bool show)
+        {
+            if (animator == null) return;
+            
+            if (show)
             {
                 animator.SetTrigger("ShowRemoteControl");
             }
@@ -94,189 +230,61 @@ namespace TwelveG.PlayerController
             }
         }
 
-        private void TVInteraction()
+        private void AllowPlayerToInteractWithTV(bool isAllowed)
         {
-            // Volumen up
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            playerIsAllowedToInteract = isAllowed;
+            
+            if (!isAllowed && playerIsInteracting)
             {
-                if (tvVolume > 1) { tvVolume = 1; }
-
-                if (tvVolume >= 0 && tvVolume < 1f)
-                {
-                    tvVolume += 0.1f;
-                }
-                else
-                {
-                    return;
-                }
-                videoPlayers[currentChannelIndex].SetDirectAudioVolume(0, tvVolume);
-            }
-            // Volumen down
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                if (tvVolume < 0) { tvVolume = 0; }
-
-                if (tvVolume > 0 && tvVolume <= 1f)
-                {
-                    tvVolume -= 0.1f;
-                }
-                else
-                {
-                    return;
-                }
-                videoPlayers[currentChannelIndex].SetDirectAudioVolume(0, tvVolume);
-            }
-            // Previous channel
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                previousChannelIndex = currentChannelIndex;
-
-                if (currentChannelIndex - 1 < 0)
-                {
-                    currentChannelIndex = planes.Count - 1;
-                }
-                else
-                {
-                    currentChannelIndex -= 1;
-                }
-                // animator.SetTrigger("ChangeChannel");
-                planes[previousChannelIndex].SetActive(false);
-                videoPlayers[currentChannelIndex].SetDirectAudioVolume(0, tvVolume);
-                planes[currentChannelIndex].SetActive(true);
-                UnmuteCurrentVideoPlayer(currentChannelIndex);
-            }
-            // Next channel
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                previousChannelIndex = currentChannelIndex;
-
-                if (currentChannelIndex + 1 > planes.Count - 1)
-                {
-                    currentChannelIndex = 0;
-                }
-                else
-                {
-                    currentChannelIndex += 1;
-                }
-                // TODO: Hacer que la animacion Change Channel vuelva al estado previo
-                planes[previousChannelIndex].SetActive(false);
-                videoPlayers[currentChannelIndex].SetDirectAudioVolume(0, tvVolume);
-                planes[currentChannelIndex].SetActive(true);
-                UnmuteCurrentVideoPlayer(currentChannelIndex);
-            }
-        }
-
-        private void PlayerState(bool playerStateOfInteraction)
-        {
-            playerIsInteracting = playerStateOfInteraction;
-
-            if (playerIsInteracting)
-            {
-                onControlCanvasSetInteractionOptions.Raise(this, interactWithRCSO);
-            }
-            else
-            {
-                onControlCanvasSetInteractionOptions.Raise(this, interactWithTVSO);
-            }
-        }
-
-        private void AllowPlayerToInteractWithTV(bool isPlayerAllowedToInteract)
-        {
-            if (isPlayerAllowedToInteract == false)
-            {
-                playerIsAllowedToInteract = false;
                 playerIsInteracting = false;
-                PlayRemoteControlClips();
-            }
-            else
-            {
-                playerIsAllowedToInteract = isPlayerAllowedToInteract;
-            }
-        }
-
-        private void HasReachedNews()
-        {
-            if (currentChannelIndex == newsChannelIndex)
-            {
-                hasReachedNews.Raise(this, null);
-                DisableAllGameEventListeners();
-                this.enabled = false;
+                ShowRemoteControl(false);
             }
         }
 
         private void DisableAllGameEventListeners()
         {
-            GameEventListener[] listeners = GetComponents<GameEventListener>();
-            foreach (GameEventListener listener in listeners)
+            foreach (GameEventListener listener in eventListenersToToggle)
             {
                 listener.enabled = false;
             }
         }
 
-        private void ToogleTV()
-        {
-            planes[currentChannelIndex].SetActive(true);
-            UnmuteCurrentVideoPlayer(currentChannelIndex);
-        }
-
         private void SetRemoteControl(Component sender, object data)
         {
-            print("Recibido en TVHandler, intentando SetRemoteControl, data: " + data);
             remoteControl = (GameObject)data;
             animator = remoteControl.GetComponentInChildren<Animator>();
         }
 
-        private void UnmuteCurrentVideoPlayer(int channelIndex)
-        {
-            for (int i = 0; i < videoPlayers.Count; i++)
-            {
-                if (i != channelIndex)
-                {
-                    videoPlayers[i].SetDirectAudioMute(0, true);
-                }
-                else
-                {
-                    videoPlayers[i].SetDirectAudioMute(0, false);
-                }
-            }
-        }
-
         public void OnPauseMenuToggle()
         {
-            if (this.isActiveAndEnabled)
+            if (PauseMenuCanvasHandler.gameIsPaused)
             {
-                if (PauseMenuCanvasHandler.gameIsPaused)
-                {
-                    PauseVideoPlayers();
-                }
-                else
-                {
-                    ResumeVideoPlayers();
-                }
+                mainVideoPlayer.Pause();
             }
-        }
-
-        private void ResumeVideoPlayers()
-        {
-            foreach (VideoPlayer videoPlayer in videoPlayers)
+            else
             {
-                videoPlayer.Play();
-            }
-        }
-
-        private void PauseVideoPlayers()
-        {
-            foreach (VideoPlayer videoPlayer in videoPlayers)
-            {
-                videoPlayer.Pause();
+                mainVideoPlayer.Play();
             }
         }
 
         private void OnDisable()
         {
-            foreach (GameEventListener gameEventListener in eventListenersToToggle)
+            // Guardar estado actual al desactivar
+            if (tvInitialized && currentChannelIndex < channels.Count)
             {
-                gameEventListener.enabled = false;
+                channels[currentChannelIndex].lastPlaybackTime = mainVideoPlayer.time;
+            }
+            
+            // Liberar recursos
+            if (mainVideoPlayer != null)
+            {
+                mainVideoPlayer.Stop();
+            }
+            
+            // Desactivar listeners
+            foreach (GameEventListener listener in eventListenersToToggle)
+            {
+                listener.enabled = false;
             }
         }
     }
