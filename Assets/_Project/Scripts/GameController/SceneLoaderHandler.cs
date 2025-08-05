@@ -1,6 +1,7 @@
 namespace TwelveG.GameController
 {
   using System.Collections;
+  using TwelveG.AudioController;
   using TwelveG.UIController;
   using UnityEngine;
   using UnityEngine.SceneManagement;
@@ -9,6 +10,10 @@ namespace TwelveG.GameController
   {
     [Header("Settings")]
     [SerializeField, Range(1f, 5f)] private float delayTime = 2.5f;
+
+    [Header("References")]  
+    [SerializeField] private AudioClip loadingClip;
+
     [Header("Game Event SO's")]
     [SerializeField] private GameEventSO onSceneLoaded;
     [SerializeField] private GameEventSO onActivateCanvas;
@@ -17,6 +22,9 @@ namespace TwelveG.GameController
     {
       // Escucha UIManager para activar el Loading Scene Canvas
       onActivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
+
+      AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
+      audioSource.PlayOneShot(loadingClip);
 
       AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoadIndex);
       asyncLoad.allowSceneActivation = false;
@@ -27,6 +35,7 @@ namespace TwelveG.GameController
       }
 
       yield return new WaitForSeconds(delayTime);
+      audioSource.Stop();
 
       // Escucha el Loading Scene Canvas para terminar de parpadear
       // y mostrar el texto "Press any button"
