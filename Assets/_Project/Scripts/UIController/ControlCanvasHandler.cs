@@ -23,6 +23,11 @@ namespace TwelveG.UIController
             controlCanvas = GetComponent<Canvas>();
         }
 
+        private void OnEnable()
+        {
+            UpdateCanvasTextOnLanguageChanged();
+        }
+
         public void SetInteractionSpecificOptions(Component sender, object data)
         {
             if (data != null)

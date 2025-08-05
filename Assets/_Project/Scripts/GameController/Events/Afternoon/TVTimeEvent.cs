@@ -6,6 +6,7 @@ namespace TwelveG.GameController
     using TwelveG.PlayerController;
     using TwelveG.Utils;
     using TwelveG.UIController;
+    using Cinemachine;
 
     public class TVTimeEvent : GameEventBase
     {
@@ -31,15 +32,14 @@ namespace TwelveG.GameController
         public GameEventSO onDeactivateCanvas;
         public GameEventSO onActivateCanvas;
         public GameEventSO allowPlayerToHandleTV;
-        public GameEventSO disableTVHandler;
         public GameEventSO activateRemoteController;
+        public GameEventSO onMainCameraSettings;
 
         private bool allowNextAction = false;
 
         public override IEnumerator Execute()
         {
             print("<------ TV TIME EVENT NOW -------->");
-
             enableTVHandler.Raise(this, null);
 
             onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
@@ -55,25 +55,24 @@ namespace TwelveG.GameController
             onActivateCanvas.Raise(this, CanvasHandlerType.Control);
             onControlCanvasControls.Raise(this, new EnableCanvas(true));
 
+            onPlayerControls.Raise(this, new TogglePlayerCameraZoom(true));
             onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
 
             allowPlayerToHandleTV.Raise(this, null);
 
             // Unity Event (TVHandler - allowNextAction):
-            // Se recibe cuando el jugador alcanza el indice del canal principal
+            // Se recibe cuando el jugador alcana el indice del canal principal
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+
             onDeactivateCanvas.Raise(this, CanvasHandlerType.Control);
-
-            // onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
-
+            onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
+            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
+            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 4));
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.TV, true));
             onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
             yield return new WaitForSeconds(3f);
-
-            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
-
-            onPlayerControls.Raise(this, new TogglePlayerMainCamera(false));
 
             // Activar TVTime - Main News timeline.
             onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(0, true));

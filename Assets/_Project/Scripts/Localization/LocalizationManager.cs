@@ -30,6 +30,7 @@ namespace TwelveG.Localization
 
         public void ChangeLanguage(string languageCode)
         {
+            print("Seteando lenguage a: " + languageCode);
             var locale = LocalizationSettings.AvailableLocales.GetLocale(languageCode);
             if (locale != null)
             {

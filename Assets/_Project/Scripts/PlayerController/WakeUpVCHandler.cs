@@ -1,13 +1,20 @@
 namespace TwelveG.Utils
 {
     using System.Collections;
+    using Cinemachine;
     using UnityEngine;
 
     public class WakeUpVCHandler : MonoBehaviour
     {
+        [Header("Game Event SO's")]
+        public GameEventSO animationHasEnded;
+
         private Animation _animation;
 
-        public GameEventSO animationHasEnded;
+        private void OnDisable()
+        {
+            GetComponent<CinemachineVirtualCamera>().LookAt = null;
+        }
 
         public void PlayAnimation()
         {

@@ -47,19 +47,14 @@ namespace TwelveG.PlayerController
             }
         }
 
-        public bool PlayerCapsuleEnabled()
+        public void PauseGame(Component sender, object data)
         {
-            return playerCapsule.activeSelf;
+            TogglePlayerCapsule((bool)data);
         }
 
-        public void EnablePlayerCapsule()
+        private void TogglePlayerCapsule(bool activate)
         {
-            playerCapsule.SetActive(true);
-        }
-
-        public void DisablePlayerCapsule()
-        {
-            playerCapsule.SetActive(false);
+            playerCapsule.SetActive(activate);
         }
     }
 }

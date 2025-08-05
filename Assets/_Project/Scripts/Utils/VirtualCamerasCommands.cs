@@ -12,7 +12,8 @@ namespace TwelveG.Utils
     Bed,
     PC,
     Backpack,
-    Phone
+    Phone,
+    TV
   }
 
   public class ToggleVirtualCamera : VirtualCamerasCommandsBase
@@ -45,5 +46,5 @@ namespace TwelveG.Utils
   {
     public int Time;
     public SetCustomCameraBlend(int time) => Time = time;
-   }
+  }
 }

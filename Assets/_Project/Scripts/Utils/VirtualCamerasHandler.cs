@@ -12,6 +12,7 @@ namespace TwelveG.Utils
         [SerializeField] private CinemachineVirtualCamera backpackVC;
         [SerializeField] private CinemachineVirtualCamera phoneVC;
         [SerializeField] private CinemachineVirtualCamera bedVC;
+        [SerializeField] private CinemachineVirtualCamera tvVC;
 
         [Header("EventsSO references")]
         public GameEventSO setCurrentCamera;
@@ -45,12 +46,6 @@ namespace TwelveG.Utils
             if (data is ToggleVirtualCamera cmd)
             {
                 CinemachineVirtualCamera targetVC = GetVCByEnum(cmd.Target);
-
-                if (targetVC == null)
-                {
-                    Debug.LogWarning($"[VirtualCamerasHandler] Cámara no encontrada para: {cmd.Target}");
-                    return;
-                }
 
                 targetVC.enabled = cmd.Enabled;
 
@@ -90,6 +85,7 @@ namespace TwelveG.Utils
                 VirtualCameraTarget.PC => pCVC,
                 VirtualCameraTarget.Backpack => backpackVC,
                 VirtualCameraTarget.Phone => phoneVC,
+                VirtualCameraTarget.TV => tvVC,
                 _ => null
             };
         }

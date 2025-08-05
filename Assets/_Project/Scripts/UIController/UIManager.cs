@@ -86,6 +86,14 @@ namespace TwelveG.UIController
       }
     }
 
+    public void PauseGame(Component sender, object data)
+    {
+        if (canvasDict.TryGetValue(CanvasHandlerType.PauseMenu, out var canvasGO))
+        {
+          canvasGO.SetActive((bool)data);
+        }
+    }
+
     public void DeactivateCanvas(Component sender, object data)
     {
       if (data is CanvasHandlerType canvasType)

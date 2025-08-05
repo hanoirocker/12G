@@ -7,15 +7,7 @@ namespace TwelveG.PlayerController
     {
         [Header("Game Event So's")]
         public GameEventSO onControlCanvasControls;
-        public GameEventSO onActivateCanvas;
-        public GameEventSO onDeactivateCanvas;
-
-        private PlayerHandler playerHandler;
-
-        private void Awake()
-        {
-            playerHandler = GetComponent<PlayerHandler>();
-        }
+        public GameEventSO onPauseGame;
 
         private void Update()
         {
@@ -25,16 +17,13 @@ namespace TwelveG.PlayerController
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
-                print("gameIsPaused: " + PauseMenuCanvasHandler.gameIsPaused);
                 if (!PauseMenuCanvasHandler.gameIsPaused)
                 {
-                    onActivateCanvas.Raise(this, CanvasHandlerType.PauseMenu);
-                    playerHandler.DisablePlayerCapsule();
+                    onPauseGame.Raise(this, true);
                 }
                 else
                 {
-                    onDeactivateCanvas.Raise(this, CanvasHandlerType.PauseMenu);
-                    playerHandler.EnablePlayerCapsule();
+                    onPauseGame.Raise(this, false);
                 }
             }
         }
