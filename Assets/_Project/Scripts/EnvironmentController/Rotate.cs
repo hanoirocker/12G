@@ -2,12 +2,12 @@
 
 public class Rotate : MonoBehaviour
 {
-    [SerializeField] Transform  target         = null;
+    [SerializeField] Transform target = null;
 
     [Header("Parameters")]
-    [SerializeField] bool       startOnPlay    = false;
-    [SerializeField] float      speed          = 2.0f;
-    [SerializeField] Vector3    euler          = Vector3.zero;
+    [SerializeField] bool startOnPlay = false;
+    [SerializeField] float speed = 2.0f;
+    [SerializeField] Vector3 euler = Vector3.zero;
 
     private bool rotate = false;
 
@@ -19,7 +19,7 @@ public class Rotate : MonoBehaviour
     private void Update()
     {
         if (!rotate) { return; }
-        
+
         target.Rotate(euler * (Time.deltaTime * (speed * 100)));
     }
 
