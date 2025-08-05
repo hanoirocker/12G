@@ -20,11 +20,10 @@ namespace TwelveG.EnvironmentController
             ableToInteract = true;
         }
 
-        public string GetContemplationText(string languageCode)
+        public string GetContemplationText()
         {
             var (contemplationText, updatedContemplationsStatus, updatedIndex) = 
                 Utils.TextFunctions.RetrieveContemplationText(
-                    languageCode,
                     currentContemplationIndex,
                     contemplationTextsSO);
 

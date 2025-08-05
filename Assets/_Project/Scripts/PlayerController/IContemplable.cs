@@ -4,7 +4,7 @@ namespace TwelveG.PlayerController
     {
         public bool HasReachedMaxContemplations();
 
-        public string GetContemplationText(string languageCode);
+        public string GetContemplationText();
 
         public bool CanBeInteractedWith();
 

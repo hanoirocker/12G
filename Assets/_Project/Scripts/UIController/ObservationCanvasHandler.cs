@@ -17,6 +17,11 @@ namespace TwelveG.UIController
             observationCanvasText = GetComponentInChildren<TextMeshProUGUI>();
         }
 
+        private void OnEnable()
+        {
+            UpdateCanvasTextOnLanguageChanged();
+        }
+
         void Start()
         {
             observationCanvas.enabled = false;

@@ -17,6 +17,11 @@ namespace TwelveG.UIController
             interactionCanvasText = GetComponentInChildren<TextMeshProUGUI>();
         }
 
+        private void OnEnable()
+        {
+            UpdateCanvasTextOnLanguageChanged();
+        }
+
         private void Start()
         {
             interactionCavas.enabled = false;

@@ -7,7 +7,7 @@ namespace TwelveG.Utils
         public static float CalculateTextDisplayDuration(string text)
         {
             float reason = 14;
-            if(text.Length < 10) { reason = 4; }
+            if (text.Length < 10) { reason = 4; }
             float calculatedTime = (text.Length) / reason;
             return calculatedTime;
         }
@@ -50,11 +50,11 @@ namespace TwelveG.Utils
 
         public static (string contemplationText, bool hasReachedMaxContemplations, int updatedIndex)
         RetrieveContemplationText(
-            string languageCode,
             int currentContemplationIndex,
             ContemplationTextSO contemplationTextsSO
-            )
+        )
         {
+            string languageCode = LocalizationManager.Instance.GetCurrentLanguageCode();
             if (contemplationTextsSO == null)
             {
                 return ("ContemplationTextsSO is null", false, currentContemplationIndex);

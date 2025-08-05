@@ -84,7 +84,7 @@ namespace TwelveG.PlayerController
             // Logica dentro de ContemplateObject.
             if (!contemplableObj.HasReachedMaxContemplations())
             {
-                contemplationText = contemplableObj.GetContemplationText(LocalizationManager.Instance.GetCurrentLanguageCode());
+                contemplationText = contemplableObj.GetContemplationText();
 
                 onContemplationCanvasShowText.Raise(this, contemplationText);
             }
