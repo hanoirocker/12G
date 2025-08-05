@@ -13,6 +13,7 @@ namespace TwelveG.GameController
 
     [Header("References")]  
     [SerializeField] private AudioClip loadingClip;
+    [SerializeField, Range(0f, 1f)] private float clipVolume = 0.6f;
 
     [Header("Game Event SO's")]
     [SerializeField] private GameEventSO onSceneLoaded;
@@ -24,7 +25,7 @@ namespace TwelveG.GameController
       onActivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
 
       AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
-      audioSource.PlayOneShot(loadingClip);
+      audioSource.PlayOneShot(loadingClip, clipVolume);
 
       AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoadIndex);
       asyncLoad.allowSceneActivation = false;

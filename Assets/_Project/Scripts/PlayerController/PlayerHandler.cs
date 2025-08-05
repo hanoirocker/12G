@@ -49,7 +49,7 @@ namespace TwelveG.PlayerController
 
         public void PauseGame(Component sender, object data)
         {
-            TogglePlayerCapsule((bool)data);
+            TogglePlayerCapsule(!(bool)data);
         }
 
         private void TogglePlayerCapsule(bool activate)
