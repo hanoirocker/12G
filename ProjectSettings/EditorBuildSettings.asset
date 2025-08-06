@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/Intro - Disclaimer.unity
     guid: 0f3a8162af66f4641bec511eb5371f41
   - enabled: 1
-    path: Assets/_Project/Scenes/Main Menu.unity
+    path: Assets/_Project/Scenes/Menu Afternoon.unity
     guid: 1860ad709a8044c6dbea7dfbdcbaf1b5
   - enabled: 1
     path: Assets/_Project/Scenes/Afternoon Scene.unity
@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/Night Scene.unity
     guid: 276529b97785c488597913eaaed132b7
   m_configObjects:
-    com.unity.addressableassets: {fileID: 11400000, guid: 2b0e3503ae77146bdbc2a2f650cdd9f0,
+    com.unity.addressableassets: {fileID: 11400000, guid: b7d4a110e0158cb43885908c6f8cdb39,
       type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: 5f8b53e5982744f97be318d4ae86d8df,
       type: 2}
