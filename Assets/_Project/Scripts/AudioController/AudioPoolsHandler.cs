@@ -50,14 +50,14 @@ namespace TwelveG.AudioController
     {
       if (!poolMap.TryGetValue(audioPoolType, out var sources))
       {
-        Debug.LogError($"[AudioPoolsHandler]: No se encontró lista para pool '{audioPoolType}'");
+        Debug.LogError($"[AudioPoolsHandler]: Couldn't find '{audioPoolType}' sources list");
         return null;
       }
 
-      return CheckForFreeAudioSource(sources);
+      return CheckForFreeAudioSource(sources, audioPoolType);
     }
 
-    private AudioSource CheckForFreeAudioSource(List<AudioSource> sources)
+    private AudioSource CheckForFreeAudioSource(List<AudioSource> sources, AudioPoolType audioPoolType)
     {
       foreach (AudioSource audioSource in sources)
       {
@@ -65,6 +65,7 @@ namespace TwelveG.AudioController
         {
           return audioSource;
         }
+        Debug.LogError($"[AudioPoolsHandler]: Non '{audioPoolType}' free source");
       }
 
       Debug.LogWarning($"[AudioPoolsHandler]: Todos los sources estaban ocupados.");

@@ -21,6 +21,18 @@ namespace TwelveG.UIController
       menuCanvas = GetComponent<Canvas>();
     }
 
+    private void OnEnable()
+    {
+      Cursor.visible = true;
+      Cursor.lockState = CursorLockMode.None;
+    }
+
+    private void OnDisable()
+    {
+      Cursor.visible = false;
+      Cursor.lockState = CursorLockMode.Locked;
+    }
+
     private IEnumerator StartPlaying(bool isNewGame)
     {
       yield return StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 0, 1, fadeOutDuration));

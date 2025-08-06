@@ -25,6 +25,7 @@ namespace TwelveG.GameController
 
         [Header("Graphics Settings Refs")]
         [SerializeField] private TMP_Dropdown resolutionDropdown;
+        [SerializeField] private TMP_Dropdown languagesDropdown;
         [SerializeField] private Toggle fullscreenToggle;
 
         [Header("Graphics Default Values")]
@@ -39,7 +40,12 @@ namespace TwelveG.GameController
 
         private void OnEnable()
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
             FillResolutionDropdown();
+
+            languagesDropdown.RefreshShownValue();
 
             // Por defecto abrir el panel de opciones generales
             defaultOptions.SetActive(true);
@@ -54,6 +60,8 @@ namespace TwelveG.GameController
         private void OnDisable()
         {
             lastActiveOptions = defaultOptions;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         // Encontrar todas las configuraciones de resolución y populate

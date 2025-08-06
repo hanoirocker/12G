@@ -72,8 +72,6 @@ namespace TwelveG.GameController
 
             // TODO: Carga asincrónica del Menu, esperar hasta que termine
             yield return new WaitForSeconds(3f);
-
-            SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
         }
 
         public void AllowNextActions(Component sender, object data)

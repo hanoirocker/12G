@@ -86,7 +86,7 @@ namespace TwelveG.GameController
       if (!isPersistentInstance) return;
 
       currentSceneIndex = scene.buildIndex;
-      Debug.Log($"Escena cargada: {scene.name} (index: {currentSceneIndex})");
+      // Debug.Log($"Escena cargada: {scene.name} (index: {currentSceneIndex})");
 
       StartCoroutine(InitializeSceneComponents());
     }
