@@ -5,9 +5,9 @@ Models/
 Scenes/Afternoon Scene/
 Scenes/Evening Scene/
 Scenes/Night Scene/
-Scenes/Menu Afternoon Scene/
-Scenes/Menu Evening Scene/
-Scenes/Menu Night Scene/
+Scenes/Menu Afternoon/
+Scenes/Menu Evening/
+Scenes/Menu Night/
 
 !.gitignore
 
