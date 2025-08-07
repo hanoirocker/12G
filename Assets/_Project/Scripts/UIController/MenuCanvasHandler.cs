@@ -5,14 +5,12 @@ namespace TwelveG.UIController
 
   public class MenuCanvasHandler : MonoBehaviour
   {
-    [Header("References")]
-    [SerializeField] private CanvasGroup backGroundCanvasGroup;
-
     [Header("Settings")]
     [SerializeField, Range(0.5f, 3f)] private float fadeOutDuration = 1.5f;
 
     [Header("Game Event SO's")]
     [SerializeField] private GameEventSO onPlayGame;
+    [SerializeField] private GameEventSO onImageCanvasControls;
 
     private Canvas menuCanvas;
 
@@ -27,7 +25,7 @@ namespace TwelveG.UIController
       Cursor.lockState = CursorLockMode.None;
     }
 
-    private void OnDisable()
+  private void OnDisable()
     {
       Cursor.visible = false;
       Cursor.lockState = CursorLockMode.Locked;
@@ -35,7 +33,8 @@ namespace TwelveG.UIController
 
     private IEnumerator StartPlaying(bool isNewGame)
     {
-      yield return StartCoroutine(FadeCanvasCoroutine(backGroundCanvasGroup, 0, 1, fadeOutDuration));
+      onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, fadeOutDuration));
+      yield return new WaitForSeconds(fadeOutDuration);
       // Escuchado por GameManager para luego llamar al SceneLoaderHandler.
       onPlayGame.Raise(this, isNewGame);
       gameObject.SetActive(false);

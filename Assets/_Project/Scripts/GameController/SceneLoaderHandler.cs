@@ -18,6 +18,7 @@ namespace TwelveG.GameController
     [Header("Game Event SO's")]
     [SerializeField] private GameEventSO onSceneLoaded;
     [SerializeField] private GameEventSO onActivateCanvas;
+    [SerializeField] private GameEventSO onDeactivateAcanvas;
 
     private IEnumerator LoadNextScene(int sceneToLoadIndex)
     {
@@ -47,6 +48,8 @@ namespace TwelveG.GameController
 
       // Ahora sí, activar la escena cargada
       asyncLoad.allowSceneActivation = true;
+
+      onDeactivateAcanvas.Raise(this, CanvasHandlerType.LoadScene);
     }
 
     public void LoadNextSceneSequence(int sceneToLoadIndex)

@@ -31,6 +31,9 @@ namespace TwelveG.UIController
       public CanvasHandlerType type;
       public GameObject canvasObject;
     }
+
+    public static UIManager Instance { get; private set; }
+
     [Header("References")]
     [SerializeField] private Button continueBtn;
     [SerializeField] private LoadingSceneCanvasHandler loadingSceneCanvasHandler;
@@ -42,6 +45,21 @@ namespace TwelveG.UIController
     private Dictionary<CanvasHandlerType, GameObject> canvasDict;
 
     private void Awake()
+    {
+      if (Instance == null)
+      {
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+      }
+      else
+      {
+        Destroy(gameObject);
+      }
+
+      MapCanvas();
+    }
+
+    private void MapCanvas()
     {
       canvasDict = new Dictionary<CanvasHandlerType, GameObject>();
       foreach (var entry in canvasMappings)
@@ -57,26 +75,6 @@ namespace TwelveG.UIController
       }
     }
 
-    public void ActivateCanvas(Component sender, object data)
-    {
-      if (data is CanvasHandlerType canvasType)
-      {
-        if (canvasDict.TryGetValue(canvasType, out var canvasGO))
-        {
-          canvasGO.SetActive(true);
-          // Debug.Log($"[UIManager] Activado canvas: {canvasType}");
-        }
-        else
-        {
-          Debug.LogWarning($"[UIManager] No se encontró canvas para tipo: {canvasType}");
-        }
-      }
-      else
-      {
-        Debug.LogWarning("[UIManager] Tipo de datos inválido para activación de canvas");
-      }
-    }
-
     // Llamado por GameManager luego de cargar y detectar índice de escena
     public void ToggleInGameCanvas(Component sender, object data)
     {
@@ -88,10 +86,30 @@ namespace TwelveG.UIController
 
     public void PauseGame(Component sender, object data)
     {
-        if (canvasDict.TryGetValue(CanvasHandlerType.PauseMenu, out var canvasGO))
+      if (canvasDict.TryGetValue(CanvasHandlerType.PauseMenu, out var canvasGO))
+      {
+        canvasGO.SetActive((bool)data);
+      }
+    }
+
+    public void ActivateCanvas(Component sender, object data)
+    {
+      if (data is CanvasHandlerType canvasType)
+      {
+        if (canvasDict.TryGetValue(canvasType, out var canvasGO))
         {
-          canvasGO.SetActive((bool)data);
+          canvasGO.SetActive(true);
+          Debug.Log($"[UIManager] Activado canvas: {canvasType}");
         }
+        else
+        {
+          Debug.LogWarning($"[UIManager] No se encontró canvas para tipo: {canvasType}");
+        }
+      }
+      else
+      {
+        Debug.LogWarning("[UIManager] Tipo de datos inválido para activación de canvas");
+      }
     }
 
     public void DeactivateCanvas(Component sender, object data)
@@ -108,7 +126,6 @@ namespace TwelveG.UIController
       {
         Debug.LogError("[UIManager] Tipo de datos inválido para activación de canvas");
       }
-
     }
 
     public void LoadData(GameData data)
