@@ -3,6 +3,10 @@ namespace TwelveG.GameController
     using System.Collections;
     using System.Collections.Generic;
     using TwelveG.Localization;
+    using TwelveG.UIController;
+    using Cinemachine;
+    using TwelveG.PlayerController;
+    using TwelveG.Utils;
     using UnityEngine;
 
     public class LostSignal2Event : GameEventBase
@@ -22,6 +26,10 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO enableBackpack;
         [SerializeField] private GameEventSO disableBackpack;
         [SerializeField] private GameEventSO enablePhone;
+        [SerializeField] private GameEventSO onVirtualCamerasControl;
+        [SerializeField] private GameEventSO onMainCameraSettings;
+        [SerializeField] private GameEventSO onImageCanvasControls;
+        [SerializeField] private GameEventSO onPlayerControls;
 
         private bool allowNextAction = false;
 
@@ -50,6 +58,14 @@ namespace TwelveG.GameController
             // Se recibe cuando el jugador deja de usar el teléfono
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
+            yield return new WaitForSeconds(1f);
+            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, false));
+            yield return new WaitForSeconds(1f);
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
             // Nos aseguramos que el interactuable del Backpack se destruya
             // si no fue revisada hasta este punto.

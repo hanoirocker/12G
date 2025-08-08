@@ -13,7 +13,8 @@ namespace TwelveG.Utils
     PC,
     Backpack,
     Phone,
-    TV
+    TV,
+    Sofa
   }
 
   public class ToggleVirtualCamera : VirtualCamerasCommandsBase

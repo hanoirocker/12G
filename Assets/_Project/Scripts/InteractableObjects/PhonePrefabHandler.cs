@@ -89,9 +89,8 @@ namespace TwelveG.InteractableObjects
             GetComponentInParent<MeshRenderer>().enabled = false;
 
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Phone, false));
+            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, true));
             yield return new WaitForSeconds(cameraTrasitionTime - 0.5f);
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
             Destroy(phoneParent);
         }
