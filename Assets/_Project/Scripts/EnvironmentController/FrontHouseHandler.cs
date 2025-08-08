@@ -6,11 +6,9 @@ namespace TwelveG.EnvironmentController
     {
         [Header("Objects references")]
         [SerializeField] private GameObject fernandezDeadPrefab;
+        [SerializeField] private Transform chair;
         [SerializeField] private Light livingRoomLight;
         [SerializeField] private Light entranceLight;
-
-        [Header("Audio references")]
-        [SerializeField] private AudioSource shotGunAudioSource;
 
 
         public void SwitchLivingRoomLight(bool turnOnLight)
@@ -25,8 +23,7 @@ namespace TwelveG.EnvironmentController
 
         public void TriggerFernandezSuicide()
         {
-            fernandezDeadPrefab.SetActive(true);
-            shotGunAudioSource.Play();
+            Instantiate(fernandezDeadPrefab, chair);
         }
     }
 }
