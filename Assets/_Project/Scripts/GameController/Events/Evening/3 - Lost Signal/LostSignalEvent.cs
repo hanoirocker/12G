@@ -27,7 +27,7 @@ namespace TwelveG.GameController
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
 
         [Header("Other eventsSO references")]
-        public GameEventSO enablePC;
+        [SerializeField] private GameEventSO enablePC;
         [SerializeField] private GameEventSO updateFallbackTexts;
 
         private bool allowNextAction = false;
@@ -72,10 +72,10 @@ namespace TwelveG.GameController
             onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
+            onInteractionCanvasControls.Raise(this, new HideText());
+
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
             yield return new WaitForSeconds(2f);
-
-            onInteractionCanvasControls.Raise(this, new HideText());
 
             onControlCanvasControls.Raise(this, new EnableCanvas(false));
 
