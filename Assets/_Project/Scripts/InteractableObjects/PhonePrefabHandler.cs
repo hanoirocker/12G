@@ -88,6 +88,7 @@ namespace TwelveG.InteractableObjects
 
             GetComponentInParent<MeshRenderer>().enabled = false;
 
+            // Cambia a Camera del Sofá
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, true));
             yield return new WaitForSeconds(cameraTrasitionTime - 0.5f);

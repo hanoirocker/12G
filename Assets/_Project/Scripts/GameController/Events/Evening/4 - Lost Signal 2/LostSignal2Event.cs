@@ -59,13 +59,13 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            // Retorna a la camara del player desde la del sofá
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
             yield return new WaitForSeconds(1f);
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, false));
             yield return new WaitForSeconds(1f);
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
             // Nos aseguramos que el interactuable del Backpack se destruya
             // si no fue revisada hasta este punto.
@@ -76,6 +76,10 @@ namespace TwelveG.GameController
                 this,
                 eventObservationsTextsSOs[1]
             );
+
+            // Espera un toque para que el jugador pueda leer el texto antes de activar mandos
+            yield return new WaitForSeconds(1f);
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
         }
 
         public void AllowNextActions(Component sender, object data)
