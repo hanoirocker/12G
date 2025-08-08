@@ -10,9 +10,6 @@ namespace TwelveG.GameController
 
     public class TVTimeEvent : GameEventBase
     {
-        [Header("Event references")]
-        [SerializeField] private GameObject remoteControlContainer;
-
         [Header("Text event SO")]
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
 
@@ -29,7 +26,6 @@ namespace TwelveG.GameController
 
         [Header("Other eventsSO references")]
         public GameEventSO enableTVHandler;
-        public GameEventSO onDeactivateCanvas;
         public GameEventSO onActivateCanvas;
         public GameEventSO allowPlayerToHandleTV;
         public GameEventSO activateRemoteController;
@@ -66,7 +62,6 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
 
-            onDeactivateCanvas.Raise(this, CanvasHandlerType.Control);
             onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
             onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 4));
@@ -102,7 +97,6 @@ namespace TwelveG.GameController
 
         public void AllowNextActions(Component sender, object data)
         {
-            print(gameObject.name + "recibió eventoSO desde " + sender.gameObject.name + " para continuar el evento");
             allowNextAction = true;
         }
 

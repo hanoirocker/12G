@@ -21,6 +21,7 @@ namespace TwelveG.UIController
         void Awake()
         {
             controlCanvas = GetComponent<Canvas>();
+            controlCanvas.enabled = false;
         }
 
         private void OnEnable()

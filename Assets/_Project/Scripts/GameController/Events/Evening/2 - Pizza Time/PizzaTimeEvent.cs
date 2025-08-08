@@ -22,13 +22,14 @@ namespace TwelveG.GameController
 
         [Header("Text event SO")]
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
         [SerializeField] private EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO_eating;
-        [SerializeField] private EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO_standup;
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onImageCanvasControls;
         [SerializeField] private GameEventSO onObservationCanvasShowText;
+        [SerializeField] private GameEventSO onEventInteractionCanvasShowText;
         [SerializeField] private GameEventSO onInteractionCanvasShowText;
         [SerializeField] private GameEventSO onInteractionCanvasControls;
         [SerializeField] private GameEventSO onPlayerControls;
@@ -130,38 +131,37 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onControlCanvasSetInteractionOptions.Raise(
+            onControlCanvasControls.Raise(this, new ResetControlCanvasSpecificOptions());
+            yield return new WaitForSeconds(3.5f);
+            onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            // LEVANTARSE [E]
+            onEventInteractionCanvasShowText.Raise(
                 this,
-                eventsControlCanvasInteractionTextSO_standup
+                eventsInteractionTextsSO
             );
-
             // Espera hasta que el jugador presione nuevamente la E
             // para levantarse de la silla.
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-
             onInteractionCanvasControls.Raise(this, new HideText());
 
             onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
 
-            onControlCanvasControls.Raise(this, new ResetControlCanvasSpecificOptions());
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
 
-            onControlCanvasControls.Raise(this, new EnableCanvas(false));
-
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
             yield return new WaitForSeconds(2f);
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, false));
 
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
+
+            yield return new WaitForSeconds(1f);
 
             onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
-
-            yield return new WaitForSeconds(2f);
         }
 
         public void AllowNextActions(Component sender, object data)
         {
-            print(gameObject.name + "recieved event sent by: " + sender.gameObject.name);
             allowNextAction = true;
         }
 

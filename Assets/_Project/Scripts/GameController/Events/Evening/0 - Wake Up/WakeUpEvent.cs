@@ -18,7 +18,6 @@ namespace TwelveG.GameController
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
 
         [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onControlCanvasControls;
         [SerializeField] private GameEventSO onImageCanvasControls;
         [SerializeField] private GameEventSO onObservationCanvasShowText;
         [SerializeField] private GameEventSO onEventInteractionCanvasShowText;
@@ -43,8 +42,6 @@ namespace TwelveG.GameController
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
 
             onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
-
-            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
 
             onPlayerControls.Raise(this, new TogglePlayerMainCamera(true));
 
