@@ -1,5 +1,6 @@
 namespace TwelveG.GameController
 {
+  using System;
   using System.Collections;
   using TwelveG.AudioController;
   using TwelveG.UIController;
@@ -11,7 +12,7 @@ namespace TwelveG.GameController
     [Header("Settings")]
     [SerializeField, Range(1f, 5f)] private float delayTime = 2.5f;
 
-    [Header("References")]  
+    [Header("References")]
     [SerializeField] private AudioClip loadingClip;
     [SerializeField, Range(0f, 1f)] private float clipVolume = 0.6f;
 
@@ -19,6 +20,21 @@ namespace TwelveG.GameController
     [SerializeField] private GameEventSO onSceneLoaded;
     [SerializeField] private GameEventSO onActivateCanvas;
     [SerializeField] private GameEventSO onDeactivateAcanvas;
+
+    private IEnumerator BasicLoadScene(int sceneToLoadIndex)
+    {
+      AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoadIndex);
+      asyncLoad.allowSceneActivation = false;
+
+      while (asyncLoad.progress < 0.9f)
+      {
+        yield return null;
+      }
+
+      yield return new WaitForSeconds(delayTime);
+
+      asyncLoad.allowSceneActivation = true;
+    }
 
     private IEnumerator LoadNextScene(int sceneToLoadIndex)
     {
@@ -54,7 +70,17 @@ namespace TwelveG.GameController
 
     public void LoadNextSceneSequence(int sceneToLoadIndex)
     {
-      StartCoroutine(LoadNextScene(sceneToLoadIndex));
+      Debug.LogFormat($"Escena actual: {SceneManager.GetActiveScene().buildIndex}");
+      Debug.LogFormat($"Escena a cargar {sceneToLoadIndex}");
+  
+      if (SceneManager.GetActiveScene().buildIndex == 0)
+      {
+        StartCoroutine(BasicLoadScene(sceneToLoadIndex));
+      }
+      else
+      {
+        StartCoroutine(LoadNextScene(sceneToLoadIndex));
+      }
     }
   }
 }
