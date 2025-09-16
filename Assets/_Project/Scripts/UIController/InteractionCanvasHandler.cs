@@ -94,7 +94,7 @@ namespace TwelveG.UIController
         {
             float duration = 2f;
 
-            float startAlpha = 1;
+            float startAlpha = 1f;
             float endAlpha = 0f;
 
             float startFontSize = interactionCanvasText.fontSize;
@@ -121,6 +121,7 @@ namespace TwelveG.UIController
             interactionCanvasText.alpha = endAlpha;
             interactionCanvasText.text = "";
             interactionCavas.enabled = false;
+            interactionCanvasText.alpha = 1f;
         }
 
         public void ChangeText(string textGiven)

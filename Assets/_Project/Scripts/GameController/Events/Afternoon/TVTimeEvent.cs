@@ -61,7 +61,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
+            onControlCanvasControls.Raise(this, new EnableCanvas(false));
             onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
             onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 4));
