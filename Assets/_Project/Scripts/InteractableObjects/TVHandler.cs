@@ -2,6 +2,7 @@ namespace TwelveG.PlayerController
 {
     using System.Collections;
     using System.Collections.Generic;
+    using TwelveG.AudioController;
     using TwelveG.Localization;
     using UnityEngine;
     using UnityEngine.Video;
@@ -282,6 +283,38 @@ namespace TwelveG.PlayerController
         {
             if (pause) { mainVideoPlayer.Pause(); }
             else { mainVideoPlayer.Play(); }
+        }
+
+        public void TVAudioFadeOut(Component sender, object data)
+        {
+            if (data is float fadeDuration)
+            {
+                StartCoroutine(AudioFadeOutCoroutine(fadeDuration));
+            }
+            else
+            {
+                Debug.LogError("[TVHandler] TVAudioFadeOut: data no es un float válido");
+            }
+        }
+
+        private IEnumerator AudioFadeOutCoroutine(float fadeDuration)
+        {
+            float startVolume = tvVolume;
+            float timer = 0f;
+
+            while (timer < fadeDuration)
+            {
+                timer += Time.deltaTime;
+                float progress = Mathf.Clamp01(timer / fadeDuration);
+
+                tvVolume = Mathf.Lerp(startVolume, 0f, progress);
+                mainVideoPlayer.SetDirectAudioVolume(0, tvVolume);
+
+                yield return null;
+            }
+
+            tvVolume = 0f;
+            mainVideoPlayer.SetDirectAudioVolume(0, 0f);
         }
     }
 }

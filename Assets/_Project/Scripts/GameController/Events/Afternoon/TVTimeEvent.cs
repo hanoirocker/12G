@@ -26,10 +26,16 @@ namespace TwelveG.GameController
 
         [Header("Other eventsSO references")]
         public GameEventSO enableTVHandler;
+        public GameEventSO tvAudioFadeOut;
         public GameEventSO onActivateCanvas;
         public GameEventSO allowPlayerToHandleTV;
         public GameEventSO activateRemoteController;
         public GameEventSO onMainCameraSettings;
+
+
+        [Header("Settings")]
+
+        [SerializeField, Range(3f, 5f)] private float eventFadeOut = 5f;
 
         private bool allowNextAction = false;
 
@@ -90,8 +96,9 @@ namespace TwelveG.GameController
             onInteractionCanvasControls.Raise(this, new VanishTextEffect());
             yield return new WaitForSeconds(2f);
 
+            tvAudioFadeOut.Raise(this, eventFadeOut);
 
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 5f));
+            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, eventFadeOut));
             yield return new WaitForSeconds(5f);
         }
 
