@@ -46,6 +46,11 @@ namespace TwelveG.UIController
       Debug.Log("Scene loaded. Waiting for key press...");
     }
 
+    private void OnDisable()
+    {
+      continueText.SetActive(false);
+    }
+
     public void SceneLoaded()
     {
       keepBlinking = false;

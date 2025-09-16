@@ -55,7 +55,7 @@ namespace TwelveG.GameController
       yield return new WaitForSeconds(delayTime);
       audioSource.Stop();
 
-      // Escucha el Loading Scene Canvas para terminar de parpadear
+      // Escucha el LoadingSceneCanvasHandler para terminar de parpadear
       // y mostrar el texto "Press any button"
       onSceneLoaded.Raise(this, null);
 
@@ -70,8 +70,8 @@ namespace TwelveG.GameController
 
     public void LoadNextSceneSequence(int sceneToLoadIndex)
     {
-      Debug.LogFormat($"Escena actual: {SceneManager.GetActiveScene().buildIndex}");
-      Debug.LogFormat($"Escena a cargar {sceneToLoadIndex}");
+      // Debug.Log($"Escena actual: {SceneManager.GetActiveScene().buildIndex}");
+      // Debug.Log($"Escena a cargar {sceneToLoadIndex}");
   
       if (SceneManager.GetActiveScene().buildIndex == 0)
       {

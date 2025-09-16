@@ -69,7 +69,8 @@ namespace TwelveG.UIController
             logoCanvasGroup.alpha = endAlpha;
 
             // Desactivar canvas y emitir evento
-            GetComponent<Canvas>().enabled  = false;
+            GetComponent<Canvas>().enabled = false;
+            logoCanvasGroup.alpha = 1f;
             onFinishedNarrativeCouritine.Raise(this, null);
         }
     }
