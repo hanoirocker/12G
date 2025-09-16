@@ -103,7 +103,7 @@ namespace TwelveG.PlayerController
             }
 
             // Controles del TV cuando está interactuando
-            if (playerIsInteracting && !isChangingChannel)
+            if (playerIsAllowedToInteract && playerIsInteracting && !isChangingChannel)
             {
                 HandleTVControls();
             }
@@ -211,6 +211,7 @@ namespace TwelveG.PlayerController
             {
                 hasReachedNews.Raise(this, null);
                 ShowRemoteControl(false);
+                playerIsAllowedToInteract = false;
                 DisableAllGameEventListeners();
             }
         }
