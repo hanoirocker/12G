@@ -105,7 +105,6 @@ namespace TwelveG.GameController
 
         private IEnumerator ExecuteEvents(bool fromIndex)
         {
-            // Si loadSpecificEvent = true, ejecutar eventos desde el definido en el editor
             if (fromIndex) { currentEventIndex = eventIndexToLoad; }
 
             while (currentEventIndex < correspondingEvents.Count)
@@ -122,11 +121,17 @@ namespace TwelveG.GameController
                 Destroy(correspondingEvents[currentEventIndex].gameObject);
                 currentEventIndex++;
             }
-            // Resetear a cero el índice de evento luego de haber jugado todos los eventos
-            // de la escena.
-            currentEventIndex = 0;
 
-            GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
+            // Si estamos en modo test event index, no cargar proxima escena al terminar
+            // eventos.
+            if (!fromIndex)
+            {
+                // Resetear a cero el índice de evento luego de haber jugado todos los eventos
+                // de la escena.
+                currentEventIndex = 0;
+
+                GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
+            }
         }
 
         // La idea de esta función es que antes que se ejecute la corrutina de cada evento base
