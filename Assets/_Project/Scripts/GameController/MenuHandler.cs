@@ -4,8 +4,9 @@ namespace TwelveG.GameController
   using TwelveG.AudioController;
   using TwelveG.UIController;
   using UnityEngine;
+    using UnityEngine.SceneManagement;
 
-  public class MenuHandler : MonoBehaviour
+    public class MenuHandler : MonoBehaviour
   {
     [Header("Settings")]
     [SerializeField, Range(1f, 5f)] float blackFadeInDuration;
@@ -13,6 +14,11 @@ namespace TwelveG.GameController
     [Header("Game Event SO")]
     public GameEventSO onActivateCanvas;
     public GameEventSO onImageCanvasControls;
+
+    [Header("Menu audio")]
+    public AudioClip afternoonMusic;
+    public AudioClip eveningMusic;
+    public AudioClip nightMusic;
 
     private void Start()
     {
@@ -23,6 +29,8 @@ namespace TwelveG.GameController
       AudioManager.Instance.SetMasterVol(0);
 
       StartCoroutine(WaitForSceneToRender());
+
+      PlayBackgroundMusic();
     }
 
     private IEnumerator WaitForSceneToRender()
@@ -40,6 +48,31 @@ namespace TwelveG.GameController
         AudioManager.Instance.GetInitialChannelVolume(AudioGroup.masterVol),
         blackFadeInDuration
       );
+    }
+
+    private void PlayBackgroundMusic()
+    {
+      AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
+      string currentSceneName = SceneManager.GetActiveScene().name;
+
+      switch (currentSceneName)
+      {
+        case "Menu Afternoon":
+          source.clip = afternoonMusic;
+          break;
+        case "Menu Evening":
+          source.clip = eveningMusic;
+          break;
+        case "Menu Night":
+          source.clip = nightMusic;
+          break;
+        default:
+          Debug.LogWarning($"[MenuHandler]: No background music assigned for scene '{currentSceneName}'");
+          return;
+      }
+
+      source.loop = true;
+      source.Play();
     }
   }
 }
