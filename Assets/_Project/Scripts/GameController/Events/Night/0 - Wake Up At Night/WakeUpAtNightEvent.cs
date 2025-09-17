@@ -1,18 +1,11 @@
 namespace TwelveG.GameController
 {
     using System.Collections;
-    using Cinemachine;
-    using TwelveG.PlayerController;
     using TwelveG.UIController;
     using UnityEngine;
 
     public class WakeUpAtNightEvent : GameEventBase
     {
-        //TODO: LOCALIZATION!
-        [Header("Event options")]
-        [TextArea(2, 25)]
-        [SerializeField] private string defaultEventControlOptions;
-
         [Header("EventsSO references")]
         public GameEventSO onRainStart;
         public GameEventSO onControlCanvasControls;
@@ -21,7 +14,7 @@ namespace TwelveG.GameController
         public GameEventSO onInteractionCanvasShowText;
         public GameEventSO onInteractionCanvasControls;
 
-
+        private bool allowNextAction = false;
         private Animation animationComponent;
 
         public override IEnumerator Execute()
@@ -69,11 +62,21 @@ namespace TwelveG.GameController
 
             // yield return imageCanvasHandler.FadeOutImage(0.5f);
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
-            yield return new WaitForSeconds(1f);            
+            yield return new WaitForSeconds(1f);
 
             // bedVC.enabled = false;
             // cameraZoom.enabled = true;
+        }
+        
+        public void AllowNextActions(Component sender, object data)
+        {
+            print(gameObject.name + " recieved event sent by: " + sender.gameObject.name);
+            allowNextAction = true;
+        }
 
+        public void ResetAllowNextActions()
+        {
+            allowNextAction = false;
         }
     }
 
