@@ -2,7 +2,6 @@ namespace TwelveG.PlayerController
 {
     using System.Collections;
     using System.Collections.Generic;
-    using TwelveG.AudioController;
     using TwelveG.Localization;
     using UnityEngine;
     using UnityEngine.Video;
@@ -20,7 +19,9 @@ namespace TwelveG.PlayerController
             [HideInInspector] public bool isPrepared;
         }
 
+        [Header("Settings And References")]
         public int initialChannelIndex = 0;
+         [SerializeField, Range(0.3f, 0.8f)] private float maxTvVolume = 0.5f;
         public List<TVChannel> channels;
 
         [SerializeField] EventsControlCanvasInteractionTextSO interactWithTVSO;
@@ -42,7 +43,7 @@ namespace TwelveG.PlayerController
         private int newsChannelIndex = -1;
         private bool playerIsInteracting;
         private bool playerIsAllowedToInteract;
-        private float tvVolume = 1f;
+        private float tvVolume;
 
         private int currentChannelIndex;
         private bool isChangingChannel;
@@ -88,7 +89,7 @@ namespace TwelveG.PlayerController
             // Precargar canal inicial
             yield return StartCoroutine(PrepareChannel(currentChannelIndex));
             PlayCurrentChannel();
-
+            tvVolume = maxTvVolume;
             tvInitialized = true;
         }
 
@@ -128,7 +129,7 @@ namespace TwelveG.PlayerController
         private void HandleTVControls()
         {
             // Control de volumen
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow) && tvVolume < maxTvVolume)
             {
                 tvVolume = Mathf.Clamp01(tvVolume + 0.1f);
                 mainVideoPlayer.SetDirectAudioVolume(0, tvVolume);
@@ -180,7 +181,7 @@ namespace TwelveG.PlayerController
             mainVideoPlayer.clip = channel.videoClip;
             mainVideoPlayer.targetTexture = channel.renderTexture;
             mainVideoPlayer.time = channel.lastPlaybackTime;
-            mainVideoPlayer.SetDirectAudioVolume(0, tvVolume);
+            mainVideoPlayer.SetDirectAudioVolume(0, maxTvVolume);
             mainVideoPlayer.Play();
         }
 
