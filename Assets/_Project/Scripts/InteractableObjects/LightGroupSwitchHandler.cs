@@ -35,7 +35,6 @@ namespace TwelveG.InteractableObjects
 
             audioSource.Play();
             lightsAreActive = !lightsAreActive;
-            print(lightsAreActive);
         }
 
         public void ToogleEmissions()
