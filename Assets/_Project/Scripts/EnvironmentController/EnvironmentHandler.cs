@@ -1,11 +1,14 @@
 namespace TwelveG.EnvironmentController
 {
+    using TwelveG.AudioController;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
     public class EnvironmentHandler : MonoBehaviour
     {
-        [Header("Small lights")]
+        [Header("References")]
+        public GameObject rainObject;
+        public GameObject windZoneObject;
 
         private int currentScene;
 
@@ -44,6 +47,21 @@ namespace TwelveG.EnvironmentController
         private void SetNightConfigs()
         {
 
+        }
+
+        public void EnvironmentWeatherConfig(Component sender, object data)
+        {
+            switch ((WeatherSound)data)
+            {
+                case (WeatherSound.SoftRain):
+                    rainObject.SetActive(true);
+                    break;
+                case (WeatherSound.SoftWind):
+                    windZoneObject.SetActive(true);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

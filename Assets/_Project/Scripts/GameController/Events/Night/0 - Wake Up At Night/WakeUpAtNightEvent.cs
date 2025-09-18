@@ -1,13 +1,14 @@
 namespace TwelveG.GameController
 {
     using System.Collections;
+    using TwelveG.AudioController;
     using TwelveG.UIController;
     using UnityEngine;
 
     public class WakeUpAtNightEvent : GameEventBase
     {
         [Header("EventsSO references")]
-        public GameEventSO onRainStart;
+        public GameEventSO StartWeatherSound;
         public GameEventSO onControlCanvasControls;
         public GameEventSO onImageCanvasControls;
         public GameEventSO onDialogCanvasShowDialog;
@@ -20,7 +21,7 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ WAKE UP AT NIGHT EVENT NOW -------->");
-            onRainStart.Raise(this, null);
+            StartWeatherSound.Raise(this, WeatherSound.SoftRain);
 
             // Parpadeo del jugador y activación de controles de menú
             // playerCapsule.SetActive(false);
@@ -67,7 +68,7 @@ namespace TwelveG.GameController
             // bedVC.enabled = false;
             // cameraZoom.enabled = true;
         }
-        
+
         public void AllowNextActions(Component sender, object data)
         {
             print(gameObject.name + " recieved event sent by: " + sender.gameObject.name);

@@ -3,7 +3,7 @@ namespace TwelveG.AudioController
   using System.Collections.Generic;
   using UnityEngine;
 
-  public class AudioRainZoneHandler : MonoBehaviour
+  public class AudioZoneHandler : MonoBehaviour
   {
     // Necesita recibir la lista de fuentes
     private List<AudioSource> ambienceSource = new(); // Máximo 2 fuentes activas
@@ -11,12 +11,11 @@ namespace TwelveG.AudioController
     // Historial de zonas activas recientes (máx 2)
     private LinkedList<Transform> activeZoneHistory = new();
 
-
     // Se llama desde el AcousticZone script en OnTriggerEnter al colisionar
     // Ver: Acoustic Zones prefab en Player House prefab
-    public void EnteredAcousticZone(Transform zoneTransform, AudioPoolType audioPoolType)
+    public void EnteredAcousticZone(Transform zoneTransform)
     {
-      List<AudioSource> ambienceSource = AudioManager.Instance.PoolsHandler.ReturnAudioSourceByType(audioPoolType);
+      List<AudioSource> ambienceSource = AudioManager.Instance.PoolsHandler.ReturnAudioSourceByType(AudioPoolType.Environment);
 
 
       // Si ya estaba en la lista, la movemos al final (más reciente)

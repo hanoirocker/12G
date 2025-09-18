@@ -27,12 +27,12 @@ namespace TwelveG.AudioController
         [SerializeField] private AudioPoolsHandler audioPoolsHandler;
         [SerializeField] private AudioFaderHandler audioFaderHandler;
         [SerializeField] private EnvironmentAudioHandler audioEnvironmentHandler;
-        [SerializeField] private AudioRainZoneHandler audioRainHandler;
+        [SerializeField] private AudioZoneHandler audioZoneHandler;
 
         public AudioPoolsHandler PoolsHandler => audioPoolsHandler;
         public AudioFaderHandler FaderHandler => audioFaderHandler;
         public EnvironmentAudioHandler EnvironmentHandler => audioEnvironmentHandler;
-        public AudioRainZoneHandler RainHandler => audioRainHandler;
+        public AudioZoneHandler RainHandler => audioZoneHandler;
 
         private float initialMasterVol;
         private float initialMusicVol;

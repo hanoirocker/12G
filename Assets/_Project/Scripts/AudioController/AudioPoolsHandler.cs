@@ -10,16 +10,30 @@ namespace TwelveG.AudioController
     UI,
     Environment,
     Interaction,
+    Wind
+  }
+
+  public enum WeatherSound
+  {
+    SoftRain,
+    HardRain,
+    SoftWind,
+    HardWind,
+    SoftRainAndWind,
+    HardRainAndWind
   }
 
   public class AudioPoolsHandler : MonoBehaviour
   {
     [Header("Audio Source Pools")]
-    [SerializeField] private List<AudioSource> rainSources;
     [SerializeField] private List<AudioSource> BGMusicSources;
     [SerializeField] private List<AudioSource> EnvironmentSources;
     [SerializeField] private List<AudioSource> InteractionSources;
     [SerializeField] private List<AudioSource> UISources;
+
+    [Header("Audio References")]
+    [SerializeField] private AudioClip softWindClip;
+    [SerializeField] private AudioClip softRainClip;
 
     private Dictionary<AudioPoolType, List<AudioSource>> poolMap;
 
@@ -27,11 +41,10 @@ namespace TwelveG.AudioController
     {
       poolMap = new Dictionary<AudioPoolType, List<AudioSource>>
       {
-        { AudioPoolType.Rain, rainSources },
         { AudioPoolType.BGMusic, BGMusicSources },
         { AudioPoolType.Environment, EnvironmentSources },
         { AudioPoolType.Interaction, InteractionSources },
-        { AudioPoolType.UI, UISources }
+        { AudioPoolType.UI, UISources },
       };
     }
 
@@ -70,6 +83,35 @@ namespace TwelveG.AudioController
 
       Debug.LogWarning($"[AudioPoolsHandler]: Todos los sources estaban ocupados.");
       return null;
+    }
+
+    public void AssignWeatherSounds(Component sender, object data)
+    {
+      AudioClip audioClip;
+
+      switch ((WeatherSound)data)
+      {
+        case (WeatherSound.SoftRain):
+          audioClip = softRainClip;
+          break;
+        case (WeatherSound.HardRain):
+          audioClip = softRainClip;
+          break;
+        case (WeatherSound.SoftWind):
+          audioClip = softWindClip;
+          break;
+        case (WeatherSound.HardWind):
+          audioClip = softWindClip;
+          break;
+        default:
+          audioClip = null;
+          break;
+      }
+
+      foreach (AudioSource source in EnvironmentSources)
+      {
+        source.clip = audioClip;
+      }
     }
   }
 }

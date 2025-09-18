@@ -5,8 +5,9 @@ namespace TwelveG.GameController
     using System.Collections.Generic;
     using UnityEngine.SceneManagement;
     using TwelveG.UIController;
+  using TwelveG.AudioController;
 
-    public class EventsHandler : MonoBehaviour
+  public class EventsHandler : MonoBehaviour
     {
         [Header("Testing Settings")]
         public GameObject introEvents;
@@ -19,11 +20,12 @@ namespace TwelveG.GameController
         public bool loadSpecificEvent = false;
         public int eventIndexToLoad = 0;
         public bool isRaining = false;
+        public bool isWindBlowing = false;
 
         [Header("EventsSO references")]
         public GameEventSO onImageCanvasControls;
         public GameEventSO onDeactivateCanvas;
-        public GameEventSO onRainStart;
+        public GameEventSO StartWeatherSound;
 
         [Header("Text event SO")]
 
@@ -38,7 +40,11 @@ namespace TwelveG.GameController
         {
             if (isRaining)
             {
-                onRainStart.Raise(this, null);
+                StartWeatherSound.Raise(this, WeatherSound.SoftRain);
+            }
+            if (isWindBlowing)
+            {
+                StartWeatherSound.Raise(this, WeatherSound.SoftWind);
             }
         }
 

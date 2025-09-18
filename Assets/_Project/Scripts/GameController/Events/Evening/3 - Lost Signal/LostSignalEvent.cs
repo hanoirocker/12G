@@ -1,7 +1,8 @@
 namespace TwelveG.GameController
 {
     using System.Collections;
-    using TwelveG.Localization;
+  using TwelveG.AudioController;
+  using TwelveG.Localization;
     using TwelveG.PlayerController;
     using TwelveG.UIController;
     using TwelveG.Utils;
@@ -29,6 +30,7 @@ namespace TwelveG.GameController
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO enablePC;
         [SerializeField] private GameEventSO updateFallbackTexts;
+        [SerializeField] private GameEventSO StartWeatherSound;
 
         private bool allowNextAction = false;
 
@@ -68,6 +70,8 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            StartWeatherSound.Raise(this, WeatherSound.SoftWind);
+
             // onInteractionCanvasShowText.Raise(this, "LEVANTARSE [E]");
             onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
@@ -84,6 +88,8 @@ namespace TwelveG.GameController
             onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
+
+            yield return new WaitForSeconds(2f);
 
             onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
 
