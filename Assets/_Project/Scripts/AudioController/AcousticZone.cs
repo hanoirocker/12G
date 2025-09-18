@@ -10,7 +10,7 @@ namespace TwelveG.AudioController
     {
       if (other.CompareTag("Player"))
       {
-        Debug.Log($"Entered zone {gameObject.name}");
+        // Debug.Log($"Entered zone {gameObject.name}");
         AudioManager.Instance.RainHandler.EnteredAcousticZone(audioZoneTransform);
       }
     }
@@ -19,8 +19,8 @@ namespace TwelveG.AudioController
     {
       if (other.CompareTag("Player"))
       {
-        Debug.Log($"Exited zone {gameObject.name}");
-        AudioManager.Instance.RainHandler.EnteredAcousticZone(audioZoneTransform);
+        // Debug.Log($"Exited zone {gameObject.name}");
+        AudioManager.Instance.RainHandler.ExitedAcousticZone(audioZoneTransform);
       }
     }
   }
