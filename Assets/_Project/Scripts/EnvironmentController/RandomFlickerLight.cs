@@ -10,7 +10,7 @@ namespace TwelveG.EnvironmentController
 
     private Light _light;
 
-    private void Awake()
+    private void OnEnable()
     {
       _light = GetComponent<Light>();
     }
