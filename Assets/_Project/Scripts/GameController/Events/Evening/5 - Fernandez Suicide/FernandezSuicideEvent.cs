@@ -4,8 +4,10 @@ namespace TwelveG.GameController
     using System.Collections.Generic;
     using UnityEngine;
     using Localization;
+    using TwelveG.UIController;
+  using TwelveG.PlayerController;
 
-    public class FernandezSuicideEvent : GameEventBase
+  public class FernandezSuicideEvent : GameEventBase
     {
         [Header("References")]
         [SerializeField] private GameObject suicideTriggerColliders;
@@ -16,15 +18,13 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private GameEventSO updateFallbackTexts;
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onObservationCanvasShowText;
-
-        [Header("Other eventsSO references")]
-        [SerializeField] private GameEventSO updateFallbackTexts;
-        // [SerializeField] private GameEventSO enableBackpack;
-        // [SerializeField] private GameEventSO disableBackpack;
-        // [SerializeField] private GameEventSO enablePhone;
+        [SerializeField] private GameEventSO onCinematicCanvasControls;
+        [SerializeField] private GameEventSO onPlayerControls;
+        [SerializeField] private GameEventSO onControlCanvasControls;
 
         private bool allowNextAction = false;
 
@@ -33,7 +33,7 @@ namespace TwelveG.GameController
             print("<------ F. SUICIDE EVENT NOW -------->");
 
             yield return new WaitForSeconds(initialTime);
-    
+
             // Aca se instancian los coliders sobre ventanas y puertas
             // que den visualmente a la camioneta del vecino de enfrente.
             // Si el jugador los choca, se dispara evento carAlarmTrigger
@@ -47,6 +47,8 @@ namespace TwelveG.GameController
 
             updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
+            onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
+
             yield return new WaitForSeconds(1f);
 
             // Un disparo?
@@ -54,6 +56,15 @@ namespace TwelveG.GameController
                 this,
                 eventObservationsTextsSOs[0]
             );
+
+            // Unity Event (CinematicBarsHandler - onCinematicBarsAnimationFinished):
+            // Se recibe cuando las barras cinemáticas se terminan de mostrar
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+            onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
+            onControlCanvasControls.Raise(this, new EnableCanvas(false));
         }
 
         public void AllowNextActions(Component sender, object data)
