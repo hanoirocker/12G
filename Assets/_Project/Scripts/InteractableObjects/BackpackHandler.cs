@@ -62,7 +62,7 @@ namespace TwelveG.InteractableObjects
         {
             canBeInteractedWith = false;
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, true));
             yield return new WaitForSeconds(cameraTrasitionTime);
@@ -102,7 +102,7 @@ namespace TwelveG.InteractableObjects
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
             yield return new WaitForSeconds(cameraTrasitionTime);
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
             // Si no mal recuerdo, la última vez que revisé mi celular fue mientras miraba la TV hoy por la mañana
             yield return new WaitForSeconds(3f);

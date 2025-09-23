@@ -79,7 +79,7 @@ namespace TwelveG.GameController
 
             // Espera un toque para que el jugador pueda leer el texto antes de activar mandos
             yield return new WaitForSeconds(1f);
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 
         public void AllowNextActions(Component sender, object data)

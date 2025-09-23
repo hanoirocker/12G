@@ -25,9 +25,9 @@ namespace TwelveG.GameController
     {
       print("<------ TEXT CANVAS EVENT NOW -------->");
 
-      onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+      onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
-      onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
+      onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
 
       onControlCanvasControls.Raise(this, new ActivateCanvas(false));
 

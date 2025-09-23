@@ -11,7 +11,7 @@ namespace TwelveG.UIController
         public void ResumeGameButtonClick()
         {
             onPauseMenuControls.Raise(this, new ActivateCanvas(false));
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
     }
 }

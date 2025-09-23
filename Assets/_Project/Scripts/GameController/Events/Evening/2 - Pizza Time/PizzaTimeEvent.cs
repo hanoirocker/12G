@@ -85,7 +85,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
 
@@ -116,7 +116,7 @@ namespace TwelveG.GameController
             onControlCanvasControls.Raise(this, new ActivateCanvas(true));
             onControlCanvasControls.Raise(this, new EnableCanvas(true));
 
-            onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
+            onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             // Unity Event (PizzaSliceHandler - instantiatePoliceCar)
             // Avisa que va por la segunda mordida y se debe instanciar el auto de policia
@@ -145,7 +145,7 @@ namespace TwelveG.GameController
             onInteractionCanvasControls.Raise(this, new HideText());
 
             onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
 
@@ -157,7 +157,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(1f);
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 
         public void AllowNextActions(Component sender, object data)

@@ -44,7 +44,7 @@ namespace TwelveG.GameController
             print("<------ TV TIME EVENT NOW -------->");
             enableTVHandler.Raise(this, null);
 
-            onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
+            onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
             yield return new WaitForSeconds(2f);
             onImageCanvasControls.Raise(this, new WakeUpBlinking());
@@ -58,7 +58,7 @@ namespace TwelveG.GameController
             onControlCanvasControls.Raise(this, new EnableCanvas(true));
 
             onPlayerControls.Raise(this, new TogglePlayerCameraZoom(true));
-            onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
+            onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             allowPlayerToHandleTV.Raise(this, null);
 
@@ -68,7 +68,7 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             onControlCanvasControls.Raise(this, new EnableCanvas(false));
-            onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
+            onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
             onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 4));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.TV, true));

@@ -77,7 +77,7 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator GrabPizza(List<GameObject> pizzaSlices, PlayerInteraction playerCamera)
         {
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             yield return StartCoroutine(RotateBoxTop());
 
@@ -88,7 +88,7 @@ namespace TwelveG.InteractableObjects
 
             RemoveUsedItems(playerCamera);
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 
         private IEnumerator RotateBoxTop()

@@ -55,7 +55,7 @@ namespace TwelveG.UIController
                     DataPersistenceManager.Instance.SavePersistenceData();
                     break;
                 case "Return Btn":
-                    onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+                    onPlayerControls.Raise(this, new EnablePlayerControllers(true));
                     break;
                 case "Quit Btn":
                     print("Quitting game!");

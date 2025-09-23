@@ -2,10 +2,10 @@ namespace TwelveG.PlayerController
 {
     public abstract class PlayerCommandBase { }
 
-    public class TogglePlayerShortcuts : PlayerCommandBase
+    public class EnablePlayerShortcuts : PlayerCommandBase
     {
         public bool Enabled;
-        public TogglePlayerShortcuts(bool enabled) => Enabled = enabled;
+        public EnablePlayerShortcuts(bool enabled) => Enabled = enabled;
     }
 
     public class TogglePlayerHeadLookAround : PlayerCommandBase
@@ -18,6 +18,12 @@ namespace TwelveG.PlayerController
     {
         public bool Enabled;
         public TogglePlayerCapsule(bool enabled) => Enabled = enabled;
+    }
+
+    public class EnablePlayerControllers : PlayerCommandBase
+    {
+        public bool Enabled;
+        public EnablePlayerControllers(bool enabled) => Enabled = enabled;
     }
 
     public class TogglePlayerMainCamera : PlayerCommandBase

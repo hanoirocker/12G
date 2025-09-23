@@ -64,8 +64,8 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
-            onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
             onControlCanvasControls.Raise(this, new ActivateCanvas(false));
 
             onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(1, true));
@@ -76,14 +76,12 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             // ACA SE ACTUALIZA LA POSICION DEL JUGADOR A LA VENTANA.
-            // TODO: retrabajar la desactivación del jugador (controlador de movimiento, etc),
-            // SIN apagar el player capsule.
 
-            // Transform playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
-            //     .GetComponent<Transform>();
+            Transform playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
+                .GetComponent<Transform>();
 
-            // playerCapsuleTransform.position = suicideViewTransform.position;
-            // playerCapsuleTransform.rotation = suicideViewTransform.rotation;
+            playerCapsuleTransform.position = suicideViewTransform.position;
+            playerCapsuleTransform.rotation = suicideViewTransform.rotation;
 
             onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
 
@@ -92,8 +90,8 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
-            onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
             onControlCanvasControls.Raise(this, new ActivateCanvas(true));
         }
 

@@ -99,7 +99,7 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator CleanBirds(List<GameObject> objectsToModify, PlayerInteraction playerCamera)
         {
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             audioSource.Play();
 
@@ -132,7 +132,7 @@ namespace TwelveG.InteractableObjects
                 yield return new WaitForSeconds(1f);
             }
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
             cleanZoomBird.Raise(this, null);
 

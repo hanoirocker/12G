@@ -74,7 +74,7 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator TrowObjectsIntoCan(PlayerInteraction playerCamera)
         {
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             Quaternion targetRotation = doorIsOpen ? initialRotation : initialRotation * Quaternion.Euler(-90, 0, 0);
             yield return StartCoroutine(RotateTop(targetRotation));
@@ -98,7 +98,7 @@ namespace TwelveG.InteractableObjects
             }
 
             trowAwayTrash.Raise(this, null);
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 
         private void ToggleTop()

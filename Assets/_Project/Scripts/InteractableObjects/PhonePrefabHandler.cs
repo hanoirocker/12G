@@ -66,7 +66,7 @@ namespace TwelveG.InteractableObjects
             canBeInteractedWith = false;
             GetComponent<SphereCollider>().enabled = false;
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Phone, true));
             yield return new WaitForSeconds(cameraTrasitionTime);

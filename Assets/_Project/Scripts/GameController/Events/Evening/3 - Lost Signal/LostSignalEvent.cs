@@ -55,7 +55,7 @@ namespace TwelveG.GameController
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             yield return new WaitForSeconds(1f);
 
@@ -91,7 +91,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(2f);
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
         }
 

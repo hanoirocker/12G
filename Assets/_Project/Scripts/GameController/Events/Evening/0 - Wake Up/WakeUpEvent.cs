@@ -37,11 +37,11 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(initialTime);
 
-            onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
 
-            onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
+            onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
 
             onPlayerControls.Raise(this, new TogglePlayerMainCamera(true));
 
@@ -63,7 +63,7 @@ namespace TwelveG.GameController
             // ligarlo a cuando el canvas ya no esté mostrando el texto.
             yield return new WaitForSeconds(4f);
 
-            onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
+            onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             // LEVANTARSE [E]
             // TODO (FIX): si mientras se muestra el texto, se cambia de locale, aparece
@@ -93,7 +93,7 @@ namespace TwelveG.GameController
 
             onPlayerControls.Raise(this, new TogglePlayerCameraZoom(true));
 
-            onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
+            onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
         }
 
