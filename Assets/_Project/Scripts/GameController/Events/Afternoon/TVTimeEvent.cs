@@ -52,12 +52,12 @@ namespace TwelveG.GameController
             activateRemoteController.Raise(this, null);
             yield return new WaitForSeconds(5f);
 
-            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(true));
+            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
 
             onActivateCanvas.Raise(this, CanvasHandlerType.Control);
             onControlCanvasControls.Raise(this, new EnableCanvas(true));
 
-            onPlayerControls.Raise(this, new TogglePlayerCameraZoom(true));
+            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             allowPlayerToHandleTV.Raise(this, null);
@@ -69,7 +69,7 @@ namespace TwelveG.GameController
 
             onControlCanvasControls.Raise(this, new EnableCanvas(false));
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
-            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
+            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 4));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.TV, true));
             onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));

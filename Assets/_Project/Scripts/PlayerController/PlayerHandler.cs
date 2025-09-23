@@ -31,24 +31,22 @@ namespace TwelveG.PlayerController
         {
             switch (data)
             {
-                case EnablePlayerShortcuts cmd:
-                    playerShortcuts.enabled = cmd.Enabled;
-                    break;
-
-                case TogglePlayerHeadLookAround cmd:
-                    headLookAround.enabled = cmd.Enabled;
-                    break;
                 case TogglePlayerCapsule cmd:
                     playerCapsule.SetActive(cmd.Enabled);
-                    break;
-                case EnablePlayerControllers cmd:
-                    SwitchPlayerControllers(cmd.Enabled);
                     break;
                 case TogglePlayerMainCamera cmd:
                     mainCamera.SetActive(cmd.Enabled);
                     break;
-
-                case TogglePlayerCameraZoom cmd:
+                case EnablePlayerShortcuts cmd:
+                    playerShortcuts.enabled = cmd.Enabled;
+                    break;
+                case EnablePlayerHeadLookAround cmd:
+                    headLookAround.enabled = cmd.Enabled;
+                    break;
+                case EnablePlayerControllers cmd:
+                    SwitchPlayerControllers(cmd.Enabled);
+                    break;
+                case EnablePlayerCameraZoom cmd:
                     cameraZoom.enabled = cmd.Enabled;
                     break;
 

@@ -45,7 +45,7 @@ namespace TwelveG.GameController
 
             onPlayerControls.Raise(this, new TogglePlayerMainCamera(true));
 
-            onPlayerControls.Raise(this, new TogglePlayerCameraZoom(false));
+            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
 
             playCrashingWindowSound.Raise(this, null);
             yield return new WaitForSeconds(3f);
@@ -91,7 +91,7 @@ namespace TwelveG.GameController
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, false));
 
-            onPlayerControls.Raise(this, new TogglePlayerCameraZoom(true));
+            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
 
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 

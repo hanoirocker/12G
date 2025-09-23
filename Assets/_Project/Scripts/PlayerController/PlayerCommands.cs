@@ -8,10 +8,10 @@ namespace TwelveG.PlayerController
         public EnablePlayerShortcuts(bool enabled) => Enabled = enabled;
     }
 
-    public class TogglePlayerHeadLookAround : PlayerCommandBase
+    public class EnablePlayerHeadLookAround : PlayerCommandBase
     {
         public bool Enabled;
-        public TogglePlayerHeadLookAround(bool enabled) => Enabled = enabled;
+        public EnablePlayerHeadLookAround(bool enabled) => Enabled = enabled;
     }
 
     public class TogglePlayerCapsule : PlayerCommandBase
@@ -32,9 +32,9 @@ namespace TwelveG.PlayerController
         public TogglePlayerMainCamera(bool enabled) => Enabled = enabled;
     }
 
-    public class TogglePlayerCameraZoom : PlayerCommandBase
+    public class EnablePlayerCameraZoom : PlayerCommandBase
     {
         public bool Enabled;
-        public TogglePlayerCameraZoom(bool enabled) => Enabled = enabled;
+        public EnablePlayerCameraZoom(bool enabled) => Enabled = enabled;
     }
 }

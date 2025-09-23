@@ -61,7 +61,7 @@ namespace TwelveG.GameController
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, true));
 
-            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(true));
+            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
 
@@ -85,7 +85,7 @@ namespace TwelveG.GameController
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, false));
 
-            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
+            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
 

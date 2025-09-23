@@ -103,7 +103,7 @@ namespace TwelveG.GameController
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));
 
-            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(true));
+            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
             yield return new WaitForSeconds(1f);
@@ -144,7 +144,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
             onInteractionCanvasControls.Raise(this, new HideText());
 
-            onPlayerControls.Raise(this, new TogglePlayerHeadLookAround(false));
+            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
