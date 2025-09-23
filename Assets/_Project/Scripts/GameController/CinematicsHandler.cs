@@ -10,7 +10,8 @@ namespace TwelveG.GameController
         [SerializeField] private GameObject cameraGameObject;
 
         [Header("Game Event So's")]
-        [SerializeField] private GameEventSO CutSceneFinished;
+        [SerializeField] private GameEventSO cutSceneFinished;
+        [SerializeField] private GameEventSO timelineFinished;
 
         public void PlayerDirectorsControls(Component sender, object data)
         {
@@ -23,6 +24,11 @@ namespace TwelveG.GameController
                     Debug.LogWarning($"[CinematicsHandler] Received unknown command: {data}");
                     break;
             }
+        }
+
+        public void CutSceneFinished()
+        {
+            cutSceneFinished.Raise(this, null);
         }
 
         public void TimelineFinished()
@@ -45,7 +51,7 @@ namespace TwelveG.GameController
                 }
             }
 
-            CutSceneFinished.Raise(this, null);
+            timelineFinished.Raise(this, null);
         }
     }
 }

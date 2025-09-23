@@ -70,18 +70,20 @@ namespace TwelveG.GameController
 
             onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(1, true));
 
-            // Unity Event (CinematicsHandler - CutSceneFinished):
-            // Se recibe cuando termina el cut scene
-            yield return new WaitUntil(() => allowNextAction);
-            ResetAllowNextActions();
-
             // ACA SE ACTUALIZA LA POSICION DEL JUGADOR A LA VENTANA.
-
             Transform playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
                 .GetComponent<Transform>();
 
             playerCapsuleTransform.position = suicideViewTransform.position;
             playerCapsuleTransform.rotation = suicideViewTransform.rotation;
+
+            // Unity Event (CinematicsHandler - CutSceneFinished):
+            // Se recibe cuando termina el cut scene
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            // TODO: introducir diálogo interno luego de observar el suicidio
+            yield return new WaitForSeconds(5f);
 
             onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
 
