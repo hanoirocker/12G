@@ -25,6 +25,7 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO onCinematicCanvasControls;
         [SerializeField] private GameEventSO onPlayerControls;
         [SerializeField] private GameEventSO onControlCanvasControls;
+        [SerializeField] private GameEventSO onPlayerDirectorControls;
 
         private bool allowNextAction = false;
 
@@ -65,6 +66,8 @@ namespace TwelveG.GameController
             onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
             onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
             onControlCanvasControls.Raise(this, new EnableCanvas(false));
+
+            onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(1, true));
         }
 
         public void AllowNextActions(Component sender, object data)
