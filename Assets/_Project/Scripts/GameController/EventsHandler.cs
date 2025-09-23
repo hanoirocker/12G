@@ -5,9 +5,9 @@ namespace TwelveG.GameController
     using System.Collections.Generic;
     using UnityEngine.SceneManagement;
     using TwelveG.UIController;
-  using TwelveG.AudioController;
+    using TwelveG.AudioController;
 
-  public class EventsHandler : MonoBehaviour
+    public class EventsHandler : MonoBehaviour
     {
         [Header("Testing Settings")]
         public GameObject introEvents;
@@ -31,7 +31,7 @@ namespace TwelveG.GameController
 
         private GameObject eventsParent = null;
         private List<GameEventBase> correspondingEvents = new List<GameEventBase>();
-        private Transform playerContainerTransform;
+        private Transform playerCapsuleTransform;
 
         private int currentSceneIndex;
         private int currentEventIndex;
@@ -98,13 +98,24 @@ namespace TwelveG.GameController
 
         private void ExecuteFreeRoam()
         {
-            playerContainerTransform = GameObject.FindGameObjectWithTag("FreeRoam")
+            Transform freeRoamTransform = GameObject.FindGameObjectWithTag("FreeRoam")
                 .GetComponent<Transform>();
 
-            if (playerContainerTransform == null)
+            playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
+                .GetComponent<Transform>();
+
+            if (freeRoamTransform == null)
             {
                 Debug.LogError("[EventController]: FreeRoam prefab not found on scene!");
             }
+
+            if (playerCapsuleTransform == null)
+            {
+                Debug.LogError("[EventController]: Player Capsule prefab not found on scene or tag not assgined!");
+            }
+
+            playerCapsuleTransform.position = freeRoamTransform.position;
+            playerCapsuleTransform.rotation = freeRoamTransform.rotation;
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
         }

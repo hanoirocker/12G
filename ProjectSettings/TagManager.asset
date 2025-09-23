@@ -16,6 +16,7 @@ TagManager:
   - Window
   - Door
   - Main Video
+  - PlayerCapsule
   layers:
   - Default
   - TransparentFX
