@@ -103,7 +103,7 @@ namespace TwelveG.InteractableObjects
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("PlayerCapsule"))
             {
                 playerIsInsideCollider = true;
             }
@@ -111,7 +111,7 @@ namespace TwelveG.InteractableObjects
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("PlayerCapsule"))
             {
                 playerIsInsideCollider = true;
             }

@@ -9,7 +9,7 @@ namespace TwelveG.EnvironmentController
         private void OnTriggerEnter(Collider other)
         {
             // Verifica si el objeto que entra es el jugador.
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("PlayerCapsule"))
             {
                 eventTriggered.Raise(this, null);
                 Destroy(gameObject);

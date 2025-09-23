@@ -13,7 +13,7 @@ namespace TwelveG.EnvironmentController
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag("PlayerCapsule"))
             {
                 if(disableColliderAfterTrigger)
                 {

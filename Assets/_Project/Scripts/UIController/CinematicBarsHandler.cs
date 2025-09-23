@@ -10,6 +10,7 @@ namespace TwelveG.UIController
 
     public void CinematicBarsAnimationFinished()
     {
+      Debug.Log("Disparando onCinematicBarsAnimationFinished");
       onCinematicBarsAnimationFinished.Raise(this, null);
     }
   }

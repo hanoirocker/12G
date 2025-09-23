@@ -8,9 +8,17 @@ namespace TwelveG.UIController
         [SerializeField] private GameObject container;
         [SerializeField] private Animator containerAnimator;
 
-        private void ShowBars()
+        [Header("Game Event SO's")]
+        [SerializeField] private GameEventSO onCinematicBarsAnimationFinished;
+
+        private IEnumerator ShowBars()
         {
             container.SetActive(true);
+            yield return null; // Esperar un frame para que actualice el estado el animator
+
+            AnimatorStateInfo stateInfo = containerAnimator.GetCurrentAnimatorStateInfo(0);
+            yield return new WaitForSeconds(stateInfo.length);
+            onCinematicBarsAnimationFinished.Raise(this, null);
         }
 
         private IEnumerator HideBars()
@@ -18,8 +26,12 @@ namespace TwelveG.UIController
             if (container.activeSelf)
             {
                 containerAnimator.SetTrigger("HideBars");
-                yield return new WaitForSeconds(2f);
+                yield return null; // Esperar un frame para que actualice el estado el animator
+
+                AnimatorStateInfo stateInfo = containerAnimator.GetCurrentAnimatorStateInfo(0);
+                yield return new WaitForSeconds(stateInfo.length);
                 container.SetActive(false);
+                onCinematicBarsAnimationFinished.Raise(this, null);
             }
         }
 
@@ -30,7 +42,7 @@ namespace TwelveG.UIController
                 case ShowCinematicBars cmd:
                     if (cmd.Show)
                     {
-                        ShowBars();
+                        StartCoroutine(ShowBars());
                     }
                     else
                     {

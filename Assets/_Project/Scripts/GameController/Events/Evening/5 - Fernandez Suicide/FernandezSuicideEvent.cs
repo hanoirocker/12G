@@ -5,15 +5,16 @@ namespace TwelveG.GameController
     using UnityEngine;
     using Localization;
     using TwelveG.UIController;
-  using TwelveG.PlayerController;
+    using TwelveG.PlayerController;
 
-  public class FernandezSuicideEvent : GameEventBase
+    public class FernandezSuicideEvent : GameEventBase
     {
         [Header("References")]
         [SerializeField] private GameObject suicideTriggerColliders;
 
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 1;
+        public Transform suicideViewTransform;
 
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
@@ -65,9 +66,35 @@ namespace TwelveG.GameController
 
             onPlayerControls.Raise(this, new TogglePlayerCapsule(false));
             onPlayerControls.Raise(this, new TogglePlayerShortcuts(false));
-            onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
 
             onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(1, true));
+
+            // Unity Event (CinematicsHandler - CutSceneFinished):
+            // Se recibe cuando termina el cut scene
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            // ACA SE ACTUALIZA LA POSICION DEL JUGADOR A LA VENTANA.
+            // TODO: retrabajar la desactivación del jugador (controlador de movimiento, etc),
+            // SIN apagar el player capsule.
+
+            // Transform playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
+            //     .GetComponent<Transform>();
+
+            // playerCapsuleTransform.position = suicideViewTransform.position;
+            // playerCapsuleTransform.rotation = suicideViewTransform.rotation;
+
+            onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
+
+            // Unity Event (CinematicBarsHandler - onCinematicBarsAnimationFinished):
+            // Se recibe cuando las barras cinemáticas terminan de ocultarse
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            onPlayerControls.Raise(this, new TogglePlayerCapsule(true));
+            onPlayerControls.Raise(this, new TogglePlayerShortcuts(true));
+            onControlCanvasControls.Raise(this, new ActivateCanvas(true));
         }
 
         public void AllowNextActions(Component sender, object data)

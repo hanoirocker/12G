@@ -8,7 +8,7 @@ namespace TwelveG.AudioController
 
     private void OnTriggerEnter(Collider other)
     {
-      if (other.CompareTag("Player"))
+      if (other.CompareTag("PlayerCapsule"))
       {
         // Debug.Log($"Entered zone {gameObject.name}");
         AudioManager.Instance.RainHandler.EnteredAcousticZone(audioZoneTransform);
@@ -17,7 +17,7 @@ namespace TwelveG.AudioController
  
     private void OnTriggerExit(Collider other)
     {
-      if (other.CompareTag("Player"))
+      if (other.CompareTag("PlayerCapsule"))
       {
         // Debug.Log($"Exited zone {gameObject.name}");
         AudioManager.Instance.RainHandler.ExitedAcousticZone(audioZoneTransform);
