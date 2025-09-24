@@ -25,7 +25,6 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO onObservationCanvasShowText;
         [SerializeField] private GameEventSO onCinematicCanvasControls;
         [SerializeField] private GameEventSO onPlayerControls;
-        [SerializeField] private GameEventSO onControlCanvasControls;
         [SerializeField] private GameEventSO onPlayerDirectorControls;
 
         private bool allowNextAction = false;
@@ -53,7 +52,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(1f);
 
-            // Un disparo?
+            // Los Fernandez? Ese sonido ...
             onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[0]
@@ -66,8 +65,16 @@ namespace TwelveG.GameController
 
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
+            yield return new WaitForSeconds(1f);
 
             onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(1, true));
+
+            yield return new WaitForSeconds(15f);
+            // No No No No No MIERDA!
+            onObservationCanvasShowText.Raise(
+                this,
+                eventObservationsTextsSOs[1]
+            );
 
             // ACA SE ACTUALIZA LA POSICION DEL JUGADOR A LA VENTANA.
             Transform playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
@@ -76,13 +83,26 @@ namespace TwelveG.GameController
             playerCapsuleTransform.position = suicideViewTransform.position;
             playerCapsuleTransform.rotation = suicideViewTransform.rotation;
 
+            yield return new WaitForSeconds(10f);
+            // No No No No No MIERDA!
+            onObservationCanvasShowText.Raise(
+                this,
+                eventObservationsTextsSOs[2]
+            );
+
             // Unity Event (CinematicsHandler - CutSceneFinished):
             // Se recibe cuando termina el cut scene
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
             // TODO: introducir diálogo interno luego de observar el suicidio
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(1f);
+
+            // No puede ser ...
+            onObservationCanvasShowText.Raise(
+                this,
+                eventObservationsTextsSOs[3]
+            );
 
             onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
 
