@@ -4,6 +4,10 @@
 
 TOFIX:
 
+- Aumentar tiempo de apurtura y cierre de puerta de microondas. Posiblemente se tendrá que modificar ambos audios usados.
+- Algunos textos de interacción como "Agarrar escoba" están en minúscula. Pasar a Mayus TODOS.
+- Comprobar colliders del cajón con bolsa de basura. Debe ser trigger para evitar físicas raras.
+- Wake Up: previo al Birds, el jugador puede abrir y cerrar el control canvas. Desactivar al inicio del mismo y encenderlo al final. OTRA COSA. Las opciones particulares del TV TIME event quedan en el mismo! resetear.
 - Pizza Time: no aparece el canvas control al estar sentado en la mesa comiendo
 - Pizza Time: agrandar el collider de la mesa de forma tal que el jugador si o si vea el cartel de interacción y sea más intuitivo.
 - Pizza Time: Agregar comentario luego de que pasa el coche de la policia.

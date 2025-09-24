@@ -13,12 +13,12 @@ namespace TwelveG.GameController
         [SerializeField, Range(1, 10)] private int initialTime = 3;
 
         [Header("Text event SO")]
-        [SerializeField] private GameEventSO updateFallbackTexts;
         [SerializeField] private ObservationTextSO eventsObservationTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onImageCanvasControls;
+        [SerializeField] private GameEventSO onControlCanvasControls;
         [SerializeField] private GameEventSO onObservationCanvasShowText;
         [SerializeField] private GameEventSO onEventInteractionCanvasShowText;
         [SerializeField] private GameEventSO onInteractionCanvasControls;
@@ -34,6 +34,8 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ WAKE UP EVENT NOW -------->");
+
+            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
 
             yield return new WaitForSeconds(initialTime);
 
@@ -95,6 +97,8 @@ namespace TwelveG.GameController
 
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
+            onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            onControlCanvasControls.Raise(this, new ActivateCanvas(true));
         }
 
         public void AllowNextActions(Component sender, object data)

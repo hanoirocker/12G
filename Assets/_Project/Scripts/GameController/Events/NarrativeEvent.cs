@@ -29,7 +29,7 @@ namespace TwelveG.GameController
 
       onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
 
-      onControlCanvasControls.Raise(this, new ActivateCanvas(false));
+      onControlCanvasControls.Raise(this, new EnableCanvas(false));
 
       onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
 

@@ -30,7 +30,6 @@ namespace TwelveG.GameController
             // playerShortcuts.enabled = false;
 
             // controlCanvasHandler.DeactivateControlCanvas();
-            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
 
             // mainCamera.SetActive(true);
             // cameraZoom.enabled = false;

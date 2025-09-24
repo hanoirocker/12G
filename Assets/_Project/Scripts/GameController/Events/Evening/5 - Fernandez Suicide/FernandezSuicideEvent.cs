@@ -66,7 +66,6 @@ namespace TwelveG.GameController
 
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
-            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
 
             onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(1, true));
 
