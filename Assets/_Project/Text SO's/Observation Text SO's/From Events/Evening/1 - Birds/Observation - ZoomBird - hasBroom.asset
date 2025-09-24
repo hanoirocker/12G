@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   observationTextsStructure:
   - language: 0
-    observationText: Precisa bolsa
+    observationText: "A\xFAn preciso una bolsa. Deber\xEDa estar en la cocina tambi\xE9n
+      \xBFQuiz\xE1s dentro de alg\xFAn caj\xF3n?"
   - language: 1
-    observationText: Need a bag
+    observationText: I still need a garbage bag. It should be in the kitchen too.
+      Maybe in a drawer?

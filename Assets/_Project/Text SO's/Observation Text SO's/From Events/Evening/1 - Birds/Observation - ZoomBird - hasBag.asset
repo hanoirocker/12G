@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   observationTextsStructure:
   - language: 0
-    observationText: Precisa escoba
+    observationText: "A\xFAn preciso la escoba. Deber\xEDa estar en la cocina tambi\xE9n."
   - language: 1
-    observationText: Need broom
+    observationText: I still need the broom. It should be in the kitchen too.

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: BUSCAR
+    interactionText: BUSCAR TELEFONO
   - language: 1
-    interactionText: SEARCH
+    interactionText: SEARCH FOR PHONE

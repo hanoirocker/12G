@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   observationTextsStructure:
   - language: 0
-    observationText: Precisa bolsa y escoba
+    observationText: "Voy a precisar una bolsa de basura y una escoba .. Ambas deber\xEDan
+      estar en la cocina .. Mejor chekeo."
   - language: 1
-    observationText: Need bag and broom
+    observationText: I'm going to need a garbage bag and a broom.. Both should be
+      in the kitchen.. I'd better check.
