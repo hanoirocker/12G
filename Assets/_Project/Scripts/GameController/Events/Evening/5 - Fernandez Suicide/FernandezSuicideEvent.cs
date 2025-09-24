@@ -93,7 +93,6 @@ namespace TwelveG.GameController
 
             onPlayerControls.Raise(this, new EnablePlayerControllers(true));
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
-            onControlCanvasControls.Raise(this, new ActivateCanvas(true));
         }
 
         public void AllowNextActions(Component sender, object data)

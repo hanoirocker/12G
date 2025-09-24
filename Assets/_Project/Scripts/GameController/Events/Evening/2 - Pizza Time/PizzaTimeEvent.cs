@@ -78,6 +78,7 @@ namespace TwelveG.GameController
                 this,
                 eventsObservationTextSO[eventObservationTextIndex]
             );
+            eventObservationTextIndex += 1;
 
             // Unity Event (SitAndEat - sitAndEatPizza):
             // Al interactuar con SitAndEat (mesa de la cocina) se deshabilitan controles pples 
@@ -113,7 +114,6 @@ namespace TwelveG.GameController
                 eventsControlCanvasInteractionTextSO_eating
             );
 
-            onControlCanvasControls.Raise(this, new ActivateCanvas(true));
             onControlCanvasControls.Raise(this, new EnableCanvas(true));
 
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
@@ -124,6 +124,14 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             Instantiate(policeCar);
+
+            // Espera mas o menos un tiempo adecuado para cuando el auto de la policia
+            // ya haya pasado y comenta al respecto.
+            yield return new WaitForSeconds(4f);
+            onObservationCanvasShowText.Raise(
+                this,
+                eventsObservationTextSO[eventObservationTextIndex]
+            );
 
             // Unity Event (PizzaSliceHandler - finishedEatingPizza):
             // Se invoca finishedEatingPizza al final de comer la pizza para que el jugador vuelva
