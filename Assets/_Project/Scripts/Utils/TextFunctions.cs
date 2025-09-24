@@ -6,7 +6,7 @@ namespace TwelveG.Utils
     {
         public static float CalculateTextDisplayDuration(string text)
         {
-            float reason = 10;
+            float reason = 12;
             if (text.Length < 10) { reason = 4; }
             float calculatedTime = (text.Length) / reason;
             return calculatedTime;
