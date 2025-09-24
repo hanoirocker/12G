@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   observationTextsStructure:
   - language: 0
-    observationText: ME CAGO EN TODO. Voy directo a su casa.
+    observationText: "Menos mal que no pago por todos estos servicios, a\xFAn..."
   - language: 1
-    observationText: FUCK ALL OF THIS. I'll knock straight at her door.
+    observationText: Thank goodness I don't pay for all these services yet...

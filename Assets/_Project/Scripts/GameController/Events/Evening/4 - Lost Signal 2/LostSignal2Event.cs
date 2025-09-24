@@ -71,15 +71,16 @@ namespace TwelveG.GameController
             // si no fue revisada hasta este punto.
             disableBackpack.Raise(this, null);
 
+            // Espera un toque para que el jugador pueda leer el texto antes de activar mandos
+            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            yield return new WaitForSeconds(2f);
+
             // YA FUE, me voy a lo de Mica.
             onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[1]
             );
-
-            // Espera un toque para que el jugador pueda leer el texto antes de activar mandos
-            yield return new WaitForSeconds(1f);
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            yield return new WaitForSeconds(2f);
         }
 
         public void AllowNextActions(Component sender, object data)

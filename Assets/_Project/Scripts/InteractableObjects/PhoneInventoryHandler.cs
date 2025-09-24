@@ -98,7 +98,7 @@ namespace TwelveG.InteractableObjects
             GetComponent<AudioSource>().PlayOneShot(messageSendClip);
 
             yield return new WaitForSeconds(7f);
-            // ME CAGO EN TODO. Voy directo a su casa.
+            // Menos mal que no pago por todos estos servicios, aún...
             onObservationCanvasShowText.Raise(this, observationTextSOs[2]);
 
             GetComponent<Animation>().PlayQueued("Phone Inventory - Hide Phone");
