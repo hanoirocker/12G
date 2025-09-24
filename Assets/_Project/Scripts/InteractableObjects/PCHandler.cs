@@ -26,7 +26,6 @@ namespace TwelveG.InteractableObjects
         public GameEventSO onImageCanvasControls;
         public GameEventSO onInteractionCanvasShowText;
         public GameEventSO onInteractionCanvasControls;
-        public GameEventSO onControlCanvasControls;
         public GameEventSO onObservationCanvasShowText;
         public GameEventSO onPlayerControls;
         public GameEventSO onVirtualCamerasControl;

@@ -19,7 +19,6 @@ namespace TwelveG.GameController
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
 
         [Header("EventsSO references")]
-        public GameEventSO onControlCanvasControls;
         public GameEventSO onImageCanvasControls;
         public GameEventSO onObservationCanvasShowText;
         public GameEventSO onVirtualCamerasControl;

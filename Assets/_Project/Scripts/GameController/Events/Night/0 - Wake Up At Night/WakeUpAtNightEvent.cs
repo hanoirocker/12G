@@ -9,7 +9,6 @@ namespace TwelveG.GameController
     {
         [Header("EventsSO references")]
         public GameEventSO StartWeatherSound;
-        public GameEventSO onControlCanvasControls;
         public GameEventSO onImageCanvasControls;
         public GameEventSO onDialogCanvasShowDialog;
         public GameEventSO onInteractionCanvasShowText;
