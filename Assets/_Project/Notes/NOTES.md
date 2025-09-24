@@ -3,8 +3,6 @@
 - Se agregó un cut scene para el suicidio de fernandez, además de un nuevo modelo y un video para su televisor.
 
 TOFIX:
-- Fernandez Suicide: Si la puerta del pasillo a la entrada está abierta al momento de iniciar el cut scene, bloquea la visual de la primera cámara.
-
 - Los textos de textos internos desaparecen rápido si se pisan uno con el otro.
 
 
