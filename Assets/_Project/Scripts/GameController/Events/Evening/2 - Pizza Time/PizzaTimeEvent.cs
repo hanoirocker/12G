@@ -68,8 +68,20 @@ namespace TwelveG.GameController
             pizzaCanBePicked.Raise(this, true);
             plateCanBePicked.Raise(this, true);
 
+            // Unity Event (Pizza Handler - onPizzaPickedUp):
+            // Luego de tomar la porción de pizza menciona que hay que
+            // Calentarla
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            onObservationCanvasShowText.Raise(
+                this,
+                eventsObservationTextSO[eventObservationTextIndex]
+            );
+            eventObservationTextIndex += 1;
+
             // Unity Event (MicrowaveHandler - pizzaHeatingFinished):
-            // Se muestra el diálogo de felicidad del pelotudo
+            // Se muestra el diálogo luego de calentar pizza
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
@@ -127,7 +139,7 @@ namespace TwelveG.GameController
 
             // Espera mas o menos un tiempo adecuado para cuando el auto de la policia
             // ya haya pasado y comenta al respecto.
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(5f);
             onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[eventObservationTextIndex]

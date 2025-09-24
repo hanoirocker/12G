@@ -28,6 +28,9 @@ namespace TwelveG.PlayerController
         [Header("Testing settings: ")]
         [SerializeField] private bool enableAllItems;
 
+        [Header("Game Event SO's")]
+        [SerializeField] private GameEventSO onPizzaPickedUp;
+
 
         private List<String> pickedUpItems = new List<String>();
 
@@ -147,6 +150,7 @@ namespace TwelveG.PlayerController
                     break;
                 case ItemType.PizzaSliceOnPlate:
                     MakeItemUseable(ItemType.PizzaSliceOnPlate, true, pizzaSliceOnPlate, rightHandTransform);
+                    onPizzaPickedUp.Raise(this, null);
                     break;
                 case ItemType.HeatedPizzaSliceOnPlate:
                     MakeItemUseable(ItemType.HeatedPizzaSliceOnPlate, true, pizzaSliceOnPlate, rightHandTransform);

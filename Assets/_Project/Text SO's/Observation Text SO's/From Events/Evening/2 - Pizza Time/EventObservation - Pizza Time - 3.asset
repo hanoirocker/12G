@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
-  m_Name: EventObservation - Pizza Time - 1
+  m_Name: EventObservation - Pizza Time - 3
   m_EditorClassIdentifier: 
   observationTextsStructure:
   - language: 0
-    observationText: 'Prender el horno va a demorar demasiado .. mejor al microondas. '
+    observationText: Hmmm .. Ni los fines de semana hay tranquilidad en este pueblo
+      realmente.
   - language: 1
-    observationText: Turning on the oven will take too long... better to use the
-      microwave.
+    observationText: Hmmm... Not even on weekends is there any peace in this town.
