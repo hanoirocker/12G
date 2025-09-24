@@ -9,9 +9,11 @@ namespace TwelveG.PlayerController
         public GameEventSO onControlCanvasControls;
         public GameEventSO onPauseGame;
 
+        public bool playerCanOpenCanvasControls = true;
+
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.H))
+            if (Input.GetKeyDown(KeyCode.H) && playerCanOpenCanvasControls)
             {
                 onControlCanvasControls.Raise(this, new AlternateCanvasCurrentState());
             }

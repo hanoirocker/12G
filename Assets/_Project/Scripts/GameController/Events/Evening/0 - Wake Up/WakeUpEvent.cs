@@ -35,11 +35,12 @@ namespace TwelveG.GameController
         {
             print("<------ WAKE UP EVENT NOW -------->");
 
-            onControlCanvasControls.Raise(this, new ActivateCanvas(false));
+            onControlCanvasControls.Raise(this, new EnableCanvas(false));
 
             yield return new WaitForSeconds(initialTime);
 
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            onPlayerControls.Raise(this, new EnableCanvasControlsAccess(false));
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
 
@@ -97,8 +98,9 @@ namespace TwelveG.GameController
 
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
-            onControlCanvasControls.Raise(this, new EnableCanvas(false));
-            onControlCanvasControls.Raise(this, new ActivateCanvas(true));
+            yield return new WaitForSeconds(1f);
+
+            onPlayerControls.Raise(this, new EnableCanvasControlsAccess(true));
         }
 
         public void AllowNextActions(Component sender, object data)

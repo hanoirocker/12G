@@ -3,7 +3,8 @@ namespace TwelveG.PlayerController
     using System.Collections;
     using System.Collections.Generic;
     using TwelveG.Localization;
-    using UnityEngine;
+  using TwelveG.UIController;
+  using UnityEngine;
     using UnityEngine.Video;
 
     public class TVHandler : MonoBehaviour
@@ -30,6 +31,7 @@ namespace TwelveG.PlayerController
 
         [Header("EventsSO references")]
         public GameEventSO onControlCanvasSetInteractionOptions;
+        public GameEventSO onControlCanvasControls;
         public GameEventSO hasReachedNews;
 
         [Header("TV Components")]
@@ -212,6 +214,7 @@ namespace TwelveG.PlayerController
             {
                 hasReachedNews.Raise(this, null);
                 ShowRemoteControl(false);
+                onControlCanvasControls.Raise(this, new ResetControlCanvasSpecificOptions());
                 playerIsAllowedToInteract = false;
                 DisableAllGameEventListeners();
             }

@@ -75,9 +75,6 @@ namespace TwelveG.UIController
         {
             switch (data)
             {
-                case ActivateCanvas cmd:
-                    controlCanvas.gameObject.SetActive(cmd.Activate);
-                    break;
                 case EnableCanvas cmd:
                     controlCanvas.enabled = cmd.Enabled;
                     break;

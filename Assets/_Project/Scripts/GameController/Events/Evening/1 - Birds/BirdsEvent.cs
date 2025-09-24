@@ -52,8 +52,6 @@ namespace TwelveG.GameController
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
             onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
-            onControlCanvasControls.Raise(this, new ActivateCanvas(true));
-
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
             yield return new WaitForSeconds(1f);
 
