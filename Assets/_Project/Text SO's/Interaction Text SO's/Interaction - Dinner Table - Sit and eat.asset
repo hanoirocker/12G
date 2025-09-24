@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: Sentarse a comer
+    interactionText: SENTARSE A COMER
   - language: 1
-    interactionText: Sit and eat
+    interactionText: SIT AND EAT

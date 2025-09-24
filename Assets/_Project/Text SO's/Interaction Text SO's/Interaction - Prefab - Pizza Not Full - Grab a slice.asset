@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: "Tomar una porci\xF3n"
+    interactionText: TOMAR UNA PORCION
   - language: 1
-    interactionText: Grab a slice
+    interactionText: GRAB A SLICE

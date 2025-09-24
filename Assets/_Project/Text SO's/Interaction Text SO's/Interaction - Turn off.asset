@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: Apagar
+    interactionText: APAGAR
   - language: 1
-    interactionText: Turn off
+    interactionText: TURN OFF

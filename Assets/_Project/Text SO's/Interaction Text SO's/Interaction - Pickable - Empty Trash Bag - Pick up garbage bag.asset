@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: Tomar bolsa de basura
+    interactionText: TOMAR BOLSA DE BASURA
   - language: 1
-    interactionText: Take one garbage bag
+    interactionText: TAKE GARBAGE BAG

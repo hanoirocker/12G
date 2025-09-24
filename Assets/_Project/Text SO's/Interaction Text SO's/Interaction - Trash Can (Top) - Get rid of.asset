@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: Tirar basura
+    interactionText: TIRAR BASURA
   - language: 1
-    interactionText: Get rid of garbage
+    interactionText: GET RID OF GARBAGE

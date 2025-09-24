@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: Cerrar
+    interactionText: CERRAR
   - language: 1
-    interactionText: Close
+    interactionText: CLOSE

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: Calentar
+    interactionText: CALENTAR
   - language: 1
-    interactionText: Heat it up
+    interactionText: HEAT IT UP

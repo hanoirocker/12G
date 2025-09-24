@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: Revisar
+    interactionText: REVISAR
   - language: 1
-    interactionText: Check
+    interactionText: CHECK

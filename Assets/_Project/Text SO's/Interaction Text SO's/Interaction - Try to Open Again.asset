@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: Intentar abrir .. nuevamente?
+    interactionText: INTENTAR ABRIR ... Nuevamente?
   - language: 1
-    interactionText: try to open ... again?
+    interactionText: TRY TO OPEN .. Again?
