@@ -75,7 +75,7 @@ namespace TwelveG.InteractableObjects
             RemoveUsedItems(playerCamera);
             Instantiate(emptyPlate, plateTransform);
     
-            GetComponent<SphereCollider>().enabled = false;
+            GetComponent<BoxCollider>().enabled = false;
             yield return null;
         }
 

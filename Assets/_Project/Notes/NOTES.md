@@ -5,7 +5,6 @@
 TOFIX:
 - Si bien largamos el control del jugador, siguen funcionando scripts como zoom u observacion. Deberiamos desactivar TODOS los raycasters y controles de cámara también.
 - Aumentar tiempo de apurtura y cierre de puerta de microondas. Posiblemente se tendrá que modificar ambos audios usados.
-- Pizza Time: agrandar el collider de la mesa de forma tal que el jugador si o si vea el cartel de interacción y sea más intuitivo.
 - Pizza Time: Agregar comentario luego de que pasa el coche de la policia.
 - Lost Signal 1: Luego de que se haya usado la PC, agregar nuevos
 textos de observación para la compu no funcionando.
