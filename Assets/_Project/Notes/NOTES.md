@@ -5,10 +5,10 @@
 TOFIX:
 - Los textos de textos internos desaparecen rápido si se pisan uno con el otro.
 
-
-TODO:
-- Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
+TODO - despues:
+- Al comenzar un nuevo evento se ejecuta un parpadeo de pantalla. Por ahora sirve para seguir track de los mismos, pero hay que sacarlo eventualmente.
 - Implementar cambios de Video del Settings Menu
 - Mejorar todo el evento del suicidio. Esto incluye mejoras en el cut scene del mismo, agregar sangre en toda la escena y diálogos de Simon, audio (musica y resolver fuentes de ser usadas).
+- Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
 
 TOCHECK:
