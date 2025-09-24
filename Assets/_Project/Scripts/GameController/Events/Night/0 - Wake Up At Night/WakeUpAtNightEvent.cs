@@ -15,7 +15,7 @@ namespace TwelveG.GameController
         public GameEventSO onInteractionCanvasShowText;
         public GameEventSO onInteractionCanvasControls;
 
-        private bool allowNextAction = false;
+        // private bool allowNextAction = false;
         private Animation animationComponent;
 
         public override IEnumerator Execute()
@@ -68,16 +68,16 @@ namespace TwelveG.GameController
             // cameraZoom.enabled = true;
         }
 
-        public void AllowNextActions(Component sender, object data)
-        {
-            print(gameObject.name + " recieved event sent by: " + sender.gameObject.name);
-            allowNextAction = true;
-        }
+        // public void AllowNextActions(Component sender, object data)
+        // {
+        //     print(gameObject.name + " recieved event sent by: " + sender.gameObject.name);
+        //     allowNextAction = true;
+        // }
 
-        public void ResetAllowNextActions()
-        {
-            allowNextAction = false;
-        }
+        // public void ResetAllowNextActions()
+        // {
+        //     allowNextAction = false;
+        // }
     }
 
 }

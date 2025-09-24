@@ -3,9 +3,7 @@
 - Se agregó un cut scene para el suicidio de fernandez, además de un nuevo modelo y un video para su televisor.
 
 TOFIX:
-- Lost Signal 1: Luego de que se haya usado la PC, agregar nuevos
-textos de observación para la compu no funcionando.
-- Fernandez Suicide: Si la puerta del pasillo a la entrada está abierta al momento de iniciar el cut scene, bloquea la visual de la primera cámara. 
+- Fernandez Suicide: Si la puerta del pasillo a la entrada está abierta al momento de iniciar el cut scene, bloquea la visual de la primera cámara.
 
 - Los textos de textos internos desaparecen rápido si se pisan uno con el otro.
 
