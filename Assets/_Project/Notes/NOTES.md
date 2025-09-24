@@ -3,7 +3,6 @@
 - Se agregó un cut scene para el suicidio de fernandez, además de un nuevo modelo y un video para su televisor.
 
 TOFIX:
-- Si bien largamos el control del jugador, siguen funcionando scripts como zoom u observacion. Deberiamos desactivar TODOS los raycasters y controles de cámara también.
 - Aumentar tiempo de apurtura y cierre de puerta de microondas. Posiblemente se tendrá que modificar ambos audios usados.
 - Pizza Time: Agregar comentario luego de que pasa el coche de la policia.
 - Lost Signal 1: Luego de que se haya usado la PC, agregar nuevos

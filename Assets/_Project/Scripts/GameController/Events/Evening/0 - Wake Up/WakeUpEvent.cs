@@ -69,9 +69,6 @@ namespace TwelveG.GameController
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             // LEVANTARSE [E]
-            // TODO (FIX): si mientras se muestra el texto, se cambia de locale, aparece
-            // el texto por defecto de interacion del canvas.
-            // (no actualiza al nuevo texto)
             onEventInteractionCanvasShowText.Raise(
                 this,
                 eventsInteractionTextsSO
@@ -87,7 +84,6 @@ namespace TwelveG.GameController
             // Cuando termina la animación `incorporarse`, se pasa a lo próximo.
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
-
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
             yield return new WaitForSeconds(1f);

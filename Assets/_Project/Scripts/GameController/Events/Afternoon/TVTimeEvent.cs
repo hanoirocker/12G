@@ -70,6 +70,7 @@ namespace TwelveG.GameController
             onControlCanvasControls.Raise(this, new EnableCanvas(false));
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
             onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
+            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 4));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.TV, true));
             onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
