@@ -1,5 +1,6 @@
 namespace TwelveG.UIController
 {
+    using TwelveG.AudioController;
     using TwelveG.PlayerController;
     using TwelveG.SaveSystem;
     using UnityEngine;
@@ -7,13 +8,18 @@ namespace TwelveG.UIController
 
     public class PauseMenuCanvasHandler : MonoBehaviour
     {
-        public static bool gameIsPaused;
+        [Header("References")]
+        [SerializeField] private AudioClip inGameMenuClip;
 
         [Header("Game Event SO's")]
         [SerializeField] private GameEventSO onPlayerControls;
 
+        [Header("Testing")]
+        public static bool gameIsPaused;
+
         private void OnEnable()
         {
+            PlayInGameMenuSound();
             SetPauseGameSettings();
         }
 
@@ -29,7 +35,18 @@ namespace TwelveG.UIController
 
         private void OnDisable()
         {
+            PlayInGameMenuSound();
             SetResumeGameSettings();
+        }
+
+        private void PlayInGameMenuSound()
+        {
+            if (inGameMenuClip == null)
+            {
+                Debug.Log("[MenuCanvasHandler]: gameMenuSound not assigned!");
+                return;
+            }
+            AudioManager.Instance.PoolsHandler.PlayClipOnSpecificAudioSource(AudioPoolType.UI, inGameMenuClip);
         }
 
         private void SetResumeGameSettings()
