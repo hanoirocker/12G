@@ -7,16 +7,17 @@ namespace TwelveG.UIController
 
     public class NarrativeCanvasHandler : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField] private TextMeshProUGUI title;
-        [SerializeField] private TextMeshProUGUI phrase;
+        [SerializeField] private TextMeshProUGUI phrase = null;
         [SerializeField] private CanvasGroup textCanvasGroup;
-        [SerializeField] private CanvasGroup logoCanvasGroup;
-
-        // TODO?: almacenar objeto NarrativeTextSO por si habilitamos el cambio de lenguage
-        // mientras se muestra este canvas evento.
+        [SerializeField] private CanvasGroup logoCanvasGroup = null;
 
         [Header("Game Event SO's")]
         [SerializeField] private GameEventSO onFinishedNarrativeCouritine;
+
+        [Header("Testing")]
+        public bool isSimplifiedStyle = true;
 
         public void ShowNarrativeCanvas(Component sender, object data)
         {
@@ -27,7 +28,7 @@ namespace TwelveG.UIController
                 var languageStructure = narrativeTextSO.narrativeTextsStructure
                 .Find(texts => texts.language.ToString().Equals(actualLanguageCode, System.StringComparison.OrdinalIgnoreCase));
                 title.text = languageStructure.title;
-                phrase.text = languageStructure.phrase;
+                if (!isSimplifiedStyle) { phrase.text = languageStructure.phrase; }
                 GetComponent<Canvas>().enabled = true;
                 StartCoroutine(NarrativeCanvasCoroutine());
             }
@@ -61,16 +62,16 @@ namespace TwelveG.UIController
             while (elapsed < duration)
             {
                 textCanvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
-                logoCanvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+                if (!isSimplifiedStyle) { logoCanvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration); }
                 elapsed += Time.deltaTime;
                 yield return null;
             }
             textCanvasGroup.alpha = endAlpha;
-            logoCanvasGroup.alpha = endAlpha;
+            if (!isSimplifiedStyle) { logoCanvasGroup.alpha = endAlpha; }
 
             // Desactivar canvas y emitir evento
             GetComponent<Canvas>().enabled = false;
-            logoCanvasGroup.alpha = 1f;
+            if (!isSimplifiedStyle) { logoCanvasGroup.alpha = 1f; }
             onFinishedNarrativeCouritine.Raise(this, null);
         }
     }
