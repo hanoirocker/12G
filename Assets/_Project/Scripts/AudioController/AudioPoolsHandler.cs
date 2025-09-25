@@ -49,18 +49,6 @@ namespace TwelveG.AudioController
       };
     }
 
-    public void PlayClipOnSpecificAudioSource(AudioPoolType audioPoolType, AudioClip clip)
-    {
-      AudioSource source = ReturnFreeAudioSource(audioPoolType);
-
-      if (source.isPlaying)
-      {
-        Debug.Log($"[AudioPoolsHandler]: retrieved source {source.gameObject.name} was playing before playing new sound!");
-        source.Stop();
-      }
-      source.PlayOneShot(clip);
-    }
-
     public List<AudioSource> ReturnAudioSourceByType(AudioPoolType audioPoolType)
     {
       if (!poolMap.TryGetValue(audioPoolType, out var sources))
