@@ -4,17 +4,12 @@ namespace TwelveG.EnvironmentController
 
     public class FrontHouseHandler : MonoBehaviour
     {
-        [Header("Objects references")]
+        [Header("Fernandez Event References")]
         [SerializeField] private GameObject fernandezDeadPrefab;
-        [SerializeField] private Transform chair;
-        [SerializeField] private Light livingRoomLight;
+        [SerializeField] private Transform chairNoBlood;
+        [SerializeField] private Transform chairWithBlood;
         [SerializeField] private Light entranceLight;
 
-
-        public void SwitchLivingRoomLight(bool turnOnLight)
-        {
-            livingRoomLight.enabled = turnOnLight;
-        }
 
         public void SwitchEntranceLight(bool turnOnLight)
         {
@@ -23,7 +18,9 @@ namespace TwelveG.EnvironmentController
 
         public void TriggerFernandezSuicide()
         {
-            Instantiate(fernandezDeadPrefab, chair);
+            chairNoBlood.gameObject.SetActive(false);
+            chairWithBlood.gameObject.SetActive(true);
+            Instantiate(fernandezDeadPrefab, chairWithBlood);
         }
     }
 }
