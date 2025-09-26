@@ -48,6 +48,8 @@ namespace TwelveG.UIController
 
         private void PlayInGameMenuSound()
         {
+            if (inGameAudioSource == null) { return; }
+
             if (inGameMenuClip == null)
             {
                 Debug.Log("[MenuCanvasHandler]: gameMenuSound not assigned!");
