@@ -6,6 +6,7 @@ namespace TwelveG.Localization
     [CreateAssetMenu(fileName = "ObservationTextSO", menuName = "SO's/ObservationTextSO", order = 0)]
     public class ObservationTextSO : ScriptableObject
     {
+        public bool isEventText = false;
         public List<ObservationsStructure> observationTextsStructure;
 
         [System.Serializable]
