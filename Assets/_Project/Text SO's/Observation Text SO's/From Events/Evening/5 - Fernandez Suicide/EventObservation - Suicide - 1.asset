@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   observationTextsStructure:
   - language: 0
-    observationText: Esto simplemente no es real
+    observationText: Los Fernandez? Ese sonido ... no puede ser.
   - language: 1
-    observationText: This is simply not real
+    observationText: The Fernandez? That sound... it can't be.

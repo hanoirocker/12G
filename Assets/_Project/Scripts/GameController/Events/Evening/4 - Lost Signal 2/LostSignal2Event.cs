@@ -74,13 +74,6 @@ namespace TwelveG.GameController
             // Espera un toque para que el jugador pueda leer el texto antes de activar mandos
             onPlayerControls.Raise(this, new EnablePlayerControllers(true));
             yield return new WaitForSeconds(2f);
-
-            // YA FUE, me voy a lo de Mica.
-            onObservationCanvasShowText.Raise(
-                this,
-                eventObservationsTextsSOs[1]
-            );
-            yield return new WaitForSeconds(2f);
         }
 
         public void AllowNextActions(Component sender, object data)

@@ -35,6 +35,13 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(initialTime);
 
+            // YA FUE, me voy a lo de Mica.
+            onObservationCanvasShowText.Raise(
+                this,
+                eventObservationsTextsSOs[0]
+            );
+            yield return new WaitForSeconds(1f);
+
             // Aca se instancian los coliders sobre ventanas y puertas
             // que den visualmente a la camioneta del vecino de enfrente.
             // Si el jugador los choca, se dispara evento carAlarmTrigger
@@ -55,7 +62,7 @@ namespace TwelveG.GameController
             // Los Fernandez? Ese sonido ...
             onObservationCanvasShowText.Raise(
                 this,
-                eventObservationsTextsSOs[0]
+                eventObservationsTextsSOs[1]
             );
 
             // Unity Event (CinematicBarsHandler - onCinematicBarsAnimationFinished):
@@ -65,15 +72,14 @@ namespace TwelveG.GameController
 
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
-            yield return new WaitForSeconds(1f);
 
             onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(1, true));
 
-            yield return new WaitForSeconds(15f);
-            // No No No No No MIERDA!
+            yield return new WaitForSeconds(13f);
+            // NO NO NO NO. MIERDA!
             onObservationCanvasShowText.Raise(
                 this,
-                eventObservationsTextsSOs[1]
+                eventObservationsTextsSOs[2]
             );
 
             // ACA SE ACTUALIZA LA POSICION DEL JUGADOR A LA VENTANA.
@@ -83,11 +89,11 @@ namespace TwelveG.GameController
             playerCapsuleTransform.position = suicideViewTransform.position;
             playerCapsuleTransform.rotation = suicideViewTransform.rotation;
 
-            yield return new WaitForSeconds(10f);
-            // No No No No No MIERDA!
+            yield return new WaitForSeconds(5.5f);
+            // Esto no puede ser real
             onObservationCanvasShowText.Raise(
                 this,
-                eventObservationsTextsSOs[2]
+                eventObservationsTextsSOs[3]
             );
 
             // Unity Event (CinematicsHandler - CutSceneFinished):
@@ -101,7 +107,7 @@ namespace TwelveG.GameController
             // No puede ser ...
             onObservationCanvasShowText.Raise(
                 this,
-                eventObservationsTextsSOs[3]
+                eventObservationsTextsSOs[4]
             );
 
             onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
