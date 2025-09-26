@@ -23,9 +23,11 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onObservationCanvasShowText;
-        // [SerializeField] private GameEventSO onCinematicCanvasControls;
         // [SerializeField] private GameEventSO onPlayerControls;
         // [SerializeField] private GameEventSO onPlayerDirectorControls;
+
+        [Header("Other eventsSO references")]
+        [SerializeField] private GameEventSO drawerCanBeInteracted;
 
         private bool allowNextAction = false;
 
@@ -49,6 +51,8 @@ namespace TwelveG.GameController
                 this,
                 eventObservationsTextsSOs[1]
             );
+
+            drawerCanBeInteracted.Raise(this, null);
 
         }
 
