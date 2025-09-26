@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
-public class CustomGameEvent : UnityEvent<Component, object> {}
+public class CustomGameEvent : UnityEvent<Component, object> { }
 
 public class GameEventListener : MonoBehaviour
 {
@@ -15,11 +15,21 @@ public class GameEventListener : MonoBehaviour
 
     private void OnEnable()
     {
+        if (gameEventSO == null)
+        {
+            Debug.LogWarning($"[GameEventListener]: Game Event SO reference not assigned at {gameObject.name}");
+            return;
+        }
         gameEventSO.RegisterListener(this);
     }
 
     private void OnDisable()
     {
+        if (gameEventSO == null)
+        {
+            Debug.LogWarning($"[GameEventListener]: Remmeber to assign Game Event SO at {gameObject.name}!");
+            return;
+        }
         gameEventSO.UnRegisterListener(this);
     }
 
