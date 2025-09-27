@@ -1,83 +1,90 @@
 namespace TwelveG.InteractableObjects
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
     using UnityEngine;
 
     public class SafeBoxHandler : MonoBehaviour, IInteractable
     {
-        [Header("References")]
-        [SerializeField] private RotativeDrawerHandler doorHandler;
-        [SerializeField] private ObservationTextSO observationFallbackTextDefault = null;
+        [Header("Object Settings")]
+        [SerializeField] private GameObject door;
+        [SerializeField] private bool doorIsLocked = true;
+
+        [Header("Text Settings")]
+        [SerializeField] private ObservationTextSO observationFallback;
 
         [Header("Interaction Texts SO")]
-        [SerializeField] private InteractionTextSO interactionTextsSO_open;
+        [SerializeField] private InteractionTextSO interactionTextsSO_try;
         [SerializeField] private InteractionTextSO interactionTextsSO_interact;
 
-        // Cambiar a variable privada luego de tests
-        public bool isFirstTimeInteracted = true;
+        private bool canBeInteractedWith = true;
+        private int lockedIndex = 0;
 
-        private ObservationTextSO observationFallbackTextRecieved = null;
-        private bool canBeinteractedWith = true;
-        private bool isLocked = true;
-
-        public bool CanBeInteractedWith(PlayerInteraction interactor)
+        public bool CanBeInteractedWith(PlayerInteraction playerCamera)
         {
-            return canBeinteractedWith;
-        }
-
-        public void UpdateFallbackTexts(Component sender, object data)
-        {
-            if (data != null)
-            {
-                observationFallbackTextRecieved = (ObservationTextSO)data;
-            }
-            else
-            {
-                Debug.LogWarning("No data found on UpdateFallbackTexts - observationFallbackTextsRecieved");
-            }
+            return canBeInteractedWith;
         }
 
         public InteractionTextSO RetrieveInteractionSO()
         {
-            if (isLocked)
+            return GetDoorTextForCanvas();
+        }
+
+        private InteractionTextSO GetDoorTextForCanvas()
+        {
+            if (doorIsLocked)
             {
-                if (isFirstTimeInteracted) { return interactionTextsSO_open; }
+                if (lockedIndex == 0) { return interactionTextsSO_try; }
                 else { return interactionTextsSO_interact; }
             }
-            // Al desbloquearse, se apaga este script, por lo que los textos se devuelven
-            // desde el RotativeDrawerHandler de la puerta de la caja fuerte
             else
             {
                 return null;
             }
         }
 
-        public bool Interact(PlayerInteraction interactor)
+        public bool Interact(PlayerInteraction playerCamera)
         {
-            if (isLocked)
+            if (doorIsLocked)
             {
-                if (isFirstTimeInteracted)
+                if (lockedIndex > 0)
                 {
-                    isFirstTimeInteracted = false;
+                    StartCoroutine(InteractWithKeyCode(playerCamera));
+                    return true;
                 }
-                return false;
+                else
+                {
+                    lockedIndex += 1;
+                    return false;
+                }
             }
             else
             {
-                GetComponent<BoxCollider>().enabled = false;
                 return true;
             }
         }
 
-        public bool VerifyIfPlayerCanInteract(PlayerInteraction interactor)
+        private IEnumerator InteractWithKeyCode(PlayerInteraction playerCamera)
         {
-            throw new System.NotImplementedException();
+            canBeInteractedWith = false;
+            Debug.Log("Reproduciendo interacción");
+            yield return new WaitForSeconds(4f);
+            Debug.Log("Interacción finalizada, abriendo caja");
+            door.GetComponent<RotativeDrawerHandler>().enabled = true;
+            door.GetComponent<Collider>().enabled = true;
+        }
+
+        public bool VerifyIfPlayerCanInteract(PlayerInteraction playerCamera)
+        {
+            return CanBeInteractedWith(playerCamera);
         }
 
         public ObservationTextSO GetFallBackText()
         {
-            return observationFallbackTextDefault;
+            return observationFallback;
         }
     }
 }
