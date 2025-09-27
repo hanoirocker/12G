@@ -13,6 +13,7 @@ namespace TwelveG.Utils
         [SerializeField] private CinemachineVirtualCamera phoneVC;
         [SerializeField] private CinemachineVirtualCamera bedVC;
         [SerializeField] private CinemachineVirtualCamera tvVC;
+        [SerializeField] private CinemachineVirtualCamera safeBox;
 
         [SerializeField] private CinemachineVirtualCamera SofaVC;
 
@@ -89,6 +90,7 @@ namespace TwelveG.Utils
                 VirtualCameraTarget.Phone => phoneVC,
                 VirtualCameraTarget.TV => tvVC,
                 VirtualCameraTarget.Sofa => SofaVC,
+                VirtualCameraTarget.SafeBox => safeBox,
                 _ => null
             };
         }

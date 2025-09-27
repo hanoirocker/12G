@@ -1,8 +1,6 @@
 namespace TwelveG.InteractableObjects
 {
-    using System;
     using System.Collections;
-    using System.Collections.Generic;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
     using UnityEngine;
@@ -20,8 +18,17 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private InteractionTextSO interactionTextsSO_try;
         [SerializeField] private InteractionTextSO interactionTextsSO_interact;
 
+        [Header("Testing")]
+        public bool isTestingMode = false;
+
+        private SafeBoxKeyboardHandler safeBoxKeyboardHandler;
         private bool canBeInteractedWith = true;
         private int lockedIndex = 0;
+
+        private void Awake()
+        {
+            safeBoxKeyboardHandler = GetComponent<SafeBoxKeyboardHandler>();
+        }
 
         public bool CanBeInteractedWith(PlayerInteraction playerCamera)
         {
@@ -37,6 +44,7 @@ namespace TwelveG.InteractableObjects
         {
             if (doorIsLocked)
             {
+                if (isTestingMode) { return interactionTextsSO_interact; }
                 if (lockedIndex == 0) { return interactionTextsSO_try; }
                 else { return interactionTextsSO_interact; }
             }
@@ -50,7 +58,7 @@ namespace TwelveG.InteractableObjects
         {
             if (doorIsLocked)
             {
-                if (lockedIndex > 0)
+                if (lockedIndex > 0 || isTestingMode)
                 {
                     StartCoroutine(InteractWithKeyCode(playerCamera));
                     return true;
@@ -70,11 +78,10 @@ namespace TwelveG.InteractableObjects
         private IEnumerator InteractWithKeyCode(PlayerInteraction playerCamera)
         {
             canBeInteractedWith = false;
-            Debug.Log("Reproduciendo interacción");
-            yield return new WaitForSeconds(4f);
-            Debug.Log("Interacción finalizada, abriendo caja");
-            door.GetComponent<RotativeDrawerHandler>().enabled = true;
-            door.GetComponent<Collider>().enabled = true;
+            safeBoxKeyboardHandler.enabled = true;
+            yield return new WaitUntil(() => !safeBoxKeyboardHandler.enabled);
+            yield return new WaitForSeconds(2f);
+            canBeInteractedWith = true;
         }
 
         public bool VerifyIfPlayerCanInteract(PlayerInteraction playerCamera)
