@@ -68,11 +68,19 @@ namespace TwelveG.PlayerController
         {
             ObservationTextSO observationTextSO = interactObj.GetFallBackText();
 
+            // Calcular tiempo en base a texto para esperar antes de mostrar
+            // el próximo texto de interacción
+            string textToShow = Utils.TextFunctions.RetrieveObservationText(
+                    LocalizationManager.Instance.GetCurrentLanguageCode(),
+                    observationTextSO
+                );
+            float timeToWait = Utils.TextFunctions.CalculateTextDisplayDuration(textToShow);
+
             if (observationTextSO == null) { yield return null; }
 
             onObservationCanvasShowText.Raise(this, observationTextSO);
             lastColliderInteractedWith.GetComponent<Collider>().enabled = false;
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(timeToWait);
             lastColliderInteractedWith.GetComponent<Collider>().enabled = true;
         }
 
