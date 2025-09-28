@@ -8,6 +8,8 @@ namespace TwelveG.InteractableObjects
     public class RotativeDrawerHandler : MonoBehaviour, IInteractable
     {
         [Header("Drower Settings: ")]
+        public bool rotatesParent = false;
+        [SerializeField] GameObject parentObject;
         [SerializeField] float xOffset = 0f;
         [SerializeField] float yOffset = 0f;
         [SerializeField] float zOffset = 0f;
@@ -37,8 +39,16 @@ namespace TwelveG.InteractableObjects
 
         private void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             isMoving = false;
-            initialRotation = gameObject.transform.localRotation;
+
+            if (rotatesParent && parentObject == null)
+            {
+                Debug.LogError("[RotativeDrawerHandler]: rotatesParent is true but no parentObject is assigned!", this);
+                return;
+            }
+
+            initialRotation = rotatesParent ? parentObject.transform.localRotation : gameObject.transform.localRotation;
         }
 
         private void ToggleDoor(Vector3 playerPosition)
@@ -50,20 +60,21 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator RotateDrowerDoor(Quaternion targetRotation)
         {
-            // Right now: Coroutine time depends on the length of the opening/closing audio clips.
-
             isMoving = true;
             float coroutineDuration = PlayDoorSounds();
             float elapsedTime = 0f;
-            Quaternion startRotation = gameObject.transform.localRotation;
+
+            Transform targetTransform = rotatesParent ? parentObject.transform : gameObject.transform;
+            Quaternion startRotation = targetTransform.localRotation;
 
             while (elapsedTime < coroutineDuration)
             {
-                gameObject.transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, elapsedTime / coroutineDuration);
+                targetTransform.localRotation = Quaternion.Slerp(startRotation, targetRotation, elapsedTime / coroutineDuration);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            gameObject.transform.localRotation = targetRotation;
+
+            targetTransform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
             isMoving = false;
         }
