@@ -51,6 +51,10 @@ namespace TwelveG.GameController
                 this,
                 eventObservationsTextsSOs[1]
             );
+            onObservationCanvasShowText.Raise(
+                this,
+                eventObservationsTextsSOs[2]
+            );
 
             drawerCanBeInteracted.Raise(this, null);
 

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
-  m_Name: EventObservation - WT Quest - 1
+  m_Name: EventObservation - WT Quest - 2
   m_EditorClassIdentifier: 
   isEventText: 1
   observationTextsStructure:
   - language: 0
-    observationText: "Nuestros Walkie Talkies! Si no mal recuerdo mi madre a\xFAn
-      deber\xEDa tener el m\xEDo escondido en alg\xFAn lado .."
+    observationText: "Supongo que las bromas que les jugabamos a la polic\xEDa durante
+      la cuarentena no resultan graciosas ahora mismo .. Maldita sea."
   - language: 1
-    observationText: Our walkie talkies! If I remember correctly, my mom probably
-      still has mine hidden somewhere.
+    observationText: I guess the pranks we played on the police during quarantine
+      aren't funny anymore. Damn.
