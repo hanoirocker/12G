@@ -80,7 +80,6 @@ namespace TwelveG.InteractableObjects
             canBeInteractedWith = false;
             safeBoxKeyboardHandler.enabled = true;
             yield return new WaitUntil(() => !safeBoxKeyboardHandler.enabled);
-            yield return new WaitForSeconds(2f);
             canBeInteractedWith = true;
         }
 
@@ -92,6 +91,16 @@ namespace TwelveG.InteractableObjects
         public ObservationTextSO GetFallBackText()
         {
             return observationFallback;
+        }
+
+        public void UnlockSafeBox()
+        {
+            doorIsLocked = false;
+            canBeInteractedWith = false;
+            GetComponent<BoxCollider>().enabled = false;
+
+            door.GetComponent<RotativeDrawerHandler>().enabled = true;
+            door.GetComponent<Collider>().enabled = true;
         }
     }
 }

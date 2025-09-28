@@ -4,22 +4,31 @@ namespace TwelveG.InteractableObjects
     using Cinemachine;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
-    using TwelveG.UIController;
     using TwelveG.Utils;
     using UnityEngine;
 
     public class SafeBoxKeyboardHandler : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField] private GameObject safeBoxCanvas;
+        [SerializeField] private AudioSource audioSource;
+
+        [Header("Audio Clips")]
+        [SerializeField] private AudioClip inputClip;
+        [SerializeField] private AudioClip errorClip;
+        [SerializeField] private AudioClip unlockClip;
+
+        [Header("Safe Combination")]
+        [SerializeField] private string correctCombination = "1234";
+
         [Header("Event SO references")]
         public GameEventSO onVirtualCamerasControl;
         public GameEventSO onMainCameraSettings;
         public GameEventSO onPlayerControls;
 
-        [Header("Text event SO")]
-        [SerializeField] private EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO_safebox;
-
-        private bool playerCanInputValues = false;
         private bool playerCanExit = false;
+        private bool isProcessing = false; // Bloquea input durante error/desbloqueo
+        private string currentInput = "";
 
         private void Update()
         {
@@ -31,6 +40,7 @@ namespace TwelveG.InteractableObjects
 
         void OnEnable()
         {
+            audioSource.enabled = true;
             StartCoroutine(InteractWithKeyboard());
         }
 
@@ -47,21 +57,78 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(1f);
             onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
             onPlayerControls.Raise(this, new EnableCanvasControlsAccess(false));
+            safeBoxCanvas.SetActive(true);
 
-            playerCanInputValues = true;
             playerCanExit = true;
         }
 
         private IEnumerator QuitKeyboard()
         {
-            playerCanInputValues = false;
             playerCanExit = false;
 
+            safeBoxCanvas.SetActive(false);
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.SafeBox, false));
             yield return new WaitForSeconds(1f);
             onPlayerControls.Raise(this, new EnablePlayerControllers(true));
             onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
             onPlayerControls.Raise(this, new EnableCanvasControlsAccess(true));
+        }
+
+        public void ProcessNumberInput(int value)
+        {
+            if (isProcessing) return;
+
+            PlayClip(inputClip);
+
+            currentInput += value.ToString();
+            Debug.Log($"Input actual: {currentInput}");
+
+            if (currentInput.Length >= 4)
+            {
+                if (currentInput == correctCombination)
+                {
+                    StartCoroutine(HandleCorrectCombination());
+                }
+                else
+                {
+                    StartCoroutine(HandleIncorrectCombination());
+                }
+            }
+        }
+
+        private IEnumerator HandleIncorrectCombination()
+        {
+            isProcessing = true;
+            Debug.Log("Combinación incorrecta");
+            PlayClip(errorClip);
+
+            yield return new WaitForSeconds(errorClip.length);
+
+            currentInput = "";
+            isProcessing = false;
+        }
+
+        private IEnumerator HandleCorrectCombination()
+        {
+            isProcessing = true;
+            Debug.Log("Combinación correcta!");
+
+            PlayClip(unlockClip);
+            yield return new WaitForSeconds(unlockClip.length);
+
+            Debug.Log("Caja fuerte desbloqueada");
+
+            StartCoroutine(QuitKeyboard());
+            GetComponent<SafeBoxHandler>().UnlockSafeBox();
+            this.enabled = false;
+        }
+
+        private void PlayClip(AudioClip clip)
+        {
+            if (clip != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(clip);
+            }
         }
     }
 }
