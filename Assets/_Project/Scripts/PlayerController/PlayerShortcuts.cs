@@ -10,6 +10,7 @@ namespace TwelveG.PlayerController
         public GameEventSO onPauseGame;
 
         public bool playerCanOpenCanvasControls = true;
+        public bool playerCanOpenPauseMenu = true;
 
         private void Update()
         {
@@ -17,7 +18,7 @@ namespace TwelveG.PlayerController
             {
                 onControlCanvasControls.Raise(this, new AlternateCanvasCurrentState());
             }
-            else if (Input.GetKeyDown(KeyCode.Escape))
+            else if (Input.GetKeyDown(KeyCode.Escape) && playerCanOpenPauseMenu)
             {
                 if (!PauseMenuCanvasHandler.gameIsPaused)
                 {

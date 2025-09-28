@@ -1,8 +1,7 @@
 namespace TwelveG.PlayerController
 {
     using TwelveG.AudioController;
-  using Unity.VisualScripting;
-  using UnityEngine;
+    using UnityEngine;
     using UnityEngine.InputSystem;
 
     public class PlayerHandler : MonoBehaviour
@@ -32,8 +31,11 @@ namespace TwelveG.PlayerController
         {
             switch (data)
             {
-                case EnableCanvasControlsAccess cmd:
+                case EnableControlCanvasAccess cmd:
                     playerShortcuts.playerCanOpenCanvasControls = cmd.Enabled;
+                    break;
+                case EnablePauseMenuCanvasAccess cmd:
+                    playerShortcuts.playerCanOpenPauseMenu = cmd.Enabled;
                     break;
                 case TogglePlayerCapsule cmd:
                     playerCapsule.SetActive(cmd.Enabled);

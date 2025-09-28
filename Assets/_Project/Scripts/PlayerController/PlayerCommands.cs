@@ -20,10 +20,16 @@ namespace TwelveG.PlayerController
         public TogglePlayerCapsule(bool enabled) => Enabled = enabled;
     }
 
-    public class EnableCanvasControlsAccess : PlayerCommandBase
+    public class EnableControlCanvasAccess : PlayerCommandBase
     {
         public bool Enabled;
-        public EnableCanvasControlsAccess(bool enabled) => Enabled = enabled;
+        public EnableControlCanvasAccess(bool enabled) => Enabled = enabled;
+    }
+
+    public class EnablePauseMenuCanvasAccess : PlayerCommandBase
+    {
+        public bool Enabled;
+        public EnablePauseMenuCanvasAccess(bool enabled) => Enabled = enabled;
     }
 
     public class EnablePlayerControllers : PlayerCommandBase
