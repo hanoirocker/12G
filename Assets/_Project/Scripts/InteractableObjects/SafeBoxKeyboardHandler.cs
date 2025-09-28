@@ -2,7 +2,6 @@ namespace TwelveG.InteractableObjects
 {
     using System.Collections;
     using Cinemachine;
-    using TwelveG.Localization;
     using TwelveG.PlayerController;
     using TwelveG.Utils;
     using UnityEngine;
@@ -56,7 +55,8 @@ namespace TwelveG.InteractableObjects
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.SafeBox, true));
             yield return new WaitForSeconds(1f);
             onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
-            onPlayerControls.Raise(this, new EnableCanvasControlsAccess(false));
+            onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
+            onPlayerControls.Raise(this, new EnablePauseMenuCanvasAccess(false));
             safeBoxCanvas.SetActive(true);
 
             playerCanExit = true;
@@ -71,7 +71,8 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(1f);
             onPlayerControls.Raise(this, new EnablePlayerControllers(true));
             onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
-            onPlayerControls.Raise(this, new EnableCanvasControlsAccess(true));
+            onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
+            onPlayerControls.Raise(this, new EnablePauseMenuCanvasAccess(true));
         }
 
         public void ProcessNumberInput(int value)
