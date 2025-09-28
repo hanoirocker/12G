@@ -1,9 +1,9 @@
 Últimos cambios:
-- Se reemplazó el uso de TogglePlayerCapsule por EnablePlayerControllers. Esto permite desactivar todos los scripts que permiten interactuar con el jugador SIN apagar el game object player capsule. De esta forma se puede acceder al mismo para cambiar su transform durante cut scenes o cualquier otro momento en el que el jugador no está disponible.
-- Se agregó un cut scene para el suicidio de fernandez, además de un nuevo modelo y un video para su televisor.
+- Se agregó EnablePauseMenuCanvasAccess para permitir o no al jugador acceder al menu de pausa presionando la tecla escape.
 
-TOFIX:
-- Los textos de textos internos desaparecen rápido si se pisan uno con el otro.
+TOFIX - urgente:
+- El walkie talkie se puede agarrar.
+- Necesitamos pensar en otra forma de alternar las VC's que no sean teniendolas instanciadas dentro de un solo prefab VC. Es mas cómodo si las VC's pertenecen al objeto con el cual el jugador interactua.
 
 TODO - despues:
 - Al comenzar un nuevo evento se ejecuta un parpadeo de pantalla. Por ahora sirve para seguir track de los mismos, pero hay que sacarlo eventualmente.
@@ -12,3 +12,4 @@ TODO - despues:
 - Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
 
 TOCHECK:
+- Se puede abrir o cerrar la Safe Box desde afuera del ropero cuando sus puertas están cerradas?
