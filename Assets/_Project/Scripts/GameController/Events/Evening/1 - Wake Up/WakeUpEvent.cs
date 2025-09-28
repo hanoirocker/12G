@@ -40,7 +40,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(initialTime);
 
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            onPlayerControls.Raise(this, new EnableCanvasControlsAccess(false));
+            onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
 
@@ -96,7 +96,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(1f);
 
-            onPlayerControls.Raise(this, new EnableCanvasControlsAccess(true));
+            onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
         }
 
         public void AllowNextActions(Component sender, object data)
