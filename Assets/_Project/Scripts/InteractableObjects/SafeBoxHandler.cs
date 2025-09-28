@@ -8,7 +8,8 @@ namespace TwelveG.InteractableObjects
     public class SafeBoxHandler : MonoBehaviour, IInteractable
     {
         [Header("Object Settings")]
-        [SerializeField] private GameObject door;
+        [SerializeField] private GameObject doorInteractable;
+        [SerializeField] private GameObject walkieTalkie;
         [SerializeField] private bool doorIsLocked = true;
 
         [Header("Text Settings")]
@@ -99,8 +100,9 @@ namespace TwelveG.InteractableObjects
             canBeInteractedWith = false;
             GetComponent<BoxCollider>().enabled = false;
 
-            door.GetComponent<RotativeDrawerHandler>().enabled = true;
-            door.GetComponent<Collider>().enabled = true;
+            doorInteractable.GetComponent<RotativeDrawerHandler>().enabled = true;
+            doorInteractable.GetComponent<Collider>().enabled = true;
+            walkieTalkie.GetComponent<PickableItem>().canBePicked = true;
         }
     }
 }
