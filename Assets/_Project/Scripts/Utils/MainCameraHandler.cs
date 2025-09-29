@@ -34,5 +34,13 @@ namespace TwelveG.Utils
                     break;
             }
         }
+
+        public void InstatiateExaminableObject(Component sender, object data)
+        {
+            if (data != null)
+            {
+                Instantiate((GameObject)data, gameObject.transform);
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace TwelveG.Utils
 
     public class VirtualCamerasHandler : MonoBehaviour
     {
+        [Header("VC's references")]
         [SerializeField] private CinemachineVirtualCamera playerVC;
         [SerializeField] private CinemachineVirtualCamera wakeUpVC;
         [SerializeField] private CinemachineVirtualCamera kitchenDeskVC;
@@ -14,7 +15,6 @@ namespace TwelveG.Utils
         [SerializeField] private CinemachineVirtualCamera bedVC;
         [SerializeField] private CinemachineVirtualCamera tvVC;
         [SerializeField] private CinemachineVirtualCamera safeBox;
-
         [SerializeField] private CinemachineVirtualCamera SofaVC;
 
         [Header("EventsSO references")]
