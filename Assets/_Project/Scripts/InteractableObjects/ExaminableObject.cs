@@ -9,8 +9,8 @@ namespace TwelveG.InteractableObjects
     [Header("References")]
     [SerializeField] private AudioClip inspectionClip;
 
-    [Header("Observation Texts SO's")]
-    // [SerializeField] private ObservationTextSO observationTextSO;
+    [Header("Examination Texts SO's")]
+    // [SerializeField] private ExaminationTextSO examinationTextSO;
 
     [Header("EventsSO references")]
     [SerializeField] private GameEventSO onPlayerControls;
@@ -46,7 +46,7 @@ namespace TwelveG.InteractableObjects
         {
           Cursor.visible = false;
           Cursor.lockState = CursorLockMode.Locked;
-          Debug.Log("Opening Canvas!");
+          // onExaminationCanvasShowText.Raise(this, examinationTextSO)
         }
         else
         {
