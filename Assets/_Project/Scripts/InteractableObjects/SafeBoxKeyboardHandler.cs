@@ -39,7 +39,6 @@ namespace TwelveG.InteractableObjects
 
         void OnEnable()
         {
-            audioSource.enabled = true;
             StartCoroutine(InteractWithKeyboard());
         }
 

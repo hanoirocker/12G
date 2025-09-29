@@ -3,7 +3,8 @@ namespace TwelveG.InteractableObjects
     using System.Collections;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
-    using UnityEngine;
+  using Unity.VisualScripting;
+  using UnityEngine;
 
     public class SafeBoxHandler : MonoBehaviour, IInteractable
     {
@@ -29,6 +30,14 @@ namespace TwelveG.InteractableObjects
         private void Awake()
         {
             safeBoxKeyboardHandler = GetComponent<SafeBoxKeyboardHandler>();
+        }
+
+        void Start()
+        {
+            if (!doorIsLocked)
+            {
+                UnlockSafeBox();
+            }
         }
 
         public bool CanBeInteractedWith(PlayerInteraction playerCamera)
@@ -100,6 +109,7 @@ namespace TwelveG.InteractableObjects
             canBeInteractedWith = false;
             GetComponent<BoxCollider>().enabled = false;
 
+            doorInteractable.GetComponent<AudioSource>().enabled = true;
             doorInteractable.GetComponent<RotativeDrawerHandler>().enabled = true;
             doorInteractable.GetComponent<Collider>().enabled = true;
             walkieTalkie.GetComponent<PickableItem>().canBePicked = true;
