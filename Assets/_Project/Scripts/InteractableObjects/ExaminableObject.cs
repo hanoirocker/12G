@@ -16,36 +16,45 @@ namespace TwelveG.InteractableObjects
     [SerializeField] private GameEventSO onPlayerControls;
 
     private bool canBeExamined = true;
+    private bool canvasIsShowing = false;
 
     void Start()
     {
-      onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-      onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
-      onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
-      onPlayerControls.Raise(this, new EnablePauseMenuCanvasAccess(false));
-
+      onPlayerControls.Raise(this, new ToggleToObjectExamination(true));
+      Cursor.visible = true;
+      Cursor.lockState = CursorLockMode.None;
       PlayExaminationSound();
     }
 
     void OnDestroy()
     {
       PlayExaminationSound();
-
-      onPlayerControls.Raise(this, new EnablePlayerControllers(true));
-      onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
-      onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
-      onPlayerControls.Raise(this, new EnablePauseMenuCanvasAccess(true));
+      onPlayerControls.Raise(this, new ToggleToObjectExamination(false));
     }
 
     private void Update()
     {
       if (Input.GetKeyDown(KeyCode.Escape))
       {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         Destroy(gameObject);
       }
       if (Input.GetKeyDown(KeyCode.E))
       {
-        Debug.Log("Abriendo Canvas");
+        if (!canvasIsShowing)
+        {
+          Cursor.visible = false;
+          Cursor.lockState = CursorLockMode.Locked;
+          Debug.Log("Opening Canvas!");
+        }
+        else
+        {
+          Debug.Log("Ocultando canvas para rotar objeto nuevamente!");
+          Cursor.visible = true;
+          Cursor.lockState = CursorLockMode.None;
+        }
+        canvasIsShowing = !canvasIsShowing;
       }
     }
 

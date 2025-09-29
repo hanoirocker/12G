@@ -32,6 +32,13 @@ namespace TwelveG.PlayerController
         public EnablePauseMenuCanvasAccess(bool enabled) => Enabled = enabled;
     }
 
+    public class ToggleToObjectExamination : PlayerCommandBase
+    {
+        public bool Enabled;
+        public ToggleToObjectExamination(bool enabled) =>
+          (Enabled) = (enabled);
+    }
+
     public class EnablePlayerControllers : PlayerCommandBase
     {
         public bool Enabled;

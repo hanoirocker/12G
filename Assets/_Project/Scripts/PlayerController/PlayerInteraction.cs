@@ -48,6 +48,7 @@ namespace TwelveG.PlayerController
                     {
                         if (interactObj.Interact(this))
                         {
+                            HideUI();
                             return;
                         }
                         else

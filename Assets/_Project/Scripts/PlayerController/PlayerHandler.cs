@@ -19,6 +19,9 @@ namespace TwelveG.PlayerController
         [SerializeField] private HeadLookAround headLookAround;
         [SerializeField] private GameObject mainCamera;
         [SerializeField] private CameraZoom cameraZoom;
+        [SerializeField] private PlayerInteraction playerInteraction;
+        [SerializeField] private PlayerContemplation playerContemplation;
+        [SerializeField] private PlayerAddItem playerAddItem;
 
         private PlayerShortcuts playerShortcuts;
 
@@ -31,6 +34,14 @@ namespace TwelveG.PlayerController
         {
             switch (data)
             {
+                case ToggleToObjectExamination cmd:
+                    playerInteraction.enabled = !cmd.Enabled;
+                    playerContemplation.enabled = !cmd.Enabled;
+                    playerAddItem.enabled = !cmd.Enabled;
+                    cameraZoom.enabled = !cmd.Enabled;
+                    playerShortcuts.playerCanOpenPauseMenu = !cmd.Enabled;
+                    SwitchPlayerControllers(!cmd.Enabled);
+                    break;
                 case EnableControlCanvasAccess cmd:
                     playerShortcuts.playerCanOpenCanvasControls = cmd.Enabled;
                     break;
