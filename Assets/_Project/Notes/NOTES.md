@@ -1,8 +1,8 @@
 Últimos cambios:
-- Se agregaron objetos dentro de la Bed Table como monedas, una memoria externa, unos pañuelos descartables y la nota a inspeccionar.
+- Se creó un sistema independiente para examinar objetos (ExaminableObject.cs, ExaminationCanvasHandler, ExaminationTextSO, ObjectExaminationHandler);
 
 TOFIX - urgente:
-- Construir sistema de examinación de objetos ExaminableObject.cs
+- Corregir método OnDrag en ExaminableObject.cs para guardar información de última rotación al presionar click nuevamente y rotar. Actualmente produce una reubicación extraña.
 
 TODO - despues:
 - Al comenzar un nuevo evento se ejecuta un parpadeo de pantalla. Por ahora sirve para seguir track de los mismos, pero hay que sacarlo eventualmente.

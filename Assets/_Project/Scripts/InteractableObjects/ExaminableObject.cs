@@ -4,8 +4,9 @@ namespace TwelveG.InteractableObjects
   using TwelveG.PlayerController;
   using TwelveG.UIController;
   using UnityEngine;
+  using UnityEngine.EventSystems;
 
-  public class ExaminableObject : MonoBehaviour
+  public class ExaminableObject : MonoBehaviour, IDragHandler
   {
     [Header("References")]
     [SerializeField] private AudioClip inspectionClip;
@@ -18,6 +19,11 @@ namespace TwelveG.InteractableObjects
     [SerializeField] private GameEventSO onExaminationCanvasShowText;
     [SerializeField] private GameEventSO onExaminationCanvasControls;
 
+    [Header("Settings")]
+    [SerializeField, Range(0.1f, 0.5f)]private float rotationSpeed = 0.5f;
+
+    private Vector3 initialMousePosition;
+    private Vector3 initialRotation;
     private bool canBeExamined = true;
     private bool canvasIsShowing = false;
 
@@ -70,6 +76,33 @@ namespace TwelveG.InteractableObjects
       {
         if (_audioSource.isPlaying) { _audioSource.Stop(); }
         _audioSource.PlayOneShot(inspectionClip);
+      }
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+      if (!canvasIsShowing)
+      {
+        initialMousePosition = Input.mousePosition;
+        initialRotation = transform.eulerAngles;
+      }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+      if (!canvasIsShowing)
+      {
+        Vector3 currentMousePosition = Input.mousePosition;
+        Vector3 mouseDelta = currentMousePosition - initialMousePosition;
+
+        // Rotación más suave y controlada
+        Vector3 newRotation = new Vector3(
+            initialRotation.x - mouseDelta.y * rotationSpeed,
+            initialRotation.y + mouseDelta.x * rotationSpeed,
+            initialRotation.z
+        );
+
+        transform.eulerAngles = newRotation;
       }
     }
   }
