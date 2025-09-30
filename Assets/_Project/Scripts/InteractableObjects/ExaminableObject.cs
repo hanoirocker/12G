@@ -24,11 +24,11 @@ namespace TwelveG.InteractableObjects
 
     [Header("Settings")]
     [SerializeField, Range(0.1f, 0.5f)] private float rotationSpeed = 0.5f;
+    public bool canBeExamined = false;
 
     private AudioSource interactionSource;
     private Vector3 initialMousePosition;
     private Vector3 initialRotation;
-    private bool canBeExamined = true;
     private bool canvasIsShowing = false;
 
 

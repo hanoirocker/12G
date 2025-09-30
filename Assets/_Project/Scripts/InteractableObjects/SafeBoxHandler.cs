@@ -13,6 +13,9 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private GameObject walkieTalkie;
         [SerializeField] private bool doorIsLocked = true;
 
+        [Header("Events SO references")]
+        [SerializeField] private GameEventSO safeBoxNoteCanBeExamine;
+
         [Header("Text Settings")]
         [SerializeField] private ObservationTextSO observationFallback;
 
@@ -76,6 +79,7 @@ namespace TwelveG.InteractableObjects
                 else
                 {
                     lockedIndex += 1;
+                    safeBoxNoteCanBeExamine.Raise(this, true);
                     return false;
                 }
             }
