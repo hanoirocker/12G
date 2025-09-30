@@ -1,5 +1,7 @@
 namespace TwelveG.InteractableObjects
 {
+  using System.Collections;
+  using TwelveG.AudioController;
   using TwelveG.Localization;
   using TwelveG.PlayerController;
   using TwelveG.UIController;
@@ -9,7 +11,8 @@ namespace TwelveG.InteractableObjects
   public class ExaminableObject : MonoBehaviour, IDragHandler
   {
     [Header("References")]
-    [SerializeField] private AudioClip inspectionClip;
+    [SerializeField] private AudioClip examineInClip;
+    [SerializeField] private AudioClip examineOutClip;
 
     [Header("Examination Texts SO's")]
     [SerializeField] private ExaminationTextSO examinationTextSO;
@@ -20,35 +23,34 @@ namespace TwelveG.InteractableObjects
     [SerializeField] private GameEventSO onExaminationCanvasControls;
 
     [Header("Settings")]
-    [SerializeField, Range(0.1f, 0.5f)]private float rotationSpeed = 0.5f;
+    [SerializeField, Range(0.1f, 0.5f)] private float rotationSpeed = 0.5f;
 
+    private AudioSource interactionSource;
     private Vector3 initialMousePosition;
     private Vector3 initialRotation;
     private bool canBeExamined = true;
     private bool canvasIsShowing = false;
 
+
+    private void Awake()
+    {
+      interactionSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
+    }
+
     void Start()
     {
+      PlayExaminationSoundCoroutine(examineInClip);
       onPlayerControls.Raise(this, new ToggleToObjectExamination(true));
       Cursor.visible = true;
       Cursor.lockState = CursorLockMode.None;
-      PlayExaminationSound();
-    }
-
-    void OnDestroy()
-    {
-      PlayExaminationSound();
-      onPlayerControls.Raise(this, new ToggleToObjectExamination(false));
     }
 
     private void Update()
     {
       if (Input.GetKeyDown(KeyCode.Escape))
       {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        if (canvasIsShowing) { onExaminationCanvasControls.Raise(this, new EnableCanvas(false)); }
-        Destroy(gameObject);
+        PlayExaminationSoundCoroutine(examineOutClip);
+        StartCoroutine(DestroyAfterSound());
       }
       if (Input.GetKeyDown(KeyCode.E))
       {
@@ -60,7 +62,6 @@ namespace TwelveG.InteractableObjects
         }
         else
         {
-          Debug.Log("Ocultando canvas para rotar objeto nuevamente!");
           Cursor.visible = true;
           Cursor.lockState = CursorLockMode.None;
           onExaminationCanvasControls.Raise(this, new EnableCanvas(false));
@@ -69,14 +70,37 @@ namespace TwelveG.InteractableObjects
       }
     }
 
-    private void PlayExaminationSound()
+    private IEnumerator DestroyAfterSound()
     {
-      AudioSource _audioSource = GetComponent<AudioSource>();
-      if (inspectionClip != null)
+      // Esperar un frame para que el sonido pueda iniciarse
+      yield return null;
+
+      Cursor.visible = false;
+      Cursor.lockState = CursorLockMode.Locked;
+      if (canvasIsShowing) { onExaminationCanvasControls.Raise(this, new EnableCanvas(false)); }
+      onPlayerControls.Raise(this, new ToggleToObjectExamination(false));
+      Destroy(gameObject);
+    }
+
+    private void PlayExaminationSoundCoroutine(AudioClip inspectionClip)
+    {
+      if (interactionSource == null)
       {
-        if (_audioSource.isPlaying) { _audioSource.Stop(); }
-        _audioSource.PlayOneShot(inspectionClip);
+        Debug.LogWarning("[ExaminableObject]: No audio source available for playing the inspectionClip.");
+        return;
       }
+
+      if (inspectionClip == null)
+      {
+        Debug.LogWarning("[ExaminableObject]: inspectionClip not assigned!");
+        return;
+      }
+
+      if (interactionSource.isPlaying)
+      {
+        interactionSource.Stop();
+      }
+      interactionSource.PlayOneShot(inspectionClip);
     }
 
     public void OnBeginDrag(PointerEventData eventData)

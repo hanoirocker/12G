@@ -75,14 +75,13 @@ namespace TwelveG.AudioController
     {
       foreach (AudioSource audioSource in sources)
       {
-        if (!audioSource.isPlaying)
+        if (!audioSource.isPlaying || audioPoolType == AudioPoolType.Interaction)
         {
           return audioSource;
         }
-        Debug.LogError($"[AudioPoolsHandler]: Non '{audioPoolType}' free source");
       }
 
-      Debug.LogWarning($"[AudioPoolsHandler]: Todos los sources estaban ocupados.");
+      Debug.LogWarning($"[AudioPoolsHandler]: Non '{audioPoolType}' free source");
       return null;
     }
 

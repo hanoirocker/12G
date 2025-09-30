@@ -35,7 +35,6 @@ namespace TwelveG.UIController
             Time.timeScale = 0f;
             gameIsPaused = true;
 
-            // Mostrar el cursor y desbloquearlo
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
