@@ -2,15 +2,16 @@ namespace TwelveG.InteractableObjects
 {
     using System.Collections;
     using Cinemachine;
+    using TwelveG.AudioController;
     using TwelveG.PlayerController;
     using TwelveG.Utils;
+    using Unity.VisualScripting;
     using UnityEngine;
 
     public class SafeBoxKeyboardHandler : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] private GameObject safeBoxCanvas;
-        [SerializeField] private AudioSource audioSource;
 
         [Header("Audio Clips")]
         [SerializeField] private AudioClip inputClip;
@@ -28,6 +29,7 @@ namespace TwelveG.InteractableObjects
         private bool playerCanExit = false;
         private bool isProcessing = false; // Bloquea input durante error/desbloqueo
         private string currentInput = "";
+        private AudioSource audioSource;
 
         private void Update()
         {
@@ -39,6 +41,7 @@ namespace TwelveG.InteractableObjects
 
         void OnEnable()
         {
+            audioSource  = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
             StartCoroutine(InteractWithKeyboard());
         }
 
