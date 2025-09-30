@@ -2,7 +2,15 @@
 - Se creó un sistema independiente para examinar objetos (ExaminableObject.cs, ExaminationCanvasHandler, ExaminationTextSO, ObjectExaminationHandler);
 
 TOFIX - urgente:
+- Modificar el sonido de input de caja fuerte para que no suene a microondas (que es lo que es de hecho)
 - Corregir método OnDrag en ExaminableObject.cs para guardar información de última rotación al presionar click nuevamente y rotar. Actualmente produce una reubicación extraña.
+
+TODO - próximo:
+- Modificar el texto examinable de la nota en es e en.
+- Hacer examinable el cuadro de casamiento en la pieza de la hermana.
+- Agregar revistas referidas a Travel & Fun con textos contemplables repetidos y únicos. También agregar al texto contemplable de algún cuadro de viaje la referencia sobre que Recife es el destino preferido de la madre.
+- Agregar libros similares en estantería de zoom y hacerlos contemplables.
+- Hacer leíble la nota con las pistas luego de interactuar por primera vez con la caja fuerte mediante un evento "WTPuzzleNoteCanBeExamied". Luego, debe disparar un evento "activateWTPuzzles" que recibido por todos los prefabs involucrados y se activen componentes correspondientes de contemplación u examinación.
 
 TODO - despues:
 - Al comenzar un nuevo evento se ejecuta un parpadeo de pantalla. Por ahora sirve para seguir track de los mismos, pero hay que sacarlo eventualmente.
