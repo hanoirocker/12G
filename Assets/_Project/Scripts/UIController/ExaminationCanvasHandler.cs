@@ -28,7 +28,6 @@ namespace TwelveG.UIController
     private void OnDisable()
     {
       examinationCanvasText.text = "";
-      StartCoroutine(FadeCanvasGroup(bgCanvasGroup, 0.7f, 0f, 0.5f));
     }
 
     private IEnumerator ShowExaminationTextCoroutine(object data)
