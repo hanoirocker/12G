@@ -109,7 +109,6 @@ namespace TwelveG.InteractableObjects
             canBeInteractedWith = false;
             GetComponent<BoxCollider>().enabled = false;
 
-            doorInteractable.GetComponent<AudioSource>().enabled = true;
             doorInteractable.GetComponent<RotativeDrawerHandler>().enabled = true;
             doorInteractable.GetComponent<Collider>().enabled = true;
             walkieTalkie.GetComponent<PickableItem>().canBePicked = true;
