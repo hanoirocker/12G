@@ -14,6 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   examinationTextStructure:
   - language: 0
-    examinationText: Blaaaaaa
+    examinationText: "C.F:\r\n\r\n- \xDAltimo tomo de mi saga preferida\r\n- Fecha
+      del d\xEDa m\xE1s fel\xEDz de mi juventud\r\n- Edici\xF3n de revista Travel
+      & Fun de mi destino preferido "
   - language: 1
-    examinationText: Blaaaa
+    examinationText: 'C.F:
+
+      
+
+      - Last volume of my favorite series
+
+      -
+      Date of the happiest day of my youth
+
+      - Travel & Fun magazine issue
+      of my favorite destination'

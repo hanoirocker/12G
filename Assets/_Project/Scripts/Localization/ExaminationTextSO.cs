@@ -12,6 +12,7 @@ namespace TwelveG.Localization
         public class ExaminationTextStructure
         {
             public LanguagesEnum language;
+            [TextArea(6, 10)]
             public string examinationText;
         }
     }
