@@ -20,7 +20,8 @@ namespace TwelveG.UIController
     Control,
     BlackBG,
     Settings,
-    LoadScene
+    LoadScene,
+    Examination
   }
 
   public class UIManager : MonoBehaviour, IDataPersistence

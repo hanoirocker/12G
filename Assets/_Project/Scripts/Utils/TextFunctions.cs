@@ -127,6 +127,26 @@ namespace TwelveG.Utils
             return eventInteractionTextToRetrieve;
         }
 
+        public static string RetrieveExaminationText(string languageCode, ExaminationTextSO examinationTextSO)
+        {
+            if (examinationTextSO == null)
+            {
+                return "examinationTextSO is null";
+            }
+
+            var languageStructure = examinationTextSO.examinationTextStructure
+                .Find(texts => texts.language.ToString().Equals(languageCode, System.StringComparison.OrdinalIgnoreCase));
+
+            if (languageStructure == null)
+            {
+                return ("Language not found in languageStructure for examinationTextSO");
+            }
+
+            string examinationTextToRetrieve = languageStructure.examinationText;
+
+            return examinationTextToRetrieve;
+        }
+
         public static (string fallbackText, bool hasReachedMaxContemplations, int updatedIndex)
         RetrieveEventFallbackText(
             string languageCode,

@@ -87,7 +87,7 @@ namespace TwelveG.PlayerController
 
         private void ShowUI(InteractionTextSO retrievedInteractionSO)
         {
-            if (!canvasIsShowing)
+            if (!canvasIsShowing && retrievedInteractionSO != null)
             {
                 onInteractionCanvasShowText.Raise(this, retrievedInteractionSO);
                 canvasIsShowing = true;

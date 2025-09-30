@@ -2,6 +2,7 @@ namespace TwelveG.InteractableObjects
 {
   using TwelveG.Localization;
   using TwelveG.PlayerController;
+  using TwelveG.UIController;
   using UnityEngine;
 
   public class ExaminableObject : MonoBehaviour
@@ -10,10 +11,12 @@ namespace TwelveG.InteractableObjects
     [SerializeField] private AudioClip inspectionClip;
 
     [Header("Examination Texts SO's")]
-    // [SerializeField] private ExaminationTextSO examinationTextSO;
+    [SerializeField] private ExaminationTextSO examinationTextSO;
 
     [Header("EventsSO references")]
     [SerializeField] private GameEventSO onPlayerControls;
+    [SerializeField] private GameEventSO onExaminationCanvasShowText;
+    [SerializeField] private GameEventSO onExaminationCanvasControls;
 
     private bool canBeExamined = true;
     private bool canvasIsShowing = false;
@@ -38,6 +41,7 @@ namespace TwelveG.InteractableObjects
       {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        if (canvasIsShowing) { onExaminationCanvasControls.Raise(this, new EnableCanvas(false)); }
         Destroy(gameObject);
       }
       if (Input.GetKeyDown(KeyCode.E))
@@ -46,13 +50,14 @@ namespace TwelveG.InteractableObjects
         {
           Cursor.visible = false;
           Cursor.lockState = CursorLockMode.Locked;
-          // onExaminationCanvasShowText.Raise(this, examinationTextSO)
+          onExaminationCanvasShowText.Raise(this, examinationTextSO);
         }
         else
         {
           Debug.Log("Ocultando canvas para rotar objeto nuevamente!");
           Cursor.visible = true;
           Cursor.lockState = CursorLockMode.None;
+          onExaminationCanvasControls.Raise(this, new EnableCanvas(false));
         }
         canvasIsShowing = !canvasIsShowing;
       }
