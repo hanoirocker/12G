@@ -2,7 +2,6 @@
 - Se creó un sistema independiente para examinar objetos (ExaminableObject.cs, ExaminationCanvasHandler, ExaminationTextSO, ObjectExaminationHandler);
 
 TOFIX - urgente:
-- Modificar el sonido de input de caja fuerte para que no suene a microondas (que es lo que es de hecho)
 - Corregir método OnDrag en ExaminableObject.cs para guardar información de última rotación al presionar click nuevamente y rotar. Actualmente produce una reubicación extraña.
 
 TODO - próximo:
