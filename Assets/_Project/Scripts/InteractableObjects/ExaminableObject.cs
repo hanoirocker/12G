@@ -18,6 +18,7 @@ namespace TwelveG.InteractableObjects
     [SerializeField] private ExaminationTextSO examinationTextSO;
 
     [Header("EventsSO references")]
+    [SerializeField] private GameEventSO onObjectExamined;
     [SerializeField] private GameEventSO onPlayerControls;
     [SerializeField] private GameEventSO onExaminationCanvasShowText;
     [SerializeField] private GameEventSO onExaminationCanvasControls;
@@ -101,6 +102,11 @@ namespace TwelveG.InteractableObjects
         interactionSource.Stop();
       }
       interactionSource.PlayOneShot(inspectionClip);
+    }
+
+    private void ExaminationResult()
+    {
+      onObjectExamined.Raise(this, null);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
