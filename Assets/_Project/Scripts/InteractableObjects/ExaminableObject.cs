@@ -78,6 +78,7 @@ namespace TwelveG.InteractableObjects
       yield return null;
 
       GetComponentInParent<MainCameraHandler>().lastEventSender.GetComponent<ObjectExaminationHandler>().ShowObjectInScene(true);
+      GetComponentInParent<MainCameraHandler>().lastEventSender = null;
       ExaminationResult();
 
       Cursor.visible = false;
