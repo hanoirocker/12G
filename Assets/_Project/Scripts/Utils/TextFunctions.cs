@@ -51,6 +51,7 @@ namespace TwelveG.Utils
         public static (string contemplationText, bool hasReachedMaxContemplations, int updatedIndex)
         RetrieveContemplationText(
             int currentContemplationIndex,
+            bool repeatTexts,
             ContemplationTextSO contemplationTextsSO
         )
         {
@@ -76,6 +77,11 @@ namespace TwelveG.Utils
             if (currentContemplationIndex + 1 <= languageStructure.contemplationTexts.Count)
             {
                 currentContemplationIndex += 1;
+            }
+
+            if (repeatTexts && currentContemplationIndex >= languageStructure.contemplationTexts.Count)
+            {
+                return (contemplationTextToRetrieve, false, 0);
             }
 
             if (currentContemplationIndex >= languageStructure.contemplationTexts.Count)

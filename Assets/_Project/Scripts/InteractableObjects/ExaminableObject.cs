@@ -5,7 +5,8 @@ namespace TwelveG.InteractableObjects
   using TwelveG.Localization;
   using TwelveG.PlayerController;
   using TwelveG.UIController;
-  using UnityEngine;
+    using TwelveG.Utils;
+    using UnityEngine;
   using UnityEngine.EventSystems;
 
   public class ExaminableObject : MonoBehaviour, IDragHandler
@@ -75,6 +76,9 @@ namespace TwelveG.InteractableObjects
     {
       // Esperar un frame para que el sonido pueda iniciarse
       yield return null;
+
+      GetComponentInParent<MainCameraHandler>().lastEventSender.GetComponent<ObjectExaminationHandler>().ShowObjectInScene(true);
+      ExaminationResult();
 
       Cursor.visible = false;
       Cursor.lockState = CursorLockMode.Locked;

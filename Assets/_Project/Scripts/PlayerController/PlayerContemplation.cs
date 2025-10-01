@@ -17,10 +17,6 @@ namespace TwelveG.PlayerController
         [Header("Cameras Settings")]
         [SerializeField] private Transform interactorSource;
 
-        // [Header("Contemplation Settings")]
-        // [SerializeField, Range(0, 6)] int defaultContemplations = 3;
-        // [SerializeField] List<String> defaultContemplationTexts = new List<String>();
-
         [Header("EventsSO references")]
         public GameEventSO onContemplationCanvasControls;
         public GameEventSO onContemplationCanvasShowText;
@@ -88,15 +84,6 @@ namespace TwelveG.PlayerController
 
                 onContemplationCanvasShowText.Raise(this, contemplationText);
             }
-            // Si ya no posee textos de contemplación, se muestran textos default contemplations.
-            // else if (contemplableObj.HasReachedMaxContemplations() && defaultTextCounter < defaultContemplations)
-            // {
-            //     contemplableObj.UpdateDefaultTextCounter();
-            //     int randomAnswer = UnityEngine.Random.Range(0, defaultContemplationTexts.Count);
-            //     contemplationText = defaultContemplationTexts[randomAnswer];
-
-            //     onContemplationCanvasShowText.Raise(this, contemplationText);
-            // }
             else
             {
                 contemplableObj.IsAbleToBeContemplate(false);

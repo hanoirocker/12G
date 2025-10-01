@@ -1,6 +1,7 @@
 namespace TwelveG.InteractableObjects
 {
-  using TwelveG.Localization;
+    using System.Collections.Generic;
+    using TwelveG.Localization;
   using TwelveG.PlayerController;
   using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace TwelveG.InteractableObjects
   {
     [Header("References")]
     [SerializeField] private GameObject examinablePrefab;
+    [SerializeField] private List<MeshRenderer> meshesToHide;
 
     [Header("Interaction Texts SO's")]
     [SerializeField] private InteractionTextSO interactionTextsSO;
@@ -16,6 +18,14 @@ namespace TwelveG.InteractableObjects
     [SerializeField] private GameEventSO onObjectExaminationStart;
 
     private bool canBeExamined = true;
+
+    public void ShowObjectInScene(bool show)
+    {
+      foreach (var mesh in meshesToHide)
+      {
+        mesh.enabled = show;
+      }
+    }
 
     public bool CanBeInteractedWith(PlayerInteraction playerCameraObject)
     {
@@ -32,6 +42,7 @@ namespace TwelveG.InteractableObjects
       if (canBeExamined)
       {
         onObjectExaminationStart.Raise(this, examinablePrefab);
+        ShowObjectInScene(false);
         return true;
       }
       else

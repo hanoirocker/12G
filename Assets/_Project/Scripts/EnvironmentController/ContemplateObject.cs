@@ -7,12 +7,12 @@ namespace TwelveG.EnvironmentController
     public class ContemplateObject : MonoBehaviour, IContemplable
     {
         [Header("Contemplation Settings")]
+        public bool repeatTexts = false;
         public bool hasReachedMaxContemplations = false;
         [SerializeField] private ContemplationTextSO contemplationTextsSO;
 
         private int currentContemplationIndex = 0;
         private bool ableToInteract;
-        private string contemplationText;
         private int defaultContemplationTextsCounter = 0;
 
         private void Start()
@@ -25,6 +25,7 @@ namespace TwelveG.EnvironmentController
             var (contemplationText, updatedContemplationsStatus, updatedIndex) = 
                 Utils.TextFunctions.RetrieveContemplationText(
                     currentContemplationIndex,
+                    repeatTexts,
                     contemplationTextsSO);
 
             hasReachedMaxContemplations = updatedContemplationsStatus;

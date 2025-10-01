@@ -6,6 +6,9 @@ namespace TwelveG.Utils
 
     public class MainCameraHandler : MonoBehaviour
     {
+        [Header("References")]
+        public GameObject lastEventSender = null;
+
         public void SetCurrentCamera(Component sender, object data)
         {
             if (data != null)
@@ -39,6 +42,8 @@ namespace TwelveG.Utils
         {
             if (data != null)
             {
+                lastEventSender = sender.gameObject;
+                Debug.Log($"lastEventSender: {lastEventSender.name}");  
                 Instantiate((GameObject)data, gameObject.transform);
             }
         }
