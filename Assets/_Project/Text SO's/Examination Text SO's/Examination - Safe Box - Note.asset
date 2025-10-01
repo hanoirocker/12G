@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93fc5b7c966fc4065b09cd562fded7c1, type: 3}
+  m_Name: Examination - Safe Box - Note
+  m_EditorClassIdentifier: 
+  examinationTextStructure:
+  - language: 0
+    examinationText: "C.F:\r\n\r\n- \xDAltimo tomo de mi saga preferida\r\n- Fecha
+      del d\xEDa m\xE1s fel\xEDz de mi juventud\r\n- Edici\xF3n de revista Travel
+      & Fun de mi destino preferido "
+  - language: 1
+    examinationText: 'C.F:
+
+
+
+      - Last volume of my favorite series
+
+      -
+      Date of the happiest day of my youth
+
+      - Travel & Fun magazine issue of
+      my favorite destination'
