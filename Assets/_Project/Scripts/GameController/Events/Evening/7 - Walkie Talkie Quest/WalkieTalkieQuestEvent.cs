@@ -7,6 +7,10 @@ namespace TwelveG.GameController
 
     public class WalkieTalkieQuestEvent : GameEventBase
     {
+        [Header("Event references")]
+        [SerializeField] private AudioClip oldRadioClip;
+        [SerializeField] private GameObject colliders;
+
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 1;
 
@@ -17,11 +21,11 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onObservationCanvasShowText;
-        [SerializeField] private GameEventSO finishCurrentEvent;
-
+        // [SerializeField] private GameEventSO finishCurrentEvent;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO drawerCanBeInteracted;
+        [SerializeField] private GameEventSO triggerOldRadio;
 
         private bool allowNextAction = false;
         private bool bookHasBeenExamined = false;
@@ -81,6 +85,7 @@ namespace TwelveG.GameController
                 Debug.Log("[WalkieTalkieQuestEvent]: Retrato examinado!");
                 Debug.Log("[WalkieTalkieQuestEvent]: Disparando evento para activar radio ..");
                 parentsPortraitHasBeenExamined = true;
+                triggerOldRadio.Raise(this, oldRadioClip);
             }
         }
 
