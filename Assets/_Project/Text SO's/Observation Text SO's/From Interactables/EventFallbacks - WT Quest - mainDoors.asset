@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
   m_Name: EventFallbacks - WT Quest - mainDoors
   m_EditorClassIdentifier: 
+  isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: No hay chances que salga ahora. Necesito hablar con Micaela
-      cuanto antes.
+    observationText: No hay posibilidades de que salga ahora. Debo encontrar mis
+      Walkie Talkies y hablar con Mica cuanto antes ...
   - language: 1
-    observationText: There's no chance of me getting out now. I need to talk to Micaela
-      as soon as possible.
+    observationText: There's no way I'm getting out now. I have to find my walkie-talkies
+      and talk to Mica as soon as possible...

@@ -27,7 +27,7 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            print("<------ FIRSTCONTACT EVENT NOW -------->");
+            print("<------ FIRST CONTACT EVENT NOW -------->");
 
             yield return new WaitForSeconds(initialTime);
 
