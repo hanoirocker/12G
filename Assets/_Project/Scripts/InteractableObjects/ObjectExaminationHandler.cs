@@ -41,7 +41,9 @@ namespace TwelveG.InteractableObjects
     {
       if (canBeExamined)
       {
+        // Avisame al MainCameraHandler que debe instanciar el prefab examinable
         onObjectExaminationStart.Raise(this, examinablePrefab);
+        // Desactiva los meshes del object
         ShowObjectInScene(false);
         return true;
       }

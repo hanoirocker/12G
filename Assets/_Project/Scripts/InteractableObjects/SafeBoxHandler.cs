@@ -3,8 +3,7 @@ namespace TwelveG.InteractableObjects
     using System.Collections;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
-  using Unity.VisualScripting;
-  using UnityEngine;
+    using UnityEngine;
 
     public class SafeBoxHandler : MonoBehaviour, IInteractable
     {

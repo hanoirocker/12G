@@ -5,8 +5,8 @@ namespace TwelveG.InteractableObjects
   using TwelveG.Localization;
   using TwelveG.PlayerController;
   using TwelveG.UIController;
-    using TwelveG.Utils;
-    using UnityEngine;
+  using TwelveG.Utils;
+  using UnityEngine;
   using UnityEngine.EventSystems;
 
   public class ExaminableObject : MonoBehaviour, IDragHandler
@@ -77,9 +77,15 @@ namespace TwelveG.InteractableObjects
       // Esperar un frame para que el sonido pueda iniciarse
       yield return null;
 
+      // Buscar componente original y ejecutar método parar mostrar sus meshes nuevamente
       GetComponentInParent<MainCameraHandler>().lastEventSender.GetComponent<ObjectExaminationHandler>().ShowObjectInScene(true);
       GetComponentInParent<MainCameraHandler>().lastEventSender = null;
-      ExaminationResult();
+
+      // Si se asignó un event SO a disparar luego de dejar de inspeccionar, dispararlo
+      if (onObjectExamined != null)
+      {
+        onObjectExamined.Raise(this, null);
+      }
 
       Cursor.visible = false;
       Cursor.lockState = CursorLockMode.Locked;
@@ -107,11 +113,6 @@ namespace TwelveG.InteractableObjects
         interactionSource.Stop();
       }
       interactionSource.PlayOneShot(inspectionClip);
-    }
-
-    private void ExaminationResult()
-    {
-      onObjectExamined.Raise(this, null);
     }
 
     public void OnBeginDrag(PointerEventData eventData)

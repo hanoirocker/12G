@@ -24,6 +24,8 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO drawerCanBeInteracted;
 
         private bool allowNextAction = false;
+        private bool bookHasBeenExamined = false;
+        private bool parentsPortraitHasBeenExamined = false;
 
         public override IEnumerator Execute()
         {
@@ -52,9 +54,34 @@ namespace TwelveG.GameController
 
             drawerCanBeInteracted.Raise(this, null);
 
-            // TODO: Construir resto del evento
+            // Los sucesos como la radio que se prende sola y la puerta
+            // que se cierra del golpe, se disparan por medio de game event SO enviados
+            // por el retrato de casamiento y por los colliders instanciados luego de examinar
+            // el libro en el living.
+            // Unity Event (PickableItem - walkieTalkiePickedUp) en Pickable - Walkie Talkie:
+            // Se recibe cuando el jugador alcana el indice del canal principal
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+        }
+
+        public void OnSagaBookExamined(Component sender, object data)
+        {
+            if (!bookHasBeenExamined)
+            {
+                Debug.Log("[WalkieTalkieQuestEvent]: Saga book examinado!");
+                Debug.Log("[WalkieTalkieQuestEvent]: Instanciando collider y audio source con clip de puerta");
+                bookHasBeenExamined = true;
+            }
+        }
+
+        public void OnParentsPortraitExamined(Component sender, object data)
+        {
+            if (!parentsPortraitHasBeenExamined)
+            {
+                Debug.Log("[WalkieTalkieQuestEvent]: Retrato examinado!");
+                Debug.Log("[WalkieTalkieQuestEvent]: Disparando evento para activar radio ..");
+                parentsPortraitHasBeenExamined = true;
+            }
         }
 
         public void AllowNextActions(Component sender, object data)
@@ -65,12 +92,6 @@ namespace TwelveG.GameController
         public void ResetAllowNextActions()
         {
             allowNextAction = false;
-        }
-
-        public void WalkieTalkieQuestEventStop()
-        {
-            StopAllCoroutines();
-            finishCurrentEvent.Raise(this, null);
         }
     }
 }
