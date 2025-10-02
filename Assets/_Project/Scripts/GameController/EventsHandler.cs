@@ -28,13 +28,101 @@ namespace TwelveG.GameController
         public GameEventSO StartWeatherSound;
 
         [Header("Text event SO")]
-
         private GameObject eventsParent = null;
         private List<GameEventBase> correspondingEvents = new List<GameEventBase>();
         private Transform playerCapsuleTransform;
-
         private int currentSceneIndex;
         private int currentEventIndex;
+
+        private Coroutine currentEventCoroutine;
+        private GameEventBase currentExecutingEvent;
+        private bool isEventRunning = false;
+
+        private IEnumerator ExecuteEventsFromCurrentIndex()
+        {
+            while (currentEventIndex < correspondingEvents.Count)
+            {
+                isEventRunning = true;
+                currentExecutingEvent = correspondingEvents[currentEventIndex];
+                currentExecutingEvent.gameObject.SetActive(true);
+                SetUpCurrentEvent();
+
+                if (loadSpecificEvent && currentEventIndex == eventIndexToLoad)
+                {
+                    onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+                }
+
+                // Ejecutar y almacenar referencia a la corrutina
+                currentEventCoroutine = StartCoroutine(ExecuteSingleEvent(currentExecutingEvent));
+                yield return currentEventCoroutine;
+
+                currentEventCoroutine = null;
+                currentExecutingEvent = null;
+                isEventRunning = false;
+
+                currentEventIndex++;
+            }
+
+            // Finalización normal de todos los eventos
+            if (!loadSpecificEvent)
+            {
+                currentEventIndex = 0;
+                GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
+            }
+        }
+
+        private void SkipToNextEvent()
+        {
+            if (!isEventRunning || currentEventCoroutine == null)
+            {
+                Debug.LogWarning("[EventsHandler]: No hay evento en ejecución para saltar.");
+                return;
+            }
+
+            Debug.Log($"[EventsHandler]: Saltando evento actual: {currentExecutingEvent?.name}");
+
+            StopCoroutine(currentEventCoroutine);
+
+            if (currentExecutingEvent != null)
+            {
+                Destroy(currentExecutingEvent.gameObject);
+            }
+
+            currentEventIndex++;
+            isEventRunning = false;
+
+            // Iniciar el siguiente evento
+            if (currentEventIndex < correspondingEvents.Count)
+            {
+                StartCoroutine(ExecuteEventsFromCurrentIndex());
+            }
+            else
+            {
+                Debug.Log("[EventsHandler]: No hay más eventos después de saltar.");
+                // Si estamos en modo test event index, no cargar próxima escena
+                if (!loadSpecificEvent)
+                {
+                    currentEventIndex = 0;
+                    GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
+                }
+            }
+        }
+
+        private IEnumerator ExecuteSingleEvent(GameEventBase gameEvent)
+        {
+            yield return StartCoroutine(gameEvent.Execute());
+            gameEvent.gameObject.SetActive(false);
+        }
+
+        private IEnumerator ExecuteEvents(bool fromIndex)
+        {
+            if (fromIndex)
+            {
+                currentEventIndex = eventIndexToLoad;
+            }
+
+            yield return StartCoroutine(ExecuteEventsFromCurrentIndex());
+        }
 
         private void VerifySpecificTestSettings()
         {
@@ -100,7 +188,6 @@ namespace TwelveG.GameController
         {
             Transform freeRoamTransform = GameObject.FindGameObjectWithTag("FreeRoam")
                 .GetComponent<Transform>();
-
             playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
                 .GetComponent<Transform>();
 
@@ -109,51 +196,11 @@ namespace TwelveG.GameController
                 Debug.LogError("[EventController]: FreeRoam prefab not found on scene!");
             }
 
-            if (playerCapsuleTransform == null)
-            {
-                Debug.LogError("[EventController]: Player Capsule prefab not found on scene or tag not assgined!");
-            }
-
             playerCapsuleTransform.position = freeRoamTransform.position;
             playerCapsuleTransform.rotation = freeRoamTransform.rotation;
-
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
         }
 
-        private IEnumerator ExecuteEvents(bool fromIndex)
-        {
-            if (fromIndex) { currentEventIndex = eventIndexToLoad; }
-
-            while (currentEventIndex < correspondingEvents.Count)
-            {
-                correspondingEvents[currentEventIndex].gameObject.SetActive(true);
-                SetUpCurrentEvent();
-
-                if (fromIndex)
-                {
-                    onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-                }
-
-                yield return StartCoroutine(correspondingEvents[currentEventIndex].Execute());
-                Destroy(correspondingEvents[currentEventIndex].gameObject);
-                currentEventIndex++;
-            }
-
-            // Si estamos en modo test event index, no cargar proxima escena al terminar
-            // eventos.
-            if (!fromIndex)
-            {
-                // Resetear a cero el índice de evento luego de haber jugado todos los eventos
-                // de la escena.
-                currentEventIndex = 0;
-
-                GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
-            }
-        }
-
-        // La idea de esta función es que antes que se ejecute la corrutina de cada evento base
-        // se carguen sus dependencias y se activen todos los GameEventListeners en el mismo,
-        // que por defecto están apagados hasta que se indexe el evento.
         private void SetUpCurrentEvent()
         {
             GameEventListener[] eventListeners = correspondingEvents[currentEventIndex].GetComponents<GameEventListener>();
@@ -167,11 +214,16 @@ namespace TwelveG.GameController
         public void BuildEvents()
         {
             currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
             VerifySpecificTestSettings();
             InstantiateSceneEventsParent();
             PopulateEventsLists();
             VerifyRunTimeMode();
+        }
+        
+        public void SkipCurrentEvent(Component sender, object data)
+        {
+            Debug.Log($"[EventsHandler]: Recibido evento por {sender.name} para saltar al siguiente evento.");
+            SkipToNextEvent();
         }
     }
 }

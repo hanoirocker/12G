@@ -4,17 +4,11 @@ namespace TwelveG.GameController
     using System.Collections.Generic;
     using UnityEngine;
     using Localization;
-    using TwelveG.UIController;
-    using TwelveG.PlayerController;
 
     public class WalkieTalkieQuestEvent : GameEventBase
     {
-        [Header("References")]
-        // [SerializeField] private GameObject suicideTriggerColliders;
-
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 1;
-        // public Transform suicideViewTransform;
 
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
@@ -23,8 +17,8 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onObservationCanvasShowText;
-        // [SerializeField] private GameEventSO onPlayerControls;
-        // [SerializeField] private GameEventSO onPlayerDirectorControls;
+        [SerializeField] private GameEventSO finishCurrentEvent;
+
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO drawerCanBeInteracted;
@@ -58,6 +52,9 @@ namespace TwelveG.GameController
 
             drawerCanBeInteracted.Raise(this, null);
 
+            // TODO: Construir resto del evento
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
         }
 
         public void AllowNextActions(Component sender, object data)
@@ -68,6 +65,12 @@ namespace TwelveG.GameController
         public void ResetAllowNextActions()
         {
             allowNextAction = false;
+        }
+
+        public void WalkieTalkieQuestEventStop()
+        {
+            StopAllCoroutines();
+            finishCurrentEvent.Raise(this, null);
         }
     }
 }
