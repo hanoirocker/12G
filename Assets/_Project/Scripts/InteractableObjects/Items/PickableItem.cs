@@ -8,11 +8,15 @@ namespace TwelveG.InteractableObjects
     {
         [Header("Item settings")]
         [SerializeField] private ItemType itemType;
+        public bool canBePicked;
+        public bool triggerEventWhenPicked = false;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO;
 
-        public bool canBePicked;
+        [Header("Event SO references")]
+        [SerializeField] private GameEventSO eventToTriggerWhenItemPicked;
+
 
         public void AllowToBePicked(Component sender, object data)
         {
@@ -37,6 +41,11 @@ namespace TwelveG.InteractableObjects
         // Funcion principal
         public void TakeItem()
         {
+            if (triggerEventWhenPicked)
+            {
+                eventToTriggerWhenItemPicked.Raise(this, null);
+
+            }
             Destroy(gameObject);
         }
     }
