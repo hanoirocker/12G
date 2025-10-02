@@ -1,12 +1,11 @@
 namespace TwelveG.InteractableObjects
 {
   using System;
-  using System.Collections.Generic;
   using TwelveG.PlayerController;
   using TwelveG.Localization;
   using UnityEngine;
-  using TwelveG.AudioController;
   using System.Collections;
+  using System.Collections.Generic;
 
   public class OldRadioHandler : MonoBehaviour, IInteractable
   {
@@ -18,11 +17,16 @@ namespace TwelveG.InteractableObjects
     [Header("Texts SO")]
     [SerializeField] private InteractionTextSO interactionTextsSO_turnOn;
     [SerializeField] private InteractionTextSO interactionTextsSO_turnOff;
+    [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
+
+    [Header("EventsSO references")]
+    [SerializeField] private GameEventSO onObservationCanvasShowText;
 
     [Header("Testing")]
     public bool isTurnedOn;
 
     private AudioSource audioSource;
+    private bool turnedOnByEvent = false;
 
     private void Awake()
     {
@@ -49,6 +53,8 @@ namespace TwelveG.InteractableObjects
       if (isTurnedOn)
       {
         audioSource.Stop();
+        StartCoroutine(MakeObservation(1, 2f));
+        turnedOnByEvent = false;
         isTurnedOn = false;
         return true;
       }
@@ -82,9 +88,20 @@ namespace TwelveG.InteractableObjects
     {
       if (data != null)
       {
+        StartCoroutine(MakeObservation(0, 1f));
         audioSource.PlayOneShot((AudioClip)data);
         isTurnedOn = true;
+        turnedOnByEvent = true;
       }
+    }
+
+    private IEnumerator MakeObservation(int observationIndex, float timeBeforeObservation)
+    {
+      yield return new WaitForSeconds(timeBeforeObservation);
+      onObservationCanvasShowText.Raise(
+        this,
+        eventObservationsTextsSOs[observationIndex]
+      );
     }
   }
 }

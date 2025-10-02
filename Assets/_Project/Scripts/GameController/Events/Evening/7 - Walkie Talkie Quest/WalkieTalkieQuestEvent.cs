@@ -82,8 +82,6 @@ namespace TwelveG.GameController
         {
             if (!parentsPortraitHasBeenExamined)
             {
-                Debug.Log("[WalkieTalkieQuestEvent]: Retrato examinado!");
-                Debug.Log("[WalkieTalkieQuestEvent]: Disparando evento para activar radio ..");
                 parentsPortraitHasBeenExamined = true;
                 triggerOldRadio.Raise(this, oldRadioClip);
             }
