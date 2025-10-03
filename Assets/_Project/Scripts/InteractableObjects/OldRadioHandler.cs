@@ -24,9 +24,9 @@ namespace TwelveG.InteractableObjects
 
     [Header("Testing")]
     public bool isTurnedOn;
+    public bool turnedOnByEvent = false;
 
     private AudioSource audioSource;
-    private bool turnedOnByEvent = false;
 
     private void Awake()
     {
