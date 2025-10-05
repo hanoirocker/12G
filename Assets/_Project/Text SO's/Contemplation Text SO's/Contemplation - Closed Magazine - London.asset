@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation - Magazine-2
+  m_Name: Contemplation - Closed Magazine - London
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Viajes viajes y m\xE1s viajes. Es todo en lo que piensa mi familia \xBFSer\xE1
-      que a\xFAn no conocen el potencial de una buena PC de escritorio?"
-    - Mi padre realmente estaba enamorado de esa casa rodante :(
+    - "Mi madre siempre tuvo en duda Londres como destino tur\xEDstico. Pero qui\xE9n
+      sabe ..."
+    - "Quiz\xE1s en un futuro cercano .."
   - language: 1
     contemplationTexts:
-    - Travel, travel, and more travel. That's all my family can think about. Do they
-      not yet know the potential of a good desktop PC?
-    - My dad really loved that RV :(
+    - My mother always had doubts about London as a tourist destination. But who
+      knows...
+    - Maybe in the near future..
