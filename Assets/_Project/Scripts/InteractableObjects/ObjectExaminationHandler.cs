@@ -1,7 +1,7 @@
 namespace TwelveG.InteractableObjects
 {
-    using System.Collections.Generic;
-    using TwelveG.Localization;
+  using System.Collections.Generic;
+  using TwelveG.Localization;
   using TwelveG.PlayerController;
   using UnityEngine;
 

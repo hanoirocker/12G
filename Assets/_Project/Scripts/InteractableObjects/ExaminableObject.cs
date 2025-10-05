@@ -9,7 +9,7 @@ namespace TwelveG.InteractableObjects
   using UnityEngine;
   using UnityEngine.EventSystems;
 
-  public class ExaminableObject : MonoBehaviour, IDragHandler
+  public class ExaminableObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
   {
     [Header("References")]
     [SerializeField] private AudioClip examineInClip;
@@ -24,15 +24,17 @@ namespace TwelveG.InteractableObjects
     [SerializeField] private GameEventSO onExaminationCanvasShowText;
     [SerializeField] private GameEventSO onExaminationCanvasControls;
 
-    [Header("Settings")]
-    [SerializeField, Range(0.1f, 0.5f)] private float rotationSpeed = 0.5f;
+    [Header("Rotation Settings")]
+    [SerializeField, Range(0.1f, 5f)] private float rotationSpeed = 1f;
+    [SerializeField] private bool invertX = true;
+    [SerializeField] private bool invertY = true;
+
     public bool canBeExamined = false;
 
     private AudioSource interactionSource;
-    private Vector3 initialMousePosition;
-    private Vector3 initialRotation;
+    private Vector2 lastMousePosition;
+    private bool isDragging = false;
     private bool canvasIsShowing = false;
-
 
     private void Awake()
     {
@@ -56,30 +58,41 @@ namespace TwelveG.InteractableObjects
       }
       if (Input.GetKeyDown(KeyCode.E))
       {
-        if (!canvasIsShowing)
-        {
-          Cursor.visible = false;
-          Cursor.lockState = CursorLockMode.Locked;
-          onExaminationCanvasShowText.Raise(this, examinationTextSO);
-        }
-        else
-        {
-          Cursor.visible = true;
-          Cursor.lockState = CursorLockMode.None;
-          onExaminationCanvasControls.Raise(this, new EnableCanvas(false));
-        }
-        canvasIsShowing = !canvasIsShowing;
+        ToggleCanvas();
       }
+    }
+
+    private void ToggleCanvas()
+    {
+      if (!canvasIsShowing)
+      {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        onExaminationCanvasShowText.Raise(this, examinationTextSO);
+      }
+      else
+      {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        onExaminationCanvasControls.Raise(this, new EnableCanvas(false));
+      }
+      canvasIsShowing = !canvasIsShowing;
     }
 
     private IEnumerator DestroyAfterSound()
     {
-      // Esperar un frame para que el sonido pueda iniciarse
       yield return null;
 
-      // Buscar componente original y ejecutar método parar mostrar sus meshes nuevamente
-      GetComponentInParent<MainCameraHandler>().lastEventSender.GetComponent<ObjectExaminationHandler>().ShowObjectInScene(true);
-      GetComponentInParent<MainCameraHandler>().lastEventSender = null;
+      var mainCameraHandler = GetComponentInParent<MainCameraHandler>();
+      if (mainCameraHandler != null && mainCameraHandler.lastEventSender != null)
+      {
+        var examinationHandler = mainCameraHandler.lastEventSender.GetComponent<ObjectExaminationHandler>();
+        if (examinationHandler != null)
+        {
+          examinationHandler.ShowObjectInScene(true);
+        }
+        mainCameraHandler.lastEventSender = null;
+      }
 
       // Si se asignó un event SO a disparar luego de dejar de inspeccionar, dispararlo
       if (onObjectExamined != null)
@@ -119,26 +132,39 @@ namespace TwelveG.InteractableObjects
     {
       if (!canvasIsShowing)
       {
-        initialMousePosition = Input.mousePosition;
-        initialRotation = transform.eulerAngles;
+        isDragging = true;
+        lastMousePosition = eventData.position;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.None;
       }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-      if (!canvasIsShowing)
+      DirectRotation(eventData);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+      isDragging = false;
+      Cursor.visible = true;
+    }
+
+    private void DirectRotation(PointerEventData eventData)
+    {
+      if (!canvasIsShowing && isDragging)
       {
-        Vector3 currentMousePosition = Input.mousePosition;
-        Vector3 mouseDelta = currentMousePosition - initialMousePosition;
+        Vector2 currentMousePosition = eventData.position;
+        Vector2 mouseDelta = currentMousePosition - lastMousePosition;
 
-        // Rotación más suave y controlada
-        Vector3 newRotation = new Vector3(
-            initialRotation.x - mouseDelta.y * rotationSpeed,
-            initialRotation.y + mouseDelta.x * rotationSpeed,
-            initialRotation.z
-        );
+        // Aplicar inversión según configuración
+        float xRotation = mouseDelta.y * rotationSpeed * (invertY ? 1 : -1);
+        float yRotation = mouseDelta.x * rotationSpeed * (invertX ? -1 : 1);
 
-        transform.eulerAngles = newRotation;
+        // Rotación directa (más responsive)
+        transform.Rotate(xRotation, yRotation, 0, Space.World);
+
+        lastMousePosition = currentMousePosition;
       }
     }
   }
