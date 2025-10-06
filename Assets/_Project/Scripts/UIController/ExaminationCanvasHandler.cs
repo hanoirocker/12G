@@ -32,6 +32,7 @@ namespace TwelveG.UIController
 
     private IEnumerator ShowExaminationTextCoroutine(object data)
     {
+      examinationCanvasText.text = "";
       examinationCanvas.enabled = true;
       yield return StartCoroutine(FadeCanvasGroup(bgCanvasGroup, 0f, 0.7f, 0.5f));
       string textToShow = Utils.TextFunctions.RetrieveExaminationText(
