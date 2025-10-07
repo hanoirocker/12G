@@ -7,69 +7,68 @@ namespace TwelveG.InteractableObjects
 
     public class SlideDrowerHandler : MonoBehaviour, IInteractable
     {
-        [Header("Drower Settings: ")]
-        [SerializeField] private Transform parentTransform;
+        [Header("Drawer Settings: ")]
+        public bool slidesParent = false;
+        [SerializeField] GameObject parentObject;
         [SerializeField] float xOffSet = 0f;
         [SerializeField] float zOffSet = 0f;
 
         [Header("Audio Settings: ")]
         [SerializeField] private AudioClip openingDoorSound;
         [SerializeField] private AudioClip closingDoorSound;
+        [SerializeField, Range(-2f, 2f)] private float openingSoundOffset = 0f;
+        [SerializeField, Range(-2f, 2f)] private float closingSoundOffset = 0f;
 
         [Header("Testing Settings: ")]
         [SerializeField] private bool doorIsOpen;
         [SerializeField, Range(1f, 3f)] private float slidingDuration = 1.5f;
 
-        [Header("Objects Settings: ")]
-        [SerializeField] private CapsuleCollider trashBagCollider;
-
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
         [SerializeField] private InteractionTextSO interactionTextsSO_close;
 
+        private AudioSource audioSource;
+
         private Vector3 initialPosition = new Vector3();
         private bool isMoving = false;
 
+        private void Awake()
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
+
         private void Start()
         {
-            initialPosition = parentTransform.position;
-        }
+            isMoving = false;
 
-        private void ToggleDoor(Vector3 playerPosition)
-        {
-            if (!doorIsOpen)
+            if (slidesParent && parentObject == null)
             {
-                OpenDoor();
+                Debug.LogError("[SlideDrawerHandler]: slidesParent is true but no parentObject is assigned!", this);
+                return;
             }
-            else
-            {
-                CloseDoor();
-            }
+
+            initialPosition = slidesParent ? parentObject.transform.localPosition : gameObject.transform.localPosition;
         }
 
-        private void OpenDoor()
+        private void ToggleDrawer(Vector3 playerPosition)
         {
-            Vector3 currentPosition = parentTransform.position;
-            Vector3 targetPosition = new Vector3(currentPosition.x + xOffSet, currentPosition.y, currentPosition.z + zOffSet);
-            StartCoroutine(SlideDoorOpen(targetPosition));
+            Vector3 targetPosition = doorIsOpen ? initialPosition : new Vector3(initialPosition.x + xOffSet, initialPosition.y, initialPosition.z + zOffSet);
+            StartCoroutine(SlideDrawerDoor(targetPosition));
         }
 
-        private void CloseDoor()
-        {
-            StartCoroutine(SlideDoorClose());
-        }
-
-        private float PlayDoorSounds()
+        private float PlaySlidingDrawerSounds()
         {
             if (doorIsOpen & closingDoorSound != null)
             {
-                GetComponent<AudioSource>().PlayOneShot(closingDoorSound);
-                return closingDoorSound.length;
+                Debug.Log("Play Close Sound");
+                audioSource.PlayOneShot(closingDoorSound);
+                return closingDoorSound.length + closingSoundOffset;
             }
             else if (!doorIsOpen & openingDoorSound != null)
             {
-                GetComponent<AudioSource>().PlayOneShot(openingDoorSound);
-                return openingDoorSound.length;
+                Debug.Log("Play Open Sound");
+                audioSource.PlayOneShot(openingDoorSound);
+                return openingDoorSound.length + openingSoundOffset;
             }
             else
             {
@@ -77,48 +76,31 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        private IEnumerator SlideDoorOpen(Vector3 targetPosition)
+
+        private IEnumerator SlideDrawerDoor(Vector3 targetPosition)
         {
             isMoving = true;
-            float duration = 1f; // Adjust the duration of the rotation as needed
+            float duration = PlaySlidingDrawerSounds();
             float elapsedTime = 0f;
-            Vector3 startPosition = parentTransform.position;
+
+            Transform targetTransform = slidesParent ? parentObject.transform : gameObject.transform;
+            Vector3 startPosition = targetTransform.localPosition;
 
             while (elapsedTime < duration)
             {
-                parentTransform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+                targetTransform.localPosition = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            parentTransform.position = targetPosition;
-            doorIsOpen = !doorIsOpen;
-            isMoving = false;
-
-            if (trashBagCollider) { trashBagCollider.enabled = true; }
-        }
-
-        private IEnumerator SlideDoorClose()
-        {
-            isMoving = true;
-            if (trashBagCollider) { trashBagCollider.enabled = false; }
-            float duration = 1f;
-            float elapsedTime = 0f;
-            Vector3 startPosition = parentTransform.position;
-
-            while (elapsedTime < duration)
-            {
-                parentTransform.position = Vector3.Lerp(startPosition, initialPosition, elapsedTime / duration);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
+            targetTransform.localPosition = targetPosition;
             doorIsOpen = !doorIsOpen;
             isMoving = false;
         }
 
         public bool Interact(PlayerInteraction interactor)
         {
-            ToggleDoor(interactor.transform.position);
+            ToggleDrawer(interactor.transform.position);
             return true;
         }
 

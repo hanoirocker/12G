@@ -7,7 +7,7 @@ namespace TwelveG.InteractableObjects
 
     public class RotativeDrawerHandler : MonoBehaviour, IInteractable
     {
-        [Header("Drower Settings: ")]
+        [Header("Drawer Settings: ")]
         public bool rotatesParent = false;
         [SerializeField] GameObject parentObject;
         [SerializeField] float xOffset = 0f;
@@ -39,7 +39,6 @@ namespace TwelveG.InteractableObjects
 
         private void Start()
         {
-            audioSource = GetComponent<AudioSource>();
             isMoving = false;
 
             if (rotatesParent && parentObject == null)
