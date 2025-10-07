@@ -56,7 +56,7 @@ namespace TwelveG.InteractableObjects
         PlayExaminationSoundCoroutine(examineOutClip);
         StartCoroutine(DestroyAfterSound());
       }
-      if (Input.GetKeyDown(KeyCode.E))
+      if (Input.GetKeyDown(KeyCode.E) && examinationTextSO != null)
       {
         ToggleCanvas();
       }
