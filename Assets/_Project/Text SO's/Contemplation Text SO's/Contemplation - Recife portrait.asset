@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation- woman portrait before
+  m_Name: Contemplation - Recife portrait
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Mi madre realmente sab\xEDa como posar en sus \xE9pocas. De su luna de miel
-      en Brasil."
-    - "No quisiera saber que hay mas all\xE1 de esa foto."
+    - Recife si no mal recuerdo.
+    - "Si por ella fuese volver\xEDamos cada verano."
   - language: 1
     contemplationTexts:
-    - 'My mother really knew how to pose back in the day. From their honeymoon in
-      Brazil. '
-    - I wouldn't like to know what's beyond that photo.
+    - Recife if I remember correctly.
+    - If it was up to her we would come back every summer.

@@ -5,7 +5,7 @@
 
 TOFIX - urgente:
 - Grabar sonidos para interacciones con cuadros, cajones, puerta de armario, botón de encendido/apagado de Old Radio.
-- Corregir método OnDrag en ExaminableObject.cs para guardar información de última rotación al presionar click nuevamente y rotar. Actualmente produce una reubicación extraña.
+- Algunos objetos al ser examinados atraviesan objetos cercanos. Buscar correción por proyección en otra capa?
 
 TODO - próximo:
 - Agregar revistas referidas a Travel & Fun con textos contemplables repetidos y únicos. También agregar al texto contemplable de algún cuadro de viaje la referencia sobre que Recife es el destino preferido de la madre.

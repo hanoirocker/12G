@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation - lady portrait before
+  m_Name: Contemplation - flowers portrait after
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - La chusma de mi vecina Helena. Ja!
-    - Si hay alguien que conoce los movimientos de todo el barrio, es ella.
+    - TERROR
+    - TERROR 2
   - language: 1
     contemplationTexts:
-    - My neighbor Helena's rabble. Ha!
-    - If there's anyone who knows the movements of the entire neighborhood, it's
-      her.
+    - TERROR
+    - TERROR 2

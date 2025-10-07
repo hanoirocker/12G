@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation - Painting_StandPhoto_C
+  m_Name: Contemplation - bathroom portrait after
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Recife si no mal recuerdo.
-    - "Volver\xEDa cada verano."
+    - TERROR
+    - TERROR 2
   - language: 1
     contemplationTexts:
-    - Recife if I remember correctly.
-    - 'I would go back there every summer. '
+    - TERROR
+    - TERROR 2
