@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
-  m_Name: EventObservation - WT Quest (Radio) - 0
+  m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
+  m_Name: Contemplation - sister portrait
   m_EditorClassIdentifier: 
-  isEventText: 1
-  observationTextsStructure:
+  contemplationTextsStructure:
   - language: 0
-    observationText: "\xBFQu\xE9 carajo es eso?"
+    contemplationTexts:
+    - "Mi hermana y su mejor amiga Estefan\xEDa. Inseparables."
   - language: 1
-    observationText: What the fuck is that?
+    contemplationTexts:
+    - "My sister and her best friend Estefan\xEDa. Inseparable."
