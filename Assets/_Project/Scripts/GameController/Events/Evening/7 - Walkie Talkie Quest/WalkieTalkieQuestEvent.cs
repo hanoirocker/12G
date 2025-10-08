@@ -9,7 +9,7 @@ namespace TwelveG.GameController
     {
         [Header("Event references")]
         [SerializeField] private AudioClip oldRadioClip;
-        [SerializeField] private GameObject colliders;
+        [SerializeField,Range(1f, 20f)] private float timeBeforeFlickeringLights = 5f;
 
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 1;
@@ -26,6 +26,7 @@ namespace TwelveG.GameController
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO drawerCanBeInteracted;
         [SerializeField] private GameEventSO triggerOldRadio;
+        [SerializeField] private GameEventSO triggerHouseLightsFlickering;
 
         private bool allowNextAction = false;
         private bool bookHasBeenExamined = false;
@@ -72,9 +73,9 @@ namespace TwelveG.GameController
         {
             if (!bookHasBeenExamined)
             {
-                Debug.Log("[WalkieTalkieQuestEvent]: Saga book examinado!");
-                Debug.Log("[WalkieTalkieQuestEvent]: Instanciando collider y audio source con clip de puerta");
                 bookHasBeenExamined = true;
+                // Aca sucede el flickering de las luces recibido y disparado por el PlayerHouseHandler
+                triggerHouseLightsFlickering.Raise(this, timeBeforeFlickeringLights);
             }
         }
 
@@ -83,6 +84,7 @@ namespace TwelveG.GameController
             if (!parentsPortraitHasBeenExamined)
             {
                 parentsPortraitHasBeenExamined = true;
+                // Se enciende la Old Radio pasandole el clip a reproducir
                 triggerOldRadio.Raise(this, oldRadioClip);
             }
         }
