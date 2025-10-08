@@ -2,14 +2,13 @@
 - Se creó un sistema independiente para examinar objetos (ExaminableObject.cs, ExaminationCanvasHandler, ExaminationTextSO, ObjectExaminationHandler);
 - Se agregó Old Radio y se dispara luego de examinar el Parents married portrait.
 - Se recibe evento luego de revisar Saga Book 4 en el living, pero no se creo aún el prefab del trigger para las consecuencias del mismo.
+- Se creó un nuevo asset para el renderer de URP "URP-HighFidelity-Renderer - RenderObjects Override" el cual es asignado al rendering del asset "URP-HighFidelity". El mismo tiene como objetivo evitar el clipping entre objetos FPS(inventario) o examinables.
 
 TOFIX - urgente:
-- Grabar sonidos para interacciones con cuadros, cajones, puerta de armario, botón de encendido/apagado de Old Radio.
-- Algunos objetos al ser examinados atraviesan objetos cercanos. Buscar correción por proyección en otra capa?
+- Grabar sonidos para interacciones con libros y otros objetos.
 
 TODO - próximo:
-- Agregar revistas referidas a Travel & Fun con textos contemplables repetidos y únicos. También agregar al texto contemplable de algún cuadro de viaje la referencia sobre que Recife es el destino preferido de la madre.
-- Agregar libros similares en estantería de zoom y hacerlos contemplables.
+- Luces parpadeantes al revisar libro de la Saga en living.
 
 TODO - despues:
 - Al comenzar un nuevo evento se ejecuta un parpadeo de pantalla. Por ahora sirve para seguir track de los mismos, pero hay que sacarlo eventualmente.
