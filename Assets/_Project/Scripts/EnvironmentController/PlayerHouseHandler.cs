@@ -30,7 +30,7 @@ namespace TwelveG.EnvironmentController
                 if (originalStates[light])
                     light.enabled = false;
             }
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
 
             foreach (Light light in HouseLights)
             {

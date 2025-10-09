@@ -68,13 +68,11 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            yield return new WaitForSeconds(2f);
-
             // Se levanta viento mas fuerte
             StartWeatherEvent.Raise(this, WeatherEvent.HardWind);
 
             // Parpadean luces de la casa nuevamente
-            triggerHouseLightsFlickering.Raise(this, 5f);
+            triggerHouseLightsFlickering.Raise(this, 10f);
         }
 
         public void OnSagaBookExamined(Component sender, object data)

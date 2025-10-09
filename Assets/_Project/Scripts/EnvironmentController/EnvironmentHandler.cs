@@ -2,52 +2,12 @@ namespace TwelveG.EnvironmentController
 {
     using TwelveG.AudioController;
     using UnityEngine;
-    using UnityEngine.SceneManagement;
 
     public class EnvironmentHandler : MonoBehaviour
     {
         [Header("References")]
         public GameObject rainObject;
-        public GameObject windZoneObject;
-
-        private int currentScene;
-
-        void Start()
-        {
-            currentScene = SceneManager.GetActiveScene().buildIndex;
-            VerifySceneEnvironmentConfigs();
-        }
-
-        private void VerifySceneEnvironmentConfigs()
-        {
-            switch (currentScene)
-            {
-                case 0: // Intro
-                    // SetIntroConfigs();
-                    break;
-                case 1: // Main Menu
-                    // SetMainMenuConfigs();
-                    break;
-                case 2: // Afternoon
-                    // SetAfternoonConfigs();
-                    break;
-                case 3: // Evening
-                    // SetEveningConfigs();
-                    break;
-                case 4: // Night
-                    // SetNightConfigs();
-                    break;
-            }
-        }
-
-        private void SetEveningConfigs()
-        {
-        }
-
-        private void SetNightConfigs()
-        {
-
-        }
+        public WindZone windZone;
 
         public void EnvironmentWeatherConfig(Component sender, object data)
         {
@@ -57,7 +17,16 @@ namespace TwelveG.EnvironmentController
                     rainObject.SetActive(true);
                     break;
                 case (WeatherEvent.SoftWind):
-                    windZoneObject.SetActive(true);
+                    windZone.windMain = 0.2f;
+                    windZone.windTurbulence = 0.2f;
+                    windZone.windPulseFrequency = 0.2f;
+                    windZone.windPulseMagnitude = 0.2f;
+                    break;
+                case (WeatherEvent.HardWind):
+                    windZone.windMain = 1f;
+                    windZone.windTurbulence = 0.3f;
+                    windZone.windPulseFrequency = 0.2f;
+                    windZone.windPulseMagnitude = 0.7f;
                     break;
                 default:
                     break;
