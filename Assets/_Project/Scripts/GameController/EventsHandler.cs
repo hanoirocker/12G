@@ -25,7 +25,7 @@ namespace TwelveG.GameController
         [Header("EventsSO references")]
         public GameEventSO onImageCanvasControls;
         public GameEventSO onDeactivateCanvas;
-        public GameEventSO StartWeatherSound;
+        public GameEventSO StartWeatherEvent;
 
         [Header("Text event SO")]
         private GameObject eventsParent = null;
@@ -128,11 +128,11 @@ namespace TwelveG.GameController
         {
             if (isRaining)
             {
-                StartWeatherSound.Raise(this, WeatherSound.SoftRain);
+                StartWeatherEvent.Raise(this, WeatherEvent.SoftRain);
             }
             if (isWindBlowing)
             {
-                StartWeatherSound.Raise(this, WeatherSound.SoftWind);
+                StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
             }
         }
 

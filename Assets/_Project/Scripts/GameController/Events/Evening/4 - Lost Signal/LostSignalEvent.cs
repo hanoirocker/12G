@@ -30,7 +30,7 @@ namespace TwelveG.GameController
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO enablePC;
         [SerializeField] private GameEventSO updateFallbackTexts;
-        [SerializeField] private GameEventSO StartWeatherSound;
+        [SerializeField] private GameEventSO StartWeatherEvent;
 
         private bool allowNextAction = false;
 
@@ -70,7 +70,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            StartWeatherSound.Raise(this, WeatherSound.SoftWind);
+            StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
 
             // onInteractionCanvasShowText.Raise(this, "LEVANTARSE [E]");
             onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);

@@ -84,9 +84,8 @@ namespace TwelveG.InteractableObjects
             PlayClip(inputClip);
 
             currentInput += value.ToString();
-            Debug.Log($"Input actual: {currentInput}");
 
-            if (currentInput.Length >= 4)
+            if (currentInput.Length >= 5)
             {
                 if (currentInput == correctCombination)
                 {
@@ -102,7 +101,7 @@ namespace TwelveG.InteractableObjects
         private IEnumerator HandleIncorrectCombination()
         {
             isProcessing = true;
-            Debug.Log("Combinación incorrecta");
+            yield return new WaitForSeconds(0.5f);
             PlayClip(errorClip);
 
             yield return new WaitForSeconds(errorClip.length);
@@ -114,12 +113,10 @@ namespace TwelveG.InteractableObjects
         private IEnumerator HandleCorrectCombination()
         {
             isProcessing = true;
-            Debug.Log("Combinación correcta!");
+            yield return new WaitForSeconds(0.5f);
 
             PlayClip(unlockClip);
             yield return new WaitForSeconds(unlockClip.length);
-
-            Debug.Log("Caja fuerte desbloqueada");
 
             StartCoroutine(QuitKeyboard());
             GetComponent<SafeBoxHandler>().UnlockSafeBox();

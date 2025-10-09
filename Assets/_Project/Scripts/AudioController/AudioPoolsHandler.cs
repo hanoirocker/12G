@@ -2,6 +2,7 @@ namespace TwelveG.AudioController
 {
   using System.Collections;
   using System.Collections.Generic;
+  using UnityEditor.Localization.Plugins.XLIFF.V12;
   using UnityEngine;
 
   public enum AudioPoolType
@@ -14,7 +15,7 @@ namespace TwelveG.AudioController
     Wind
   }
 
-  public enum WeatherSound
+  public enum WeatherEvent
   {
     SoftRain,
     HardRain,
@@ -85,23 +86,23 @@ namespace TwelveG.AudioController
       return null;
     }
 
-    public void AssignWeatherSounds(Component sender, object data)
+    public void AssignWeatherEvents(Component sender, object data)
     {
       AudioClip audioClip;
 
-      switch ((WeatherSound)data)
+      switch ((WeatherEvent)data)
       {
-        case (WeatherSound.SoftRain):
+        case (WeatherEvent.SoftRain):
           audioClip = softRainClip;
           break;
-        case (WeatherSound.HardRain):
-          audioClip = softRainClip;
+        case (WeatherEvent.HardRain):
+          audioClip = softRainClip; // TODO: cargar audio de lluvia fuerte a futuro
           break;
-        case (WeatherSound.SoftWind):
+        case (WeatherEvent.SoftWind):
           audioClip = softWindClip;
           break;
-        case (WeatherSound.HardWind):
-          audioClip = softWindClip;
+        case (WeatherEvent.HardWind):
+          audioClip = softWindClip; // TODO: cargar audio de viento fuerte a futuro
           break;
         default:
           audioClip = null;

@@ -4,12 +4,12 @@ namespace TwelveG.GameController
     using System.Collections.Generic;
     using UnityEngine;
     using Localization;
+    using TwelveG.AudioController;
 
     public class WalkieTalkieQuestEvent : GameEventBase
     {
         [Header("Event references")]
         [SerializeField] private AudioClip oldRadioClip;
-        [SerializeField,Range(1f, 20f)] private float timeBeforeFlickeringLights = 5f;
 
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 1;
@@ -21,7 +21,7 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onObservationCanvasShowText;
-        // [SerializeField] private GameEventSO finishCurrentEvent;
+        [SerializeField] private GameEventSO StartWeatherEvent;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO drawerCanBeInteracted;
@@ -67,6 +67,14 @@ namespace TwelveG.GameController
             // Se recibe cuando el jugador alcana el indice del canal principal
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            yield return new WaitForSeconds(2f);
+
+            // Se levanta viento mas fuerte
+            StartWeatherEvent.Raise(this, WeatherEvent.HardWind);
+
+            // Parpadean luces de la casa nuevamente
+            triggerHouseLightsFlickering.Raise(this, 5f);
         }
 
         public void OnSagaBookExamined(Component sender, object data)
@@ -75,7 +83,7 @@ namespace TwelveG.GameController
             {
                 bookHasBeenExamined = true;
                 // Aca sucede el flickering de las luces recibido y disparado por el PlayerHouseHandler
-                triggerHouseLightsFlickering.Raise(this, timeBeforeFlickeringLights);
+                triggerHouseLightsFlickering.Raise(this, 5f);
             }
         }
 

@@ -51,12 +51,12 @@ namespace TwelveG.EnvironmentController
 
         public void EnvironmentWeatherConfig(Component sender, object data)
         {
-            switch ((WeatherSound)data)
+            switch ((WeatherEvent)data)
             {
-                case (WeatherSound.SoftRain):
+                case (WeatherEvent.SoftRain):
                     rainObject.SetActive(true);
                     break;
-                case (WeatherSound.SoftWind):
+                case (WeatherEvent.SoftWind):
                     windZoneObject.SetActive(true);
                     break;
                 default:

@@ -8,7 +8,7 @@ namespace TwelveG.GameController
     public class WakeUpAtNightEvent : GameEventBase
     {
         [Header("EventsSO references")]
-        public GameEventSO StartWeatherSound;
+        public GameEventSO StartWeatherEvent;
         public GameEventSO onImageCanvasControls;
         public GameEventSO onDialogCanvasShowDialog;
         public GameEventSO onInteractionCanvasShowText;
@@ -20,7 +20,7 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ WAKE UP AT NIGHT EVENT NOW -------->");
-            StartWeatherSound.Raise(this, WeatherSound.SoftRain);
+            StartWeatherEvent.Raise(this, WeatherEvent.HardRain);
 
             // Parpadeo del jugador y activación de controles de menú
             // playerCapsule.SetActive(false);
