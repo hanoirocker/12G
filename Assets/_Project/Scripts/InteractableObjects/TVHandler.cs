@@ -3,8 +3,8 @@ namespace TwelveG.PlayerController
     using System.Collections;
     using System.Collections.Generic;
     using TwelveG.Localization;
-  using TwelveG.UIController;
-  using UnityEngine;
+    using TwelveG.UIController;
+    using UnityEngine;
     using UnityEngine.Video;
 
     public class TVHandler : MonoBehaviour
@@ -22,7 +22,7 @@ namespace TwelveG.PlayerController
 
         [Header("Settings And References")]
         public int initialChannelIndex = 0;
-         [SerializeField, Range(0.3f, 0.8f)] private float maxTvVolume = 0.5f;
+        [SerializeField, Range(0.3f, 0.8f)] private float maxTvVolume = 0.5f;
         public List<TVChannel> channels;
 
         [SerializeField] EventsControlCanvasInteractionTextSO interactWithTVSO;
@@ -253,15 +253,10 @@ namespace TwelveG.PlayerController
             }
         }
 
-        private void SetRemoteControl(Component sender, object data)
+        public void SetRemoteControl(Component sender, object data)
         {
             remoteControl = (GameObject)data;
             animator = remoteControl.GetComponentInChildren<Animator>();
-        }
-
-        public void PauseGame(Component sender, object data)
-        {
-            ToogleVideoPlayer((bool)data);
         }
 
         private void OnDisable()
@@ -282,12 +277,6 @@ namespace TwelveG.PlayerController
             {
                 listener.enabled = false;
             }
-        }
-
-        private void ToogleVideoPlayer(bool pause)
-        {
-            if (pause) { mainVideoPlayer.Pause(); }
-            else { mainVideoPlayer.Play(); }
         }
 
         public void TVAudioFadeOut(Component sender, object data)

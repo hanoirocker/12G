@@ -1,6 +1,7 @@
 namespace TwelveG.GameController
 {
     using System.Collections;
+    using TwelveG.AudioController;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
     using TwelveG.UIController;
@@ -9,6 +10,9 @@ namespace TwelveG.GameController
 
     public class WakeUpEvent : GameEventBase
     {
+        [Header("Audio")]
+        [SerializeField] private AudioClip standUpClip;
+
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 3;
 
@@ -75,6 +79,12 @@ namespace TwelveG.GameController
             );
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
+
+            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
+            if (audioSource != null && standUpClip != null)
+            {
+                audioSource.PlayOneShot(standUpClip);
+            }
 
             onInteractionCanvasControls.Raise(this, new HideText());
 

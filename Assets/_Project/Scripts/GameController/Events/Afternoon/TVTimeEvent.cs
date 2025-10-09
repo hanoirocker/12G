@@ -7,9 +7,14 @@ namespace TwelveG.GameController
     using TwelveG.Utils;
     using TwelveG.UIController;
     using Cinemachine;
+    using TwelveG.AudioController;
 
     public class TVTimeEvent : GameEventBase
     {
+        [Header("Audio")]
+        [SerializeField] private AudioClip wakeUpClip;
+        [SerializeField] private AudioClip fallAsleepClip;
+
         [Header("Text event SO")]
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
 
@@ -41,6 +46,8 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
+            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
+
             print("<------ TV TIME EVENT NOW -------->");
             enableTVHandler.Raise(this, null);
 
@@ -49,13 +56,17 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(2f);
             onImageCanvasControls.Raise(this, new WakeUpBlinking());
 
+            if (audioSource != null && fallAsleepClip != null)
+            {
+                audioSource.PlayOneShot(wakeUpClip);
+            }
+
             activateRemoteController.Raise(this, null);
             yield return new WaitForSeconds(5f);
 
             onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
-
-            onActivateCanvas.Raise(this, CanvasHandlerType.Control);
             onControlCanvasControls.Raise(this, new EnableCanvas(true));
+            Debug.Log("Enable Canvas");
 
             onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
@@ -93,6 +104,11 @@ namespace TwelveG.GameController
             );
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
+
+            if (audioSource != null && fallAsleepClip != null)
+            {
+                audioSource.PlayOneShot(fallAsleepClip);
+            }
 
             onInteractionCanvasControls.Raise(this, new VanishTextEffect());
             yield return new WaitForSeconds(2f);
