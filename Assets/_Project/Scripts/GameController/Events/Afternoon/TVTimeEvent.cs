@@ -46,7 +46,7 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
+            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
 
             print("<------ TV TIME EVENT NOW -------->");
             enableTVHandler.Raise(this, null);
@@ -71,7 +71,7 @@ namespace TwelveG.GameController
             onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
-            allowPlayerToHandleTV.Raise(this, null);
+            allowPlayerToHandleTV.Raise(this, true);
 
             // Unity Event (TVHandler - allowNextAction):
             // Se recibe cuando el jugador alcana el indice del canal principal

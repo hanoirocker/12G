@@ -25,6 +25,8 @@ namespace TwelveG.PlayerController
         [SerializeField, Range(0.3f, 0.8f)] private float maxTvVolume = 0.5f;
         public List<TVChannel> channels;
 
+        public bool playerIsAllowedToInteract = false;
+
         [SerializeField] EventsControlCanvasInteractionTextSO interactWithTVSO;
         [SerializeField] EventsControlCanvasInteractionTextSO interactWithRCSO;
         [SerializeField] List<GameEventListener> eventListenersToToggle;
@@ -44,7 +46,6 @@ namespace TwelveG.PlayerController
 
         private int newsChannelIndex = -1;
         private bool playerIsInteracting;
-        private bool playerIsAllowedToInteract;
         private float tvVolume;
 
         private int currentChannelIndex;
@@ -72,7 +73,6 @@ namespace TwelveG.PlayerController
             currentChannelIndex = initialChannelIndex;
             onControlCanvasSetInteractionOptions.Raise(this, interactWithTVSO);
             playerIsInteracting = false;
-            playerIsAllowedToInteract = true;
             StartCoroutine(InitializeTV());
         }
 
@@ -234,11 +234,11 @@ namespace TwelveG.PlayerController
             }
         }
 
-        private void AllowPlayerToInteractWithTV(bool isAllowed)
-        {
-            playerIsAllowedToInteract = isAllowed;
+        public void AllowPlayerToInteractWithTV(Component sender, object data)
+        {        
+            playerIsAllowedToInteract = (bool)data;
 
-            if (!isAllowed && playerIsInteracting)
+            if (!(bool)data && playerIsInteracting)
             {
                 playerIsInteracting = false;
                 ShowRemoteControl(false);

@@ -80,7 +80,7 @@ namespace TwelveG.GameController
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
+            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
             if (audioSource != null && standUpClip != null)
             {
                 audioSource.PlayOneShot(standUpClip);
