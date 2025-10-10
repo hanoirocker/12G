@@ -26,7 +26,8 @@ namespace TwelveG.PlayerController
         [SerializeField] GameObject usedBroom;
 
         [Header("Testing settings: ")]
-        [SerializeField] private bool enableAllItems;
+        [SerializeField] private bool enableFlashlight;
+        [SerializeField] private bool enableWalkieTalkie;
 
         [Header("Game Event SO's")]
         [SerializeField] private GameEventSO onPizzaPickedUp;
@@ -43,15 +44,14 @@ namespace TwelveG.PlayerController
         private GameObject activePizzaSlice = null;
         private GameObject activePhone = null;
 
+        private bool playerCanToggleItems = true;
+
         private void Start()
         {
-            if (enableAllItems) { handleAllItems(); }
-        }
-
-        private void handleAllItems()
-        {
-            MakeItemUseable(ItemType.Flashlight, true, flashlight, rightHandTransform);
-            MakeItemUseable(ItemType.WalkieTalkie, true, walkieTalkie, leftHandTransform);
+            if (enableFlashlight)
+                MakeItemUseable(ItemType.Flashlight, true, flashlight, rightHandTransform);
+            if (enableWalkieTalkie)
+                MakeItemUseable(ItemType.WalkieTalkie, true, walkieTalkie, leftHandTransform);
         }
 
         private void MakeItemUseable(ItemType itemType, bool instantiateItem, GameObject objectToInstantiate, Transform inventoryTransform)
@@ -97,11 +97,11 @@ namespace TwelveG.PlayerController
 
         private void Update()
         {
-            if (activeFlashlight != null && Input.GetKeyDown(KeyCode.L))
+            if (activeFlashlight != null && playerCanToggleItems && Input.GetKeyDown(KeyCode.L))
             {
                 StartCoroutine(ToggleItem(activeFlashlight));
             }
-            if (activeWalkieTalkie != null && Input.GetKeyDown(KeyCode.K))
+            if (activeWalkieTalkie != null && playerCanToggleItems && Input.GetKeyDown(KeyCode.K))
             {
                 StartCoroutine(ToggleItem(activeWalkieTalkie));
             }
@@ -120,7 +120,27 @@ namespace TwelveG.PlayerController
             {
                 item.SetActive(true);
             }
+        }
 
+        public void HandleExaminationWhileUsingItems(bool isExamining)
+        {
+            // Si comienza a examinar, el jugador no puede alternar los objetos en las manos
+            playerCanToggleItems = !isExamining;
+
+            if (activeWalkieTalkie != null && activeWalkieTalkie.activeSelf)
+            {
+                // Primero ocultamos los meshes de cualquier objeto que esté en la mano izquierda
+                MeshRenderer mesh = activeWalkieTalkie.GetComponent<MeshRenderer>();
+                if (mesh != null)
+                {
+                    mesh.enabled = !isExamining;
+                }
+            }
+            if (activeFlashlight != null && activeFlashlight.activeSelf)
+            {
+                activeFlashlight.GetComponent<MeshRenderer>().enabled = !isExamining;
+                activeFlashlight.GetComponentInChildren<Light>().enabled = !isExamining;
+            }
         }
 
         public void AddItem(ItemType itemType)
@@ -162,6 +182,13 @@ namespace TwelveG.PlayerController
                     MakeItemUseable(ItemType.Phone, true, phone, leftHandTransform);
                     break;
             }
+        }
+
+        public bool PlayerIsUsingFlashlight()
+        {
+            if (activeFlashlight != null && activeFlashlight.activeSelf)
+                return true;
+            return false;
         }
 
         public List<String> returnPickedItems()

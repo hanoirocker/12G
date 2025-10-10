@@ -1,6 +1,7 @@
 namespace TwelveG.PlayerController
 {
     using TwelveG.AudioController;
+    using TwelveG.InteractableObjects;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
@@ -23,6 +24,9 @@ namespace TwelveG.PlayerController
         [SerializeField] private PlayerContemplation playerContemplation;
         [SerializeField] private PlayerAddItem playerAddItem;
 
+        [Header("Player Inventory Reference")]
+        [SerializeField] private PlayerInventory playerInventory;
+
         private PlayerShortcuts playerShortcuts;
 
         private void Awake()
@@ -40,6 +44,7 @@ namespace TwelveG.PlayerController
                     playerAddItem.enabled = !cmd.Enabled;
                     cameraZoom.enabled = !cmd.Enabled;
                     playerShortcuts.playerCanOpenPauseMenu = !cmd.Enabled;
+                    HandleExamination(cmd.Enabled);
                     SwitchPlayerControllers(!cmd.Enabled);
                     break;
                 case EnableControlCanvasAccess cmd:
@@ -71,6 +76,16 @@ namespace TwelveG.PlayerController
                     Debug.LogWarning($"[PlayerHandler] Comando desconocido recibido: {data}");
                     break;
             }
+        }
+
+        private void HandleExamination(bool isExamining)
+        {
+            if (playerInventory.PlayerIsUsingFlashlight())
+            {
+                mainCamera.GetComponent<Light>().enabled = isExamining;
+            }
+
+            playerInventory.HandleExaminationWhileUsingItems(isExamining);
         }
 
         private void SwitchPlayerControllers(bool enabled)
