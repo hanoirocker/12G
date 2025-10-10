@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
+  m_Name: Contemplation - Books - 1
+  m_EditorClassIdentifier: 
+  contemplationTextsStructure:
+  - language: 0
+    contemplationTexts:
+    - Demasiado lugar para mis libros. Al punto que incluso mi hermana tuvo lugar
+      donde poner los suyos.
+    - "Sinceramente no sabr\xEDa qu\xE9 colocar ac\xE1 si no estuviese este estante
+      asi que ..."
+  - language: 1
+    contemplationTexts:
+    - Too much room for my books. So much so that even my sister had room to put
+      hers.
+    - Honestly, I wouldn't know what to put here if this shelf wasn't there, so...

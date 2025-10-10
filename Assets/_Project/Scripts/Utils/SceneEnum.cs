@@ -4,6 +4,12 @@ namespace TwelveG.Utils
     {
         Afternoon,
         Evening,
-        Night
+        Night,
+        MenuAfternoon,
+        MenuEvening,
+        MenuNight,
+        Intro,
+        Credits,
+        None
     }
 }

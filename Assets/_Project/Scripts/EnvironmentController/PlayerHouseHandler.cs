@@ -1,14 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace TwelveG.EnvironmentController
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-
     public class PlayerHouseHandler : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] private Light[] HouseLights;
-        
+
 
         public void FlickerLights(Component sender, object data)
         {

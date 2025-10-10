@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
+  m_Name: Context - Simon and Mica portrait
+  m_EditorClassIdentifier: 
+  entries:
+  - sceneEnum: 1
+    minEventIndex: 0
+    maxEventIndex: 6
+    texts: {fileID: 11400000, guid: 5694b82e301f60c48ab369782acddf7d, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 7
+    maxEventIndex: 7
+    texts: {fileID: 11400000, guid: 8c7dcb3c2082f4d1fa7db4d1f1a7f23c, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 8
+    maxEventIndex: 10
+    texts: {fileID: 11400000, guid: 9a1c628e5321348a383decc8b5428dcf, type: 2}

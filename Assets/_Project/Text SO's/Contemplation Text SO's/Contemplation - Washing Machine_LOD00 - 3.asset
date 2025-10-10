@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
+  m_Name: Contemplation - Washing Machine_LOD00 - 3
+  m_EditorClassIdentifier: 
+  contemplationTextsStructure:
+  - language: 0
+    contemplationTexts:
+    - "In\xFAtil ahora mismo."
+    - "\xBFY si dejo de mirar este lavarropas como una posible soluci\xF3n y comienzo
+      a actuar como un ser humano normal?"
+    - Comienzo a dudar de mi sanidad mental ..
+  - language: 1
+    contemplationTexts:
+    - Useless right now.
+    - What if I stop looking at this washing machine as a possible solution and start
+      acting like a normal human being?
+    - I'm starting to doubt my sanity..

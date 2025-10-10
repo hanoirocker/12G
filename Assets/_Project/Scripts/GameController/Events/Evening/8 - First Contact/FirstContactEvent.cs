@@ -1,8 +1,9 @@
+using System.Collections;
+using TwelveG.Localization;
+using UnityEngine;
+
 namespace TwelveG.GameController
 {
-    using System.Collections;
-    using UnityEngine;
-
     public class FirstContactEvent : GameEventBase
     {
         [Header("References")]
@@ -14,8 +15,8 @@ namespace TwelveG.GameController
 
         [Header("Text event SO")]
         //[SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
-        //[SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
-        //[SerializeField] private GameEventSO updateFallbackTexts;
+        [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private GameEventSO updateFallbackTexts;
 
         [Header("EventsSO references")]
         // [SerializeField] private GameEventSO onObservationCanvasShowText;
@@ -28,6 +29,8 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ FIRST CONTACT EVENT NOW -------->");
+
+            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
             yield return new WaitForSeconds(initialTime);
 

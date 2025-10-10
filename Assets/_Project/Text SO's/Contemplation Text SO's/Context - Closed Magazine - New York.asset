@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
+  m_Name: Context - Closed Magazine - New York
+  m_EditorClassIdentifier: 
+  entries:
+  - sceneEnum: 1
+    minEventIndex: 0
+    maxEventIndex: 6
+    texts: {fileID: 11400000, guid: 7e03c2722830e4263acaf619b0903a20, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 7
+    maxEventIndex: 7
+    texts: {fileID: 11400000, guid: 997f2acb0fa204f199cc6ea1f7260e0a, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 8
+    maxEventIndex: 10
+    texts: {fileID: 11400000, guid: 671d693f0eedb4b39a3aa64a47227c89, type: 2}

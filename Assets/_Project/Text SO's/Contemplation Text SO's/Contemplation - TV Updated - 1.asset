@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
+  m_Name: Contemplation - TV Updated - 1
+  m_EditorClassIdentifier: 
+  contemplationTextsStructure:
+  - language: 0
+    contemplationTexts:
+    - "A\xFAn no comprendo como siguen existiendo estos aparatos."
+    - "Estupidez en su m\xE1xima calidad de expresi\xF3n."
+    - "M\xE1s f\xE1cil encontrar plata en mi billetera virtual que algo interesante
+      en este aparato .."
+    - 'Inteligente mis bolas .. '
+    - "Ok .. eso \xFAltimo no es cierto"
+    - "Tiene que haber algo interesante en alg\xFAn canal supongo .. Calculo que
+      por algo mis padres pagan por este servicio."
+    - Bla bla bla bla bla bla ..
+  - language: 1
+    contemplationTexts:
+    - I still don't understand how these devices still exist.
+    - Stupidity at its highest quality of expression.
+    - Easier to find money in my virtual wallet than something interesting on this
+      device..
+    - My balls are smater than this device for sure ..
+    - Ok.. that last one is not true
+    - There must be something interesting on some channel, I guess... I guess my
+      parents pay for this service for a reason.
+    - Blah blah blah blah blah blah ..

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
+  m_Name: Context - Toaster (1)
+  m_EditorClassIdentifier: 
+  entries:
+  - sceneEnum: 1
+    minEventIndex: 0
+    maxEventIndex: 2
+    texts: {fileID: 11400000, guid: c677e6982586e4342b8e169f7a7de86a, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 3
+    maxEventIndex: 3
+    texts: {fileID: 11400000, guid: 05b74ae217a174543a80cd0a83c365f6, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 4
+    maxEventIndex: 6
+    texts: {fileID: 11400000, guid: 3d4162fe1b90942969677b90dc40c5f7, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 7
+    maxEventIndex: 15
+    texts: {fileID: 11400000, guid: 74bf307262a1f4bfeb98485d052e59fa, type: 2}

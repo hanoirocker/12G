@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
+  m_Name: Context - Sculpture_apt_02_04
+  m_EditorClassIdentifier: 
+  entries:
+  - sceneEnum: 1
+    minEventIndex: 0
+    maxEventIndex: 6
+    texts: {fileID: 11400000, guid: 24320330bd62645ffa83ac5f0dc0b591, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 7
+    maxEventIndex: 7
+    texts: {fileID: 11400000, guid: 7fe7bb45213f9430ab229f5b187f8aea, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 8
+    maxEventIndex: 10
+    texts: {fileID: 11400000, guid: 2eed4f61d682840a5814766a7aaa2f49, type: 2}

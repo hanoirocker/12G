@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
+  m_Name: Context - Recife Portrait
+  m_EditorClassIdentifier: 
+  entries:
+  - sceneEnum: 1
+    minEventIndex: 1
+    maxEventIndex: 3
+    texts: {fileID: 11400000, guid: f0b45176601b748768a79208b6748792, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 4
+    maxEventIndex: 5
+    texts: {fileID: 11400000, guid: e53a4eda6a7f7b3489daba7950c434b1, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 6
+    maxEventIndex: 10
+    texts: {fileID: 11400000, guid: 4326523bb80cc406c9c09444749ddd89, type: 2}

@@ -1,12 +1,12 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using TwelveG.UIController;
+using TwelveG.AudioController;
+
 namespace TwelveG.GameController
 {
-    using UnityEngine;
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine.SceneManagement;
-    using TwelveG.UIController;
-    using TwelveG.AudioController;
-
     public class EventsHandler : MonoBehaviour
     {
         [Header("Testing Settings")]
@@ -219,11 +219,16 @@ namespace TwelveG.GameController
             PopulateEventsLists();
             VerifyRunTimeMode();
         }
-        
+
         public void SkipCurrentEvent(Component sender, object data)
         {
             Debug.Log($"[EventsHandler]: Recibido evento por {sender.name} para saltar al siguiente evento.");
             SkipToNextEvent();
+        }
+
+        public int RetrieveCurrentEventIndex()
+        {
+            return currentEventIndex;
         }
     }
 }

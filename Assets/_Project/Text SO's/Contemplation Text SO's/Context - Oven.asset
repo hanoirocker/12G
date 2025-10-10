@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
+  m_Name: Context - Oven
+  m_EditorClassIdentifier: 
+  entries:
+  - sceneEnum: 1
+    minEventIndex: 0
+    maxEventIndex: 2
+    texts: {fileID: 11400000, guid: 636dab02894364d4483b589977c6935d, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 3
+    maxEventIndex: 3
+    texts: {fileID: 11400000, guid: 55d10092370654ee2a81155bb469744b, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 7
+    maxEventIndex: 15
+    texts: {fileID: 11400000, guid: 226886dbd9f8c4e0f9b0bfc2026a4962, type: 2}

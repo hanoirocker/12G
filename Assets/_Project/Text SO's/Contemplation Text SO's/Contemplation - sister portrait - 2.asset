@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
+  m_Name: Contemplation - sister portrait - 2
+  m_EditorClassIdentifier: 
+  contemplationTextsStructure:
+  - language: 0
+    contemplationTexts:
+    - " \xBFMe creer\xEDas si te digo que Fernandez se acaba de pegar un tiro en
+      la cabeza? Dios .."
+    - "Qu\xE9 bien hiciste en irte de este barrio del orto .."
+  - language: 1
+    contemplationTexts:
+    - Would you believe me if I told you Fernandez just shot himself in the head?
+      God..
+    - You did well to leave this shitty neighborhood.

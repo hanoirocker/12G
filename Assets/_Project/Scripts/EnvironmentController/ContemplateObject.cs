@@ -1,15 +1,17 @@
+using TwelveG.GameController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using TwelveG.Utils;
+using UnityEngine;
+
 namespace TwelveG.EnvironmentController
 {
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using UnityEngine;
-
     public class ContemplateObject : MonoBehaviour, IContemplable
     {
         [Header("Contemplation Settings")]
         public bool repeatTexts = false;
         public bool hasReachedMaxContemplations = false;
-        [SerializeField] private ContemplationTextSO contemplationTextsSO;
+        [SerializeField] private ContextualContemplationSO contextualSO;
 
         private int currentContemplationIndex = 0;
         private bool ableToInteract;
@@ -22,11 +24,17 @@ namespace TwelveG.EnvironmentController
 
         public string GetContemplationText()
         {
-            var (contemplationText, updatedContemplationsStatus, updatedIndex) = 
+            SceneEnum sceneEnum = GameManager.Instance.RetrieveCurrentSceneEnum();
+            int eventIndex = GameManager.Instance.EventsHandler.RetrieveCurrentEventIndex();
+
+            var so = contextualSO.GetSOForContext(sceneEnum, eventIndex);
+            if (so == null) return string.Empty;
+
+            var (contemplationText, updatedContemplationsStatus, updatedIndex) =
                 Utils.TextFunctions.RetrieveContemplationText(
                     currentContemplationIndex,
                     repeatTexts,
-                    contemplationTextsSO);
+                    so);
 
             hasReachedMaxContemplations = updatedContemplationsStatus;
             currentContemplationIndex = updatedIndex;

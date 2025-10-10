@@ -1,10 +1,11 @@
+using System.Collections;
+using TwelveG.SaveSystem;
+using TwelveG.Utils;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
 namespace TwelveG.GameController
 {
-  using System.Collections;
-  using TwelveG.SaveSystem;
-  using UnityEngine;
-  using UnityEngine.SceneManagement;
-
   public class GameManager : MonoBehaviour, IDataPersistence
   {
     public static GameManager Instance;
@@ -15,9 +16,12 @@ namespace TwelveG.GameController
     [Header("Game Event SO's")]
     public GameEventSO onToggleInGameCanvasAll;
 
-    private EventsHandler eventController;
-    private MenuHandler menuHandler;
-    private SceneLoaderHandler sceneLoaderHandler;
+    [SerializeField] private EventsHandler eventsHandler;
+    [SerializeField] private MenuHandler menuHandler;
+    [SerializeField] private SceneLoaderHandler sceneLoaderHandler;
+
+    public EventsHandler EventsHandler => eventsHandler;
+
     private int currentSceneIndex = 0;
     private int _savedSceneIndex = 0;
 
@@ -43,19 +47,12 @@ namespace TwelveG.GameController
 
     private void VerifySceneType()
     {
-      if (eventController == null || menuHandler == null || sceneLoaderHandler == null)
-      {
-        Debug.LogWarning("Componentes de escena no asignados. Reintentando...");
-        StartCoroutine(InitializeSceneComponents());
-        return;
-      }
-
       switch (currentSceneIndex)
       {
         case 0: // Intro
           menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, false);
-          eventController.BuildEvents();
+          eventsHandler.BuildEvents();
           break;
         case 1: // Main Menu
           menuHandler.enabled = true;
@@ -63,17 +60,17 @@ namespace TwelveG.GameController
         case 2: // Afternoon
           menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
-          eventController.BuildEvents();
+          eventsHandler.BuildEvents();
           break;
         case 3: // Evening
           menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
-          eventController.BuildEvents();
+          eventsHandler.BuildEvents();
           break;
         case 4: // Night
           menuHandler.enabled = false;
           onToggleInGameCanvasAll.Raise(this, true);
-          eventController.BuildEvents();
+          eventsHandler.BuildEvents();
           break;
         default:
           Debug.LogError("currentSceneIndex not found");
@@ -100,14 +97,24 @@ namespace TwelveG.GameController
     {
       // Esperar un frame a que todos los componentes estén listos.
       yield return null;
+      VerifySceneType();
+    }
 
-      GameObject currentSceneObj = GetComponentInChildren<EventsHandler>().gameObject;
-      if (currentSceneObj != null)
+    public SceneEnum RetrieveCurrentSceneEnum()
+    {
+      string currentSceneName = SceneManager.GetActiveScene().name;
+
+      switch (currentSceneName)
       {
-        eventController = currentSceneObj.GetComponent<EventsHandler>();
-        menuHandler = currentSceneObj.GetComponent<MenuHandler>();
-        sceneLoaderHandler = currentSceneObj.GetComponent<SceneLoaderHandler>();
-        VerifySceneType();
+        case "Afternoon Scene":
+          return SceneEnum.Afternoon;
+        case "Evening Scene":
+          return SceneEnum.Evening;
+        case "Night Scene":
+          return SceneEnum.Night;
+        default:
+          Debug.LogWarning($"[MenuHandler]: No background music assigned for scene '{currentSceneName}'");
+          return SceneEnum.None;
       }
     }
 

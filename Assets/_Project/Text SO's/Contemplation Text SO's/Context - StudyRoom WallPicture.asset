@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
+  m_Name: Context - StudyRoom WallPicture
+  m_EditorClassIdentifier: 
+  entries:
+  - sceneEnum: 1
+    minEventIndex: 1
+    maxEventIndex: 4
+    texts: {fileID: 11400000, guid: 7d5991c3cacba4f3daa5b979322a29c2, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 5
+    maxEventIndex: 5
+    texts: {fileID: 11400000, guid: ba73d5fd8921e4d50b63ad01b2d30492, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 7
+    maxEventIndex: 15
+    texts: {fileID: 11400000, guid: ef5409b1daab5437f83c48868e399c51, type: 2}

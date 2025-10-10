@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
+  m_Name: Context - Mother Saga 2
+  m_EditorClassIdentifier: 
+  entries:
+  - sceneEnum: 1
+    minEventIndex: 0
+    maxEventIndex: 6
+    texts: {fileID: 11400000, guid: c34d0ea15fa1f4e29b3b6c92dc5f3c4e, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 7
+    maxEventIndex: 7
+    texts: {fileID: 11400000, guid: 57bc62ee52b20469d9fbf7bcf647a3e0, type: 2}
+  - sceneEnum: 1
+    minEventIndex: 8
+    maxEventIndex: 10
+    texts: {fileID: 11400000, guid: 1d81df03346884dd2b7340fb1a1adc79, type: 2}

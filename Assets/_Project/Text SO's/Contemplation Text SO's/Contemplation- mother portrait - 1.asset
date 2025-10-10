@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
+  m_Name: Contemplation- mother portrait - 1
+  m_EditorClassIdentifier: 
+  contemplationTextsStructure:
+  - language: 0
+    contemplationTexts:
+    - "Mi madre realmente sab\xEDa como posar en sus \xE9pocas. De su luna de miel
+      en Brasil."
+    - "No quisiera saber que hay mas all\xE1 de esa foto."
+  - language: 1
+    contemplationTexts:
+    - 'My mother really knew how to pose back in the day. From their honeymoon in
+      Brazil. '
+    - I wouldn't like to know what's beyond that photo.

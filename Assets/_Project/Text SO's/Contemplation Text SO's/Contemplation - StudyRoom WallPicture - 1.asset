@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
+  m_Name: Contemplation - StudyRoom WallPicture - 1
+  m_EditorClassIdentifier: 
+  contemplationTextsStructure:
+  - language: 0
+    contemplationTexts:
+    - Mica tiene buen gusto para estas cosas.
+    - "A veces siento que no ser\xEDa capaz de decorar mi propia casa jam\xE1s si
+      la tuviese. Por suerte siempre te tendr\xE9 a vos amiga .. je."
+  - language: 1
+    contemplationTexts:
+    - Mica has good taste in these things.
+    - Sometimes I feel like I'd never be able to decorate my own house if I had one.
+      Luckily, I'll always have you, my friend... heh.
