@@ -1,8 +1,6 @@
 namespace TwelveG.AudioController
 {
-  using System.Collections;
   using System.Collections.Generic;
-  using UnityEditor.Localization.Plugins.XLIFF.V12;
   using UnityEngine;
 
   public enum AudioPoolType
@@ -12,7 +10,8 @@ namespace TwelveG.AudioController
     UI,
     Environment,
     Interaction,
-    Wind
+    Wind,
+    Dialogs,
   }
 
   public enum WeatherEvent
@@ -32,6 +31,7 @@ namespace TwelveG.AudioController
     [SerializeField] private List<AudioSource> EnvironmentSources;
     [SerializeField] private List<AudioSource> InteractionSources;
     [SerializeField] private List<AudioSource> UISources;
+    [SerializeField] private List<AudioSource> DialogsSources;
 
     [Header("Audio References")]
     [SerializeField] private AudioClip softWindClip;
@@ -47,6 +47,7 @@ namespace TwelveG.AudioController
         { AudioPoolType.Environment, EnvironmentSources },
         { AudioPoolType.Interaction, InteractionSources },
         { AudioPoolType.UI, UISources },
+        { AudioPoolType.Dialogs, DialogsSources}
       };
     }
 

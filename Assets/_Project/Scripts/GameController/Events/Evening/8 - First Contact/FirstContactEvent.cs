@@ -1,4 +1,5 @@
 using System.Collections;
+using TwelveG.DialogsController;
 using TwelveG.Localization;
 using UnityEngine;
 
@@ -14,12 +15,12 @@ namespace TwelveG.GameController
         // public Transform suicideViewTransform;
 
         [Header("Text event SO")]
-        //[SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
+        [SerializeField] private DialogSO firstEventDialog;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private GameEventSO updateFallbackTexts;
 
         [Header("EventsSO references")]
-        // [SerializeField] private GameEventSO onObservationCanvasShowText;
+        [SerializeField] private GameEventSO startDialog;
 
         [Header("Other eventsSO references")]
         // [SerializeField] private GameEventSO drawerCanBeInteracted;
@@ -34,7 +35,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(initialTime);
 
-            // updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            startDialog.Raise(this, firstEventDialog);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();

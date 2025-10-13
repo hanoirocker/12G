@@ -71,7 +71,8 @@ namespace TwelveG.GameController
                 eventsObservationTextSO[eventObservationTextIndex]
             );
             eventObservationTextIndex += 1;
-            yield return new WaitUntil(() => !DialogCanvasHandler.canvasIsShowing);
+            // TODO: reemplazar por el observation handler
+            // yield return new WaitUntil(() => !DialogCanvasHandler.canvasIsShowing);
 
             // Se habilita el collider del interactuable de zoomBird
             zoomBirdIsInteractable.Raise(this, null);
