@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using TwelveG.AudioController;
+using TwelveG.Localization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +15,7 @@ namespace TwelveG.DialogsController
         public GameEventSO conversationHasEnded;
 
         private DialogSO currentDialog;
+        private List<DialogOptions> currentOptions;
 
         [SerializeField] TextMeshProUGUI dialogCanvasText;
         [SerializeField] TextMeshProUGUI characterNameCanvasText;
@@ -52,13 +55,20 @@ namespace TwelveG.DialogsController
         {
             float timeBeforeShowing = currentDialog.timeBeforeShowing;
 
+            currentOptions = currentDialog.dialogOptions;
+
             yield return new WaitForSeconds(timeBeforeShowing);
 
+            string textToShow = Utils.TextFunctions.RetrieveDialogText(
+                    LocalizationManager.Instance.GetCurrentLanguageCode(),
+                    currentDialog
+                );
+
             AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip);
-            yield return ShowDialogCoroutine(currentDialog.characterName.ToString(), currentDialog.dialogText, currentDialog.spanishDialogClip.length);
+            yield return ShowDialogCoroutine(currentDialog.characterName.ToString(), textToShow, currentDialog.spanishDialogClip.length);
 
             // Verifica si el diálogo tiene opciones
-            if (currentDialog.options != null && currentDialog.options.Length > 0)
+            if (currentOptions != null && currentOptions.Count > 0)
             {
                 ShowOptions();
             }
@@ -73,7 +83,6 @@ namespace TwelveG.DialogsController
             if (data != null)
             {
                 currentDialog = (DialogSO)data;
-
                 StartCoroutine(StartDialogCoroutine(currentDialog));
             }
         }
@@ -91,10 +100,15 @@ namespace TwelveG.DialogsController
             }
 
             // Instancia botones basados en la cantidad de opciones
-            for (int i = 0; i < currentDialog.options.Length; i++)
+            for (int i = 0; i < currentOptions.Count; i++)
             {
                 GameObject optionButton = Instantiate(buttonPrefab, optionsPanel.transform);
-                optionButton.GetComponentInChildren<TextMeshProUGUI>().text = currentDialog.options[i].optionText;
+
+                optionButton.GetComponentInChildren<TextMeshProUGUI>().text = Utils.TextFunctions.RetrieveDialogOptions(
+                    LocalizationManager.Instance.GetCurrentLanguageCode(),
+                    currentOptions[i]
+                );
+
                 int optionIndex = i;
                 Button btnComponent = optionButton.GetComponent<Button>();
                 btnComponent.onClick.RemoveAllListeners();
@@ -119,7 +133,7 @@ namespace TwelveG.DialogsController
 
         public void OnOptionSelected(int optionIndex)
         {
-            DialogSO nextDialog = currentDialog.options[optionIndex].nextDialog;
+            DialogSO nextDialog = currentOptions[optionIndex].nextDialog;
             if (nextDialog != null)
             {
                 HideOptions();

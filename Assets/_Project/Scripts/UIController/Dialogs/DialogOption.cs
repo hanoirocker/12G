@@ -1,13 +1,21 @@
 namespace TwelveG.DialogsController
 {
-    using UnityEngine;
+  using System.Collections.Generic;
+  using TwelveG.Localization;
+  using UnityEngine;
 
     [System.Serializable]
-    public class DialogOption
+    public class DialogOptionsStructure
     {
-        [TextArea(3, 10)]
+        public LanguagesEnum language;
+        [TextArea(2, 10)]
         public string optionText;
+    }
 
+    [System.Serializable]
+    public class DialogOptions
+    {
+        public List<DialogOptionsStructure> dialogOptionsStructures;
         public DialogSO nextDialog;
     }
 }

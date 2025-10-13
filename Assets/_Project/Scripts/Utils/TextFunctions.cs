@@ -1,6 +1,7 @@
 namespace TwelveG.Utils
 {
-    using TwelveG.Localization;
+  using TwelveG.DialogsController;
+  using TwelveG.Localization;
 
     public static class TextFunctions
     {
@@ -28,6 +29,42 @@ namespace TwelveG.Utils
             }
 
             return languageStructure.interactionText;
+        }
+
+        public static string RetrieveDialogText(string languageCode, DialogSO dialogSO)
+        {
+            if (dialogSO == null)
+            {
+                return "DialogSO is null";
+            }
+
+            var languageStructure = dialogSO.dialogTextStructure
+                .Find(texts => texts.language.ToString().Equals(languageCode, System.StringComparison.OrdinalIgnoreCase));
+
+            if (languageStructure == null)
+            {
+                return "Language not found in DialogSO";
+            }
+
+            return languageStructure.dialogText;
+        }
+
+        public static string RetrieveDialogOptions(string languageCode, DialogOptions dialogOptions)
+        {
+            if (dialogOptions == null)
+            {
+                return "DialogOptions is null";
+            }
+
+            var languageStructure = dialogOptions.dialogOptionsStructures
+                .Find(texts => texts.language.ToString().Equals(languageCode, System.StringComparison.OrdinalIgnoreCase));
+
+            if (languageStructure == null)
+            {
+                return "Language not found in DialogSO";
+            }
+
+            return languageStructure.optionText;
         }
 
         public static string RetrieveEventControlCanvasInteractionsText(string languageCode, EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO)

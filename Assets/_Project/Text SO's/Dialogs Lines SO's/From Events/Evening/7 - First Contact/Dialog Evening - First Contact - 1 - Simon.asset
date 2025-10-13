@@ -13,8 +13,24 @@ MonoBehaviour:
   m_Name: Dialog Evening - First Contact - 1 - Simon
   m_EditorClassIdentifier: 
   characterName: 0
-  dialogText: Vamos vamos vamos ... deberia tener baterias esto aun ...
+  dialogTextStructure:
+  - language: 0
+    dialogText: Vamos vamos vamos .. esto deberia tener algo de bateria aun ..
+  - language: 1
+    dialogText: C'mon C'mon C'mon .. this shuld still not be battery dried ..
   spanishDialogClip: {fileID: 8300000, guid: fba6fb94522cc4c88ba95fd4d5f06510, type: 3}
-  nextDialog: {fileID: 11400000, guid: e38c2feecce214bb385ed9f67ad33bdf, type: 2}
+  nextDialog: {fileID: 0}
   timeBeforeShowing: 0
-  options: []
+  dialogOptions:
+  - dialogOptionsStructures:
+    - language: 0
+      optionText: Opcion 1
+    - language: 1
+      optionText: Option 1
+    nextDialog: {fileID: 11400000, guid: 6b6d1dd228bd740d7ab4562a909c3ccd, type: 2}
+  - dialogOptionsStructures:
+    - language: 0
+      optionText: Opcion 2
+    - language: 1
+      optionText: Option 2
+    nextDialog: {fileID: 11400000, guid: e24bcafb80980479db355aa631b0f6d8, type: 2}
