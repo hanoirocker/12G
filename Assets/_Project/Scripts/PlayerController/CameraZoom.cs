@@ -1,20 +1,20 @@
 namespace TwelveG.PlayerController
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using Cinemachine;
     using UnityEngine;
-    using TwelveG.Utils;
 
     public class CameraZoom : MonoBehaviour
     {
         public CinemachineVirtualCamera activeVirtualCamera;
 
         [Header("Zoom Settings")]
-        [SerializeField, Range(40, 70f)] float defaultFOV = 60f;
+        // TODO: actualmente el default FOV se define acá pero deberiamos
+        // pasar este valor a una config general en algun manager .. para que se pueda
+        // guardar dicho valor desde los settings y este handler pueda acceder a dicho valor
+        [SerializeField, Range(40, 110f)] float defaultFOV = 80f;
 
         public float zoomSpeed = 10f;
-        private float zoomFOV = 30f;
+        private float zoomFOV = 40f;
         private bool isZooming = false;
 
         private void Update()
