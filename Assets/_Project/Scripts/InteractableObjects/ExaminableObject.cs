@@ -1,5 +1,3 @@
-namespace TwelveG.InteractableObjects
-{
   using System.Collections;
   using TwelveG.AudioController;
   using TwelveG.Localization;
@@ -9,11 +7,14 @@ namespace TwelveG.InteractableObjects
   using UnityEngine;
   using UnityEngine.EventSystems;
 
+namespace TwelveG.InteractableObjects
+{
   public class ExaminableObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
   {
-    [Header("References")]
+    [Header("Audio Settings")]
     [SerializeField] private AudioClip examineInClip;
     [SerializeField] private AudioClip examineOutClip;
+    [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.7f;
 
     [Header("Examination Texts SO's")]
     [SerializeField] private ExaminationTextSO examinationTextSO;
@@ -38,7 +39,7 @@ namespace TwelveG.InteractableObjects
 
     private void Awake()
     {
-      interactionSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
+      interactionSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
     }
 
     void Start()

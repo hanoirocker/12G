@@ -1,21 +1,23 @@
+using TwelveG.PlayerController;
+using System.Collections;
+using UnityEngine;
+using TwelveG.Localization;
+using TwelveG.AudioController;
+
 namespace TwelveG.InteractableObjects
 {
-    using TwelveG.PlayerController;
-    using System.Collections;
-    using UnityEngine;
-    using TwelveG.Localization;
-
     public class SlideDoorHandler : MonoBehaviour, IInteractable
     {
         [Header("Object Settings: ")]
         [SerializeField] private GameObject door;
         [SerializeField] private bool doorIsOpen;
         [SerializeField] Transform parent;
+        [SerializeField, Range(0.5f, 1.5f)] float slidingDuration;
 
         [Header("Audio Settings: ")]
-
         [SerializeField] AudioClip openingDoorSound;
         [SerializeField] AudioClip closingDoorSound;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.8f;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
@@ -34,7 +36,6 @@ namespace TwelveG.InteractableObjects
 
         private void Start()
         {
-            audioSource = GetComponent<AudioSource>();
             doorTag = door.tag;
         }
 
@@ -67,22 +68,29 @@ namespace TwelveG.InteractableObjects
 
         private float PlayDoorSounds()
         {
-            if (doorIsOpen)
+            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+
+            if (doorIsOpen && closingDoorSound != null)
             {
                 audioSource.PlayOneShot(closingDoorSound);
                 return closingDoorSound.length;
             }
-            else
+            else if (!doorIsOpen && openingDoorSound != null)
             {
                 audioSource.PlayOneShot(openingDoorSound);
                 return openingDoorSound.length;
+            }
+            else
+            {
+                return slidingDuration;
             }
         }
 
         private IEnumerator SlideDoorOpen(Vector3 targetPosition)
         {
             isMoving = true;
-            float duration = 1f; // Adjust the duration of the rotation as needed
+            float duration = PlayDoorSounds();
+
             float elapsedTime = 0f;
             Vector3 startPosition = door.transform.position;
 

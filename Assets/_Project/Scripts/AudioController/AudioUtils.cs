@@ -42,5 +42,14 @@ namespace TwelveG.AudioController
       // Asegurarnos que esté entre 0 y 1
       return Mathf.Clamp01(normalizedValue);
     }
+
+    public static AudioSource GetAudioSourceForInteractable(Transform transform, float clipsVolume)
+    {
+      AudioSource audioSource = AudioManager.Instance.
+          PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
+      audioSource.transform.position = transform.position;
+      audioSource.volume = clipsVolume;
+      return audioSource;
+    }
   }
 }

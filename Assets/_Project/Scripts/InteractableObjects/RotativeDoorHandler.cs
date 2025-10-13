@@ -1,17 +1,17 @@
+using TwelveG.PlayerController;
+using System.Collections;
+using UnityEngine;
+using TwelveG.Localization;
+using TwelveG.AudioController;
+
 namespace TwelveG.InteractableObjects
 {
-    using TwelveG.PlayerController;
-    using System.Collections;
-    using UnityEngine;
-    using TwelveG.Localization;
-
     public class RotativeDoorHandler : MonoBehaviour, IInteractable
     {
         [Header("Object settings: ")]
         [SerializeField] private GameObject door;
         [SerializeField] private bool doorIsOpen;
         [SerializeField] Animation doorPickAnimation;
-        [SerializeField] Transform parent;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
@@ -20,15 +20,10 @@ namespace TwelveG.InteractableObjects
         [Header("Audio settings: ")]
         [SerializeField] private AudioClip openingDoorSound;
         [SerializeField] private AudioClip closingDoorSound;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.7f;
 
-        AudioSource audioSource;
         private bool isMoving;
         private Quaternion initialRotation;
-
-        private void Awake()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
 
         private void Start()
         {
@@ -46,13 +41,16 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-
         private IEnumerator RotateDoor(Quaternion targetRotation)
         {
-            // Right now: Coroutine time depends on the length of the opening/closing audio clips.
-
             isMoving = true;
-            float coroutineDuration = PlayDoorSounds();
+
+            AudioClip clip = doorIsOpen ? closingDoorSound : openingDoorSound;
+            AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            audioSource.clip = clip;
+            audioSource.Play();
+
+            float coroutineDuration = clip.length;
             float elapsedTime = 0f;
             Quaternion startRotation = door.transform.localRotation;
 
@@ -62,24 +60,11 @@ namespace TwelveG.InteractableObjects
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
+
             door.transform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
             isMoving = false;
             audioSource.Stop();
-        }
-
-        private float PlayDoorSounds()
-        {
-            if (doorIsOpen)
-            {
-                audioSource.PlayOneShot(closingDoorSound);
-                return closingDoorSound.length;
-            }
-            else
-            {
-                audioSource.PlayOneShot(openingDoorSound);
-                return openingDoorSound.length;
-            }
         }
 
         public bool Interact(PlayerInteraction interactor)

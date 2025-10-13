@@ -1,10 +1,10 @@
+using System.Collections.Generic;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-  using System.Collections.Generic;
-  using TwelveG.Localization;
-  using TwelveG.PlayerController;
-  using UnityEngine;
-
   public class ObjectExaminationHandler : MonoBehaviour, IInteractable
   {
     [Header("References")]

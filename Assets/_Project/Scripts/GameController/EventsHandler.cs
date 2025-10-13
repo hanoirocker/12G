@@ -47,11 +47,6 @@ namespace TwelveG.GameController
                 currentExecutingEvent.gameObject.SetActive(true);
                 SetUpCurrentEvent();
 
-                if (loadSpecificEvent && currentEventIndex == eventIndexToLoad)
-                {
-                    onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-                }
-
                 // Ejecutar y almacenar referencia a la corrutina
                 currentEventCoroutine = StartCoroutine(ExecuteSingleEvent(currentExecutingEvent));
                 yield return currentEventCoroutine;

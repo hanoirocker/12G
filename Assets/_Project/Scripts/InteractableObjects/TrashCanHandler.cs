@@ -1,14 +1,15 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TwelveG.AudioController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using TwelveG.UIController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using TwelveG.UIController;
-    using UnityEngine;
-
     public class TrashCanHandler : MonoBehaviour, IInteractable
     {
         [Header("Objects needed to interact")]
@@ -20,9 +21,10 @@ namespace TwelveG.InteractableObjects
         [Header("Visual settings")]
         [SerializeField] private bool fadesImage = false;
 
-        [Header("Top door settings")]
+        [Header("Audio settings")]
         [SerializeField] private AudioClip openingDoorSound;
         [SerializeField] private AudioClip closingDoorSound;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.7f;
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO trowAwayTrash;
@@ -36,11 +38,6 @@ namespace TwelveG.InteractableObjects
         private Quaternion initialRotation;
         private bool doorIsOpen = false;
         private float defaultRotationTime = 1f;
-
-        private void Awake()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
 
         private void Start()
         {
@@ -126,6 +123,8 @@ namespace TwelveG.InteractableObjects
 
         private float PlayDoorSounds()
         {
+            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+
             if (doorIsOpen && closingDoorSound != null)
             {
                 audioSource.PlayOneShot(closingDoorSound);

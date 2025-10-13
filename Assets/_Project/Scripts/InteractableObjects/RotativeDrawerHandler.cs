@@ -1,10 +1,11 @@
+using System.Collections;
+using TwelveG.AudioController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System.Collections;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using UnityEngine;
-
     public class RotativeDrawerHandler : MonoBehaviour, IInteractable
     {
         [Header("Drawer Settings: ")]
@@ -19,6 +20,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private AudioClip closingDoorSound;
         [SerializeField, Range(-2f, 2f)] private float openingSoundOffset = 0f;
         [SerializeField, Range(-2f, 2f)] private float closingSoundOffset = 0f;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
@@ -28,14 +30,8 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private bool doorIsOpen;
         [SerializeField, Range(1f, 3f)] private float rotatingDuration = 0.9f;
 
-        AudioSource audioSource;
         private bool isMoving;
         private Quaternion initialRotation;
-
-        private void Awake()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
 
         private void Start()
         {
@@ -80,6 +76,8 @@ namespace TwelveG.InteractableObjects
 
         private float PlayDoorSounds()
         {
+            AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+
             if (doorIsOpen & closingDoorSound != null)
             {
                 audioSource.PlayOneShot(closingDoorSound);

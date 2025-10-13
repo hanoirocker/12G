@@ -1,18 +1,20 @@
+using System;
+using TwelveG.PlayerController;
+using TwelveG.Localization;
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TwelveG.AudioController;
+
 namespace TwelveG.InteractableObjects
 {
-  using System;
-  using TwelveG.PlayerController;
-  using TwelveG.Localization;
-  using UnityEngine;
-  using System.Collections;
-  using System.Collections.Generic;
-
   public class OldRadioHandler : MonoBehaviour, IInteractable
   {
-    [Header("Sound settings")]
+    [Header("Audio settings")]
     [SerializeField] private AudioClip turnOnClip = null;
     [SerializeField] private AudioClip changeDialClip = null;
     [SerializeField] private AudioClip firstClip = null;
+    [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
 
     [Header("Texts SO")]
     [SerializeField] private InteractionTextSO interactionTextsSO_turnOn;
@@ -27,11 +29,6 @@ namespace TwelveG.InteractableObjects
     public bool turnedOnByEvent = false;
 
     private AudioSource audioSource;
-
-    private void Awake()
-    {
-      audioSource = GetComponent<AudioSource>();
-    }
 
     public bool CanBeInteractedWith(PlayerInteraction playerCamera)
     {
@@ -50,6 +47,8 @@ namespace TwelveG.InteractableObjects
 
     public bool Interact(PlayerInteraction playerCamera)
     {
+      audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+  
       if (isTurnedOn)
       {
         audioSource.Stop();

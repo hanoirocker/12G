@@ -1,9 +1,9 @@
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using UnityEngine;
-
     public class LightsHandler : MonoBehaviour, IInteractable
     {
         [Header("Interaction Texts SO")]

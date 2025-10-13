@@ -1,9 +1,9 @@
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using UnityEngine;
-
     public class MainDoorsHandler : MonoBehaviour, IInteractable
     {
         [SerializeField] private bool isMainEntranceDoor;
@@ -47,7 +47,7 @@ namespace TwelveG.InteractableObjects
 
         public ObservationTextSO GetFallBackText()
         {
-            if(isMainEntranceDoor) { return observationFallbackTextRecieved; }
+            if (isMainEntranceDoor) { return observationFallbackTextRecieved; }
             return observationFallbackTextDefault;
         }
     }

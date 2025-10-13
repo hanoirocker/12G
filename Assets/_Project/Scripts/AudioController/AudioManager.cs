@@ -118,6 +118,14 @@ namespace TwelveG.AudioController
             SetSFXVol(initialSFXVol);
         }
 
+        public void PauseGame(Component sender, object data)
+        {
+            if (data != null)
+            {
+                PoolsHandler.PauseActiveAudioSources((bool)data);
+            }
+        }
+
         public void SetMasterVol(float masterVol)
         {
             masterMixer.SetFloat("masterVol", AudioUtils.NormalizedToDecibels(masterVol));

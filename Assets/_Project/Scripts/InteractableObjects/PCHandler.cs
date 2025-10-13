@@ -1,21 +1,22 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TwelveG.PlayerController;
+using TwelveG.Localization;
+using UnityEngine;
+using TwelveG.AudioController;
+
 namespace TwelveG.InteractableObjects
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using TwelveG.PlayerController;
-    using TwelveG.Localization;
-    using UnityEngine;
-
     public class PCHandler : MonoBehaviour, IInteractable
     {
         [Header("Sound settings")]
         [SerializeField] private AudioClip startUP = null;
         [SerializeField] private AudioClip click = null;
 
-        [Header("Other components settings")]
-        [SerializeField] private AudioSource audioSource;
+        [Header("Audio and other settings")]
         [SerializeField] private GameObject contemplableObject;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
         [SerializeField] private List<GameObject> pcScreens = new List<GameObject>();
 
         [Header("Texts SO")]
@@ -58,6 +59,8 @@ namespace TwelveG.InteractableObjects
         {
             // Aca avisamos al LostSignal que comenzamos de usar la PC
             onPC.Raise(this, null);
+
+            AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
 
             GetComponent<SphereCollider>().enabled = false;
 

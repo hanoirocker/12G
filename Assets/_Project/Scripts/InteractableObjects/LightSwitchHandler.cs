@@ -1,9 +1,10 @@
+using TwelveG.PlayerController;
+using TwelveG.Localization;
+using UnityEngine;
+using TwelveG.AudioController;
+
 namespace TwelveG.InteractableObjects
 {
-    using TwelveG.PlayerController;
-    using TwelveG.Localization;
-    using UnityEngine;
-
     public class LightSwitchHandler : MonoBehaviour, IInteractable
     {
         [Header("Object settings: ")]
@@ -14,6 +15,10 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private InteractionTextSO interactionTextsSO_turnOn;
         [SerializeField] private InteractionTextSO interactionTextsSO_turnOff;
 
+        [Header("Audio settings")]
+        [SerializeField] private AudioClip clickSound;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
+
         private Light lampLight;
         private Material bulbMaterial;
         private AudioSource audioSource;
@@ -21,7 +26,6 @@ namespace TwelveG.InteractableObjects
 
         private void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
             lampLight = lamp.GetComponentInChildren<Light>();
         }
 
@@ -41,6 +45,9 @@ namespace TwelveG.InteractableObjects
             {
                 ToogleEmission();
             }
+
+            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            audioSource.clip = clickSound;
 
             lampLight.enabled = !lampLight.enabled;
             lampIsActive = !lampIsActive;
@@ -66,7 +73,7 @@ namespace TwelveG.InteractableObjects
 
         public InteractionTextSO RetrieveInteractionSO()
         {
-            return lampIsActive? interactionTextsSO_turnOff : interactionTextsSO_turnOn;
+            return lampIsActive ? interactionTextsSO_turnOff : interactionTextsSO_turnOn;
         }
 
         public bool Interact(PlayerInteraction interactor)

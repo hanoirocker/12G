@@ -1,11 +1,12 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TwelveG.AudioController;
+using TwelveG.Localization;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using TwelveG.Localization;
-    using UnityEngine;
-
     public class PhoneInventoryHandler : MonoBehaviour
     {
         [Header("Screens references")]
@@ -13,7 +14,8 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private GameObject[] phoneScreens_en;
 
         [Header("Sound settings")]
-        [SerializeField] private AudioClip messageSendClip;
+        [SerializeField] private AudioClip messageSendClip = null;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
 
         [Header("Interaction Texts SO's")]
         [SerializeField] private List<ObservationTextSO> observationTextSOs = new List<ObservationTextSO>();
@@ -26,6 +28,7 @@ namespace TwelveG.InteractableObjects
 
         private GameObject[] currentPhoneScreenList = null;
         private LocalizationManager localizationManager;
+        private AudioSource audioSource;
         private int screenIndex = 0;
         private string currentLanguage = null;
 
@@ -68,6 +71,8 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator PhoneInventoryCoroutine()
         {
+            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+
             // Aca cambia a la pantalla de apps
             ChangePhoneScreen();
             yield return new WaitForSeconds(3f);
@@ -86,7 +91,7 @@ namespace TwelveG.InteractableObjects
 
             // Aca cambia a la pantalla de Mica 2 (envia 1er mensaje)
             ChangePhoneScreen();
-            GetComponent<AudioSource>().PlayOneShot(messageSendClip);
+            audioSource.PlayOneShot(messageSendClip);
 
             yield return new WaitForSeconds(8f);
             // ............................................;
@@ -95,7 +100,7 @@ namespace TwelveG.InteractableObjects
             // Aca cambia a la pantalla de Mica 3 (envia 2do mensaje)
             yield return new WaitForSeconds(4f);
             ChangePhoneScreen();
-            GetComponent<AudioSource>().PlayOneShot(messageSendClip);
+            audioSource.PlayOneShot(messageSendClip);
 
             yield return new WaitForSeconds(7f);
             // Menos mal que no pago por todos estos servicios, aún...

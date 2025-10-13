@@ -1,20 +1,23 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Cinemachine;
+using TwelveG.AudioController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using TwelveG.Utils;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using Cinemachine;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using TwelveG.Utils;
-    using UnityEngine;
-
     public class BackpackHandler : MonoBehaviour, IInteractable
     {
         [Header("Settings")]
         [SerializeField, Range(2, 4)] private int cameraTrasitionTime = 2;
-        [Header("Sound settings")]
+
+        [Header("Audio settings")]
         [SerializeField] private List<AudioClip> searchingSounds = null;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
 
         [Header("Interaction Texts SO's")]
         [SerializeField] private InteractionTextSO interactionTextsSO;
@@ -26,14 +29,8 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private GameEventSO onVirtualCamerasControl;
         [SerializeField] private GameEventSO onMainCameraSettings;
 
-        private AudioSource audioSource;
         private Animation backpackAnimation = null;
         private bool canBeInteractedWith = true;
-
-        private void Start()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
 
         public bool CanBeInteractedWith(PlayerInteraction playerCameraObject)
         {
@@ -61,6 +58,8 @@ namespace TwelveG.InteractableObjects
         private IEnumerator CheckBag(PlayerInteraction playerCameraObject)
         {
             canBeInteractedWith = false;
+
+            AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
 
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));

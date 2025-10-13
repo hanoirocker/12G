@@ -1,22 +1,22 @@
+using System.Collections;
+using Cinemachine;
+using TwelveG.AudioController;
+using TwelveG.PlayerController;
+using TwelveG.Utils;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System.Collections;
-    using Cinemachine;
-    using TwelveG.AudioController;
-    using TwelveG.PlayerController;
-    using TwelveG.Utils;
-    using Unity.VisualScripting;
-    using UnityEngine;
-
     public class SafeBoxKeyboardHandler : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] private GameObject safeBoxCanvas;
 
-        [Header("Audio Clips")]
+        [Header("Audio Settings")]
         [SerializeField] private AudioClip inputClip;
         [SerializeField] private AudioClip errorClip;
         [SerializeField] private AudioClip unlockClip;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.7f;
 
         [Header("Safe Combination")]
         [SerializeField] private string correctCombination = "1234";
@@ -41,7 +41,7 @@ namespace TwelveG.InteractableObjects
 
         void OnEnable()
         {
-            audioSource  = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
+            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
             StartCoroutine(InteractWithKeyboard());
         }
 

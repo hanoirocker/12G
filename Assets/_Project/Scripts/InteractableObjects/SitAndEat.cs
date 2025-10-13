@@ -1,13 +1,13 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using UnityEngine;
-
     public class SitAndEat : MonoBehaviour, IInteractable
     {
         [Header("Objects needed to interact")]
@@ -74,7 +74,7 @@ namespace TwelveG.InteractableObjects
 
             RemoveUsedItems(playerCamera);
             Instantiate(emptyPlate, plateTransform);
-    
+
             GetComponent<BoxCollider>().enabled = false;
             yield return null;
         }

@@ -1,14 +1,15 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TwelveG.AudioController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using TwelveG.UIController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using TwelveG.UIController;
-    using UnityEngine;
-
     public class CleanBirdsHandler : MonoBehaviour, IInteractable
     {
         [Header("Objects to Modify")]
@@ -22,6 +23,10 @@ namespace TwelveG.InteractableObjects
 
         [Header("Visual settings")]
         [SerializeField] private bool fadesImage = false;
+
+        [Header("Audio settings")]
+        [SerializeField] private AudioClip cleaningSound = null;
+        [SerializeField] [Range(0f, 1f)] private float cleaningSoundVolume = 0.8f;
 
         [Header("EventsSO references")]
         public GameEventSO cleanZoomBird;
@@ -40,11 +45,6 @@ namespace TwelveG.InteractableObjects
         private AudioSource audioSource;
         private bool canBeInteractedWith = true;
         private bool resultsInConsequentObjects = false;
-
-        private void Awake()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
 
         void Start()
         {
@@ -100,8 +100,8 @@ namespace TwelveG.InteractableObjects
         private IEnumerator CleanBirds(List<GameObject> objectsToModify, PlayerInteraction playerCamera)
         {
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-
-            audioSource.Play();
+            audioSource = AudioUtils.GetAudioSourceForInteractable(this.gameObject.transform, cleaningSoundVolume);
+            audioSource.PlayOneShot(cleaningSound);
 
             if (fadesImage)
             {

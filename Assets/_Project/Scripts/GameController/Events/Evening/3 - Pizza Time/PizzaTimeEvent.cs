@@ -2,7 +2,8 @@ namespace TwelveG.GameController
 {
     using System.Collections;
     using System.Collections.Generic;
-    using TwelveG.Localization;
+  using TwelveG.AudioController;
+  using TwelveG.Localization;
     using TwelveG.PlayerController;
     using TwelveG.UIController;
     using TwelveG.Utils;
@@ -19,6 +20,7 @@ namespace TwelveG.GameController
 
         [Header("Audio settings")]
         [SerializeField] private AudioClip chairMovingSound = null;
+        [SerializeField] [Range(0f, 1f)] private float chairMovingSoundVolume = 0.8f;
 
         [Header("Text event SO")]
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
@@ -30,7 +32,6 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO onImageCanvasControls;
         [SerializeField] private GameEventSO onObservationCanvasShowText;
         [SerializeField] private GameEventSO onEventInteractionCanvasShowText;
-        [SerializeField] private GameEventSO onInteractionCanvasShowText;
         [SerializeField] private GameEventSO onInteractionCanvasControls;
         [SerializeField] private GameEventSO onPlayerControls;
         [SerializeField] private GameEventSO onControlCanvasControls;
@@ -42,14 +43,8 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO pizzaCanBePicked;
         [SerializeField] private GameEventSO updateFallbackTexts;
 
-        private AudioSource audioSource;
         private bool allowNextAction = false;
         private int eventObservationTextIndex = 0;
-
-        private void Awake()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
 
         public override IEnumerator Execute()
         {
@@ -105,6 +100,8 @@ namespace TwelveG.GameController
 
             if (chairMovingSound)
             {
+                AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
+                audioSource.volume = chairMovingSoundVolume;
                 audioSource.PlayOneShot(chairMovingSound);
                 yield return new WaitUntil(() => !audioSource.isPlaying);
             }

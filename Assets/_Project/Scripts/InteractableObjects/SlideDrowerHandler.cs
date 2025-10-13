@@ -1,10 +1,11 @@
+using System.Collections;
+using TwelveG.AudioController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System.Collections;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using UnityEngine;
-
     public class SlideDrowerHandler : MonoBehaviour, IInteractable
     {
         [Header("Drawer Settings: ")]
@@ -18,6 +19,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private AudioClip closingDoorSound;
         [SerializeField, Range(-2f, 2f)] private float openingSoundOffset = 0f;
         [SerializeField, Range(-2f, 2f)] private float closingSoundOffset = 0f;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
 
         [Header("Testing Settings: ")]
         [SerializeField] private bool doorIsOpen;
@@ -27,15 +29,8 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
         [SerializeField] private InteractionTextSO interactionTextsSO_close;
 
-        private AudioSource audioSource;
-
         private Vector3 initialPosition = new Vector3();
         private bool isMoving = false;
-
-        private void Awake()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
 
         private void Start()
         {
@@ -58,15 +53,15 @@ namespace TwelveG.InteractableObjects
 
         private float PlaySlidingDrawerSounds()
         {
+            AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+
             if (doorIsOpen & closingDoorSound != null)
             {
-                Debug.Log("Play Close Sound");
                 audioSource.PlayOneShot(closingDoorSound);
                 return closingDoorSound.length + closingSoundOffset;
             }
             else if (!doorIsOpen & openingDoorSound != null)
             {
-                Debug.Log("Play Open Sound");
                 audioSource.PlayOneShot(openingDoorSound);
                 return openingDoorSound.length + openingSoundOffset;
             }

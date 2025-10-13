@@ -1,12 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using TwelveG.Localization;
+using TwelveG.UIController;
+using UnityEngine;
+using UnityEngine.Video;
+
 namespace TwelveG.PlayerController
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using TwelveG.Localization;
-    using TwelveG.UIController;
-    using UnityEngine;
-    using UnityEngine.Video;
-
     public class TVHandler : MonoBehaviour
     {
         [System.Serializable]
@@ -235,7 +235,7 @@ namespace TwelveG.PlayerController
         }
 
         public void AllowPlayerToInteractWithTV(Component sender, object data)
-        {        
+        {
             playerIsAllowedToInteract = (bool)data;
 
             if (!(bool)data && playerIsInteracting)

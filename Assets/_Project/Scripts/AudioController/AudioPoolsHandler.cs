@@ -12,6 +12,7 @@ namespace TwelveG.AudioController
     Interaction,
     Wind,
     Dialogs,
+    Player
   }
 
   public enum WeatherEvent
@@ -32,12 +33,24 @@ namespace TwelveG.AudioController
     [SerializeField] private List<AudioSource> InteractionSources;
     [SerializeField] private List<AudioSource> UISources;
     [SerializeField] private List<AudioSource> DialogsSources;
+    [SerializeField] private List<AudioSource> PlayerSources;
+
+    [Header("Pause Settings")]
+    [SerializeField]
+    private AudioPoolType[] poolsToPause = new AudioPoolType[] {
+    AudioPoolType.Dialogs,
+    AudioPoolType.Interaction,
+    AudioPoolType.BGMusic,
+    AudioPoolType.Environment,
+    AudioPoolType.Player
+    };
 
     [Header("Audio References")]
     [SerializeField] private AudioClip softWindClip;
     [SerializeField] private AudioClip softRainClip;
 
     private Dictionary<AudioPoolType, List<AudioSource>> poolMap;
+    private List<AudioSource> lastActiveAudioSources = new List<AudioSource>();
 
     private void Awake()
     {
@@ -47,8 +60,42 @@ namespace TwelveG.AudioController
         { AudioPoolType.Environment, EnvironmentSources },
         { AudioPoolType.Interaction, InteractionSources },
         { AudioPoolType.UI, UISources },
-        { AudioPoolType.Dialogs, DialogsSources}
+        { AudioPoolType.Dialogs, DialogsSources},
+        { AudioPoolType.Player, PlayerSources}
       };
+    }
+
+    public void PauseActiveAudioSources(bool pauseSources)
+    {
+      if (pauseSources)
+      {
+        lastActiveAudioSources.Clear();
+
+        foreach (AudioPoolType poolType in poolsToPause)
+        {
+          if (poolMap.TryGetValue(poolType, out List<AudioSource> sources))
+          {
+            foreach (AudioSource audioSource in sources)
+            {
+              if (audioSource != null && audioSource.isPlaying)
+              {
+                lastActiveAudioSources.Add(audioSource);
+                audioSource.Pause();
+              }
+            }
+          }
+        }
+      }
+      else
+      {
+        foreach (AudioSource audioSource in lastActiveAudioSources)
+        {
+          if (audioSource != null)
+          {
+            audioSource.UnPause();
+          }
+        }
+      }
     }
 
     public List<AudioSource> ReturnAudioSourceByType(AudioPoolType audioPoolType)

@@ -1,13 +1,14 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TwelveG.AudioController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using UnityEngine;
-
     public class MicrowaveHandler : MonoBehaviour, IInteractable
     {
         [Header("Objects needed to interact")]
@@ -18,22 +19,23 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private GameObject pizzaSlice = null;
         [SerializeField] private Transform plateTransform = null;
 
-        [Header("Sound settings")]
+        [Header("Audio settings")]
         [SerializeField] private AudioClip heatingSound = null;
         [SerializeField] private AudioClip managePlate = null;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
 
         [Header("Other components settings")]
         [SerializeField] private RotativeDrawerHandler rotativeDrawerHandler;
-        [SerializeField] private AudioSource audioSource;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
         [SerializeField] private InteractionTextSO interactionTextsSO_close;
-        
+
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO pizzaHeatingFinished;
 
         private List<String> playerItems = new List<String>();
+        private AudioSource audioSource;
         private float heatingTime;
 
         public bool CanBeInteractedWith(PlayerInteraction playerCamera)
@@ -76,6 +78,9 @@ namespace TwelveG.InteractableObjects
         private IEnumerator HeatPizza(PlayerInteraction playerCamera)
         {
             RemoveUsedItems(playerCamera);
+
+            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+
             audioSource.PlayOneShot(managePlate);
             GameObject heatedPizza = Instantiate(pizzaSlice, plateTransform);
             GetComponentInChildren<RotativeDrawerHandler>().Interact(playerCamera);

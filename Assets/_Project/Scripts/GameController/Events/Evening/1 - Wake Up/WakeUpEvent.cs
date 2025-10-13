@@ -40,6 +40,7 @@ namespace TwelveG.GameController
             print("<------ WAKE UP EVENT NOW -------->");
 
             onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            onImageCanvasControls.Raise(this, new EnableCanvas(true));
 
             yield return new WaitForSeconds(initialTime);
 
@@ -80,7 +81,7 @@ namespace TwelveG.GameController
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
+            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
             if (audioSource != null && standUpClip != null)
             {
                 audioSource.PlayOneShot(standUpClip);

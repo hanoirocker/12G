@@ -1,13 +1,15 @@
-namespace TwelveG.InteractableObjects
-{
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using TwelveG.AudioController;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
     using UnityEngine;
 
+
+namespace TwelveG.InteractableObjects
+{
     public class PizzaHandler : MonoBehaviour, IInteractable
     {
         [Header("Objects to Modify")]
@@ -20,8 +22,9 @@ namespace TwelveG.InteractableObjects
         [Header("Resulting Objects")]
         [SerializeField] private List<ItemType> resultingObjectsType;
 
-        [Header("Sound settings")]
+        [Header("Audio settings")]
         [SerializeField] private AudioClip actionSound;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onPlayerControls;
@@ -36,12 +39,6 @@ namespace TwelveG.InteractableObjects
         private bool canBeInteractedWith = true;
         private bool sliceHasBeenTaken = false;
         private bool pizzaBoxIsOpen = false;
-        private AudioSource audioSource;
-
-        private void Awake()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
 
         public bool CanBeInteractedWith(PlayerInteraction playerCamera)
         {
@@ -50,7 +47,7 @@ namespace TwelveG.InteractableObjects
 
         public InteractionTextSO RetrieveInteractionSO()
         {
-            if(sliceHasBeenTaken) { return null; }
+            if (sliceHasBeenTaken) { return null; }
             return interactionTextsSO;
         }
 
@@ -94,7 +91,12 @@ namespace TwelveG.InteractableObjects
         private IEnumerator RotateBoxTop()
         {
             canBeInteractedWith = false;
-            if (actionSound) { audioSource.PlayOneShot(actionSound); }
+            AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+
+            if (actionSound)
+            {
+                audioSource.PlayOneShot(actionSound);
+            }
 
             Quaternion initialRotation = boxTop.transform.localRotation;
             Quaternion targetRotation;

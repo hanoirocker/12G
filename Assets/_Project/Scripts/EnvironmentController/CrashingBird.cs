@@ -1,11 +1,16 @@
+using TwelveG.AudioController;
+using UnityEngine;
+
 namespace TwelveG.EnvironmentController
 {
-    using UnityEngine;
-
     public class CrashingBird : MonoBehaviour
     {
+        [Header("Movement Settings")]
         [SerializeField] float moveSpeed = 1000f;
-        [SerializeField] AudioSource audioSource;
+
+        [Header("Audio Settings")]
+        [SerializeField] private AudioClip crashingBirdClip = null;
+        [SerializeField, Range(0f, 1f)] private float crashingVolume = 0.8f;
 
         private Rigidbody rb;
 
@@ -28,6 +33,8 @@ namespace TwelveG.EnvironmentController
         {
             if (other.gameObject.tag == "Window")
             {
+                AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, crashingVolume);
+                audioSource.clip = crashingBirdClip;
                 audioSource.Play();
             }
         }

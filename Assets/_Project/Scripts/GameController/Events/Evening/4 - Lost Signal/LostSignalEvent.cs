@@ -1,8 +1,8 @@
 namespace TwelveG.GameController
 {
     using System.Collections;
-  using TwelveG.AudioController;
-  using TwelveG.Localization;
+    using TwelveG.AudioController;
+    using TwelveG.Localization;
     using TwelveG.PlayerController;
     using TwelveG.UIController;
     using TwelveG.Utils;
@@ -72,9 +72,10 @@ namespace TwelveG.GameController
 
             StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
 
-            // onInteractionCanvasShowText.Raise(this, "LEVANTARSE [E]");
             onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
+
+            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             onInteractionCanvasControls.Raise(this, new HideText());
 
@@ -89,10 +90,7 @@ namespace TwelveG.GameController
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
 
-            yield return new WaitForSeconds(2f);
-
             onPlayerControls.Raise(this, new EnablePlayerControllers(true));
-
         }
 
         public void AllowNextActions(Component sender, object data)

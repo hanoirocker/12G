@@ -1,9 +1,10 @@
+using TwelveG.PlayerController;
+using TwelveG.Localization;
+using UnityEngine;
+using TwelveG.AudioController;
+
 namespace TwelveG.InteractableObjects
 {
-    using TwelveG.PlayerController;
-    using TwelveG.Localization;
-    using UnityEngine;
-
     public class LightGroupSwitchHandler : MonoBehaviour, IInteractable
     {
         [Header("Object settings: ")]
@@ -14,19 +15,24 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private InteractionTextSO interactionTextsSO_turnOn;
         [SerializeField] private InteractionTextSO interactionTextsSO_turnOff;
 
+        [SerializeField] private AudioClip clickSound;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
+
         private bool lightsAreActive;
         private Material bulbMaterial;
         private AudioSource audioSource;
 
         private void Start()
         {
-            audioSource = GetComponent<AudioSource>();
             lightsAreActive = false;
         }
 
         private void ToogleLights()
         {
             ToogleEmissions();
+
+            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            audioSource.clip = clickSound;
 
             foreach (Light singleLight in lights)
             {
@@ -61,7 +67,7 @@ namespace TwelveG.InteractableObjects
 
         public InteractionTextSO RetrieveInteractionSO()
         {
-            return lightsAreActive? interactionTextsSO_turnOff : interactionTextsSO_turnOn;
+            return lightsAreActive ? interactionTextsSO_turnOff : interactionTextsSO_turnOn;
         }
 
         public bool Interact(PlayerInteraction interactor)
