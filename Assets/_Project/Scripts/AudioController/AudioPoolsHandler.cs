@@ -124,7 +124,7 @@ namespace TwelveG.AudioController
     {
       foreach (AudioSource audioSource in sources)
       {
-        if (!audioSource.isPlaying || audioPoolType == AudioPoolType.Interaction)
+        if (!audioSource.isPlaying)
         {
           return audioSource;
         }

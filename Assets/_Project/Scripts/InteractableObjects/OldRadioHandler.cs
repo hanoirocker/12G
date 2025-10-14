@@ -47,8 +47,6 @@ namespace TwelveG.InteractableObjects
 
     public bool Interact(PlayerInteraction playerCamera)
     {
-      audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
-  
       if (isTurnedOn)
       {
         audioSource.Stop();
@@ -69,6 +67,7 @@ namespace TwelveG.InteractableObjects
     {
       if (turnOnClip != null)
       {
+        audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
         audioSource.PlayOneShot(turnOnClip);
         yield return new WaitUntil(() => !audioSource.isPlaying);
       }
@@ -87,6 +86,7 @@ namespace TwelveG.InteractableObjects
     {
       if (data != null)
       {
+        audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
         StartCoroutine(MakeObservation(0, 1f));
         audioSource.PlayOneShot((AudioClip)data);
         isTurnedOn = true;
