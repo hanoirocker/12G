@@ -87,6 +87,7 @@ namespace TwelveG.GameController
             onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
             yield return new WaitForSeconds(3f);
 
+            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
             // Activar TVTime - Main News timeline.
             onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(0, true));
 
