@@ -114,6 +114,10 @@ namespace TwelveG.GameController
             if (fromIndex)
             {
                 currentEventIndex = eventIndexToLoad;
+                if (eventIndexToLoad > 1)
+                {
+                    onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+                }
             }
 
             yield return StartCoroutine(ExecuteEventsFromCurrentIndex());

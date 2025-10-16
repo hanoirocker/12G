@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation - Dead Bird 1 - 1
+  m_Name: Contemplation - Dead Bird 1 - 2
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "No tiene sentido en absoluto. Habr\xE1 simplemente perdido su rumbo? Nah ..."
-    - "Este desastre no se va a limpiar por s\xED solo, mejor comienzo ya."
+    - "Definitivamente no volver\xE1 a volar."
   - language: 1
     contemplationTexts:
-    - It makes no sense at all. Did he just lose his way? Nah...
-    - 'This mess isn''t going to clean itself up, I better get started now. '
+    - Definitely won't fly again.

@@ -170,11 +170,6 @@ namespace TwelveG.InteractableObjects
             // Remueve la llave del inventario del jugador y destraba la puerta
             RemoveUsedItems(playerCamera);
             doorIsLocked = false;
-
-            GetComponent<RotativeDoorHandler>().enabled = true;
-            // Aca podria dispararse un Unity Event al desbloquear la puerta
-
-            this.gameObject.SetActive(false);
         }
 
         public bool VerifyIfPlayerCanInteract(PlayerInteraction playerCamera)
