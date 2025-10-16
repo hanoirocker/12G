@@ -1,8 +1,8 @@
+using Cinemachine;
+using UnityEngine;
+
 namespace TwelveG.Utils
 {
-    using Cinemachine;
-    using UnityEngine;
-
     public class VirtualCamerasHandler : MonoBehaviour
     {
         [Header("VC's references")]
@@ -22,6 +22,7 @@ namespace TwelveG.Utils
         public GameEventSO returnCurrentCamera;
 
         private CinemachineVirtualCamera currentActiveCamera;
+        private CinemachineVirtualCamera lastActiveCamera;
 
         private void Start()
         {
@@ -39,7 +40,6 @@ namespace TwelveG.Utils
                     currentActiveCamera = vc;
                 }
             }
-            // print("From VirtualCamerasHandler, active VC: " + currentActiveCamera.gameObject.name);
         }
 
         // TODO: ver la forma de simplificar el sistema, actualmente si se desactiva o activa una cam != playerVC, 
@@ -63,6 +63,19 @@ namespace TwelveG.Utils
                 }
 
                 setCurrentCamera.Raise(this, currentActiveCamera);
+            }
+            else if (data is ToggleIntoCinematicCameras enable)
+            {
+                if (enable.Enabled)
+                {
+                    lastActiveCamera = currentActiveCamera;
+                    currentActiveCamera.enabled = false;
+                }
+                else
+                {
+                    lastActiveCamera.enabled = true;
+                    lastActiveCamera = null;
+                }
             }
             else
             {

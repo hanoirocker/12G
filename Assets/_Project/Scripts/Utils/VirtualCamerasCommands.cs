@@ -30,6 +30,12 @@ namespace TwelveG.Utils
     }
   }
 
+  public class ToggleIntoCinematicCameras : VirtualCamerasCommandsBase
+  {
+    public bool Enabled;
+    public ToggleIntoCinematicCameras(bool enabled) => Enabled = enabled;
+  }
+
   public class SetCameraBlend : VirtualCamerasCommandsBase
   {
     public CinemachineBlendDefinition.Style Style;
