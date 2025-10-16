@@ -6,14 +6,11 @@ namespace TwelveG.PlayerController
     public class CameraZoom : MonoBehaviour
     {
         public CinemachineVirtualCamera activeVirtualCamera;
+        public float currentActiveCameraDefaultFOV;
 
         [Header("Zoom Settings")]
-        // TODO: actualmente el default FOV se define acá pero deberiamos
-        // pasar este valor a una config general en algun manager .. para que se pueda
-        // guardar dicho valor desde los settings y este handler pueda acceder a dicho valor
-        [SerializeField, Range(40, 110f)] float defaultFOV = 80f;
-
         public float zoomSpeed = 10f;
+        
         private float zoomFOV = 40f;
         private bool isZooming = false;
 
@@ -32,7 +29,7 @@ namespace TwelveG.PlayerController
             }
             else
             {
-                activeVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(activeVirtualCamera.m_Lens.FieldOfView, defaultFOV, Time.deltaTime * zoomSpeed);
+                activeVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(activeVirtualCamera.m_Lens.FieldOfView, currentActiveCameraDefaultFOV, Time.deltaTime * zoomSpeed);
                 isZooming = false;
             }
         }

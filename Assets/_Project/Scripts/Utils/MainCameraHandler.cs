@@ -13,8 +13,11 @@ namespace TwelveG.Utils
         {
             if (data != null)
             {
-                GetComponent<HeadLookAround>().activeVirtualCamera = (CinemachineVirtualCamera)data;
-                GetComponent<CameraZoom>().activeVirtualCamera = (CinemachineVirtualCamera)data;
+                CinemachineVirtualCamera cinemachineVirtualCamera = (CinemachineVirtualCamera)data;
+
+                GetComponent<HeadLookAround>().activeVirtualCamera = cinemachineVirtualCamera;
+                GetComponent<CameraZoom>().activeVirtualCamera = cinemachineVirtualCamera;
+                GetComponent<CameraZoom>().currentActiveCameraDefaultFOV = cinemachineVirtualCamera.m_Lens.FieldOfView;
             }
         }
 
