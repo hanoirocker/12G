@@ -9,7 +9,6 @@ namespace TwelveG.EnvironmentController
         [Header("References")]
         [SerializeField] private Light[] HouseLights;
 
-
         public void FlickerLights(Component sender, object data)
         {
             StartCoroutine(FlickerSequence((float)data));

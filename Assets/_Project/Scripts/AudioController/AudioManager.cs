@@ -1,10 +1,10 @@
+using TwelveG.SaveSystem;
+using TwelveG.UIController;
+using UnityEngine;
+using UnityEngine.Audio;
+
 namespace TwelveG.AudioController
 {
-    using TwelveG.SaveSystem;
-    using TwelveG.UIController;
-    using UnityEngine;
-    using UnityEngine.Audio;
-
     public enum AudioGroup
     {
         masterVol,

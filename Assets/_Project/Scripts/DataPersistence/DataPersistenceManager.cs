@@ -1,9 +1,9 @@
+using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
+
 namespace TwelveG.SaveSystem
 {
-    using UnityEngine;
-    using System.Linq;
-    using System.Collections.Generic;
-
     public class DataPersistenceManager : MonoBehaviour
     {
         [Header("File Storage Config")]

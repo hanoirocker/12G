@@ -1,10 +1,10 @@
-namespace TwelveG.UIController
-{
   using System.Collections.Generic;
   using TwelveG.SaveSystem;
   using UnityEngine;
   using UnityEngine.UI;
 
+namespace TwelveG.UIController
+{
   public enum CanvasHandlerType
   {
     Disclaimer,

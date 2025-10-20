@@ -10,6 +10,7 @@ namespace TwelveG.GameController
   {
     public static GameManager Instance;
 
+
     [Header("References")]
     public GameObject handlers;
 
