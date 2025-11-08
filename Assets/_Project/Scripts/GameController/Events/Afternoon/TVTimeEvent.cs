@@ -36,6 +36,7 @@ namespace TwelveG.GameController
         public GameEventSO allowPlayerToHandleTV;
         public GameEventSO activateRemoteController;
         public GameEventSO onMainCameraSettings;
+        public GameEventSO StartWeatherEvent;
 
 
         [Header("Settings")]
@@ -46,6 +47,7 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
+            StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
             AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
 
             print("<------ TV TIME EVENT NOW -------->");
