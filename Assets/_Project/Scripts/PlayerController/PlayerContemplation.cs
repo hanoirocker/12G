@@ -2,16 +2,14 @@ namespace TwelveG.PlayerController
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
-    using TwelveG.Localization;
-  using TwelveG.UIController;
-  using UnityEngine;
+    using TwelveG.UIController;
+    using UnityEngine;
 
     public class PlayerContemplation : MonoBehaviour
     {
         [Header("Raycast settings")]
         [SerializeField] private LayerMask contemplableMask;
-        [SerializeField, Range(0.5f, 5f)] private float contemplationRange = 1.2f;
+        [SerializeField, Range(0.5f, 5f)] private float contemplationRange = 3f;
         public Color raycastColor;
 
         [Header("Cameras Settings")]
@@ -32,7 +30,7 @@ namespace TwelveG.PlayerController
         }
 
         private void Start()
-        {   
+        {
             onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
         }
 
@@ -44,8 +42,6 @@ namespace TwelveG.PlayerController
             }
             else
             {
-                // TODO (OPTIMIZE): HACER ALGO CON ESTO, no se puede enviar una señal por frame
-                // si el jugador no está presionando el botón derecho!
                 onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
                 lastContemplatedObject?.IsAbleToBeContemplate(true);
             }
@@ -54,20 +50,36 @@ namespace TwelveG.PlayerController
         private void ContemplateObject()
         {
             Ray r = new Ray(interactorSource.position, interactorSource.forward);
+
             if (Physics.Raycast(r, out RaycastHit hitInfo, contemplationRange, contemplableMask))
             {
-                bool objectHasContemplableComponent = hitInfo.collider.gameObject.TryGetComponent(out IContemplable contemplableObj);
-                if (objectHasContemplableComponent && contemplableObj!.CanBeInteractedWith())
+                bool hasContemplable = hitInfo.collider.gameObject.TryGetComponent(out IContemplable contemplableObj);
+
+                if (hasContemplable && contemplableObj.CanBeInteractedWith())
                 {
+                    // Si estoy contemplando un objeto distinto al anterior
+                    if (lastContemplatedObject != null && lastContemplatedObject != contemplableObj)
+                    {
+                        lastContemplatedObject.IsAbleToBeContemplate(true);
+                    }
+
                     lastContemplatedObject = contemplableObj;
                     StartCoroutine(ContemplationCoroutine(contemplableObj));
                 }
             }
             else
             {
-                return;
+                // Si no golpeamos nada, re-habilitamos el último contemplado
+                if (lastContemplatedObject != null)
+                {
+                    lastContemplatedObject.IsAbleToBeContemplate(true);
+                    lastContemplatedObject = null;
+                }
+
+                onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
             }
         }
+
 
         private IEnumerator ContemplationCoroutine(IContemplable contemplableObj)
         {

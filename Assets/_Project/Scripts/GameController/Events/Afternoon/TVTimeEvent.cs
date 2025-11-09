@@ -47,10 +47,11 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
+            print("<------ TV TIME EVENT NOW -------->");
+
             StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
             AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
-
-            print("<------ TV TIME EVENT NOW -------->");
+            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
             enableTVHandler.Raise(this, null);
 
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
@@ -68,7 +69,6 @@ namespace TwelveG.GameController
 
             onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
             onControlCanvasControls.Raise(this, new EnableCanvas(true));
-            Debug.Log("Enable Canvas");
 
             onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
