@@ -7,12 +7,8 @@ namespace TwelveG.GameController
 {
     public class FirstContactEvent : GameEventBase
     {
-        [Header("References")]
-        // [SerializeField] private GameObject suicideTriggerColliders;
-
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 1;
-        // public Transform suicideViewTransform;
 
         [Header("Text event SO")]
         [SerializeField] private DialogSO firstEventDialog;
@@ -23,7 +19,6 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO startDialog;
 
         [Header("Other eventsSO references")]
-        // [SerializeField] private GameEventSO drawerCanBeInteracted;
 
         private bool allowNextAction = false;
 

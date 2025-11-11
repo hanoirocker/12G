@@ -22,3 +22,4 @@ Modelos:
 * Scifi_microwave_buttons by Artninja at freesound.org (AVISAR) https://freesound.org/people/Artninja/sounds/734960/
 * Incorrect Buzzer by Producing_RayLite  at freesound.org
 * Old and noisy wardrobe by nicola_ariutti at freesound.org
+* walkie_talkie_over_beep.m4a by MiscPractice at freesound.org
