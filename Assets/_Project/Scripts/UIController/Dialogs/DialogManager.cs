@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using TwelveG.AudioController;
 using TwelveG.Localization;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,19 +18,38 @@ namespace TwelveG.DialogsController
         private DialogSO currentDialog;
         private List<DialogOptions> currentOptions;
 
+        private DialogSO lastDialogTextSORecieved = null;
+
+        [SerializeField] Canvas dialogCanvas;
+
         [SerializeField] TextMeshProUGUI dialogCanvasText;
         [SerializeField] TextMeshProUGUI characterNameCanvasText;
 
-        private void Start()
+        private void OnEnable()
         {
-            dialogCanvasText.gameObject.SetActive(false);
-            characterNameCanvasText.gameObject.SetActive(false);
+            UpdateCanvasTextOnLanguageChanged();
+        }
+
+        void Start()
+        {
+            dialogCanvas.enabled = false;
         }
 
         public void HideDialog()
         {
-            dialogCanvasText.gameObject.SetActive(false);
-            characterNameCanvasText.gameObject.SetActive(false);
+            dialogCanvas.enabled = false;
+        }
+
+        public void UpdateCanvasTextOnLanguageChanged()
+        {
+            if (lastDialogTextSORecieved == null) return;
+
+            string textToShow = Utils.TextFunctions.RetrieveDialogText(
+                LocalizationManager.Instance.GetCurrentLanguageCode(),
+                lastDialogTextSORecieved
+            );
+
+            dialogCanvasText.text = textToShow;
         }
 
         public bool DialogIsShowing()
@@ -152,5 +172,7 @@ namespace TwelveG.DialogsController
             Cursor.visible = false;  // Oculta el cursor
             Cursor.lockState = CursorLockMode.Locked;  // Bloquea el cursor
         }
+
+        
     }
 }

@@ -156,6 +156,7 @@ namespace TwelveG.UIController
 
                 // Mostrar durante el tiempo calculado (interruptible por nueva preempción)
                 float displayDuration = Utils.TextFunctions.CalculateTextDisplayDuration(textToShow);
+                Debug.Log($"[ObservationCanvasHandler] Duration: {displayDuration}");
                 float elapsed = 0f;
 
                 while (elapsed < displayDuration)
