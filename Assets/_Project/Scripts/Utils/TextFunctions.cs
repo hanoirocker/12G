@@ -56,7 +56,7 @@ namespace TwelveG.Utils
                 return "DialogOptions is null";
             }
 
-            var languageStructure = dialogOptions.dialogOptionsStructures
+            var languageStructure = dialogOptions.nextDialog.dialogTextStructure
                 .Find(texts => texts.language.ToString().Equals(languageCode, System.StringComparison.OrdinalIgnoreCase));
 
             if (languageStructure == null)
@@ -64,7 +64,19 @@ namespace TwelveG.Utils
                 return "Language not found in DialogSO";
             }
 
-            return languageStructure.optionText;
+            // Acorta el texto conseguido por una version reducida a las primeras 6 palabras mas "..."
+            string optiontext = languageStructure.dialogText;
+            string[] words = languageStructure.dialogText.Split(' ');
+
+            if (words.Length <= 6)
+            {
+                return optiontext;
+            }
+            else
+            {
+                string shortenedText = string.Join(" ", words, 0, 6) + " ...";
+                return shortenedText;
+            }
         }
 
         public static string RetrieveEventControlCanvasInteractionsText(string languageCode, EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO)

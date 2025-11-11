@@ -15,9 +15,9 @@ MonoBehaviour:
   characterName: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Resultado de primera opcion
+    dialogText: Resultado de primera opcion para ver si funciona acortar el texto
   - language: 1
-    dialogText: First option result
+    dialogText: First option result to check if text is being actually shorten
   spanishDialogClip: {fileID: 8300000, guid: 7ac9894f01d664701a3c633a29248528, type: 3}
   nextDialog: {fileID: 11400000, guid: e38c2feecce214bb385ed9f67ad33bdf, type: 2}
   timeBeforeShowing: 2
