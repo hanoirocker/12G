@@ -109,16 +109,35 @@ namespace TwelveG.PlayerController
 
         private IEnumerator ToggleItem(GameObject item)
         {
-            // Si el item está activo, se ejecuta primero la animación de guardado
-            if (item.activeSelf)
+            Animator anim = item.GetComponent<Animator>();
+            if (anim == null)
+                yield break;
+
+            AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
+
+            if (anim.IsInTransition(0))
+                yield break;
+
+            bool isShown = state.IsName("IdleShown");
+            if (isShown && item.GetComponent<IInteractableItem>().CanBeToggled())
             {
-                item.GetComponent<Animator>().SetTrigger("HideItem");
-                yield return new WaitForSeconds(1.5f);
-                item.SetActive(false);
+                // Si está visible, ejecuta animación para ocultar
+                anim.ResetTrigger("ShowItem");
+                anim.SetTrigger("HideItem");
+
+                yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+            }
+            else if (!isShown && item.GetComponent<IInteractableItem>().CanBeToggled())
+            {
+                // Si está oculto, ejecuta animación para mostrar
+                anim.ResetTrigger("HideItem");
+                anim.SetTrigger("ShowItem");
+
+                yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
             }
             else
             {
-                item.SetActive(true);
+                yield return null;
             }
         }
 
@@ -141,6 +160,12 @@ namespace TwelveG.PlayerController
                 activeFlashlight.GetComponent<MeshRenderer>().enabled = !isExamining;
                 activeFlashlight.GetComponentInChildren<Light>().enabled = !isExamining;
             }
+        }
+
+        public void EnablePlayerItem(Component sender, object data)
+        {
+            ItemType itemType = (ItemType)data;
+            AddItem(itemType);
         }
 
         public void AddItem(ItemType itemType)

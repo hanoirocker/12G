@@ -1,5 +1,6 @@
 using System.Collections;
 using TwelveG.DialogsController;
+using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ namespace TwelveG.GameController
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO startDialog;
 
+        [SerializeField] private GameEventSO enablePlayerItem;
+
         [Header("Other eventsSO references")]
 
         private bool allowNextAction = false;
@@ -29,6 +32,8 @@ namespace TwelveG.GameController
             updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
             yield return new WaitForSeconds(initialTime);
+
+            enablePlayerItem.Raise(this, ItemType.WalkieTalkie);
 
             startDialog.Raise(this, firstEventDialog);
 

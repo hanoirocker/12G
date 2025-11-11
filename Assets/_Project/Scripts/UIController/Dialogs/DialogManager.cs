@@ -10,9 +10,15 @@ namespace TwelveG.DialogsController
 {
     public class DialogManager : MonoBehaviour
     {
+        [Header("References")]
         public GameObject optionsPanel;
         public GameObject dialogPanel;
         public GameObject buttonPrefab;
+
+        [Header("Audio")]
+        [SerializeField] AudioClip WTBeepClip;
+
+        [Header("Game Event SO's")]
         public GameEventSO conversationHasEnded;
 
         private DialogSO currentDialog;
@@ -83,6 +89,7 @@ namespace TwelveG.DialogsController
                     currentDialog
                 );
 
+            AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip);
             AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip);
             yield return ShowDialogCoroutine(currentDialog.characterName.ToString(), textToShow, currentDialog.spanishDialogClip.length);
 
