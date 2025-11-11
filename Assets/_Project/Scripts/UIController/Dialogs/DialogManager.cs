@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using TwelveG.AudioController;
 using TwelveG.Localization;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +11,7 @@ namespace TwelveG.DialogsController
     public class DialogManager : MonoBehaviour
     {
         public GameObject optionsPanel;
+        public GameObject dialogPanel;
         public GameObject buttonPrefab;
         public GameEventSO conversationHasEnded;
 
@@ -62,13 +62,12 @@ namespace TwelveG.DialogsController
             characterNameCanvasText.text = charName + ":";
             dialogCanvasText.text = dialog;
 
-            dialogCanvasText.gameObject.SetActive(true);
-            characterNameCanvasText.gameObject.SetActive(true);
+            dialogCanvas.enabled = true;
+            dialogPanel.SetActive(true);
 
             yield return new WaitForSeconds(audioClipDuration);
 
-            dialogCanvasText.gameObject.SetActive(false);
-            characterNameCanvasText.gameObject.SetActive(false);
+            dialogPanel.SetActive(false);
         }
 
         private IEnumerator StartDialogCoroutine(DialogSO currentDialog)
@@ -110,8 +109,8 @@ namespace TwelveG.DialogsController
         void ShowOptions()
         {
             optionsPanel.SetActive(true);
-            Cursor.visible = true;  // Muestra el cursor
-            Cursor.lockState = CursorLockMode.None;  // Desbloquea el cursor
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
 
             // Elimina cualquier botón existente
             foreach (Transform child in optionsPanel.transform)
@@ -140,14 +139,14 @@ namespace TwelveG.DialogsController
         {
             if (currentDialog.nextDialog != null)
             {
-                StartDialog(this, currentDialog.nextDialog); // Continúa al siguiente diálogo
+                StartDialog(this, currentDialog.nextDialog);
             }
             else
             {
                 // Fin del diálogo
-                print("No hay mas dialogos para mostrar, invocando conversationHasEnded");
+                Debug.Log("conversationHasEnded Raised from DialogManager");
                 conversationHasEnded.Raise(this, null);
-                optionsPanel.SetActive(false);
+                dialogCanvas.enabled = false;
             }
         }
 
@@ -161,7 +160,6 @@ namespace TwelveG.DialogsController
             }
             else
             {
-                // Fin del diálogo o acción adicional
                 HideOptions();
             }
         }
@@ -169,8 +167,8 @@ namespace TwelveG.DialogsController
         private void HideOptions()
         {
             optionsPanel.SetActive(false);
-            Cursor.visible = false;  // Oculta el cursor
-            Cursor.lockState = CursorLockMode.Locked;  // Bloquea el cursor
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         
