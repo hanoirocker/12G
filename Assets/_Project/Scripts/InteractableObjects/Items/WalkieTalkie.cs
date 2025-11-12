@@ -1,24 +1,15 @@
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using UnityEngine;
-
-    public class WalkieTalkie : MonoBehaviour, IInteractableItem
+    public class WalkieTalkie : PlayerItemBase
     {
-        private bool canBeToogled = true;
-
-        public void AllowItemToBeToggled(bool allow)
-        {
-            canBeToogled = allow;
+        private void OnEnable() {
+            
         }
 
-        public bool CanBeToggled()
-        {
-            return canBeToogled;
-        }
-
-        public bool Interact()
-        {
-            throw new System.NotImplementedException();
+        private void OnDisable() {
+            
         }
     }
 }

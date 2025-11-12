@@ -2,18 +2,32 @@ namespace TwelveG.InteractableObjects
 {
     using UnityEngine;
 
-    public class Flashlight : MonoBehaviour
+    public class Flashlight : PlayerItemBase
     {
-        private Animator animator;
+        [Header("References")]
+        [SerializeField] private Light flashlightLight;
 
-        private void Awake()
-        {
-            animator = GetComponent<Animator>();
+        private void OnEnable() {
+            
         }
 
-        private void OnDisable()
+        private void OnDisable() {
+            
+        }
+
+        public void ToogleFlashlightLight(int state)
         {
-            animator.SetTrigger("HideItem");
+            if (flashlightLight != null)
+            {
+                if(state == 1)
+                {
+                    flashlightLight.enabled = true;
+                }
+                else if(state == 0)
+                {
+                    flashlightLight.enabled = false;
+                }
+            }
         }
     }
 }

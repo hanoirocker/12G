@@ -11,9 +11,12 @@ namespace TwelveG.PlayerController
         [Header("Hands transforms ")]
         [SerializeField] Transform leftHandTransform;
         [SerializeField] Transform rightHandTransform;
-        [Header("Inventory Objects (hand-portable): ")]
+
+        [Header("Inventory Objects")]
         [SerializeField] GameObject flashlight;
         [SerializeField] GameObject walkieTalkie;
+
+        [Header("Inventory Prefabs")]
         [SerializeField] GameObject broom;
         [SerializeField] GameObject fullTrashBag;
         [SerializeField] GameObject pizzaInClosedBox;
@@ -49,23 +52,24 @@ namespace TwelveG.PlayerController
         private void Start()
         {
             if (enableFlashlight)
-                MakeItemUseable(ItemType.Flashlight, true, flashlight, rightHandTransform);
+                EnablePlayerItem(this, ItemType.Flashlight);
             if (enableWalkieTalkie)
-                MakeItemUseable(ItemType.WalkieTalkie, true, walkieTalkie, leftHandTransform);
+                EnablePlayerItem(this, ItemType.WalkieTalkie);
         }
 
         private void MakeItemUseable(ItemType itemType, bool instantiateItem, GameObject objectToInstantiate, Transform inventoryTransform)
         {
-            pickedUpItems.Add(itemType.ToString());
             if (instantiateItem && objectToInstantiate != null)
             {
                 switch (itemType)
                 {
                     case (ItemType.Flashlight):
-                        activeFlashlight = Instantiate(objectToInstantiate, inventoryTransform);
+                        flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                        activeFlashlight = flashlight;
                         break;
                     case (ItemType.WalkieTalkie):
-                        activeWalkieTalkie = Instantiate(objectToInstantiate, inventoryTransform);
+                        walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                        activeFlashlight = walkieTalkie;
                         break;
                     case (ItemType.Broom):
                         activeBroom = Instantiate(objectToInstantiate, inventoryTransform);
@@ -99,45 +103,12 @@ namespace TwelveG.PlayerController
         {
             if (activeFlashlight != null && playerCanToggleItems && Input.GetKeyDown(KeyCode.L))
             {
-                StartCoroutine(ToggleItem(activeFlashlight));
+                Debug.Log("Toggling flashlight");
+                StartCoroutine(activeFlashlight.GetComponent<PlayerItemBase>().ToggleItem(activeFlashlight));
             }
             if (activeWalkieTalkie != null && playerCanToggleItems && Input.GetKeyDown(KeyCode.K))
             {
-                StartCoroutine(ToggleItem(activeWalkieTalkie));
-            }
-        }
-
-        private IEnumerator ToggleItem(GameObject item)
-        {
-            Animator anim = item.GetComponent<Animator>();
-            if (anim == null)
-                yield break;
-
-            AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
-
-            if (anim.IsInTransition(0))
-                yield break;
-
-            bool isShown = state.IsName("IdleShown");
-            if (isShown && item.GetComponent<IInteractableItem>().CanBeToggled())
-            {
-                // Si está visible, ejecuta animación para ocultar
-                anim.ResetTrigger("ShowItem");
-                anim.SetTrigger("HideItem");
-
-                yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
-            }
-            else if (!isShown && item.GetComponent<IInteractableItem>().CanBeToggled())
-            {
-                // Si está oculto, ejecuta animación para mostrar
-                anim.ResetTrigger("HideItem");
-                anim.SetTrigger("ShowItem");
-
-                yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
-            }
-            else
-            {
-                yield return null;
+                StartCoroutine(activeWalkieTalkie.GetComponent<PlayerItemBase>().ToggleItem(activeWalkieTalkie));
             }
         }
 
@@ -162,14 +133,12 @@ namespace TwelveG.PlayerController
             }
         }
 
-        public void EnablePlayerItem(Component sender, object data)
-        {
-            ItemType itemType = (ItemType)data;
-            AddItem(itemType);
-        }
-
         public void AddItem(ItemType itemType)
         {
+            // Se agrega el item a la lista de items recogidos
+            pickedUpItems.Add(itemType.ToString());
+
+            // Se instancia el prefab correspondiente en la mano del jugador para todos los items MENOS Flashlight y WalkieTalkie (ya están en cada mano)
             switch (itemType)
             {
                 case ItemType.Flashlight:
@@ -245,10 +214,10 @@ namespace TwelveG.PlayerController
                         Destroy(activeFullTrashBag);
                         break;
                     case ItemType.Flashlight:
-                        flashlight.SetActive(false);
+                        Destroy(activeFlashlight);
                         break;
                     case ItemType.WalkieTalkie:
-                        walkieTalkie.SetActive(false);
+                        Destroy(activeWalkieTalkie);
                         break;
                     case ItemType.Plate:
                         Destroy(activePlate);
@@ -266,6 +235,26 @@ namespace TwelveG.PlayerController
                         Destroy(activePhone);
                         break;
                 }
+            }
+        }
+
+        public void EnablePlayerItem(Component sender, object data)
+        {
+            ItemType itemType = (ItemType)data;
+            pickedUpItems.Add(itemType.ToString());
+
+            switch (itemType)
+            {
+                case (ItemType.Flashlight):
+                    activeFlashlight = flashlight;
+                    activeFlashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                    break;
+                case (ItemType.WalkieTalkie):
+                    activeWalkieTalkie = walkieTalkie;
+                    activeWalkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                    break;
+                default:
+                    break;
             }
         }
     }
