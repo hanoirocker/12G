@@ -16,6 +16,8 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private InteractionTextSO interactionTextsSO_turnOff;
 
         [Header("Audio settings")]
+
+        public bool makesClickSound = true;
         [SerializeField] private AudioClip clickSound;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
 
@@ -46,8 +48,11 @@ namespace TwelveG.InteractableObjects
                 ToogleEmission();
             }
 
-            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
-            audioSource.clip = clickSound;
+            if (makesClickSound)
+            {
+                audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+                audioSource.clip = clickSound;
+            }
 
             lampLight.enabled = !lampLight.enabled;
             lampIsActive = !lampIsActive;

@@ -22,6 +22,9 @@ namespace TwelveG.InteractableObjects
         [SerializeField, Range(-2f, 2f)] private float closingSoundOffset = 0f;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
 
+        [Header("Other Settings: ")]
+        [SerializeField] private GameObject consequentObjectsToActivate;
+
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
         [SerializeField] private InteractionTextSO interactionTextsSO_close;
@@ -55,6 +58,11 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator RotateDrowerDoor(Quaternion targetRotation)
         {
+            if (!doorIsOpen && consequentObjectsToActivate != null)
+            {
+                consequentObjectsToActivate.SetActive(true);
+            }
+
             isMoving = true;
             float coroutineDuration = PlayDoorSounds();
             float elapsedTime = 0f;
@@ -72,6 +80,11 @@ namespace TwelveG.InteractableObjects
             targetTransform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
             isMoving = false;
+
+            if (!doorIsOpen && consequentObjectsToActivate != null)
+            {
+                consequentObjectsToActivate.SetActive(false);
+            }
         }
 
         private float PlayDoorSounds()
