@@ -42,8 +42,15 @@ namespace TwelveG.InteractableObjects
                 return;
             }
 
-            initialPosition = slidesParent ? parentObject.transform.localPosition : gameObject.transform.localPosition;
+            Transform targetTransform = slidesParent ? parentObject.transform : transform;
+            initialPosition = targetTransform.localPosition;
+
+            if (doorIsOpen)
+            {
+                initialPosition -= new Vector3(xOffSet, 0, zOffSet);
+            }
         }
+
 
         private void ToggleDrawer(Vector3 playerPosition)
         {
