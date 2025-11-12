@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - First Contact - 1.a - Simon
+  m_Name: Dialog Evening - First Contact - 3 - Simon
   m_EditorClassIdentifier: 
   characterName: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Resultado de primera opcion para ver si funciona acortar el texto
+    dialogText: Micaaaaaa ... (Suspiro)
   - language: 1
-    dialogText: First option result to check if text is being actually shorten
-  spanishDialogClip: {fileID: 8300000, guid: 7ac9894f01d664701a3c633a29248528, type: 3}
-  nextDialog: {fileID: 11400000, guid: e38c2feecce214bb385ed9f67ad33bdf, type: 2}
-  timeBeforeShowing: 2
+    dialogText: Micaaaaaa ... (Sight)
+  spanishDialogClip: {fileID: 8300000, guid: 2ced42c81fd02b347b6d1a3461c5c188, type: 3}
+  nextDialog: {fileID: 0}
+  timeBeforeShowing: 10
   dialogOptions: []

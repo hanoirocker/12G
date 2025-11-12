@@ -89,7 +89,11 @@ namespace TwelveG.DialogsController
                     currentDialog
                 );
 
-            AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip);
+            if (currentDialog.characterName == CharacterName.Simon)
+            {
+                AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip);
+            }
+
             AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip);
             yield return ShowDialogCoroutine(currentDialog.characterName.ToString(), textToShow, currentDialog.spanishDialogClip.length);
 
@@ -178,6 +182,6 @@ namespace TwelveG.DialogsController
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        
+
     }
 }

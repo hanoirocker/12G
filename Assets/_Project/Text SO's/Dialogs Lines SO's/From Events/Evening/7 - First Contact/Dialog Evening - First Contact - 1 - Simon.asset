@@ -15,22 +15,11 @@ MonoBehaviour:
   characterName: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Vamos vamos vamos .. esto deberia tener algo de bateria aun ..
+    dialogText: "\xA1Mica! \xA1Mica! \xBFMe escuch\xE1s? \xA1Necesito que me respondas
+      amiga!"
   - language: 1
-    dialogText: C'mon C'mon C'mon .. this shuld still not be battery dried ..
-  spanishDialogClip: {fileID: 8300000, guid: fba6fb94522cc4c88ba95fd4d5f06510, type: 3}
-  nextDialog: {fileID: 0}
-  timeBeforeShowing: 0
-  dialogOptions:
-  - dialogOptionsStructures:
-    - language: 0
-      optionText: Opcion 1
-    - language: 1
-      optionText: Option 1
-    nextDialog: {fileID: 11400000, guid: 6b6d1dd228bd740d7ab4562a909c3ccd, type: 2}
-  - dialogOptionsStructures:
-    - language: 0
-      optionText: Opcion 2
-    - language: 1
-      optionText: Option 2
-    nextDialog: {fileID: 11400000, guid: e24bcafb80980479db355aa631b0f6d8, type: 2}
+    dialogText: Mica! Mica! Can you hear me? I need you to answer me!
+  spanishDialogClip: {fileID: 8300000, guid: c8376a40b047142f88fedf0c7a16c478, type: 3}
+  nextDialog: {fileID: 11400000, guid: f474b7cbb29863a44ac3cc70a12f6f68, type: 2}
+  timeBeforeShowing: 2
+  dialogOptions: []

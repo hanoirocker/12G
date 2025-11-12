@@ -6,6 +6,7 @@ namespace TwelveG.GameController
     [RequireComponent(typeof(GameEventListener))]
     public class GameEventBase : MonoBehaviour
     {
+        public bool isCheckpointEvent = false;
         public virtual IEnumerator Execute()
         {
             yield break;
