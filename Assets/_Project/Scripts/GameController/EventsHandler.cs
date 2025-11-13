@@ -26,6 +26,7 @@ namespace TwelveG.GameController
         public GameEventSO onImageCanvasControls;
         public GameEventSO onDeactivateCanvas;
         public GameEventSO StartWeatherEvent;
+        public GameEventSO onNewEventBegun;
 
         [Header("Text event SO")]
         private GameObject eventsParent = null;
@@ -38,7 +39,7 @@ namespace TwelveG.GameController
         private GameEventBase currentExecutingEvent;
         private bool isEventRunning = false;
 
-        private IEnumerator ExecuteEventsFromCurrentIndex()
+        private IEnumerator ExecuteEvents()
         {
             while (currentEventIndex < correspondingEvents.Count)
             {
@@ -49,6 +50,14 @@ namespace TwelveG.GameController
 
                 // Ejecutar y almacenar referencia a la corrutina
                 currentEventCoroutine = StartCoroutine(ExecuteSingleEvent(currentExecutingEvent));
+                Debug.Log($"[EventsHandler]: Iniciando evento: {currentExecutingEvent?.name}");
+
+                // Enviar Game Event SO sobre nuevo evento iniciado (Recibe por ejemplo Walkie Talkie para actualizar su estado)
+                EventContextData eventContext = new EventContextData(
+                    GameManager.Instance.RetrieveCurrentSceneEnum(),
+                    currentExecutingEvent.eventEnum);
+                onNewEventBegun.Raise(this, eventContext);
+
                 yield return currentEventCoroutine;
 
                 currentEventCoroutine = null;
@@ -89,7 +98,7 @@ namespace TwelveG.GameController
             // Iniciar el siguiente evento
             if (currentEventIndex < correspondingEvents.Count)
             {
-                StartCoroutine(ExecuteEventsFromCurrentIndex());
+                StartCoroutine(ExecuteEvents());
             }
             else
             {
@@ -109,9 +118,9 @@ namespace TwelveG.GameController
             gameEvent.gameObject.SetActive(false);
         }
 
-        private IEnumerator ExecuteEvents(bool fromIndex)
+        private IEnumerator SetStartingIndex(bool isSpecificIndex)
         {
-            if (fromIndex)
+            if (isSpecificIndex)
             {
                 currentEventIndex = eventIndexToLoad;
                 if (eventIndexToLoad > 1)
@@ -120,7 +129,7 @@ namespace TwelveG.GameController
                 }
             }
 
-            yield return StartCoroutine(ExecuteEventsFromCurrentIndex());
+            yield return StartCoroutine(ExecuteEvents());
         }
 
         private void VerifySpecificTestSettings()
@@ -170,7 +179,7 @@ namespace TwelveG.GameController
         {
             if (loadSpecificEvent)
             {
-                StartCoroutine(ExecuteEvents(true));
+                StartCoroutine(SetStartingIndex(true));
                 return;
             }
             else if (freeRoam)
@@ -179,7 +188,7 @@ namespace TwelveG.GameController
             }
             else
             {
-                StartCoroutine(ExecuteEvents(false));
+                StartCoroutine(SetStartingIndex(false));
             }
         }
 

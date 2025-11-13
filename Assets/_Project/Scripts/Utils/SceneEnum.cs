@@ -1,4 +1,4 @@
-namespace TwelveG.Utils
+namespace TwelveG.GameController
 {
     public enum SceneEnum
     {

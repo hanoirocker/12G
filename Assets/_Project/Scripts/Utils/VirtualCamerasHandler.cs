@@ -17,6 +17,7 @@ namespace TwelveG.Utils
         [SerializeField] private CinemachineVirtualCamera safeBox;
         [SerializeField] private CinemachineVirtualCamera SofaVC;
 
+
         [Header("EventsSO references")]
         public GameEventSO setCurrentCamera;
         public GameEventSO returnCurrentCamera;

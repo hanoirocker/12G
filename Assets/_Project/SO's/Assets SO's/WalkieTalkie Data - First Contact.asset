@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb37a2828d3599e479334233f67160df, type: 3}
+  m_Name: WalkieTalkie Data - First Contact
+  m_EditorClassIdentifier: 
+  eventName: 9
+  frequencyData:
+  - frequencyName: Canal 1
+    hasSpecialAudio: 0
+    clips:
+    - {fileID: 8300000, guid: 3f5da09806712884cb4b4623078d6e10, type: 3}
+  - frequencyName: Canal 2
+    hasSpecialAudio: 0
+    clips:
+    - {fileID: 8300000, guid: 3671a9919e5492f45a2295d2bb586b3d, type: 3}
+  - frequencyName: Canal 3 (Mica)
+    hasSpecialAudio: 0
+    clips: []
+  - frequencyName: Canal 4
+    hasSpecialAudio: 0
+    clips:
+    - {fileID: 8300000, guid: 43d3b3f0c36c56c4a872292948fe1e84, type: 3}

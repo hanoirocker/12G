@@ -1,8 +1,8 @@
+using System.Collections;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System.Collections;
-    using UnityEngine;
-
     public abstract class PlayerItemBase : MonoBehaviour
     {
         [Header("Common Item Settings")]
@@ -20,14 +20,14 @@ namespace TwelveG.InteractableObjects
             if (anim == null)
                 yield break;
 
-            if (itemIsShown && item.GetComponent<PlayerItemBase>().CanBeToggled())
+            if (itemIsShown && canBeToogled)
             {
                 // Si está visible, ejecuta animación para ocultar
                 anim.Play("HideItem");
                 yield return new WaitUntil(() => !anim.isPlaying);
                 itemIsShown = false;
             }
-            else if (!itemIsShown && item.GetComponent<PlayerItemBase>().CanBeToggled())
+            else if (!itemIsShown && canBeToogled)
             {
                 // Si está oculto, ejecuta animación para mostrar
                 anim.Play("ShowItem");
@@ -49,7 +49,6 @@ namespace TwelveG.InteractableObjects
         {
             return canBeToogled;
         }
-
 
         public void ShowItem()
         {

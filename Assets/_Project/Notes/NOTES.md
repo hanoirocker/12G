@@ -1,6 +1,5 @@
-- Cambió la ambientación lumínica del atardecer.
-- Se deshabilitaron muchas proyecciones de sombras sobre objetos pequeños de gran cantidad de vertices y varios materiales. Se da prioridad sobre grandes objetos y puertas.
-- Se modificó el canvas de diálogos para contener un panel para diálogos y otro para las opciones.
+- Se trabajo en el sistema del walkie talkie y del eventhandler. Ahora el EventHandler avisa a traves de un evento cada vez que comienza un
+evento nuevo enviando info de la SceneEnum y EventEnum. Esto es atrapado por ejemplo por el Walkie Talkie que usara esta info para actualizar su base de datos de audios por escena y evento. Estas bases de datos son las WalkieTalkieDataSO y existiran una por evento.
 
 TOFIX - urgente:
 - Grabar sonidos para cuando come la pizza, toma un plato para servir la pizza, deposita la basura en el tacho, abre y cierra el tacho de basura, abre y cierra el armario.

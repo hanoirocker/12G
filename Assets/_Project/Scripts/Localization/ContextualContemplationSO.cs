@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using TwelveG.Utils;
+using TwelveG.GameController;
 using UnityEngine;
 
 namespace TwelveG.Localization
@@ -11,7 +11,7 @@ namespace TwelveG.Localization
         [Serializable]
         public class EventRangeEntry
         {
-            public SceneEnum sceneEnum;             // 2=Afternoon, 3=Evening, 4=Night
+            public SceneEnum sceneEnum;        // 2=Afternoon, 3=Evening, 4=Night
             public int minEventIndex;          // desde este evento inclusive
             public int maxEventIndex;          // hasta este evento inclusive
             public ContemplationTextSO texts;
