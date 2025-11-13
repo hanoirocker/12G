@@ -7,8 +7,8 @@ namespace TwelveG.InteractableObjects
     {
         [Header("Common Item Settings")]
         private protected Animation anim;
-        private bool canBeToogled = false;
-        private bool itemIsShown = false;
+        private protected bool canBeToogled = false;
+        private protected bool itemIsShown = false;
 
         protected virtual void Awake()
         {
@@ -50,10 +50,11 @@ namespace TwelveG.InteractableObjects
             return canBeToogled;
         }
 
-        
+
         public void ShowItem()
         {
-           anim.Play("ShowItem");
+            anim.Play("ShowItem");
+            itemIsShown = true;
         }
     }
 }

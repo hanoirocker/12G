@@ -98,6 +98,11 @@ namespace TwelveG.PlayerController
             characterController.enabled = enabled;
         }
 
+        public void ToggleToDialogMode(bool dialogStarted)
+        {
+            playerContemplation.enabled = !dialogStarted;
+        }
+
         public void PauseGame(Component sender, object data)
         {
             TogglePlayerCapsule(!(bool)data);
