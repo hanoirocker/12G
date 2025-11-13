@@ -1,3 +1,5 @@
+using System.Collections;
+using TwelveG.AudioController;
 using TwelveG.GameController;
 using UnityEngine;
 
@@ -5,39 +7,75 @@ namespace TwelveG.InteractableObjects
 {
     public class WalkieTalkie : PlayerItemBase
     {
-        [Header("WalkieTalkie Settings")]
+        [Header("Data SO References")]
         [SerializeField] private WalkieTalkieDataSO[] walkieTalkieEveningData;
         [SerializeField] private WalkieTalkieDataSO[] walkieTalkieNightData;
 
+        [Header("Audio")]
+        [SerializeField] private AudioClip channelSwitchAudioClip;
+        [SerializeField, Range(0f, 1f)] private float switchChannelVolume = 0.8f;
+
         private WalkieTalkieDataSO currentWalkieTalkieData;
         private bool canSwitchChannel = true;
-        private int currentChannelIndex = 3;
+        private int currentChannelIndex = 0;
         private int currentDataIndex = 0;
+        private AudioSource audioSource;
+
+        void Start()
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
 
         void Update()
         {
             if (itemIsShown && canSwitchChannel)
             {
-                if (Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetKeyDown(KeyCode.V))
                 {
-                    SwitchChannel(-1);
+                    StartCoroutine(SwitchChannel(-1));
                 }
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.B))
                 {
-                    SwitchChannel(+1);
+                    StartCoroutine(SwitchChannel(+1));
                 }
             }
         }
 
         // Lógica para cambiar de canal en el walkie-talkie
-        private void SwitchChannel(int direction)
+        private IEnumerator SwitchChannel(int direction)
         {
-            // Chequea ultima posicion del canal escuchado
+            if (currentChannelIndex == 0 && direction == -1)
+            {
+                yield break;
+            }
+            if (currentChannelIndex == currentWalkieTalkieData.FrequencyData.Count - 1 && direction == +1)
+            {
+                yield break;
+            }
 
-            // si el canal no es el ultimo o el primero, cambia al siguiente o anterior canal
-            // si el canal posee un audio especial, reproduce el audio especial primero y luego el audio normal del canal
-            // que queda en loop. Se debe guardar el instante de tiempo en el que se cambia de canal para continuar el audio especial o normal
-            Debug.Log("Canal cambiado en dirección: " + direction);
+            currentChannelIndex += direction;
+
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+
+            yield return new WaitForFixedUpdate();
+            // Reproduce el sonido de cambio de canal
+            audioSource.PlayOneShot(channelSwitchAudioClip);
+
+            // Cambia el clip de audio al del nuevo canal
+            try
+            {
+                audioSource.clip = currentWalkieTalkieData.FrequencyData[currentChannelIndex].clips[0];
+            }
+            catch (System.Exception)
+            {
+                Debug.LogWarning("El canal seleccionado no tiene audio asignado.");
+                yield break;
+            }
+
+            audioSource.Play();
         }
 
         public void AllowChannelSwitching(bool allow)
@@ -76,7 +114,24 @@ namespace TwelveG.InteractableObjects
                 currentWalkieTalkieData = walkieTalkieNightData[currentDataIndex];
             }
 
-            Debug.Log($"Data set: {currentWalkieTalkieData.name} at index: {currentDataIndex}.");
+            audioSource.clip = currentWalkieTalkieData.FrequencyData[currentChannelIndex].clips[0];
+        }
+
+        public void PauseAudioSource()
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Pause();
+            }
+            else
+            {
+                audioSource.UnPause();
+            }
+        }
+
+        public void SetChannelIndex(int index)
+        {
+            currentChannelIndex = index;
         }
     }
 }
