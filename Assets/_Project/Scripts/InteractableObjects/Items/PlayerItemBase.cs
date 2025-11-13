@@ -52,6 +52,9 @@ namespace TwelveG.InteractableObjects
 
         public void ShowItem()
         {
+            if(itemIsShown)
+                return;
+
             anim.Play("ShowItem");
             itemIsShown = true;
         }

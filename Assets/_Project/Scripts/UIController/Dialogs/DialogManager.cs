@@ -89,7 +89,7 @@ namespace TwelveG.DialogsController
                     currentDialog
                 );
 
-            if (currentDialog.characterName == CharacterName.Simon)
+            if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
             {
                 AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip);
             }

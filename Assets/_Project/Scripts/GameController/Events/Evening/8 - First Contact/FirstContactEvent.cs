@@ -19,6 +19,8 @@ namespace TwelveG.GameController
 
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private DialogSO firstEventDialog;
+
+        [SerializeField] private DialogSO secondEventDialog;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private GameEventSO updateFallbackTexts;
 
@@ -40,9 +42,17 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(initialTime);
 
-            enablePlayerItem.Raise(this, ItemType.WalkieTalkie);
-
+            // Primer dialogo cuando obtiene el walkie talkie y lo setea al canal de Mica
             startDialog.Raise(this, firstEventDialog);
+
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            enablePlayerItem.Raise(this, ItemType.WalkieTalkie);
+            Debug.Log("[FirstContactEvent] Walkie Talkie enabled");
+
+            // Llamado a Mica
+            startDialog.Raise(this, secondEventDialog);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();

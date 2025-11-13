@@ -1,5 +1,5 @@
 using System.Collections;
-using TwelveG.AudioController;
+using TwelveG.DialogsController;
 using TwelveG.GameController;
 using UnityEngine;
 
@@ -76,6 +76,20 @@ namespace TwelveG.InteractableObjects
             }
 
             audioSource.Play();
+        }
+
+        public void StartDialog(Component sender, object data)
+        {
+            var DialogSOData = (DialogSO)data;
+
+            // Si el dialogo se dirige a Mica, setea el canal al de Mica y bloquea el cambio de canal, ademas de mostrar el item
+            if (DialogSOData != null && !DialogSOData.isSelfDialog)
+            {
+                AllowItemToBeToggled(false);
+                ShowItem();
+                AllowChannelSwitching(false);
+                SetChannelIndex(2);
+            }
         }
 
         public void AllowChannelSwitching(bool allow)

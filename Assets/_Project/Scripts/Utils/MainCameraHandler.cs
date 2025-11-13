@@ -46,7 +46,6 @@ namespace TwelveG.Utils
             if (data != null)
             {
                 lastEventSender = sender.gameObject;
-                Debug.Log($"lastEventSender: {lastEventSender.name}");  
                 Instantiate((GameObject)data, gameObject.transform);
             }
         }

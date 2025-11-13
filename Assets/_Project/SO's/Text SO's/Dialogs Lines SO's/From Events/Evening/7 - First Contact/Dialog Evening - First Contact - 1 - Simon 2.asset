@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - First Contact - 2 - Simon
+  m_Name: Dialog Evening - First Contact - 1 - Simon 2
   m_EditorClassIdentifier: 
   characterName: 0
+  isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: "Dale Micaaaaaa respondemeeee .. Dale que lo ten\xE9s encendido .."
+    dialogText: Si, todo perfecto.
   - language: 1
-    dialogText: Come on Micaaaaaa answer meeee . Come on, please tell me it's turned
-      onnn ..
-  spanishDialogClip: {fileID: 8300000, guid: 1e3dc62cced26f54bb5107c50f7a8766, type: 3}
-  nextDialog: {fileID: 11400000, guid: f17c619c0004756478a3180c0c3d3955, type: 2}
-  timeBeforeShowing: 7
+    dialogText: Yeah .. all good.
+  spanishDialogClip: {fileID: 8300000, guid: 1a556e20a7ca6b24f90a096614f2b895, type: 3}
+  nextDialog: {fileID: 11400000, guid: 1b3474b0af50198449ee660548e87f72, type: 2}
+  timeBeforeShowing: 1
   dialogOptions: []

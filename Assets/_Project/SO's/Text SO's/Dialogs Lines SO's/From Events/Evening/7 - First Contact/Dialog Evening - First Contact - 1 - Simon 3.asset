@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - First Contact - 1 - Simon
+  m_Name: Dialog Evening - First Contact - 1 - Simon 3
   m_EditorClassIdentifier: 
   characterName: 0
+  isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: "\xA1Mica! \xA1Mica! \xBFMe escuch\xE1s? \xA1Necesito que me respondas
-      amiga!"
+    dialogText: Hmm .. Si no mal recuerdo el canal que usabamos con Mica era el 3.
   - language: 1
-    dialogText: Mica! Mica! Can you hear me? I need you to answer me!
-  spanishDialogClip: {fileID: 8300000, guid: c8376a40b047142f88fedf0c7a16c478, type: 3}
-  nextDialog: {fileID: 11400000, guid: f474b7cbb29863a44ac3cc70a12f6f68, type: 2}
-  timeBeforeShowing: 2
+    dialogText: Hmm... if I remember correctly the channel we used with Mica was
+      channel 3
+  spanishDialogClip: {fileID: 8300000, guid: 8c7a62c5714d0ef459d9e70f31effec2, type: 3}
+  nextDialog: {fileID: 11400000, guid: b240e1f2c9e566c41a7711fbaf8eee6b, type: 2}
+  timeBeforeShowing: 0
   dialogOptions: []

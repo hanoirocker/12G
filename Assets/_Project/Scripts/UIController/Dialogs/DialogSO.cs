@@ -23,6 +23,8 @@ namespace TwelveG.DialogsController
     {
         public CharacterName characterName;
 
+        public bool isSelfDialog = false;
+
         public List<DialogTextStructure> dialogTextStructure;
         public AudioClip spanishDialogClip;
 
