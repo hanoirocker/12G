@@ -1,11 +1,10 @@
+using System;
+using System.Collections.Generic;
+using TwelveG.InteractableObjects;
+using UnityEngine;
+
 namespace TwelveG.PlayerController
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using TwelveG.InteractableObjects;
-    using UnityEngine;
-
     public class PlayerInventory : MonoBehaviour
     {
         [Header("Hands transforms ")]
@@ -28,10 +27,6 @@ namespace TwelveG.PlayerController
         [Header("After used Objects: ")]
         [SerializeField] GameObject usedBroom;
 
-        [Header("Testing settings: ")]
-        [SerializeField] private bool enableFlashlight;
-        [SerializeField] private bool enableWalkieTalkie;
-
         [Header("Game Event SO's")]
         [SerializeField] private GameEventSO onPizzaPickedUp;
 
@@ -48,14 +43,6 @@ namespace TwelveG.PlayerController
         private GameObject activePhone = null;
 
         private bool playerCanToggleItems = true;
-
-        private void Start()
-        {
-            if (enableFlashlight)
-                EnablePlayerItem(this, ItemType.Flashlight);
-            if (enableWalkieTalkie)
-                EnablePlayerItem(this, ItemType.WalkieTalkie);
-        }
 
         private void MakeItemUseable(ItemType itemType, bool instantiateItem, GameObject objectToInstantiate, Transform inventoryTransform)
         {
@@ -103,7 +90,6 @@ namespace TwelveG.PlayerController
         {
             if (activeFlashlight != null && playerCanToggleItems && Input.GetKeyDown(KeyCode.L))
             {
-                Debug.Log("Toggling flashlight");
                 StartCoroutine(activeFlashlight.GetComponent<PlayerItemBase>().ToggleItem(activeFlashlight));
             }
             if (activeWalkieTalkie != null && playerCanToggleItems && Input.GetKeyDown(KeyCode.K))

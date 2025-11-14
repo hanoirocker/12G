@@ -4,31 +4,43 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using TwelveG.UIController;
 using TwelveG.AudioController;
+using TwelveG.InteractableObjects;
 
 namespace TwelveG.GameController
 {
     public class EventsHandler : MonoBehaviour
     {
-        [Header("Testing Settings")]
+        [Header("Events References")]
+        [Space]
         public GameObject introEvents;
         public GameObject afternoonEvents;
         public GameObject eveningEvents;
         public GameObject nightEvents;
 
-        [Header("Testing Settings")]
+        [Header("Events Testing Settings")]
+        [Space]
         public bool freeRoam = false;
         public bool loadSpecificEvent = false;
         public int eventIndexToLoad = 0;
         public bool isRaining = false;
         public bool isWindBlowing = false;
 
-        [Header("EventsSO references")]
+        [Header("Items Testing Settings")]
+        [Space]
+        public bool enableFlashlight = false;
+        public bool enableWalkieTalkie = false;
+
+        [Header("Events SO's references")]
+        [Space]
         public GameEventSO onImageCanvasControls;
         public GameEventSO onDeactivateCanvas;
         public GameEventSO StartWeatherEvent;
         public GameEventSO onNewEventBegun;
 
+        public GameEventSO enablePlayerItem;
+
         [Header("Text event SO")]
+        [Space]
         private GameObject eventsParent = null;
         private List<GameEventBase> correspondingEvents = new List<GameEventBase>();
         private Transform playerCapsuleTransform;
@@ -194,6 +206,11 @@ namespace TwelveG.GameController
 
         private void ExecuteFreeRoam()
         {
+            if (enableFlashlight)
+                enablePlayerItem.Raise(this, ItemType.Flashlight);
+            if (enableWalkieTalkie)
+                enablePlayerItem.Raise(this, ItemType.WalkieTalkie);
+
             Transform freeRoamTransform = GameObject.FindGameObjectWithTag("FreeRoam")
                 .GetComponent<Transform>();
             playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
