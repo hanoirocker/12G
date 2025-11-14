@@ -22,8 +22,13 @@ namespace TwelveG.GameController
         public bool freeRoam = false;
         public bool loadSpecificEvent = false;
         public int eventIndexToLoad = 0;
-        public bool isRaining = false;
-        public bool isWindBlowing = false;
+
+        [Header("Weather Testing Settings")]
+        [Space]
+        public bool isSoftRaining = false;
+        public bool isHardRaining = false;
+        public bool isSoftWindBlowing = false;
+        public bool isHardWindBlowing = false;
 
         [Header("Items Testing Settings")]
         [Space]
@@ -146,13 +151,21 @@ namespace TwelveG.GameController
 
         private void VerifySpecificTestSettings()
         {
-            if (isRaining)
+            if (isSoftRaining)
             {
                 StartWeatherEvent.Raise(this, WeatherEvent.SoftRain);
             }
-            if (isWindBlowing)
+            else if (isHardRaining)
+            {
+                Debug.Log($"[EventsHandler]: isHardRaining checked but hard rain not worked yet!");
+            }
+            if (isSoftWindBlowing)
             {
                 StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
+            }
+            else if (isHardWindBlowing)
+            {
+                StartWeatherEvent.Raise(this, WeatherEvent.HardWind);
             }
         }
 

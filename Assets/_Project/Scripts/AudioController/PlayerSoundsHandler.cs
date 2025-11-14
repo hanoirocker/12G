@@ -8,12 +8,13 @@ namespace TwelveG.AudioController
         [Header("Footsteps")]
         public List<AudioClip> woodFS;
         public List<AudioClip> carpetFS;
-        public List<AudioClip> mosaicFS;
+        public List<AudioClip> mosaicGarageFS;
+        public List<AudioClip> mosaicBathroomFS;
         bool isRunning = false;
 
         enum FSMaterial
         {
-            Wood, Carpet, Mosaic, Empty
+            Wood, Carpet, MosaicGarage, MosaicBathroom, Empty
         }
 
         AudioSource audioSource;
@@ -46,7 +47,7 @@ namespace TwelveG.AudioController
             Ray ray = new Ray(transform.position + Vector3.up * 0.5f, -Vector3.up);
             Material surfaceMaterial;
 
-            if (Physics.Raycast(ray, out hit, 1.0f, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(ray, out hit, 1.0f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
             {
                 Renderer surfaceRenderer = hit.collider.GetComponentInChildren<Renderer>();
                 if (surfaceRenderer)
@@ -60,9 +61,13 @@ namespace TwelveG.AudioController
                     {
                         return FSMaterial.Carpet;
                     }
-                    else if (surfaceMaterial.name.Contains("Mosaic"))
+                    else if (surfaceMaterial.name.Contains("Mosaic - Garage"))
                     {
-                        return FSMaterial.Mosaic;
+                        return FSMaterial.MosaicGarage;
+                    }
+                    else if (surfaceMaterial.name.Contains("Mosaic - Bathroom"))
+                    {
+                        return FSMaterial.MosaicBathroom;
                     }
                     else
                     {
@@ -85,8 +90,11 @@ namespace TwelveG.AudioController
                 case FSMaterial.Wood:
                     clip = woodFS[Random.Range(0, woodFS.Count)];
                     break;
-                case FSMaterial.Mosaic:
-                    clip = mosaicFS[Random.Range(0, mosaicFS.Count)];
+                case FSMaterial.MosaicBathroom:
+                    clip = mosaicBathroomFS[Random.Range(0, mosaicBathroomFS.Count)];
+                    break;
+                case FSMaterial.MosaicGarage:
+                    clip = mosaicGarageFS[Random.Range(0, mosaicGarageFS.Count)];
                     break;
                 case FSMaterial.Carpet:
                     clip = carpetFS[Random.Range(0, carpetFS.Count)];
