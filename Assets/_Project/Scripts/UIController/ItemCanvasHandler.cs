@@ -6,10 +6,14 @@ namespace TwelveG.UIController
     public class ItemCanvasHandler : MonoBehaviour
     {
         [Header("References")]
-
+        [Space]
         [SerializeField] private GameObject panel;
         [SerializeField] private GameObject WTImageObject;
         [SerializeField] private GameObject FlashlightImageObject;
+
+        [Header("Testing Settings")]
+        [Space]
+        [SerializeField, Range(0.5f, 1f)] public float equippedAlpha = 0.8f;
 
         private float unequipiedItemAlpha = 0.15f;
 
@@ -27,11 +31,11 @@ namespace TwelveG.UIController
 
             if (itemObject == ItemType.WalkieTalkie.ToString())
             {
-                WTImageObject.GetComponent<CanvasGroup>().alpha = itemIsShown? 1 : unequipiedItemAlpha;
+                WTImageObject.GetComponent<CanvasGroup>().alpha = itemIsShown? equippedAlpha : unequipiedItemAlpha;
             }
             else if (itemObject == ItemType.Flashlight.ToString())
             {
-                FlashlightImageObject.GetComponent<CanvasGroup>().alpha = itemIsShown? 1 : unequipiedItemAlpha;
+                FlashlightImageObject.GetComponent<CanvasGroup>().alpha = itemIsShown? equippedAlpha : unequipiedItemAlpha;
             }
         }
 
