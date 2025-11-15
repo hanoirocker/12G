@@ -21,6 +21,7 @@ namespace TwelveG.DialogsController
 
         [Header("Game Event SO's")]
         public GameEventSO conversationHasEnded;
+        public GameEventSO onIncomingDialog;
 
         private DialogSO currentDialog;
         private List<DialogOptions> currentOptions;
@@ -99,8 +100,8 @@ namespace TwelveG.DialogsController
 
             if (currentDialog.characterName == CharacterName.Mica && !simonHasWTEquipped)
             {
-                // Debe disparar un evento para que el UI correspondiente avise a Simon que se debe equipar el WT
-                // para escuchar este dialogo.
+                // Avisa al ItemCanvasHandler que debe hacer parpadear el icono del walkie talkie y mostrar texto para equiparlo
+                onIncomingDialog.Raise(this, null);
 
                 yield return new WaitUntil(() => simonHasWTEquipped);
             }
