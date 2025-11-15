@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TwelveG.InteractableObjects
 {
-    public class WalkieTalkie : PlayerItemBase
+    public class WalkieTalkie : PlayerItemBase, IPlayerItem
     {
         [Header("Data SO References")]
         [SerializeField] private WalkieTalkieDataSO[] walkieTalkieEveningData;
@@ -18,6 +18,7 @@ namespace TwelveG.InteractableObjects
         private WalkieTalkieDataSO currentWalkieTalkieData;
         private bool canSwitchChannel = true;
         private int currentChannelIndex = 0;
+        private int micaChannelIndex = 2;
         private int currentDataIndex = 0;
         private AudioSource audioSource;
 
@@ -28,6 +29,10 @@ namespace TwelveG.InteractableObjects
 
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                ToggleItem();
+            }
             if (itemIsShown && canSwitchChannel)
             {
                 if (Input.GetKeyDown(KeyCode.V))
@@ -44,6 +49,12 @@ namespace TwelveG.InteractableObjects
         // Lógica para cambiar de canal en el walkie-talkie
         private IEnumerator SwitchChannel(int direction)
         {
+            // Checks
+            if (currentWalkieTalkieData == null)
+            {
+                // Test data
+                currentWalkieTalkieData = walkieTalkieEveningData[0];
+            }
             if (currentChannelIndex == 0 && direction == -1)
             {
                 yield break;
@@ -54,6 +65,8 @@ namespace TwelveG.InteractableObjects
             }
 
             currentChannelIndex += direction;
+
+            Debug.Log($"Canal actual: {currentChannelIndex}");
 
             if (audioSource.isPlaying)
             {
@@ -76,6 +89,61 @@ namespace TwelveG.InteractableObjects
             }
 
             audioSource.Play();
+        }
+
+        private IEnumerator ReturnToMicaChannelCoroutine()
+        {
+            audioSource.Stop();
+            audioSource.clip = null;
+
+            while (currentChannelIndex != micaChannelIndex)
+            {
+                int direction = micaChannelIndex > currentChannelIndex ? 1 : -1;
+                currentChannelIndex += direction;
+
+                audioSource.PlayOneShot(channelSwitchAudioClip, switchChannelVolume);
+                float waitTime = channelSwitchAudioClip.length / Mathf.Max(0.01f, audioSource.pitch);
+                yield return new WaitForSeconds(waitTime);
+            }
+        }
+
+        private IEnumerator ToggleItemCoroutine()
+        {
+            if (anim == null)
+                yield break;
+
+            if (animationPlaying)
+                yield break;
+
+            if (itemIsShown && canBeToogled)
+            {
+                if (currentChannelIndex != micaChannelIndex)
+                {
+                    yield return StartCoroutine(ReturnToMicaChannelCoroutine());
+                }
+
+                animationPlaying = true;
+                // Si está visible, ejecuta animación para ocultar
+                anim.Play("HideItem");
+                itemIsShown = false;
+                yield return new WaitUntil(() => !anim.isPlaying);
+                onItemToggled.Raise(this, itemIsShown);
+                animationPlaying = false;
+            }
+            else if (!itemIsShown && canBeToogled)
+            {
+                animationPlaying = true;
+                // Si está oculto, ejecuta animación para mostrar
+                anim.Play("ShowItem");
+                itemIsShown = true;
+                yield return new WaitUntil(() => !anim.isPlaying);
+                onItemToggled.Raise(this, itemIsShown);
+                animationPlaying = false;
+            }
+            else
+            {
+                yield return null;
+            }
         }
 
         public void StartDialog(Component sender, object data)
@@ -146,6 +214,11 @@ namespace TwelveG.InteractableObjects
         public void SetChannelIndex(int index)
         {
             currentChannelIndex = index;
+        }
+
+        public void ToggleItem()
+        {
+            StartCoroutine(ToggleItemCoroutine());
         }
     }
 }

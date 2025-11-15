@@ -86,18 +86,6 @@ namespace TwelveG.PlayerController
             }
         }
 
-        private void Update()
-        {
-            if (activeFlashlight != null && playerCanToggleItems && Input.GetKeyDown(KeyCode.L))
-            {
-                StartCoroutine(activeFlashlight.GetComponent<PlayerItemBase>().ToggleItem(activeFlashlight));
-            }
-            if (activeWalkieTalkie != null && playerCanToggleItems && Input.GetKeyDown(KeyCode.K))
-            {
-                StartCoroutine(activeWalkieTalkie.GetComponent<PlayerItemBase>().ToggleItem(activeWalkieTalkie));
-            }
-        }
-
         public void HandleExaminationWhileUsingItems(bool isExamining)
         {
             // Si comienza a examinar, el jugador no puede alternar los objetos en las manos

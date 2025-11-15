@@ -31,6 +31,8 @@ namespace TwelveG.DialogsController
         [SerializeField] TextMeshProUGUI dialogCanvasText;
         [SerializeField] TextMeshProUGUI characterNameCanvasText;
 
+        private bool simonHasWTEquipped = false;
+
         private void OnEnable()
         {
             UpdateCanvasTextOnLanguageChanged();
@@ -92,6 +94,14 @@ namespace TwelveG.DialogsController
             if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
             {
                 AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip);
+            }
+
+            if(currentDialog.characterName == CharacterName.Mica && !simonHasWTEquipped)
+            {
+                // Debe disparar un evento para que el UI correspondiente avise a Simon que se debe equipar el WT
+                // para escuchar este dialogo.
+
+                // Debe esperar hasta que simonHasWTEquipped = true para reproducir el dialogo entrante de Micaela.
             }
 
             AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip);
