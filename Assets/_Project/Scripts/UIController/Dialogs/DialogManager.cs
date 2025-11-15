@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using TwelveG.AudioController;
+using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using UnityEngine;
 using UnityEngine.UI;
@@ -96,16 +97,22 @@ namespace TwelveG.DialogsController
                 AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip);
             }
 
-            if(currentDialog.characterName == CharacterName.Mica && !simonHasWTEquipped)
+            if (currentDialog.characterName == CharacterName.Mica && !simonHasWTEquipped)
             {
                 // Debe disparar un evento para que el UI correspondiente avise a Simon que se debe equipar el WT
                 // para escuchar este dialogo.
 
-                // Debe esperar hasta que simonHasWTEquipped = true para reproducir el dialogo entrante de Micaela.
+                yield return new WaitUntil(() => simonHasWTEquipped);
             }
 
-            AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip);
-            yield return ShowDialogCoroutine(currentDialog.characterName.ToString(), textToShow, currentDialog.spanishDialogClip.length);
+            float dialogTime = currentDialog.spanishDialogClip != null ? currentDialog.spanishDialogClip.length : Utils.TextFunctions.CalculateTextDisplayDuration(textToShow);
+
+            if (currentDialog.spanishDialogClip != null)
+            {
+                AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip);
+            }
+
+            yield return ShowDialogCoroutine(currentDialog.characterName.ToString(), textToShow, dialogTime);
 
             // Verifica si el diálogo tiene opciones
             if (currentOptions != null && currentOptions.Count > 0)
@@ -192,6 +199,16 @@ namespace TwelveG.DialogsController
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-
+        public void WalkieTalkieIsEquipped(Component sender, object data)
+        {
+            // Recibe onItemToggled event SO con el bool enviado en él
+            string itemObject = sender.gameObject.name;
+            bool itemIsShown = (bool)data;
+            Debug.Log($"Recibiendo senial de {itemObject}, equipado = {itemIsShown}");
+            if (itemObject == ItemType.WalkieTalkie.ToString())
+            {
+                simonHasWTEquipped = itemIsShown;
+            }
+        }
     }
 }

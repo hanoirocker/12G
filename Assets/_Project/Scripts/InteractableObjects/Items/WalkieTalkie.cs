@@ -151,7 +151,7 @@ namespace TwelveG.InteractableObjects
             var DialogSOData = (DialogSO)data;
 
             // Si el dialogo se dirige a Mica, setea el canal al de Mica y bloquea el cambio de canal, ademas de mostrar el item
-            if (DialogSOData != null && !DialogSOData.isSelfDialog)
+            if (DialogSOData != null && !DialogSOData.isSelfDialog && DialogSOData.characterName == CharacterName.Simon)
             {
                 AllowItemToBeToggled(false);
                 ShowItem();

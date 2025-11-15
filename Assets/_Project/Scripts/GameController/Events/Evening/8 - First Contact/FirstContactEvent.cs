@@ -19,8 +19,8 @@ namespace TwelveG.GameController
 
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private DialogSO firstEventDialog;
-
         [SerializeField] private DialogSO secondEventDialog;
+        [SerializeField] private DialogSO thirdEventDialog;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private GameEventSO updateFallbackTexts;
 
@@ -63,7 +63,12 @@ namespace TwelveG.GameController
                 eventObservationsTextsSOs[0]
             );
 
+            // Tiempo de espera hasta que llame Mica
             yield return new WaitForSeconds(12f);
+            startDialog.Raise(this, thirdEventDialog);
+
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
         }
 
         public void AllowNextActions(Component sender, object data)

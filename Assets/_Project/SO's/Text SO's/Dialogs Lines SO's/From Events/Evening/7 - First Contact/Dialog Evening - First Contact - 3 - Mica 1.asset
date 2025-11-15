@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
   m_Name: Dialog Evening - First Contact - 3 - Mica 1
   m_EditorClassIdentifier: 
-  characterName: 0
+  characterName: 1
+  isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Micaaaaaa ... (Suspiro)
+    dialogText: "Sim\xF3n\u2026 \xBFsos vos? \xBFQu\xE9 pas\xF3? Te escucho re bajo."
   - language: 1
-    dialogText: Micaaaaaa ... (Sight)
-  spanishDialogClip: {fileID: 8300000, guid: 2ced42c81fd02b347b6d1a3461c5c188, type: 3}
+    dialogText: "Sim\xF3n\u2026 is that you? What happened? You sound really faint."
+  spanishDialogClip: {fileID: 0}
   nextDialog: {fileID: 0}
-  timeBeforeShowing: 10
+  timeBeforeShowing: 1
   dialogOptions: []

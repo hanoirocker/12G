@@ -58,7 +58,7 @@ namespace TwelveG.AudioController
             RaycastHit hit;
             Ray ray = new Ray(transform.position + Vector3.up * 0.5f, -Vector3.up);
 
-            if (Physics.Raycast(ray, out hit, 1.0f, ~0, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(ray, out hit, 1.0f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
             {
                 Renderer surfaceRenderer = hit.collider.GetComponentInChildren<Renderer>();
 
