@@ -10,16 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - First Contact - 3 - Mica 1
+  m_Name: Dialog Evening - First Contact - 3.4.M.2
   m_EditorClassIdentifier: 
   characterName: 1
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Sim\xF3n\u2026 \xBFsos vos? \xBFQu\xE9 pas\xF3? Te escucho re bajo."
+    dialogText: "Che, \xBFest\xE1s bien? Escuch\xE9 el tiro del vecino. Me asust\xE9
+      much\xEDsimo."
   - language: 1
-    dialogText: "Sim\xF3n\u2026 is that you? What happened? You sound really faint."
+    dialogText: Hey, are you okay? I heard the noise from your neighbor. It scared
+      the hell out of me.
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 3cdc1c4cb587bbc4eae08fcb3a71948d, type: 2}
   timeBeforeShowing: 1
   dialogOptions: []

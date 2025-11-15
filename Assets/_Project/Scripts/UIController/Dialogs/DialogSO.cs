@@ -1,7 +1,7 @@
 namespace TwelveG.DialogsController
 {
-  using System.Collections.Generic;
-  using TwelveG.Localization;
+    using System.Collections.Generic;
+    using TwelveG.Localization;
     using UnityEngine;
 
     public enum CharacterName
@@ -30,8 +30,10 @@ namespace TwelveG.DialogsController
 
         public DialogSO nextDialog;
 
-        [Range(0f, 12f)]
+        [Range(0f, 100f)]
         public float timeBeforeShowing = 0f;
+
+        public GameEventSO endingEvent = null;
 
         public List<DialogOptions> dialogOptions;
     }

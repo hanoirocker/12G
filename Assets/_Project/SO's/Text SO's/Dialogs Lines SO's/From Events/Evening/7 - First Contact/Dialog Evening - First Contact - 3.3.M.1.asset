@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - First Contact - 2 - Simon 3
+  m_Name: Dialog Evening - First Contact - 3.3.M.1
   m_EditorClassIdentifier: 
-  characterName: 0
+  characterName: 1
+  isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Micaaaaaa ... (Suspiro)
+    dialogText: "\xBFEn serio? Qu\xE9 ocurrente\u2026"
   - language: 1
-    dialogText: Micaaaaaa ... (Sight)
-  spanishDialogClip: {fileID: 8300000, guid: 2ced42c81fd02b347b6d1a3461c5c188, type: 3}
-  nextDialog: {fileID: 0}
-  timeBeforeShowing: 10
+    dialogText: "Seriously? How typical of her\u2026"
+  spanishDialogClip: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: dee3e3c16bca07649905da196bc9f362, type: 2}
+  timeBeforeShowing: 1.5
   dialogOptions: []

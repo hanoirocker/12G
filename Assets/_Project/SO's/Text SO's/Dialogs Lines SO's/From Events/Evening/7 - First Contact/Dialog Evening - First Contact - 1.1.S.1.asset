@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - First Contact - 1 - Simon 1
+  m_Name: Dialog Evening - First Contact - 1.1.S.1
   m_EditorClassIdentifier: 
   characterName: 0
   isSelfDialog: 1

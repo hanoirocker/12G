@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - First Contact - 3.8.M.1
+  m_EditorClassIdentifier: 
+  characterName: 1
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: "Si ... Creo que simplemente me cuesta procesar lo que me cont\xE1s.
+      No puedo creerlo .."
+  - language: 1
+    dialogText: Yes... I think I'm just having trouble processing what you're telling
+      me. I can't believe it...
+  spanishDialogClip: {fileID: 0}
+  nextDialog: {fileID: 0}
+  timeBeforeShowing: 5
+  endingEvent: {fileID: 0}
+  dialogOptions: []

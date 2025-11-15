@@ -10,16 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - First Contact - 1 - Simon 2
+  m_Name: Dialog Evening - First Contact - 3.2.S.1
   m_EditorClassIdentifier: 
   characterName: 0
-  isSelfDialog: 1
+  isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Si, todo perfecto.
+    dialogText: "S\xED, soy yo. No tengo se\xF1al en el celular. Encontr\xE9 el walkie
+      que mi vieja hab\xEDa escondido y estuve intentando contactarte."
   - language: 1
-    dialogText: Yeah .. all good.
-  spanishDialogClip: {fileID: 8300000, guid: 1a556e20a7ca6b24f90a096614f2b895, type: 3}
-  nextDialog: {fileID: 11400000, guid: 1b3474b0af50198449ee660548e87f72, type: 2}
+    dialogText: "Yeah, it's me. I\u2019ve got no signal on my phone. I found the
+      walkie-talkie my mom hid and I've been trying to contact you."
+  spanishDialogClip: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 01ca53817916eba41879195d76cdd0f5, type: 2}
   timeBeforeShowing: 1
   dialogOptions: []

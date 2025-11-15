@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - First Contact - 3.5.S.1
+  m_EditorClassIdentifier: 
+  characterName: 0
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: "Lo vi desde el pasillo. Fern\xE1ndez se dispar\xF3 directo a la
+      cabeza mientras miraba televisi\xF3n .. no entiendo nada."
+  - language: 1
+    dialogText: "I saw it from the hallway. Fern\xE1ndez shot himself straight in
+      the head while watching TV... I don't understand anything."
+  spanishDialogClip: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 122207f4d39aa3b478d8f20be7050fe3, type: 2}
+  timeBeforeShowing: 1
+  dialogOptions: []
