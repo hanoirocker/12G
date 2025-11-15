@@ -13,6 +13,7 @@ namespace TwelveG.InteractableObjects
 
         [Header("Audio")]
         [SerializeField] private AudioClip channelSwitchAudioClip;
+        [SerializeField] private AudioClip incomingDialogAlertClip;
         [SerializeField, Range(0f, 1f)] private float switchChannelVolume = 0.8f;
 
         private WalkieTalkieDataSO currentWalkieTalkieData;
@@ -135,6 +136,9 @@ namespace TwelveG.InteractableObjects
                 animationPlaying = true;
                 // Si está oculto, ejecuta animación para mostrar
                 anim.Play("ShowItem");
+                // Este evento sirve en particular para indicar que se comenzo a mostrar item, no que se actualizo
+                // su estado a 'mostrado'. Escucha por ejemplo Item Canvas para ocultar el texto de alerta.
+                onShowingItem.Raise(this, null);
                 itemIsShown = true;
                 yield return new WaitUntil(() => !anim.isPlaying);
                 onItemToggled.Raise(this, itemIsShown);
@@ -150,14 +154,38 @@ namespace TwelveG.InteractableObjects
         {
             var DialogSOData = (DialogSO)data;
 
-            // Si el dialogo se dirige a Mica, setea el canal al de Mica y bloquea el cambio de canal, ademas de mostrar el item
-            if (DialogSOData != null && !DialogSOData.isSelfDialog && DialogSOData.characterName == CharacterName.Simon)
+            if (DialogSOData == null)
             {
+                Debug.LogWarning("No DialogSOData but starDialog received");
+                return;
+            }
+
+            // Si el dialogo se dirige a Mica, setea el canal al de Mica y bloquea el cambio de canal, ademas de mostrar el item
+            if (DialogSOData.characterName == CharacterName.Simon && !DialogSOData.isSelfDialog)
+            {
+                currentChannelIndex = 2;
+
                 AllowItemToBeToggled(false);
                 ShowItem();
                 AllowChannelSwitching(false);
-                SetChannelIndex(2);
             }
+            if (DialogSOData.characterName == CharacterName.Mica && !itemIsShown)
+            {
+                StartCoroutine(IncomingDialogAlertCourutine());
+            }
+        }
+
+        private IEnumerator IncomingDialogAlertCourutine()
+        {
+            audioSource.loop = true;
+            audioSource.clip = incomingDialogAlertClip;
+            audioSource.Play();
+
+            yield return new WaitUntil(() => itemIsShown);
+
+            audioSource.Stop();
+            audioSource.loop = false;
+            audioSource.clip = null;
         }
 
         public void AllowChannelSwitching(bool allow)

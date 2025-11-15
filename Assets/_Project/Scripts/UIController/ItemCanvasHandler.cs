@@ -33,15 +33,18 @@ namespace TwelveG.UIController
 
             if (itemObject == ItemType.WalkieTalkie.ToString())
             {
-                alertText.text = "";
-                alertText.gameObject.SetActive(false);
-                alertPanel.SetActive(false);
                 WTImageObject.GetComponent<CanvasGroup>().alpha = itemIsShown ? equippedAlpha : unequipiedItemAlpha;
             }
             else if (itemObject == ItemType.Flashlight.ToString())
             {
                 FlashlightImageObject.GetComponent<CanvasGroup>().alpha = itemIsShown ? equippedAlpha : unequipiedItemAlpha;
             }
+        }
+
+        public void HideAlertPanel()
+        {
+            alertText.text = "";
+            alertPanel.SetActive(false);
         }
 
         public void IncomingDialogAlert()
@@ -55,11 +58,7 @@ namespace TwelveG.UIController
                 alertText.text = textToShow;
             }
 
-            if (!alertPanel.activeSelf)
-            {
-                alertPanel.SetActive(true);
-                alertText.gameObject.SetActive(true);
-            }
+            alertPanel.SetActive(true);
         }
 
         public void EnablePlayerItem(Component sender, object data)

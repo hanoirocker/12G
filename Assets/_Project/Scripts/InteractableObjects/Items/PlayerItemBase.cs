@@ -12,7 +12,10 @@ namespace TwelveG.InteractableObjects
         private protected bool itemIsShown = false;
 
         [Header("Event SO's references")]
+
+        // Se disparan para que los reciban el Item Canvas y el Dialog Manager
         [SerializeField] private protected GameEventSO onItemToggled;
+        [SerializeField] private protected GameEventSO onShowingItem;
 
         protected virtual void Awake()
         {
