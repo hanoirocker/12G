@@ -182,6 +182,7 @@ namespace TwelveG.InteractableObjects
             audioSource.Play();
 
             yield return new WaitUntil(() => itemIsShown);
+            AllowItemToBeToggled(false);
 
             audioSource.Stop();
             audioSource.loop = false;

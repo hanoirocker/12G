@@ -8,6 +8,14 @@ namespace TwelveG.InteractableObjects
         [Header("References")]
         [SerializeField] private Light flashlightLight;
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.K) && canBeToogled)
+            {
+                ToggleItem();
+            }
+        }
+
         public void ToggleItem()
         {
             StartCoroutine(ToggleItemCoroutine());
