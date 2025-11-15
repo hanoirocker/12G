@@ -26,6 +26,7 @@ namespace TwelveG.UIController
 
         public void ToggleItemAlpha(Component sender, object data)
         {
+            // Recibe onItemToggled event SO con el bool enviado en él
             string itemObject = sender.gameObject.name;
             bool itemIsShown = (bool)data;
 
