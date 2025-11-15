@@ -5,39 +5,51 @@ namespace TwelveG.AudioController
 
     public class PlayerSoundsHandler : MonoBehaviour
     {
-        [Header("Footsteps")]
+        [Header("Footsteps Clips")]
         public List<AudioClip> woodFS;
         public List<AudioClip> carpetFS;
         public List<AudioClip> mosaicGarageFS;
         public List<AudioClip> mosaicBathroomFS;
-        bool isRunning = false;
 
-        enum FSMaterial
+        [Header("Footsteps Settings")]
+        public float walkPitch = 0.75f;
+        public float runPitchMin = 0.9f;
+        public float runPitchMax = 1.1f;
+        public float walkCooldown = 0.5f;
+        public float runCooldown = 0.3f;
+
+        private float nextStepTime = 0f;
+        private bool isRunning = false;
+
+        private enum FSMaterial
         {
             Wood, Carpet, MosaicGarage, MosaicBathroom, Empty
         }
 
-        AudioSource audioSource;
+        private AudioSource audioSource;
 
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            audioSource.pitch = walkPitch;
         }
 
         private void Update()
         {
-            if (Input.GetKey(KeyCode.W) ||
-                Input.GetKey(KeyCode.A) ||
-                Input.GetKey(KeyCode.D) ||
-                Input.GetKey(KeyCode.S))
+            bool isMoving = Input.GetKey(KeyCode.W) ||
+                            Input.GetKey(KeyCode.A) ||
+                            Input.GetKey(KeyCode.S) ||
+                            Input.GetKey(KeyCode.D);
+
+            if (!isMoving) return;
+
+            isRunning = Input.GetKey(KeyCode.LeftShift);
+
+            // Controla cooldown entre pasos
+            if (Time.time >= nextStepTime)
             {
-                isRunning = false;
-                if (Input.GetKey(KeyCode.LeftShift
-                ))
-                {
-                    isRunning = true;
-                }
                 PlayFootStepsSounds(isRunning);
+                nextStepTime = Time.time + (isRunning ? runCooldown : walkCooldown);
             }
         }
 
@@ -45,43 +57,27 @@ namespace TwelveG.AudioController
         {
             RaycastHit hit;
             Ray ray = new Ray(transform.position + Vector3.up * 0.5f, -Vector3.up);
-            Material surfaceMaterial;
 
-            if (Physics.Raycast(ray, out hit, 1.0f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(ray, out hit, 1.0f, ~0, QueryTriggerInteraction.Ignore))
             {
                 Renderer surfaceRenderer = hit.collider.GetComponentInChildren<Renderer>();
-                if (surfaceRenderer)
+
+                if (surfaceRenderer && surfaceRenderer.sharedMaterial)
                 {
-                    surfaceMaterial = surfaceRenderer ? surfaceRenderer.sharedMaterial : null;
-                    if (surfaceMaterial.name.Contains("Wood"))
-                    {
-                        return FSMaterial.Wood;
-                    }
-                    else if (surfaceMaterial.name.Contains("Carpet"))
-                    {
-                        return FSMaterial.Carpet;
-                    }
-                    else if (surfaceMaterial.name.Contains("Mosaic - Garage"))
-                    {
-                        return FSMaterial.MosaicGarage;
-                    }
-                    else if (surfaceMaterial.name.Contains("Mosaic - Bathroom"))
-                    {
-                        return FSMaterial.MosaicBathroom;
-                    }
-                    else
-                    {
-                        return FSMaterial.Empty;
-                    }
+                    var matName = surfaceRenderer.sharedMaterial.name;
+
+                    if (matName.Contains("Wood")) return FSMaterial.Wood;
+                    if (matName.Contains("Carpet")) return FSMaterial.Carpet;
+                    if (matName.Contains("Mosaic - Garage")) return FSMaterial.MosaicGarage;
+                    if (matName.Contains("Mosaic - Bathroom")) return FSMaterial.MosaicBathroom;
                 }
             }
+
             return FSMaterial.Empty;
         }
 
         private void PlayFootStepsSounds(bool isRunning)
         {
-            if (audioSource.isPlaying) { return; }
-
             AudioClip clip = null;
             FSMaterial surface = SurfaceSelect();
 
@@ -99,24 +95,14 @@ namespace TwelveG.AudioController
                 case FSMaterial.Carpet:
                     clip = carpetFS[Random.Range(0, carpetFS.Count)];
                     break;
-                default:
-                    break;
             }
+            if (clip == null) return;
 
-            if (surface != FSMaterial.Empty)
-            {
-                audioSource.clip = clip;
-                if (isRunning)
-                {
-                    audioSource.pitch = Random.Range(1.6f, 1.7f);
-                }
-                else
-                {
-                    audioSource.pitch = Random.Range(0.7f, 0.8f);
-                }
-                audioSource.Play();
-            }
+            audioSource.pitch = isRunning
+                ? Random.Range(runPitchMin, runPitchMax)
+                : walkPitch;
+
+            audioSource.PlayOneShot(clip);
         }
     }
-
 }
