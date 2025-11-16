@@ -33,7 +33,7 @@ namespace TwelveG.SaveSystem
         {
             // Application.persistentDataPath retorna el directorio de data persitente según
             // cada OS para proyectos en Unity!
-            // print("Application.persistentDataPath: " + Application.persistentDataPath);
+            print("Guardado data en: " + Application.persistentDataPath);
             dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadPersistenceData();
