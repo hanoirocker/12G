@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - First Contact - 3.7.S.3
+  m_Name: Dialog Evening - First Contact - 3.14.S.2
   m_EditorClassIdentifier: 
   characterName: 0
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "\xA1Mica! \xBFEst\xE1s ah\xED a\xFAn? \xA1Hey!"
+    dialogText: No me gusta nada esto ..
   - language: 1
-    dialogText: Mica! Are you still there? Hey!
+    dialogText: 
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: a7a839224a696964090181dc0240656a, type: 2}
-  timeBeforeShowing: 12
+  nextDialog: {fileID: 11400000, guid: fb31fe4f97d844234851c55a3657c59b, type: 2}
+  timeBeforeShowing: 3
+  endingEvent: {fileID: 0}
   dialogOptions: []

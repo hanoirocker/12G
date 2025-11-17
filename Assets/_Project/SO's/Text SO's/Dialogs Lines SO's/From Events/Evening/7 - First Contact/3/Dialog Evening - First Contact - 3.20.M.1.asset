@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - First Contact - 3.6.S.2
+  m_Name: Dialog Evening - First Contact - 3.20.M.1
   m_EditorClassIdentifier: 
-  characterName: 0
+  characterName: 1
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "No hay nadie m\xE1s ah\xED. Solo\u2026 \xE9l .. o lo que qued\xF3
-      de \xE9l."
+    dialogText: Ok.
   - language: 1
-    dialogText: There's no one else there. Only... him... or what's left of him.
+    dialogText: 
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: e8a4474ba9d031e46b2f82684ccf944f, type: 2}
-  timeBeforeShowing: 1
+  nextDialog: {fileID: 0}
+  timeBeforeShowing: 1.5
+  endingEvent: {fileID: 0}
   dialogOptions: []
