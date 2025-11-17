@@ -47,9 +47,11 @@ namespace TwelveG.UIController
             alertPanel.SetActive(false);
         }
 
-        public void IncomingDialogAlert()
+        public void IncomingDialogAlert(Component sender, object data)
         {
-            if (acceptCallTextSO != null)
+            bool tooglePanel = (bool)data;
+
+            if (acceptCallTextSO != null && !alertPanel.activeSelf)
             {
                 string textToShow = Utils.TextFunctions.RetrieveInteractionText(
                     LocalizationManager.Instance.GetCurrentLanguageCode(),
@@ -57,8 +59,12 @@ namespace TwelveG.UIController
                 );
                 alertText.text = textToShow;
             }
+            else if (alertPanel.activeSelf)
+            {
+                alertText.text = "";
+            }
 
-            alertPanel.SetActive(true);
+            alertPanel.SetActive(tooglePanel);
         }
 
         public void EnablePlayerItem(Component sender, object data)

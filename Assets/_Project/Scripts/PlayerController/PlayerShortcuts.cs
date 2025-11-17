@@ -18,6 +18,14 @@ namespace TwelveG.PlayerController
             {
                 onControlCanvasControls.Raise(this, new AlternateCanvasCurrentState());
             }
+            // if (Input.GetKeyDown(KeyCode.O))
+            // {
+            //     Time.timeScale = 1;
+            // }
+            // if (Input.GetKeyDown(KeyCode.P))
+            // {
+            //     Time.timeScale = 2;
+            // }
             else if (Input.GetKeyDown(KeyCode.Escape) && playerCanOpenPauseMenu)
             {
                 if (!PauseMenuCanvasHandler.gameIsPaused)

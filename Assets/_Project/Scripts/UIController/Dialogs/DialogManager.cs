@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using TwelveG.AudioController;
-using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,28 +11,22 @@ namespace TwelveG.DialogsController
     public class DialogManager : MonoBehaviour
     {
         [Header("References")]
-        public GameObject optionsPanel;
-        public GameObject dialogPanel;
-        public GameObject buttonPrefab;
+        [SerializeField] private GameObject optionsPanel;
+        [SerializeField] private GameObject dialogPanel;
+        [SerializeField] private GameObject buttonPrefab;
+
+        [SerializeField] private Canvas dialogCanvas;
+        [SerializeField] private TextMeshProUGUI dialogCanvasText;
+        [SerializeField] private TextMeshProUGUI characterNameCanvasText;
 
         [Header("Audio")]
         [SerializeField] AudioClip WTBeepClip;
 
         [Header("Game Event SO's")]
         public GameEventSO conversationHasEnded;
-        public GameEventSO onIncomingDialog;
 
         private DialogSO currentDialog;
         private List<DialogOptions> currentOptions;
-
-        private DialogSO lastDialogTextSORecieved = null;
-
-        [SerializeField] Canvas dialogCanvas;
-
-        [SerializeField] TextMeshProUGUI dialogCanvasText;
-        [SerializeField] TextMeshProUGUI characterNameCanvasText;
-
-        private bool simonHasWTEquipped = false;
 
         private void OnEnable()
         {
@@ -52,11 +45,11 @@ namespace TwelveG.DialogsController
 
         public void UpdateCanvasTextOnLanguageChanged()
         {
-            if (lastDialogTextSORecieved == null) return;
+            if (currentDialog == null) return;
 
             string textToShow = Utils.TextFunctions.RetrieveDialogText(
                 LocalizationManager.Instance.GetCurrentLanguageCode(),
-                lastDialogTextSORecieved
+                currentDialog
             );
 
             dialogCanvasText.text = textToShow;
@@ -98,14 +91,6 @@ namespace TwelveG.DialogsController
                 AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip);
             }
 
-            if (currentDialog.characterName == CharacterName.Mica && !simonHasWTEquipped)
-            {
-                // Avisa al ItemCanvasHandler que debe hacer parpadear el icono del walkie talkie y mostrar texto para equiparlo
-                onIncomingDialog.Raise(this, null);
-
-                yield return new WaitUntil(() => simonHasWTEquipped);
-            }
-
             float dialogTime = currentDialog.spanishDialogClip != null ? currentDialog.spanishDialogClip.length : Utils.TextFunctions.CalculateTextDisplayDuration(textToShow);
 
             if (currentDialog.spanishDialogClip != null)
@@ -128,9 +113,9 @@ namespace TwelveG.DialogsController
 
         public void StartDialog(Component sender, object data)
         {
-            if (data != null)
+            currentDialog = (DialogSO)data;
+            if (currentDialog != null)
             {
-                currentDialog = (DialogSO)data;
                 StartCoroutine(StartDialogCoroutine(currentDialog));
             }
         }
@@ -198,18 +183,6 @@ namespace TwelveG.DialogsController
             optionsPanel.SetActive(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-        }
-
-        public void WalkieTalkieIsEquipped(Component sender, object data)
-        {
-            // Recibe onItemToggled event SO con el bool enviado en él
-            string itemObject = sender.gameObject.name;
-            bool itemIsShown = (bool)data;
-            Debug.Log($"Recibiendo senial de {itemObject}, equipado = {itemIsShown}");
-            if (itemObject == ItemType.WalkieTalkie.ToString())
-            {
-                simonHasWTEquipped = itemIsShown;
-            }
         }
     }
 }

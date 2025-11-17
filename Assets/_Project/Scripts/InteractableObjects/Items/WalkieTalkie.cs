@@ -16,12 +16,18 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private AudioClip incomingDialogAlertClip;
         [SerializeField, Range(0f, 1f)] private float switchChannelVolume = 0.8f;
 
+        [Header("Game Event SO's")]
+        [SerializeField] private GameEventSO onShowIncomingCallPanel;
+        [SerializeField] private GameEventSO onShowDialog;
+
+        private DialogSO lastDialogReceived = null;
         private WalkieTalkieDataSO currentWalkieTalkieData;
+        private AudioSource audioSource;
         private bool canSwitchChannel = true;
+        private bool incomingCallWaiting = false;
         private int currentChannelIndex = 0;
         private int micaChannelIndex = 2;
         private int currentDataIndex = 0;
-        private AudioSource audioSource;
 
         void Start()
         {
@@ -50,10 +56,9 @@ namespace TwelveG.InteractableObjects
         // Lógica para cambiar de canal en el walkie-talkie
         private IEnumerator SwitchChannel(int direction)
         {
-            // Checks
+            // Test data!
             if (currentWalkieTalkieData == null)
             {
-                // Test data
                 currentWalkieTalkieData = walkieTalkieEveningData[0];
             }
             if (currentChannelIndex == 0 && direction == -1)
@@ -67,7 +72,13 @@ namespace TwelveG.InteractableObjects
 
             currentChannelIndex += direction;
 
-            Debug.Log($"Canal actual: {currentChannelIndex}");
+            if (currentChannelIndex == micaChannelIndex && incomingCallWaiting)
+            {
+                incomingCallWaiting = false;
+                onShowDialog.Raise(this, lastDialogReceived);
+                AllowChannelSwitching(false);
+                AllowItemToBeToggled(false);
+            }
 
             if (audioSource.isPlaying)
             {
@@ -118,6 +129,7 @@ namespace TwelveG.InteractableObjects
 
             if (itemIsShown && canBeToogled)
             {
+                // Por defecto se vuelve al canal de Mica al ocultar el WT
                 if (currentChannelIndex != micaChannelIndex)
                 {
                     yield return StartCoroutine(ReturnToMicaChannelCoroutine());
@@ -130,19 +142,41 @@ namespace TwelveG.InteractableObjects
                 yield return new WaitUntil(() => !anim.isPlaying);
                 onItemToggled.Raise(this, itemIsShown);
                 animationPlaying = false;
+
+                // Si guardamos el WT desde un canal que no era el de Mica, debemos
+                // mostrar el aviso de la llamada entrante.
+                if (incomingCallWaiting)
+                {
+                    // Tiempo de gracia para que en caso de que hayamos guardado el WT desde un canal
+                    // que no sea el de Mica y haya habido una llamada de ella entrante,
+                    // se muestre el cartel de aceptar llamada unos segundos luego de haberlo guardado.
+                    yield return new WaitForSeconds(5f);
+                    StartCoroutine(IncomingDialogAlertCourutine());
+                }
             }
             else if (!itemIsShown && canBeToogled)
             {
                 animationPlaying = true;
-                // Si está oculto, ejecuta animación para mostrar
                 anim.Play("ShowItem");
+
                 // Este evento sirve en particular para indicar que se comenzo a mostrar item, no que se actualizo
                 // su estado a 'mostrado'. Escucha por ejemplo Item Canvas para ocultar el texto de alerta.
                 onShowingItem.Raise(this, null);
                 itemIsShown = true;
+
                 yield return new WaitUntil(() => !anim.isPlaying);
                 onItemToggled.Raise(this, itemIsShown);
                 animationPlaying = false;
+
+                // Si habia una llamada en espera, se resetea el estado y se informa 
+                // DialogManager que comience.
+                if (incomingCallWaiting)
+                {
+                    onShowDialog.Raise(this, lastDialogReceived);
+                    incomingCallWaiting = false;
+                    AllowChannelSwitching(false);
+                    AllowItemToBeToggled(false);
+                }
             }
             else
             {
@@ -152,40 +186,72 @@ namespace TwelveG.InteractableObjects
 
         public void StartDialog(Component sender, object data)
         {
-            var DialogSOData = (DialogSO)data;
+            lastDialogReceived = (DialogSO)data;
 
-            if (DialogSOData == null)
+            if (lastDialogReceived == null)
             {
-                Debug.LogWarning("No DialogSOData but starDialog received");
                 return;
             }
 
-            // Si el dialogo se dirige a Mica, setea el canal al de Mica y bloquea el cambio de canal, ademas de mostrar el item
-            if (DialogSOData.characterName == CharacterName.Simon && !DialogSOData.isSelfDialog)
+            if (lastDialogReceived.characterName == CharacterName.Mica)
             {
-                currentChannelIndex = 2;
+                if (itemIsShown && currentChannelIndex == micaChannelIndex)
+                {
+                    AllowItemToBeToggled(false);
+                    AllowChannelSwitching(false);
+                    onShowDialog.Raise(this, lastDialogReceived);
+                }
+                // Si Mica empieza un dialogo con Simon pero no estamos en en canal de ella ..
+                else if (itemIsShown && currentChannelIndex != micaChannelIndex)
+                {
+                    incomingCallWaiting = true;
+                }
+                // Siempre que el jugador guarda el WT se vuelve al canal de Mica, asi que alcanza
+                // con chekear el estado del item para mostrar la alerta.
+                else if (!itemIsShown)
+                {
+                    incomingCallWaiting = true;
+                    StartCoroutine(IncomingDialogAlertCourutine());
+                }
+            }
+
+            // Si Simon debe comenzar un dialogo con Mica
+            if (lastDialogReceived.characterName == CharacterName.Simon && !lastDialogReceived.isSelfDialog)
+            {
+                // Si no está en el canal de Mica, va hasta el mismo y comienza el dialogo.
+                if (currentChannelIndex != micaChannelIndex)
+                {
+                    // TODO: Agrega dialogo tipo 'Debo hablar con Mica' a ejecutar mientras se cambia
+                    // de canal.
+                    StartCoroutine(ReturnToMicaChannelCoroutine());
+                }
 
                 AllowItemToBeToggled(false);
-                ShowItem();
+                if (!itemIsShown) ShowItem();
                 AllowChannelSwitching(false);
+                onShowDialog.Raise(this, lastDialogReceived);
             }
-            if (DialogSOData.characterName == CharacterName.Mica && !itemIsShown)
+            else if (lastDialogReceived.characterName == CharacterName.Simon && lastDialogReceived.isSelfDialog)
             {
-                StartCoroutine(IncomingDialogAlertCourutine());
+                AllowChannelSwitching(false);
+                onShowDialog.Raise(this, lastDialogReceived);
             }
         }
 
         private IEnumerator IncomingDialogAlertCourutine()
         {
-            audioSource.loop = true;
+            // Empieza a sonar avisando que hay una llamada de Mica y avisa al Item Canvas
+            // que muestre texto 'Accept Call [K]'
+            onShowIncomingCallPanel.Raise(this, true);
             audioSource.clip = incomingDialogAlertClip;
             audioSource.Play();
 
             yield return new WaitUntil(() => itemIsShown);
-            AllowItemToBeToggled(false);
 
+            // Dejar de sonar y ocultar el panel del item canvas
+            onShowIncomingCallPanel.Raise(this, false);
+            AllowItemToBeToggled(false);
             audioSource.Stop();
-            audioSource.loop = false;
             audioSource.clip = null;
         }
 
@@ -223,6 +289,12 @@ namespace TwelveG.InteractableObjects
                     }
                 }
                 currentWalkieTalkieData = walkieTalkieNightData[currentDataIndex];
+            }
+
+            if (currentWalkieTalkieData == null)
+            {
+                Debug.Log($"[WT] Null channels data for this event!");
+                return;
             }
 
             audioSource.clip = currentWalkieTalkieData.FrequencyData[currentChannelIndex].clips[0];
