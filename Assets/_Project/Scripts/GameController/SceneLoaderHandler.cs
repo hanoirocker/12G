@@ -1,23 +1,27 @@
+using System;
+using System.Collections;
+using TwelveG.AudioController;
+using TwelveG.UIController;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 namespace TwelveG.GameController
 {
-  using System;
-  using System.Collections;
-  using TwelveG.AudioController;
-  using TwelveG.UIController;
-  using UnityEngine;
-  using UnityEngine.SceneManagement;
-
   public class SceneLoaderHandler : MonoBehaviour
   {
     [Header("Settings")]
+    [Space]
     [SerializeField, Range(1f, 5f)] private float delayTime = 2.5f;
+    [SerializeField, Range(1f, 5f)] private float bgMusicFadeOut = 3f;
 
     [Header("References")]
+    [Space]
     [SerializeField] private AudioClip loadingClip;
     [SerializeField, Range(0f, 1f)] private float clipVolume = 0.6f;
 
     [Header("Game Event SO's")]
+    [Space]
     [SerializeField] private GameEventSO onSceneLoaded;
+    [SerializeField] private GameEventSO onAnyKeyPressed;
     [SerializeField] private GameEventSO onActivateCanvas;
     [SerializeField] private GameEventSO onDeactivateAcanvas;
 
@@ -62,6 +66,17 @@ namespace TwelveG.GameController
       // Esperar input del jugador
       yield return new WaitUntil(() => Input.anyKeyDown);
 
+      // Escucha el LoadingSceneCanvasHandler para ocultar el texto "Press any Button"
+      onAnyKeyPressed.Raise(this, null);
+
+      AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
+      if (bgMusicSource)
+      {
+        StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(bgMusicSource, bgMusicFadeOut));
+      }
+
+      yield return new WaitForSeconds(bgMusicFadeOut);
+
       // Ahora sí, activar la escena cargada
       asyncLoad.allowSceneActivation = true;
 
@@ -72,7 +87,7 @@ namespace TwelveG.GameController
     {
       // Debug.Log($"Escena actual: {SceneManager.GetActiveScene().buildIndex}");
       // Debug.Log($"Escena a cargar {sceneToLoadIndex}");
-  
+
       if (SceneManager.GetActiveScene().buildIndex == 0)
       {
         StartCoroutine(BasicLoadScene(sceneToLoadIndex));

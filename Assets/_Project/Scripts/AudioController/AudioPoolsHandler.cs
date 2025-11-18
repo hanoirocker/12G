@@ -1,10 +1,8 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 namespace TwelveG.AudioController
 {
-  using System.Collections.Generic;
-  using TwelveG.GameController;
-  using UnityEngine;
-  using UnityEngine.SceneManagement;
-
   public enum AudioPoolType
   {
     Rain,

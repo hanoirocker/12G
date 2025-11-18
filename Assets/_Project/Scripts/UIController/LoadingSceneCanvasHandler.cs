@@ -1,8 +1,7 @@
+using System.Collections;
+using UnityEngine;
 namespace TwelveG.UIController
 {
-  using System.Collections;
-  using UnityEngine;
-
   public class LoadingSceneCanvasHandler : MonoBehaviour
   {
     [Header("References")]
@@ -41,8 +40,6 @@ namespace TwelveG.UIController
 
       yield return new WaitForSeconds(delayBeforeText);
 
-      // Mostrar texto para que el jugador presione cualquier tecla
-      continueText.SetActive(true);
       Debug.Log("Scene loaded. Waiting for key press...");
     }
 
@@ -54,6 +51,19 @@ namespace TwelveG.UIController
     public void SceneLoaded()
     {
       keepBlinking = false;
+      if (!continueText.activeSelf)
+      {
+        continueText.SetActive(true);
+      }
+      keepBlinking = true;
+    }
+
+    public void OnAnyKeyPressed()
+    {
+      if (continueText.activeSelf)
+      {
+        continueText.SetActive(false);
+      }
     }
   }
 }

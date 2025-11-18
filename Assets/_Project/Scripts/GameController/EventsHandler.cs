@@ -67,7 +67,6 @@ namespace TwelveG.GameController
 
                 // Ejecutar y almacenar referencia a la corrutina
                 currentEventCoroutine = StartCoroutine(ExecuteSingleEvent(currentExecutingEvent));
-                Debug.Log($"[EventsHandler]: Iniciando evento: {currentExecutingEvent?.name}");
 
                 // Enviar Game Event SO sobre nuevo evento iniciado (Recibe por ejemplo Walkie Talkie para actualizar su estado)
                 EventContextData eventContext = new EventContextData(

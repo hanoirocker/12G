@@ -18,6 +18,7 @@ namespace TwelveG.SaveSystem
     public GameData Load()
     {
       string fullPath = Path.Combine(dataDirPath, dataFileName);
+      Debug.Log(fullPath);
 
       GameData loadedData = null;
 
