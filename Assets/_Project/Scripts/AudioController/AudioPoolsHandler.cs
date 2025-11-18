@@ -100,6 +100,26 @@ namespace TwelveG.AudioController
       }
     }
 
+    public AudioSource ReturnActiveSourceByType(AudioPoolType audioPoolType)
+    {
+      if (!poolMap.TryGetValue(audioPoolType, out var sources))
+      {
+        Debug.LogError($"[AudioPoolsHandler]: No se encontró lista para pool '{audioPoolType}'");
+        return null;
+      }
+
+      foreach (AudioSource audioSource in sources)
+      {
+        if (audioSource.isPlaying)
+        {
+          return audioSource;
+        }
+      }
+
+      Debug.LogWarning($"[AudioPoolsHandler]: Non '{audioPoolType}' active source!");
+      return null;
+    }
+
     public List<AudioSource> ReturnAudioSourceByType(AudioPoolType audioPoolType)
     {
       if (!poolMap.TryGetValue(audioPoolType, out var sources))

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8daa743a17a204232a4e109d49181525, type: 3}
-  m_Name: Interaction - Grab
+  m_Name: Interaction - Safe Box
   m_EditorClassIdentifier: 
   interactionTextsStructure:
   - language: 0
-    interactionText: AGARRAR PLATO
+    interactionText: INTERACTUAR
   - language: 1
-    interactionText: GRAB PLATE
+    interactionText: INTERACT

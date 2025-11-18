@@ -10,17 +10,25 @@ namespace TwelveG.GameController
 
     public class WakeUpEvent : GameEventBase
     {
-        [Header("Audio")]
-        [SerializeField] private AudioClip standUpClip;
-
         [Header("Event options")]
+        [Space]
         [SerializeField, Range(1, 10)] private int initialTime = 3;
 
+        [Header("Audio Options")]
+        [Space]
+        [SerializeField, Range(0f,1f)] private float maxbgMusicVol;
+        [SerializeField, Range(0f,15f)] private float musicFadeTime;
+        [SerializeField] private AudioClip bgMusic1;
+        [SerializeField] private AudioClip standUpClip;
+        
+
         [Header("Text event SO")]
+        [Space]
         [SerializeField] private ObservationTextSO eventsObservationTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
 
         [Header("EventsSO references")]
+        [Space]
         [SerializeField] private GameEventSO onImageCanvasControls;
         [SerializeField] private GameEventSO onControlCanvasControls;
         [SerializeField] private GameEventSO onObservationCanvasShowText;
@@ -30,6 +38,7 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO onPlayerControls;
 
         [Header("Other eventsSO references")]
+        [Space]
         [SerializeField] private GameEventSO playWakeUpVCAnimation;
         [SerializeField] private GameEventSO playCrashingWindowSound;
 
@@ -38,6 +47,10 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ WAKE UP EVENT NOW -------->");
+
+            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
+            bgMusicSource.clip = bgMusic1;
+            bgMusicSource.volume = 0;
 
             onControlCanvasControls.Raise(this, new EnableCanvas(false));
             onImageCanvasControls.Raise(this, new EnableCanvas(true));
@@ -80,6 +93,9 @@ namespace TwelveG.GameController
             );
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
+
+            bgMusicSource.Play();
+            StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, maxbgMusicVol, musicFadeTime));
 
             AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
             if (audioSource != null && standUpClip != null)

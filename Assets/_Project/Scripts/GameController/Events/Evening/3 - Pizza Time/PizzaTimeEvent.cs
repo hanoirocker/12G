@@ -1,34 +1,39 @@
+using System.Collections;
+using System.Collections.Generic;
+using TwelveG.AudioController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using TwelveG.UIController;
+using TwelveG.Utils;
+using UnityEngine;
+
 namespace TwelveG.GameController
 {
-    using System.Collections;
-    using System.Collections.Generic;
-  using TwelveG.AudioController;
-  using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using TwelveG.UIController;
-    using TwelveG.Utils;
-    using UnityEngine;
-
     public class PizzaTimeEvent : GameEventBase
     {
         [Header("Event options")]
+        [Space]
         [TextArea(5, 50)]
         [SerializeField, Range(1, 10)] private int initialTime = 4;
 
         [Header("Objects options")]
+        [Space]
         [SerializeField] private GameObject policeCar;
 
         [Header("Audio settings")]
+        [Space]
         [SerializeField] private AudioClip chairMovingSound = null;
-        [SerializeField] [Range(0f, 1f)] private float chairMovingSoundVolume = 0.8f;
+        [SerializeField][Range(0f, 1f)] private float chairMovingSoundVolume = 0.8f;
 
         [Header("Text event SO")]
+        [Space]
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
         [SerializeField] private EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO_eating;
 
         [Header("EventsSO references")]
+        [Space]
         [SerializeField] private GameEventSO onImageCanvasControls;
         [SerializeField] private GameEventSO onObservationCanvasShowText;
         [SerializeField] private GameEventSO onEventInteractionCanvasShowText;
@@ -39,6 +44,7 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO onVirtualCamerasControl;
 
         [Header("Other eventsSO references")]
+        [Space]
         [SerializeField] private GameEventSO plateCanBePicked;
         [SerializeField] private GameEventSO pizzaCanBePicked;
         [SerializeField] private GameEventSO updateFallbackTexts;
@@ -109,6 +115,13 @@ namespace TwelveG.GameController
             {
                 // Espera lo que tarda por defecto el FadeOutImage
                 yield return new WaitForSeconds(1);
+            }
+
+            // Detiene "BG Music - Hauting Sound" iniciada al levantarnos en Wake Up
+            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
+            if(bgMusicSource)
+            {
+                StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(bgMusicSource, 7f));
             }
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));

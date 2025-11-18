@@ -8,17 +8,21 @@ namespace TwelveG.GameController
     using TwelveG.PlayerController;
     using TwelveG.Utils;
     using Cinemachine;
+    using TwelveG.AudioController;
 
     public class BirdsEvent : GameEventBase
     {
-        [Header("Zoom references: ")]
+        [Header("Event references: ")]
+        [Space]
         [SerializeField] private GameObject crashingBirdPrefab;
 
         [Header("Text event SO")]
+        [Space]
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
 
         [Header("EventsSO references")]
+        [Space]
         public GameEventSO onImageCanvasControls;
         public GameEventSO onObservationCanvasShowText;
         public GameEventSO onVirtualCamerasControl;
@@ -26,6 +30,7 @@ namespace TwelveG.GameController
         public GameEventSO onMainCameraSettings;
 
         [Header("Other eventsSO references")]
+        [Space]
         public GameEventSO trashBagCanBePicked;
         public GameEventSO broomCanBePicked;
         public GameEventSO updateFallbackTexts;

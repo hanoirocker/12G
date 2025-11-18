@@ -70,7 +70,7 @@ namespace TwelveG.InteractableObjects
             // RemoveUsedItems e Instantiate del plato vacio.
             AddSingleSlideOfHeatedPizzaToInventory(playerCamera);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
 
             RemoveUsedItems(playerCamera);
             Instantiate(emptyPlate, plateTransform);

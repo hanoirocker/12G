@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8daa743a17a204232a4e109d49181525, type: 3}
-  m_Name: Interaction - Grab
+  m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
+  m_Name: Context - Blood Stain
   m_EditorClassIdentifier: 
-  interactionTextsStructure:
-  - language: 0
-    interactionText: AGARRAR PLATO
-  - language: 1
-    interactionText: GRAB PLATE
+  entries:
+  - sceneEnum: 1
+    minEventIndex: 2
+    maxEventIndex: 6
+    texts: {fileID: 11400000, guid: 00ad14618e9c640f48f2ea2dc62b1a13, type: 2}

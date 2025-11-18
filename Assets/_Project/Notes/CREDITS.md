@@ -25,3 +25,5 @@ Modelos:
 * walkie_talkie_over_beep.m4a by MiscPractice at freesound.org
 * static noise.wav by lartti at freesound.org
 * Button click microswitch by michaelkoehler at freesound.org
+* Haunting Atmosphere for Scary Scenes by Gustavo_Alivera at freesound.org
+* Wavestate-thriller-10.wav by Multimediagigant at freesound.org
