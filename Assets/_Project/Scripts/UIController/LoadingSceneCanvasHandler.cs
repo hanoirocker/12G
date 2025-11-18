@@ -24,6 +24,7 @@ namespace TwelveG.UIController
 
     private void OnEnable()
     {
+      keepBlinking = true;
       StartCoroutine(BlinkingSequence());
     }
 
@@ -55,7 +56,6 @@ namespace TwelveG.UIController
       {
         continueText.SetActive(true);
       }
-      keepBlinking = true;
     }
 
     public void OnAnyKeyPressed()

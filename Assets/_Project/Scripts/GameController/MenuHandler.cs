@@ -60,15 +60,12 @@ namespace TwelveG.GameController
       switch (currentSceneName)
       {
         case "Menu Afternoon":
-          StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
           source.clip = afternoonMusic;
           break;
         case "Menu Evening":
-          StartWeatherEvent.Raise(this, WeatherEvent.HardRain);
           source.clip = eveningMusic;
           break;
         case "Menu Night":
-          StartWeatherEvent.Raise(this, WeatherEvent.SoftRain);
           source.clip = nightMusic;
           break;
         default:

@@ -1,8 +1,7 @@
+using System.Collections.Generic;
+using UnityEngine;
 namespace TwelveG.AudioController
 {
-  using System.Collections.Generic;
-  using UnityEngine;
-
   public class AudioZoneHandler : MonoBehaviour
   {
     // Necesita recibir la lista de fuentes
@@ -29,6 +28,11 @@ namespace TwelveG.AudioController
       }
 
       UpdateAudioSources();
+    }
+
+    public void ResetAcousticSources()
+    {
+      ambienceSources = null;
     }
 
     public void ExitedAcousticZone(Transform zoneTransform)

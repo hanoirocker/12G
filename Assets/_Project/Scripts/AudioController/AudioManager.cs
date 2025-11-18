@@ -33,7 +33,7 @@ namespace TwelveG.AudioController
         public AudioPoolsHandler PoolsHandler => audioPoolsHandler;
         public AudioFaderHandler FaderHandler => audioFaderHandler;
         public EnvironmentAudioHandler EnvironmentHandler => audioEnvironmentHandler;
-        public AudioZoneHandler RainHandler => audioZoneHandler;
+        public AudioZoneHandler AZHandler => audioZoneHandler;
         public AudioDialogsHandler AudioDialogsHandler => audioDialogsHandler;
 
         private float initialMasterVol;
@@ -88,6 +88,13 @@ namespace TwelveG.AudioController
                 Debug.LogError($"[AudioManager] GetCurrentChannelVolume couldn't recognize channel {channel}");
                 return defaultValue; // default volume for every channel
             }
+        }
+
+        // Llamado cuando se recibe onResetWeatherConfigs (no implementado en ningun evento aun)
+        public void ResetWeatherConfigs()
+        {
+            PoolsHandler.ResetWeatherClips();
+            AZHandler.ResetAcousticSources();
         }
 
         public float GetInitialChannelVolume(AudioGroup audioGroup)
