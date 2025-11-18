@@ -109,10 +109,16 @@ namespace TwelveG.GameController
       {
         case "Afternoon Scene":
           return SceneEnum.Afternoon;
+        case "Menu Afternoon":
+          return SceneEnum.MenuAfternoon;
         case "Evening Scene":
           return SceneEnum.Evening;
+        case "Menu Evening":
+          return SceneEnum.MenuEvening;
         case "Night Scene":
           return SceneEnum.Night;
+        case "Menu Night":
+          return SceneEnum.MenuNight;
         default:
           Debug.LogWarning($"[MenuHandler]: No background music assigned for scene '{currentSceneName}'");
           return SceneEnum.None;

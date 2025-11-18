@@ -1,7 +1,9 @@
 namespace TwelveG.AudioController
 {
   using System.Collections.Generic;
+  using TwelveG.GameController;
   using UnityEngine;
+  using UnityEngine.SceneManagement;
 
   public enum AudioPoolType
   {
@@ -136,6 +138,13 @@ namespace TwelveG.AudioController
 
     public void AssignWeatherEvents(Component sender, object data)
     {
+      string currentSceneName = SceneManager.GetActiveScene().name;
+
+      if (currentSceneName.Contains("Menu"))
+      {
+        return;
+      }
+
       AudioClip audioClip;
 
       switch ((WeatherEvent)data)

@@ -4,9 +4,9 @@ namespace TwelveG.GameController
   using TwelveG.AudioController;
   using TwelveG.UIController;
   using UnityEngine;
-    using UnityEngine.SceneManagement;
+  using UnityEngine.SceneManagement;
 
-    public class MenuHandler : MonoBehaviour
+  public class MenuHandler : MonoBehaviour
   {
     [Header("Settings")]
     [SerializeField, Range(1f, 5f)] float blackFadeInDuration;
@@ -14,6 +14,8 @@ namespace TwelveG.GameController
     [Header("Game Event SO")]
     public GameEventSO onActivateCanvas;
     public GameEventSO onImageCanvasControls;
+
+    public GameEventSO StartWeatherEvent;
 
     [Header("Menu audio")]
     public AudioClip afternoonMusic;
@@ -30,7 +32,7 @@ namespace TwelveG.GameController
 
       StartCoroutine(WaitForSceneToRender());
 
-      PlayBackgroundMusic();
+      SetMenuSceneSettings();
     }
 
     private IEnumerator WaitForSceneToRender()
@@ -50,7 +52,7 @@ namespace TwelveG.GameController
       );
     }
 
-    private void PlayBackgroundMusic()
+    private void SetMenuSceneSettings()
     {
       AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
       string currentSceneName = SceneManager.GetActiveScene().name;
@@ -58,12 +60,15 @@ namespace TwelveG.GameController
       switch (currentSceneName)
       {
         case "Menu Afternoon":
+          StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
           source.clip = afternoonMusic;
           break;
         case "Menu Evening":
+          StartWeatherEvent.Raise(this, WeatherEvent.HardRain);
           source.clip = eveningMusic;
           break;
         case "Menu Night":
+          StartWeatherEvent.Raise(this, WeatherEvent.SoftRain);
           source.clip = nightMusic;
           break;
         default:
