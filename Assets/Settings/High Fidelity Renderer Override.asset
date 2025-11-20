@@ -161,8 +161,8 @@ MonoBehaviour:
   - {fileID: 8546133613431584515}
   - {fileID: -1254527290584976421}
   - {fileID: -5020862276920046677}
-  - {fileID: -2344615279290488597}
-  m_RendererFeatureMap: adc0de57c6d2eee5cb0b984eddd52b2f03779df73df79976db33a673130697eeab8b055e5c5052baebe8ef66d34076df
+  - {fileID: 5527110520268436076}
+  m_RendererFeatureMap: adc0de57c6d2eee5cb0b984eddd52b2f03779df73df79976db33a673130697eeab8b055e5c5052ba6cb2ecfabb3db44c
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -221,11 +221,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: FPSViewOpaqueAllDepth
+  m_Name: High Fidelity Renderer Override
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: FPSViewOpaqueAllDepth
+    passTag: High Fidelity Renderer Override
     Event: 300
     filterSettings:
       RenderQueueType: 0
@@ -253,6 +253,27 @@ MonoBehaviour:
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
       cameraFieldOfView: 75
+--- !u!114 &5527110520268436076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d613f08f173d4dd895bb07b3230baa9, type: 3}
+  m_Name: FullScreenPassRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  injectionPoint: 600
+  fetchColorBuffer: 1
+  requirements: 0
+  passMaterial: {fileID: -876546973899608171, guid: 364a579191c3747e8ae40a7a10653013,
+    type: 3}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
 --- !u!114 &8546133613431584515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,3 +316,19 @@ MonoBehaviour:
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
       cameraFieldOfView: 75
+--- !u!114 &8559836394694587573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79747436a4aff43a98bcb6d519d66b7e, type: 3}
+  m_Name: HorrorEffectFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 600
+    shaderMaterial: {fileID: 2100000, guid: a4a0c4a32e1c04504ab8d8cc28b4451e, type: 2}
