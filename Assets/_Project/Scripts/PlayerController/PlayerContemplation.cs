@@ -22,7 +22,6 @@ namespace TwelveG.PlayerController
         private CameraZoom cameraZoom;
         private IContemplable lastContemplatedObject = null;
         private int defaultTextCounter = 0;
-        private string canvasText;
 
         private void Awake()
         {

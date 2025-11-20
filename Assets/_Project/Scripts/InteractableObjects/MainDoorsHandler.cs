@@ -9,7 +9,8 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private bool isMainEntranceDoor;
         [SerializeField] private ObservationTextSO observationFallbackTextDefault = null;
 
-        private ObservationTextSO observationFallbackTextRecieved = null;
+        [Header("Testing")]
+        public ObservationTextSO observationFallbackTextRecieved = null;
 
         private bool canBeinteractedWith = true;
 

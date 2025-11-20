@@ -21,7 +21,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Window
   - Water
   - UI
   - Interactable
@@ -29,7 +29,7 @@ TagManager:
   - Contemplable
   - Examinable
   - Inventory
-  - 
+  - Verificable
   - 
   - 
   - 
