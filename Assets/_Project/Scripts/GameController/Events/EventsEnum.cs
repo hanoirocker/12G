@@ -12,6 +12,6 @@ namespace TwelveG.GameController
         FernandezSuicide,
         WalkieTalkieQuest,
         FirstContact,
-        TEST
+        Noises
     }
 }

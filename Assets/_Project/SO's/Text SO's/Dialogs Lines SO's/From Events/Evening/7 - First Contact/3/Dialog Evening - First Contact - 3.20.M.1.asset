@@ -18,7 +18,7 @@ MonoBehaviour:
   - language: 0
     dialogText: Ok.
   - language: 1
-    dialogText: 
+    dialogText: Ok.
   spanishDialogClip: {fileID: 0}
   nextDialog: {fileID: 0}
   timeBeforeShowing: 1.5
