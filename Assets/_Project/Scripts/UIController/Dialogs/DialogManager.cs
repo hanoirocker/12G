@@ -98,7 +98,17 @@ namespace TwelveG.DialogsController
                 AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip);
             }
 
+            if(currentDialog.startingEvent != null)
+            {
+                currentDialog.startingEvent.Raise(this, null);
+            }
+
             yield return ShowDialogCoroutine(currentDialog.characterName.ToString(), textToShow, dialogTime);
+
+            if(currentDialog.endingEvent != null)
+            {
+                currentDialog.endingEvent.Raise(this, null);
+            }
 
             // Verifica si el diálogo tiene opciones
             if (currentOptions != null && currentOptions.Count > 0)

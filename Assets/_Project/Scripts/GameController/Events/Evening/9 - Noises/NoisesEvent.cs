@@ -25,7 +25,7 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO startDialog;
 
         [Header("Other eventsSO references")]
-
+        [SerializeField] private GameEventSO activateMicaEntranceCollider;
         [SerializeField] private GameEventSO triggerHouseLightsFlickering;
 
         private bool allowNextAction = false;
@@ -43,6 +43,8 @@ namespace TwelveG.GameController
                 this,
                 eventObservationsTextsSOs[0]
             );
+
+            activateMicaEntranceCollider.Raise(this, null);
 
             // "Entrance - Spot" dispara el evento micaEntranceSpotted al ser chekeado por Simon
             yield return new WaitUntil(() => allowNextAction);

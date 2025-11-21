@@ -22,19 +22,14 @@ namespace TwelveG.DialogsController
     public class DialogSO : ScriptableObject
     {
         public CharacterName characterName;
-
         public bool isSelfDialog = false;
-
         public List<DialogTextStructure> dialogTextStructure;
         public AudioClip spanishDialogClip;
-
-        public DialogSO nextDialog;
-
         [Range(0f, 100f)]
         public float timeBeforeShowing = 0f;
-
+        public GameEventSO startingEvent = null;
         public GameEventSO endingEvent = null;
-
+        public DialogSO nextDialog;
         public List<DialogOptions> dialogOptions;
     }
 }
