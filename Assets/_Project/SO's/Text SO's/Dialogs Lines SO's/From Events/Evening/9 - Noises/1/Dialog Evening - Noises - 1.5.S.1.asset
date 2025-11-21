@@ -20,8 +20,8 @@ MonoBehaviour:
   - language: 1
     dialogText: What exactly are you proposing?
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 0
+  timeBeforeShowing: 2
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
-  nextDialog: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: bb69d16390cdb7c4e9ca8ef81c3702be, type: 2}
   dialogOptions: []

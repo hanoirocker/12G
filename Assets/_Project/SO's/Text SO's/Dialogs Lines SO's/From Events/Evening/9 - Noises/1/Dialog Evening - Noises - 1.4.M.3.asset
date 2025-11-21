@@ -16,13 +16,13 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "\xBFY si en vez de molestar a la cana por una vez al menos no intentamos
-      pedir ayuda?"
+    dialogText: "Che .. \xBFY si en vez de molestar a la cana por una vez al menos
+      no intentamos pedir ayuda?"
   - language: 1
-    dialogText: What if, instead of bothering the cops, we at least tried asking
-      for help?
+    dialogText: Hey .. What if, instead of bothering the cops, we at least tried
+      asking for help?
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 0
+  timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
   nextDialog: {fileID: 11400000, guid: 285069e4fea48684ab3cb11efcd39e38, type: 2}

@@ -21,7 +21,8 @@ MonoBehaviour:
   - language: 1
     dialogText: 
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 92f455805e51147a89440f49f3cfc93f, type: 2}
-  timeBeforeShowing: 1
+  timeBeforeShowing: 3
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 92f455805e51147a89440f49f3cfc93f, type: 2}
   dialogOptions: []
