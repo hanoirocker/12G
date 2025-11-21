@@ -11,7 +11,14 @@ namespace TwelveG.EnvironmentController
 
         public void FlickerLights(Component sender, object data)
         {
-            StartCoroutine(FlickerSequence((float)data));
+            if (data != null)
+            {
+                StartCoroutine(FlickerSequence((float)data));
+            }
+            else
+            {
+                Debug.LogError($"Need to send a float value when rising triggerHouseLightsFlickering!");
+            }
         }
 
         private IEnumerator FlickerSequence(float delay)

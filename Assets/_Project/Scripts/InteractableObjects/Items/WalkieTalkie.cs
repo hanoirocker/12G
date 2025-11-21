@@ -218,13 +218,7 @@ namespace TwelveG.InteractableObjects
             // Si Simon debe comenzar un dialogo con Mica
             if (lastDialogReceived.characterName == CharacterName.Simon && !lastDialogReceived.isSelfDialog)
             {
-                // Si no está en el canal de Mica, va hasta el mismo y comienza el dialogo.
-                if (currentChannelIndex != micaChannelIndex)
-                {
-                    // TODO: Agrega dialogo tipo 'Debo hablar con Mica' a ejecutar mientras se cambia
-                    // de canal.
-                    StartCoroutine(ReturnToMicaChannelCoroutine());
-                }
+                currentChannelIndex = micaChannelIndex;
 
                 AllowItemToBeToggled(false);
                 if (!itemIsShown) ShowItem();

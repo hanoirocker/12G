@@ -21,11 +21,12 @@ namespace TwelveG.GameController
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private GameEventSO updateFallbackTexts;
 
-
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO startDialog;
 
         [Header("Other eventsSO references")]
+
+        [SerializeField] private GameEventSO triggerHouseLightsFlickering;
 
         private bool allowNextAction = false;
 
@@ -43,10 +44,18 @@ namespace TwelveG.GameController
                 eventObservationsTextsSOs[0]
             );
 
+            // "Entrance - Spot" dispara el evento micaEntranceSpotted al ser chekeado por Simon
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            // Mica .. no veo nada en la entrada raro en la entrada de tu casa ..
             startDialog.Raise(this, firstEventDialog);
+
+            // Parpadean luces de la casa
+            triggerHouseLightsFlickering.Raise(this, 5f);
+
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
 
         }
 

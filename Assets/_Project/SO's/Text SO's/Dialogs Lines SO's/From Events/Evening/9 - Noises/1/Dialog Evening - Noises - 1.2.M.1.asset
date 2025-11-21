@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - Noises - 1.1.S.1
+  m_Name: Dialog Evening - Noises - 1.2.M.1
   m_EditorClassIdentifier: 
-  characterName: 0
+  characterName: 1
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Mica .. no veo nada raro en la entrada de tu casa .. Estas segura
-      que escuchaste algo?
+    dialogText: (... Suspiros ...) Estoy casi segura que si .. aunque tampoco puede
+      ver nada en realidad ..
   - language: 1
-    dialogText: Mica, I don't see anything strange at the entrance to your house.
-      Are you sure you heard something?
+    dialogText: (...Sighs...) I'm almost sure that's right... although I can't really
+      see anything either...
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 8cdad0291a43b4943b7a2b29180a57d8, type: 2}
-  timeBeforeShowing: 1
+  nextDialog: {fileID: 11400000, guid: 96c28e66b5acb0440a46660a7b4300f1, type: 2}
+  timeBeforeShowing: 4
   endingEvent: {fileID: 0}
   dialogOptions: []
