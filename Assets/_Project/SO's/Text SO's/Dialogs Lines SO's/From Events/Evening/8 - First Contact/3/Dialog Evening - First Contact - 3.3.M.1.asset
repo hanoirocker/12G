@@ -16,10 +16,15 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "\xBFEn serio? Qu\xE9 ocurrente\u2026"
+    dialogText: "Cierto que tu vieja te lo hab\xEDa escondido .. yo tampoco tengo
+      se\xF1al, esto tiene que ser un problema de una antena .. no s\xE9 // MISING
+      AUDIO!"
   - language: 1
-    dialogText: "Seriously? How typical of her\u2026"
+    dialogText: It's true your mom hid it from you... I don't have a signal either,
+      this has to be an antenna problem... I don't know.
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: dee3e3c16bca07649905da196bc9f362, type: 2}
   timeBeforeShowing: 1.5
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: dee3e3c16bca07649905da196bc9f362, type: 2}
   dialogOptions: []

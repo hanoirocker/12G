@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - Noises - 1.3.M.2
+  m_Name: Dialog Evening - Noises - 1.5.S.1
   m_EditorClassIdentifier: 
-  characterName: 1
+  characterName: 0
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Para colmo esta neblina de mierda se pone cada vez peor .. Dios.
+    dialogText: "\xBFQu\xE9 propon\xE9s exactamente?"
   - language: 1
-    dialogText: To make matters worse, this damn fog is getting worse and worse...
-      God.
+    dialogText: What exactly are you proposing?
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 0
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: a336449e09b9fff4882cdf5d5d910c1c, type: 2}
+  nextDialog: {fileID: 0}
   dialogOptions: []

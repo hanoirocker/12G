@@ -16,13 +16,14 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "S\xED, soy yo. No tengo se\xF1al en el celular y me acord\xE9 del
-      walkie que mi vieja hab\xEDa escondido."
+    dialogText: "Uff qu\xE9 bueno que podemos hablar por ac\xE1 al menos .. No tengo
+      se\xF1al en la compu, en el celu. No anda nada no s\xE9 qu\xE9 onda .."
   - language: 1
-    dialogText: "Yeah, it's me. I\u2019ve got no signal on my phone so i remembered
-      about the walkie-talkie my mom hid  from me."
-  spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 01ca53817916eba41879195d76cdd0f5, type: 2}
+    dialogText: Phew, it's good we can talk here at least... I have no signal on
+      my computer or my phone. Nothing's working, I don't know what's wrong...
+  spanishDialogClip: {fileID: 8300000, guid: e4cf433875359274db548e5a90029bca, type: 3}
   timeBeforeShowing: 1
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 01ca53817916eba41879195d76cdd0f5, type: 2}
   dialogOptions: []

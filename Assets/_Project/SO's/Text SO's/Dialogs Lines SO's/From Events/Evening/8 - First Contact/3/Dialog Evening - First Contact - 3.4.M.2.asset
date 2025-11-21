@@ -16,13 +16,14 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Che, \xBFEst\xE1s bien? Escuch\xE9 un ruido muy fuerte que pareci\xF3
-      venir del lado. Me asust\xE9 much\xEDsimo."
+    dialogText: "Che, \xBFEst\xE1s bien? Me pareci\xF3 escuchar un ruido muy fuerte
+      al lado. Me asust\xE9 un mont\xF3n."
   - language: 1
-    dialogText: Hey, are you okay? I heard the noise from your neighbor. It scared
-      the hell out of me.
-  spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 3cdc1c4cb587bbc4eae08fcb3a71948d, type: 2}
+    dialogText: Hey, are you okay? I thought I heard a really loud noise next door.
+      I got really scared.
+  spanishDialogClip: {fileID: 8300000, guid: 094b122e096511543bfd6fe42b9da127, type: 3}
   timeBeforeShowing: 1
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 3cdc1c4cb587bbc4eae08fcb3a71948d, type: 2}
   dialogOptions: []

@@ -19,8 +19,9 @@ MonoBehaviour:
     dialogText: "Sim\xF3n\u2026 \xBFSos vos? \xBFQu\xE9 pas\xF3? Te escucho re bajo."
   - language: 1
     dialogText: "Sim\xF3n\u2026 is that you? What happened? You sound really faint."
-  spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 79538b13e27fb76478423fe0a23b1c66, type: 2}
-  timeBeforeShowing: 1.5
+  spanishDialogClip: {fileID: 8300000, guid: 40d21dabe28b58b4faec8fd2ab0f21ee, type: 3}
+  timeBeforeShowing: 1
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 79538b13e27fb76478423fe0a23b1c66, type: 2}
   dialogOptions: []
