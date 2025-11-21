@@ -5,8 +5,8 @@ namespace TwelveG.PlayerController
   public class PlayerSpotter : MonoBehaviour
   {
     [Header("Raycast settings")]
-    [SerializeField] private LayerMask verificableMask;
-    [SerializeField, Range(0.5f, 50f)] private float verificationRange = 35f;
+    [SerializeField] private LayerMask spotMask;
+    [SerializeField, Range(0.5f, 50f)] private float spottingRange = 35f;
     public Color raycastColor;
 
     [Header("Cameras Settings")]
@@ -24,7 +24,7 @@ namespace TwelveG.PlayerController
     {
       if (cameraZoom.playerIsZooming())
       {
-        CheckOnObject();
+        Spot();
       }
       else
       {
@@ -32,17 +32,15 @@ namespace TwelveG.PlayerController
       }
     }
 
-    private void CheckOnObject()
+    private void Spot()
     {
       Ray r = new Ray(interactorSource.position, interactorSource.forward);
 
-      if (Physics.Raycast(r, out RaycastHit hitInfo, verificationRange, verificableMask))
+      if (Physics.Raycast(r, out RaycastHit hitInfo, spottingRange, spotMask))
       {
-        bool hasVerificable = hitInfo.collider.gameObject.TryGetComponent(out ISpot spotteableObject);
-        Debug.Log($"Object {hitInfo.collider.gameObject.name} hasVerificable: {hasVerificable}");
-        if (hasVerificable && spotteableObject.CanBeSpotted())
+        bool hasSpotComponent = hitInfo.collider.gameObject.TryGetComponent(out ISpot spotteableObject);
+        if (hasSpotComponent && spotteableObject.CanBeSpotted())
         {
-          Debug.Log("hasVerificable && spotteableObject.CanBeChecked()");
           // Si estoy contemplando un objeto distinto al anterior
           if (lastSpottedObject != null && lastSpottedObject != spotteableObject)
           {
@@ -67,7 +65,7 @@ namespace TwelveG.PlayerController
     {
 
       Gizmos.color = raycastColor;
-      Vector3 direction = interactorSource.TransformDirection(Vector3.forward) * verificationRange;
+      Vector3 direction = interactorSource.TransformDirection(Vector3.forward) * spottingRange;
       Gizmos.DrawRay(interactorSource.position, direction);
     }
   }
