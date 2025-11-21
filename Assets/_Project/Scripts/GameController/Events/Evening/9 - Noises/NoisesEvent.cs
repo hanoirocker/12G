@@ -43,10 +43,11 @@ namespace TwelveG.GameController
                 eventObservationsTextsSOs[0]
             );
 
-            // startDialog.Raise(this, firstEventDialog);
-
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            startDialog.Raise(this, firstEventDialog);
+
         }
 
         public void AllowNextActions(Component sender, object data)

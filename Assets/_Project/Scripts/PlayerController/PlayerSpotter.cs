@@ -41,6 +41,8 @@ namespace TwelveG.PlayerController
         bool hasSpotComponent = hitInfo.collider.gameObject.TryGetComponent(out ISpot spotteableObject);
         if (hasSpotComponent && spotteableObject.CanBeSpotted())
         {
+          spotteableObject.SpotOnObject();
+
           // Si estoy contemplando un objeto distinto al anterior
           if (lastSpottedObject != null && lastSpottedObject != spotteableObject)
           {
