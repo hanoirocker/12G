@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb37a2828d3599e479334233f67160df, type: 3}
-  m_Name: WalkieTalkie Data - Whatever Next
+  m_Name: WalkieTalkie Data - Noises
   m_EditorClassIdentifier: 
   eventName: 10
   frequencyData:
@@ -28,4 +28,4 @@ MonoBehaviour:
   - frequencyName: Canal 4
     hasSpecialAudio: 0
     clips:
-    - {fileID: 8300000, guid: 7e1e06a6bc7e9ef489046b21d0bac16f, type: 3}
+    - {fileID: 8300000, guid: 3e7aec5f7f2a14245a37271edc3b0ef6, type: 3}
