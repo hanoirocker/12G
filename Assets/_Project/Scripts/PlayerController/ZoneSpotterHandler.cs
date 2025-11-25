@@ -7,7 +7,7 @@ namespace TwelveG.PlayerController
     [Header("Settings")]
     [Space]
     public bool disableAfterSpotted = false;
-    public bool triggerEventAfterSpotted = false;
+    public bool destroyAfterSpotted = false;
 
     [Header("References")]
     [Space]
@@ -17,8 +17,12 @@ namespace TwelveG.PlayerController
 
     public void SpotOnObject()
     {
-      if(triggerEventAfterSpotted) eventToTrigger.Raise(this, null);
-      if(disableAfterSpotted) canBeChecked = false;
+      if (canBeChecked)
+      {
+        eventToTrigger.Raise(this, null);
+        if (disableAfterSpotted) canBeChecked = false;
+        if (destroyAfterSpotted) Destroy(this.gameObject);
+      }
     }
 
     public bool CanBeSpotted()

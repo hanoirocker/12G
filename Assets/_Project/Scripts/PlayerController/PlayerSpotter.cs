@@ -52,15 +52,6 @@ namespace TwelveG.PlayerController
           lastSpottedObject = spotteableObject;
         }
       }
-      else
-      {
-        // Si no golpeamos nada, re-habilitamos el último contemplado
-        if (lastSpottedObject != null)
-        {
-          lastSpottedObject.IsAbleToBeSpotted(true);
-          lastSpottedObject = null;
-        }
-      }
     }
 
     private void OnDrawGizmos()

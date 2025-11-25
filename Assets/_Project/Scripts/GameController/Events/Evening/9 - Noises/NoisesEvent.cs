@@ -85,6 +85,14 @@ namespace TwelveG.GameController
             // "conversationHasEnded"
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            yield return new WaitForSeconds(10f);
+
+            onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+            {
+                channelIndex = 3, // Canal 4 de la Policia
+                dialogSO = dialogSOs[2]
+            });
         }
 
         public void AllowNextActions(Component sender, object data)

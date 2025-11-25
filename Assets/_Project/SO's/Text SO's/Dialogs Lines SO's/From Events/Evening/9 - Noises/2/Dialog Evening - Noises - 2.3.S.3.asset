@@ -16,11 +16,13 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Necesitamos ayuda en barrio centro, por favor respondan ..
+    dialogText: Necesitamos ayuda en barrio centro, por favor respondan a esta frecuencia
+      ..
   - language: 1
-    dialogText: We need help in the city center, please respond.
-  spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 4
+    dialogText: We need help in the city center, please respond to this frequency
+      ..
+  spanishDialogClip: {fileID: 8300000, guid: e9080e998f62cf44582d5bfaf3430514, type: 3}
+  timeBeforeShowing: 7
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
   nextDialog: {fileID: 0}

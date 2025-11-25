@@ -16,11 +16,11 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Hola? Necesito que me respondan si me escuchan por favor ..
+    dialogText: Necesito que me respondan si me escuchan por favor ..
   - language: 1
-    dialogText: Hello? I need you to answer if you can hear me, please...
-  spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 4
+    dialogText: I need you to tell me if you can hear me, please ..
+  spanishDialogClip: {fileID: 8300000, guid: c3a480ff5cc3df348b624948075b354f, type: 3}
+  timeBeforeShowing: 5
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
   nextDialog: {fileID: 11400000, guid: 7dfa10d350b2e9b43b3e049b7b287d06, type: 2}

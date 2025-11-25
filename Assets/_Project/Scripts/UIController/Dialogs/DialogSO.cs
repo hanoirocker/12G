@@ -7,7 +7,8 @@ namespace TwelveG.DialogsController
     public enum CharacterName
     {
         Simon,
-        Mica
+        Mica,
+        Cops
     }
 
     [System.Serializable]
