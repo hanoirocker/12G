@@ -26,7 +26,7 @@ namespace TwelveG.GameController
 
 
         [Header("EventsSO references")]
-        [SerializeField] private GameEventSO startDialog;
+        [SerializeField] private GameEventSO onStartDialog;
 
         [SerializeField] private GameEventSO enablePlayerItem;
 
@@ -43,7 +43,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(initialTime);
 
             // Primer dialogo cuando obtiene el walkie talkie y lo setea al canal de Mica
-            startDialog.Raise(this, firstEventDialog);
+            onStartDialog.Raise(this, firstEventDialog);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
@@ -52,7 +52,7 @@ namespace TwelveG.GameController
             Debug.Log("[FirstContactEvent] Walkie Talkie enabled");
 
             // Llamado a Mica
-            startDialog.Raise(this, secondEventDialog);
+            onStartDialog.Raise(this, secondEventDialog);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
@@ -65,7 +65,7 @@ namespace TwelveG.GameController
 
             // Tiempo de espera hasta que llame Mica
             yield return new WaitForSeconds(12f);
-            startDialog.Raise(this, thirdEventDialog);
+            onStartDialog.Raise(this, thirdEventDialog);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();

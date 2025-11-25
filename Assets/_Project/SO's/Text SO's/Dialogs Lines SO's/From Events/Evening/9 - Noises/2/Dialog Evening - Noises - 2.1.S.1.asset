@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - Noises - 2.1.S.1
+  m_EditorClassIdentifier: 
+  characterName: 0
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: Hola ... Intento comunicarme con la frencuencia policial, necesito
+      ayuda urgente ..
+  - language: 1
+    dialogText: Hello... I'm trying to contact the police frequency, I need urgent
+      help...
+  spanishDialogClip: {fileID: 0}
+  timeBeforeShowing: 1.5
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: c8e461775e27f3145a4aa1105475896a, type: 2}
+  dialogOptions: []

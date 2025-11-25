@@ -8,6 +8,12 @@ using UnityEngine.UI;
 
 namespace TwelveG.DialogsController
 {
+    public struct DialogForChannel
+    {
+        public int channelIndex;
+        public DialogSO dialogSO;
+    }
+
     public class DialogManager : MonoBehaviour
     {
         [Header("References")]
@@ -105,6 +111,11 @@ namespace TwelveG.DialogsController
 
             yield return ShowDialogCoroutine(currentDialog.characterName.ToString(), textToShow, dialogTime);
 
+            if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
+            {
+                AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip);
+            }
+
             if(currentDialog.endingEvent != null)
             {
                 currentDialog.endingEvent.Raise(this, null);
@@ -168,7 +179,7 @@ namespace TwelveG.DialogsController
             else
             {
                 // Fin del diálogo
-                Debug.Log("conversationHasEnded Raised from DialogManager");
+                // Debug.Log("conversationHasEnded Raised from DialogManager");
                 conversationHasEnded.Raise(this, null);
                 dialogCanvas.enabled = false;
             }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TwelveG.DialogsController;
+using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using UnityEngine;
 
@@ -17,22 +18,27 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
 
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
-        [SerializeField] private DialogSO firstEventDialog;
+        [SerializeField] private DialogSO[] dialogSOs;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private GameEventSO updateFallbackTexts;
 
         [Header("EventsSO references")]
-        [SerializeField] private GameEventSO startDialog;
+        [SerializeField] private GameEventSO onStartDialog;
+        // TODO> Borrar luego de probar!
+        [SerializeField] private GameEventSO enablePlayerItem;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO activateMicaEntranceCollider;
         [SerializeField] private GameEventSO triggerHouseLightsFlickering;
+        [SerializeField] private GameEventSO onLoadDialogForSpecificChannel;
 
         private bool allowNextAction = false;
 
         public override IEnumerator Execute()
         {
             print("<------ NOISES EVENT NOW -------->");
+            // TODO> Borrar luego de probar!
+            enablePlayerItem.Raise(this, ItemType.WalkieTalkie);
 
             updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
@@ -50,15 +56,35 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            // Mica .. no veo nada en la entrada raro en la entrada de tu casa ..
-            startDialog.Raise(this, firstEventDialog);
+            // Mica .. no veo nada raro en la entrada de tu casa ..
+            // (Mica y Simon concuerdan en pedir ayuda a la policia en canal 4)
+            onStartDialog.Raise(this, dialogSOs[0]);
 
             // Parpadean luces de la casa
             triggerHouseLightsFlickering.Raise(this, 5f);
 
+            // Espera a que termine la conversacion con Micaela "conversationHasEnded"
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            // Debo cambiar al canal 4 y pedir ayuda cuanto antes ..
+            onObservationCanvasShowText.Raise(
+                this,
+                eventObservationsTextsSOs[1]
+            );
+
+            yield return new WaitForSeconds(3f);
+
+            // Cargar dialogo. El mismo no inicia hasta que el jugador cambie al canal 4.
+            onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+            {
+                channelIndex = 3, // Canal 4 de la Policia
+                dialogSO = dialogSOs[1]
+            });
+
+            // "conversationHasEnded"
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
         }
 
         public void AllowNextActions(Component sender, object data)
