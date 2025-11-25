@@ -9,6 +9,8 @@ namespace TwelveG.EnvironmentController
         [Header("References")]
         [SerializeField] private Light[] HouseLights;
 
+        [SerializeField, Range(0f, 15f)] private float defaultDelay = 0.3f;
+
         public void FlickerLights(Component sender, object data)
         {
             if (data != null)
@@ -17,7 +19,7 @@ namespace TwelveG.EnvironmentController
             }
             else
             {
-                Debug.LogError($"Need to send a float value when rising triggerHouseLightsFlickering!");
+                StartCoroutine(FlickerSequence(defaultDelay));
             }
         }
 

@@ -42,36 +42,36 @@ namespace TwelveG.GameController
 
             updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
-            // yield return new WaitForSeconds(initialTime);
+            yield return new WaitForSeconds(initialTime);
 
-            // // Desde cualquier ventana del primer piso deberia tener ...
-            // onObservationCanvasShowText.Raise(
-            //     this,
-            //     eventObservationsTextsSOs[0]
-            // );
+            // Desde cualquier ventana del primer piso deberia tener ...
+            onObservationCanvasShowText.Raise(
+                this,
+                eventObservationsTextsSOs[0]
+            );
 
-            // activateMicaEntranceCollider.Raise(this, null);
+            activateMicaEntranceCollider.Raise(this, null);
 
-            // // "Entrance - Spot" dispara el evento micaEntranceSpotted al ser chekeado por Simon
-            // yield return new WaitUntil(() => allowNextAction);
-            // ResetAllowNextActions();
+            // "Entrance - Spot" dispara el evento micaEntranceSpotted al ser chekeado por Simon
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
 
-            // // Mica .. no veo nada raro en la entrada de tu casa ..
-            // // (Mica y Simon concuerdan en pedir ayuda a la policia en canal 4)
-            // onStartDialog.Raise(this, dialogSOs[0]);
+            // Mica .. no veo nada raro en la entrada de tu casa ..
+            // (Mica y Simon concuerdan en pedir ayuda a la policia en canal 4)
+            onStartDialog.Raise(this, dialogSOs[0]);
 
-            // // Parpadean luces de la casa
-            // triggerHouseLightsFlickering.Raise(this, 5f);
+            // Parpadean luces de la casa
+            triggerHouseLightsFlickering.Raise(this, 5f);
 
-            // // Espera a que termine la conversacion con Micaela "conversationHasEnded"
-            // yield return new WaitUntil(() => allowNextAction);
-            // ResetAllowNextActions();
+            // Espera a que termine la conversacion con Micaela "conversationHasEnded"
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
 
-            // // Debo cambiar al canal 4 y pedir ayuda cuanto antes ..
-            // onObservationCanvasShowText.Raise(
-            //     this,
-            //     eventObservationsTextsSOs[1]
-            // );
+            // Debo cambiar al canal 4 y pedir ayuda cuanto antes ..
+            onObservationCanvasShowText.Raise(
+                this,
+                eventObservationsTextsSOs[1]
+            );
 
             yield return new WaitForSeconds(2f);
 
@@ -88,11 +88,18 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(10f);
 
+            // Dialogo interceptado de la policia
             onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
             {
                 channelIndex = 3, // Canal 4 de la Policia
                 dialogSO = dialogSOs[2]
             });
+
+            // TOCHECK: Agregar observacion de dialogo interceptado?
+
+            // "conversationHasEnded"
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
         }
 
         public void AllowNextActions(Component sender, object data)

@@ -24,6 +24,6 @@ MonoBehaviour:
   spanishDialogClip: {fileID: 8300000, guid: f2481d43daa885946a2879f296ad50b8, type: 3}
   timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}
-  endingEvent: {fileID: 0}
+  endingEvent: {fileID: 11400000, guid: 0f71c96d3baf6664b94de18f0305cd02, type: 2}
   nextDialog: {fileID: 11400000, guid: 7d71436a066ef1d4e85b33f8fcc2e5d2, type: 2}
   dialogOptions: []
