@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - Noises - 3.5.C
+  m_EditorClassIdentifier: 
+  characterName: 2
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: Recibido y comprendido base. 3-4 a la espera.
+  - language: 1
+    dialogText: Received and understood, base. 3-4 on standby.
+  spanishDialogClip: {fileID: 8300000, guid: cda0fb74c8d2d7e4ead48906ce671a9e, type: 3}
+  timeBeforeShowing: 1.5
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 2acd4d1415f91604b9b58ffc4e8f2dc1, type: 2}
+  dialogOptions: []

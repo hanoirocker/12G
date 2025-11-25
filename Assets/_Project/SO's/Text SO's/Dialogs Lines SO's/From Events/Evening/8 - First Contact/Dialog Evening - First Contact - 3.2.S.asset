@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - First Contact - 3.2.S
+  m_EditorClassIdentifier: 
+  characterName: 0
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: "Uff qu\xE9 bueno que podemos hablar por ac\xE1 al menos .. No tengo
+      se\xF1al en la compu, en el celu. No anda nada no s\xE9 qu\xE9 onda .."
+  - language: 1
+    dialogText: Phew, it's good we can talk here at least... I have no signal on
+      my computer or my phone. Nothing's working, I don't know what's wrong...
+  spanishDialogClip: {fileID: 8300000, guid: e4cf433875359274db548e5a90029bca, type: 3}
+  timeBeforeShowing: 1
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 01ca53817916eba41879195d76cdd0f5, type: 2}
+  dialogOptions: []

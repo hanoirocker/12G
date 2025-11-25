@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - Noises - 3.7.S
+  m_EditorClassIdentifier: 
+  characterName: 0
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: Llamo desde el barrio centro en Maria Acosta y Sarmiento .. necesitamos
+      ayuda urgente!
+  - language: 1
+    dialogText: I'm calling from the downtown area at Maria Acosta and Sarmiento...
+      we need urgent help!
+  spanishDialogClip: {fileID: 8300000, guid: f2481d43daa885946a2879f296ad50b8, type: 3}
+  timeBeforeShowing: 1.5
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 7d71436a066ef1d4e85b33f8fcc2e5d2, type: 2}
+  dialogOptions: []

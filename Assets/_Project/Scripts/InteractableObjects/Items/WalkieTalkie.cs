@@ -92,14 +92,26 @@ namespace TwelveG.InteractableObjects
             if (currentChannelIndex == 0 && direction == -1) yield break;
             if (currentChannelIndex == currentWalkieTalkieData.FrequencyData.Count - 1 && direction == +1) yield break;
 
-            currentChannelIndex += direction;
-
+            // Reproducir sonido de cambio de canal
             if (audioSource.isPlaying) audioSource.Stop();
             audioSource.PlayOneShot(channelSwitchAudioClip);
-
             yield return new WaitForFixedUpdate();
 
+            currentChannelIndex += direction;
             WalkieTalkieChannel currentChannelObj = walkieTalkieChannels[currentChannelIndex];
+
+            try
+            {
+                if (currentChannelObj.channelClip != null)
+                {
+                    audioSource.clip = currentChannelObj.channelClip;
+                    audioSource.Play();
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"[WT] Error reproduciendo audio canal: {e.Message}");
+            }
 
             if (currentChannelObj.HasPendingDialog())
             {
@@ -123,23 +135,7 @@ namespace TwelveG.InteractableObjects
 
                 AllowChannelSwitching(false);
                 AllowItemToBeToggled(false);
-
-                // IMPORTANTE: Salimos.
                 yield break;
-            }
-
-            // Si llegamos aquí, es que no hay eventos. Reproducimos el clip del canal.
-            try
-            {
-                if (currentChannelObj.channelClip != null)
-                {
-                    audioSource.clip = currentChannelObj.channelClip;
-                    audioSource.Play();
-                }
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogWarning($"[WT] Error reproduciendo audio canal: {e.Message}");
             }
         }
 
@@ -430,7 +426,7 @@ namespace TwelveG.InteractableObjects
             {
                 characterIsTalking = (bool)data;
 
-                if((bool)data)
+                if ((bool)data)
                 {
                     audioSource.Pause();
                 }

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - Noises - 3.10.C
+  m_EditorClassIdentifier: 
+  characterName: 2
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: "Adelante base, aqu\xED M\xF3vil 1-5. Me encuentro circulando por
+      Rotonda del Cruce."
+  - language: 1
+    dialogText: Go ahead base this is Mobile 1-5. I am currently driving through
+      the Crossroads Roundabout.
+  spanishDialogClip: {fileID: 8300000, guid: 61b235e6bcf0e4e47a71f41d18fca660, type: 3}
+  timeBeforeShowing: 1.5
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 29150014e9900df49bd42a08c380de11, type: 2}
+  dialogOptions: []

@@ -26,7 +26,8 @@ namespace TwelveG.DialogsController
         [SerializeField] private TextMeshProUGUI characterNameCanvasText;
 
         [Header("Audio")]
-        [SerializeField] AudioClip WTBeepClip;
+        [SerializeField] private AudioClip WTBeepClip;
+        [SerializeField, Range (0f, 3f)] float charactersPitch = 1.18f;
 
         [Header("Game Event SO's")]
         public GameEventSO conversationHasEnded;
@@ -88,7 +89,13 @@ namespace TwelveG.DialogsController
 
             yield return new WaitForSeconds(timeBeforeShowing);
 
-            OnDialogNodeRunning.Raise(this, true);
+            if(currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
+            {
+                if(!currentDialog.isSelfDialog)
+                {
+                    OnDialogNodeRunning.Raise(this, true);
+                }
+            }
 
             string textToShow = Utils.TextFunctions.RetrieveDialogText(
                     LocalizationManager.Instance.GetCurrentLanguageCode(),
@@ -97,14 +104,21 @@ namespace TwelveG.DialogsController
 
             if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
             {
-                AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip);
+                AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip, 1f);
             }
 
             float dialogTime = currentDialog.spanishDialogClip != null ? currentDialog.spanishDialogClip.length : Utils.TextFunctions.CalculateTextDisplayDuration(textToShow);
 
             if (currentDialog.spanishDialogClip != null)
             {
-                AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip);
+                if(currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
+                {
+                    AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip, charactersPitch);
+                }
+                else
+                {
+                    AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip, 1f);
+                }
             }
 
             if(currentDialog.startingEvent != null)
@@ -128,7 +142,7 @@ namespace TwelveG.DialogsController
 
             if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
             {
-                AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip);
+                AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip, 1f);
             }
 
             if(currentDialog.endingEvent != null)
@@ -136,7 +150,13 @@ namespace TwelveG.DialogsController
                 currentDialog.endingEvent.Raise(this, null);
             }
 
-            OnDialogNodeRunning.Raise(this, false);
+            if(currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
+            {
+                if(!currentDialog.isSelfDialog)
+                {
+                    OnDialogNodeRunning.Raise(this, false);
+                }
+            }
 
             // Verifica si el diálogo tiene opciones
             if (currentOptions != null && currentOptions.Count > 0)

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - Noises - 3.9.C
+  m_EditorClassIdentifier: 
+  characterName: 2
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: "Atento M\xF3vil 1-5, \xBFme copia su ubicaci\xF3n?"
+  - language: 1
+    dialogText: Attention Mobile 1-5, can you copy my location?
+  spanishDialogClip: {fileID: 8300000, guid: ece4b102d1d70ba449a5e1d9576271b2, type: 3}
+  timeBeforeShowing: 1.5
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: f963dee1215cecf48a65b1c941218901, type: 2}
+  dialogOptions: []

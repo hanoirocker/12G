@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - First Contact - 3.3.M
+  m_EditorClassIdentifier: 
+  characterName: 1
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: "Cierto que tu vieja te lo hab\xEDa escondido .. yo tampoco tengo
+      se\xF1al, esto tiene que ser un problema de una antena .. no s\xE9 // MISING
+      AUDIO!"
+  - language: 1
+    dialogText: It's true your mom hid it from you... I don't have a signal either,
+      this has to be an antenna problem... I don't know.
+  spanishDialogClip: {fileID: 0}
+  timeBeforeShowing: 1.5
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: dee3e3c16bca07649905da196bc9f362, type: 2}
+  dialogOptions: []

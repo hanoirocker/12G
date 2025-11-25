@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - First Contact - 3.6.S
+  m_EditorClassIdentifier: 
+  characterName: 0
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: "Claro vos desde tu casa no ten\xE9s \xE1ngulo pero yo desde ac\xE1
+      lo puedo ver todav\xEDa sentado en el living, en frente del televisor."
+  - language: 1
+    dialogText: I guess you can't see it from your angle but I can still see him
+      from here .. laying in the living room in front of the television.
+  spanishDialogClip: {fileID: 8300000, guid: 01f4084acf7a54e438196d88ae8a7396, type: 3}
+  timeBeforeShowing: 1
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: e8a4474ba9d031e46b2f82684ccf944f, type: 2}
+  dialogOptions: []
