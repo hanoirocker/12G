@@ -30,6 +30,7 @@ namespace TwelveG.DialogsController
 
         [Header("Game Event SO's")]
         public GameEventSO conversationHasEnded;
+        public GameEventSO OnDialogNodeRunning;
 
         private DialogSO currentDialog;
         private List<DialogOptions> currentOptions;
@@ -87,6 +88,8 @@ namespace TwelveG.DialogsController
 
             yield return new WaitForSeconds(timeBeforeShowing);
 
+            OnDialogNodeRunning.Raise(this, true);
+
             string textToShow = Utils.TextFunctions.RetrieveDialogText(
                     LocalizationManager.Instance.GetCurrentLanguageCode(),
                     currentDialog
@@ -109,7 +112,19 @@ namespace TwelveG.DialogsController
                 currentDialog.startingEvent.Raise(this, null);
             }
 
-            yield return ShowDialogCoroutine(currentDialog.characterName.ToString(), textToShow, dialogTime);
+            CharacterName charName = currentDialog.characterName;
+            string charNameString;
+
+            if(charName == CharacterName.Simon || charName == CharacterName.Mica)
+            {
+                charNameString = currentDialog.characterName.ToString();
+            }
+            else
+            {
+                charNameString = " ... ";
+            }
+            
+            yield return ShowDialogCoroutine(charNameString, textToShow, dialogTime);
 
             if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
             {
@@ -120,6 +135,8 @@ namespace TwelveG.DialogsController
             {
                 currentDialog.endingEvent.Raise(this, null);
             }
+
+            OnDialogNodeRunning.Raise(this, false);
 
             // Verifica si el diálogo tiene opciones
             if (currentOptions != null && currentOptions.Count > 0)

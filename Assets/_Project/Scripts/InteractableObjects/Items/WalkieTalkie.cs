@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TwelveG.InteractableObjects
 {
-    [System.Serializable] 
+    [System.Serializable]
     public class WalkieTalkieChannel
     {
         public int channelIndex;
@@ -40,12 +40,13 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private GameEventSO onShowDialog;
 
         [Header("Runtime Data")]
-        public WalkieTalkieChannel[] walkieTalkieChannels; 
+        public WalkieTalkieChannel[] walkieTalkieChannels;
 
         private DialogSO lastDialogReceived = null;
         private WalkieTalkieDataSO currentWalkieTalkieData;
         private AudioSource audioSource;
         private bool canSwitchChannel = true;
+        private bool characterIsTalking = false;
         private bool incomingCallWaiting = false;
         private int currentChannelIndex = 0;
         private int micaChannelIndex = 2; // Canal 3
@@ -81,9 +82,9 @@ namespace TwelveG.InteractableObjects
             if (currentWalkieTalkieData == null)
             {
                 // Fallback por si no se inicializó (testing)
-                if(walkieTalkieEveningData != null && walkieTalkieEveningData.Length > 0)
+                if (walkieTalkieEveningData != null && walkieTalkieEveningData.Length > 0)
                     currentWalkieTalkieData = walkieTalkieEveningData[0];
-                else 
+                else
                     yield break;
             }
 
@@ -103,23 +104,23 @@ namespace TwelveG.InteractableObjects
             if (currentChannelObj.HasPendingDialog())
             {
                 Debug.Log($"[WT] Disparando diálogo agendado en canal {currentChannelIndex}");
-                
+
                 onShowDialog.Raise(this, currentChannelObj.pendingDialog);
-                
+
                 AllowChannelSwitching(false);
                 AllowItemToBeToggled(false);
-                
+
                 // Limpiamos el diálogo para que no se repita loop
                 currentChannelObj.ClearPendingDialog();
-                yield break; 
+                yield break;
             }
 
             if (currentChannelIndex == micaChannelIndex && incomingCallWaiting)
             {
                 incomingCallWaiting = false;
-                
+
                 onShowDialog.Raise(this, lastDialogReceived);
-                
+
                 AllowChannelSwitching(false);
                 AllowItemToBeToggled(false);
 
@@ -182,7 +183,7 @@ namespace TwelveG.InteractableObjects
             }
 
             int frequencyCount = currentWalkieTalkieData.FrequencyData.Count;
-            
+
             // Reinicializamos el array si cambia el tamaño o es nulo
             if (walkieTalkieChannels == null || walkieTalkieChannels.Length != frequencyCount)
             {
@@ -192,7 +193,7 @@ namespace TwelveG.InteractableObjects
             // Llenamos el array de canales con los datos del SO correspondiente
             for (int i = 0; i < frequencyCount; i++)
             {
-                if (walkieTalkieChannels[i] == null) 
+                if (walkieTalkieChannels[i] == null)
                     walkieTalkieChannels[i] = new WalkieTalkieChannel();
 
                 walkieTalkieChannels[i].channelIndex = i;
@@ -227,6 +228,14 @@ namespace TwelveG.InteractableObjects
             }
 
             walkieTalkieChannels[dialogInfo.channelIndex].pendingDialog = dialogInfo.dialogSO;
+
+            if (currentChannelIndex == dialogInfo.channelIndex && itemIsShown)
+            {
+                onShowDialog.Raise(this, dialogInfo.dialogSO);
+                AllowChannelSwitching(false);
+                AllowItemToBeToggled(false);
+                walkieTalkieChannels[dialogInfo.channelIndex].ClearPendingDialog();
+            }
         }
 
         // Al terminar diálogo, restaurar el ruido de fondo si corresponde
@@ -245,7 +254,7 @@ namespace TwelveG.InteractableObjects
                     // Solo reproducimos ruido si NO quedó otro diálogo pendiente (raro, pero posible)
                     if (!currentChannelObj.HasPendingDialog() && currentChannelObj.channelClip != null)
                     {
-                        if(audioSource.clip != currentChannelObj.channelClip || !audioSource.isPlaying)
+                        if (audioSource.clip != currentChannelObj.channelClip || !audioSource.isPlaying)
                         {
                             audioSource.clip = currentChannelObj.channelClip;
                             audioSource.Play();
@@ -286,7 +295,7 @@ namespace TwelveG.InteractableObjects
             {
                 if (!lastDialogReceived.isSelfDialog)
                 {
-                    if(currentChannelIndex != micaChannelIndex)
+                    if (currentChannelIndex != micaChannelIndex)
                     {
                         StartCoroutine(ReturnToMicaChannelCoroutine());
                     }
@@ -370,13 +379,13 @@ namespace TwelveG.InteractableObjects
                 // Al sacar el WT, si no hay llamada entrante, reproducir el ruido del canal actual
                 if (!incomingCallWaiting)
                 {
-                     // Revisamos si el canal actual tiene ruido o diálogo pendiente
-                     WalkieTalkieChannel currentCh = walkieTalkieChannels[currentChannelIndex];
-                     if (!currentCh.HasPendingDialog() && currentCh.channelClip != null)
-                     {
-                         audioSource.clip = currentCh.channelClip;
-                         audioSource.Play();
-                     }
+                    // Revisamos si el canal actual tiene ruido o diálogo pendiente
+                    WalkieTalkieChannel currentCh = walkieTalkieChannels[currentChannelIndex];
+                    if (!currentCh.HasPendingDialog() && currentCh.channelClip != null)
+                    {
+                        audioSource.clip = currentCh.channelClip;
+                        audioSource.Play();
+                    }
                 }
 
                 if (incomingCallWaiting)
@@ -393,16 +402,43 @@ namespace TwelveG.InteractableObjects
         {
             canSwitchChannel = allow;
         }
-        
+
         public void SetChannelIndex(int index)
         {
             currentChannelIndex = index;
         }
 
-        public void PauseAudioSource()
+        // Recibe "onPauseGame"
+        public void ToggleWTAudioSource(Component sender, object data)
         {
-            if (audioSource.isPlaying) audioSource.Pause();
-            else audioSource.UnPause();
+            if (data != null && !characterIsTalking)
+            {
+                if ((bool)data)
+                {
+                    audioSource.Pause();
+                }
+                else
+                {
+                    audioSource.UnPause();
+                }
+            }
+        }
+
+        public void OnDialogNodeRunning(Component sender, object data)
+        {
+            if (data != null)
+            {
+                characterIsTalking = (bool)data;
+
+                if((bool)data)
+                {
+                    audioSource.Pause();
+                }
+                else
+                {
+                    audioSource.UnPause();
+                }
+            }
         }
 
         public void ToggleItem()

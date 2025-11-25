@@ -24,7 +24,7 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onStartDialog;
-        // TODO> Borrar luego de probar!
+        // TODO: Borrar luego de terminar evento!
         [SerializeField] private GameEventSO enablePlayerItem;
 
         [Header("Other eventsSO references")]
@@ -37,7 +37,7 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ NOISES EVENT NOW -------->");
-            // TODO> Borrar luego de probar!
+            // TODO: Borrar luego de terminar evento!
             enablePlayerItem.Raise(this, ItemType.WalkieTalkie);
 
             updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
@@ -73,7 +73,7 @@ namespace TwelveG.GameController
                 eventObservationsTextsSOs[1]
             );
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(10f);
 
             // Cargar dialogo. El mismo no inicia hasta que el jugador cambie al canal 4.
             onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
