@@ -8,6 +8,7 @@ namespace TwelveG.GameController
     using TwelveG.PlayerController;
     using TwelveG.Utils;
     using Cinemachine;
+    using TwelveG.AudioController;
 
     public class BirdsEvent : GameEventBase
     {
@@ -109,6 +110,14 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             yield return new WaitForSeconds(1f);
+            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
+
+            // Detiene "Haunting Sound" clip iniciado en Wake Up Event
+            if(bgMusicSource != null)
+            {
+                StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(bgMusicSource, 3f));
+            }
+    
             // A otra cosa.
             onObservationCanvasShowText.Raise(
                 this,
