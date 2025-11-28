@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
   m_Name: Observation - Prefab - Pizza Not Full
   m_EditorClassIdentifier: 
+  isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: "Un plato ser\xEDa ideal antes de meterla en el microondas."
+    observationText: "Un plato vendr\xEDa bien antes de meterla en el microondas."
   - language: 1
-    observationText: A plate would be ideal before putting it in the microwave.
+    observationText: A plate would be a good idea before putting it in the microwave.

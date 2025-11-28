@@ -8,7 +8,6 @@ namespace TwelveG.GameController
     using TwelveG.PlayerController;
     using TwelveG.Utils;
     using Cinemachine;
-    using TwelveG.AudioController;
 
     public class BirdsEvent : GameEventBase
     {
@@ -38,7 +37,6 @@ namespace TwelveG.GameController
         public GameEventSO zoomBirdIsInteractable;
 
         private bool allowNextAction = false;
-        private int eventObservationTextIndex = 0;
 
         public override IEnumerator Execute()
         {
@@ -62,9 +60,8 @@ namespace TwelveG.GameController
             // Parece que algo pasó arriba, mejor reviso qué fue eso.
             onObservationCanvasShowText.Raise(
                 this,
-                eventsObservationTextSO[eventObservationTextIndex]
+                eventsObservationTextSO[0]
             );
-            eventObservationTextIndex += 1;
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
@@ -73,11 +70,11 @@ namespace TwelveG.GameController
             // y me culpen por esta desastre.
             onObservationCanvasShowText.Raise(
                 this,
-                eventsObservationTextSO[eventObservationTextIndex]
+                eventsObservationTextSO[1]
             );
-            eventObservationTextIndex += 1;
-            // TODO: reemplazar por el observation handler
-            // yield return new WaitUntil(() => !DialogCanvasHandler.canvasIsShowing);
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                eventsObservationTextSO[1].observationTextsStructure[0].observationText
+            ));
 
             // Se habilita el collider del interactuable de zoomBird
             zoomBirdIsInteractable.Raise(this, null);
@@ -95,9 +92,8 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(0.5f);
             onObservationCanvasShowText.Raise(
                 this,
-                eventsObservationTextSO[eventObservationTextIndex]
+                eventsObservationTextSO[2]
             );
-            eventObservationTextIndex += 1;
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
@@ -106,9 +102,8 @@ namespace TwelveG.GameController
             // Mejor tiro esta basura antes que ...
             onObservationCanvasShowText.Raise(
                 this,
-                eventsObservationTextSO[eventObservationTextIndex]
+                eventsObservationTextSO[3]
             );
-            eventObservationTextIndex += 1;
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
@@ -117,7 +112,7 @@ namespace TwelveG.GameController
             // A otra cosa.
             onObservationCanvasShowText.Raise(
                 this,
-                eventsObservationTextSO[eventObservationTextIndex]
+                eventsObservationTextSO[4]
             );
         }
 
