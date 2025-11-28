@@ -17,11 +17,11 @@ MonoBehaviour:
   - frequencyName: Canal 1
     hasSpecialAudio: 0
     clips:
-    - {fileID: 8300000, guid: a6ea5c2e37e0b83428392b971f3f9c14, type: 3}
+    - {fileID: 0}
   - frequencyName: Canal 2
     hasSpecialAudio: 0
     clips:
-    - {fileID: 8300000, guid: 4723e1f207b3c894883fe53f297ae291, type: 3}
+    - {fileID: 0}
   - frequencyName: Canal 3 (Mica)
     hasSpecialAudio: 0
     clips: []

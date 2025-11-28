@@ -24,8 +24,6 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onStartDialog;
-        // TODO: Borrar luego de terminar evento!
-        [SerializeField] private GameEventSO enablePlayerItem;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO activateMicaEntranceCollider;
@@ -37,8 +35,6 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ NOISES EVENT NOW -------->");
-            // TODO: Borrar luego de terminar evento!
-            enablePlayerItem.Raise(this, ItemType.WalkieTalkie);
 
             updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 

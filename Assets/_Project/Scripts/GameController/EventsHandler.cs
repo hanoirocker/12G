@@ -228,6 +228,9 @@ namespace TwelveG.GameController
             playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
                 .GetComponent<Transform>();
 
+            // Enviar Game Event SO sobre nuevo evento iniciado (Recibe por ejemplo Walkie Talkie para actualizar su estado)
+            onNewEventBegun.Raise(this, "FreeRoam");
+
             if (freeRoamTransform == null)
             {
                 Debug.LogError("[EventController]: FreeRoam prefab not found on scene!");

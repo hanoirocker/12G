@@ -29,6 +29,7 @@ namespace TwelveG.InteractableObjects
         [Header("Data SO References")]
         [SerializeField] private WalkieTalkieDataSO[] walkieTalkieEveningData;
         [SerializeField] private WalkieTalkieDataSO[] walkieTalkieNightData;
+        [SerializeField] private WalkieTalkieDataSO walkieTalkieFreeRoamData;
 
         [Header("Audio")]
         [SerializeField] private AudioClip channelSwitchAudioClip;
@@ -139,73 +140,92 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        // Cargar los canales correctamente al iniciar evento/escena
         public void SetWalkieTalkie(Component sender, object data)
         {
-            var gameContext = (EventContextData)data;
-            SceneEnum sceneEnum = gameContext.sceneEnum;
-            EventsEnum eventEnum = gameContext.eventEnum;
+            WalkieTalkieDataSO targetData = ResolveDataSO(data);
 
-            // Selección del DataSO correcto
-            if (sceneEnum == SceneEnum.Evening && walkieTalkieEveningData != null)
+            if (targetData == null)
             {
-                for (int i = 0; i < walkieTalkieEveningData.Length; i++)
-                {
-                    if (walkieTalkieEveningData[i].eventName == eventEnum)
-                    {
-                        currentDataIndex = i;
-                        currentWalkieTalkieData = walkieTalkieEveningData[currentDataIndex];
-                        break;
-                    }
-                }
-            }
-            else if (sceneEnum == SceneEnum.Night && walkieTalkieNightData != null)
-            {
-                for (int i = 0; i < walkieTalkieNightData.Length; i++)
-                {
-                    if (walkieTalkieNightData[i].eventName == eventEnum)
-                    {
-                        currentDataIndex = i;
-                        currentWalkieTalkieData = walkieTalkieNightData[currentDataIndex];
-                        break;
-                    }
-                }
-            }
-
-            if (currentWalkieTalkieData == null)
-            {
-                Debug.Log($"[WT] Null channels data for this event!");
+                Debug.LogWarning($"[WT] No se pudo resolver la data para el input: {data}");
                 return;
             }
 
-            int frequencyCount = currentWalkieTalkieData.FrequencyData.Count;
+            currentWalkieTalkieData = targetData;
 
-            // Reinicializamos el array si cambia el tamaño o es nulo
+            // Construir / Reconstruir los canales con la data obtenida
+            InitializeChannels(currentWalkieTalkieData);
+        }
+
+        // Helper para encontrar el SO correcto según el tipo de dato recibido
+        private WalkieTalkieDataSO ResolveDataSO(object data)
+        {
+            if (data is string strData && strData == "FreeRoam")
+            {
+                return walkieTalkieFreeRoamData;
+            }
+
+            if (data is EventContextData context)
+            {
+                if (context.sceneEnum == SceneEnum.Evening)
+                {
+                    return FindDataByEvent(walkieTalkieEveningData, context.eventEnum);
+                }
+                else if (context.sceneEnum == SceneEnum.Night)
+                {
+                    return FindDataByEvent(walkieTalkieNightData, context.eventEnum);
+                }
+            }
+
+            return null;
+        }
+
+        // Helper para buscar en los arrays (evita repetir el bucle for)
+        private WalkieTalkieDataSO FindDataByEvent(WalkieTalkieDataSO[] dataArray, EventsEnum targetEvent)
+        {
+            if (dataArray == null) return null;
+
+            for (int i = 0; i < dataArray.Length; i++)
+            {
+                if (dataArray[i].eventName == targetEvent)
+                {
+                    return dataArray[i]; // Retornamos el SO encontrado
+                }
+            }
+            return null;
+        }
+
+        // Helper para inicializar el array
+        private void InitializeChannels(WalkieTalkieDataSO data)
+        {
+            int frequencyCount = data.FrequencyData.Count;
+
             if (walkieTalkieChannels == null || walkieTalkieChannels.Length != frequencyCount)
             {
                 walkieTalkieChannels = new WalkieTalkieChannel[frequencyCount];
             }
 
-            // Llenamos el array de canales con los datos del SO correspondiente
             for (int i = 0; i < frequencyCount; i++)
             {
                 if (walkieTalkieChannels[i] == null)
                     walkieTalkieChannels[i] = new WalkieTalkieChannel();
 
                 walkieTalkieChannels[i].channelIndex = i;
-                if (currentWalkieTalkieData.FrequencyData[i].clips.Count > 0)
-                    walkieTalkieChannels[i].channelClip = currentWalkieTalkieData.FrequencyData[i].clips[0];
+
+                if (data.FrequencyData[i].clips.Count > 0)
+                    walkieTalkieChannels[i].channelClip = data.FrequencyData[i].clips[0];
                 else
                     walkieTalkieChannels[i].channelClip = null;
 
-                // Limpiamos diálogos pendientes viejos por seguridad
                 walkieTalkieChannels[i].ClearPendingDialog();
             }
 
-            // Setear audio inicial si ya estamos en un canal válido
             if (currentChannelIndex < walkieTalkieChannels.Length)
             {
-                audioSource.clip = walkieTalkieChannels[currentChannelIndex].channelClip;
+                var initialClip = walkieTalkieChannels[currentChannelIndex].channelClip;
+                if (initialClip != null)
+                {
+                    audioSource.clip = initialClip;
+                }
             }
         }
 
@@ -375,6 +395,7 @@ namespace TwelveG.InteractableObjects
                 // Al sacar el WT, si no hay llamada entrante, reproducir el ruido del canal actual
                 if (!incomingCallWaiting)
                 {
+                    Debug.Log("Current index" + currentChannelIndex);
                     // Revisamos si el canal actual tiene ruido o diálogo pendiente
                     WalkieTalkieChannel currentCh = walkieTalkieChannels[currentChannelIndex];
                     if (!currentCh.HasPendingDialog() && currentCh.channelClip != null)
