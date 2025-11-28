@@ -15,8 +15,8 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: "Por alguna raz\xF3n prefiero comer esta porci\xF3n de pizza
-      sentado en las comodidades de mi cocina .."
+    observationText: "Por alguna raz\xF3n prefiero pizza sentado en las comodidades
+      de mi cocina .."
   - language: 1
-    observationText: For some reason I prefer to eat this slice of pizza sitting
-      in the comfort of my kitchen.
+    observationText: For some reason I prefer to eat pizza sitting in the comfort
+      of my kitchen.
