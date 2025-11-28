@@ -27,7 +27,7 @@ namespace TwelveG.GameController
 
         [Header("Text event SO")]
         [Space]
-        [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private ObservationTextSO[] mainDoorsFallbacksTextsSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
         [SerializeField] private EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO_eating;
@@ -56,7 +56,7 @@ namespace TwelveG.GameController
         {
             print("<------ PIZZA TIME EVENT NOW -------->");
 
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
 
             yield return new WaitForSeconds(initialTime);
             onObservationCanvasShowText.Raise(
@@ -80,6 +80,7 @@ namespace TwelveG.GameController
                 eventsObservationTextSO[eventObservationTextIndex]
             );
             eventObservationTextIndex += 1;
+            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
 
             // Unity Event (MicrowaveHandler - pizzaHeatingFinished):
             // Se muestra el diálogo luego de calentar pizza
@@ -115,13 +116,6 @@ namespace TwelveG.GameController
             {
                 // Espera lo que tarda por defecto el FadeOutImage
                 yield return new WaitForSeconds(1);
-            }
-
-            // Detiene "BG Music - Hauting Sound" iniciada al levantarnos en Wake Up
-            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
-            if(bgMusicSource)
-            {
-                StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(bgMusicSource, 7f));
             }
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));

@@ -41,7 +41,7 @@ namespace TwelveG.PlayerController
                 if (objectHasInteractableComponent && interactObj.CanBeInteractedWith(this))
                 {
                     // Debug.Log($"{hitInfo.collider.gameObject.name}");
-                    canvasText = interactObj.RetrieveInteractionSO();
+                    canvasText = interactObj.RetrieveInteractionSO(this);
                     if (canvasText != null) { ShowUI(canvasText); }
 
                     if (Input.GetKeyDown(KeyCode.E))

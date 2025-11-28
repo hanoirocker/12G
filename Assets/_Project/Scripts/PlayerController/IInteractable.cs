@@ -6,7 +6,7 @@ using TwelveG.Localization;
     {
         public bool Interact(PlayerInteraction playerCameraObject);
 
-        public InteractionTextSO RetrieveInteractionSO();
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera);
 
         public bool CanBeInteractedWith(PlayerInteraction playerCameraObject);
 

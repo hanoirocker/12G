@@ -65,7 +65,7 @@ namespace TwelveG.InteractableObjects
             return true;
         }
 
-        public InteractionTextSO RetrieveInteractionSO()
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
             return lightsAreActive ? interactionTextsSO_turnOff : interactionTextsSO_turnOn;
         }

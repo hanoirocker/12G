@@ -49,7 +49,7 @@ namespace TwelveG.InteractableObjects
             return VerifyIfPlayerCanInteract(playerCamera);
         }
 
-        public InteractionTextSO RetrieveInteractionSO()
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
             return interactionTextsSO;
         }

@@ -76,7 +76,7 @@ namespace TwelveG.InteractableObjects
             return true;
         }
 
-        public InteractionTextSO RetrieveInteractionSO()
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
             return lampIsActive ? interactionTextsSO_turnOff : interactionTextsSO_turnOn;
         }

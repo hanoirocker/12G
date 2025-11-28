@@ -44,7 +44,7 @@ namespace TwelveG.InteractableObjects
             throw new System.NotImplementedException();
         }
 
-        public InteractionTextSO RetrieveInteractionSO()
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
             return interactionTextsSO;
         }

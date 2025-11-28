@@ -5,7 +5,7 @@ namespace TwelveG.PlayerController
 
     interface IItem
     {
-        public InteractionTextSO RetrieveInteractionSO();
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera);
         ItemType GetItemType();
         public void TakeItem();
         public bool CanBePicked();

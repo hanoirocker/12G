@@ -113,7 +113,7 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        public InteractionTextSO RetrieveInteractionSO()
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
             return GetDoorTextForCanvas();
         }

@@ -103,7 +103,7 @@ namespace TwelveG.InteractableObjects
             playerCamera.GetComponentInChildren<PlayerInventory>().AddItem(resultingObjectType);
         }
 
-        public InteractionTextSO RetrieveInteractionSO()
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
             return interactionTextsSO;
         }

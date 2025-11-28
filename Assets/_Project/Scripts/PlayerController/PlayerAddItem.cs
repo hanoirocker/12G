@@ -39,7 +39,7 @@ namespace TwelveG.PlayerController
 
                 if (objectHasItemComponent && itemObj.CanBePicked())
                 {
-                    canvasText = itemObj.RetrieveInteractionSO();
+                    canvasText = itemObj.RetrieveInteractionSO(null);
                     ShowUI(canvasText);
 
                     if (Input.GetKeyDown(KeyCode.E))
@@ -70,7 +70,7 @@ namespace TwelveG.PlayerController
 
         private void ChangeUI(IItem itemObj)
         {
-            canvasText = itemObj.RetrieveInteractionSO();
+            canvasText = itemObj.RetrieveInteractionSO(null);
             onInteractionCanvasShowText.Raise(this, canvasText);
         }
 

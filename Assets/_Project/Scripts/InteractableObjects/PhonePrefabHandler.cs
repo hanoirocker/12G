@@ -42,7 +42,7 @@ namespace TwelveG.InteractableObjects
             return null;
         }
 
-        public InteractionTextSO RetrieveInteractionSO()
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
             if (playerIsInsideCollider && canBeInteractedWith)
             {

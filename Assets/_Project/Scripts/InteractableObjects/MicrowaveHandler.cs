@@ -30,6 +30,7 @@ namespace TwelveG.InteractableObjects
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
         [SerializeField] private InteractionTextSO interactionTextsSO_close;
+        [SerializeField] private InteractionTextSO interactionTextsSO_heatPizza;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO pizzaHeatingFinished;
@@ -55,9 +56,23 @@ namespace TwelveG.InteractableObjects
             throw new System.NotImplementedException();
         }
 
-        public InteractionTextSO RetrieveInteractionSO()
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
-            return rotativeDrawerHandler.DoorIsOpen() ? interactionTextsSO_close : interactionTextsSO_close;
+            if(rotativeDrawerHandler.DoorIsOpen())
+            {
+                if(VerifyIfPlayerCanInteract(playerCamera))
+                {
+                    return interactionTextsSO_heatPizza;
+                }
+                else
+                {
+                    return interactionTextsSO_open;
+                }
+            }
+            else
+            {
+                return interactionTextsSO_close;
+            }
         }
 
         public bool Interact(PlayerInteraction playerCamera)

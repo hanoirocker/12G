@@ -134,7 +134,7 @@ namespace TwelveG.InteractableObjects
             return isMoving;
         }
 
-        public InteractionTextSO RetrieveInteractionSO()
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
             return doorIsOpen ? interactionTextsSO_close : interactionTextsSO_close;
         }

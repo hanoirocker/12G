@@ -32,7 +32,7 @@ namespace TwelveG.InteractableObjects
       return canBeExamined;
     }
 
-    public InteractionTextSO RetrieveInteractionSO()
+    public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
     {
       return interactionTextsSO;
     }

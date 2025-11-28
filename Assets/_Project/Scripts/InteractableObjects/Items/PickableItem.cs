@@ -28,7 +28,7 @@ namespace TwelveG.InteractableObjects
             return canBePicked;
         }
 
-        public InteractionTextSO RetrieveInteractionSO()
+        public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
             return interactionTextsSO;
         }

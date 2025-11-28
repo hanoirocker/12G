@@ -16,7 +16,7 @@ namespace TwelveG.GameController
 
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
-        [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private ObservationTextSO[] mainDoorsFallbacksTextsSO;
         [SerializeField] private GameEventSO updateFallbackTexts;
 
         [Header("EventsSO references")]
@@ -38,7 +38,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(initialTime);
 
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
 
             // Tengo que encontrar la forma de hablar con Mica como sea.
             onObservationCanvasShowText.Raise(
@@ -67,6 +67,7 @@ namespace TwelveG.GameController
             // Se recibe cuando el jugador alcana el indice del canal principal
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
 
             // Se levanta viento mas fuerte
             StartWeatherEvent.Raise(this, WeatherEvent.HardWind);

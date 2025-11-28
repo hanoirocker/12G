@@ -87,19 +87,36 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             yield return new WaitForSeconds(10f);
-
-            // Dialogo interceptado de la policia
+            // Self dialog: "................."
             onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
             {
                 channelIndex = 3, // Canal 4 de la Policia
                 dialogSO = dialogSOs[2]
             });
 
-            // TOCHECK: Agregar observacion de dialogo interceptado?
+            // "conversationHasEnded"
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            yield return new WaitForSeconds(8f);
+
+            // Dialogo interceptado de la policia
+            onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+            {
+                channelIndex = 3, // Canal 4 de la Policia
+                dialogSO = dialogSOs[3]
+            });
 
             // "conversationHasEnded"
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            yield return new WaitForSeconds(2f);
+            // Parece que alguien ya dió aviso sobre el disparo ..
+            onObservationCanvasShowText.Raise(
+                this,
+                eventObservationsTextsSOs[2]
+            );
         }
 
         public void AllowNextActions(Component sender, object data)
