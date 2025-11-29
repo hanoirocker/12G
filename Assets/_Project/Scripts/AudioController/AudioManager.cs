@@ -153,6 +153,18 @@ namespace TwelveG.AudioController
             masterMixer.SetFloat("inGameVol", AudioUtils.NormalizedToDecibels(inGameVol));
         }
 
+        public void EnableLowPassOnAmbientChannel(bool enable)
+        {
+            if(enable)
+            {
+                masterMixer.SetFloat("ambientLowPassCutOff", 5000f);
+            }
+            else
+            {
+                masterMixer.SetFloat("ambientLowPassCutOff", 22000f);
+            }
+        }
+
         public void LoadData(GameData data)
         {
             // Si nunca se guardó, debe iniciar con los valores por default
