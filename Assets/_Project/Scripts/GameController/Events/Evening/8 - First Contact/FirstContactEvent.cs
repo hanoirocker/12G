@@ -27,10 +27,7 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onStartDialog;
-
         [SerializeField] private GameEventSO enablePlayerItem;
-
-        [Header("Other eventsSO references")]
 
         private bool allowNextAction = false;
 

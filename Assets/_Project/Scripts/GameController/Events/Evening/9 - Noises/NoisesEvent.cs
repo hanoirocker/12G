@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TwelveG.DialogsController;
-using TwelveG.InteractableObjects;
+using TwelveG.EnvironmentController;
 using TwelveG.Localization;
 using UnityEngine;
 
@@ -24,6 +24,7 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onStartDialog;
+        [SerializeField] private GameEventSO onSpawnVehicle;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO activateMicaEntranceCollider;
@@ -47,6 +48,7 @@ namespace TwelveG.GameController
             );
 
             activateMicaEntranceCollider.Raise(this, null);
+            onSpawnVehicle.Raise(this, VehicleType.Helicopter1);
 
             // "Entrance - Spot" dispara el evento micaEntranceSpotted al ser chekeado por Simon
             yield return new WaitUntil(() => allowNextAction);

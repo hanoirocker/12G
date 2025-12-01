@@ -5,6 +5,13 @@ namespace TwelveG.EnvironmentController
     using TwelveG.AudioController;
     using UnityEngine;
 
+    public enum VehicleType
+    {
+        RegularCars,
+        Helicopter1,
+        PoliceCarWithCrash,
+    }
+
     public class VehiclesSpawner : MonoBehaviour
     {
         [Header("References")]
@@ -19,10 +26,6 @@ namespace TwelveG.EnvironmentController
 
         private float animationDuration = 0f;
 
-        private void Start()
-        {
-            SpawnHelicopter();
-        }
 
         IEnumerator CarCoroutine()
         {
@@ -44,7 +47,7 @@ namespace TwelveG.EnvironmentController
                 {
                     source.clip = helicopterSoundClip;
                     source.rolloffMode = AudioRolloffMode.Logarithmic;
-                    source.minDistance = 0.15f;
+                    source.minDistance = 0.35f;
                     source.maxDistance = 200f;
                     source.spatialBlend = 1f;
                     source.Play();
@@ -68,6 +71,23 @@ namespace TwelveG.EnvironmentController
                 carRenderer.material = randomMaterial;
             }
             animationDuration = 22f;
+        }
+
+        public void SpawnVehicle(Component sender, object data)
+        {
+            if (data != null)
+            {
+                switch ((VehicleType)data)
+                {
+                    case VehicleType.RegularCars:
+                        SpawnCar();
+                        break;
+                    case VehicleType.Helicopter1:
+                        Debug.Log("[VehiclesSpawner] Spawning Helicopter 1");
+                        SpawnHelicopter();
+                        break;
+                }
+            }
         }
     }
 
