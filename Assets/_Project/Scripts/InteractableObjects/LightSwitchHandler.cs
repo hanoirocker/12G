@@ -50,7 +50,7 @@ namespace TwelveG.InteractableObjects
 
             if (makesClickSound)
             {
-                audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+                audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
                 audioSource.clip = clickSound;
             }
 

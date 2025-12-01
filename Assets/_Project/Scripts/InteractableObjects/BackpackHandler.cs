@@ -59,7 +59,7 @@ namespace TwelveG.InteractableObjects
         {
             canBeInteractedWith = false;
 
-            AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));

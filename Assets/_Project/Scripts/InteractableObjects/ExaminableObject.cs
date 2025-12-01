@@ -39,7 +39,7 @@ namespace TwelveG.InteractableObjects
 
     private void Awake()
     {
-      interactionSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+      interactionSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
     }
 
     void Start()

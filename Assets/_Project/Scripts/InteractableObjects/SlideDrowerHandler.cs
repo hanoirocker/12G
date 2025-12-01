@@ -60,7 +60,7 @@ namespace TwelveG.InteractableObjects
 
         private float PlaySlidingDrawerSounds()
         {
-            AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             if (doorIsOpen & closingDoorSound != null)
             {

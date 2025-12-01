@@ -41,7 +41,7 @@ namespace TwelveG.InteractableObjects
 
         void OnEnable()
         {
-            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
             StartCoroutine(InteractWithKeyboard());
         }
 

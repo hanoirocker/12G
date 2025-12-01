@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace TwelveG.AudioController
@@ -159,6 +160,48 @@ namespace TwelveG.AudioController
       {
         source.clip = null;
       }
+    }
+
+    // Obtiene fuente para incluir en corrutinas de objeto ajeno (no restea valores alterados de la fuente)
+    public AudioSource GetFreeSourceForInteractable(Transform transform, float clipsVolume)
+    {
+      AudioSource audioSource = AudioManager.Instance.
+          PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
+      audioSource.transform.position = transform.position;
+      audioSource.volume = clipsVolume;
+      return audioSource;
+    }
+
+    // Obtiene fuente para ejecutar corrutina en su propio objeto (reset automático al finalizar el codigo invocado)
+    public void GetFreeTemporarySourceByType(AudioPoolType poolType, float duration, System.Action<AudioSource> onSourceBorrowed)
+    {
+      AudioSource source = ReturnFreeAudioSource(poolType);
+
+      if (source == null) return;
+
+      var originalState = source.GetSnapshot();
+
+      // Ejecución del callback con el AudioSource prestado
+      onSourceBorrowed?.Invoke(source);
+
+      StartCoroutine(ResetSourceRoutine(source, originalState, duration));
+    }
+
+    private IEnumerator ResetSourceRoutine(AudioSource source, AudioSourceState originalState, float duration)
+    {
+      yield return new WaitForSeconds(duration);
+
+      // Limpieza de AudioSource prestado
+      if (source.isPlaying) source.Stop();
+
+      Animation anim = source.GetComponent<Animation>();
+
+      if (anim != null)
+      {
+        Destroy(anim);
+      }
+
+      source.RestoreSnapshot(originalState);
     }
 
     public void AssignWeatherEvents(Component sender, object data)

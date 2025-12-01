@@ -33,7 +33,7 @@ namespace TwelveG.EnvironmentController
         {
             if (other.gameObject.tag == "Window")
             {
-                AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, crashingVolume);
+                AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, crashingVolume);
                 audioSource.clip = crashingBirdClip;
                 audioSource.Play();
             }

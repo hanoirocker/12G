@@ -94,7 +94,7 @@ namespace TwelveG.InteractableObjects
         {
             RemoveUsedItems(playerCamera);
 
-            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             audioSource.PlayOneShot(managePlate);
             GameObject heatedPizza = Instantiate(pizzaSlice, plateTransform);

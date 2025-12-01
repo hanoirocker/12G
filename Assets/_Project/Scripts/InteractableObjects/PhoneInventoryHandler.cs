@@ -71,7 +71,7 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator PhoneInventoryCoroutine()
         {
-            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             // Aca cambia a la pantalla de apps
             ChangePhoneScreen();

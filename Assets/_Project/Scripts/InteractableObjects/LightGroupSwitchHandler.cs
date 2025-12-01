@@ -31,7 +31,7 @@ namespace TwelveG.InteractableObjects
         {
             ToogleEmissions();
 
-            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
             audioSource.clip = clickSound;
 
             foreach (Light singleLight in lights)

@@ -64,9 +64,18 @@ namespace TwelveG.InteractableObjects
             }
 
             isMoving = true;
-            float coroutineDuration = PlayDoorSounds();
-            float elapsedTime = 0f;
+            (float coroutineDuration, AudioClip clip) = AudioClipData();
+            AudioManager.Instance.PoolsHandler.GetFreeTemporarySourceByType(
+                AudioPoolType.Interaction,
+                coroutineDuration,
+                (source) =>
+                {
+                    source.clip = clip;
+                    source.Play();
+                }
+            );
 
+            float elapsedTime = 0f;
             Transform targetTransform = rotatesParent ? parentObject.transform : gameObject.transform;
             Quaternion startRotation = targetTransform.localRotation;
 
@@ -87,23 +96,19 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        private float PlayDoorSounds()
+        private (float, AudioClip) AudioClipData()
         {
-            AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
-
             if (doorIsOpen & closingDoorSound != null)
             {
-                audioSource.PlayOneShot(closingDoorSound);
-                return closingDoorSound.length + closingSoundOffset;
+                return (closingDoorSound.length + closingSoundOffset, closingDoorSound);
             }
             else if (!doorIsOpen & openingDoorSound != null)
             {
-                audioSource.PlayOneShot(openingDoorSound);
-                return openingDoorSound.length + openingSoundOffset;
+                return (openingDoorSound.length + openingSoundOffset, openingDoorSound);
             }
             else
             {
-                return rotatingDuration;
+                return (rotatingDuration, null);
             }
         }
 

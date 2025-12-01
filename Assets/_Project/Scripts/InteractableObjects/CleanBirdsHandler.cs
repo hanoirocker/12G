@@ -100,7 +100,7 @@ namespace TwelveG.InteractableObjects
         private IEnumerator CleanBirds(List<GameObject> objectsToModify, PlayerInteraction playerCamera)
         {
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            audioSource = AudioUtils.GetAudioSourceForInteractable(this.gameObject.transform, cleaningSoundVolume);
+            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(this.gameObject.transform, cleaningSoundVolume);
             audioSource.PlayOneShot(cleaningSound);
 
             if (fadesImage)

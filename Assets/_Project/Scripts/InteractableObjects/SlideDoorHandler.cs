@@ -68,7 +68,7 @@ namespace TwelveG.InteractableObjects
 
         private float PlayDoorSounds()
         {
-            audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             if (doorIsOpen && closingDoorSound != null)
             {

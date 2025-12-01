@@ -60,7 +60,7 @@ namespace TwelveG.InteractableObjects
             // Aca avisamos al LostSignal que comenzamos de usar la PC
             onPC.Raise(this, null);
 
-            AudioSource audioSource = AudioUtils.GetAudioSourceForInteractable(gameObject.transform, clipsVolume);
+            AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             GetComponent<SphereCollider>().enabled = false;
 
