@@ -51,7 +51,6 @@ namespace TwelveG.InteractableObjects
         private bool incomingCallWaiting = false;
         private int currentChannelIndex = 0;
         private int micaChannelIndex = 2; // Canal 3
-        private int currentDataIndex = 0;
 
         void Start()
         {

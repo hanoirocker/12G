@@ -12,7 +12,7 @@ namespace TwelveG.InteractableObjects
   {
     [Header("Audio settings")]
     [SerializeField] private AudioClip turnOnClip = null;
-    [SerializeField] private AudioClip changeDialClip = null;
+    // [SerializeField] private AudioClip changeDialClip = null;
     [SerializeField] private AudioClip firstClip = null;
     [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
 

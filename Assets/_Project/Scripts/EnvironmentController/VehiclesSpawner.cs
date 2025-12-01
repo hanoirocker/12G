@@ -7,70 +7,98 @@ namespace TwelveG.EnvironmentController
 
     public enum VehicleType
     {
-        RegularCars,
+        SlowCars,
+        FastCars,
         Helicopter1,
         PoliceCarWithCrash,
+        PoliceCarWithSiren
     }
 
     public class VehiclesSpawner : MonoBehaviour
     {
+        [Header("Colors")]
+        [Space]
+        [SerializeField] private List<Color> carColors = new List<Color>();
         [Header("References")]
+        [Space]
+        public Transform vehiclesParent;
         [Space]
         public AnimationClip helicopterAnimationClip;
         public AudioClip helicopterSoundClip;
-        public List<GameObject> carPrefabs;
-        public List<Material> carMaterials;
-        [Header("References")]
         [Space]
-        [SerializeField] float timeTillRespawn = 0f;
+        public List<AudioClip> regularCarsSoundClip;
+        public List<GameObject> carPrefabs;
+        public List<AnimationClip> regularCarsAnimationClips;
 
-        private float animationDuration = 0f;
+        private AudioSource audioSource;
 
-
-        IEnumerator CarCoroutine()
+        private IEnumerator SpawnHelicopterCoroutine()
         {
-            while (true)
-            {
-                yield return new WaitForSeconds(timeTillRespawn + animationDuration);
-                SpawnCar();
-            }
+            audioSource = vehiclesParent.GetComponent<AudioSource>();
+            var originalState = audioSource.GetSnapshot();
+            audioSource.clip = helicopterSoundClip;
+            audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+            audioSource.minDistance = 0.4f;
+            audioSource.maxDistance = 250f;
+            audioSource.spatialBlend = 1f;
+
+            Animation animationComponenet = vehiclesParent.GetComponent<Animation>();
+            animationComponenet.AddClip(helicopterAnimationClip, helicopterAnimationClip.name);
+            audioSource.Play();
+            animationComponenet.Play(helicopterAnimationClip.name);
+
+            yield return new WaitForSeconds(helicopterAnimationClip.length);
+            audioSource.Stop();
+            audioSource.RestoreSnapshot(originalState);
         }
 
-        private void SpawnHelicopter()
+        private IEnumerator SpawnCarCoroutine(float speedMod)
         {
-            float duration = helicopterAnimationClip.length;
+            int carIndex = Random.Range(0, carPrefabs.Count);
+            int animationIndex = Random.Range(0, regularCarsAnimationClips.Count);
+            int soundIndex = Random.Range(0, regularCarsSoundClip.Count);
 
-            AudioManager.Instance.PoolsHandler.GetFreeTemporarySourceByType(
-                AudioPoolType.Environment,
-                duration,
-                (source) =>
-                {
-                    source.clip = helicopterSoundClip;
-                    source.rolloffMode = AudioRolloffMode.Logarithmic;
-                    source.minDistance = 0.35f;
-                    source.maxDistance = 200f;
-                    source.spatialBlend = 1f;
-                    source.Play();
+            GameObject activeCar = Instantiate(carPrefabs[carIndex], vehiclesParent);
 
-                    Animation anim = source.gameObject.AddComponent<Animation>();
-                    anim.AddClip(helicopterAnimationClip, helicopterAnimationClip.name);
-                    anim.Play(helicopterAnimationClip.name);
-                }
+            // Configuracion de animacion
+            Animation animationComponenet = vehiclesParent.GetComponent<Animation>();
+            animationComponenet.AddClip(
+                regularCarsAnimationClips[animationIndex],
+                regularCarsAnimationClips[animationIndex].name
             );
-        }
+            animationComponenet[regularCarsAnimationClips[animationIndex].name].speed = speedMod;
 
-        private void SpawnCar()
-        {
-            GameObject selectedCarPrefab = carPrefabs[Random.Range(0, carPrefabs.Count)];
-            GameObject car = Instantiate(selectedCarPrefab, transform.position, transform.rotation, transform);
-
-            Material randomMaterial = carMaterials[Random.Range(0, carMaterials.Count)];
-            Renderer carRenderer = car.GetComponentInChildren<Renderer>();
-            if (carRenderer != null)
+            // Obtener material, copiarlo y modificarlo si la lista de Colores no esta vacia
+            if (carColors != null && carColors.Count > 0)
             {
-                carRenderer.material = randomMaterial;
+                Color chosenColor = carColors[Random.Range(0, carColors.Count)];
+                Renderer carRenderer = activeCar.GetComponent<Renderer>();
+                MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+                carRenderer.GetPropertyBlock(propertyBlock);
+                propertyBlock.SetColor("_BaseColor", chosenColor);
+                carRenderer.SetPropertyBlock(propertyBlock);
             }
-            animationDuration = 22f;
+
+
+            // Configuracion de audio
+            audioSource = vehiclesParent.GetComponent<AudioSource>();
+            var originalState = audioSource.GetSnapshot();
+            audioSource.clip = regularCarsSoundClip[soundIndex];
+            audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+            audioSource.pitch = speedMod * 0.5f;
+            audioSource.minDistance = 0.2f;
+            audioSource.maxDistance = 80f;
+            audioSource.spatialBlend = 1f;
+
+            animationComponenet.Play(regularCarsAnimationClips[animationIndex].name);
+            audioSource.Play();
+            yield return new WaitForSeconds(regularCarsAnimationClips[animationIndex].length);
+
+            // Reset de audio source
+            audioSource.Stop();
+            audioSource.RestoreSnapshot(originalState);
+
+            activeCar.SetActive(false);
         }
 
         public void SpawnVehicle(Component sender, object data)
@@ -79,12 +107,20 @@ namespace TwelveG.EnvironmentController
             {
                 switch ((VehicleType)data)
                 {
-                    case VehicleType.RegularCars:
-                        SpawnCar();
+                    case VehicleType.SlowCars:
+                        StartCoroutine(SpawnCarCoroutine(Random.Range(1f, 1.4f)));
+                        break;
+                    case VehicleType.FastCars:
+                        StartCoroutine(SpawnCarCoroutine(Random.Range(1.4f, 1.8f)));
+                        break;
+                    case VehicleType.PoliceCarWithSiren:
+                        // TODO
+                        break;
+                    case VehicleType.PoliceCarWithCrash:
+                        // TODO
                         break;
                     case VehicleType.Helicopter1:
-                        Debug.Log("[VehiclesSpawner] Spawning Helicopter 1");
-                        SpawnHelicopter();
+                        StartCoroutine(SpawnHelicopterCoroutine());
                         break;
                 }
             }

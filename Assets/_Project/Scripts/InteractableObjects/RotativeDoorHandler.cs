@@ -46,18 +46,13 @@ namespace TwelveG.InteractableObjects
             isMoving = true;
 
             AudioClip clip = doorIsOpen ? closingDoorSound : openingDoorSound;
-            AudioManager.Instance.PoolsHandler.GetFreeTemporarySourceByType(
-                AudioPoolType.Interaction,
-                clip.length,
-                (source) =>
-                {
-                    source.transform.position = door.transform.position;
-                    source.volume = clipsVolume;
-                    source.clip = clip;
-                    source.Play();
-                }
+            AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+                door.transform,
+                clipsVolume
             );
-
+            audioSource.clip = clip;
+            audioSource.Play();
+    
             float coroutineDuration = clip.length;
             float elapsedTime = 0f;
             Quaternion startRotation = door.transform.localRotation;
@@ -71,6 +66,7 @@ namespace TwelveG.InteractableObjects
 
             door.transform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
+            audioSource.Stop();
             isMoving = false;
         }
 

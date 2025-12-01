@@ -134,7 +134,7 @@ namespace TwelveG.InteractableObjects
         public bool Interact(PlayerInteraction playerCamera)
         {
             audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
-    
+
             if (doorIsLocked)
             {
                 bool playerHasRequiredItems = VerifyIfPlayerCanInteract(playerCamera);
@@ -161,9 +161,12 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator UnlockDoor(PlayerInteraction playerCamera)
         {
-            // audioSource.PlayOneShot(unclockedSound);
-            // yield return new WaitUntil(() => !audioSource.isPlaying);
-            print("Deberia sonar a QUE ABRIO");
+            if (unclockedSound != null)
+            {
+                audioSource.PlayOneShot(unclockedSound);
+                yield return new WaitForSeconds(unclockedSound.length);
+                Debug.Log("Deberia sonar a QUE ABRIO");
+            }
 
             yield return new WaitForSeconds(1f);
 
