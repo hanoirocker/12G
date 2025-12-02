@@ -9,8 +9,9 @@ namespace TwelveG.GameController
     using TwelveG.Utils;
     using Cinemachine;
     using TwelveG.AudioController;
+  using TwelveG.EnvironmentController;
 
-    public class BirdsEvent : GameEventBase
+  public class BirdsEvent : GameEventBase
     {
         [Header("Event references: ")]
         [Space]
@@ -31,6 +32,7 @@ namespace TwelveG.GameController
 
         [Header("Other eventsSO references")]
         [Space]
+        public GameEventSO onSpawnVehicle;
         public GameEventSO trashBagCanBePicked;
         public GameEventSO broomCanBePicked;
         public GameEventSO updateFallbackTexts;
@@ -50,6 +52,7 @@ namespace TwelveG.GameController
             // el InstantiateZoomBird del WindowToReplaceHandler.
             // zoomBird inicia con su collider interactuable apagado, se prende con el próximo eventoSO.
             destroyWindowToReplace.Raise(this, null);
+            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
@@ -88,6 +91,8 @@ namespace TwelveG.GameController
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             // Y ahora qué m...
             yield return new WaitForSeconds(0.5f);

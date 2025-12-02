@@ -16,24 +16,27 @@ namespace TwelveG.EnvironmentController
 
     public class VehiclesSpawner : MonoBehaviour
     {
-        [Header("Colors")]
-        [Space]
-        [SerializeField] private List<Color> carColors = new List<Color>();
         [Header("References")]
         [Space]
-        public Transform vehiclesParent;
+        [SerializeField] private Transform vehiclesParent;
         [Space]
-        public AnimationClip helicopterAnimationClip;
-        public AudioClip helicopterSoundClip;
+        [SerializeField] private AnimationClip helicopterAnimationClip;
+        [SerializeField] private AudioClip helicopterSoundClip;
         [Space]
-        public List<AudioClip> regularCarsSoundClip;
-        public List<GameObject> carPrefabs;
-        public List<AnimationClip> regularCarsAnimationClips;
+        [SerializeField] private List<Color> carColors = new List<Color>();
+        [SerializeField] private List<AudioClip> regularCarsSoundClip;
+        [SerializeField] private List<GameObject> carPrefabs;
+        [SerializeField] private List<AnimationClip> regularCarsAnimationClips;
+
+        private bool vehicleInScene = false;
 
         private AudioSource audioSource;
 
         private IEnumerator SpawnHelicopterCoroutine()
         {
+            yield return StartCoroutine(VerifyVehiclesInScene());
+
+            vehicleInScene = true;
             audioSource = vehiclesParent.GetComponent<AudioSource>();
             var originalState = audioSource.GetSnapshot();
             audioSource.clip = helicopterSoundClip;
@@ -50,10 +53,14 @@ namespace TwelveG.EnvironmentController
             yield return new WaitForSeconds(helicopterAnimationClip.length);
             audioSource.Stop();
             audioSource.RestoreSnapshot(originalState);
+            vehicleInScene = false;
         }
 
         private IEnumerator SpawnCarCoroutine(float speedMod)
         {
+            yield return StartCoroutine(VerifyVehiclesInScene());
+
+            vehicleInScene = true;
             int carIndex = Random.Range(0, carPrefabs.Count);
             int animationIndex = Random.Range(0, regularCarsAnimationClips.Count);
             int soundIndex = Random.Range(0, regularCarsSoundClip.Count);
@@ -98,7 +105,21 @@ namespace TwelveG.EnvironmentController
             audioSource.Stop();
             audioSource.RestoreSnapshot(originalState);
 
-            activeCar.SetActive(false);
+            Destroy(activeCar);
+            vehicleInScene = false;
+        }
+
+        private IEnumerator VerifyVehiclesInScene()
+        {
+            if (vehicleInScene)
+            {
+                Debug.Log($"Already vehicle spawned, waiting .. ");
+                yield return new WaitUntil(() => vehicleInScene = false);
+            }
+            else
+            {
+                yield break;
+            }
         }
 
         public void SpawnVehicle(Component sender, object data)

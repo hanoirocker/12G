@@ -8,6 +8,7 @@ namespace TwelveG.GameController
     using TwelveG.PlayerController;
     using TwelveG.Utils;
     using UnityEngine;
+    using TwelveG.EnvironmentController;
 
     public class LostSignal2Event : GameEventBase
     {
@@ -20,6 +21,7 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onObservationCanvasShowText;
+        [SerializeField] private GameEventSO onSpawnVehicle;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO updateFallbackTexts;
@@ -66,6 +68,8 @@ namespace TwelveG.GameController
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, false));
             yield return new WaitForSeconds(1f);
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+
+            onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // Nos aseguramos que el interactuable del Backpack se destruya
             // si no fue revisada hasta este punto.

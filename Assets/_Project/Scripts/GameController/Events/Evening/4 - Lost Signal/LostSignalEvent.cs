@@ -2,7 +2,8 @@ namespace TwelveG.GameController
 {
     using System.Collections;
     using TwelveG.AudioController;
-    using TwelveG.Localization;
+  using TwelveG.EnvironmentController;
+  using TwelveG.Localization;
     using TwelveG.PlayerController;
     using TwelveG.UIController;
     using TwelveG.Utils;
@@ -28,6 +29,7 @@ namespace TwelveG.GameController
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
 
         [Header("Other eventsSO references")]
+        [SerializeField] private GameEventSO onSpawnVehicle;
         [SerializeField] private GameEventSO enablePC;
         [SerializeField] private GameEventSO updateFallbackTexts;
         [SerializeField] private GameEventSO StartWeatherEvent;
@@ -69,6 +71,8 @@ namespace TwelveG.GameController
             // El jugador abandona la PC y vuelve a retomar control
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
 
