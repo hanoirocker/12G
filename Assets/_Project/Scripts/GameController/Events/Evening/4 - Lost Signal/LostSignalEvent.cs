@@ -1,14 +1,14 @@
+using System.Collections;
+using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using TwelveG.UIController;
+using TwelveG.Utils;
+using UnityEngine;
+
 namespace TwelveG.GameController
 {
-    using System.Collections;
-    using TwelveG.AudioController;
-  using TwelveG.EnvironmentController;
-  using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using TwelveG.UIController;
-    using TwelveG.Utils;
-    using UnityEngine;
-
     public class LostSignalEvent : GameEventBase
     {
         [Header("Event options")]
@@ -47,7 +47,7 @@ namespace TwelveG.GameController
                 this,
                 eventsObservationTextSO
             );
-
+            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
             // Habilita el interactuable de la pc y desactiva el contemplable
             enablePC.Raise(this, null);
 
@@ -56,15 +56,10 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
-
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-
             yield return new WaitForSeconds(1f);
-
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, true));
-
             onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
-
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
 
             // Unity Event (PCHandler - onPC):
@@ -73,27 +68,18 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             onSpawnVehicle.Raise(this, VehicleType.FastCars);
-
             StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
-
             onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
+
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-
             onInteractionCanvasControls.Raise(this, new HideText());
-
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
             yield return new WaitForSeconds(2f);
-
             onControlCanvasControls.Raise(this, new EnableCanvas(false));
-
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, false));
-
             onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
-
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
-
             onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 

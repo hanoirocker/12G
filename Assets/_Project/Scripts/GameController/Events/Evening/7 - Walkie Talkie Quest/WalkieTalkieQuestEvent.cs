@@ -1,11 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TwelveG.Localization;
+using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
+
 namespace TwelveG.GameController
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-    using Localization;
-    using TwelveG.AudioController;
-
     public class WalkieTalkieQuestEvent : GameEventBase
     {
         [Header("Event references")]
@@ -24,6 +25,7 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO StartWeatherEvent;
 
         [Header("Other eventsSO references")]
+        [SerializeField] private GameEventSO onSpawnVehicle;
         [SerializeField] private GameEventSO drawerCanBeInteracted;
         [SerializeField] private GameEventSO triggerOldRadio;
         [SerializeField] private GameEventSO triggerHouseLightsFlickering;
@@ -46,7 +48,10 @@ namespace TwelveG.GameController
                 eventObservationsTextsSOs[0]
             );
 
+            onSpawnVehicle.Raise(this, VehicleType.FastCars);
             yield return new WaitForSeconds(12f);
+            onSpawnVehicle.Raise(this, VehicleType.FastCars);
+
             // Mi Walkie Talkie! Si no mal recuerdo mi madre lo había escondido ...
             onObservationCanvasShowText.Raise(
                 this,
@@ -68,6 +73,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
             updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
+            onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // Se levanta viento mas fuerte
             StartWeatherEvent.Raise(this, WeatherEvent.HardWind);

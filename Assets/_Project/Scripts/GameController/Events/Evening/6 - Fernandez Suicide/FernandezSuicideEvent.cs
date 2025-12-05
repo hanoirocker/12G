@@ -1,12 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TwelveG.Localization;
+using TwelveG.UIController;
+using TwelveG.PlayerController;
+using TwelveG.EnvironmentController;
+
 namespace TwelveG.GameController
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-    using Localization;
-    using TwelveG.UIController;
-    using TwelveG.PlayerController;
-
     public class FernandezSuicideEvent : GameEventBase
     {
         [Header("References")]
@@ -22,6 +23,7 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO updateFallbackTexts;
 
         [Header("EventsSO references")]
+        [SerializeField] private GameEventSO onSpawnVehicle;
         [SerializeField] private GameEventSO onObservationCanvasShowText;
         [SerializeField] private GameEventSO onCinematicCanvasControls;
         [SerializeField] private GameEventSO onPlayerControls;
@@ -100,6 +102,7 @@ namespace TwelveG.GameController
             // Se recibe cuando termina el cut scene
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+            onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // TODO: introducir diálogo interno luego de observar el suicidio
             yield return new WaitForSeconds(1f);

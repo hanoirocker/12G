@@ -1,15 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
+using TwelveG.Localization;
+using TwelveG.UIController;
+using Cinemachine;
+using TwelveG.PlayerController;
+using TwelveG.Utils;
+using UnityEngine;
+using TwelveG.EnvironmentController;
+
 namespace TwelveG.GameController
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using TwelveG.Localization;
-    using TwelveG.UIController;
-    using Cinemachine;
-    using TwelveG.PlayerController;
-    using TwelveG.Utils;
-    using UnityEngine;
-    using TwelveG.EnvironmentController;
-
     public class LostSignal2Event : GameEventBase
     {
         [Header("Event options")]
@@ -55,6 +55,7 @@ namespace TwelveG.GameController
             );
 
             yield return new WaitForSeconds(3f);
+            onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // Unity Event (PhonePrefabHandler - finishedUsingPhone):
             // Se recibe cuando el jugador deja de usar el teléfono
@@ -75,7 +76,6 @@ namespace TwelveG.GameController
             // si no fue revisada hasta este punto.
             disableBackpack.Raise(this, null);
 
-            // Espera un toque para que el jugador pueda leer el texto antes de activar mandos
             onPlayerControls.Raise(this, new EnablePlayerControllers(true));
             yield return new WaitForSeconds(2f);
         }

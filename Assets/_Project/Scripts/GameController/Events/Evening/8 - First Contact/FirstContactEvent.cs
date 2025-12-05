@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TwelveG.DialogsController;
+using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using UnityEngine;
@@ -26,6 +27,7 @@ namespace TwelveG.GameController
 
 
         [Header("EventsSO references")]
+        [SerializeField] private GameEventSO onSpawnVehicle;
         [SerializeField] private GameEventSO onStartDialog;
         [SerializeField] private GameEventSO enablePlayerItem;
 
@@ -45,6 +47,8 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            onSpawnVehicle.Raise(this, VehicleType.FastCars);
+
             enablePlayerItem.Raise(this, ItemType.WalkieTalkie);
             Debug.Log("[FirstContactEvent] Walkie Talkie enabled");
 
@@ -53,6 +57,7 @@ namespace TwelveG.GameController
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+            onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // No hay chance que lo tenga encedido ... la puta madre.
             onObservationCanvasShowText.Raise(
@@ -62,6 +67,7 @@ namespace TwelveG.GameController
 
             // Tiempo de espera hasta que llame Mica
             yield return new WaitForSeconds(12f);
+            onSpawnVehicle.Raise(this, VehicleType.FastCars);
             onStartDialog.Raise(this, thirdEventDialog);
 
             yield return new WaitUntil(() => allowNextAction);
