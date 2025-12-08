@@ -25,13 +25,17 @@ namespace TwelveG.PlayerController
             {
                 activeVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(activeVirtualCamera.m_Lens.FieldOfView, zoomFOV, Time.deltaTime * zoomSpeed);
                 isZooming = true;
-
             }
             else
             {
                 activeVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(activeVirtualCamera.m_Lens.FieldOfView, currentActiveCameraDefaultFOV, Time.deltaTime * zoomSpeed);
                 isZooming = false;
             }
+        }
+
+        void OnDisable()
+        {
+            isZooming = false;
         }
 
         public bool playerIsZooming()
