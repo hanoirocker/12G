@@ -1,32 +1,23 @@
 namespace TwelveG.EnvironmentController
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class PoliceCar : MonoBehaviour
+    public class PoliceCarHandler : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField] List<Light> carLights = new List<Light>();
         [SerializeField] private float lightToggleTime = 0.1f;
-        private Animation animationComponent;
-        private AudioSource audioSource;
-
-        private void Awake()
-        {
-            audioSource = GetComponent<AudioSource>();
-            animationComponent = GetComponent<Animation>();
-        }
 
         private void Start()
         {
-            StartCoroutine(PoliceCarCorutine());
+            StartCoroutine(SirenLightsRoutine());
         }
 
-        private IEnumerator PoliceCarCorutine()
+        private IEnumerator SirenLightsRoutine()
         {
-            audioSource.Play();
-            while (animationComponent.isPlaying)
+            while (true)
             {
                 foreach (Light light in carLights)
                 {
@@ -34,8 +25,6 @@ namespace TwelveG.EnvironmentController
                 }
                 yield return new WaitForSeconds(lightToggleTime);
             }
-            audioSource.Stop();
-            Destroy(gameObject);
         }
     }
 }

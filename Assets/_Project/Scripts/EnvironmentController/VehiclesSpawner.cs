@@ -10,50 +10,44 @@ namespace TwelveG.EnvironmentController
         SlowCars,
         FastCars,
         Helicopter1,
-        PoliceCarWithCrash,
-        PoliceCarWithSiren
+        RegularPoliceCar,
+        PoliceCarCrash,
     }
 
     public class VehiclesSpawner : MonoBehaviour
     {
-        [Header("References")]
-        [Space]
         [SerializeField] private Transform vehiclesParent;
         [Space]
-        [SerializeField] private AnimationClip helicopterAnimationClip;
-        [SerializeField] private AudioClip helicopterSoundClip;
+        [SerializeField] private GameObject helicopterPrefb;
+        [Header("Regular Cars References")]
         [Space]
         [SerializeField] private List<Color> carColors = new List<Color>();
         [SerializeField] private List<AudioClip> regularCarsSoundClip;
         [SerializeField] private List<GameObject> carPrefabs;
         [SerializeField] private List<AnimationClip> regularCarsAnimationClips;
+        [Header("Police Cars References")]
+        [Space]
+        [SerializeField] private GameObject policeCar1;
+        [SerializeField] private GameObject poliecCar2;
 
         private bool vehicleInScene = false;
 
-        private AudioSource audioSource;
+        private void Start()
+        {
+            StartCoroutine(SpawnPoliceCar2Routine());
+        }
 
         private IEnumerator SpawnHelicopterCoroutine()
         {
             yield return StartCoroutine(VerifyVehiclesInScene());
 
-            vehicleInScene = true;
-            audioSource = vehiclesParent.GetComponent<AudioSource>();
-            var originalState = audioSource.GetSnapshot();
-            audioSource.clip = helicopterSoundClip;
-            audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
-            audioSource.minDistance = 0.4f;
-            audioSource.maxDistance = 250f;
-            audioSource.spatialBlend = 1f;
+            GameObject activeHelicopter = Instantiate(helicopterPrefb, vehiclesParent);
+            AudioSource audioSource = activeHelicopter.GetComponent<AudioSource>();
+            Animation animationComponent = activeHelicopter.GetComponent<Animation>();
 
-            Animation animationComponenet = vehiclesParent.GetComponent<Animation>();
-            animationComponenet.AddClip(helicopterAnimationClip, helicopterAnimationClip.name);
-            audioSource.Play();
-            animationComponenet.Play(helicopterAnimationClip.name);
-
-            yield return new WaitForSeconds(helicopterAnimationClip.length);
+            yield return new WaitUntil(() => !animationComponent.isPlaying);
             audioSource.Stop();
-            audioSource.RestoreSnapshot(originalState);
-            vehicleInScene = false;
+            Destroy(activeHelicopter);
         }
 
         private IEnumerator SpawnCarCoroutine(float speedMod)
@@ -68,12 +62,12 @@ namespace TwelveG.EnvironmentController
             GameObject activeCar = Instantiate(carPrefabs[carIndex], vehiclesParent);
 
             // Configuracion de animacion
-            Animation animationComponenet = vehiclesParent.GetComponent<Animation>();
-            animationComponenet.AddClip(
+            Animation animationComponent = activeCar.GetComponent<Animation>();
+            animationComponent.AddClip(
                 regularCarsAnimationClips[animationIndex],
                 regularCarsAnimationClips[animationIndex].name
             );
-            animationComponenet[regularCarsAnimationClips[animationIndex].name].speed = speedMod;
+            animationComponent[regularCarsAnimationClips[animationIndex].name].speed = speedMod;
 
             // Obtener material, copiarlo y modificarlo si la lista de Colores no esta vacia
             if (carColors != null && carColors.Count > 0)
@@ -88,7 +82,7 @@ namespace TwelveG.EnvironmentController
 
 
             // Configuracion de audio
-            audioSource = vehiclesParent.GetComponent<AudioSource>();
+            AudioSource audioSource = activeCar.GetComponent<AudioSource>();
             var originalState = audioSource.GetSnapshot();
             audioSource.clip = regularCarsSoundClip[soundIndex];
             audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
@@ -97,7 +91,7 @@ namespace TwelveG.EnvironmentController
             audioSource.maxDistance = 80f;
             audioSource.spatialBlend = 1f;
 
-            animationComponenet.Play(regularCarsAnimationClips[animationIndex].name);
+            animationComponent.Play(regularCarsAnimationClips[animationIndex].name);
             audioSource.Play();
             yield return new WaitForSeconds(regularCarsAnimationClips[animationIndex].length);
 
@@ -106,6 +100,37 @@ namespace TwelveG.EnvironmentController
             audioSource.RestoreSnapshot(originalState);
 
             Destroy(activeCar);
+            vehicleInScene = false;
+        }
+
+        private IEnumerator SpawnPoliceCar1Routine()
+        {
+            yield return StartCoroutine(VerifyVehiclesInScene());
+
+            vehicleInScene = true;
+            GameObject activePoliceCar = Instantiate(policeCar1, vehiclesParent);
+
+            Animation animationComponent = activePoliceCar.GetComponent<Animation>();
+            AudioSource audioSource = activePoliceCar.GetComponent<AudioSource>();
+
+            yield return new WaitUntil(() => !animationComponent.isPlaying);
+            audioSource.Stop();
+            Destroy(activePoliceCar);
+            vehicleInScene = false;
+        }
+
+        // La logica de la explosion está en el prefab
+        private IEnumerator SpawnPoliceCar2Routine()
+        {
+            yield return StartCoroutine(VerifyVehiclesInScene());
+
+            vehicleInScene = true;
+            GameObject activePoliceCar = Instantiate(poliecCar2, vehiclesParent);
+
+            Animation animationComponent = activePoliceCar.GetComponent<Animation>();
+            AudioSource audioSource = activePoliceCar.GetComponent<AudioSource>();
+
+            yield return new WaitUntil(() => !animationComponent.isPlaying);
             vehicleInScene = false;
         }
 
@@ -134,11 +159,11 @@ namespace TwelveG.EnvironmentController
                     case VehicleType.FastCars:
                         StartCoroutine(SpawnCarCoroutine(Random.Range(1.4f, 1.8f)));
                         break;
-                    case VehicleType.PoliceCarWithSiren:
-                        // TODO
+                    case VehicleType.RegularPoliceCar:
+                        StartCoroutine(SpawnPoliceCar1Routine());
                         break;
-                    case VehicleType.PoliceCarWithCrash:
-                        // TODO
+                    case VehicleType.PoliceCarCrash:
+                        StartCoroutine(SpawnPoliceCar2Routine());
                         break;
                     case VehicleType.Helicopter1:
                         StartCoroutine(SpawnHelicopterCoroutine());
