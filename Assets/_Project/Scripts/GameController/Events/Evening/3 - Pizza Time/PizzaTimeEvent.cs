@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
@@ -48,6 +49,7 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO plateCanBePicked;
         [SerializeField] private GameEventSO pizzaCanBePicked;
         [SerializeField] private GameEventSO updateFallbackTexts;
+        [SerializeField] private GameEventSO onSpawnVehicle;
 
         private bool allowNextAction = false;
         private int eventObservationTextIndex = 0;
@@ -64,6 +66,8 @@ namespace TwelveG.GameController
                 eventsObservationTextSO[eventObservationTextIndex]
             );
             eventObservationTextIndex += 1;
+
+            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             // Esto notifica al plato para que haga AllowItemToBePicked = true;
             pizzaCanBePicked.Raise(this, true);
@@ -86,6 +90,8 @@ namespace TwelveG.GameController
             // Se muestra el diálogo luego de calentar pizza
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             yield return new WaitForSeconds(0.5f);
             onObservationCanvasShowText.Raise(
@@ -119,9 +125,7 @@ namespace TwelveG.GameController
             }
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));
-
             onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
-
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
             yield return new WaitForSeconds(1f);
 
@@ -131,7 +135,6 @@ namespace TwelveG.GameController
             );
 
             onControlCanvasControls.Raise(this, new EnableCanvas(true));
-
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             // Unity Event (PizzaSliceHandler - instantiatePoliceCar)
@@ -163,24 +166,19 @@ namespace TwelveG.GameController
                 this,
                 eventsInteractionTextsSO
             );
+
             // Espera hasta que el jugador presione nuevamente la E
             // para levantarse de la silla.
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
             onInteractionCanvasControls.Raise(this, new HideText());
-
             onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
-
+            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
             yield return new WaitForSeconds(2f);
-
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, false));
-
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
-
             yield return new WaitForSeconds(1f);
-
             onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 

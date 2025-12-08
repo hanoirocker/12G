@@ -1,17 +1,17 @@
+using System.Collections;
+using UnityEngine;
+using TwelveG.Localization;
+using TwelveG.UIController;
+using System.Collections.Generic;
+using TwelveG.PlayerController;
+using TwelveG.Utils;
+using Cinemachine;
+using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
+
 namespace TwelveG.GameController
 {
-    using System.Collections;
-    using UnityEngine;
-    using TwelveG.Localization;
-    using TwelveG.UIController;
-    using System.Collections.Generic;
-    using TwelveG.PlayerController;
-    using TwelveG.Utils;
-    using Cinemachine;
-    using TwelveG.AudioController;
-  using TwelveG.EnvironmentController;
-
-  public class BirdsEvent : GameEventBase
+    public class BirdsEvent : GameEventBase
     {
         [Header("Event references: ")]
         [Space]
@@ -24,20 +24,20 @@ namespace TwelveG.GameController
 
         [Header("EventsSO references")]
         [Space]
-        public GameEventSO onImageCanvasControls;
-        public GameEventSO onObservationCanvasShowText;
-        public GameEventSO onVirtualCamerasControl;
-        public GameEventSO onPlayerControls;
-        public GameEventSO onMainCameraSettings;
+        [SerializeField] GameEventSO onImageCanvasControls;
+        [SerializeField] GameEventSO onObservationCanvasShowText;
+        [SerializeField] GameEventSO onVirtualCamerasControl;
+        [SerializeField] GameEventSO onPlayerControls;
+        [SerializeField] GameEventSO onMainCameraSettings;
 
         [Header("Other eventsSO references")]
         [Space]
-        public GameEventSO onSpawnVehicle;
-        public GameEventSO trashBagCanBePicked;
-        public GameEventSO broomCanBePicked;
-        public GameEventSO updateFallbackTexts;
-        public GameEventSO destroyWindowToReplace;
-        public GameEventSO zoomBirdIsInteractable;
+        [SerializeField] GameEventSO onSpawnVehicle;
+        [SerializeField] GameEventSO trashBagCanBePicked;
+        [SerializeField] GameEventSO broomCanBePicked;
+        [SerializeField] GameEventSO updateFallbackTexts;
+        [SerializeField] GameEventSO destroyWindowToReplace;
+        [SerializeField] GameEventSO zoomBirdIsInteractable;
 
         private bool allowNextAction = false;
 
@@ -114,15 +114,17 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+
             yield return new WaitForSeconds(1f);
             AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
 
             // Detiene "Haunting Sound" clip iniciado en Wake Up Event
-            if(bgMusicSource != null)
+            if (bgMusicSource != null)
             {
                 StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(bgMusicSource, 3f));
             }
-    
+
             // A otra cosa.
             onObservationCanvasShowText.Raise(
                 this,
