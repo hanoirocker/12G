@@ -64,11 +64,16 @@ namespace TwelveG.InteractableObjects
             }
 
             isMoving = true;
-            (float coroutineDuration, AudioClip clip) = AudioClipData();
+            (float length, AudioClip clip) = AudioClipData();
+            Debug.Log($"original length {length}");
             AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
                 parentObject != null ? parentObject.transform : gameObject.transform, clipsVolume);
+            audioSource.pitch = Random.Range(0.8f, 1.4f);
             audioSource.clip = clip;
             audioSource.Play();
+
+            float coroutineDuration = AudioUtils.CalculateDurationWithPitch(null, audioSource.pitch, length);
+            Debug.Log($"length after calculated on pitch {coroutineDuration}");
 
             float elapsedTime = 0f;
             Transform targetTransform = rotatesParent ? parentObject.transform : gameObject.transform;

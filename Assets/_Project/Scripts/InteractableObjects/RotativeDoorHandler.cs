@@ -50,10 +50,12 @@ namespace TwelveG.InteractableObjects
                 door.transform,
                 clipsVolume
             );
+            audioSource.pitch = Random.Range(0.8f, 1.4f);
             audioSource.clip = clip;
             audioSource.Play();
-    
-            float coroutineDuration = clip.length;
+
+            float coroutineDuration = AudioUtils.CalculateDurationWithPitch(clip, audioSource.pitch);
+
             float elapsedTime = 0f;
             Quaternion startRotation = door.transform.localRotation;
 
