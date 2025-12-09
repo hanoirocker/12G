@@ -5,6 +5,7 @@ using System.Linq;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace TwelveG.InteractableObjects
 {
@@ -50,6 +51,7 @@ namespace TwelveG.InteractableObjects
             if (playerHasRequiredItems)
             {
                 StartCoroutine(SitAndEatPizza(playerCamera));
+                GetComponent<BoxCollider>().enabled = false;
                 return true;
             }
             else
@@ -68,10 +70,9 @@ namespace TwelveG.InteractableObjects
             // y avisa al PlayerInventory de instanciar la porción de pizza con su SlicePizzaHandler
             // La espera es para darle tiempo a la corutina de PizzaSliceHandler que haga el fadeout antes de 
             // RemoveUsedItems e Instantiate del plato vacio.
+            yield return new WaitForSeconds(2.5f);
+
             AddSingleSlideOfHeatedPizzaToInventory(playerCamera);
-
-            yield return new WaitForSeconds(2f);
-
             RemoveUsedItems(playerCamera);
             Instantiate(emptyPlate, plateTransform);
 

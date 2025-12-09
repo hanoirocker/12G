@@ -15,8 +15,8 @@ MonoBehaviour:
   isEventText: 1
   observationTextsStructure:
   - language: 0
-    observationText: "Qu\xE9 extra\xF1o. Como sea deber\xE9 limpiar esto antes que
-      vuelvan mis padres y lo vean. Qu\xE9 mierda ...."
+    observationText: "\xBFUn ave? Como sea deber\xE9 limpiar esto antes que vuelvan
+      mis padres y lo vean. Qu\xE9 mierda ...."
   - language: 1
-    observationText: How strange. I'll have to clean this up before my parents come
-      back and see it. Damn ....
+    observationText: "A bird? Anyway, I'll have to clean this up before my parents
+      get back and see it. What a mess...\r"

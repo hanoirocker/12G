@@ -26,6 +26,7 @@ namespace TwelveG.InteractableObjects
 
         [Header("Other components settings")]
         [SerializeField] private RotativeDrawerHandler rotativeDrawerHandler;
+        [SerializeField] private Renderer doorRenderer;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
@@ -37,7 +38,16 @@ namespace TwelveG.InteractableObjects
 
         private List<String> playerItems = new List<String>();
         private AudioSource audioSource;
+        private Material doorMaterial;
         private float heatingTime;
+
+        void Start()
+        {
+            if (doorRenderer != null)
+            {
+                doorMaterial = doorRenderer.material;
+            }
+        }
 
         public bool CanBeInteractedWith(PlayerInteraction playerCamera)
         {
@@ -58,9 +68,9 @@ namespace TwelveG.InteractableObjects
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
-            if(rotativeDrawerHandler.DoorIsOpen())
+            if (rotativeDrawerHandler.DoorIsOpen())
             {
-                if(VerifyIfPlayerCanInteract(playerCamera))
+                if (VerifyIfPlayerCanInteract(playerCamera))
                 {
                     return interactionTextsSO_heatPizza;
                 }
@@ -104,10 +114,10 @@ namespace TwelveG.InteractableObjects
 
             // Comentar siguiente bloque al testear evento
             GetComponentInChildren<SphereCollider>().enabled = false;
-            // if(microwaveLight) {microwaveLight.enabled = true;}
+            doorMaterial.EnableKeyword("_EMISSION");
             audioSource.PlayOneShot(heatingSound);
             yield return new WaitUntil(() => !audioSource.isPlaying);
-            // microwaveLight.enabled = false;
+            doorMaterial.DisableKeyword("_EMISSION");
 
             GetComponentInChildren<SphereCollider>().enabled = true;
 
