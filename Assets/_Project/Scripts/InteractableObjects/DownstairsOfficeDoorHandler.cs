@@ -1,11 +1,11 @@
 using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TwelveG.AudioController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
-using UnityEngine;
 
 namespace TwelveG.InteractableObjects
 {
@@ -41,6 +41,7 @@ namespace TwelveG.InteractableObjects
         List<String> playerItems = new List<String>();
         private Quaternion initialRotation;
         private AudioSource audioSource;
+        private AudioSourceState audioSourceState;
         private int lockedIndex = 0;
         private bool isMoving;
 
@@ -86,20 +87,24 @@ namespace TwelveG.InteractableObjects
             door.transform.localRotation = targetRotation;
             doorIsOpened = !doorIsOpened;
             isMoving = false;
-            audioSource.Stop();
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
         }
 
         private float PlayDoorSounds()
         {
+            audioSource.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+
             if (doorIsOpened)
             {
-                audioSource.PlayOneShot(closingDoorSound);
-                return closingDoorSound.length;
+                audioSource.clip = closingDoorSound;
+                audioSource.Play();
+                return AudioUtils.CalculateDurationWithPitch(closingDoorSound, audioSource.pitch);
             }
             else
             {
-                audioSource.PlayOneShot(openingDoorSound);
-                return openingDoorSound.length;
+                audioSource.clip = openingDoorSound;
+                audioSource.Play();
+                return AudioUtils.CalculateDurationWithPitch(openingDoorSound, audioSource.pitch);
             }
         }
 
@@ -133,7 +138,7 @@ namespace TwelveG.InteractableObjects
 
         public bool Interact(PlayerInteraction playerCamera)
         {
-            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             if (doorIsLocked)
             {

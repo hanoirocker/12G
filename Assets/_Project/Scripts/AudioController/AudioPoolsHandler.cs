@@ -163,13 +163,14 @@ namespace TwelveG.AudioController
     }
 
     // Obtiene fuente para incluir en corrutinas de objeto ajeno (no restea valores alterados de la fuente)
-    public AudioSource GetFreeSourceForInteractable(Transform transform, float clipsVolume)
+    public (AudioSource, AudioSourceState) GetFreeSourceForInteractable(Transform transform, float clipsVolume)
     {
       AudioSource audioSource = AudioManager.Instance.
           PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
+      AudioSourceState originalSourceParams = AudioExtensions.GetSnapshot(audioSource);
       audioSource.transform.position = transform.position;
       audioSource.volume = clipsVolume;
-      return audioSource;
+      return (audioSource, originalSourceParams);
     }
 
     public void AssignWeatherEvents(Component sender, object data)

@@ -16,11 +16,11 @@ namespace TwelveG.GameController
 
         [Header("Audio Options")]
         [Space]
-        [SerializeField, Range(0f,1f)] private float maxbgMusicVol;
-        [SerializeField, Range(0f,15f)] private float musicFadeTime;
+        [SerializeField, Range(0f, 1f)] private float maxbgMusicVol;
+        [SerializeField, Range(0f, 15f)] private float musicFadeTime;
         [SerializeField] private AudioClip bgMusic1;
         [SerializeField] private AudioClip standUpClip;
-        
+
 
         [Header("Text event SO")]
         [Space]
@@ -93,9 +93,6 @@ namespace TwelveG.GameController
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
-            bgMusicSource.Play();
-            StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, maxbgMusicVol, musicFadeTime));
-
             AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
             if (audioSource != null && standUpClip != null)
             {
@@ -111,13 +108,14 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            bgMusicSource.Play();
+            StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, maxbgMusicVol, musicFadeTime));
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
+
             yield return new WaitForSeconds(1f);
 
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, false));
-
             onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
-
             onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             yield return new WaitForSeconds(1f);

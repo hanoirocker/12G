@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using TwelveG.AudioController;
 using UnityEngine;
 
@@ -33,10 +35,17 @@ namespace TwelveG.EnvironmentController
         {
             if (other.gameObject.tag == "Window")
             {
-                AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, crashingVolume);
-                audioSource.clip = crashingBirdClip;
-                audioSource.Play();
+                StartCoroutine(PlayCrashSoundAndDestroy());
             }
+        }
+
+        private IEnumerator PlayCrashSoundAndDestroy()
+        {
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, crashingVolume);
+            audioSource.clip = crashingBirdClip;
+            audioSource.Play();
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
         }
     }
 }

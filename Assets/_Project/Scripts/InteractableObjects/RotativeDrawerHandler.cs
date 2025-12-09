@@ -65,15 +65,13 @@ namespace TwelveG.InteractableObjects
 
             isMoving = true;
             (float length, AudioClip clip) = AudioClipData();
-            Debug.Log($"original length {length}");
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
                 parentObject != null ? parentObject.transform : gameObject.transform, clipsVolume);
             audioSource.pitch = Random.Range(0.8f, 1.4f);
             audioSource.clip = clip;
             audioSource.Play();
 
             float coroutineDuration = AudioUtils.CalculateDurationWithPitch(null, audioSource.pitch, length);
-            Debug.Log($"length after calculated on pitch {coroutineDuration}");
 
             float elapsedTime = 0f;
             Transform targetTransform = rotatesParent ? parentObject.transform : gameObject.transform;
@@ -89,7 +87,7 @@ namespace TwelveG.InteractableObjects
             targetTransform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
             isMoving = false;
-            audioSource.Stop();
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
 
             if (!doorIsOpen && consequentObjectsToActivate != null)
             {

@@ -34,6 +34,7 @@ namespace TwelveG.InteractableObjects
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO;
 
+        private AudioSourceState audioSourceState;
         private AudioSource audioSource;
         private Quaternion initialRotation;
         private bool doorIsOpen = false;
@@ -118,12 +119,12 @@ namespace TwelveG.InteractableObjects
             }
             gameObject.transform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
-            audioSource.Stop();
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
         }
 
         private float PlayDoorSounds()
         {
-            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             if (doorIsOpen && closingDoorSound != null)
             {

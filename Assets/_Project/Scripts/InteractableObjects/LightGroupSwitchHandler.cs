@@ -21,6 +21,7 @@ namespace TwelveG.InteractableObjects
         private bool lightsAreActive;
         private Material bulbMaterial;
         private AudioSource audioSource;
+        private AudioSourceState audioSourceState;
 
         private void Start()
         {
@@ -31,8 +32,9 @@ namespace TwelveG.InteractableObjects
         {
             ToogleEmissions();
 
-            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
             audioSource.clip = clickSound;
+            audioSource.pitch = Random.Range(0.9f, 1.2f);
 
             foreach (Light singleLight in lights)
             {
@@ -40,6 +42,7 @@ namespace TwelveG.InteractableObjects
             }
 
             audioSource.Play();
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             lightsAreActive = !lightsAreActive;
         }
 

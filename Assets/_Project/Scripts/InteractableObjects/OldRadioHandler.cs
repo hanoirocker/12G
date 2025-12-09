@@ -29,6 +29,7 @@ namespace TwelveG.InteractableObjects
     public bool turnedOnByEvent = false;
 
     private AudioSource audioSource;
+    private AudioSourceState audioSourceState;
 
     public bool CanBeInteractedWith(PlayerInteraction playerCamera)
     {
@@ -49,9 +50,14 @@ namespace TwelveG.InteractableObjects
     {
       if (isTurnedOn)
       {
-        audioSource.Stop();
-        StartCoroutine(MakeObservation(1, 2f));
-        turnedOnByEvent = false;
+        AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+
+        if (turnedOnByEvent)
+        {
+          StartCoroutine(MakeObservation(1, 0.5f));
+          turnedOnByEvent = false;
+        }
+
         isTurnedOn = false;
         return true;
       }
@@ -67,7 +73,8 @@ namespace TwelveG.InteractableObjects
     {
       if (turnOnClip != null)
       {
-        audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+        (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+        audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.2f);
         audioSource.PlayOneShot(turnOnClip);
         yield return new WaitUntil(() => !audioSource.isPlaying);
       }
@@ -86,7 +93,7 @@ namespace TwelveG.InteractableObjects
     {
       if (data != null)
       {
-        audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+        (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
         StartCoroutine(MakeObservation(0, 1f));
         audioSource.PlayOneShot((AudioClip)data);
         isTurnedOn = true;

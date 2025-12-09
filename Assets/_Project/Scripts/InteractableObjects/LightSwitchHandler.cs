@@ -2,6 +2,7 @@ using TwelveG.PlayerController;
 using TwelveG.Localization;
 using UnityEngine;
 using TwelveG.AudioController;
+using System.Collections;
 
 namespace TwelveG.InteractableObjects
 {
@@ -24,6 +25,7 @@ namespace TwelveG.InteractableObjects
         private Light lampLight;
         private Material bulbMaterial;
         private AudioSource audioSource;
+        private AudioSourceState audioSourceState;
         private bool lampIsActive;
 
         private void Awake()
@@ -48,15 +50,23 @@ namespace TwelveG.InteractableObjects
                 ToogleEmission();
             }
 
-            if (makesClickSound)
+            if (makesClickSound && clickSound != null)
             {
-                audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+               (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
                 audioSource.clip = clickSound;
+                audioSource.pitch = Random.Range(0.78f, 1.15f);
             }
 
             lampLight.enabled = !lampLight.enabled;
             lampIsActive = !lampIsActive;
+            StartCoroutine(MakeClickSoundRoutine());
+        }
+
+        private IEnumerator MakeClickSoundRoutine()
+        {
             audioSource.Play();
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
         }
 
         private void ToogleEmission()

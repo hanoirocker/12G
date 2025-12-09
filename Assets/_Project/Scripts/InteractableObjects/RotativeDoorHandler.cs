@@ -46,7 +46,7 @@ namespace TwelveG.InteractableObjects
             isMoving = true;
 
             AudioClip clip = doorIsOpen ? closingDoorSound : openingDoorSound;
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
                 door.transform,
                 clipsVolume
             );
@@ -68,7 +68,7 @@ namespace TwelveG.InteractableObjects
 
             door.transform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
-            audioSource.Stop();
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             isMoving = false;
         }
 

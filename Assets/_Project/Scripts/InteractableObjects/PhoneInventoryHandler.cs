@@ -28,7 +28,6 @@ namespace TwelveG.InteractableObjects
 
         private GameObject[] currentPhoneScreenList = null;
         private LocalizationManager localizationManager;
-        private AudioSource audioSource;
         private int screenIndex = 0;
         private string currentLanguage = null;
 
@@ -71,7 +70,7 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator PhoneInventoryCoroutine()
         {
-            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             // Aca cambia a la pantalla de apps
             ChangePhoneScreen();
@@ -109,6 +108,7 @@ namespace TwelveG.InteractableObjects
             GetComponent<Animation>().PlayQueued("Phone Inventory - Hide Phone");
 
             finishedUsingPhone.Raise(this, null);
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
 
             yield return new WaitForSeconds(5f);
             // Destruye el Inventory - Phone pero no lo elimina de la lista de objetos

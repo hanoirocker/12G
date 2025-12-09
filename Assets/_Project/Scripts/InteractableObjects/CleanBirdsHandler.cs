@@ -42,6 +42,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private ObservationTextSO observationTextSO_noneItem;
 
         List<String> playerItems = new List<String>();
+        private AudioSourceState audioSourceState;
         private AudioSource audioSource;
         private bool canBeInteractedWith = true;
         private bool resultsInConsequentObjects = false;
@@ -100,7 +101,7 @@ namespace TwelveG.InteractableObjects
         private IEnumerator CleanBirds(List<GameObject> objectsToModify, PlayerInteraction playerCamera)
         {
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(this.gameObject.transform, cleaningSoundVolume);
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(this.gameObject.transform, cleaningSoundVolume);
             audioSource.PlayOneShot(cleaningSound);
 
             if (fadesImage)
@@ -135,6 +136,7 @@ namespace TwelveG.InteractableObjects
             onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
             cleanZoomBird.Raise(this, null);
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
 
             Destroy(this.gameObject);
         }

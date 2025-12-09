@@ -62,10 +62,8 @@ namespace TwelveG.AudioController
             source.loop = state.loop;
             source.outputAudioMixerGroup = state.outputAudioMixerGroup;
 
-            source.transform.position = state.globalPosition;
-            source.transform.rotation = state.globalRotation;
-            source.transform.localPosition = state.localPosition;
-            source.transform.localRotation = state.localRotation;
+            source.transform.SetPositionAndRotation(state.globalPosition, state.globalRotation);
+            source.transform.SetLocalPositionAndRotation(state.localPosition, state.localRotation);
         }
     }
 }

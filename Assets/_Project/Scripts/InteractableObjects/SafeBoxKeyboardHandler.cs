@@ -30,6 +30,7 @@ namespace TwelveG.InteractableObjects
         private bool isProcessing = false; // Bloquea input durante error/desbloqueo
         private string currentInput = "";
         private AudioSource audioSource;
+        private AudioSourceState audioSourceState;
 
         private void Update()
         {
@@ -41,7 +42,7 @@ namespace TwelveG.InteractableObjects
 
         void OnEnable()
         {
-            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
             StartCoroutine(InteractWithKeyboard());
         }
 
@@ -67,6 +68,7 @@ namespace TwelveG.InteractableObjects
         private IEnumerator QuitKeyboard()
         {
             playerCanExit = false;
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
 
             safeBoxCanvas.SetActive(false);
             onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.SafeBox, false));

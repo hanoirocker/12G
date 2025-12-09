@@ -38,6 +38,7 @@ namespace TwelveG.InteractableObjects
 
         private List<String> playerItems = new List<String>();
         private AudioSource audioSource;
+        private AudioSourceState audioSourceState;
         private Material doorMaterial;
         private float heatingTime;
 
@@ -104,7 +105,7 @@ namespace TwelveG.InteractableObjects
         {
             RemoveUsedItems(playerCamera);
 
-            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             audioSource.PlayOneShot(managePlate);
             GameObject heatedPizza = Instantiate(pizzaSlice, plateTransform);
@@ -129,6 +130,7 @@ namespace TwelveG.InteractableObjects
 
             // Avisa a PizzaTimeEvent para que despliegue texto.
             pizzaHeatingFinished.Raise(this, null);
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
         }
 
         private void AddHeatedPizzaToInventory(PlayerInteraction playerCamera)

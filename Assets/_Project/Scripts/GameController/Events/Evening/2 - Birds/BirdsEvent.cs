@@ -16,7 +16,9 @@ namespace TwelveG.GameController
         [Header("Event references: ")]
         [Space]
         [SerializeField] private GameObject crashingBirdPrefab;
-
+        [Header("Audio Options")]
+        [Space]
+        [SerializeField][Range(0.1f, 10f)] private float bgMusicFadeOut = 6f;
         [Header("Text event SO")]
         [Space]
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
@@ -117,7 +119,7 @@ namespace TwelveG.GameController
             onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             yield return new WaitForSeconds(1f);
-            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
+            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
 
             // Detiene "Haunting Sound" clip iniciado en Wake Up Event
             if (bgMusicSource != null)

@@ -59,7 +59,7 @@ namespace TwelveG.InteractableObjects
         {
             canBeInteractedWith = false;
 
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
@@ -106,6 +106,8 @@ namespace TwelveG.InteractableObjects
             // Si no mal recuerdo, la última vez que revisé mi celular fue mientras miraba la TV hoy por la mañana
             yield return new WaitForSeconds(3f);
             onObservationCanvasShowText.Raise(this, searchingTexts[3]);
+
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
         }
 
         public void SetVCAnimationComponent(Component sender, object data)

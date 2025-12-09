@@ -66,5 +66,12 @@ namespace TwelveG.AudioController
       // Asegurarnos que esté entre 0 y 1
       return Mathf.Clamp01(normalizedValue);
     }
+
+    public static void StopAndRestoreAudioSource(AudioSource source, AudioSourceState state)
+    {
+      if(source == null) return;
+      source.Stop();
+      source.RestoreSnapshot(state);
+    }
   }
 }

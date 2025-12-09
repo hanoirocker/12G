@@ -23,7 +23,8 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
         [SerializeField] private InteractionTextSO interactionTextsSO_close;
 
-        AudioSource audioSource;
+        private AudioSource audioSource;
+        private AudioSourceState audioSourceState;
         private bool isMoving;
         private string doorTag;
         private Vector3 initialPosition;
@@ -68,17 +69,20 @@ namespace TwelveG.InteractableObjects
 
         private float PlayDoorSounds()
         {
-            audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
-            if (doorIsOpen && closingDoorSound != null)
+            audioSource.pitch = Random.Range(0.9f, 1.2f);
+            if (doorIsOpen & closingDoorSound != null)
             {
-                audioSource.PlayOneShot(closingDoorSound);
-                return closingDoorSound.length;
+                audioSource.clip = closingDoorSound;
+                audioSource.Play();
+                return AudioUtils.CalculateDurationWithPitch(null, audioSource.pitch, closingDoorSound.length);
             }
-            else if (!doorIsOpen && openingDoorSound != null)
+            else if (!doorIsOpen & openingDoorSound != null)
             {
-                audioSource.PlayOneShot(openingDoorSound);
-                return openingDoorSound.length;
+                audioSource.clip = openingDoorSound;
+                audioSource.Play();
+                return AudioUtils.CalculateDurationWithPitch(null, audioSource.pitch, openingDoorSound.length);
             }
             else
             {

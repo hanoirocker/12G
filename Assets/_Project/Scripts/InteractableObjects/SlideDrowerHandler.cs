@@ -29,6 +29,8 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
         [SerializeField] private InteractionTextSO interactionTextsSO_close;
 
+        private AudioSourceState audioSourceState;
+        private AudioSource audioSource;
         private Vector3 initialPosition = new Vector3();
         private bool isMoving = false;
 
@@ -60,17 +62,20 @@ namespace TwelveG.InteractableObjects
 
         private float PlaySlidingDrawerSounds()
         {
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
+            audioSource.pitch = Random.Range(0.9f, 1.2f);
             if (doorIsOpen & closingDoorSound != null)
             {
-                audioSource.PlayOneShot(closingDoorSound);
-                return closingDoorSound.length + closingSoundOffset;
+                audioSource.clip = closingDoorSound;
+                audioSource.Play();
+                return AudioUtils.CalculateDurationWithPitch(null, audioSource.pitch, closingDoorSound.length + closingSoundOffset);
             }
             else if (!doorIsOpen & openingDoorSound != null)
             {
-                audioSource.PlayOneShot(openingDoorSound);
-                return openingDoorSound.length + openingSoundOffset;
+                audioSource.clip = openingDoorSound;
+                audioSource.Play();
+                return AudioUtils.CalculateDurationWithPitch(null, audioSource.pitch, openingDoorSound.length + openingSoundOffset);
             }
             else
             {
@@ -97,6 +102,7 @@ namespace TwelveG.InteractableObjects
 
             targetTransform.localPosition = targetPosition;
             doorIsOpen = !doorIsOpen;
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             isMoving = false;
         }
 

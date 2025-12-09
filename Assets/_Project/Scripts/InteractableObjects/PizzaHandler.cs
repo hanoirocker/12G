@@ -91,7 +91,7 @@ namespace TwelveG.InteractableObjects
         private IEnumerator RotateBoxTop()
         {
             canBeInteractedWith = false;
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
             if (actionSound)
             {
@@ -121,7 +121,7 @@ namespace TwelveG.InteractableObjects
             }
 
             boxTop.transform.localRotation = targetRotation;
-            if (actionSound) { audioSource.Stop(); }
+            if (actionSound) { AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState); }
 
             pizzaBoxIsOpen = !pizzaBoxIsOpen;
             canBeInteractedWith = true;
