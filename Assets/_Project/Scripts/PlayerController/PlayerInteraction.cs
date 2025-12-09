@@ -68,6 +68,8 @@ namespace TwelveG.PlayerController
         private IEnumerator CancelInteractionAndShowObservation(IInteractable interactObj, Collider collider)
         {
             ObservationTextSO observationTextSO = interactObj.GetFallBackText();
+            PlayerContemplation contemplation = this.GetComponent<PlayerContemplation>();
+            contemplation.enabled = false;
 
             // Calcular tiempo en base a texto para esperar antes de mostrar
             // el próximo texto de interacción
@@ -83,6 +85,7 @@ namespace TwelveG.PlayerController
             lastColliderInteractedWith.GetComponent<Collider>().enabled = false;
             yield return new WaitForSeconds(timeToWait);
             lastColliderInteractedWith.GetComponent<Collider>().enabled = true;
+            contemplation.enabled = true;
         }
 
         private void ShowUI(InteractionTextSO retrievedInteractionSO)

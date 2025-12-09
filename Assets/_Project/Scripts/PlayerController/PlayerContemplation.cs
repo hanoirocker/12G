@@ -79,6 +79,11 @@ namespace TwelveG.PlayerController
             }
         }
 
+        private void OnDisable()
+        {
+            onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
+        }
+
 
         private IEnumerator ContemplationCoroutine(IContemplable contemplableObj)
         {
