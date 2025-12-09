@@ -53,7 +53,6 @@ namespace TwelveG.GameController
             bgMusicSource.volume = 0;
 
             onControlCanvasControls.Raise(this, new EnableCanvas(false));
-            onImageCanvasControls.Raise(this, new EnableCanvas(true));
 
             yield return new WaitForSeconds(initialTime);
 

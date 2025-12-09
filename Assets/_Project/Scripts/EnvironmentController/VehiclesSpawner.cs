@@ -54,7 +54,8 @@ namespace TwelveG.EnvironmentController
             int animationIndex = Random.Range(0, regularCarsAnimationClips.Count);
             int soundIndex = Random.Range(0, regularCarsSoundClip.Count);
 
-            GameObject activeCar = Instantiate(carPrefabs[carIndex], vehiclesParent);
+            GameObject activeCar = carPrefabs[carIndex];
+            activeCar.SetActive(true);
 
             // Configuracion de animacion
             Animation animationComponent = activeCar.GetComponent<Animation>();
@@ -75,26 +76,17 @@ namespace TwelveG.EnvironmentController
                 carRenderer.SetPropertyBlock(propertyBlock);
             }
 
-
             // Configuracion de audio
             AudioSource audioSource = activeCar.GetComponent<AudioSource>();
-            var originalState = audioSource.GetSnapshot();
             audioSource.clip = regularCarsSoundClip[soundIndex];
-            audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
-            audioSource.pitch = speedMod * 0.5f;
-            audioSource.minDistance = 0.2f;
-            audioSource.maxDistance = 80f;
-            audioSource.spatialBlend = 1f;
-
             animationComponent.Play(regularCarsAnimationClips[animationIndex].name);
             audioSource.Play();
             yield return new WaitForSeconds(regularCarsAnimationClips[animationIndex].length);
 
             // Reset de audio source
             audioSource.Stop();
-            audioSource.RestoreSnapshot(originalState);
 
-            Destroy(activeCar);
+            activeCar.SetActive(false);
             vehicleInScene = false;
         }
 
