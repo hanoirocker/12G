@@ -7,11 +7,16 @@ namespace TwelveG.EnvironmentController
 
     public class PoliceCarHandler : MonoBehaviour
     {
-        [Header("References")]
+        [Header("Vehicle Settings")]
         [Space]
         [SerializeField] private VehicleType vehicleType;
+        [Header("Vehicle Settings")]
+        [Space]
         [SerializeField] List<Light> carLights = new List<Light>();
         [SerializeField] private float lightToggleTime = 0.1f;
+        [Header("Particle Settings")]
+        [Space]
+        [SerializeField] GameObject particleFX;
 
         private Coroutine sirenLightsRoutine;
 
@@ -40,21 +45,12 @@ namespace TwelveG.EnvironmentController
             {
                 light.enabled = false;
             }
-            audioSource.Stop();
-            audioSource.clip = null;
 
             // Activamos el efecto de particulas de la explosion y el humo
-            ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
-            foreach (ParticleSystem ps in particleSystems)
-            {
-                ps.Play();
-            }
-
-            yield return new WaitForSeconds(20f);
-            foreach (ParticleSystem ps in particleSystems)
-            {
-                ps.Stop();
-            }
+            particleFX.SetActive(true);
+            yield return new WaitForSeconds(900f);
+            audioSource.Stop();
+            particleFX.SetActive(false);
         }
 
         private IEnumerator SirenLightsRoutine()

@@ -27,3 +27,5 @@ Modelos:
 * Button click microswitch by michaelkoehler at freesound.org
 * Haunting Atmosphere for Scary Scenes by Gustavo_Alivera at freesound.org
 * Wavestate-thriller-10.wav by Multimediagigant at freesound.org
+* Wall Street Crash by magnuswaker at freesound.org
+* Car Breaking Skid 01.wav by Medartimus at freesound.org
