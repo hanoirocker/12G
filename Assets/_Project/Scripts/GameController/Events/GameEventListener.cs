@@ -27,7 +27,7 @@ public class GameEventListener : MonoBehaviour
     {
         if (gameEventSO == null)
         {
-            Debug.LogWarning($"[GameEventListener]: Remmeber to assign Game Event SO at {gameObject.name}!");
+            Debug.LogWarning($"[GameEventListener]: Remember to assign Game Event SO at {gameObject.name}!");
             return;
         }
         gameEventSO.UnRegisterListener(this);
