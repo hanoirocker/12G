@@ -32,6 +32,11 @@ namespace TwelveG.EnvironmentController
 
         private bool vehicleInScene = false;
 
+        private void Start()
+        {
+            StartCoroutine(SpawnPoliceCar2Routine());
+        }
+
         private IEnumerator SpawnHelicopterCoroutine()
         {
             yield return StartCoroutine(VerifyVehiclesInScene());
@@ -139,6 +144,25 @@ namespace TwelveG.EnvironmentController
             else
             {
                 yield break;
+            }
+        }
+
+        public void PauseGame(Component sender, object data)
+        {
+            {
+                bool pause = (bool)data;
+                AudioSource[] audioSources = vehiclesParent.GetComponentsInChildren<AudioSource>();
+                foreach (AudioSource source in audioSources)
+                {
+                    if (pause)
+                    {
+                        source.Pause();
+                    }
+                    else
+                    {
+                        source.UnPause();
+                    }
+                }
             }
         }
 

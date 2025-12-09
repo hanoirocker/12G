@@ -1,8 +1,8 @@
+using TwelveG.AudioController;
+using UnityEngine;
+
 namespace TwelveG.EnvironmentController
 {
-    using TwelveG.AudioController;
-    using UnityEngine;
-
     public class EnvironmentHandler : MonoBehaviour
     {
         [Header("References")]
