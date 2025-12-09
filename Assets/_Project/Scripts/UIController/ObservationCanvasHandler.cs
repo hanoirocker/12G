@@ -58,7 +58,7 @@ namespace TwelveG.UIController
         // Entrada pública: encolar el texto
         public void ShowObservationText(Component sender, object data)
         {
-            Debug.Log("[ObservationCanvasHandler] ShowObservationText called by " + sender.name);
+            // Debug.Log("[ObservationCanvasHandler] ShowObservationText called by " + sender.name);
             if (data == null) return;
 
             var so = data as ObservationTextSO;
