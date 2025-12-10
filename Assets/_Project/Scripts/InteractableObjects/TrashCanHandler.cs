@@ -22,7 +22,9 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private bool fadesImage = false;
 
         [Header("Audio settings")]
+        [SerializeField] private Transform bottomOfTrashCanTransform;
         [SerializeField] private AudioClip openingDoorSound;
+        [SerializeField] private AudioClip dumpingTrashSound;
         [SerializeField] private AudioClip closingDoorSound;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.7f;
 
@@ -86,6 +88,13 @@ namespace TwelveG.InteractableObjects
             yield return new WaitUntil(() => !audioSource.isPlaying);
 
             RemoveUsedItems(playerCamera);
+            if (dumpingTrashSound != null)
+            {
+                (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(bottomOfTrashCanTransform, clipsVolume);
+                audioSource.PlayOneShot(dumpingTrashSound);
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            }
 
             yield return StartCoroutine(RotateTop(initialRotation));
 

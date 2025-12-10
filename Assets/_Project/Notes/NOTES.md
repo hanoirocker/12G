@@ -3,7 +3,7 @@
 - Police Car 2 incluido con sonido de choque y efecto de particulas pero no disparado por evento aun, a usar en "Headaches".
 
 TOFIX - urgente:
-- Agregar sonidos para cuando come la pizza, toma un plato para servir la pizza, deposita la basura en el tacho, abre y cierra el tacho de basura.
+- Agregar sonidos para cuando come la pizza, toma un plato para servir la pizza.
 - Agregar sonidos al tomar escoba y bolsas de basura.
 - Agregar cajas bajo la escalera, o algo.   
 - Hay que agregar iconos con el numero del canal del Walkie Talkie activo por el momento. A futuro tambien cambiar el Control Canvas.

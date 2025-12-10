@@ -29,3 +29,5 @@ Modelos:
 * Wavestate-thriller-10.wav by Multimediagigant at freesound.org
 * Wall Street Crash by magnuswaker at freesound.org
 * Car Breaking Skid 01.wav by Medartimus at freesound.org
+* Garbage can_open_close.wav by speedygonzo at freesound.org
+* Trash Dropping in Dumpster - Sound Effect for editing by Sound Library at youtube.com
