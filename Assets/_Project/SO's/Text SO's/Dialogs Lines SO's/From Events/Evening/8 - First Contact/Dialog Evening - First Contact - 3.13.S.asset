@@ -19,9 +19,10 @@ MonoBehaviour:
     dialogText: "\xA1Si si ac\xE1 tambi\xE9n! \xA1Me despert\xE9 porque uno atraves\xF3
       la ventana del zoom! "
   - language: 1
-    dialogText: 
+    dialogText: Yes, here too! I woke up because someone came through the Zoom window!
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 99101c7a65d9f492baa838bd66984f41, type: 2}
   timeBeforeShowing: 3
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 99101c7a65d9f492baa838bd66984f41, type: 2}
   dialogOptions: []

@@ -19,7 +19,7 @@ MonoBehaviour:
     dialogText: "(Estatica) ... Si ... Perd\xF3n, estoy sin palabras. No puedo creerlo
       .."
   - language: 1
-    dialogText: 
+    dialogText: Yes... I'm sorry, I'm speechless. I can't believe it.
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 3
   startingEvent: {fileID: 0}

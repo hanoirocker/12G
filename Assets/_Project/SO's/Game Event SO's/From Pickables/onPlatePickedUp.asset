@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
-  m_Name: Context - Blood Stain
+  m_Script: {fileID: 11500000, guid: aef92f1ed08c84d0e9fc780eca8090ec, type: 3}
+  m_Name: onPlatePickedUp
   m_EditorClassIdentifier: 
-  entries:
-  - sceneEnum: 1
-    minEventIndex: 2
-    maxEventIndex: 11
-    texts: {fileID: 11400000, guid: 00ad14618e9c640f48f2ea2dc62b1a13, type: 2}
+  listeners: []

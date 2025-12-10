@@ -19,9 +19,11 @@ MonoBehaviour:
     dialogText: Hey .. estoy escuchando ruidos raros fuera de la puerta de casa pero
       .. no alcanzo a ver algo.
   - language: 1
-    dialogText: 
+    dialogText: Hey... I'm hearing strange noises outside my front door, but I can't
+      see anything.
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 95b3afa1ea3c74545a91b6d843200335, type: 2}
   timeBeforeShowing: 1
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 95b3afa1ea3c74545a91b6d843200335, type: 2}
   dialogOptions: []

@@ -119,19 +119,19 @@ namespace TwelveG.GameController
             onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             yield return new WaitForSeconds(1f);
-            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
-
-            // Detiene "Haunting Sound" clip iniciado en Wake Up Event
-            if (bgMusicSource != null)
-            {
-                StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(bgMusicSource, 3f));
-            }
 
             // A otra cosa.
             onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[4]
             );
+
+            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
+            // Detiene "Haunting Sound" clip iniciado en Wake Up Event
+            if (bgMusicSource != null)
+            {
+                yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(bgMusicSource, 3f));
+            }
         }
 
         public void AllowNextActions(Component sender, object data)

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TwelveG.AudioController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
@@ -105,9 +106,15 @@ namespace TwelveG.InteractableObjects
       Cursor.lockState = CursorLockMode.Locked;
       if (canvasIsShowing) { onExaminationCanvasControls.Raise(this, new EnableCanvas(false)); }
       onPlayerControls.Raise(this, new ToggleToObjectExamination(false));
-      gameObject.GetComponent<Renderer>().enabled = false;
+
+      List<Renderer> renderers = new List<Renderer>(GetComponentsInChildren<Renderer>());
+      foreach (Renderer renderer in renderers)
+      {
+        renderer.enabled = false;
+      }
 
       yield return new WaitUntil(() => !interactionSource.isPlaying);
+      AudioUtils.StopAndRestoreAudioSource(interactionSource, audioSourceState);
       Destroy(gameObject);
     }
 
@@ -116,8 +123,7 @@ namespace TwelveG.InteractableObjects
       interactionSource.clip = inspectionClip;
       interactionSource.pitch = Random.Range(0.8f, 1.2f);
       interactionSource.Play();
-      yield return new WaitUntil(() => !interactionSource.isPlaying);
-      AudioUtils.StopAndRestoreAudioSource(interactionSource, audioSourceState);
+      yield return new WaitForFixedUpdate();
     }
 
     public void OnBeginDrag(PointerEventData eventData)

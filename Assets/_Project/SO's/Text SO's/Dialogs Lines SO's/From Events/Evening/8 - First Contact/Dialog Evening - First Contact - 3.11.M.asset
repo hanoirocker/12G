@@ -19,9 +19,11 @@ MonoBehaviour:
     dialogText: "No la quiero bajar a\xFAn m\xE1s, pero lo de Fernandez no es lo
       \xFAnico sin sentido."
   - language: 1
-    dialogText: 
+    dialogText: I don't want to scare you even more but what happened to Fernandez
+      isn't the only thing making no sense so far ..
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: e217b34c7b0d14f4f845ee40f9a28db1, type: 2}
   timeBeforeShowing: 3
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: e217b34c7b0d14f4f845ee40f9a28db1, type: 2}
   dialogOptions: []

@@ -18,9 +18,10 @@ MonoBehaviour:
   - language: 0
     dialogText: Hey .. Mica! Me escuchas?
   - language: 1
-    dialogText: 
+    dialogText: Hey... Che! Can you hear me?
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 9f9b370a214be4d058301dbd1a0ed465, type: 2}
   timeBeforeShowing: 7
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 9f9b370a214be4d058301dbd1a0ed465, type: 2}
   dialogOptions: []

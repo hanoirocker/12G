@@ -2,6 +2,7 @@ using TwelveG.PlayerController;
 using TwelveG.Localization;
 using UnityEngine;
 using TwelveG.AudioController;
+using System.Collections;
 
 namespace TwelveG.InteractableObjects
 {
@@ -41,9 +42,15 @@ namespace TwelveG.InteractableObjects
                 singleLight.enabled = !singleLight.enabled;
             }
 
-            audioSource.Play();
-            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            StartCoroutine(PlayLightsSwitchSoundCoroutine());
             lightsAreActive = !lightsAreActive;
+        }
+
+        private IEnumerator PlayLightsSwitchSoundCoroutine()
+        {
+            audioSource.Play();
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
         }
 
         public void ToogleEmissions()

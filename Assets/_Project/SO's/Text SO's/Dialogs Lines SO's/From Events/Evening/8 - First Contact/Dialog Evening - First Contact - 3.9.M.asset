@@ -18,9 +18,10 @@ MonoBehaviour:
   - language: 0
     dialogText: "\xBFEstas seguro que fu\xE9 \xE9l?"
   - language: 1
-    dialogText: 
+    dialogText: Are you sure it was him?
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 862cc9890d14349c888b4fdc938edac2, type: 2}
   timeBeforeShowing: 3
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 862cc9890d14349c888b4fdc938edac2, type: 2}
   dialogOptions: []

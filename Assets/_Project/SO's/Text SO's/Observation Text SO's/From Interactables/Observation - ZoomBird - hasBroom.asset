@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
   m_Name: Observation - ZoomBird - hasBroom
   m_EditorClassIdentifier: 
+  isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: "A\xFAn preciso una bolsa. Deber\xEDa estar en la cocina tambi\xE9n
-      \xBFQuiz\xE1s dentro de alg\xFAn caj\xF3n?"
+    observationText: "A\xFAn preciso una bolsa. Creo que en el garage quedan algunas
+      aun .."
   - language: 1
-    observationText: I still need a garbage bag. It should be in the kitchen too.
-      Maybe in a drawer?
+    observationText: I still need a garbage bag. I think there are still some on
+      the garage ..

@@ -12,11 +12,11 @@ namespace TwelveG.AudioController
         public List<AudioClip> mosaicBathroomFS;
 
         [Header("Footsteps Settings")]
-        public float walkPitch = 0.75f;
-        public float runPitchMin = 0.9f;
-        public float runPitchMax = 1.1f;
-        public float walkCooldown = 0.5f;
-        public float runCooldown = 0.3f;
+        [SerializeField] private float walkPitch;        
+        [SerializeField] private float runPitchMin;
+        [SerializeField] private float runPitchMax;
+        [SerializeField] private float walkCooldown;
+        [SerializeField] private float runCooldown;
 
         private float nextStepTime = 0f;
         private bool isRunning = false;

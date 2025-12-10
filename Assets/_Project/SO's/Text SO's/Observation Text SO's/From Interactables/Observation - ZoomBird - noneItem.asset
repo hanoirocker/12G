@@ -15,8 +15,6 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: "Voy a precisar una bolsa de basura y una escoba .. Ambas deber\xEDan
-      estar en la cocina .."
+    observationText: Voy a precisar una bolsa de basura y una escoba ..
   - language: 1
-    observationText: I'm going to need a garbage bag and a broom.. Both should be
-      in the kitchen..
+    observationText: I'm going to need a garbage bag and a broom ..

@@ -18,9 +18,10 @@ MonoBehaviour:
   - language: 0
     dialogText: No me gusta nada esto ..
   - language: 1
-    dialogText: 
+    dialogText: I don't like this at all.
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: fb31fe4f97d844234851c55a3657c59b, type: 2}
   timeBeforeShowing: 3
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: fb31fe4f97d844234851c55a3657c59b, type: 2}
   dialogOptions: []

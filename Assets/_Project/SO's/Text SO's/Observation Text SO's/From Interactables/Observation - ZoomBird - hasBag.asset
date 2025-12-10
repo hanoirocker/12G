@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
   m_Name: Observation - ZoomBird - hasBag
   m_EditorClassIdentifier: 
+  isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: "A\xFAn preciso la escoba. Deber\xEDa estar en la cocina tambi\xE9n."
+    observationText: "A\xFAn preciso la escoba. Deber\xEDa estar en la cocina."
   - language: 1
-    observationText: I still need the broom. It should be in the kitchen too.
+    observationText: I still need the broom. It should be in the kitchen.

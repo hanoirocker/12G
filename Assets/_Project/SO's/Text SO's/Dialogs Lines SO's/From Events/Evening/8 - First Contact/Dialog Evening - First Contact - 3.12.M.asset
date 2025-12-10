@@ -19,9 +19,11 @@ MonoBehaviour:
     dialogText: "Ya van 3 p\xE1jaros que chocan contra mis ventanas ... parecen desorientados
       o algo."
   - language: 1
-    dialogText: 
+    dialogText: Three birds have already crashed into my windows... they seem disoriented
+      or something.
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 5db09a37d63af48adab7e95bc131c02a, type: 2}
   timeBeforeShowing: 3
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 5db09a37d63af48adab7e95bc131c02a, type: 2}
   dialogOptions: []

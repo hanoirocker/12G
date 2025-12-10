@@ -18,9 +18,10 @@ MonoBehaviour:
   - language: 0
     dialogText: "Pod\xE9s decirme si ves algo desde ahi?"
   - language: 1
-    dialogText: 
+    dialogText: Can you tell me if you can see anything from there?
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: d5069423fefd6428ab005033476fdb36, type: 2}
   timeBeforeShowing: 0.7
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: d5069423fefd6428ab005033476fdb36, type: 2}
   dialogOptions: []
