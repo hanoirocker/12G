@@ -1,3 +1,7 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TwelveG.AudioController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using UnityEngine;
@@ -7,14 +11,22 @@ namespace TwelveG.InteractableObjects
     public class PickableItem : MonoBehaviour, IItem
     {
         [Header("Item settings")]
+        [Space]
         [SerializeField] private ItemType itemType;
         public bool canBePicked;
         public bool triggerEventWhenPicked = false;
 
+        [Header("Audio settings")]
+        [Space]
+        [SerializeField] private AudioClip pickItemSound;
+        [SerializeField, Range(0f, 1f)] private float pickItemSoundVolume = 0.7f;
+
         [Header("Interaction Texts SO")]
+        [Space]
         [SerializeField] private InteractionTextSO interactionTextsSO;
 
         [Header("Event SO references")]
+        [Space]
         [SerializeField] private GameEventSO eventToTriggerWhenItemPicked;
 
 
@@ -41,11 +53,30 @@ namespace TwelveG.InteractableObjects
         // Funcion principal
         public void TakeItem()
         {
+            StartCoroutine(TakeItemCoroutine());
+        }
+
+        private IEnumerator TakeItemCoroutine()
+        {
             if (triggerEventWhenPicked)
             {
                 eventToTriggerWhenItemPicked.Raise(this, null);
 
             }
+            if (pickItemSound != null)
+            {
+                List<Renderer> renderers = new List<Renderer>(GetComponentsInChildren<Renderer>());
+                foreach (Renderer renderer in renderers)
+                {
+                    renderer.enabled = false;
+                }
+
+                (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, pickItemSoundVolume);
+                audioSource.PlayOneShot(pickItemSound);
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            }
+
             Destroy(gameObject);
         }
     }
