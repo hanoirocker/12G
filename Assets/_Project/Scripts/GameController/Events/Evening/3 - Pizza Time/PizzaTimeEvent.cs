@@ -17,10 +17,6 @@ namespace TwelveG.GameController
         [TextArea(5, 50)]
         [SerializeField, Range(1, 10)] private int initialTime = 4;
 
-        [Header("Objects options")]
-        [Space]
-        [SerializeField] private GameObject policeCar;
-
         [Header("Audio settings")]
         [Space]
         [SerializeField] private AudioClip chairMovingSound = null;
@@ -142,11 +138,11 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            Instantiate(policeCar);
+            onSpawnVehicle.Raise(this, VehicleType.RegularPoliceCar);
 
             // Espera mas o menos un tiempo adecuado para cuando el auto de la policia
             // ya haya pasado y comenta al respecto.
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(6f);
             onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[eventObservationTextIndex]

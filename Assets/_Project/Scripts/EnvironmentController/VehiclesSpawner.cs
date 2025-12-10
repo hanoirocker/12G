@@ -49,12 +49,14 @@ namespace TwelveG.EnvironmentController
             yield return StartCoroutine(VerifyVehiclesInScene());
 
             vehicleInScene = true;
+
             int carIndex = Random.Range(0, carPrefabs.Count);
             int animationIndex = Random.Range(0, regularCarsAnimationClips.Count);
             int soundIndex = Random.Range(0, regularCarsSoundClip.Count);
 
             GameObject activeCar = carPrefabs[carIndex];
-            activeCar.SetActive(true);
+            // Resetear rotacion y posicion
+            activeCar.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
 
             // Configuracion de animacion
             Animation animationComponent = activeCar.GetComponent<Animation>();
@@ -78,9 +80,12 @@ namespace TwelveG.EnvironmentController
             // Configuracion de audio
             AudioSource audioSource = activeCar.GetComponent<AudioSource>();
             audioSource.clip = regularCarsSoundClip[soundIndex];
+
+            activeCar.SetActive(true);
+
             animationComponent.Play(regularCarsAnimationClips[animationIndex].name);
             audioSource.Play();
-            yield return new WaitForSeconds(regularCarsAnimationClips[animationIndex].length);
+            yield return new WaitUntil(() => !animationComponent.isPlaying);
 
             // Reset de audio source
             audioSource.Stop();
@@ -125,7 +130,7 @@ namespace TwelveG.EnvironmentController
             if (vehicleInScene)
             {
                 Debug.Log($"Already vehicle spawned, waiting .. ");
-                yield return new WaitUntil(() => vehicleInScene = false);
+                yield return new WaitUntil(() => !vehicleInScene);
             }
             else
             {
@@ -162,7 +167,7 @@ namespace TwelveG.EnvironmentController
                         StartCoroutine(SpawnCarCoroutine(Random.Range(1f, 1.4f)));
                         break;
                     case VehicleType.FastCars:
-                        StartCoroutine(SpawnCarCoroutine(Random.Range(1.4f, 1.8f)));
+                        StartCoroutine(SpawnCarCoroutine(Random.Range(1.5f, 1.8f)));
                         break;
                     case VehicleType.RegularPoliceCar:
                         StartCoroutine(SpawnPoliceCar1Routine());
