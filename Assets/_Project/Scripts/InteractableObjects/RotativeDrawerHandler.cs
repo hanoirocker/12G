@@ -18,6 +18,8 @@ namespace TwelveG.InteractableObjects
         [Header("Audio Settings: ")]
         [SerializeField] private AudioClip openingDoorSound;
         [SerializeField] private AudioClip closingDoorSound;
+        [SerializeField, Range(0.5f, 1f)] private float minPitch = 0.8f;
+        [SerializeField, Range(1f, 2f)] private float maxPitch = 1.5f;
         [SerializeField, Range(-2f, 2f)] private float openingSoundOffset = 0f;
         [SerializeField, Range(-2f, 2f)] private float closingSoundOffset = 0f;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
@@ -67,7 +69,7 @@ namespace TwelveG.InteractableObjects
             (float length, AudioClip clip) = AudioClipData();
             (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
                 parentObject != null ? parentObject.transform : gameObject.transform, clipsVolume);
-            audioSource.pitch = Random.Range(0.8f, 1.4f);
+            audioSource.pitch = Random.Range(minPitch, maxPitch);
             audioSource.clip = clip;
             audioSource.Play();
 
