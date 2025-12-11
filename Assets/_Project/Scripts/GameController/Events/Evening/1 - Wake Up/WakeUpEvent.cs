@@ -108,6 +108,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            // Inicia "Haunting Sound"
             bgMusicSource.Play();
             StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, maxbgMusicVol, musicFadeTime));
             onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
