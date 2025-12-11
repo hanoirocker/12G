@@ -40,8 +40,9 @@ namespace TwelveG.UIController
     [SerializeField] private LoadingSceneCanvasHandler loadingSceneCanvasHandler;
 
     [Header("Canvas mappings")]
-    public List<CanvasEntry> canvasMappings;
-    public GameObject inGameCanvas;
+    [SerializeField] private List<CanvasEntry> canvasMappings;
+    [SerializeField] private GameObject inGameCanvas;
+    [SerializeField] private List<GameObject> canvasesToHideWhilePaused;
 
     private Dictionary<CanvasHandlerType, GameObject> canvasDict;
 
@@ -89,7 +90,14 @@ namespace TwelveG.UIController
     {
       if (canvasDict.TryGetValue(CanvasHandlerType.PauseMenu, out var canvasGO))
       {
+        // Activar o desactivar el canvas del menú de pausa según el valor booleano recibido
         canvasGO.SetActive((bool)data);
+
+        // Accion inversa para los canvas dentro del grupo a ocultar mientras se muestra el menú de pausa
+        foreach (var go in canvasesToHideWhilePaused)
+        {
+          go.SetActive(!(bool)data);
+        }
       }
     }
 
