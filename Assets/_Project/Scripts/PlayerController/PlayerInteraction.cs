@@ -1,11 +1,11 @@
+using System;
+using System.Collections;
+using TwelveG.Localization;
+using TwelveG.UIController;
+using UnityEngine;
+
 namespace TwelveG.PlayerController
 {
-    using System;
-    using System.Collections;
-    using TwelveG.Localization;
-    using TwelveG.UIController;
-    using UnityEngine;
-
     public class PlayerInteraction : MonoBehaviour
     {
         [Header("Raycast settings")]
@@ -105,6 +105,11 @@ namespace TwelveG.PlayerController
                 onInteractionCanvasControls.Raise(this, new HideText());
                 canvasIsShowing = false;
             }
+        }
+
+        private void OnDisable()
+        {
+            HideUI();
         }
 
         private void OnDrawGizmos()

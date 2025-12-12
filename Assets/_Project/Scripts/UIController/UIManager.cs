@@ -1,7 +1,7 @@
-  using System.Collections.Generic;
-  using TwelveG.SaveSystem;
-  using UnityEngine;
-  using UnityEngine.UI;
+using System.Collections.Generic;
+using TwelveG.SaveSystem;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace TwelveG.UIController
 {
@@ -45,6 +45,7 @@ namespace TwelveG.UIController
     [SerializeField] private List<GameObject> canvasesToHideWhilePaused;
 
     private Dictionary<CanvasHandlerType, GameObject> canvasDict;
+    private List<bool> originalStates = new List<bool>();
 
     private void Awake()
     {
@@ -88,16 +89,38 @@ namespace TwelveG.UIController
 
     public void PauseGame(Component sender, object data)
     {
+      bool isPaused = (bool)data;
+
       if (canvasDict.TryGetValue(CanvasHandlerType.PauseMenu, out var canvasGO))
       {
-        // Activar o desactivar el canvas del menú de pausa según el valor booleano recibido
-        canvasGO.SetActive((bool)data);
-
-        // Accion inversa para los canvas dentro del grupo a ocultar mientras se muestra el menú de pausa
-        foreach (var go in canvasesToHideWhilePaused)
+        // Leemos el estado de los canvas a apagar en la lista
+        for (int i = 0; i < canvasesToHideWhilePaused.Count; i++)
         {
-          go.SetActive(!(bool)data);
+          originalStates.Add(canvasesToHideWhilePaused[i].GetComponent<Canvas>().enabled);
+          Debug.Log($"Canvas {canvasesToHideWhilePaused[i].name} enabled: {originalStates[i]}");
         }
+
+        // Deshabilitamos los canvas de la lista
+        if(isPaused)
+        {
+          foreach (var canvas in canvasesToHideWhilePaused)
+          {
+            canvas.GetComponent<Canvas>().enabled = false;
+          }
+        }
+        // Si se reanuda el juego, restauramos los estados originales
+        else
+        {
+          for (int i = 0; i < canvasesToHideWhilePaused.Count; i++)
+          {
+            canvasesToHideWhilePaused[i].GetComponent<Canvas>().enabled = originalStates[i];
+            Debug.Log($"Restaurado canvas {canvasesToHideWhilePaused[i].name} a enabled: {originalStates[i]}");
+          }
+          originalStates.Clear();
+        }
+
+        // Activar o desactivar el canvas del menú de pausa
+        canvasGO.SetActive(isPaused);
       }
     }
 

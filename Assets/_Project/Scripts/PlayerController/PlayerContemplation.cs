@@ -1,10 +1,10 @@
+using System;
+using System.Collections;
+using TwelveG.UIController;
+using UnityEngine;
+
 namespace TwelveG.PlayerController
 {
-    using System;
-    using System.Collections;
-    using TwelveG.UIController;
-    using UnityEngine;
-
     public class PlayerContemplation : MonoBehaviour
     {
         [Header("Raycast settings")]

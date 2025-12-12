@@ -22,6 +22,11 @@ namespace TwelveG.UIController
             UpdateCanvasTextOnLanguageChanged();
         }
 
+        private void OnDisable()
+        {
+            interactionCavas.enabled = false;
+        }
+
         private void Start()
         {
             interactionCavas.enabled = false;

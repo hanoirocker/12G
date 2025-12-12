@@ -1,10 +1,9 @@
+using TwelveG.AudioController;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
 namespace TwelveG.PlayerController
 {
-    using TwelveG.AudioController;
-    using TwelveG.InteractableObjects;
-    using UnityEngine;
-    using UnityEngine.InputSystem;
-
     public class PlayerHandler : MonoBehaviour
     {
         [Header("Player Capsule References")]
@@ -100,12 +99,11 @@ namespace TwelveG.PlayerController
 
         public void PauseGame(Component sender, object data)
         {
-            TogglePlayerCapsule(!(bool)data);
-        }
+            bool enable = !(bool)data;
 
-        private void TogglePlayerCapsule(bool activate)
-        {
-            playerCapsule.SetActive(activate);
+            playerCapsule.SetActive(enable);
+            playerContemplation.enabled = enable;
+            playerInteraction.enabled = enable;
         }
     }
 }
