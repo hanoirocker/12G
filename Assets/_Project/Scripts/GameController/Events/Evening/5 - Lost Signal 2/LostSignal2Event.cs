@@ -18,6 +18,7 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO enableBackpack;
@@ -32,8 +33,6 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(initialTime);
 
-            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
-
             // Esto sera recibido por Backpack para activar el interactuable
             // y desactivar el contemplable.
             enableBackpack.Raise(this, null);
@@ -45,6 +44,13 @@ namespace TwelveG.GameController
                 eventObservationsTextsSOs[0]
             );
 
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                eventObservationsTextsSOs[0].observationTextsStructure[0].observationText
+            ));
+
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
+
             yield return new WaitForSeconds(3f);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
@@ -52,6 +58,9 @@ namespace TwelveG.GameController
             // Se recibe cuando el jugador deja de usar el teléfono
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            // TODO: resetear main door fallback texts a ""
+            // (El reset del Player Data se hace en PhonePrefabHandler)
 
             // Retorna a la camara del player desde la del sofá
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));

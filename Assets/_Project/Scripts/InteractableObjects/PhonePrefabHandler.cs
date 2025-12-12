@@ -89,6 +89,8 @@ namespace TwelveG.InteractableObjects
 
             GetComponentInParent<MeshRenderer>().enabled = false;
 
+            // TODO: reset Player Data Helper to ""
+
             // Cambia a Camera del Sofá
             GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, true));
