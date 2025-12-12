@@ -1,20 +1,20 @@
+using TMPro;
+using TwelveG.Localization;
+using UnityEngine;
+
 namespace TwelveG.UIController
 {
-  using TMPro;
-  using TwelveG.Localization;
-  using UnityEngine;
-
   public class UpdateTextHandler : MonoBehaviour
   {
     [Header("Options")]
+    [Space]
     [SerializeField] private bool isTMPSingleText;
-    [SerializeField] private bool isTMPDropDownList;
-
-    [Header("Singular Text SO's")]
     [SerializeField] private UIOptionsTextSO uIOptionTextSO;
-
-    [Header("List Text SO's")]
+    [SerializeField] private bool isTMPDropDownList;
     [SerializeField] private TextListSO textListSO;
+    [SerializeField] private bool textDependsOnEvents = false;
+
+    private UIOptionsTextSO playerHelperDataTextSO;
 
     private void OnEnable()
     {
@@ -32,13 +32,18 @@ namespace TwelveG.UIController
       {
         UpdateSingleTextSO(languageCode);
       }
+
+      if (textDependsOnEvents)
+      {
+        //
+      }
     }
 
     private void UpdateSingleTextSO(string languageCode)
     {
       var languageStructure = uIOptionTextSO.uImenuTextStructure
         .Find(texts => texts.language.ToString().Equals(languageCode, System.StringComparison.OrdinalIgnoreCase));
-      GetComponent<TextMeshProUGUI>().text = languageStructure.value;
+      gameObject.GetComponent<TextMeshProUGUI>().text = languageStructure.value;
     }
 
     private void UpdateListTextSO(string languageCode)
