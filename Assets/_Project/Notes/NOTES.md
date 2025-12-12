@@ -7,6 +7,7 @@ TOFIX - urgente:
 - Agregar sonidos al tomar escoba y bolsas de basura.
 - Agregar cajas bajo la escalera, o algo.   
 - Hay que agregar iconos con el numero del canal del Walkie Talkie activo por el momento. A futuro tambien cambiar el Control Canvas.
+- Tanto las puertas principales como el Player Data Helper deben resetear sus textos a "" al iniciar un nuevo evento, hasta cargar nuevos. Actualmente estan mostrando el ultimo recibido y no concuerda con el hilo narrativo.
 
 TODO - próximo:
 - Definitivamente se tiene que indicar en el menu de pausa lo que el jugador debe ir haciendo. Frente a cualquier distraccion se pierde facilmente el hilo del juego.

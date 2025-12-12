@@ -25,6 +25,7 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
         [Space]
         [SerializeField] private ObservationTextSO[] mainDoorsFallbacksTextsSO;
+        [SerializeField] private List<UIOptionsTextSO> playerHelperDataTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
         [SerializeField] private EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO_eating;
@@ -37,22 +38,25 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO onSpawnVehicle;
 
         private bool allowNextAction = false;
-        private int eventObservationTextIndex = 0;
 
         public override IEnumerator Execute()
         {
             print("<------ PIZZA TIME EVENT NOW -------->");
 
-            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
-
             yield return new WaitForSeconds(initialTime);
             GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
-                eventsObservationTextSO[eventObservationTextIndex]
+                eventsObservationTextSO[0]
             );
-            eventObservationTextIndex += 1;
 
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                eventsObservationTextSO[0].observationTextsStructure[0].observationText
+            ));
+
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
 
             // Esto notifica al plato para que haga AllowItemToBePicked = true;
             pizzaCanBePicked.Raise(this, true);
@@ -66,9 +70,9 @@ namespace TwelveG.GameController
 
             GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
-                eventsObservationTextSO[eventObservationTextIndex]
+                eventsObservationTextSO[1]
             );
-            eventObservationTextIndex += 1;
+
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
 
             // Unity Event (MicrowaveHandler - pizzaHeatingFinished):
@@ -81,9 +85,8 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(0.5f);
             GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
-                eventsObservationTextSO[eventObservationTextIndex]
+                eventsObservationTextSO[2]
             );
-            eventObservationTextIndex += 1;
 
             // Unity Event (SitAndEat - sitAndEatPizza):
             // Al interactuar con SitAndEat (mesa de la cocina) se deshabilitan controles pples 
@@ -134,7 +137,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(6f);
             GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
-                eventsObservationTextSO[eventObservationTextIndex]
+                eventsObservationTextSO[3]
             );
 
             // Unity Event (PizzaSliceHandler - finishedEatingPizza):
