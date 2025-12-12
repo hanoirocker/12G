@@ -25,7 +25,7 @@ namespace TwelveG.UIController
         }
 
         private void OnEnable()
-        {  
+        {
             PlayInGameMenuSound();
             SetPauseGameSettings();
         }
