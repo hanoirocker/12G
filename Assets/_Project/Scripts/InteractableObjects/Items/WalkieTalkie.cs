@@ -36,10 +36,6 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private AudioClip incomingDialogAlertClip;
         [SerializeField, Range(0f, 1f)] private float switchChannelVolume = 0.8f;
 
-        [Header("Game Event SO's")]
-        [SerializeField] private GameEventSO onShowIncomingCallPanel;
-        [SerializeField] private GameEventSO onShowDialog;
-
         [Header("Runtime Data")]
         public WalkieTalkieChannel[] walkieTalkieChannels;
 
@@ -117,7 +113,7 @@ namespace TwelveG.InteractableObjects
             {
                 Debug.Log($"[WT] Disparando diálogo agendado en canal {currentChannelIndex}");
 
-                onShowDialog.Raise(this, currentChannelObj.pendingDialog);
+                GameEvents.Common.onShowDialog.Raise(this, currentChannelObj.pendingDialog);
 
                 AllowChannelSwitching(false);
                 AllowItemToBeToggled(false);
@@ -131,7 +127,7 @@ namespace TwelveG.InteractableObjects
             {
                 incomingCallWaiting = false;
 
-                onShowDialog.Raise(this, lastDialogReceived);
+                GameEvents.Common.onShowDialog.Raise(this, lastDialogReceived);
 
                 AllowChannelSwitching(false);
                 AllowItemToBeToggled(false);
@@ -246,7 +242,7 @@ namespace TwelveG.InteractableObjects
 
             if (currentChannelIndex == dialogInfo.channelIndex && itemIsShown)
             {
-                onShowDialog.Raise(this, dialogInfo.dialogSO);
+                GameEvents.Common.onShowDialog.Raise(this, dialogInfo.dialogSO);
                 AllowChannelSwitching(false);
                 AllowItemToBeToggled(false);
                 walkieTalkieChannels[dialogInfo.channelIndex].ClearPendingDialog();
@@ -292,7 +288,7 @@ namespace TwelveG.InteractableObjects
                 {
                     AllowItemToBeToggled(false);
                     AllowChannelSwitching(false);
-                    onShowDialog.Raise(this, lastDialogReceived);
+                    GameEvents.Common.onShowDialog.Raise(this, lastDialogReceived);
                 }
                 else if (itemIsShown && currentChannelIndex != micaChannelIndex)
                 {
@@ -320,19 +316,19 @@ namespace TwelveG.InteractableObjects
 
                 AllowItemToBeToggled(false);
                 AllowChannelSwitching(false);
-                onShowDialog.Raise(this, lastDialogReceived);
+                GameEvents.Common.onShowDialog.Raise(this, lastDialogReceived);
             }
         }
 
         private IEnumerator IncomingDialogAlertCourutine()
         {
-            onShowIncomingCallPanel.Raise(this, true);
+            GameEvents.Common.onShowIncomingCallPanel.Raise(this, true);
             audioSource.clip = incomingDialogAlertClip;
             audioSource.Play();
 
             yield return new WaitUntil(() => itemIsShown);
 
-            onShowIncomingCallPanel.Raise(this, false);
+            GameEvents.Common.onShowIncomingCallPanel.Raise(this, false);
             AllowItemToBeToggled(false);
             audioSource.Stop();
             audioSource.clip = null;
@@ -406,7 +402,7 @@ namespace TwelveG.InteractableObjects
 
                 if (incomingCallWaiting)
                 {
-                    onShowDialog.Raise(this, lastDialogReceived);
+                    GameEvents.Common.onShowDialog.Raise(this, lastDialogReceived);
                     incomingCallWaiting = false;
                     AllowChannelSwitching(false);
                     AllowItemToBeToggled(false);

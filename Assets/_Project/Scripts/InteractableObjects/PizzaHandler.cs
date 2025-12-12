@@ -3,7 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using TwelveG.AudioController;
-    using TwelveG.Localization;
+using TwelveG.GameController;
+using TwelveG.Localization;
     using TwelveG.PlayerController;
     using UnityEngine;
 
@@ -74,7 +75,7 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator GrabPizza(List<GameObject> pizzaSlices, PlayerInteraction playerCamera)
         {
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             yield return StartCoroutine(RotateBoxTop());
 
@@ -85,7 +86,7 @@ namespace TwelveG.InteractableObjects
 
             RemoveUsedItems(playerCamera);
 
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 
         private IEnumerator RotateBoxTop()

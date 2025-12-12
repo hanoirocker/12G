@@ -1,14 +1,12 @@
+using System.Collections;
+using Cinemachine;
+using TwelveG.GameController;
+using UnityEngine;
+
 namespace TwelveG.Utils
 {
-    using System.Collections;
-    using Cinemachine;
-    using UnityEngine;
-
     public class WakeUpVCHandler : MonoBehaviour
     {
-        [Header("Game Event SO's")]
-        public GameEventSO animationHasEnded;
-
         private Animation _animation;
 
         private void OnDisable()
@@ -27,7 +25,7 @@ namespace TwelveG.Utils
         {
             _animation.Play();
             yield return new WaitUntil(() => !_animation.isPlaying);
-            animationHasEnded.Raise(this, null);
+            GameEvents.Common.onAnimationHasEnded.Raise(this, null);
         }
     }
 }

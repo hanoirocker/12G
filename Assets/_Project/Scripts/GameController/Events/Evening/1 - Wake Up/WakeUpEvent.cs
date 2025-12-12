@@ -1,13 +1,13 @@
+using System.Collections;
+using TwelveG.AudioController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using TwelveG.UIController;
+using TwelveG.Utils;
+using UnityEngine;
+
 namespace TwelveG.GameController
 {
-    using System.Collections;
-    using TwelveG.AudioController;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using TwelveG.UIController;
-    using TwelveG.Utils;
-    using UnityEngine;
-
     public class WakeUpEvent : GameEventBase
     {
         [Header("Event options")]
@@ -21,21 +21,10 @@ namespace TwelveG.GameController
         [SerializeField] private AudioClip bgMusic1;
         [SerializeField] private AudioClip standUpClip;
 
-
         [Header("Text event SO")]
         [Space]
         [SerializeField] private ObservationTextSO eventsObservationTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
-
-        [Header("EventsSO references")]
-        [Space]
-        [SerializeField] private GameEventSO onImageCanvasControls;
-        [SerializeField] private GameEventSO onControlCanvasControls;
-        [SerializeField] private GameEventSO onObservationCanvasShowText;
-        [SerializeField] private GameEventSO onEventInteractionCanvasShowText;
-        [SerializeField] private GameEventSO onInteractionCanvasControls;
-        [SerializeField] private GameEventSO onVirtualCamerasControl;
-        [SerializeField] private GameEventSO onPlayerControls;
 
         [Header("Other eventsSO references")]
         [Space]
@@ -52,29 +41,29 @@ namespace TwelveG.GameController
             bgMusicSource.clip = bgMusic1;
             bgMusicSource.volume = 0;
 
-            onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
 
             yield return new WaitForSeconds(initialTime);
 
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
 
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
 
-            onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
 
-            onPlayerControls.Raise(this, new TogglePlayerMainCamera(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new TogglePlayerMainCamera(true));
 
-            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
 
             playCrashingWindowSound.Raise(this, null);
             yield return new WaitForSeconds(3f);
 
-            onImageCanvasControls.Raise(this, new WakeUpBlinking());
+            GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
             yield return new WaitForSeconds(2f);
 
             // QUE MIERDA FUE ESO?
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO
             );
@@ -83,10 +72,10 @@ namespace TwelveG.GameController
             // ligarlo a cuando el canvas ya no esté mostrando el texto.
             yield return new WaitForSeconds(4f);
 
-            onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             // LEVANTARSE [E]
-            onEventInteractionCanvasShowText.Raise(
+            GameEvents.Common.onEventInteractionCanvasShowText.Raise(
                 this,
                 eventsInteractionTextsSO
             );
@@ -99,11 +88,11 @@ namespace TwelveG.GameController
                 audioSource.PlayOneShot(standUpClip);
             }
 
-            onInteractionCanvasControls.Raise(this, new HideText());
+            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
 
             playWakeUpVCAnimation.Raise(this, null);
 
-            // Unity Event (WakeUpVCHandler - animationHasEnded):
+            // Unity Event (WakeUpVCHandler - onAnimationHasEnded):
             // Cuando termina la animación `incorporarse`, se pasa a lo próximo.
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
@@ -111,17 +100,17 @@ namespace TwelveG.GameController
             // Inicia "Haunting Sound"
             bgMusicSource.Play();
             StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, maxbgMusicVol, musicFadeTime));
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
 
             yield return new WaitForSeconds(1f);
 
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, false));
-            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
-            onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             yield return new WaitForSeconds(1f);
 
-            onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
         }
 
         public void AllowNextActions(Component sender, object data)

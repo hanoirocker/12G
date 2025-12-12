@@ -1,7 +1,7 @@
+using UnityEngine;
+
 namespace TwelveG.EnvironmentController
 {
-    using UnityEngine;
-
     public class EventTriggeredByColliders : MonoBehaviour
     {
         public GameEventSO eventTriggered;

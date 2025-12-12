@@ -1,14 +1,14 @@
+using UnityEngine;
+using System.Collections;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using TwelveG.Utils;
+using TwelveG.UIController;
+using Cinemachine;
+using TwelveG.AudioController;
+
 namespace TwelveG.GameController
 {
-    using UnityEngine;
-    using System.Collections;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using TwelveG.Utils;
-    using TwelveG.UIController;
-    using Cinemachine;
-    using TwelveG.AudioController;
-
     public class TVTimeEvent : GameEventBase
     {
         [Header("Audio")]
@@ -18,25 +18,11 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
 
-        [Header("EventsSO references")]
-        public GameEventSO onControlCanvasControls;
-        public GameEventSO onImageCanvasControls;
-        public GameEventSO onDialogCanvasShowDialog;
-        public GameEventSO onEventInteractionCanvasShowText;
-        public GameEventSO onInteractionCanvasControls;
-        public GameEventSO onCinematicCanvasControls;
-        public GameEventSO onVirtualCamerasControl;
-        public GameEventSO onPlayerControls;
-        public GameEventSO onPlayerDirectorControls;
-
         [Header("Other eventsSO references")]
         public GameEventSO enableTVHandler;
         public GameEventSO tvAudioFadeOut;
-        public GameEventSO onActivateCanvas;
         public GameEventSO allowPlayerToHandleTV;
         public GameEventSO activateRemoteController;
-        public GameEventSO onMainCameraSettings;
-        public GameEventSO StartWeatherEvent;
 
 
         [Header("Settings")]
@@ -49,15 +35,15 @@ namespace TwelveG.GameController
         {
             print("<------ TV TIME EVENT NOW -------->");
 
-            StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
+            GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
             AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
-            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
             enableTVHandler.Raise(this, null);
 
-            onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
             yield return new WaitForSeconds(2f);
-            onImageCanvasControls.Raise(this, new WakeUpBlinking());
+            GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
 
             if (audioSource != null && fallAsleepClip != null)
             {
@@ -67,11 +53,11 @@ namespace TwelveG.GameController
             activateRemoteController.Raise(this, null);
             yield return new WaitForSeconds(5f);
 
-            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
-            onControlCanvasControls.Raise(this, new EnableCanvas(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
+            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(true));
 
-            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
-            onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             allowPlayerToHandleTV.Raise(this, true);
 
@@ -80,28 +66,28 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onControlCanvasControls.Raise(this, new EnableCanvas(false));
-            onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
-            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
-            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
-            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 4));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.TV, true));
-            onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
+            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
+            GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 4));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.TV, true));
+            GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
             yield return new WaitForSeconds(3f);
 
-            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
+            GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
             // Activar TVTime - Main News timeline.
-            onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(0, true));
+            GameEvents.Common.onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(0, true));
 
             // TODO: reemplazar por el valor del timeline `TV focus timeline`.
             yield return new WaitForSeconds(30f);
 
-            onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
+            GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
 
             yield return new WaitForSeconds(3f);
 
             // DESCANSAR UN RATO [E]
-            onEventInteractionCanvasShowText.Raise(
+            GameEvents.Common.onEventInteractionCanvasShowText.Raise(
                 this,
                 eventsInteractionTextsSO
             );
@@ -113,12 +99,12 @@ namespace TwelveG.GameController
                 audioSource.PlayOneShot(fallAsleepClip);
             }
 
-            onInteractionCanvasControls.Raise(this, new VanishTextEffect());
+            GameEvents.Common.onInteractionCanvasControls.Raise(this, new VanishTextEffect());
             yield return new WaitForSeconds(2f);
 
             tvAudioFadeOut.Raise(this, eventFadeOut);
 
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, eventFadeOut));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, eventFadeOut));
             yield return new WaitForSeconds(5f);
         }
 

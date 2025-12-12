@@ -1,18 +1,15 @@
+using System.Collections;
+using TwelveG.GameController;
+using TwelveG.Localization;
+using UnityEngine;
+
 namespace TwelveG.UIController
 {
-  using System.Collections;
-  using TwelveG.Localization;
-  using UnityEngine;
-
   [RequireComponent(typeof(GameEventListener))]
   public class InformationCanvasHandler : IntroCanvasBase
   {
     [Header("References")]
     [SerializeField] private CanvasGroup elementsCanvasGroup;
-
-    [Header("Game Event SO's")]
-    [SerializeField] private GameEventSO onInformationFadeInFinished;
-    [SerializeField] private GameEventSO onInformationFadeOutFinished;
 
     private Canvas informationCanvas;
 
@@ -60,14 +57,14 @@ namespace TwelveG.UIController
 
       yield return FadeCanvasGroup(elementsCanvasGroup, 0f, 1f, fadeInDuration, 8f); // All elements fade in
 
-      onInformationFadeInFinished.Raise(this, null);
+      GameEvents.Common.onInformationFadeInFinished.Raise(this, null);
     }
 
     public IEnumerator InformationFadeOutSequence(float fadeOutDuration)
     {
       yield return FadeCanvasGroup(elementsCanvasGroup, 1f, 0f, fadeOutDuration, 2f); // All elements fade out
 
-      onInformationFadeOutFinished.Raise(this, null);
+      GameEvents.Common.onInformationFadeOutFinished.Raise(this, null);
     }
 
     // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos

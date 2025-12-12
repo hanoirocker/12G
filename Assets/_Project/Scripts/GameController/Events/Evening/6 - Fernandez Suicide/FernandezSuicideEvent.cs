@@ -20,14 +20,6 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
-        [SerializeField] private GameEventSO updateFallbackTexts;
-
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onSpawnVehicle;
-        [SerializeField] private GameEventSO onObservationCanvasShowText;
-        [SerializeField] private GameEventSO onCinematicCanvasControls;
-        [SerializeField] private GameEventSO onPlayerControls;
-        [SerializeField] private GameEventSO onPlayerDirectorControls;
 
         private bool allowNextAction = false;
 
@@ -38,7 +30,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(initialTime);
 
             // YA FUE, me voy a lo de Mica.
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[0]
             );
@@ -55,14 +47,14 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
-            onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
+            GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
 
             yield return new WaitForSeconds(1f);
 
             // Los Fernandez? Ese sonido ...
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[1]
             );
@@ -72,14 +64,14 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
 
-            onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(1, true));
+            GameEvents.Common.onPlayerDirectorControls.Raise(this, new ToggleTimelineDirector(1, true));
 
             yield return new WaitForSeconds(13f);
             // NO NO NO NO. MIERDA!
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[2]
             );
@@ -93,35 +85,35 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(5.5f);
             // Esto no puede ser real
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[3]
             );
 
-            // Unity Event (CinematicsHandler - CutSceneFinished):
+            // Unity Event (CinematicsHandler - onCutSceneFinished):
             // Se recibe cuando termina el cut scene
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
-            onSpawnVehicle.Raise(this, VehicleType.FastCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // TODO: introducir diálogo interno luego de observar el suicidio
             yield return new WaitForSeconds(1f);
 
             // No puede ser ...
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[4]
             );
 
-            onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
+            GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
 
             // Unity Event (CinematicBarsHandler - onCinematicBarsAnimationFinished):
             // Se recibe cuando las barras cinemáticas terminan de ocultarse
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
-            onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
         }
 
         public void AllowNextActions(Component sender, object data)

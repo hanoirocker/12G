@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.UIController;
 using UnityEngine;
@@ -71,7 +72,7 @@ namespace TwelveG.PlayerController
             }
 
             currentChannelIndex = initialChannelIndex;
-            onControlCanvasSetInteractionOptions.Raise(this, interactWithTVSO);
+            GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, interactWithTVSO);
             playerIsInteracting = false;
             StartCoroutine(InitializeTV());
         }
@@ -118,12 +119,12 @@ namespace TwelveG.PlayerController
 
             if (playerIsInteracting)
             {
-                onControlCanvasSetInteractionOptions.Raise(this, interactWithRCSO);
+                GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, interactWithRCSO);
                 ShowRemoteControl(true);
             }
             else
             {
-                onControlCanvasSetInteractionOptions.Raise(this, interactWithTVSO);
+                GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, interactWithTVSO);
                 ShowRemoteControl(false);
             }
         }
@@ -214,7 +215,7 @@ namespace TwelveG.PlayerController
             {
                 hasReachedNews.Raise(this, null);
                 ShowRemoteControl(false);
-                onControlCanvasControls.Raise(this, new ResetControlCanvasSpecificOptions());
+                GameEvents.Common.onControlCanvasControls.Raise(this, new ResetControlCanvasSpecificOptions());
                 playerIsAllowedToInteract = false;
                 DisableAllGameEventListeners();
             }

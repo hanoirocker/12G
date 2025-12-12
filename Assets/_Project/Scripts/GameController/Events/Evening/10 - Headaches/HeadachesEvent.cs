@@ -16,28 +16,19 @@ namespace TwelveG.GameController
         [SerializeField] private GameEventSO onObservationCanvasShowText;
 
         [Header("Text event SO")]
-
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private DialogSO[] dialogOs;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
-        [SerializeField] private GameEventSO updateFallbackTexts;
-
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onStartDialog;
-        [SerializeField] private GameEventSO onSpawnVehicle;
-
-        [Header("Other eventsSO references")]
-        [SerializeField] private GameEventSO onLoadDialogForSpecificChannel;
 
         private bool allowNextAction = false;
 
         public override IEnumerator Execute()
         {
             print("<------ HEADACHES EVENT NOW -------->");
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
             yield return new WaitForSeconds(initialTime);
 
-            onSpawnVehicle.Raise(this, VehicleType.PoliceCarCrash);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.PoliceCarCrash);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();

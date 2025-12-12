@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.UIController;
 using UnityEngine;
@@ -13,11 +14,6 @@ namespace TwelveG.PlayerController
         [SerializeField, Range(0.5f, 2f)] private float interactRange = 1.2f;
         public Transform interactorSource;
         public Color raycastColor;
-
-        [Header("EventsSO references")]
-        public GameEventSO onInteractionCanvasShowText;
-        public GameEventSO onInteractionCanvasControls;
-        public GameEventSO onObservationCanvasShowText;
 
         private Collider lastColliderInteractedWith;
         private bool canvasIsShowing;
@@ -81,7 +77,7 @@ namespace TwelveG.PlayerController
 
             if (observationTextSO == null) { yield return null; }
 
-            onObservationCanvasShowText.Raise(this, observationTextSO);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSO);
             lastColliderInteractedWith.GetComponent<Collider>().enabled = false;
             yield return new WaitForSeconds(timeToWait);
             lastColliderInteractedWith.GetComponent<Collider>().enabled = true;
@@ -92,7 +88,7 @@ namespace TwelveG.PlayerController
         {
             if (!canvasIsShowing && retrievedInteractionSO != null)
             {
-                onInteractionCanvasShowText.Raise(this, retrievedInteractionSO);
+                GameEvents.Common.onInteractionCanvasShowText.Raise(this, retrievedInteractionSO);
                 canvasIsShowing = true;
             }
         }
@@ -102,7 +98,7 @@ namespace TwelveG.PlayerController
             // Ocultar el canvas de interaction si no se mira al objeto interactuable
             if (canvasIsShowing)
             {
-                onInteractionCanvasControls.Raise(this, new HideText());
+                GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
                 canvasIsShowing = false;
             }
         }

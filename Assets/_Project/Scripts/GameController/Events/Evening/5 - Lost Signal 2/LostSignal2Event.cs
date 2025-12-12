@@ -19,19 +19,10 @@ namespace TwelveG.GameController
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
 
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onObservationCanvasShowText;
-        [SerializeField] private GameEventSO onSpawnVehicle;
-
         [Header("Other eventsSO references")]
-        [SerializeField] private GameEventSO updateFallbackTexts;
         [SerializeField] private GameEventSO enableBackpack;
         [SerializeField] private GameEventSO disableBackpack;
         [SerializeField] private GameEventSO enablePhone;
-        [SerializeField] private GameEventSO onVirtualCamerasControl;
-        [SerializeField] private GameEventSO onMainCameraSettings;
-        [SerializeField] private GameEventSO onImageCanvasControls;
-        [SerializeField] private GameEventSO onPlayerControls;
 
         private bool allowNextAction = false;
 
@@ -41,7 +32,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(initialTime);
 
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
             // Esto sera recibido por Backpack para activar el interactuable
             // y desactivar el contemplable.
@@ -49,13 +40,13 @@ namespace TwelveG.GameController
             enablePhone.Raise(this, null);
 
             // ¡Mi teléfono! Necesito hablar con Mica y ver si soy el único con esta suerte. Pero .. ¿Dónde lo habré dejado?
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[0]
             );
 
             yield return new WaitForSeconds(3f);
-            onSpawnVehicle.Raise(this, VehicleType.FastCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // Unity Event (PhonePrefabHandler - finishedUsingPhone):
             // Se recibe cuando el jugador deja de usar el teléfono
@@ -63,20 +54,20 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             // Retorna a la camara del player desde la del sofá
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
             yield return new WaitForSeconds(1f);
-            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, false));
+            GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, false));
             yield return new WaitForSeconds(1f);
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
 
-            onSpawnVehicle.Raise(this, VehicleType.FastCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // Nos aseguramos que el interactuable del Backpack se destruya
             // si no fue revisada hasta este punto.
             disableBackpack.Raise(this, null);
 
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
             yield return new WaitForSeconds(2f);
         }
 

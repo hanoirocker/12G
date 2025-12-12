@@ -4,6 +4,7 @@ using TwelveG.AudioController;
 using TwelveG.UIController;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TwelveG.GameController;
 namespace TwelveG.GameController
 {
   public class SceneLoaderHandler : MonoBehaviour
@@ -17,13 +18,6 @@ namespace TwelveG.GameController
     [Space]
     [SerializeField] private AudioClip loadingClip;
     [SerializeField, Range(0f, 1f)] private float clipVolume = 0.6f;
-
-    [Header("Game Event SO's")]
-    [Space]
-    [SerializeField] private GameEventSO onSceneLoaded;
-    [SerializeField] private GameEventSO onAnyKeyPressed;
-    [SerializeField] private GameEventSO onActivateCanvas;
-    [SerializeField] private GameEventSO onDeactivateAcanvas;
 
     private IEnumerator BasicLoadScene(int sceneToLoadIndex)
     {
@@ -43,7 +37,7 @@ namespace TwelveG.GameController
     private IEnumerator LoadNextScene(int sceneToLoadIndex)
     {
       // Escucha UIManager para activar el Loading Scene Canvas
-      onActivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
+      GameEvents.Common.onActivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
 
       AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
       audioSource.PlayOneShot(loadingClip, clipVolume);
@@ -61,13 +55,13 @@ namespace TwelveG.GameController
 
       // Escucha el LoadingSceneCanvasHandler para terminar de parpadear
       // y mostrar el texto "Press any button"
-      onSceneLoaded.Raise(this, null);
+      GameEvents.Common.onSceneLoaded.Raise(this, null);
 
       // Esperar input del jugador
       yield return new WaitUntil(() => Input.anyKeyDown);
 
       // Escucha el LoadingSceneCanvasHandler para ocultar el texto "Press any Button"
-      onAnyKeyPressed.Raise(this, null);
+      GameEvents.Common.onAnyKeyPressed.Raise(this, null);
 
       AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
       if (bgMusicSource)
@@ -80,7 +74,7 @@ namespace TwelveG.GameController
       // Ahora sí, activar la escena cargada
       asyncLoad.allowSceneActivation = true;
 
-      onDeactivateAcanvas.Raise(this, CanvasHandlerType.LoadScene);
+      GameEvents.Common.onDeactivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
     }
 
     public void LoadNextSceneSequence(int sceneToLoadIndex)

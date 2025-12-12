@@ -1,16 +1,13 @@
+using TwelveG.GameController;
+using TwelveG.SaveSystem;
+using UnityEngine;
+using UnityEngine.Localization.Settings;
+
 namespace TwelveG.Localization
 {
-    using TwelveG.SaveSystem;
-    using UnityEngine;
-    using UnityEngine.Localization.Settings;
-
     public class LocalizationManager : MonoBehaviour, IDataPersistence
     {
         public static LocalizationManager Instance { get; private set; }
-
-        [Header("Game Event SO's")]
-        public GameEventSO onLanguageChanged;
-
         private string currentLanCode;
 
         private void Awake()
@@ -35,7 +32,7 @@ namespace TwelveG.Localization
             {
                 LocalizationSettings.SelectedLocale = locale;
                 currentLanCode = languageCode;
-                onLanguageChanged.Raise(this, null);
+                GameEvents.Common.onLanguageChanged.Raise(this, null);
             }
         }
 

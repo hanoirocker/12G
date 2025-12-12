@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.Localization;
 using UnityEngine;
 
@@ -77,7 +78,7 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(3f);
 
             // Mejor le escribo a Mica sobre todo esto ..
-            onObservationCanvasShowText.Raise(this, observationTextSOs[0]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[0]);
             yield return new WaitForSeconds(2f);
 
             // Aca cambia a la pantalla de contactos
@@ -94,7 +95,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(8f);
             // ............................................;
-            onObservationCanvasShowText.Raise(this, observationTextSOs[1]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[1]);
 
             // Aca cambia a la pantalla de Mica 3 (envia 2do mensaje)
             yield return new WaitForSeconds(4f);
@@ -103,7 +104,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(7f);
             // Menos mal que no pago por todos estos servicios, aún...
-            onObservationCanvasShowText.Raise(this, observationTextSOs[2]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[2]);
 
             GetComponent<Animation>().PlayQueued("Phone Inventory - Hide Phone");
 

@@ -18,14 +18,8 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private ObservationTextSO[] mainDoorsFallbacksTextsSO;
-        [SerializeField] private GameEventSO updateFallbackTexts;
-
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onObservationCanvasShowText;
-        [SerializeField] private GameEventSO StartWeatherEvent;
 
         [Header("Other eventsSO references")]
-        [SerializeField] private GameEventSO onSpawnVehicle;
         [SerializeField] private GameEventSO drawerCanBeInteracted;
         [SerializeField] private GameEventSO triggerOldRadio;
         [SerializeField] private GameEventSO triggerHouseLightsFlickering;
@@ -40,24 +34,24 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(initialTime);
 
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
 
             // Tengo que encontrar la forma de hablar con Mica como sea.
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[0]
             );
 
-            onSpawnVehicle.Raise(this, VehicleType.FastCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
             yield return new WaitForSeconds(12f);
-            onSpawnVehicle.Raise(this, VehicleType.FastCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // Mi Walkie Talkie! Si no mal recuerdo mi madre lo había escondido ...
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[1]
             );
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[2]
             );
@@ -72,11 +66,11 @@ namespace TwelveG.GameController
             // Se recibe cuando el jugador alcana el indice del canal principal
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
-            onSpawnVehicle.Raise(this, VehicleType.FastCars);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // Se levanta viento mas fuerte
-            StartWeatherEvent.Raise(this, WeatherEvent.HardWind);
+            GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardWind);
 
             // Parpadean luces de la casa nuevamente
             triggerHouseLightsFlickering.Raise(this, 10f);

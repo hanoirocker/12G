@@ -8,7 +8,7 @@ namespace TwelveG.GameController
     public class WakeUpAtNightEvent : GameEventBase
     {
         [Header("EventsSO references")]
-        public GameEventSO StartWeatherEvent;
+        public GameEventSO onStartWeatherEvent;
         public GameEventSO onImageCanvasControls;
         public GameEventSO onDialogCanvasShowDialog;
         public GameEventSO onInteractionCanvasShowText;
@@ -20,7 +20,7 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ WAKE UP AT NIGHT EVENT NOW -------->");
-            StartWeatherEvent.Raise(this, WeatherEvent.HardRain);
+            GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardRain);
 
             // Parpadeo del jugador y activación de controles de menú
             // playerCapsule.SetActive(false);
@@ -34,7 +34,7 @@ namespace TwelveG.GameController
             // cameraZoom.enabled = false;
 
             // yield return imageCanvasHandler.WakeUpBlinking();
-            onImageCanvasControls.Raise(this, new WakeUpBlinking());
+            GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
             yield return new WaitForSeconds(5f);
 
             // playerShortcuts.enabled = true;
@@ -49,10 +49,10 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(2f);
 
             // interactionCanvasHandler.ShowInteractionText("LEVANTARSE [E]");
-            onInteractionCanvasShowText.Raise(this, "LEVANTARSE [E]");
+            GameEvents.Common.onInteractionCanvasShowText.Raise(this, "LEVANTARSE [E]");
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
             // interactionCanvasHandler.HideText();
-            onInteractionCanvasControls.Raise(this, new HideText());
+            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
 
             // animationComponent = bedVC.GetComponent<Animation>();
             animationComponent.enabled = true;
@@ -60,7 +60,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => !animationComponent.isPlaying);
 
             // yield return imageCanvasHandler.FadeOutImage(0.5f);
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
             yield return new WaitForSeconds(1f);
 
             // bedVC.enabled = false;

@@ -5,6 +5,7 @@ using TwelveG.PlayerController;
 using TwelveG.Localization;
 using UnityEngine;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 
 namespace TwelveG.InteractableObjects
 {
@@ -94,10 +95,10 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(8f);
 
             // Qué raro ¿La habrán cagado con la última actualización?
-            onObservationCanvasShowText.Raise(this, observationsTextsSOs[0]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[0]);
             yield return new WaitForSeconds(4f);
             // Ok, a lo importante.
-            onObservationCanvasShowText.Raise(this, observationsTextsSOs[1]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[1]);
 
             yield return new WaitForSeconds(4.5f);
             audioSource.PlayOneShot(click);
@@ -111,7 +112,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(10f);
             // ..........................
-            onObservationCanvasShowText.Raise(this, observationsTextsSOs[2]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[2]);
 
             // Cambiar a pantalla steam not connected
             yield return new WaitForSeconds(7f);
@@ -120,7 +121,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(3f);
             // Parece que no hay chances que algo salga bien hoy. Fibertol me re contra defeco en vos.
-            onObservationCanvasShowText.Raise(this, observationsTextsSOs[3]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[3]);
 
             yield return new WaitForSeconds(3f);
 
@@ -138,8 +139,6 @@ namespace TwelveG.InteractableObjects
 
         private void OnDisable()
         {
-            // DUDA: Si la PC no se volverá a usar en ningún momento del juego, podriamos apagar acá el Game Event Listener.
-
             // Se activa el objecto Contemplable 
             contemplableObject.SetActive(true);
 

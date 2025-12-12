@@ -29,17 +29,6 @@ namespace TwelveG.GameController
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
         [SerializeField] private EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO_eating;
 
-        [Header("EventsSO references")]
-        [Space]
-        [SerializeField] private GameEventSO onImageCanvasControls;
-        [SerializeField] private GameEventSO onObservationCanvasShowText;
-        [SerializeField] private GameEventSO onEventInteractionCanvasShowText;
-        [SerializeField] private GameEventSO onInteractionCanvasControls;
-        [SerializeField] private GameEventSO onPlayerControls;
-        [SerializeField] private GameEventSO onControlCanvasControls;
-        [SerializeField] private GameEventSO onControlCanvasSetInteractionOptions;
-        [SerializeField] private GameEventSO onVirtualCamerasControl;
-
         [Header("Other eventsSO references")]
         [Space]
         [SerializeField] private GameEventSO plateCanBePicked;
@@ -54,16 +43,16 @@ namespace TwelveG.GameController
         {
             print("<------ PIZZA TIME EVENT NOW -------->");
 
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
 
             yield return new WaitForSeconds(initialTime);
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[eventObservationTextIndex]
             );
             eventObservationTextIndex += 1;
 
-            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             // Esto notifica al plato para que haga AllowItemToBePicked = true;
             pizzaCanBePicked.Raise(this, true);
@@ -75,22 +64,22 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[eventObservationTextIndex]
             );
             eventObservationTextIndex += 1;
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
 
             // Unity Event (MicrowaveHandler - pizzaHeatingFinished):
             // Se muestra el diálogo luego de calentar pizza
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             yield return new WaitForSeconds(0.5f);
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[eventObservationTextIndex]
             );
@@ -102,9 +91,9 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
 
 
             if (chairMovingSound)
@@ -120,30 +109,30 @@ namespace TwelveG.GameController
                 yield return new WaitForSeconds(1);
             }
 
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));
-            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
             yield return new WaitForSeconds(1f);
 
-            onControlCanvasSetInteractionOptions.Raise(
+            GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(
                 this,
                 eventsControlCanvasInteractionTextSO_eating
             );
 
-            onControlCanvasControls.Raise(this, new EnableCanvas(true));
-            onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
+            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             // Unity Event (PizzaSliceHandler - instantiatePoliceCar)
             // Avisa que va por la segunda mordida y se debe instanciar el auto de policia
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onSpawnVehicle.Raise(this, VehicleType.RegularPoliceCar);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.RegularPoliceCar);
 
             // Espera mas o menos un tiempo adecuado para cuando el auto de la policia
             // ya haya pasado y comenta al respecto.
             yield return new WaitForSeconds(6f);
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[eventObservationTextIndex]
             );
@@ -154,11 +143,11 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onControlCanvasControls.Raise(this, new ResetControlCanvasSpecificOptions());
+            GameEvents.Common.onControlCanvasControls.Raise(this, new ResetControlCanvasSpecificOptions());
             yield return new WaitForSeconds(3.5f);
-            onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
             // LEVANTARSE [E]
-            onEventInteractionCanvasShowText.Raise(
+            GameEvents.Common.onEventInteractionCanvasShowText.Raise(
                 this,
                 eventsInteractionTextsSO
             );
@@ -166,16 +155,16 @@ namespace TwelveG.GameController
             // Espera hasta que el jugador presione nuevamente la E
             // para levantarse de la silla.
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            onInteractionCanvasControls.Raise(this, new HideText());
-            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
-            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
             yield return new WaitForSeconds(2f);
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, false));
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, false));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
             yield return new WaitForSeconds(1f);
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 
         public void AllowNextActions(Component sender, object data)

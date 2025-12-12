@@ -20,16 +20,10 @@ namespace TwelveG.GameController
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private DialogSO[] dialogSOs;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
-        [SerializeField] private GameEventSO updateFallbackTexts;
-
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onStartDialog;
-        [SerializeField] private GameEventSO onSpawnVehicle;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO activateMicaEntranceCollider;
         [SerializeField] private GameEventSO triggerHouseLightsFlickering;
-        [SerializeField] private GameEventSO onLoadDialogForSpecificChannel;
 
         private bool allowNextAction = false;
 
@@ -37,18 +31,18 @@ namespace TwelveG.GameController
         {
             print("<------ NOISES EVENT NOW -------->");
 
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
             yield return new WaitForSeconds(initialTime);
 
             // Desde cualquier ventana del primer piso deberia tener ...
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[0]
             );
 
             activateMicaEntranceCollider.Raise(this, null);
-            onSpawnVehicle.Raise(this, VehicleType.Helicopter1);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.Helicopter1);
 
             // "Entrance - Spot" dispara el evento micaEntranceSpotted al ser chekeado por Simon
             yield return new WaitUntil(() => allowNextAction);
@@ -56,7 +50,7 @@ namespace TwelveG.GameController
 
             // Mica .. no veo nada raro en la entrada de tu casa ..
             // (Mica y Simon concuerdan en pedir ayuda a la policia en canal 4)
-            onStartDialog.Raise(this, dialogSOs[0]);
+            GameEvents.Common.onStartDialog.Raise(this, dialogSOs[0]);
 
             // Parpadean luces de la casa
             triggerHouseLightsFlickering.Raise(this, 5f);
@@ -66,7 +60,7 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             // Debo cambiar al canal 4 y pedir ayuda cuanto antes ..
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[1]
             );
@@ -74,7 +68,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(2f);
 
             // Cargar dialogo. El mismo no inicia hasta que el jugador cambie al canal 4.
-            onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+            GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
             {
                 channelIndex = 3, // Canal 4 de la Policia
                 dialogSO = dialogSOs[1]
@@ -86,7 +80,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(10f);
             // Self dialog: "................."
-            onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+            GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
             {
                 channelIndex = 3, // Canal 4 de la Policia
                 dialogSO = dialogSOs[2]
@@ -99,7 +93,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(8f);
 
             // Dialogo interceptado de la policia
-            onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+            GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
             {
                 channelIndex = 3, // Canal 4 de la Policia
                 dialogSO = dialogSOs[3]
@@ -111,7 +105,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(2f);
             // Parece que alguien ya dió aviso sobre el disparo ..
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[2]
             );

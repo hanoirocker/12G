@@ -1,22 +1,14 @@
+using UnityEngine;
+using System.Collections;
+using TwelveG.UIController;
+using TwelveG.AudioController;
 namespace TwelveG.GameController
-{
-    using UnityEngine;
-    using System.Collections;
-    using TwelveG.UIController;
-    using TwelveG.AudioController;
 
+{
     public class DisclaimerEvent : GameEventBase
     {
         [Header("Event references")]
         public AudioClip introTrack;
-
-        [Header("Text event SO")]
-
-        [Header("EventsSO references")]
-        public GameEventSO onActivateCanvas;
-        public GameEventSO onDeactivateCanvas;
-        public GameEventSO onDisclaimerCanvasFadeIn;
-        public GameEventSO onDisclaimerCanvasFadeOut;
 
         private bool allowNextAction = false;
 
@@ -25,10 +17,10 @@ namespace TwelveG.GameController
             print("<------ Disclaimer event -------->");
 
             // Activar Disclaimer canvas y correr corrutina
-            onActivateCanvas.Raise(this, CanvasHandlerType.Disclaimer);
+            GameEvents.Common.onActivateCanvas.Raise(this, CanvasHandlerType.Disclaimer);
 
             // Correr corrutina de fade in del Disclaimer Canvas
-            onDisclaimerCanvasFadeIn.Raise(this, null);
+            GameEvents.Common.onDisclaimerFadeIn.Raise(this, null);
 
             // Cargar audio clip y hacer
             // introAudioController.AudioFadeInSequence()
@@ -42,13 +34,13 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onDisclaimerCanvasFadeOut.Raise(this, null);
+            GameEvents.Common.onDisclaimerFadeOut.Raise(this, null);
 
             // DisclaimerCanvasHandler: envia onDisclaimerFadeOutFinished
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onDeactivateCanvas.Raise(this, CanvasHandlerType.Disclaimer);
+            GameEvents.Common.onDeactivateCanvas.Raise(this, CanvasHandlerType.Disclaimer);
         }
 
         public void AllowNextActions(Component sender, object data)

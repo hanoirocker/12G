@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TwelveG.GameController;
 using TwelveG.UIController;
 using UnityEngine;
 
@@ -15,10 +16,6 @@ namespace TwelveG.PlayerController
         [Header("Cameras Settings")]
         [SerializeField] private Transform interactorSource;
 
-        [Header("EventsSO references")]
-        public GameEventSO onContemplationCanvasControls;
-        public GameEventSO onContemplationCanvasShowText;
-
         private CameraZoom cameraZoom;
         private IContemplable lastContemplatedObject = null;
         private int defaultTextCounter = 0;
@@ -30,7 +27,7 @@ namespace TwelveG.PlayerController
 
         private void Start()
         {
-            onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
+            GameEvents.Common.onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
         }
 
         private void Update()
@@ -41,7 +38,7 @@ namespace TwelveG.PlayerController
             }
             else
             {
-                onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
+                GameEvents.Common.onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
                 lastContemplatedObject?.IsAbleToBeContemplate(true);
             }
         }
@@ -75,13 +72,13 @@ namespace TwelveG.PlayerController
                     lastContemplatedObject = null;
                 }
 
-                onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
+                GameEvents.Common.onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
             }
         }
 
         private void OnDisable()
         {
-            onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
+            GameEvents.Common.onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
         }
 
 
@@ -98,7 +95,7 @@ namespace TwelveG.PlayerController
             {
                 contemplationText = contemplableObj.GetContemplationText();
 
-                onContemplationCanvasShowText.Raise(this, contemplationText);
+                GameEvents.Common.onContemplationCanvasShowText.Raise(this, contemplationText);
             }
             else
             {

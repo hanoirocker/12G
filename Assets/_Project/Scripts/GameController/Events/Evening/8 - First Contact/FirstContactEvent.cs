@@ -23,13 +23,6 @@ namespace TwelveG.GameController
         [SerializeField] private DialogSO secondEventDialog;
         [SerializeField] private DialogSO thirdEventDialog;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
-        [SerializeField] private GameEventSO updateFallbackTexts;
-
-
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onSpawnVehicle;
-        [SerializeField] private GameEventSO onStartDialog;
-        [SerializeField] private GameEventSO enablePlayerItem;
 
         private bool allowNextAction = false;
 
@@ -37,38 +30,38 @@ namespace TwelveG.GameController
         {
             print("<------ FIRST CONTACT EVENT NOW -------->");
 
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
             yield return new WaitForSeconds(initialTime);
 
             // Primer dialogo cuando obtiene el walkie talkie y lo setea al canal de Mica
-            onStartDialog.Raise(this, firstEventDialog);
+            GameEvents.Common.onStartDialog.Raise(this, firstEventDialog);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onSpawnVehicle.Raise(this, VehicleType.FastCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
-            enablePlayerItem.Raise(this, ItemType.WalkieTalkie);
+            GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
             Debug.Log("[FirstContactEvent] Walkie Talkie enabled");
 
             // Llamado a Mica
-            onStartDialog.Raise(this, secondEventDialog);
+            GameEvents.Common.onStartDialog.Raise(this, secondEventDialog);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
-            onSpawnVehicle.Raise(this, VehicleType.FastCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // No hay chance que lo tenga encedido ... la puta madre.
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[0]
             );
 
             // Tiempo de espera hasta que llame Mica
             yield return new WaitForSeconds(12f);
-            onSpawnVehicle.Raise(this, VehicleType.FastCars);
-            onStartDialog.Raise(this, thirdEventDialog);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
+            GameEvents.Common.onStartDialog.Raise(this, thirdEventDialog);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
@@ -100,13 +101,13 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator CleanBirds(List<GameObject> objectsToModify, PlayerInteraction playerCamera)
         {
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(this.gameObject.transform, cleaningSoundVolume);
             audioSource.PlayOneShot(cleaningSound);
 
             if (fadesImage)
             {
-                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
+                GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
                 yield return new WaitForSeconds(1f);
             }
 
@@ -129,11 +130,11 @@ namespace TwelveG.InteractableObjects
 
             if (fadesImage)
             {
-                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+                GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
                 yield return new WaitForSeconds(1f);
             }
 
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
             cleanZoomBird.Raise(this, null);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);

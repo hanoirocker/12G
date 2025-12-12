@@ -1,20 +1,14 @@
+using System.Collections.Generic;
+using TwelveG.Utils;
+using UnityEngine;
+
 namespace TwelveG.GameController
 {
-    using System.Collections.Generic;
-  using TwelveG.Utils;
-  using UnityEngine;
-  using UnityEngine.UI;
-
-  public class CinematicsHandler : MonoBehaviour
+    public class CinematicsHandler : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] private List<GameObject> timelineDirectors = new();
         [SerializeField] private GameObject cameraGameObject;
-
-        [Header("Game Event So's")]
-        [SerializeField] private GameEventSO cutSceneFinished;
-        [SerializeField] private GameEventSO timelineFinished;
-        [SerializeField] private GameEventSO onVirtualCamerasControl;
 
         public void PlayerDirectorsControls(Component sender, object data)
         {
@@ -22,7 +16,7 @@ namespace TwelveG.GameController
             {
                 case ToggleTimelineDirector director:
                     timelineDirectors[director.Index].SetActive(director.Enable);
-                    onVirtualCamerasControl.Raise(this, new ToggleIntoCinematicCameras(true));
+                    GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleIntoCinematicCameras(true));
                     break;
                 default:
                     Debug.LogWarning($"[CinematicsHandler] Received unknown command: {data}");
@@ -32,8 +26,8 @@ namespace TwelveG.GameController
 
         public void CutSceneFinished()
         {
-            cutSceneFinished.Raise(this, null);
-            onVirtualCamerasControl.Raise(this, new ToggleIntoCinematicCameras(false));
+            GameEvents.Common.onCutSceneFinished.Raise(this, null);
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleIntoCinematicCameras(false));
         }
 
         public void TimelineFinished()
@@ -56,7 +50,7 @@ namespace TwelveG.GameController
                 }
             }
 
-            timelineFinished.Raise(this, null);
+            GameEvents.Common.onTimelineFinished.Raise(this, null);
         }
     }
 }

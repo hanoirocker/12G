@@ -1,15 +1,13 @@
+using System.Collections;
+using TwelveG.GameController;
+using UnityEngine;
+
 namespace TwelveG.UIController
 {
-    using System.Collections;
-    using UnityEngine;
-
     public class CinematicCanvasHandler : MonoBehaviour
     {
         [SerializeField] private GameObject container;
         [SerializeField] private Animator containerAnimator;
-
-        [Header("Game Event SO's")]
-        [SerializeField] private GameEventSO onCinematicBarsAnimationFinished;
 
         private IEnumerator ShowBars()
         {
@@ -18,7 +16,7 @@ namespace TwelveG.UIController
 
             AnimatorStateInfo stateInfo = containerAnimator.GetCurrentAnimatorStateInfo(0);
             yield return new WaitForSeconds(stateInfo.length);
-            onCinematicBarsAnimationFinished.Raise(this, null);
+            GameEvents.Common.onCinematicBarsAnimationFinished.Raise(this, null);
         }
 
         private IEnumerator HideBars()
@@ -31,7 +29,7 @@ namespace TwelveG.UIController
                 AnimatorStateInfo stateInfo = containerAnimator.GetCurrentAnimatorStateInfo(0);
                 yield return new WaitForSeconds(stateInfo.length);
                 container.SetActive(false);
-                onCinematicBarsAnimationFinished.Raise(this, null);
+                GameEvents.Common.onCinematicBarsAnimationFinished.Raise(this, null);
             }
         }
 

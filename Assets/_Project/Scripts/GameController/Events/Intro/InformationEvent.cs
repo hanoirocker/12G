@@ -1,11 +1,10 @@
+using UnityEngine;
+using System.Collections;
+using TwelveG.UIController;
+using TwelveG.AudioController;
+
 namespace TwelveG.GameController
 {
-    using UnityEngine;
-    using System.Collections;
-    using TwelveG.UIController;
-    using TwelveG.AudioController;
-    using UnityEngine.SceneManagement;
-
     public class InformationEvent : GameEventBase
     {
         [Header("Event references")]
@@ -14,12 +13,6 @@ namespace TwelveG.GameController
         [Header("Event Settings")]
         [SerializeField, Range(1f, 10f)] float fadeOutDuration;
         [SerializeField, Range(1f, 10f)] float fadeInDuration;
-
-        [Header("EventsSO references")]
-        public GameEventSO onActivateCanvas;
-        public GameEventSO onDeactivateCanvas;
-        public GameEventSO onInformationFadeIn;
-        public GameEventSO onInformationFadeOut;
 
         [HideInInspector]
         public AudioSource introSource = null;
@@ -40,16 +33,16 @@ namespace TwelveG.GameController
             }
 
             // Activar Information canvas y correr corrutina
-            onActivateCanvas.Raise(this, CanvasHandlerType.StudioInformation);
+            GameEvents.Common.onActivateCanvas.Raise(this, CanvasHandlerType.StudioInformation);
 
-            onInformationFadeIn.Raise(this, fadeInDuration);
+            GameEvents.Common.onInformationFadeIn.Raise(this, fadeInDuration);
 
             // DisclaimerCanvasHandler: envia onInformationFadeInFinished
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
             // Fade out del Information Canvas
-            onInformationFadeOut.Raise(this, fadeOutDuration);
+            GameEvents.Common.onInformationFadeOut.Raise(this, fadeOutDuration);
 
             // Si el fade in del audio se estaba ejecutando (por ejemplo por probar
             // específicamente este evento, se detiene para comenzar el fade out
@@ -68,7 +61,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onDeactivateCanvas.Raise(this, CanvasHandlerType.StudioInformation);
+            GameEvents.Common.onDeactivateCanvas.Raise(this, CanvasHandlerType.StudioInformation);
 
             // TODO: Carga asincrónica del Menu, esperar hasta que termine
             yield return new WaitForSeconds(3f);

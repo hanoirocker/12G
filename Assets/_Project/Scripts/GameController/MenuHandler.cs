@@ -1,21 +1,15 @@
+using System.Collections;
+using TwelveG.AudioController;
+using TwelveG.UIController;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
 namespace TwelveG.GameController
 {
-  using System.Collections;
-  using TwelveG.AudioController;
-  using TwelveG.UIController;
-  using UnityEngine;
-  using UnityEngine.SceneManagement;
-
   public class MenuHandler : MonoBehaviour
   {
     [Header("Settings")]
     [SerializeField, Range(1f, 5f)] float blackFadeInDuration;
-
-    [Header("Game Event SO")]
-    public GameEventSO onActivateCanvas;
-    public GameEventSO onImageCanvasControls;
-
-    public GameEventSO StartWeatherEvent;
 
     [Header("Menu audio")]
     public AudioClip afternoonMusic;
@@ -38,11 +32,11 @@ namespace TwelveG.GameController
     private IEnumerator WaitForSceneToRender()
     {
       // Activar Canvas de Menu
-      onActivateCanvas.Raise(this, CanvasHandlerType.MainMenu);
+      GameEvents.Common.onActivateCanvas.Raise(this, CanvasHandlerType.MainMenu);
 
       yield return new WaitForSeconds(1f);
 
-      onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, blackFadeInDuration));
+      GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, blackFadeInDuration));
 
       AudioManager.Instance.FaderHandler.FadeAudioGroup(
         AudioGroup.masterVol,

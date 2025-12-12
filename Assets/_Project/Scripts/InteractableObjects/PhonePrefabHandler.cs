@@ -2,6 +2,7 @@ namespace TwelveG.InteractableObjects
 {
     using System.Collections;
     using Cinemachine;
+    using TwelveG.GameController;
     using TwelveG.Localization;
     using TwelveG.PlayerController;
     using TwelveG.Utils;
@@ -64,11 +65,11 @@ namespace TwelveG.InteractableObjects
         private IEnumerator PhoneInteraction()
         {
             canBeInteractedWith = false;
-            GetComponent<SphereCollider>().enabled = false;
+            gameObject.GetComponent<SphereCollider>().enabled = false;
 
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Phone, true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Phone, true));
             yield return new WaitForSeconds(cameraTrasitionTime);
 
             phoneAnimation.Play();
@@ -76,7 +77,7 @@ namespace TwelveG.InteractableObjects
             yield return new WaitUntil(() => !phoneAnimation.isPlaying);
 
             yield return new WaitForSeconds(0.5f);
-            onObservationCanvasShowText.Raise(this, observationTextSO);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSO);
             yield return new WaitForSeconds(0.5f);
 
             pickableObject.SetActive(true);
@@ -89,8 +90,8 @@ namespace TwelveG.InteractableObjects
             GetComponentInParent<MeshRenderer>().enabled = false;
 
             // Cambia a Camera del Sofá
-            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, true));
+            GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, true));
             yield return new WaitForSeconds(cameraTrasitionTime - 0.5f);
 
             Destroy(phoneParent);

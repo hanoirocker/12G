@@ -1,6 +1,7 @@
 using System.Collections;
 using Cinemachine;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.PlayerController;
 using TwelveG.Utils;
 using UnityEngine;
@@ -53,13 +54,13 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator InteractWithKeyboard()
         {
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 1));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.SafeBox, true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 1));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.SafeBox, true));
             yield return new WaitForSeconds(1f);
-            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
-            onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
-            onPlayerControls.Raise(this, new EnablePauseMenuCanvasAccess(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePauseMenuCanvasAccess(false));
             safeBoxCanvas.SetActive(true);
 
             playerCanExit = true;
@@ -71,12 +72,12 @@ namespace TwelveG.InteractableObjects
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
 
             safeBoxCanvas.SetActive(false);
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.SafeBox, false));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.SafeBox, false));
             yield return new WaitForSeconds(1f);
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
-            onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
-            onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
-            onPlayerControls.Raise(this, new EnablePauseMenuCanvasAccess(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePauseMenuCanvasAccess(true));
         }
 
         public void ProcessNumberInput(int value)

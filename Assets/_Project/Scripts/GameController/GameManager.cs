@@ -1,6 +1,5 @@
 using System.Collections;
 using TwelveG.SaveSystem;
-using TwelveG.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,12 +9,8 @@ namespace TwelveG.GameController
   {
     public static GameManager Instance;
 
-
     [Header("References")]
     public GameObject handlers;
-
-    [Header("Game Event SO's")]
-    public GameEventSO onToggleInGameCanvasAll;
 
     [SerializeField] private EventsHandler eventsHandler;
     [SerializeField] private MenuHandler menuHandler;
@@ -52,7 +47,7 @@ namespace TwelveG.GameController
       {
         case 0: // Intro
           menuHandler.enabled = false;
-          onToggleInGameCanvasAll.Raise(this, false);
+          GameEvents.Common.onToggleInGameCanvasAll.Raise(this, false);
           eventsHandler.BuildEvents();
           break;
         case 1: // Main Menu
@@ -60,17 +55,17 @@ namespace TwelveG.GameController
           return;
         case 2: // Afternoon
           menuHandler.enabled = false;
-          onToggleInGameCanvasAll.Raise(this, true);
+          GameEvents.Common.onToggleInGameCanvasAll.Raise(this, true);
           eventsHandler.BuildEvents();
           break;
         case 3: // Evening
           menuHandler.enabled = false;
-          onToggleInGameCanvasAll.Raise(this, true);
+          GameEvents.Common.onToggleInGameCanvasAll.Raise(this, true);
           eventsHandler.BuildEvents();
           break;
         case 4: // Night
           menuHandler.enabled = false;
-          onToggleInGameCanvasAll.Raise(this, true);
+          GameEvents.Common.onToggleInGameCanvasAll.Raise(this, true);
           eventsHandler.BuildEvents();
           break;
         default:

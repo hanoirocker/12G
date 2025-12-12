@@ -2,6 +2,7 @@ namespace TwelveG.UIController
 {
     using System.Collections;
     using TMPro;
+    using TwelveG.GameController;
     using TwelveG.Localization;
     using UnityEngine;
 
@@ -12,9 +13,6 @@ namespace TwelveG.UIController
         [SerializeField] private TextMeshProUGUI phrase = null;
         [SerializeField] private CanvasGroup textCanvasGroup;
         [SerializeField] private CanvasGroup logoCanvasGroup = null;
-
-        [Header("Game Event SO's")]
-        [SerializeField] private GameEventSO onFinishedNarrativeCouritine;
 
         [Header("Testing")]
         public bool isSimplifiedStyle = true;
@@ -72,7 +70,7 @@ namespace TwelveG.UIController
             // Desactivar canvas y emitir evento
             GetComponent<Canvas>().enabled = false;
             if (!isSimplifiedStyle) { logoCanvasGroup.alpha = 1f; }
-            onFinishedNarrativeCouritine.Raise(this, null);
+            GameEvents.Common.onFinishedNarrativeCouritine.Raise(this, null);
         }
     }
 }

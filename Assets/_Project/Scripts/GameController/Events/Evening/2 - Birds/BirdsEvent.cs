@@ -25,21 +25,11 @@ namespace TwelveG.GameController
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
         [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
 
-        [Header("EventsSO references")]
-        [Space]
-        [SerializeField] GameEventSO onImageCanvasControls;
-        [SerializeField] GameEventSO onObservationCanvasShowText;
-        [SerializeField] GameEventSO onVirtualCamerasControl;
-        [SerializeField] GameEventSO onPlayerControls;
-        [SerializeField] GameEventSO onMainCameraSettings;
-        [SerializeField] GameEventSO onLoadPlayerHelperData;
-
         [Header("Other eventsSO references")]
         [Space]
         [SerializeField] GameEventSO onSpawnVehicle;
         [SerializeField] GameEventSO trashBagCanBePicked;
         [SerializeField] GameEventSO broomCanBePicked;
-        [SerializeField] GameEventSO updateFallbackTexts;
         [SerializeField] GameEventSO destroyWindowToReplace;
         [SerializeField] GameEventSO zoomBirdIsInteractable;
 
@@ -50,25 +40,25 @@ namespace TwelveG.GameController
             print("<------ BIRDS EVENT NOW -------->");
 
             // Esto es para actualizar los fallback texts para las Main Doors en particular
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
             // Actualizar text de ayuda del canvas del menu de pausa al presionar ESC
-            onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
 
             // Llega al Window to replace que deshabilita el mesh renderer de la ventana, y luego ejecuta
             // el InstantiateZoomBird del WindowToReplaceHandler.
             // zoomBird inicia con su collider interactuable apagado, se prende con el próximo eventoSO.
             destroyWindowToReplace.Raise(this, null);
-            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
-            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
             yield return new WaitForSeconds(1f);
 
             // Parece que algo pasó arriba, mejor reviso qué fue eso.
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[0]
             );
@@ -78,7 +68,7 @@ namespace TwelveG.GameController
 
             // Uff, voy a tener que limpiar esto si no quiero que vuelvan 
             // y me culpen por esta desastre.
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[1]
             );
@@ -98,11 +88,11 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             // Y ahora qué m...
             yield return new WaitForSeconds(0.5f);
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[2]
             );
@@ -112,7 +102,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(1.5f);
             // Mejor tiro esta basura antes que ...
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[3]
             );
@@ -120,12 +110,12 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             yield return new WaitForSeconds(1f);
 
             // A otra cosa.
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[4]
             );

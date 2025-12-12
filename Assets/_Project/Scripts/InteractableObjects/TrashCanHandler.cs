@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
@@ -74,14 +75,14 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator TrowObjectsIntoCan(PlayerInteraction playerCamera)
         {
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
             Quaternion targetRotation = doorIsOpen ? initialRotation : initialRotation * Quaternion.Euler(-90, 0, 0);
             yield return StartCoroutine(RotateTop(targetRotation));
 
             if (fadesImage)
             {
-                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
+                GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
                 yield return new WaitForSeconds(1f);
             }
 
@@ -100,12 +101,12 @@ namespace TwelveG.InteractableObjects
 
             if (fadesImage)
             {
-                onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+                GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
                 yield return new WaitForSeconds(1f);
             }
 
             trowAwayTrash.Raise(this, null);
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 
         private void ToggleTop()

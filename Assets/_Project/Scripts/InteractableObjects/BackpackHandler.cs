@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.Utils;
@@ -61,9 +62,9 @@ namespace TwelveG.InteractableObjects
 
             (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, true));
             yield return new WaitForSeconds(cameraTrasitionTime);
 
             yield return new WaitUntil(() => backpackAnimation != null);
@@ -74,7 +75,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(1f);
             // Un par de forros ( sin usar obviamente )
-            onObservationCanvasShowText.Raise(this, searchingTexts[0]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, searchingTexts[0]);
             yield return new WaitForSeconds(1f);
 
             backpackAnimation.PlayQueued("Night - Backpack - Search 2");
@@ -84,7 +85,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(1f);
             // Caramelos cubiertos de pelos?
-            onObservationCanvasShowText.Raise(this, searchingTexts[1]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, searchingTexts[1]);
             yield return new WaitForSeconds(1f);
 
             backpackAnimation.PlayQueued("Night - Backpack - Search 3");
@@ -94,18 +95,18 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(1f);
             // Definitivamente no está aca dentro
-            onObservationCanvasShowText.Raise(this, searchingTexts[2]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, searchingTexts[2]);
             yield return new WaitForSeconds(1f);
 
 
-            onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
+            GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, cameraTrasitionTime));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
             yield return new WaitForSeconds(cameraTrasitionTime);
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
             // Si no mal recuerdo, la última vez que revisé mi celular fue mientras miraba la TV hoy por la mañana
             yield return new WaitForSeconds(3f);
-            onObservationCanvasShowText.Raise(this, searchingTexts[3]);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, searchingTexts[3]);
 
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
         }

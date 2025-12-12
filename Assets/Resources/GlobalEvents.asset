@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 392f2965c7a9f284ba04f2c7c12f551c, type: 3}
+  m_Name: GlobalEvents
+  m_EditorClassIdentifier: 
+  onObservationCanvasShowText: {fileID: 11400000, guid: 21665bdceeba748ad93c85a910b97415,
+    type: 2}
+  onActivateCanvas: {fileID: 11400000, guid: d59bf113ac1e54e4d946d872d08be254, type: 2}
+  onImageCanvasControls: {fileID: 11400000, guid: 6ed7b5d382bf14b7b8225d4b72510118,
+    type: 2}
+  updateFallbackTexts: {fileID: 11400000, guid: 960edcd17c689451396d8aef90eb3b02,
+    type: 2}
+  onLoadPlayerHelperData: {fileID: 11400000, guid: 116d222d7ca66464885ddec24f3e959a,
+    type: 2}
+  onControlCanvasSetInteractionOptions: {fileID: 11400000, guid: 2d2876dd06799469eab991b1765d3d76,
+    type: 2}
+  onControlCanvasControls: {fileID: 11400000, guid: 18ed3eac9dddd437281c87a3cb0eb108,
+    type: 2}
+  onEventInteractionCanvasShowText: {fileID: 11400000, guid: 5b0e93544dc8c40808b75435a043db4b,
+    type: 2}
+  onContemplationCanvasControls: {fileID: 11400000, guid: 2bd0991b7334a423693ab54b3ed0b438,
+    type: 2}
+  onContemplationCanvasShowText: {fileID: 11400000, guid: a0d4aac956bd34d2e9e2e8b33fb85b30,
+    type: 2}
+  onInteractionCanvasControls: {fileID: 11400000, guid: b4a74bc53b9144d37b48a814bbba6dc6,
+    type: 2}
+  onInteractionCanvasShowText: {fileID: 11400000, guid: 6443abf2bf85845498159e5a01a28243,
+    type: 2}
+  onShowNarrativeIntro: {fileID: 11400000, guid: 00106ca0eebe84adcb6158e1c532ced7,
+    type: 2}
+  onToggleInGameCanvasAll: {fileID: 11400000, guid: d595e2334b5094974818344a114be2b4,
+    type: 2}
+  onInformationFadeIn: {fileID: 11400000, guid: c2f2fc0896aad4998993e4653fb916e2,
+    type: 2}
+  onInformationFadeOut: {fileID: 11400000, guid: 3beaa58fcfd814376ad4a31048258f7e,
+    type: 2}
+  onDeactivateCanvas: {fileID: 11400000, guid: 1673cdbea93744c308d5cb84ba0f1258, type: 2}
+  onDisclaimerFadeIn: {fileID: 11400000, guid: ecc17ef6098224b3f8bbbea47865e7aa, type: 2}
+  onDisclaimerFadeInFinished: {fileID: 11400000, guid: 0df2428aee2a6453299a54b15957eedc,
+    type: 2}
+  onDisclaimerFadeOut: {fileID: 11400000, guid: e3d21aee5b42046a08612d9b0bdf93ab,
+    type: 2}
+  onDisclaimerFadeOutFinished: {fileID: 11400000, guid: 2d05e678d9cb94771803c2ca7788926a,
+    type: 2}
+  onInformationFadeInFinished: {fileID: 11400000, guid: 731bc51ba5941440bb7406fbbf68b078,
+    type: 2}
+  onInformationFadeOutFinished: {fileID: 11400000, guid: 2b1e24c0d99fc42ffbb9e38a076fa563,
+    type: 2}
+  onShowIncomingCallPanel: {fileID: 11400000, guid: d1db1c9ba396c4faca369b1d69e08abe,
+    type: 2}
+  onAnimationHasEnded: {fileID: 11400000, guid: 75525fc9241884d579b6d9b78c0d63e9,
+    type: 2}
+  onCinematicCanvasControls: {fileID: 11400000, guid: 1c79104eb39f441d892e0bc0e19e9f37,
+    type: 2}
+  onCinematicBarsAnimationFinished: {fileID: 11400000, guid: 342b1f130fb6a40e39f8847f8b59da83,
+    type: 2}
+  onPlayerDirectorControls: {fileID: 11400000, guid: 5280d5d0069fd4af08e6bd22fd22626d,
+    type: 2}
+  onCutSceneFinished: {fileID: 11400000, guid: ed900cf44ac8c4ec7bb1c776c8839d58, type: 2}
+  onTimelineFinished: {fileID: 11400000, guid: 03fa9f9ad32cb4d089a3ca8c5259edab, type: 2}
+  onEnablePlayerItem: {fileID: 11400000, guid: db3f86513c173994cbebbc47a6a65d05, type: 2}
+  onPlayerControls: {fileID: 11400000, guid: 451880e154eb744aaa22ab8cf5b0b202, type: 2}
+  onVirtualCamerasControl: {fileID: 11400000, guid: 3acb40e7a3c524168b69676446ac2f6a,
+    type: 2}
+  onMainCameraSettings: {fileID: 11400000, guid: 8f576867975014f8fbb8407594c8ba38,
+    type: 2}
+  onPizzaPickedUp: {fileID: 11400000, guid: 0655c3c6307484235bd7de1c9b08bd1d, type: 2}
+  onLanguageChanged: {fileID: 11400000, guid: b02a0912e606340caba42a908fc8e7cf, type: 2}
+  onShowDialog: {fileID: 11400000, guid: 9fcf4b0f869f6466eb2bb2b02aeb7b23, type: 2}
+  onStartDialog: {fileID: 11400000, guid: 66b799bbe356f49f4a5fb671f7a5992f, type: 2}
+  onLoadDialogForSpecificChannel: {fileID: 11400000, guid: d02c8bef7c363634581b3bc7bcd6f358,
+    type: 2}
+  onDialogNodeRunning: {fileID: 11400000, guid: eb45f135f0d3a0b4cb3bcfffbfefd349,
+    type: 2}
+  onConversationHasEnded: {fileID: 11400000, guid: a70cd9a54861941179b1a8a087d8b248,
+    type: 2}
+  onStartWeatherEvent: {fileID: 11400000, guid: 4eb0d878e5164450b8321d44e0143ad4,
+    type: 2}
+  onSpawnVehicle: {fileID: 11400000, guid: 609dd1a2b8c188d4aa71fc295bc305a8, type: 2}
+  onNewEventBegun: {fileID: 11400000, guid: 1e413680ee7ee2c4abc25bb0bd48a16a, type: 2}
+  onSceneLoaded: {fileID: 11400000, guid: f8e2983d3a7a6466391c628112c18ac2, type: 2}
+  onAnyKeyPressed: {fileID: 11400000, guid: 73fde926fb431b5438950349d7e271aa, type: 2}
+  onPlayGame: {fileID: 11400000, guid: cbdce6e253f894a86b079cf805899625, type: 2}
+  onPauseGame: {fileID: 11400000, guid: 13a63d0eb1c1b411e81c5be2e547a739, type: 2}
+  onFinishedNarrativeCouritine: {fileID: 11400000, guid: 57a1f58459c9b408a9f6c800316908a7,
+    type: 2}

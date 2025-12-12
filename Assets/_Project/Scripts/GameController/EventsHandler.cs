@@ -35,15 +35,6 @@ namespace TwelveG.GameController
         public bool enableFlashlight = false;
         public bool enableWalkieTalkie = false;
 
-        [Header("Events SO's references")]
-        [Space]
-        public GameEventSO onImageCanvasControls;
-        public GameEventSO onDeactivateCanvas;
-        public GameEventSO StartWeatherEvent;
-        public GameEventSO onNewEventBegun;
-
-        public GameEventSO enablePlayerItem;
-
         [Header("Text event SO")]
         [Space]
         private GameObject eventsParent = null;
@@ -72,7 +63,7 @@ namespace TwelveG.GameController
                 EventContextData eventContext = new EventContextData(
                     GameManager.Instance.RetrieveCurrentSceneEnum(),
                     currentExecutingEvent.eventEnum);
-                onNewEventBegun.Raise(this, eventContext);
+                GameEvents.Common.onNewEventBegun.Raise(this, eventContext);
 
                 yield return currentEventCoroutine;
 
@@ -141,7 +132,7 @@ namespace TwelveG.GameController
                 currentEventIndex = eventIndexToLoad;
                 if (eventIndexToLoad > 1)
                 {
-                    onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+                    GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
                 }
             }
 
@@ -152,7 +143,7 @@ namespace TwelveG.GameController
         {
             if (isSoftRaining)
             {
-                StartWeatherEvent.Raise(this, WeatherEvent.SoftRain);
+                GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftRain);
             }
             else if (isHardRaining)
             {
@@ -160,11 +151,11 @@ namespace TwelveG.GameController
             }
             if (isSoftWindBlowing)
             {
-                StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
+                GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
             }
             else if (isHardWindBlowing)
             {
-                StartWeatherEvent.Raise(this, WeatherEvent.HardWind);
+                GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardWind);
             }
         }
 
@@ -219,9 +210,9 @@ namespace TwelveG.GameController
         private void ExecuteFreeRoam()
         {
             if (enableFlashlight)
-                enablePlayerItem.Raise(this, ItemType.Flashlight);
+                GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.Flashlight);
             if (enableWalkieTalkie)
-                enablePlayerItem.Raise(this, ItemType.WalkieTalkie);
+                GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
 
             Transform freeRoamTransform = GameObject.FindGameObjectWithTag("FreeRoam")
                 .GetComponent<Transform>();
@@ -229,7 +220,7 @@ namespace TwelveG.GameController
                 .GetComponent<Transform>();
 
             // Enviar Game Event SO sobre nuevo evento iniciado (Recibe por ejemplo Walkie Talkie para actualizar su estado)
-            onNewEventBegun.Raise(this, "FreeRoam");
+            GameEvents.Common.onNewEventBegun.Raise(this, "FreeRoam");
 
             if (freeRoamTransform == null)
             {
@@ -238,7 +229,7 @@ namespace TwelveG.GameController
 
             playerCapsuleTransform.position = freeRoamTransform.position;
             playerCapsuleTransform.rotation = freeRoamTransform.rotation;
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
         }
 
         private void SetUpCurrentEvent()

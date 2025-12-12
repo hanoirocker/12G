@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
@@ -47,7 +48,7 @@ namespace TwelveG.InteractableObjects
     void Start()
     {
       StartCoroutine(PlayExaminationSoundCoroutine(examineInClip));
-      onPlayerControls.Raise(this, new ToggleToObjectExamination(true));
+      GameEvents.Common.onPlayerControls.Raise(this, new ToggleToObjectExamination(true));
       Cursor.visible = true;
       Cursor.lockState = CursorLockMode.None;
     }
@@ -105,7 +106,7 @@ namespace TwelveG.InteractableObjects
       Cursor.visible = false;
       Cursor.lockState = CursorLockMode.Locked;
       if (canvasIsShowing) { onExaminationCanvasControls.Raise(this, new EnableCanvas(false)); }
-      onPlayerControls.Raise(this, new ToggleToObjectExamination(false));
+      GameEvents.Common.onPlayerControls.Raise(this, new ToggleToObjectExamination(false));
 
       List<Renderer> renderers = new List<Renderer>(GetComponentsInChildren<Renderer>());
       foreach (Renderer renderer in renderers)

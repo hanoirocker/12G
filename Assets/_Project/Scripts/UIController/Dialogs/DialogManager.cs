@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.Localization;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,11 +28,7 @@ namespace TwelveG.DialogsController
 
         [Header("Audio")]
         [SerializeField] private AudioClip WTBeepClip;
-        [SerializeField, Range (0f, 3f)] float charactersPitch = 1.18f;
-
-        [Header("Game Event SO's")]
-        public GameEventSO conversationHasEnded;
-        public GameEventSO OnDialogNodeRunning;
+        [SerializeField, Range(0f, 3f)] float charactersPitch = 1.18f;
 
         private DialogSO currentDialog;
         private List<DialogOptions> currentOptions;
@@ -89,11 +86,11 @@ namespace TwelveG.DialogsController
 
             yield return new WaitForSeconds(timeBeforeShowing);
 
-            if(currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
+            if (currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
             {
-                if(!currentDialog.isSelfDialog)
+                if (!currentDialog.isSelfDialog)
                 {
-                    OnDialogNodeRunning.Raise(this, true);
+                    GameEvents.Common.onDialogNodeRunning.Raise(this, true);
                 }
             }
 
@@ -111,7 +108,7 @@ namespace TwelveG.DialogsController
 
             if (currentDialog.spanishDialogClip != null)
             {
-                if(currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
+                if (currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
                 {
                     AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip, charactersPitch);
                 }
@@ -121,7 +118,7 @@ namespace TwelveG.DialogsController
                 }
             }
 
-            if(currentDialog.startingEvent != null)
+            if (currentDialog.startingEvent != null)
             {
                 currentDialog.startingEvent.Raise(this, null);
             }
@@ -129,7 +126,7 @@ namespace TwelveG.DialogsController
             CharacterName charName = currentDialog.characterName;
             string charNameString;
 
-            if(charName == CharacterName.Simon || charName == CharacterName.Mica)
+            if (charName == CharacterName.Simon || charName == CharacterName.Mica)
             {
                 charNameString = currentDialog.characterName.ToString();
             }
@@ -137,7 +134,7 @@ namespace TwelveG.DialogsController
             {
                 charNameString = " ... ";
             }
-            
+
             yield return ShowDialogCoroutine(charNameString, textToShow, dialogTime);
 
             if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
@@ -145,16 +142,16 @@ namespace TwelveG.DialogsController
                 AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(WTBeepClip, 1f);
             }
 
-            if(currentDialog.endingEvent != null)
+            if (currentDialog.endingEvent != null)
             {
                 currentDialog.endingEvent.Raise(this, null);
             }
 
-            if(currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
+            if (currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
             {
-                if(!currentDialog.isSelfDialog)
+                if (!currentDialog.isSelfDialog)
                 {
-                    OnDialogNodeRunning.Raise(this, false);
+                    GameEvents.Common.onDialogNodeRunning.Raise(this, false);
                 }
             }
 
@@ -217,7 +214,7 @@ namespace TwelveG.DialogsController
             {
                 // Fin del diálogo
                 // Debug.Log("conversationHasEnded Raised from DialogManager");
-                conversationHasEnded.Raise(this, null);
+                GameEvents.Common.onConversationHasEnded.Raise(this, null);
                 dialogCanvas.enabled = false;
             }
         }

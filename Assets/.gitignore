@@ -5,6 +5,8 @@
 !_Project/**
 !Settings/
 !Settings/**
+!Resources/
+!Resources/**
 !_Project/.gitignore
 
 !.gitignore

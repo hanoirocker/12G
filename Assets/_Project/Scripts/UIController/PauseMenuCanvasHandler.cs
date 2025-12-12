@@ -1,22 +1,18 @@
+using System.Collections.Generic;
+using TwelveG.AudioController;
+using TwelveG.GameController;
+using TwelveG.PlayerController;
+using TwelveG.SaveSystem;
+using UnityEngine;
+using UnityEngine.UI;
+
 namespace TwelveG.UIController
 {
-    using System;
-    using System.Collections.Generic;
-    using TwelveG.AudioController;
-    using TwelveG.PlayerController;
-    using TwelveG.SaveSystem;
-    using Unity.VisualScripting;
-    using UnityEngine;
-    using UnityEngine.UI;
-
     public class PauseMenuCanvasHandler : MonoBehaviour
     {
         [Header("References")]
         [SerializeField] private AudioClip inGameMenuClip;
         [SerializeField] private List<UpdateTextHandler> textHandlers;
-
-        [Header("Game Event SO's")]
-        [SerializeField] private GameEventSO onPlayerControls;
 
         [Header("Testing")]
         public static bool gameIsPaused;
@@ -96,7 +92,7 @@ namespace TwelveG.UIController
                     DataPersistenceManager.Instance.SavePersistenceData();
                     break;
                 case "Return Btn":
-                    onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+                    GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
                     break;
                 case "Quit Btn":
                     print("Quitting game!");

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TwelveG.GameController;
 using TwelveG.InteractableObjects;
 using UnityEngine;
 
@@ -27,12 +28,7 @@ namespace TwelveG.PlayerController
         [Header("After used Objects: ")]
         [SerializeField] GameObject usedBroom;
 
-        [Header("Game Event SO's")]
-        [SerializeField] private GameEventSO onPizzaPickedUp;
-
-
         private List<String> pickedUpItems = new List<String>();
-
         private GameObject activeBroom = null;
         private GameObject activeFlashlight = null;
         private GameObject activeWalkieTalkie = null;
@@ -138,7 +134,7 @@ namespace TwelveG.PlayerController
                     break;
                 case ItemType.PizzaSliceOnPlate:
                     MakeItemUseable(ItemType.PizzaSliceOnPlate, true, pizzaSliceOnPlate, rightHandTransform);
-                    onPizzaPickedUp.Raise(this, null);
+                    GameEvents.Common.onPizzaPickedUp.Raise(this, null);
                     break;
                 case ItemType.HeatedPizzaSliceOnPlate:
                     MakeItemUseable(ItemType.HeatedPizzaSliceOnPlate, true, pizzaSliceOnPlate, rightHandTransform);

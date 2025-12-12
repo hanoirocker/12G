@@ -1,22 +1,17 @@
+using UnityEngine;
+using System.Collections;
+using TwelveG.Localization;
+using System.Collections.Generic;
+using TwelveG.PlayerController;
+using TwelveG.UIController;
+using UnityEngine.SceneManagement;
+
 namespace TwelveG.GameController
 {
-  using UnityEngine;
-  using System.Collections;
-  using TwelveG.Localization;
-  using System.Collections.Generic;
-  using TwelveG.PlayerController;
-  using TwelveG.UIController;
-  using UnityEngine.SceneManagement;
-
   public class NarrativeEvent : GameEventBase
   {
     [Header("Text event SO")]
     public List<NarrativeTextSO> narrativeIntroTextSOs = new List<NarrativeTextSO>();
-
-    [Header("EventsSO references")]
-    public GameEventSO onShowNarrativeIntro;
-    public GameEventSO onControlCanvasControls;
-    public GameEventSO onPlayerControls;
 
     private bool allowNextAction = false;
     private NarrativeTextSO introTextSO;
@@ -25,17 +20,17 @@ namespace TwelveG.GameController
     {
       print("<------ TEXT CANVAS EVENT NOW -------->");
 
-      onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
-      onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
 
-      onControlCanvasControls.Raise(this, new EnableCanvas(false));
+      GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
 
-      onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
 
       introTextSO = narrativeIntroTextSOs[SceneManager.GetActiveScene().buildIndex - 2];
 
-      onShowNarrativeIntro.Raise(
+      GameEvents.Common.onShowNarrativeIntro.Raise(
           this,
           introTextSO
       );
@@ -49,7 +44,6 @@ namespace TwelveG.GameController
 
     public void AllowNextActions(Component sender, object data)
     {
-      print(gameObject.name + "recibió eventoSO desde " + sender.gameObject.name + " para continuar el evento");
       allowNextAction = true;
     }
 

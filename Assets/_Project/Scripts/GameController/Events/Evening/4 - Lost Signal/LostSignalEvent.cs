@@ -14,15 +14,6 @@ namespace TwelveG.GameController
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 1;
 
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onObservationCanvasShowText;
-        [SerializeField] private GameEventSO onImageCanvasControls;
-        [SerializeField] private GameEventSO onEventInteractionCanvasShowText;
-        [SerializeField] private GameEventSO onInteractionCanvasControls;
-        [SerializeField] private GameEventSO onControlCanvasControls;
-        [SerializeField] private GameEventSO onPlayerControls;
-        [SerializeField] private GameEventSO onVirtualCamerasControl;
-
         [Header("Text event SO")]
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private ObservationTextSO eventsObservationTextSO;
@@ -31,8 +22,6 @@ namespace TwelveG.GameController
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO onSpawnVehicle;
         [SerializeField] private GameEventSO enablePC;
-        [SerializeField] private GameEventSO updateFallbackTexts;
-        [SerializeField] private GameEventSO StartWeatherEvent;
 
         private bool allowNextAction = false;
 
@@ -40,14 +29,14 @@ namespace TwelveG.GameController
         {
             print("<------ LOST SIGNAL 1 EVENT NOW -------->");
 
-            updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
             yield return new WaitForSeconds(initialTime);
-            onObservationCanvasShowText.Raise(
+            GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO
             );
-            onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
             // Habilita el interactuable de la pc y desactiva el contemplable
             enablePC.Raise(this, null);
 
@@ -55,32 +44,32 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             yield return new WaitForSeconds(1f);
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, true));
-            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
 
             // Unity Event (PCHandler - onPC):
             // El jugador abandona la PC y vuelve a retomar control
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            onSpawnVehicle.Raise(this, VehicleType.FastCars);
-            StartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
-            onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
+            GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
+            GameEvents.Common.onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            onInteractionCanvasControls.Raise(this, new HideText());
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
             yield return new WaitForSeconds(2f);
-            onControlCanvasControls.Raise(this, new EnableCanvas(false));
-            onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, false));
-            onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
-            onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
-            onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 
         public void AllowNextActions(Component sender, object data)
