@@ -21,9 +21,9 @@ namespace TwelveG.GameController
         [SerializeField][Range(0.1f, 10f)] private float bgMusicFadeOut = 6f;
         [Header("Text event SO")]
         [Space]
-        [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private List<ObservationTextSO> mainDoorsFallbacksTextsSO;
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
-        [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
+        [SerializeField] private List<UIOptionsTextSO> playerHelperDataTextSO;
 
         [Header("Other eventsSO references")]
         [Space]
@@ -40,9 +40,9 @@ namespace TwelveG.GameController
             print("<------ BIRDS EVENT NOW -------->");
 
             // Esto es para actualizar los fallback texts para las Main Doors en particular
-            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
             // Actualizar text de ayuda del canvas del menu de pausa al presionar ESC
-            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
 
             // Llega al Window to replace que deshabilita el mesh renderer de la ventana, y luego ejecuta
             // el InstantiateZoomBird del WindowToReplaceHandler.
@@ -76,6 +76,9 @@ namespace TwelveG.GameController
                 eventsObservationTextSO[1].observationTextsStructure[0].observationText
             ));
 
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
+
             // Se habilita el collider del interactuable de zoomBird
             zoomBirdIsInteractable.Raise(this, null);
 
@@ -106,6 +109,9 @@ namespace TwelveG.GameController
                 this,
                 eventsObservationTextSO[3]
             );
+
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[2]);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[2]);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();

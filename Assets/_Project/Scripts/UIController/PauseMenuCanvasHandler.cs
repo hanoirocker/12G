@@ -19,7 +19,7 @@ namespace TwelveG.UIController
 
         private AudioSource inGameAudioSource;
 
-        private void Start()
+        private void Awake()
         {
             inGameAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
         }
@@ -45,7 +45,6 @@ namespace TwelveG.UIController
             PlayInGameMenuSound();
             SetResumeGameSettings();
         }
-
 
         public void UpdateUITextOptions()
         {
