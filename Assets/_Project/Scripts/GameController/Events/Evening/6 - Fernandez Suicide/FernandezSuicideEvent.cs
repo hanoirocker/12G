@@ -5,6 +5,7 @@ using TwelveG.Localization;
 using TwelveG.UIController;
 using TwelveG.PlayerController;
 using TwelveG.EnvironmentController;
+using TwelveG.Utils;
 
 namespace TwelveG.GameController
 {
@@ -20,6 +21,7 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
 
         private bool allowNextAction = false;
 
@@ -34,7 +36,11 @@ namespace TwelveG.GameController
                 this,
                 eventObservationsTextsSOs[0]
             );
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                eventObservationsTextsSOs[0].observationTextsStructure[0].observationText
+            ));
+
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
 
             // Aca se instancian los coliders sobre ventanas y puertas
             // que den visualmente a la camioneta del vecino de enfrente.
@@ -46,6 +52,8 @@ namespace TwelveG.GameController
             // Se recibe cuando el jugador choca los colliders que provocan el suicidio
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            // TODO: reset el Player Data Helper
 
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
