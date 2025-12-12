@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16d9a8e54e1054f03bd40c7a55a3b0b2, type: 3}
-  m_Name: Labels - Exit
+  m_Name: UI - Player Helper Data - Birds
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: SALIR
+    value: "Sube a corroborar qu\xE9 fue ese ruido extra\xF1o .."
   - language: 1
-    value: LEAVE
+    value: Go upstairs to find out what that strange noise was ..

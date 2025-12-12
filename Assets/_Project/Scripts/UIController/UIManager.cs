@@ -97,7 +97,6 @@ namespace TwelveG.UIController
         for (int i = 0; i < canvasesToHideWhilePaused.Count; i++)
         {
           originalStates.Add(canvasesToHideWhilePaused[i].GetComponent<Canvas>().enabled);
-          Debug.Log($"Canvas {canvasesToHideWhilePaused[i].name} enabled: {originalStates[i]}");
         }
 
         // Deshabilitamos los canvas de la lista
@@ -114,7 +113,6 @@ namespace TwelveG.UIController
           for (int i = 0; i < canvasesToHideWhilePaused.Count; i++)
           {
             canvasesToHideWhilePaused[i].GetComponent<Canvas>().enabled = originalStates[i];
-            Debug.Log($"Restaurado canvas {canvasesToHideWhilePaused[i].name} a enabled: {originalStates[i]}");
           }
           originalStates.Clear();
         }

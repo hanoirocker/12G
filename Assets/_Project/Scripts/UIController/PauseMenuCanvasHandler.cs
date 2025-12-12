@@ -1,8 +1,11 @@
 namespace TwelveG.UIController
 {
+    using System;
+    using System.Collections.Generic;
     using TwelveG.AudioController;
     using TwelveG.PlayerController;
     using TwelveG.SaveSystem;
+    using Unity.VisualScripting;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -10,6 +13,7 @@ namespace TwelveG.UIController
     {
         [Header("References")]
         [SerializeField] private AudioClip inGameMenuClip;
+        [SerializeField] private List<UpdateTextHandler> textHandlers;
 
         [Header("Game Event SO's")]
         [SerializeField] private GameEventSO onPlayerControls;
@@ -19,13 +23,14 @@ namespace TwelveG.UIController
 
         private AudioSource inGameAudioSource;
 
-        private void Awake()
+        private void Start()
         {
             inGameAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
         }
 
         private void OnEnable()
         {
+            UpdateUITextOptions();
             PlayInGameMenuSound();
             SetPauseGameSettings();
         }
@@ -43,6 +48,15 @@ namespace TwelveG.UIController
         {
             PlayInGameMenuSound();
             SetResumeGameSettings();
+        }
+
+
+        public void UpdateUITextOptions()
+        {
+            foreach (UpdateTextHandler textHandler in textHandlers)
+            {
+                textHandler.UpdateText(Localization.LocalizationManager.Instance.GetCurrentLanguageCode());
+            }
         }
 
         private void PlayInGameMenuSound()

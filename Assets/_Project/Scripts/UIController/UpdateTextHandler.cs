@@ -16,11 +16,6 @@ namespace TwelveG.UIController
 
     private UIOptionsTextSO playerHelperDataTextSO;
 
-    private void OnEnable()
-    {
-      UpdateText(LocalizationManager.Instance.GetCurrentLanguageCode());
-    }
-
     public void UpdateText(string languageCode)
     {
       if (textListSO != null && isTMPDropDownList)
@@ -30,18 +25,23 @@ namespace TwelveG.UIController
 
       if (uIOptionTextSO != null && isTMPSingleText)
       {
-        UpdateSingleTextSO(languageCode);
+        UpdateSingleTextSO(languageCode, uIOptionTextSO);
       }
 
-      if (textDependsOnEvents)
+      if (textDependsOnEvents && playerHelperDataTextSO != null)
       {
-        //
+        UpdateSingleTextSO(languageCode, playerHelperDataTextSO);
       }
     }
 
-    private void UpdateSingleTextSO(string languageCode)
+    public void LoadPlayerHelperTextSO(Component sender, object data)
     {
-      var languageStructure = uIOptionTextSO.uImenuTextStructure
+      playerHelperDataTextSO = data as UIOptionsTextSO;
+    }
+
+    private void UpdateSingleTextSO(string languageCode, UIOptionsTextSO optionTextSO)
+    {
+      var languageStructure = optionTextSO.uImenuTextStructure
         .Find(texts => texts.language.ToString().Equals(languageCode, System.StringComparison.OrdinalIgnoreCase));
       gameObject.GetComponent<TextMeshProUGUI>().text = languageStructure.value;
     }

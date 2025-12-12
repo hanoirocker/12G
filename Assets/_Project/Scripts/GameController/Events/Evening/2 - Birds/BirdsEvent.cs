@@ -23,6 +23,7 @@ namespace TwelveG.GameController
         [Space]
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
+        [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
 
         [Header("EventsSO references")]
         [Space]
@@ -31,6 +32,7 @@ namespace TwelveG.GameController
         [SerializeField] GameEventSO onVirtualCamerasControl;
         [SerializeField] GameEventSO onPlayerControls;
         [SerializeField] GameEventSO onMainCameraSettings;
+        [SerializeField] GameEventSO onLoadPlayerHelperData;
 
         [Header("Other eventsSO references")]
         [Space]
@@ -49,6 +51,8 @@ namespace TwelveG.GameController
 
             // Esto es para actualizar los fallback texts para las Main Doors en particular
             updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            // Actualizar text de ayuda del canvas del menu de pausa al presionar ESC
+            onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
 
             // Llega al Window to replace que deshabilita el mesh renderer de la ventana, y luego ejecuta
             // el InstantiateZoomBird del WindowToReplaceHandler.
