@@ -16,6 +16,7 @@ namespace TwelveG.GameController
 
         [Header("Text event SO")]
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
         [SerializeField] private ObservationTextSO eventsObservationTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
 
@@ -36,7 +37,16 @@ namespace TwelveG.GameController
                 this,
                 eventsObservationTextSO
             );
+
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                eventsObservationTextSO.observationTextsStructure[0].observationText
+            ));
+
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
+
             // Habilita el interactuable de la pc y desactiva el contemplable
             enablePC.Raise(this, null);
 
