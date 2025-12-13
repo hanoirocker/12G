@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+using TwelveG.AudioController;
 using UnityEngine;
 
 namespace TwelveG.VFXController
@@ -13,14 +12,21 @@ namespace TwelveG.VFXController
 
         [Header("Settings")]
         [SerializeField] private float effectSmoothSpeed = 5f;
+        [Tooltip("Distancia total donde el efecto llega a 0.")]
         [SerializeField] private float maxEffectDistance = 5f;
+        [Tooltip("Distancia desde el centro donde el efecto se mantiene al máximo antes de empezar a decaer.")]
+        [SerializeField] private float maxEffectDistanceOffset = 1.0f;
+        [Tooltip("Multiplicador de intensidad del efecto de resonancia")]
+        private float resonanceIntensityMultiplier = 1.0f;
 
-        // Multiplicador narrativo (modificable por eventos)
-        [SerializeField] private float resonanceIntensityMultiplier = 1.0f; 
-        private List<Transform> activeResonanceZones = new List<Transform>();
+        [Header("Audio")]
+        [SerializeField] private AudioClip headacheAudioClip;
+
         private float currentAppliedIntensity = 0f;
-
+        private Transform activeResonanceZone = null;
         private Transform playerTransform;
+        private AudioSource headacheAudioSource;
+        private AudioSourceState audioSourceState;
 
         private void Awake()
         {
@@ -32,8 +38,10 @@ namespace TwelveG.VFXController
                 Debug.LogError("VFXManager: PostProcessingHandler reference is missing!");
                 this.enabled = false;
             }
+        }
 
-            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        private void Start()
+        {
             if (playerTransform == null)
             {
                 Debug.LogError("VFXManager: Player object with tag 'Player' not found in the scene!");
@@ -43,69 +51,67 @@ namespace TwelveG.VFXController
 
         void Update()
         {
-            if (activeResonanceZones.Count > 0 || currentAppliedIntensity > 0.01f)
+            if (activeResonanceZone != null || currentAppliedIntensity > 0.01f)
             {
                 CalculateAndApplyHeadache();
             }
         }
 
-        // TODO: No me cierra del todo el mini zoom que se genera al activar el efecto, revisar stack Headache
         private void CalculateAndApplyHeadache()
         {
             float targetIntensity = 0f;
 
-            if (activeResonanceZones.Count > 0 && playerTransform != null)
+            // Calcular Intensidad Objetivo
+            if (activeResonanceZone != null && playerTransform != null)
             {
-                float closestDistanceSqr = float.MaxValue;
+                // Calcular distancia real
+                float distance = Vector3.Distance(activeResonanceZone.position, playerTransform.position);
 
-                // Objeto más cercano de la lista
-                foreach (Transform zone in activeResonanceZones)
-                {
-                    if (zone == null) continue; // Protección por si se destruye el objeto
-
-                    float distSqr = (zone.position - playerTransform.position).sqrMagnitude;
-                    if (distSqr < closestDistanceSqr)
-                    {
-                        closestDistanceSqr = distSqr;
-                    }
-                }
-
-                // Convertir a distancia real
-                float closestDistance = Mathf.Sqrt(closestDistanceSqr);
-
-                // Inversa a la distancia
-                float rawIntensity = Mathf.InverseLerp(maxEffectDistance, 0f, closestDistance);
+                float rawIntensity = Mathf.InverseLerp(maxEffectDistance, maxEffectDistanceOffset, distance);
 
                 targetIntensity = rawIntensity * resonanceIntensityMultiplier;
-            }   
+            }
 
-            // Interpolación suave para que no salte de golpe
+            // Interpolación suave (Lerp)
             currentAppliedIntensity = Mathf.Lerp(currentAppliedIntensity, targetIntensity, Time.deltaTime * effectSmoothSpeed);
 
+            // Aplicar al Visual (PostProcessing)
             if (postProcessingHandler != null)
             {
                 postProcessingHandler.SetHeadacheWeight(currentAppliedIntensity);
-
-                // TODO: El resto ( Sonido, Canvas, etc)
+            }
+            if (headacheAudioSource != null && headacheAudioSource.isPlaying)
+            {
+                if (currentAppliedIntensity < 0.01f || activeResonanceZone == null)
+                {
+                    headacheAudioSource.Stop();
+                    headacheAudioSource.RestoreSnapshot(audioSourceState);
+                    headacheAudioSource = null;
+                }
             }
         }
 
         public void ResonanceZoneEntered(Transform senderTransform)
         {
-            Debug.Log("Player entered resonance zone.");
-            if (!activeResonanceZones.Contains(senderTransform))
+            activeResonanceZone = senderTransform;
+
+            if (headacheAudioClip != null)
             {
-                activeResonanceZones.Add(senderTransform);
+                headacheAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
+                audioSourceState = headacheAudioSource.GetSnapshot();
+                headacheAudioSource.transform.position = senderTransform.position;
+                headacheAudioSource.clip = headacheAudioClip;
+                headacheAudioSource.maxDistance = maxEffectDistance;
+                headacheAudioSource.loop = true;
+                headacheAudioSource.volume = resonanceIntensityMultiplier * 0.25f;
+                headacheAudioSource.Play();
             }
+
         }
 
-        public void ResonanceZoneExited(Transform senderTransform)
-        {   
-            Debug.Log("Player exited resonance zone.");
-            if (activeResonanceZones.Contains(senderTransform))
-            {
-                activeResonanceZones.Remove(senderTransform);
-            }
+        public void ResonanceZoneExited()
+        {
+            activeResonanceZone = null;
         }
 
         // Método a llamar desde eventos corrutina o cualquier otro script
@@ -117,7 +123,6 @@ namespace TwelveG.VFXController
         public void RegisterPlayer(Transform pTransform)
         {
             playerTransform = pTransform;
-            Debug.Log("VFXManager: Player registered for VFX effects.");
         }
     }
 }

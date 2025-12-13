@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace TwelveG.AudioController
@@ -12,7 +11,8 @@ namespace TwelveG.AudioController
     Interaction,
     Wind,
     Dialogs,
-    Player
+    Player,
+    VFX
   }
 
   public enum WeatherEvent
@@ -34,6 +34,7 @@ namespace TwelveG.AudioController
     [SerializeField] private List<AudioSource> UISources;
     [SerializeField] private List<AudioSource> DialogsSources;
     [SerializeField] private List<AudioSource> PlayerSources;
+    [SerializeField] private List<AudioSource> VFXSources;
 
     [Header("Pause Settings")]
     [SerializeField]
@@ -42,7 +43,8 @@ namespace TwelveG.AudioController
     AudioPoolType.Interaction,
     AudioPoolType.BGMusic,
     AudioPoolType.Environment,
-    AudioPoolType.Player
+    AudioPoolType.Player,
+    AudioPoolType.VFX
     };
 
     [Header("Audio References")]
@@ -61,7 +63,8 @@ namespace TwelveG.AudioController
         { AudioPoolType.Interaction, InteractionSources },
         { AudioPoolType.UI, UISources },
         { AudioPoolType.Dialogs, DialogsSources},
-        { AudioPoolType.Player, PlayerSources}
+        { AudioPoolType.Player, PlayerSources},
+        { AudioPoolType.VFX, VFXSources}
       };
     }
 
