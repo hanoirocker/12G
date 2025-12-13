@@ -1,4 +1,3 @@
-using TwelveG.GameController;
 using UnityEngine;
 
 namespace TwelveG.VFXController
@@ -19,7 +18,7 @@ namespace TwelveG.VFXController
             if (other.CompareTag("PlayerCapsule"))
             {
                 // Avisa al VFXManager que salga de zona de resonancia
-                VFXManager.Instance.ResonanceZoneExited();
+                VFXManager.Instance.ResonanceZoneExited(transform);
             }
         }
     }

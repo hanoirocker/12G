@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TwelveG.VFXController
@@ -10,12 +11,16 @@ namespace TwelveG.VFXController
         [Header("References")]
         [SerializeField] private PostProcessingHandler postProcessingHandler;
 
-        [SerializeField] private float pulseSpeed = 4.0f;
+        [Header("Settings")]
+        [SerializeField] private float effectSmoothSpeed = 5f;
+        [SerializeField] private float maxEffectDistance = 5f;
 
-        private float targetHeadacheIntensity = 0f;
+        // Multiplicador narrativo (modificable por eventos)
+        [SerializeField] private float resonanceIntensityMultiplier = 1.0f; 
+        private List<Transform> activeResonanceZones = new List<Transform>();
+        private float currentAppliedIntensity = 0f;
 
         private Transform playerTransform;
-        private Transform currentResonanceZone = null;
 
         private void Awake()
         {
@@ -38,38 +43,75 @@ namespace TwelveG.VFXController
 
         void Update()
         {
-            if (currentResonanceZone == null) { return; }
-            DynamicHeadacheLogic();
+            if (activeResonanceZones.Count > 0 || currentAppliedIntensity > 0.01f)
+            {
+                CalculateAndApplyHeadache();
+            }
         }
 
-        private void DynamicHeadacheLogic()
+        // TODO: No me cierra del todo el mini zoom que se genera al activar el efecto, revisar stack Headache
+        private void CalculateAndApplyHeadache()
         {
-            Debug.Log("Player position: " + playerTransform.position);
+            float targetIntensity = 0f;
+
+            if (activeResonanceZones.Count > 0 && playerTransform != null)
+            {
+                float closestDistanceSqr = float.MaxValue;
+
+                // Objeto más cercano de la lista
+                foreach (Transform zone in activeResonanceZones)
+                {
+                    if (zone == null) continue; // Protección por si se destruye el objeto
+
+                    float distSqr = (zone.position - playerTransform.position).sqrMagnitude;
+                    if (distSqr < closestDistanceSqr)
+                    {
+                        closestDistanceSqr = distSqr;
+                    }
+                }
+
+                // Convertir a distancia real
+                float closestDistance = Mathf.Sqrt(closestDistanceSqr);
+
+                // Inversa a la distancia
+                float rawIntensity = Mathf.InverseLerp(maxEffectDistance, 0f, closestDistance);
+
+                targetIntensity = rawIntensity * resonanceIntensityMultiplier;
+            }   
+
+            // Interpolación suave para que no salte de golpe
+            currentAppliedIntensity = Mathf.Lerp(currentAppliedIntensity, targetIntensity, Time.deltaTime * effectSmoothSpeed);
+
+            if (postProcessingHandler != null)
+            {
+                postProcessingHandler.SetHeadacheWeight(currentAppliedIntensity);
+
+                // TODO: El resto ( Sonido, Canvas, etc)
+            }
         }
 
         public void ResonanceZoneEntered(Transform senderTransform)
         {
             Debug.Log("Player entered resonance zone.");
-            Debug.Log($"Resonant object position is {senderTransform.position}");
-            currentResonanceZone = senderTransform;
+            if (!activeResonanceZones.Contains(senderTransform))
+            {
+                activeResonanceZones.Add(senderTransform);
+            }
         }
 
-        public void ResonanceZoneExited()
-        {
+        public void ResonanceZoneExited(Transform senderTransform)
+        {   
             Debug.Log("Player exited resonance zone.");
-            currentResonanceZone = null;
+            if (activeResonanceZones.Contains(senderTransform))
+            {
+                activeResonanceZones.Remove(senderTransform);
+            }
         }
 
-        // Llamada publica para ajustar la intensidad del dolor de cabeza (0-1)
-        public void SetHeadacheIntensity(float intensity)
+        // Método a llamar desde eventos corrutina o cualquier otro script
+        public void SetResonanceIntensityMultiplier(float newMultiplier)
         {
-            targetHeadacheIntensity = Mathf.Clamp01(intensity);
-        }
-
-        /// Útil para triggers de "zona". Llama a esto con (1 - distancia / radio).
-        public void SetResonanceFromDistance(float normalizedDistance)
-        {
-            SetHeadacheIntensity(normalizedDistance);
+            resonanceIntensityMultiplier = newMultiplier;
         }
 
         public void RegisterPlayer(Transform pTransform)
