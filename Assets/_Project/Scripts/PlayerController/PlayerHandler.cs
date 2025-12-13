@@ -1,4 +1,5 @@
 using TwelveG.AudioController;
+using TwelveG.VFXController;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,7 @@ namespace TwelveG.PlayerController
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private CharacterController characterController;
         [SerializeField] private HeadBobController headBobController;
+        [SerializeField] private Transform playerCameraRoot;
 
         [Header("Player Camera References")]
         [SerializeField] private HeadLookAround headLookAround;
@@ -32,6 +34,11 @@ namespace TwelveG.PlayerController
         private void Awake()
         {
             playerShortcuts = GetComponent<PlayerShortcuts>();
+        }
+
+        void Start()
+        {
+            VFXManager.Instance.RegisterPlayer(playerCameraRoot);
         }
 
         public void PlayerControls(Component sender, object data)

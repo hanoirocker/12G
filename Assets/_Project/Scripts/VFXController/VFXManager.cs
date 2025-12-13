@@ -14,25 +14,25 @@ namespace TwelveG.VFXController
 
         private float targetHeadacheIntensity = 0f;
 
+        private Transform playerTransform;
         private Transform currentResonanceZone = null;
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-                return;
-            }
+            if (Instance == null) Instance = this;
+            else { Destroy(gameObject); return; }
 
             if (postProcessingHandler == null)
             {
-                postProcessingHandler = FindObjectOfType<PostProcessingHandler>();
-                if (postProcessingHandler == null)
-                    Debug.LogError("[VFXManager]: No se encontró PostProcessingHandler en la escena.");
+                Debug.LogError("VFXManager: PostProcessingHandler reference is missing!");
+                this.enabled = false;
+            }
+
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            if (playerTransform == null)
+            {
+                Debug.LogError("VFXManager: Player object with tag 'Player' not found in the scene!");
+                this.enabled = false;
             }
         }
 
@@ -44,7 +44,7 @@ namespace TwelveG.VFXController
 
         private void DynamicHeadacheLogic()
         {
-            Debug.Log("Updating headache effect.");
+            Debug.Log("Player position: " + playerTransform.position);
         }
 
         public void ResonanceZoneEntered(Transform senderTransform)
@@ -70,6 +70,12 @@ namespace TwelveG.VFXController
         public void SetResonanceFromDistance(float normalizedDistance)
         {
             SetHeadacheIntensity(normalizedDistance);
+        }
+
+        public void RegisterPlayer(Transform pTransform)
+        {
+            playerTransform = pTransform;
+            Debug.Log("VFXManager: Player registered for VFX effects.");
         }
     }
 }
