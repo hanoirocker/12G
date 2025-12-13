@@ -14,6 +14,7 @@ namespace TwelveG.PlayerController
         [SerializeField] private PlayerSoundsHandler playerSoundsHandler;
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private CharacterController characterController;
+        [SerializeField] private HeadBobController headBobController;
 
         [Header("Player Camera References")]
         [SerializeField] private HeadLookAround headLookAround;
@@ -42,6 +43,7 @@ namespace TwelveG.PlayerController
                     playerContemplation.enabled = !cmd.Enabled;
                     playerAddItem.enabled = !cmd.Enabled;
                     cameraZoom.enabled = !cmd.Enabled;
+                    headBobController.enabled = !cmd.Enabled;
                     playerShortcuts.playerCanOpenPauseMenu = !cmd.Enabled;
                     HandleExamination(cmd.Enabled);
                     SwitchPlayerControllers(!cmd.Enabled);
@@ -95,6 +97,7 @@ namespace TwelveG.PlayerController
             playerSoundsHandler.enabled = enabled;
             playerInput.enabled = enabled;
             characterController.enabled = enabled;
+            headBobController.enabled = enabled;
         }
 
         public void PauseGame(Component sender, object data)
