@@ -16,9 +16,6 @@ namespace TwelveG.GameController
         [Header("Event references: ")]
         [Space]
         [SerializeField] private GameObject crashingBirdPrefab;
-        [Header("Audio Options")]
-        [Space]
-        [SerializeField][Range(0.1f, 10f)] private float bgMusicFadeOut = 6f;
         [Header("Text event SO")]
         [Space]
         [SerializeField] private List<ObservationTextSO> mainDoorsFallbacksTextsSO;
