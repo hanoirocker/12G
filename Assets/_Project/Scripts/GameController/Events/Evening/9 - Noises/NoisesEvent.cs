@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.Localization;
+using TwelveG.Utils;
 using UnityEngine;
 
 namespace TwelveG.GameController
@@ -12,15 +13,18 @@ namespace TwelveG.GameController
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 0;
 
+        [Space]
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO onObservationCanvasShowText;
 
+        [Space]
         [Header("Text event SO")]
-
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private DialogSO[] dialogSOs;
-        [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private List<ObservationTextSO> mainDoorsFallbacksTextsSO;
+        [SerializeField] private List<UIOptionsTextSO> playerHelperDataTextSO;
 
+        [Space]
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO activateMicaEntranceCollider;
         [SerializeField] private GameEventSO triggerHouseLightsFlickering;
@@ -31,8 +35,6 @@ namespace TwelveG.GameController
         {
             print("<------ NOISES EVENT NOW -------->");
 
-            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
-
             yield return new WaitForSeconds(initialTime);
 
             // Desde cualquier ventana del primer piso deberia tener ...
@@ -41,12 +43,21 @@ namespace TwelveG.GameController
                 eventObservationsTextsSOs[0]
             );
 
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                eventObservationsTextsSOs[0].observationTextsStructure[0].observationText
+            ));
+
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
+
             activateMicaEntranceCollider.Raise(this, null);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.Helicopter1);
 
             // "Entrance - Spot" dispara el evento micaEntranceSpotted al ser chekeado por Simon
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            // TODO: reset mainDoorsFallback texts y playerHelperData texts
 
             // Mica .. no veo nada raro en la entrada de tu casa ..
             // (Mica y Simon concuerdan en pedir ayuda a la policia en canal 4)
@@ -65,7 +76,13 @@ namespace TwelveG.GameController
                 eventObservationsTextsSOs[1]
             );
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                eventObservationsTextsSOs[1].observationTextsStructure[0].observationText
+            ));
+
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
+
 
             // Cargar dialogo. El mismo no inicia hasta que el jugador cambie al canal 4.
             GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
@@ -73,6 +90,8 @@ namespace TwelveG.GameController
                 channelIndex = 3, // Canal 4 de la Policia
                 dialogSO = dialogSOs[1]
             });
+
+            // TODO: reset mainDoorsFallback texts y playerHelperData texts
 
             // "conversationHasEnded"
             yield return new WaitUntil(() => allowNextAction);
@@ -90,6 +109,9 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[2]);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[2]);
+
             yield return new WaitForSeconds(8f);
 
             // Dialogo interceptado de la policia
@@ -98,6 +120,8 @@ namespace TwelveG.GameController
                 channelIndex = 3, // Canal 4 de la Policia
                 dialogSO = dialogSOs[3]
             });
+
+            // TODO: reset mainDoorsFallback texts y playerHelperData texts
 
             // "conversationHasEnded"
             yield return new WaitUntil(() => allowNextAction);
