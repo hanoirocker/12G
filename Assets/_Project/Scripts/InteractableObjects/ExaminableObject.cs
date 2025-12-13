@@ -23,9 +23,6 @@ namespace TwelveG.InteractableObjects
 
     [Header("EventsSO references")]
     [SerializeField] private GameEventSO onObjectExamined;
-    [SerializeField] private GameEventSO onPlayerControls;
-    [SerializeField] private GameEventSO onExaminationCanvasShowText;
-    [SerializeField] private GameEventSO onExaminationCanvasControls;
 
     [Header("Rotation Settings")]
     [SerializeField, Range(0.1f, 5f)] private float rotationSpeed = 1f;
@@ -47,7 +44,11 @@ namespace TwelveG.InteractableObjects
 
     void Start()
     {
-      StartCoroutine(PlayExaminationSoundCoroutine(examineInClip));
+      if (examineInClip != null)
+      {
+        StartCoroutine(PlayExaminationSoundCoroutine(examineInClip));
+      }
+
       GameEvents.Common.onPlayerControls.Raise(this, new ToggleToObjectExamination(true));
       Cursor.visible = true;
       Cursor.lockState = CursorLockMode.None;
@@ -71,20 +72,23 @@ namespace TwelveG.InteractableObjects
       {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        onExaminationCanvasShowText.Raise(this, examinationTextSO);
+        GameEvents.Common.onExaminationCanvasShowText.Raise(this, examinationTextSO);
       }
       else
       {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        onExaminationCanvasControls.Raise(this, new EnableCanvas(false));
+        GameEvents.Common.onExaminationCanvasControls.Raise(this, new EnableCanvas(false));
       }
       canvasIsShowing = !canvasIsShowing;
     }
 
     private IEnumerator StopInspectingRoutine()
     {
-      StartCoroutine(PlayExaminationSoundCoroutine(examineOutClip));
+      if (examineOutClip != null)
+      {
+        StartCoroutine(PlayExaminationSoundCoroutine(examineOutClip));
+      }
 
       var mainCameraHandler = GetComponentInParent<MainCameraHandler>();
       if (mainCameraHandler != null && mainCameraHandler.lastEventSender != null)
@@ -105,7 +109,7 @@ namespace TwelveG.InteractableObjects
 
       Cursor.visible = false;
       Cursor.lockState = CursorLockMode.Locked;
-      if (canvasIsShowing) { onExaminationCanvasControls.Raise(this, new EnableCanvas(false)); }
+      if (canvasIsShowing) { GameEvents.Common.onExaminationCanvasControls.Raise(this, new EnableCanvas(false)); }
       GameEvents.Common.onPlayerControls.Raise(this, new ToggleToObjectExamination(false));
 
       List<Renderer> renderers = new List<Renderer>(GetComponentsInChildren<Renderer>());

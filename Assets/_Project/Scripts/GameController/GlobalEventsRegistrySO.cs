@@ -30,6 +30,8 @@ namespace TwelveG.GameController
         public GameEventSO onInformationFadeInFinished;
         public GameEventSO onInformationFadeOutFinished;
         public GameEventSO onShowIncomingCallPanel; // WT
+        public GameEventSO onExaminationCanvasControls;
+        public GameEventSO onExaminationCanvasShowText;
 
         [Header("Cinematics and Animations")]
         public GameEventSO onAnimationHasEnded;

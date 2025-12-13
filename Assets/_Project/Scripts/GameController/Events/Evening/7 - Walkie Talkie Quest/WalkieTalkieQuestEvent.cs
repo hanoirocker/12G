@@ -4,6 +4,7 @@ using UnityEngine;
 using TwelveG.Localization;
 using TwelveG.AudioController;
 using TwelveG.EnvironmentController;
+using TwelveG.Utils;
 
 namespace TwelveG.GameController
 {
@@ -18,6 +19,7 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private ObservationTextSO[] mainDoorsFallbacksTextsSO;
+        [SerializeField] private List<UIOptionsTextSO> playerHelperDataTextSO;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO drawerCanBeInteracted;
@@ -26,6 +28,7 @@ namespace TwelveG.GameController
 
         private bool allowNextAction = false;
         private bool bookHasBeenExamined = false;
+        private bool safeBoxNoteHasBeenExamined = false;
         private bool parentsPortraitHasBeenExamined = false;
 
         public override IEnumerator Execute()
@@ -33,7 +36,6 @@ namespace TwelveG.GameController
             print("<------ WT QUEST EVENT NOW -------->");
 
             yield return new WaitForSeconds(initialTime);
-
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
 
             // Tengo que encontrar la forma de hablar con Mica como sea.
@@ -46,11 +48,21 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(12f);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
+            // TODO: reset mainDoorsFallback texts
+
             // Mi Walkie Talkie! Si no mal recuerdo mi madre lo había escondido ...
             GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[1]
             );
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                eventObservationsTextsSOs[1].observationTextsStructure[0].observationText
+            ));
+
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
+
+            // Las bromas que jugabamos a la policia ya no son graciosas ...
             GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[2]
@@ -58,15 +70,23 @@ namespace TwelveG.GameController
 
             drawerCanBeInteracted.Raise(this, null);
 
+            // Unity Event (SafeBoxHandler - safeBoxNoteCanBeExamine):
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[2]);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
+
             // Los sucesos como la radio que se prende sola y la puerta
             // que se cierra del golpe, se disparan por medio de game event SO enviados
             // por el retrato de casamiento y por los colliders instanciados luego de examinar
             // el libro en el living.
             // Unity Event (PickableItem - walkieTalkiePickedUp) en Pickable - Walkie Talkie:
-            // Se recibe cuando el jugador alcana el indice del canal principal
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
-            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
+
+            // TODO: reset el Player Helper Data y mainDoorsFallback texts
+
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // Se levanta viento mas fuerte
@@ -86,6 +106,16 @@ namespace TwelveG.GameController
             }
         }
 
+        public void OnSafeBoxNoteExamined(Component sender, object data)
+        {
+            if (!safeBoxNoteHasBeenExamined)
+            {
+                GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[3]);
+                GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[2]);
+                safeBoxNoteHasBeenExamined = true;
+            }
+        }
+
         public void OnParentsPortraitExamined(Component sender, object data)
         {
             if (!parentsPortraitHasBeenExamined)
@@ -98,6 +128,7 @@ namespace TwelveG.GameController
 
         public void AllowNextActions(Component sender, object data)
         {
+            Debug.Log("[WalkieTalkieQuestEvent] Allowing next action by event from: " + sender.gameObject.name);
             allowNextAction = true;
         }
 

@@ -1,10 +1,11 @@
+using System.Collections;
+using TwelveG.GameController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System.Collections;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using UnityEngine;
-
     public class SafeBoxHandler : MonoBehaviour, IInteractable
     {
         [Header("Object Settings")]
@@ -17,6 +18,7 @@ namespace TwelveG.InteractableObjects
 
         [Header("Text Settings")]
         [SerializeField] private ObservationTextSO observationFallback;
+
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_try;

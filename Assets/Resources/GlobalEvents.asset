@@ -57,6 +57,10 @@ MonoBehaviour:
     type: 2}
   onShowIncomingCallPanel: {fileID: 11400000, guid: d1db1c9ba396c4faca369b1d69e08abe,
     type: 2}
+  onExaminationCanvasControls: {fileID: 11400000, guid: 17fe1262bc4f246f9a5909aa358fdcd2,
+    type: 2}
+  onExaminationCanvasShowText: {fileID: 11400000, guid: 5d4c6cad552824280868f61642ad07a1,
+    type: 2}
   onAnimationHasEnded: {fileID: 11400000, guid: 75525fc9241884d579b6d9b78c0d63e9,
     type: 2}
   onCinematicCanvasControls: {fileID: 11400000, guid: 1c79104eb39f441d892e0bc0e19e9f37,

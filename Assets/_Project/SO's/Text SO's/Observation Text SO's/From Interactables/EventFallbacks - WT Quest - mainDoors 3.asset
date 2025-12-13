@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
-  m_Name: EventFallbacks - WT Quest - mainDoors
+  m_Name: EventFallbacks - WT Quest - mainDoors 3
   m_EditorClassIdentifier: 
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: No hay posibilidades de que salga ahora. Necesito pensar en
-      alguna alternativa ..
+    observationText: Debe haber algo que me ayude a abrir esa caja fuerte definitivamente
+      dentro de casa, no fuera.
   - language: 1
-    observationText: There's no way it'll happen now. I need to think of an alternative
-      ..
+    observationText: There must be something that can help me out opening that safe
+      box inside the house, not outside.
