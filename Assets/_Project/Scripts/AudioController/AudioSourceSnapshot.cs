@@ -6,6 +6,7 @@ namespace TwelveG.AudioController
     public struct AudioSourceState
     {
         public float volume;
+        public AudioClip clip;
         public float pitch;
         public float spatialBlend;
         public float dopplerLevel;
@@ -29,6 +30,7 @@ namespace TwelveG.AudioController
         {
             return new AudioSourceState
             {
+                clip = source.clip,
                 volume = source.volume,
                 pitch = source.pitch,
                 spatialBlend = source.spatialBlend,
@@ -51,6 +53,7 @@ namespace TwelveG.AudioController
         public static void RestoreSnapshot(this AudioSource source, AudioSourceState state)
         {
             source.volume = state.volume;
+            source.clip = state.clip;
             source.pitch = state.pitch;
             source.spatialBlend = state.spatialBlend;
             source.dopplerLevel = state.dopplerLevel;
