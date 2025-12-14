@@ -6,7 +6,8 @@ TOFIX - urgente:
 - Agregar cajas bajo la escalera, o algo.   
 - Hay que agregar iconos con el numero del canal del Walkie Talkie activo por el momento. A futuro tambien cambiar el Control Canvas.
 - Tanto las puertas principales como el Player Data Helper deben resetear sus textos a "" al iniciar un nuevo evento, hasta cargar nuevos. Actualmente estan mostrando el ultimo recibido y no concuerda con el hilo narrativo.
-- El efecto de Headache funciona perfectamente, pero hasta ahora no se aplica a nada en particular. Por otro lado, solo se dispara el audio interferencia, pero debe ser remplazado por otro. Quizas el AudioClip sea enviado desde cada ResonanaceZone? :/
+- El efecto de Headache funciona perfectamente, se agrego a la PC, la Old Radio, y la TV Evening. Por otro lado, solo se dispara el audio interferencia, pero debe ser remplazado por otro. Quizas el AudioClip sea enviado desde cada ResonanaceZone? El efecto se aplica pero no tiene dinamica, solo aumenta o disminuye en funcion de la distancia, no palpita. Hay que buscar esto, algo pulsante o que al menos se repita entre digamos un rango 0.5 y 1 del blend quizas .. hacer oscilar quizas el tamanio de la vignieta, oscilar el angulo de la camara en x y z , etc .. en funcion del valor del blend / intensidad de resonancia?
+- Si dejamos el ResonanceZone en la radio, la PC y la TV Evening, debemos poder apagarlas cuanto menos.
 
 TODO - próximo:
 - Definitivamente se tiene que indicar en el menu de pausa lo que el jugador debe ir haciendo. Frente a cualquier distraccion se pierde facilmente el hilo del juego.

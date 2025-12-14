@@ -92,7 +92,7 @@ namespace TwelveG.VFXController
 
             if (headacheAudioSource != null && headacheAudioSource.isPlaying)
             {
-                if (currentAppliedIntensity < 0.05f && activeResonanceZone == null)
+                if (currentAppliedIntensity < 0.1f && activeResonanceZone == null)
                 {
                     StopHeadacheAudio();
                 }
