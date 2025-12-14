@@ -1,6 +1,4 @@
-- La contemplacion esta bloqueada mientras se muestre la corrutina del fallback de interaccion
-- Vehiculos en escena. 2 Autos regulares + Helicoptero (solo sonido y animacion) y Police Car 2.
-- Police Car 2 incluido con sonido de choque y efecto de particulas pero no disparado por evento aun, a usar en "Headaches".
+- Se ha agregado el manager VFXManager como singleton, que puede ser llamado para iniciar efecto de Headache. El mismo es un stack con el mismo nombre como volumen de post processing, y modificamos entre 0 y 1 su blend desde VFXMananger -> postProccessingHandler
 
 TOFIX - urgente:
 - Agregar sonidos para cuando come la pizza.
@@ -8,6 +6,7 @@ TOFIX - urgente:
 - Agregar cajas bajo la escalera, o algo.   
 - Hay que agregar iconos con el numero del canal del Walkie Talkie activo por el momento. A futuro tambien cambiar el Control Canvas.
 - Tanto las puertas principales como el Player Data Helper deben resetear sus textos a "" al iniciar un nuevo evento, hasta cargar nuevos. Actualmente estan mostrando el ultimo recibido y no concuerda con el hilo narrativo.
+- El efecto de Headache funciona perfectamente, pero hasta ahora no se aplica a nada en particular. Por otro lado, solo se dispara el audio interferencia, pero debe ser remplazado por otro. Quizas el AudioClip sea enviado desde cada ResonanaceZone? :/
 
 TODO - próximo:
 - Definitivamente se tiene que indicar en el menu de pausa lo que el jugador debe ir haciendo. Frente a cualquier distraccion se pierde facilmente el hilo del juego.
