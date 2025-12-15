@@ -28,6 +28,8 @@ namespace TwelveG.InteractableObjects
     [SerializeField, Range(0.1f, 5f)] private float rotationSpeed = 1f;
     [SerializeField] private bool invertX = true;
     [SerializeField] private bool invertY = true;
+    [SerializeField, Tooltip("Máxima velocidad de rotación en grados por segundo (se aplica como clamp por frame).")]
+    private float maxDegreesPerSecond = 60f;
 
     public bool canBeExamined = false;
 
@@ -163,6 +165,11 @@ namespace TwelveG.InteractableObjects
         // Aplicar inversión según configuración
         float xRotation = mouseDelta.y * rotationSpeed * (invertY ? 1 : -1);
         float yRotation = mouseDelta.x * rotationSpeed * (invertX ? -1 : 1);
+
+        // Limitar la velocidad de rotación por frame para evitar giros bruscos
+        float maxPerFrame = maxDegreesPerSecond * Time.deltaTime;
+        xRotation = Mathf.Clamp(xRotation, -maxPerFrame, maxPerFrame);
+        yRotation = Mathf.Clamp(yRotation, -maxPerFrame, maxPerFrame);
 
         // Rotación directa (más responsive)
         transform.Rotate(xRotation, yRotation, 0, Space.World);
