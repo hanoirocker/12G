@@ -12,31 +12,26 @@ namespace TwelveG.GameController
     {
         [Header("Events References")]
         [Space]
-        public GameObject introEvents;
-        public GameObject afternoonEvents;
-        public GameObject eveningEvents;
-        public GameObject nightEvents;
+        [SerializeField] private GameObject introEvents;
+        [SerializeField] private GameObject afternoonEvents;
+        [SerializeField] private GameObject eveningEvents;
+        [SerializeField] private GameObject nightEvents;
 
         [Header("Events Testing Settings")]
         [Space]
-        public bool freeRoam = false;
-        public bool loadSpecificEvent = false;
-        public int eventIndexToLoad = 0;
+        [SerializeField] private bool freeRoam = false;
+        [SerializeField] private bool loadSpecificEvent = false;
+        [SerializeField] private int eventIndexToLoad = 0;
 
         [Header("Weather Testing Settings")]
         [Space]
-        public bool isSoftRaining = false;
-        public bool isHardRaining = false;
-        public bool isSoftWindBlowing = false;
-        public bool isHardWindBlowing = false;
+        [SerializeField] private WeatherEvent weatherEvent = WeatherEvent.None;
 
         [Header("Items Testing Settings")]
         [Space]
-        public bool enableFlashlight = false;
-        public bool enableWalkieTalkie = false;
+        [SerializeField] private bool enableFlashlight = false;
+        [SerializeField] private bool enableWalkieTalkie = false;
 
-        [Header("Text event SO")]
-        [Space]
         private GameObject eventsParent = null;
         private List<GameEventBase> correspondingEvents = new List<GameEventBase>();
         private Transform playerCapsuleTransform;
@@ -141,19 +136,19 @@ namespace TwelveG.GameController
 
         private void VerifySpecificTestSettings()
         {
-            if (isSoftRaining)
+            if (weatherEvent == WeatherEvent.SoftRain)
             {
                 GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftRain);
             }
-            else if (isHardRaining)
+            else if (weatherEvent == WeatherEvent.HardRain)
             {
                 Debug.Log($"[EventsHandler]: isHardRaining checked but hard rain not worked yet!");
             }
-            if (isSoftWindBlowing)
+            else if (weatherEvent == WeatherEvent.SoftWind)
             {
                 GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
             }
-            else if (isHardWindBlowing)
+            else if (weatherEvent == WeatherEvent.HardWind)
             {
                 GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardWind);
             }
@@ -255,6 +250,11 @@ namespace TwelveG.GameController
         {
             Debug.Log($"[EventsHandler]: Recibido evento por {sender.name} para saltar al siguiente evento.");
             SkipToNextEvent();
+        }
+
+        public (int, int) ReturnTotalAndCurrentEventsNumber()
+        {
+            return (correspondingEvents.Count, currentEventIndex);
         }
 
         public int RetrieveCurrentEventIndex()
