@@ -65,6 +65,7 @@ namespace TwelveG.GameController
         public GameEventSO onSpawnVehicle;
 
         [Header("Game Management")]
+        public GameEventSO onResetEventDrivenTexts; // para defaultear textos de Player Data Helper y mainDoorsFallbacks
         public GameEventSO onNewEventBegun;
         public GameEventSO onSceneLoaded;
         public GameEventSO onAnyKeyPressed;

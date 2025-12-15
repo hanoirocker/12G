@@ -17,6 +17,7 @@ namespace TwelveG.GameController
 
         [Header("Text event SO")]
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
+        [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
 
         [Header("Other eventsSO references")]
         public GameEventSO enableTVHandler;
@@ -34,7 +35,7 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ TV TIME EVENT NOW -------->");
-
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
             AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
@@ -60,6 +61,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             allowPlayerToHandleTV.Raise(this, true);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
 
             // Unity Event (TVHandler - allowNextAction):
             // Se recibe cuando el jugador alcana el indice del canal principal

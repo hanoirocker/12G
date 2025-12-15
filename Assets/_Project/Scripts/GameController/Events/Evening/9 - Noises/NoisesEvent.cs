@@ -35,6 +35,7 @@ namespace TwelveG.GameController
         {
             print("<------ NOISES EVENT NOW -------->");
 
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 
             // Desde cualquier ventana del primer piso deberia tener ...
@@ -57,7 +58,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            // TODO: reset mainDoorsFallback texts y playerHelperData texts
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             // Mica .. no veo nada raro en la entrada de tu casa ..
             // (Mica y Simon concuerdan en pedir ayuda a la policia en canal 4)
@@ -91,7 +92,7 @@ namespace TwelveG.GameController
                 dialogSO = dialogSOs[1]
             });
 
-            // TODO: reset mainDoorsFallback texts y playerHelperData texts
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             // "conversationHasEnded"
             yield return new WaitUntil(() => allowNextAction);
@@ -121,7 +122,7 @@ namespace TwelveG.GameController
                 dialogSO = dialogSOs[3]
             });
 
-            // TODO: reset mainDoorsFallback texts y playerHelperData texts
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             // "conversationHasEnded"
             yield return new WaitUntil(() => allowNextAction);

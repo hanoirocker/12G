@@ -31,6 +31,7 @@ namespace TwelveG.GameController
         {
             print("<------ LOST SIGNAL 2 EVENT NOW -------->");
 
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 
             // Esto sera recibido por Backpack para activar el interactuable
@@ -59,8 +60,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            // TODO: resetear main door fallback texts a ""
-            // (El reset del Player Data se hace en PhonePrefabHandler)
+            // (El onResetEventDrivenTexts hace en PhonePrefabHandler)
 
             // Retorna a la camara del player desde la del sofá
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));

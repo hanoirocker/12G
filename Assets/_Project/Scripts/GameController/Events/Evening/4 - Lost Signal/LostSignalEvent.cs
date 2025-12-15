@@ -30,9 +30,9 @@ namespace TwelveG.GameController
         {
             print("<------ LOST SIGNAL 1 EVENT NOW -------->");
 
-            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
-
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
+
             GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO
@@ -53,6 +53,8 @@ namespace TwelveG.GameController
             // Unity Event (PCHandler - onPC):
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
@@ -80,6 +82,8 @@ namespace TwelveG.GameController
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
         }
 
         public void AllowNextActions(Component sender, object data)

@@ -6,13 +6,24 @@ namespace TwelveG.InteractableObjects
 {
     public class MainDoorsHandler : MonoBehaviour, IInteractable
     {
+        [Header("Settings")]
         [SerializeField] private bool isMainEntranceDoor;
         [SerializeField] private ObservationTextSO observationFallbackTextDefault = null;
+        [SerializeField] private ObservationTextSO defaultEventDrivenObservationFallbackText = null;
 
+        [Space]
         [Header("Testing")]
-        public ObservationTextSO observationFallbackTextRecieved = null;
+        public ObservationTextSO currentObservationFallbackText = null;
 
         private bool canBeinteractedWith = true;
+
+        void Awake()
+        {
+            if(isMainEntranceDoor)
+            {
+                currentObservationFallbackText = defaultEventDrivenObservationFallbackText;
+            }
+        }
 
         public bool CanBeInteractedWith(PlayerInteraction interactor)
         {
@@ -23,7 +34,7 @@ namespace TwelveG.InteractableObjects
         {
             if (data != null)
             {
-                observationFallbackTextRecieved = (ObservationTextSO)data;
+                currentObservationFallbackText = (ObservationTextSO)data;
             }
             else
             {
@@ -48,8 +59,14 @@ namespace TwelveG.InteractableObjects
 
         public ObservationTextSO GetFallBackText()
         {
-            if (isMainEntranceDoor) { return observationFallbackTextRecieved; }
+            if (isMainEntranceDoor) { return currentObservationFallbackText; }
             return observationFallbackTextDefault;
+        }
+
+        // onResetEventDrivenTexts: Llamado en eventos para volver a la lista default de textos
+        public void ResetFallbackText()
+        {
+            currentObservationFallbackText = defaultEventDrivenObservationFallbackText;
         }
     }
 }

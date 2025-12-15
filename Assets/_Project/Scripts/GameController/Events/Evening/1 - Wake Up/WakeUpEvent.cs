@@ -16,9 +16,6 @@ namespace TwelveG.GameController
 
         [Header("Audio Options")]
         [Space]
-        [SerializeField, Range(0f, 1f)] private float maxbgMusicVol;
-        [SerializeField, Range(0f, 15f)] private float musicFadeTime;
-        [SerializeField] private AudioClip bgMusic1;
         [SerializeField] private AudioClip standUpClip;
 
         [Header("Text event SO")]
@@ -36,15 +33,10 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ WAKE UP EVENT NOW -------->");
-
-            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
-            bgMusicSource.clip = bgMusic1;
-            bgMusicSource.volume = 0;
-
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
-
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 
+            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
 
@@ -97,11 +89,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            // Inicia "Haunting Sound"
-            bgMusicSource.Play();
-            StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, maxbgMusicVol, musicFadeTime));
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
-
             yield return new WaitForSeconds(1f);
 
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, false));

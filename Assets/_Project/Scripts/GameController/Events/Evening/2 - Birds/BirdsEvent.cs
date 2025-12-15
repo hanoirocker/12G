@@ -123,12 +123,8 @@ namespace TwelveG.GameController
                 eventsObservationTextSO[4]
             );
 
-            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
-            // Detiene "Haunting Sound" clip iniciado en Wake Up Event
-            if (bgMusicSource != null)
-            {
-                yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(bgMusicSource, 3f));
-            }
+            // Reset manual de textos de Player Data Helper y mainDoorsFallacks a default
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
         }
 
         public void AllowNextActions(Component sender, object data)

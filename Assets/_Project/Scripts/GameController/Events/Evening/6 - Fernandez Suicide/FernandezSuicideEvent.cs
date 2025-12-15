@@ -29,6 +29,7 @@ namespace TwelveG.GameController
         {
             print("<------ F. SUICIDE EVENT NOW -------->");
 
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 
             // YA FUE, me voy a lo de Mica.
@@ -53,7 +54,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            // TODO: reset el Player Data Helper
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
@@ -61,7 +62,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(1f);
 
-            // Los Fernandez? Ese sonido ...
+            // Ese sonido ...
             GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventObservationsTextsSOs[1]
@@ -120,6 +121,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
         }

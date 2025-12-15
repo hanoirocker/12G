@@ -13,6 +13,7 @@ namespace TwelveG.UIController
         [Header("References")]
         [SerializeField] private AudioClip inGameMenuClip;
         [SerializeField] private List<UpdateTextHandler> textHandlers;
+        [SerializeField] private GameEventSO playerHelperDataObj;
 
         [Header("Testing")]
         public static bool gameIsPaused;

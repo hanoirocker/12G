@@ -48,7 +48,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(12f);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
-            // TODO: reset mainDoorsFallback texts
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             // Mi Walkie Talkie! Si no mal recuerdo mi madre lo había escondido ...
             GameEvents.Common.onObservationCanvasShowText.Raise(
@@ -85,7 +85,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            // TODO: reset el Player Helper Data y mainDoorsFallback texts
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 

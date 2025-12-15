@@ -43,7 +43,9 @@ namespace TwelveG.GameController
         {
             print("<------ PIZZA TIME EVENT NOW -------->");
 
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
+
             GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
                 eventsObservationTextSO[0]
@@ -168,6 +170,8 @@ namespace TwelveG.GameController
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
             yield return new WaitForSeconds(1f);
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
         }
 
         public void AllowNextActions(Component sender, object data)

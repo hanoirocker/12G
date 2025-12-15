@@ -14,7 +14,7 @@ namespace TwelveG.UIController
     [SerializeField] private TextListSO textListSO;
     [SerializeField] private bool textDependsOnEvents = false;
 
-    private UIOptionsTextSO playerHelperDataTextSO;
+    private UIOptionsTextSO eventDrivenTextSO;
 
     public void UpdateText(string languageCode)
     {
@@ -28,15 +28,15 @@ namespace TwelveG.UIController
         UpdateSingleTextSO(languageCode, uIOptionTextSO);
       }
 
-      if (textDependsOnEvents && playerHelperDataTextSO != null)
+      if (textDependsOnEvents && eventDrivenTextSO != null)
       {
-        UpdateSingleTextSO(languageCode, playerHelperDataTextSO);
+        UpdateSingleTextSO(languageCode, eventDrivenTextSO);
       }
     }
 
-    public void LoadPlayerHelperTextSO(Component sender, object data)
+    public void LoadEventDrivenTextSO(Component sender, object data)
     {
-      playerHelperDataTextSO = data as UIOptionsTextSO;
+      eventDrivenTextSO = data as UIOptionsTextSO;
     }
 
     private void UpdateSingleTextSO(string languageCode, UIOptionsTextSO optionTextSO)

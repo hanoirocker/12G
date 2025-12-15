@@ -25,9 +25,10 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             print("<------ HEADACHES EVENT NOW -------->");
-            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.PoliceCarCrash);
 
             yield return new WaitUntil(() => allowNextAction);
