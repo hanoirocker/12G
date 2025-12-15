@@ -9,6 +9,7 @@ namespace TwelveG.InteractableObjects
     public class LightSwitchHandler : MonoBehaviour, IInteractable
     {
         [Header("Object settings: ")]
+        [SerializeField] private bool isTableLamp = false;
         [SerializeField] private GameObject lamp;
         [SerializeField] private Renderer lampRenderer;
 
@@ -37,7 +38,14 @@ namespace TwelveG.InteractableObjects
         {
             if (lampRenderer != null)
             {
-                bulbMaterial = lampRenderer.material;
+                if (isTableLamp)
+                {
+                    bulbMaterial = lampRenderer.materials[1];
+                }
+                else
+                {
+                    bulbMaterial = lampRenderer.material;
+                }
             }
 
             lampIsActive = lampLight.isActiveAndEnabled;
@@ -52,7 +60,7 @@ namespace TwelveG.InteractableObjects
 
             if (makesClickSound && clickSound != null)
             {
-               (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+                (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
                 audioSource.clip = clickSound;
                 audioSource.pitch = Random.Range(0.78f, 1.15f);
             }
