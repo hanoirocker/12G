@@ -116,7 +116,7 @@ namespace TwelveG.VFXController
                     headacheAudioSource.maxDistance = currentMaxEffectDistance;
                     headacheAudioSource.clip = headacheAudioClip;
                     headacheAudioSource.loop = true;
-                    headacheAudioSource.volume = resonanceIntensityMultiplier * 0.25f;
+                    headacheAudioSource.volume = resonanceIntensityMultiplier * 0.75f;
                     headacheAudioSource.Play();
                 }
             }

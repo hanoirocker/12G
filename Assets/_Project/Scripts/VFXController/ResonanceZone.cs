@@ -28,10 +28,19 @@ namespace TwelveG.VFXController
         {
             if (other.gameObject.tag == "PlayerCapsule" && zoneIsActive == true)
             {
+                Debug.Log("Resonance Zone exited");
                 // Avisa al VFXManager que salga de zona de resonancia
                 VFXManager.Instance.ResonanceZoneExited();
                 zoneIsActive = false;
             }
+        }
+
+        void OnDisable()
+        {
+            Debug.Log("Resonance Zone exited");
+            // Avisa al VFXManager que salga de zona de resonancia
+            VFXManager.Instance.ResonanceZoneExited();
+            zoneIsActive = false;
         }
 
         private void OnDrawGizmosSelected()

@@ -11,30 +11,40 @@ namespace TwelveG.InteractableObjects
 {
   public class OldRadioHandler : MonoBehaviour, IInteractable
   {
+    [Header("References")]
+    [SerializeField] private GameObject resonanceZone = null;
+    [SerializeField] private MeshRenderer meshRenderer = null;
+    [Space]
     [Header("Audio settings")]
-    [SerializeField] private AudioClip turnOnClip = null;
-    // [SerializeField] private AudioClip changeDialClip = null;
-    [SerializeField] private AudioClip firstClip = null;
+    [SerializeField] private AudioClip noTuneClip = null;
+    [SerializeField] private AudioClip toggleClip = null;
+    [SerializeField, Range(0f, 1f)] private float interactionVolume = 0.5f;
     [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
 
     [Header("Texts SO")]
+    [Space]
     [SerializeField] private InteractionTextSO interactionTextsSO_turnOn;
     [SerializeField] private InteractionTextSO interactionTextsSO_turnOff;
     [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
 
-    [Header("EventsSO references")]
-    [SerializeField] private GameEventSO onObservationCanvasShowText;
-
     [Header("Testing")]
-    public bool isTurnedOn;
+    [Space]
+    public bool isTurnedOn = false;
     public bool turnedOnByEvent = false;
 
+    private Material meterGlassMaterial;
+    private bool canBeInteractedWith = true;
     private AudioSource audioSource;
     private AudioSourceState audioSourceState;
 
+    void Awake()
+    {
+      meterGlassMaterial = meshRenderer.materials[14];
+    }
+
     public bool CanBeInteractedWith(PlayerInteraction playerCamera)
     {
-      return true;
+      return canBeInteractedWith;
     }
 
     public ObservationTextSO GetFallBackText()
@@ -49,39 +59,60 @@ namespace TwelveG.InteractableObjects
 
     public bool Interact(PlayerInteraction playerCamera)
     {
-      if (isTurnedOn)
-      {
-        AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+      StartCoroutine(ToggleOldRadio());
+      return true;
+    }
 
+    private IEnumerator ToggleOldRadio()
+    {
+      if (audioSource == null)
+      {
+        (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, interactionVolume);
+      }
+
+      if (!isTurnedOn)
+      {
+        meterGlassMaterial.EnableKeyword("_EMISSION");
+        audioSource.loop = false;
+        audioSource.clip = toggleClip;
+        audioSource.Play();
+
+        yield return new WaitForSeconds(toggleClip.length * 0.7f);
+        isTurnedOn = true;
+        resonanceZone.SetActive(true);
+
+        if (noTuneClip != null)
+        {
+          audioSource.volume = clipsVolume;
+          audioSource.clip = noTuneClip;
+          audioSource.loop = true;
+          audioSource.Play();
+        }
+        else
+        {
+          Debug.LogWarning("OldRadioHandler: No radio sound clip assigned!");
+        }
+      }
+      else if (isTurnedOn)
+      {
+        meterGlassMaterial.DisableKeyword("_EMISSION");
         if (turnedOnByEvent)
         {
           StartCoroutine(MakeObservation(1, 0.5f));
           turnedOnByEvent = false;
         }
 
-        isTurnedOn = false;
-        return true;
-      }
-      else
-      {
-        StartCoroutine(TurnOnOldRadio());
-        isTurnedOn = true;
-        return true;
-      }
-    }
+        audioSource.loop = false;
+        audioSource.clip = toggleClip;
+        audioSource.Play();
 
-    private IEnumerator TurnOnOldRadio()
-    {
-      if (turnOnClip != null)
-      {
-        (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
-        audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.2f);
-        audioSource.PlayOneShot(turnOnClip);
-        yield return new WaitUntil(() => !audioSource.isPlaying);
-      }
-      if (firstClip != null)
-      {
-        audioSource.PlayOneShot(firstClip);
+        yield return new WaitForSeconds(toggleClip.length);
+
+        AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+
+        audioSource = null;
+        isTurnedOn = false;
+        resonanceZone.SetActive(false);
       }
     }
 
@@ -94,9 +125,15 @@ namespace TwelveG.InteractableObjects
     {
       if (data != null)
       {
-        (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+        if (audioSource == null)
+        {
+          (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+        }
+
         StartCoroutine(MakeObservation(0, 1f));
         audioSource.PlayOneShot((AudioClip)data);
+        canBeInteractedWith = true;
+        resonanceZone.SetActive(true);
         isTurnedOn = true;
         turnedOnByEvent = true;
       }
