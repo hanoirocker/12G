@@ -1,4 +1,3 @@
-using TwelveG.AudioController;
 using UnityEngine;
 
 namespace TwelveG.VFXController
@@ -7,164 +6,57 @@ namespace TwelveG.VFXController
     {
         public static VFXManager Instance { get; private set; }
 
-        [Header("References")]
-        [SerializeField] private PostProcessingHandler postProcessingHandler;
+        // --- DEPENDENCIAS ---
+        private PostProcessingHandler postProcessingHandler;
 
-        [Header("Settings")]
-        [SerializeField] private float effectSmoothSpeed = 5f;
-        [Tooltip("Distancia total donde el efecto llega a 0.")]
-        [SerializeField] private float maxEffectDistanceOffset = 1.0f;
-        [Tooltip("Multiplicador de intensidad del efecto de resonancia")]
-        private float resonanceIntensityMultiplier = 1.0f;
-
-        [Header("Occlusion Settings")]
-        [Tooltip("Capas que bloquean el efecto (Paredes, Suelos, Puertas Cerradas).")]
-        [SerializeField] private LayerMask obstacleLayer;
-
-        [Header("Audio")]
-        [SerializeField] private AudioClip headacheAudioClip;
-
-        private bool headacheVFXEnabled = true;
-        private float currentAppliedIntensity = 0f;
-        private float currentMaxEffectDistance = 5f;
-        private Transform activeResonanceZone = null;
-        private Transform playerTransform;
-        private AudioSource headacheAudioSource;
-        private AudioSourceState audioSourceState;
+        // --- EFFECT HANDLERS ---
+        private HeadacheEffectHandler headacheHandler;
+        // private HallucinationHandler hallucinationHandler; // Futuro efecto
 
         private void Awake()
         {
             if (Instance == null) Instance = this;
             else { Destroy(gameObject); return; }
 
+            headacheHandler = GetComponent<HeadacheEffectHandler>();
+            postProcessingHandler = GetComponentInChildren<PostProcessingHandler>();
+
             if (postProcessingHandler == null)
             {
-                Debug.LogError("VFXManager: PostProcessingHandler reference is missing!");
+                Debug.LogError("VFXManager: PostProcessingHandler missing!");
                 this.enabled = false;
-            }
-        }
-
-        private void Start()
-        {
-            if (playerTransform == null)
-            {
-                Debug.LogError("VFXManager: Player object with tag 'Player' not found in the scene!");
-                this.enabled = false;
-            }
-        }
-
-        void Update()
-        {
-            if (activeResonanceZone != null && headacheVFXEnabled)
-            {
-                CalculateAndApplyHeadache();
-            }
-        }
-
-        private void CalculateAndApplyHeadache()
-        {
-            float targetIntensity = 0f;
-
-            if (activeResonanceZone != null && playerTransform != null)
-            {
-                // CHEQUEO DE OCLUSIÓN POR LAYERS COMO "DEFAULT" (PAREDES, SUELOS, ETC)
-                Vector3 directionToPlayer = playerTransform.position - activeResonanceZone.position;
-                float distance = directionToPlayer.magnitude;
-
-                // Rayo entre zona de resonancia y jugador. Si pega en algo del layer, no hay efecto
-                if (Physics.Raycast(activeResonanceZone.position, directionToPlayer.normalized, out RaycastHit hit, distance, obstacleLayer))
-                {
-                    targetIntensity = 0f;
-                }
-                else
-                {
-                    // Usamos currentMaxEffectDistance que viene del radio de la esfera actual
-                    float rawIntensity = Mathf.InverseLerp(currentMaxEffectDistance, maxEffectDistanceOffset, distance);
-                    targetIntensity = rawIntensity * resonanceIntensityMultiplier;
-                }
-            }
-
-            currentAppliedIntensity = Mathf.Lerp(currentAppliedIntensity, targetIntensity, Time.deltaTime * effectSmoothSpeed);
-
-            if (postProcessingHandler != null)
-            {
-                postProcessingHandler.SetHeadacheWeight(currentAppliedIntensity);
-            }
-
-            if (headacheAudioSource != null && headacheAudioSource.isPlaying)
-            {
-                if (currentAppliedIntensity < 0.1f && activeResonanceZone == null)
-                {
-                    StopHeadacheAudio();
-                }
-            }
-        }
-
-        public void ResonanceZoneEntered(Transform senderTransform, float zoneRadius)
-        {
-            if (!headacheVFXEnabled)
                 return;
-
-            activeResonanceZone = senderTransform;
-            currentMaxEffectDistance = zoneRadius;
-
-            if (headacheAudioClip != null && (headacheAudioSource == null || !headacheAudioSource.isPlaying))
-            {
-                headacheAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
-                if (headacheAudioSource != null)
-                {
-                    audioSourceState = headacheAudioSource.GetSnapshot();
-                    headacheAudioSource.transform.position = senderTransform.position;
-                    headacheAudioSource.maxDistance = currentMaxEffectDistance;
-                    headacheAudioSource.clip = headacheAudioClip;
-                    headacheAudioSource.loop = true;
-                    headacheAudioSource.volume = resonanceIntensityMultiplier * 0.75f;
-                    headacheAudioSource.Play();
-                }
             }
-        }
 
-        public void ResonanceZoneExited()
-        {
-            if (!headacheVFXEnabled)
-                return;
-
-            activeResonanceZone = null;
-        }
-
-        private void StopHeadacheAudio()
-        {
-            if (headacheAudioSource != null)
+            // Inyectamos las dependencias globales a los workers
+            if (headacheHandler != null && postProcessingHandler != null)
             {
-                headacheAudioSource.Stop();
-                headacheAudioSource.RestoreSnapshot(audioSourceState);
-            }
-        }
-
-        // Método a llamar desde eventos corrutina o cualquier otro script
-        public void SetResonanceIntensityMultiplier(float newMultiplier)
-        {
-            if (newMultiplier > 0f)
-            {
-                headacheVFXEnabled = true;
-                resonanceIntensityMultiplier = newMultiplier;
-            }
-            else
-            {
-                // Limpiamos uso de audio si estaba sonando
-                if (headacheAudioSource != null)
-                {
-                    StopHeadacheAudio();
-                }
-
-                headacheVFXEnabled = false;
-                resonanceIntensityMultiplier = 0f;
+                headacheHandler.Initialize(postProcessingHandler);
             }
         }
 
         public void RegisterPlayer(Transform pTransform)
         {
-            playerTransform = pTransform;
+            headacheHandler?.SetPlayer(pTransform);
+
+            // TODO: a futuro efecto ..
+            // hallucinationHandler?.SetPlayer(pTransform);
+        }
+
+        // Llamado por ResonanceZone.cs
+        public void ResonanceZoneEntered(Transform senderTransform, float zoneRadius)
+        {
+            headacheHandler?.EnterZone(senderTransform, zoneRadius);
+        }
+
+        public void ResonanceZoneExited()
+        {
+            headacheHandler?.ExitZone();
+        }
+
+        public void SetResonanceIntensityMultiplier(float newMultiplier)
+        {
+            headacheHandler?.SetIntensityMultiplier(newMultiplier);
         }
     }
 }
