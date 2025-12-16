@@ -16,6 +16,8 @@ namespace TwelveG.EditorScripts
         SerializedProperty loadSpecificEvent;
         SerializedProperty eventIndexToLoad;
 
+        SerializedProperty headacheVFXIntensity;
+
         SerializedProperty weatherEvent;
 
         SerializedProperty enableFlashlight;
@@ -32,6 +34,8 @@ namespace TwelveG.EditorScripts
             freeRoam = serializedObject.FindProperty("freeRoam");
             loadSpecificEvent = serializedObject.FindProperty("loadSpecificEvent");
             eventIndexToLoad = serializedObject.FindProperty("eventIndexToLoad");
+
+            headacheVFXIntensity = serializedObject.FindProperty("headacheVFXIntensity");
 
             weatherEvent = serializedObject.FindProperty("weatherEvent");
 
@@ -70,6 +74,13 @@ namespace TwelveG.EditorScripts
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(eventIndexToLoad);
                 EditorGUI.indentLevel--;
+            }
+
+            // Solo mostramos la intensidad del VFX de dolor de cabeza si está en Free Roam
+            if (freeRoam.boolValue)
+            {
+                EditorGUILayout.Space(10);
+                EditorGUILayout.PropertyField(headacheVFXIntensity);
             }
 
             EditorGUILayout.Space(10);

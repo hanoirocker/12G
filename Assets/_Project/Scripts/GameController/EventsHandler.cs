@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using TwelveG.UIController;
 using TwelveG.AudioController;
 using TwelveG.InteractableObjects;
+using TwelveG.VFXController;
 
 namespace TwelveG.GameController
 {
@@ -22,6 +23,11 @@ namespace TwelveG.GameController
         [SerializeField] private bool freeRoam = false;
         [SerializeField] private bool loadSpecificEvent = false;
         [SerializeField] private int eventIndexToLoad = 0;
+
+        [Header("VFX Settings")]
+        [Space]
+        [Tooltip("Intensidad del efecto. 0 es desactivado, 1 es intensidad máxima.")]
+        [SerializeField, Range(0f, 1f)] private float headacheVFXIntensity = 1f;
 
         [Header("Weather Testing Settings")]
         [Space]
@@ -219,11 +225,13 @@ namespace TwelveG.GameController
 
             if (freeRoamTransform == null)
             {
-                Debug.LogError("[EventController]: FreeRoam prefab not found on scene!");
+                Debug.LogError("[EventsHandler]: FreeRoam prefab not found on scene!");
             }
 
             playerCapsuleTransform.position = freeRoamTransform.position;
             playerCapsuleTransform.rotation = freeRoamTransform.rotation;
+
+            VFXManager.Instance.SetResonanceIntensityMultiplier(headacheVFXIntensity);
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
         }
 

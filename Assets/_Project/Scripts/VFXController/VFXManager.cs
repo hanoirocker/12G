@@ -24,6 +24,7 @@ namespace TwelveG.VFXController
         [Header("Audio")]
         [SerializeField] private AudioClip headacheAudioClip;
 
+        private bool headacheVFXEnabled = true;
         private float currentAppliedIntensity = 0f;
         private float currentMaxEffectDistance = 5f;
         private Transform activeResonanceZone = null;
@@ -54,7 +55,7 @@ namespace TwelveG.VFXController
 
         void Update()
         {
-            if (activeResonanceZone != null || currentAppliedIntensity > 0.01f)
+            if (activeResonanceZone != null && headacheVFXEnabled)
             {
                 CalculateAndApplyHeadache();
             }
@@ -101,9 +102,10 @@ namespace TwelveG.VFXController
 
         public void ResonanceZoneEntered(Transform senderTransform, float zoneRadius)
         {
-            activeResonanceZone = senderTransform;
+            if (!headacheVFXEnabled)
+                return;
 
-            // ACTUALIZAMOS LA DISTANCIA MÁXIMA BASADA EN EL COLLIDER
+            activeResonanceZone = senderTransform;
             currentMaxEffectDistance = zoneRadius;
 
             if (headacheAudioClip != null && (headacheAudioSource == null || !headacheAudioSource.isPlaying))
@@ -124,6 +126,9 @@ namespace TwelveG.VFXController
 
         public void ResonanceZoneExited()
         {
+            if (!headacheVFXEnabled)
+                return;
+
             activeResonanceZone = null;
         }
 
@@ -139,7 +144,22 @@ namespace TwelveG.VFXController
         // Método a llamar desde eventos corrutina o cualquier otro script
         public void SetResonanceIntensityMultiplier(float newMultiplier)
         {
-            resonanceIntensityMultiplier = newMultiplier;
+            if (newMultiplier > 0f)
+            {
+                headacheVFXEnabled = true;
+                resonanceIntensityMultiplier = newMultiplier;
+            }
+            else
+            {
+                // Limpiamos uso de audio si estaba sonando
+                if (headacheAudioSource != null)
+                {
+                    StopHeadacheAudio();
+                }
+
+                headacheVFXEnabled = false;
+                resonanceIntensityMultiplier = 0f;
+            }
         }
 
         public void RegisterPlayer(Transform pTransform)
