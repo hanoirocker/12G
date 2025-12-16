@@ -7,7 +7,7 @@ namespace TwelveG.VFXController
     {
         [Header("Headache Specific Settings")]
         [SerializeField] private float effectSmoothSpeed = 5f;
-        [SerializeField] private float maxEffectDistanceOffset = 1.0f;
+        [SerializeField] private float maxEffectDistanceOffset = 0.5f;
         [SerializeField] private LayerMask obstacleLayer;
         [SerializeField] private AudioClip headacheAudioClip;
 
@@ -15,6 +15,7 @@ namespace TwelveG.VFXController
         private bool isEffectEnabled = true;
         private float resonanceIntensityMultiplier = 0f;
         private float currentAppliedIntensity = 0f;
+        private float resonanceVolumeCoefficient = 1f;
 
         // Datos de la zona actual
         private Transform activeResonanceZone;
@@ -83,7 +84,7 @@ namespace TwelveG.VFXController
         {
             if (headacheAudioSource != null && headacheAudioSource.isPlaying)
             {
-                headacheAudioSource.volume = currentAppliedIntensity * 0.75f;
+                headacheAudioSource.volume = currentAppliedIntensity * resonanceVolumeCoefficient;
 
                 if (currentAppliedIntensity < 0.02f && activeResonanceZone == null)
                 {
@@ -120,6 +121,32 @@ namespace TwelveG.VFXController
                 isEffectEnabled = false;
                 resonanceIntensityMultiplier = 0f;
             }
+        }
+
+        public void CalculateEffectCoefficients()
+        {
+            if (resonanceIntensityMultiplier > 0f && resonanceIntensityMultiplier <= 0.1f)
+            {
+                resonanceVolumeCoefficient = 0.075f;
+            }
+            else if (resonanceIntensityMultiplier > 0.1f && resonanceIntensityMultiplier <= 0.3f)
+            {
+                resonanceVolumeCoefficient = 0.1f;
+            }
+            else if (resonanceIntensityMultiplier > 0.3f && resonanceIntensityMultiplier <= 0.6f)
+            {
+                resonanceVolumeCoefficient = 0.4f;
+            }
+            else if (resonanceIntensityMultiplier > 0.6f && resonanceIntensityMultiplier < 1f)
+            {
+                resonanceVolumeCoefficient = 0.7f;
+            }
+            else
+            {
+                resonanceVolumeCoefficient = 1f;
+            }
+
+            Debug.Log($"[HeadacheEffectHandler]: Coeficiente de volumen ajustado a {resonanceVolumeCoefficient} para multiplicador de intensidad {resonanceIntensityMultiplier}.");
         }
 
         private void PlayAudio(Vector3 position, float maxDist)

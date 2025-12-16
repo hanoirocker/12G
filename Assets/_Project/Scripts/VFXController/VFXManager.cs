@@ -1,3 +1,4 @@
+using TwelveG.GameController;
 using UnityEngine;
 
 namespace TwelveG.VFXController
@@ -5,6 +6,9 @@ namespace TwelveG.VFXController
     public class VFXManager : MonoBehaviour
     {
         public static VFXManager Instance { get; private set; }
+
+        [Header("Configuration")]
+        [SerializeField] private VFXGeneralConfigSO vfxGeneralConfig;
 
         // --- DEPENDENCIAS ---
         private PostProcessingHandler postProcessingHandler;
@@ -35,6 +39,24 @@ namespace TwelveG.VFXController
             }
         }
 
+        // Llamado desde EventsHandler.cs al iniciar un nuevo evento para configurar los VFX iniciales
+        public void InitializeVFXSettings(EventsEnum eventEnum)
+        {
+            if (vfxGeneralConfig == null)
+            {
+                Debug.LogError("[VFXManager]: Falta asignar el VFXGeneralConfigSO.");
+                return;
+            }
+
+            float initialIntensity = vfxGeneralConfig.GetIntensityForScene(eventEnum);
+
+            if (headacheHandler != null)
+            {
+                headacheHandler.SetIntensityMultiplier(initialIntensity);
+                headacheHandler.CalculateEffectCoefficients();
+            }
+        }
+
         public void RegisterPlayer(Transform pTransform)
         {
             headacheHandler?.SetPlayer(pTransform);
@@ -45,7 +67,7 @@ namespace TwelveG.VFXController
 
         // Llamado por ResonanceZone.cs
         public void ResonanceZoneEntered(Transform senderTransform, float zoneRadius)
-        {   
+        {
             Debug.Log("Radio real: " + zoneRadius);
             headacheHandler?.EnterZone(senderTransform, zoneRadius);
         }

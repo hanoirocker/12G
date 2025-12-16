@@ -192,6 +192,7 @@ namespace TwelveG.GameController
                 currentExecutingEvent.gameObject.SetActive(true);
                 SetUpCurrentEvent();
 
+                VFXManager.Instance?.InitializeVFXSettings(currentExecutingEvent.eventEnum);
                 // Ejecutar y almacenar referencia a la corrutina
                 currentEventCoroutine = StartCoroutine(ExecuteSingleEvent(currentExecutingEvent));
 
@@ -284,11 +285,6 @@ namespace TwelveG.GameController
         // --------------------------------------------------------------------------------
         // 5. GETTERS Y UTILIDADES
         // --------------------------------------------------------------------------------
-
-        public (int, int) ReturnTotalAndCurrentEventsNumber()
-        {
-            return (correspondingEvents.Count, currentEventIndex);
-        }
 
         public int RetrieveCurrentEventIndex()
         {
