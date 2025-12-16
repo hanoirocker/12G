@@ -101,7 +101,6 @@ namespace TwelveG.PlayerController
 
         private void SwitchPlayerControllers(bool enabled)
         {
-            playerCapsuleCollider.enabled = enabled;
             fPController.enabled = enabled;
             playerAudioSource.enabled = enabled;
             playerSoundsHandler.enabled = enabled;

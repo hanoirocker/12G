@@ -8,6 +8,7 @@ using TwelveG.Utils;
 using Cinemachine;
 using TwelveG.AudioController;
 using TwelveG.EnvironmentController;
+using TwelveG.VFXController;
 
 namespace TwelveG.GameController
 {
@@ -36,6 +37,7 @@ namespace TwelveG.GameController
         {
             print("<------ BIRDS EVENT NOW -------->");
 
+            VFXManager.Instance?.SetResonanceIntensityMultiplier(0.1f);
             // Esto es para actualizar los fallback texts para las Main Doors en particular
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
             // Actualizar text de ayuda del canvas del menu de pausa al presionar ESC

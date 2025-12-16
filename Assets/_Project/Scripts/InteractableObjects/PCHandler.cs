@@ -11,33 +11,35 @@ namespace TwelveG.InteractableObjects
 {
     public class PCHandler : MonoBehaviour, IInteractable
     {
-        [Header("Sound settings")]
-        [SerializeField] private AudioClip startUP = null;
-        [SerializeField] private AudioClip click = null;
-
-        [Header("Audio and other settings")]
+        [Header("References")]
+        [SerializeField] private SphereCollider turnOnCollider = null;
+        [SerializeField] private SphereCollider turnOffCollider = null;
+        [SerializeField] private GameObject resonanceZone = null;
         [SerializeField] private GameObject contemplableObject;
-        [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
         [SerializeField] private List<GameObject> pcScreens = new List<GameObject>();
 
+        [Space]
+        [Header("Sound settings")]
+        [SerializeField] private AudioClip logInClip = null;
+        [SerializeField] private AudioClip click = null;
+        [SerializeField] private AudioClip logOutClip = null;
+        [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
+
+        [Space]
         [Header("Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO;
+        [SerializeField] private InteractionTextSO turnOff;
         [SerializeField] private List<ObservationTextSO> observationsTextsSOs;
-
-        [Header("EventsSO references")]
-        public GameEventSO onImageCanvasControls;
-        public GameEventSO onInteractionCanvasShowText;
-        public GameEventSO onInteractionCanvasControls;
-        public GameEventSO onObservationCanvasShowText;
-        public GameEventSO onPlayerControls;
-        public GameEventSO onVirtualCamerasControl;
 
         [Header("Other eventsSO references")]
         public GameEventSO onPC;
 
+        private bool canBeInteractedWith = true;
+        private bool isTurnedOn = false;
+
         public bool CanBeInteractedWith(PlayerInteraction playerCamera)
         {
-            return true;
+            return canBeInteractedWith;
         }
 
         public ObservationTextSO GetFallBackText()
@@ -47,23 +49,68 @@ namespace TwelveG.InteractableObjects
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
-            return interactionTextsSO;
+            return isTurnedOn ? turnOff : interactionTextsSO;
         }
 
         public bool Interact(PlayerInteraction playerCamera)
         {
-            StartCoroutine(UsePC(playerCamera));
-            return true;
+            if (!isTurnedOn)
+            {
+                StartCoroutine(UsePC(playerCamera));
+                return true;
+            }
+            else
+            {
+                StartCoroutine(TurnOffPC(playerCamera));
+                return false;
+            }
+        }
+
+        private IEnumerator TurnOffPC(PlayerInteraction playerCamera)
+        {
+            if (logOutClip == null)
+            {
+                Debug.LogWarning("No shutdown clip assigned to PCHandler!");
+                yield break;
+            }
+
+            playerCamera.GetComponentInParent<PlayerHandler>().PlayerControls(this, new EnablePlayerControllers(false));
+
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+
+            yield return new WaitForSeconds(0.5f);
+            audioSource.PlayOneShot(click);
+            yield return new WaitForSeconds(1f);
+            audioSource.PlayOneShot(click);
+            yield return new WaitForSeconds(0.7f);
+            audioSource.PlayOneShot(click);
+            yield return new WaitForSeconds(1f);
+            audioSource.PlayOneShot(logOutClip);
+            yield return new WaitForSeconds(0.5f);
+
+            playerCamera.GetComponentInParent<PlayerHandler>().PlayerControls(this, new EnablePlayerControllers(true));
+            yield return new WaitUntil(() => !audioSource.isPlaying);
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+
+            pcScreens[5].SetActive(false);
+            pcScreens[0].SetActive(true);
+            isTurnedOn = false;
+            resonanceZone.SetActive(false);
+            turnOffCollider.enabled = false;
+            turnOnCollider.enabled = true;
+            canBeInteractedWith = false;
         }
 
         private IEnumerator UsePC(PlayerInteraction playerCamera)
         {
             // Aca avisamos al LostSignal que comenzamos de usar la PC
+            resonanceZone.SetActive(true);
             onPC.Raise(this, null);
+            isTurnedOn = true;
 
             (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
 
-            GetComponent<SphereCollider>().enabled = false;
+            gameObject.GetComponent<SphereCollider>().enabled = false;
 
             // Espera el tiempo que tarda en hacer el fadeout + fadein para cambiar
             // a la camara VCPC desde LostSignalEvent
@@ -79,7 +126,7 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(5f);
             pcScreens[1].SetActive(false);
             pcScreens[2].SetActive(true);
-            audioSource.PlayOneShot(startUP);
+            audioSource.PlayOneShot(logInClip);
 
             yield return new WaitUntil(() => !audioSource.isPlaying);
             yield return new WaitForSeconds(3f);
@@ -129,7 +176,8 @@ namespace TwelveG.InteractableObjects
             onPC.Raise(this, null);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
 
-            this.enabled = false;
+            turnOnCollider.enabled = false;
+            turnOffCollider.enabled = true;
         }
 
         public bool VerifyIfPlayerCanInteract(PlayerInteraction interactor)

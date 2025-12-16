@@ -15,7 +15,7 @@ namespace TwelveG.VFXController
         private bool isEffectEnabled = true;
         private float resonanceIntensityMultiplier = 0f;
         private float currentAppliedIntensity = 0f;
-        
+
         // Datos de la zona actual
         private Transform activeResonanceZone;
         private float currentMaxEffectDistance;
@@ -23,7 +23,7 @@ namespace TwelveG.VFXController
         // Dependencias inyectadas por el Manager
         private Transform playerTransform;
         private PostProcessingHandler postProcessingHandler;
-        
+
         private AudioSource headacheAudioSource;
         private AudioSourceState audioSourceState;
 
@@ -39,7 +39,7 @@ namespace TwelveG.VFXController
 
         private void Update()
         {
-            if (activeResonanceZone == null && currentAppliedIntensity <= 0.001f) 
+            if (activeResonanceZone == null && currentAppliedIntensity <= 0.001f)
                 return;
 
             CalculateLogic();
@@ -83,7 +83,9 @@ namespace TwelveG.VFXController
         {
             if (headacheAudioSource != null && headacheAudioSource.isPlaying)
             {
-                if (currentAppliedIntensity < 0.1f && activeResonanceZone == null)
+                headacheAudioSource.volume = currentAppliedIntensity * 0.75f;
+
+                if (currentAppliedIntensity < 0.02f && activeResonanceZone == null)
                 {
                     StopAudio();
                 }
@@ -91,7 +93,7 @@ namespace TwelveG.VFXController
         }
 
         // --- Métodos Controlados por el Manager ---
-
+        // El radio real se calculo en el ResonanceZone.cs
         public void EnterZone(Transform zone, float radius)
         {
             if (!isEffectEnabled) return;
@@ -115,7 +117,6 @@ namespace TwelveG.VFXController
             }
             else
             {
-                if (headacheAudioSource != null) StopAudio();
                 isEffectEnabled = false;
                 resonanceIntensityMultiplier = 0f;
             }
@@ -133,7 +134,7 @@ namespace TwelveG.VFXController
                     headacheAudioSource.maxDistance = maxDist;
                     headacheAudioSource.clip = headacheAudioClip;
                     headacheAudioSource.loop = true;
-                    headacheAudioSource.volume = resonanceIntensityMultiplier * 0.75f;
+                    headacheAudioSource.volume = 0f;
                     headacheAudioSource.Play();
                 }
             }

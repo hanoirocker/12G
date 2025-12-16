@@ -4,6 +4,7 @@ using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
 using TwelveG.Utils;
+using TwelveG.VFXController;
 using UnityEngine;
 
 namespace TwelveG.GameController
@@ -36,6 +37,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 
+            VFXManager.Instance?.SetResonanceIntensityMultiplier(0.1f);
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
             GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
