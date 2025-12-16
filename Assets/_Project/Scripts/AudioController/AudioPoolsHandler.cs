@@ -28,6 +28,10 @@ namespace TwelveG.AudioController
 
   public class AudioPoolsHandler : MonoBehaviour
   {
+    [Header("References")]
+    [SerializeField] private AudioZoneHandler audioZoneHandler;
+
+    [Space]
     [Header("Audio Source Pools")]
     [SerializeField] private List<AudioSource> BGMusicSources;
     [SerializeField] private List<AudioSource> EnvironmentSources;
@@ -37,6 +41,7 @@ namespace TwelveG.AudioController
     [SerializeField] private List<AudioSource> PlayerSources;
     [SerializeField] private List<AudioSource> VFXSources;
 
+    [Space]
     [Header("Pause Settings")]
     [SerializeField]
     private AudioPoolType[] poolsToPause = new AudioPoolType[] {
@@ -48,6 +53,7 @@ namespace TwelveG.AudioController
     AudioPoolType.VFX
     };
 
+    [Space]
     [Header("Audio References")]
     [SerializeField] private AudioClip softWindClip;
     [SerializeField] private AudioClip softRainClip;
@@ -179,6 +185,13 @@ namespace TwelveG.AudioController
 
     public void AssignWeatherEvents(Component sender, object data)
     {
+      if((WeatherEvent)data == WeatherEvent.None)
+      {
+        // Resetea clips de audio
+        ResetWeatherClips();
+        return;
+      }
+
       AudioClip audioClip;
 
       switch ((WeatherEvent)data)
@@ -204,6 +217,9 @@ namespace TwelveG.AudioController
       {
         source.clip = audioClip;
       }
+
+      // Le asigna las fuentes al AudioZoneHandler para que las posicione en zonas acústicas
+      audioZoneHandler?.AssignAudioSourcesFromPool(EnvironmentSources);
     }
   }
 }

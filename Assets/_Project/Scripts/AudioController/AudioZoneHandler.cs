@@ -45,9 +45,9 @@ namespace TwelveG.AudioController
       UpdateAudioSources();
     }
 
-    public void GetAudioSourcesFormPool()
+    public void AssignAudioSourcesFromPool(List<AudioSource> audioSources)
     {
-      ambienceSources = AudioManager.Instance.PoolsHandler.ReturnAudioSourceByType(AudioPoolType.Environment);
+      ambienceSources = audioSources;
     }
 
     private void UpdateAudioSources()

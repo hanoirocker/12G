@@ -48,96 +48,17 @@ namespace TwelveG.GameController
         private GameEventBase currentExecutingEvent;
         private bool isEventRunning = false;
 
-        private IEnumerator ExecuteEvents()
+        // --------------------------------------------------------------------------------
+        // 1. INICIALIZACIÓN Y CONFIGURACIÓN
+        // --------------------------------------------------------------------------------
+
+        public void BuildEvents()
         {
-            while (currentEventIndex < correspondingEvents.Count)
-            {
-                isEventRunning = true;
-                currentExecutingEvent = correspondingEvents[currentEventIndex];
-                currentExecutingEvent.gameObject.SetActive(true);
-                SetUpCurrentEvent();
-
-                // Ejecutar y almacenar referencia a la corrutina
-                currentEventCoroutine = StartCoroutine(ExecuteSingleEvent(currentExecutingEvent));
-
-                // Enviar Game Event SO sobre nuevo evento iniciado (Recibe por ejemplo Walkie Talkie para actualizar su estado)
-                EventContextData eventContext = new EventContextData(
-                    GameManager.Instance.RetrieveCurrentSceneEnum(),
-                    currentExecutingEvent.eventEnum);
-                GameEvents.Common.onNewEventBegun.Raise(this, eventContext);
-
-                yield return currentEventCoroutine;
-
-                currentEventCoroutine = null;
-                currentExecutingEvent = null;
-                isEventRunning = false;
-
-                currentEventIndex++;
-            }
-
-            // Finalización normal de todos los eventos
-            if (!loadSpecificEvent)
-            {
-                currentEventIndex = 0;
-                GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
-            }
-        }
-
-        private void SkipToNextEvent()
-        {
-            if (!isEventRunning || currentEventCoroutine == null)
-            {
-                Debug.LogWarning("[EventsHandler]: No hay evento en ejecución para saltar.");
-                return;
-            }
-
-            Debug.Log($"[EventsHandler]: Saltando evento actual: {currentExecutingEvent?.name}");
-
-            StopCoroutine(currentEventCoroutine);
-
-            if (currentExecutingEvent != null)
-            {
-                Destroy(currentExecutingEvent.gameObject);
-            }
-
-            currentEventIndex++;
-            isEventRunning = false;
-
-            // Iniciar el siguiente evento
-            if (currentEventIndex < correspondingEvents.Count)
-            {
-                StartCoroutine(ExecuteEvents());
-            }
-            else
-            {
-                Debug.Log("[EventsHandler]: No hay más eventos después de saltar.");
-                // Si estamos en modo test event index, no cargar próxima escena
-                if (!loadSpecificEvent)
-                {
-                    currentEventIndex = 0;
-                    GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
-                }
-            }
-        }
-
-        private IEnumerator ExecuteSingleEvent(GameEventBase gameEvent)
-        {
-            yield return StartCoroutine(gameEvent.Execute());
-            gameEvent.gameObject.SetActive(false);
-        }
-
-        private IEnumerator SetStartingIndex(bool isSpecificIndex)
-        {
-            if (isSpecificIndex)
-            {
-                currentEventIndex = eventIndexToLoad;
-                if (eventIndexToLoad > 1)
-                {
-                    GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-                }
-            }
-
-            yield return StartCoroutine(ExecuteEvents());
+            currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            VerifySpecificTestSettings();
+            InstantiateSceneEventsParent();
+            PopulateEventsLists();
+            VerifyRunTimeMode();
         }
 
         private void VerifySpecificTestSettings()
@@ -191,6 +112,10 @@ namespace TwelveG.GameController
             }
         }
 
+        // --------------------------------------------------------------------------------
+        // 2. LÓGICA DE MODOS DE JUEGO (RUNTIME VS FREE ROAM)
+        // --------------------------------------------------------------------------------
+
         private void VerifyRunTimeMode()
         {
             if (loadSpecificEvent)
@@ -231,8 +156,66 @@ namespace TwelveG.GameController
             playerCapsuleTransform.position = freeRoamTransform.position;
             playerCapsuleTransform.rotation = freeRoamTransform.rotation;
 
-            VFXManager.Instance.SetResonanceIntensityMultiplier(headacheVFXIntensity);
+            VFXManager.Instance?.SetResonanceIntensityMultiplier(headacheVFXIntensity);
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+        }
+
+        private IEnumerator SetStartingIndex(bool isSpecificIndex)
+        {
+            if (isSpecificIndex)
+            {
+                currentEventIndex = eventIndexToLoad;
+
+                // Reset de VFX al iniciar evento específico. Sus valores se actualizan desde los
+                // eventos en sí.
+                VFXManager.Instance?.SetResonanceIntensityMultiplier(0f);
+
+                if (eventIndexToLoad > 1)
+                {
+                    GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+                }
+            }
+
+            yield return StartCoroutine(ExecuteEvents());
+        }
+
+        // --------------------------------------------------------------------------------
+        // 3. CORE LOOP DE EVENTOS
+        // --------------------------------------------------------------------------------
+
+        private IEnumerator ExecuteEvents()
+        {
+            while (currentEventIndex < correspondingEvents.Count)
+            {
+                isEventRunning = true;
+                currentExecutingEvent = correspondingEvents[currentEventIndex];
+                currentExecutingEvent.gameObject.SetActive(true);
+                SetUpCurrentEvent();
+
+                // Ejecutar y almacenar referencia a la corrutina
+                currentEventCoroutine = StartCoroutine(ExecuteSingleEvent(currentExecutingEvent));
+
+                // Enviar Game Event SO sobre nuevo evento iniciado (Recibe por ejemplo Walkie Talkie para actualizar su estado)
+                EventContextData eventContext = new EventContextData(
+                    GameManager.Instance.RetrieveCurrentSceneEnum(),
+                    currentExecutingEvent.eventEnum);
+                GameEvents.Common.onNewEventBegun.Raise(this, eventContext);
+
+                yield return currentEventCoroutine;
+
+                currentEventCoroutine = null;
+                currentExecutingEvent = null;
+                isEventRunning = false;
+
+                currentEventIndex++;
+            }
+
+            // Finalización normal de todos los eventos
+            if (!loadSpecificEvent)
+            {
+                currentEventIndex = 0;
+                GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
+            }
         }
 
         private void SetUpCurrentEvent()
@@ -245,20 +228,62 @@ namespace TwelveG.GameController
             }
         }
 
-        public void BuildEvents()
+        private IEnumerator ExecuteSingleEvent(GameEventBase gameEvent)
         {
-            currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            VerifySpecificTestSettings();
-            InstantiateSceneEventsParent();
-            PopulateEventsLists();
-            VerifyRunTimeMode();
+            yield return StartCoroutine(gameEvent.Execute());
+            gameEvent.gameObject.SetActive(false);
         }
+
+        // --------------------------------------------------------------------------------
+        // 4. CONTROL DE SALTO DE EVENTOS
+        // --------------------------------------------------------------------------------
 
         public void SkipCurrentEvent(Component sender, object data)
         {
             Debug.Log($"[EventsHandler]: Recibido evento por {sender.name} para saltar al siguiente evento.");
             SkipToNextEvent();
         }
+
+        private void SkipToNextEvent()
+        {
+            if (!isEventRunning || currentEventCoroutine == null)
+            {
+                Debug.LogWarning("[EventsHandler]: No hay evento en ejecución para saltar.");
+                return;
+            }
+
+            Debug.Log($"[EventsHandler]: Saltando evento actual: {currentExecutingEvent?.name}");
+
+            StopCoroutine(currentEventCoroutine);
+
+            if (currentExecutingEvent != null)
+            {
+                Destroy(currentExecutingEvent.gameObject);
+            }
+
+            currentEventIndex++;
+            isEventRunning = false;
+
+            // Iniciar el siguiente evento
+            if (currentEventIndex < correspondingEvents.Count)
+            {
+                StartCoroutine(ExecuteEvents());
+            }
+            else
+            {
+                Debug.Log("[EventsHandler]: No hay más eventos después de saltar.");
+                // Si estamos en modo test event index, no cargar próxima escena
+                if (!loadSpecificEvent)
+                {
+                    currentEventIndex = 0;
+                    GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
+                }
+            }
+        }
+
+        // --------------------------------------------------------------------------------
+        // 5. GETTERS Y UTILIDADES
+        // --------------------------------------------------------------------------------
 
         public (int, int) ReturnTotalAndCurrentEventsNumber()
         {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TwelveG.AudioController;
 using UnityEngine;
 
 namespace TwelveG.EnvironmentController
@@ -8,6 +9,7 @@ namespace TwelveG.EnvironmentController
     {
         [Header("References")]
         [SerializeField] private Light[] HouseLights;
+        [SerializeField] private GameObject acousticZonesParent;
 
         [SerializeField, Range(0f, 15f)] private float defaultDelay = 0.3f;
 
@@ -20,6 +22,20 @@ namespace TwelveG.EnvironmentController
             else
             {
                 StartCoroutine(FlickerSequence(defaultDelay));
+            }
+        }
+
+        public void ToggleAcousticZones(Component sender, object data)
+        {
+            WeatherEvent weatherEvent = (WeatherEvent)data;
+
+            if (weatherEvent == WeatherEvent.None)
+            {
+                acousticZonesParent.SetActive(false);
+            }
+            else
+            {
+                acousticZonesParent.SetActive(true);
             }
         }
 

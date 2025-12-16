@@ -30,7 +30,7 @@ namespace TwelveG.VFXController
             {
                 Debug.Log("Resonance Zone exited");
                 // Avisa al VFXManager que salga de zona de resonancia
-                VFXManager.Instance.ResonanceZoneExited();
+                VFXManager.Instance?.ResonanceZoneExited();
                 zoneIsActive = false;
             }
         }
@@ -39,7 +39,7 @@ namespace TwelveG.VFXController
         {
             Debug.Log("Resonance Zone exited");
             // Avisa al VFXManager que salga de zona de resonancia
-            VFXManager.Instance.ResonanceZoneExited();
+            VFXManager.Instance?.ResonanceZoneExited();
             zoneIsActive = false;
         }
 

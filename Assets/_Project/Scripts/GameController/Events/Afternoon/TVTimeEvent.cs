@@ -36,7 +36,7 @@ namespace TwelveG.GameController
         {
             print("<------ TV TIME EVENT NOW -------->");
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
-            GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
+            GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.None);
             AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
             enableTVHandler.Raise(this, null);

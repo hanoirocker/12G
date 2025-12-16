@@ -13,7 +13,7 @@ namespace TwelveG.VFXController
 
         // Estado interno
         private bool isEffectEnabled = true;
-        private float resonanceIntensityMultiplier = 1.0f;
+        private float resonanceIntensityMultiplier = 0f;
         private float currentAppliedIntensity = 0f;
         
         // Datos de la zona actual
