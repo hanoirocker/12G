@@ -68,7 +68,6 @@ namespace TwelveG.VFXController
         // Llamado por ResonanceZone.cs
         public void ResonanceZoneEntered(Transform senderTransform, float zoneRadius)
         {
-            Debug.Log("Radio real: " + zoneRadius);
             headacheHandler?.EnterZone(senderTransform, zoneRadius);
         }
 

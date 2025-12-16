@@ -146,7 +146,7 @@ namespace TwelveG.VFXController
                 resonanceVolumeCoefficient = 1f;
             }
 
-            Debug.Log($"[HeadacheEffectHandler]: Coeficiente de volumen ajustado a {resonanceVolumeCoefficient} para multiplicador de intensidad {resonanceIntensityMultiplier}.");
+            // Debug.Log($"[HeadacheEffectHandler]: Coeficiente de volumen ajustado a {resonanceVolumeCoefficient} para multiplicador de intensidad {resonanceIntensityMultiplier}.");
         }
 
         private void PlayAudio(Vector3 position, float maxDist)
