@@ -187,7 +187,7 @@ namespace TwelveG.GameController
             {
                 if (correspondingEvents[i].eventEnum == eventEnumToLoad)
                 {
-                    Debug.Log($"[EventsHandler]: Loading specific event: {eventEnumToLoad}, index {i}");
+                    // Debug.Log($"[EventsHandler]: Loading specific event: {eventEnumToLoad}, index {i}");
                     eventIndexToLoad = i;
                     break;
                 }

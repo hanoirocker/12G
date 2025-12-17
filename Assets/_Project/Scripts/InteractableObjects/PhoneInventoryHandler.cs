@@ -120,7 +120,7 @@ namespace TwelveG.InteractableObjects
 
         private void ChangePhoneScreen()
         {
-            print("screenIndex: " + screenIndex);
+            // Debug.Log("screenIndex: " + screenIndex);
 
             if (screenIndex == 0)
             {

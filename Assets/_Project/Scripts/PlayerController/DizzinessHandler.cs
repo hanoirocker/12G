@@ -14,14 +14,14 @@ namespace TwelveG.PlayerController
         [SerializeField] private float swayAngleX = 12f;
         [Tooltip("Maximum sway angle on the Z axis.")]
         [SerializeField] private float swayAngleZ = 12f;
-        
+
         private float currentSwaySpeed = 0f;
         private float currentSwayAngleX = 0f;
         private float currentSwayAngleZ = 0f;
 
         private float timer = 0f;
         private float storedSensitivity;
-        private float sensitivityFactor;
+        private float sensitivityFactor = 1f;
 
         private Quaternion initialRotation;
         private FPController FPController;
@@ -29,7 +29,7 @@ namespace TwelveG.PlayerController
         private void Awake()
         {
             FPController = GetComponent<FPController>();
-            if(FPController == null)
+            if (FPController == null)
             {
                 Debug.LogError("[DizzinessHandler]: No se encontró CharacterController en el objeto padre.");
                 this.enabled = false;
@@ -45,7 +45,6 @@ namespace TwelveG.PlayerController
         {
             // Reducción de la sensibilidad del ratón
             storedSensitivity = FPController.RotationSpeed;
-            FPController.RotationSpeed = storedSensitivity * sensitivityFactor;
         }
 
         private void OnDisable()
@@ -72,6 +71,8 @@ namespace TwelveG.PlayerController
             // Esto maneja tanto la oscilación del mareo como la recuperación suave al estado normal
             float smoothFactor = currentSwaySpeed;
 
+            FPController.RotationSpeed = storedSensitivity * sensitivityFactor;
+
             cameraTransform.localRotation = Quaternion.Slerp(
                 cameraTransform.localRotation,
                 targetRotation,
@@ -85,8 +86,10 @@ namespace TwelveG.PlayerController
             currentSwayAngleX = swayAngleX * intensity;
             currentSwayAngleZ = swayAngleZ * intensity;
 
-            // Ej: Si la intensidad es 0.8, la sensibilidad se reduce en un 20%
-            sensitivityFactor = 1 - intensity;
+            if (intensity >= 0.3f)
+            {
+                sensitivityFactor = (1 - intensity);
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ namespace TwelveG.VFXController
 
         // Dependencias inyectadas por el Manager
         private Transform playerTransform;
+        private DizzinessHandler dizzinessHandler;
         private PostProcessingHandler postProcessingHandler;
 
         private AudioSource resonanceAudioSource;
@@ -39,7 +40,8 @@ namespace TwelveG.VFXController
 
         public void SetPlayer(Transform player)
         {
-            this.playerTransform = player;
+            playerTransform = player;
+            dizzinessHandler = playerTransform.GetComponentInParent<DizzinessHandler>();
         }
 
         private void Update()
@@ -71,6 +73,7 @@ namespace TwelveG.VFXController
                     targetIntensity = rawIntensity * resonanceIntensityMultiplier;
 
                     // Loggear distancia actual entre zona y player
+                    // (Ideal para modificar minDistanceForMaxImpact en ResonanceZone.cs)
                     // Debug.Log($"Distancia a centro de zona: {distance}");
                 }
             }
@@ -90,10 +93,10 @@ namespace TwelveG.VFXController
                 if (!dizzinessEffectRunning)
                 {
                     dizzinessEffectRunning = true;
-                    playerTransform.GetComponentInParent<DizzinessHandler>().enabled = true;
+                    dizzinessHandler.enabled = true;
                 }
 
-                playerTransform.GetComponentInParent<DizzinessHandler>().SetDizzinessIntensity(currentAppliedIntensity);
+                dizzinessHandler.SetDizzinessIntensity(currentAppliedIntensity);
             }
 
             // Comunicar al PlayerController para detener el efecto de mareo
@@ -102,9 +105,8 @@ namespace TwelveG.VFXController
                 if (dizzinessEffectRunning)
                 {
                     dizzinessEffectRunning = false;
+                    dizzinessHandler.enabled = false;
                 }
-
-                playerTransform.GetComponentInParent<DizzinessHandler>().enabled = false;
             }
 
             HandleAudio();
@@ -167,13 +169,25 @@ namespace TwelveG.VFXController
             {
                 resonanceVolumeCoefficient = 0.1f;
             }
-            else if (resonanceIntensityMultiplier > 0.3f && resonanceIntensityMultiplier <= 0.6f)
+            else if (resonanceIntensityMultiplier > 0.3f && resonanceIntensityMultiplier <= 0.325f)
             {
-                resonanceVolumeCoefficient = 0.4f;
+                resonanceVolumeCoefficient = 0.2f;
             }
-            else if (resonanceIntensityMultiplier > 0.6f && resonanceIntensityMultiplier < 1f)
+            else if (resonanceIntensityMultiplier > 0.325f && resonanceIntensityMultiplier <= 0.45f)
             {
-                resonanceVolumeCoefficient = 0.7f;
+                resonanceVolumeCoefficient = 0.225f;
+            }
+            else if (resonanceIntensityMultiplier > 0.45f && resonanceIntensityMultiplier <= 0.55f)
+            {
+                resonanceVolumeCoefficient = 0.25f;
+            }
+            else if (resonanceIntensityMultiplier > 0.55f && resonanceIntensityMultiplier <= 0.7f)
+            {
+                resonanceVolumeCoefficient = 0.35f;
+            }
+            else if (resonanceIntensityMultiplier > 0.7f && resonanceIntensityMultiplier < 1f)
+            {
+                resonanceVolumeCoefficient = 0.5f;
             }
             else
             {
