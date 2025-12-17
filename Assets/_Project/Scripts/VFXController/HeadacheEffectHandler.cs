@@ -5,11 +5,13 @@ namespace TwelveG.VFXController
 {
     public class HeadacheEffectHandler : MonoBehaviour
     {
-        [Header("Headache Specific Settings")]
+        [Header("Specific Settings")]
         [SerializeField] private float effectSmoothSpeed = 5f;
         [SerializeField] private float maxEffectDistanceOffset = 0.5f;
         [SerializeField] private LayerMask obstacleLayer;
-        [SerializeField] private AudioClip headacheAudioClip;
+        [Space]
+        [Header("Audio Settings")]
+        [SerializeField] private AudioClip resonanceClip;
 
         // Estado interno
         private bool isEffectEnabled = true;
@@ -25,7 +27,7 @@ namespace TwelveG.VFXController
         private Transform playerTransform;
         private PostProcessingHandler postProcessingHandler;
 
-        private AudioSource headacheAudioSource;
+        private AudioSource resonanceAudioSource;
         private AudioSourceState audioSourceState;
 
         public void Initialize(PostProcessingHandler ppHandler)
@@ -77,14 +79,19 @@ namespace TwelveG.VFXController
                 postProcessingHandler.SetHeadacheWeight(currentAppliedIntensity);
             }
 
+            if(currentAppliedIntensity > 0.7f)
+            {
+                Debug.LogWarning("YES!");
+            }
+
             HandleAudio();
         }
 
         private void HandleAudio()
         {
-            if (headacheAudioSource != null && headacheAudioSource.isPlaying)
+            if (resonanceAudioSource != null && resonanceAudioSource.isPlaying)
             {
-                headacheAudioSource.volume = currentAppliedIntensity * resonanceVolumeCoefficient;
+                resonanceAudioSource.volume = currentAppliedIntensity * resonanceVolumeCoefficient;
 
                 if (currentAppliedIntensity < 0.02f && activeResonanceZone == null)
                 {
@@ -151,29 +158,29 @@ namespace TwelveG.VFXController
 
         private void PlayAudio(Vector3 position, float maxDist)
         {
-            if (headacheAudioClip != null && (headacheAudioSource == null || !headacheAudioSource.isPlaying))
+            if (resonanceClip != null && (resonanceAudioSource == null || !resonanceAudioSource.isPlaying))
             {
-                headacheAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
-                if (headacheAudioSource != null)
+                resonanceAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
+                if (resonanceAudioSource != null)
                 {
-                    audioSourceState = headacheAudioSource.GetSnapshot();
-                    headacheAudioSource.transform.position = position;
-                    headacheAudioSource.maxDistance = maxDist;
-                    headacheAudioSource.clip = headacheAudioClip;
-                    headacheAudioSource.loop = true;
-                    headacheAudioSource.volume = 0f;
-                    headacheAudioSource.Play();
+                    audioSourceState = resonanceAudioSource.GetSnapshot();
+                    resonanceAudioSource.transform.position = position;
+                    resonanceAudioSource.maxDistance = maxDist;
+                    resonanceAudioSource.clip = resonanceClip;
+                    resonanceAudioSource.loop = true;
+                    resonanceAudioSource.volume = 0f;
+                    resonanceAudioSource.Play();
                 }
             }
         }
 
         private void StopAudio()
         {
-            if (headacheAudioSource != null)
+            if (resonanceAudioSource != null)
             {
-                headacheAudioSource.Stop();
-                headacheAudioSource.RestoreSnapshot(audioSourceState);
-                headacheAudioSource = null;
+                resonanceAudioSource.Stop();
+                resonanceAudioSource.RestoreSnapshot(audioSourceState);
+                resonanceAudioSource = null;
             }
         }
     }
