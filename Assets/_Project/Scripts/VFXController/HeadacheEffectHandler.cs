@@ -18,6 +18,7 @@ namespace TwelveG.VFXController
         private float resonanceIntensityMultiplier = 0f;
         private float currentAppliedIntensity = 0f;
         private float resonanceVolumeCoefficient = 1f;
+        private bool dizzinessEffectRunning = false;
 
         // Datos de la zona actual
         private Transform activeResonanceZone;
@@ -79,9 +80,18 @@ namespace TwelveG.VFXController
                 postProcessingHandler.SetHeadacheWeight(currentAppliedIntensity);
             }
 
-            if(currentAppliedIntensity > 0.85f)
+            if(currentAppliedIntensity > 0.85f && !dizzinessEffectRunning)
             {
-                Debug.LogWarning("YES!");
+                dizzinessEffectRunning = true;
+                // Comunicar al PlayerController para iniciar el efecto de mareo
+                Debug.Log("[HeadacheEffectHandler]: Iniciando efecto de mareo.");
+            }
+
+            if(currentAppliedIntensity <= 0.85f && dizzinessEffectRunning)
+            {
+                dizzinessEffectRunning = false;
+                // Comunicar al PlayerController para detener el efecto de mareo
+                Debug.Log("[HeadacheEffectHandler]: Deteniendo efecto de mareo.");
             }
 
             HandleAudio();
