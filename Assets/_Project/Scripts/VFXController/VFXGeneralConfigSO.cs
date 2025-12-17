@@ -4,59 +4,70 @@ using TwelveG.GameController;
 
 namespace TwelveG.VFXController
 {
+    [System.Serializable]
+    public struct SceneVFXSettings
+    {
+        [Tooltip("El evento asociado a esta configuración")]
+        public EventsEnum eventEnum;
+
+        [Tooltip("Intensidad de efecto (0 a 1)")]
+        [Range(0f, 1f)]
+        public float initialHeadacheIntensity;
+
+        [Tooltip("Intensidad de fuentes VFX (0 a 1)")]
+        [Range(0f, 1f)]
+        public float resonanceCoefficient;
+
+        public void Deconstruct(out float intensity, out float volume)
+        {
+            intensity = initialHeadacheIntensity;
+            volume = resonanceCoefficient;
+        }
+    }
+
     [CreateAssetMenu(fileName = "VFXGeneralConfig", menuName = "TwelveG/VFX/General Config")]
     public class VFXGeneralConfigSO : ScriptableObject
     {
-        [System.Serializable]
-        public struct SceneVFXSettings
-        {
-            [Tooltip("El evento asociado a esta configuración")]
-            public EventsEnum eventEnum;
-
-            [Tooltip("Intensidad de efecto (0 a 1)")]
-            [Range(0f, 1f)]
-            public float initialHeadacheIntensity;
-        }
-
         [Header("Scene VFX Settings")]
         [SerializeField] private List<SceneVFXSettings> sceneSettings;
 
-        // NO lo serializamos, se reconstruye al jugar
-        private Dictionary<EventsEnum, float> _settingsDictionary;
+        // Ahora el diccionario guarda la ESTRUCTURA COMPLETA, no solo un float
+        private Dictionary<EventsEnum, SceneVFXSettings> _settingsDictionary;
 
         private void InitializeDictionary()
         {
-            _settingsDictionary = new Dictionary<EventsEnum, float>();
+            _settingsDictionary = new Dictionary<EventsEnum, SceneVFXSettings>();
 
-            // Protección extra: Si la lista está vacía o es nula en el inspector
             if (sceneSettings == null)
                 sceneSettings = new List<SceneVFXSettings>();
 
             foreach (var setting in sceneSettings)
             {
-                // Evitamos duplicados para que no crashee si pones dos veces el mismo evento en la lista
                 if (!_settingsDictionary.ContainsKey(setting.eventEnum))
                 {
-                    _settingsDictionary.Add(setting.eventEnum, setting.initialHeadacheIntensity);
+                    // Guardamos toda la struct
+                    _settingsDictionary.Add(setting.eventEnum, setting);
                 }
             }
         }
 
-        public float GetIntensityForScene(EventsEnum eventEnum)
+        // Cambiamos el tipo de retorno de float a SceneVFXSettings
+        public SceneVFXSettings GetVFXSettingsForEvenum(EventsEnum eventEnum)
         {
             if (_settingsDictionary == null)
             {
                 InitializeDictionary();
             }
 
-            if (_settingsDictionary.TryGetValue(eventEnum, out float intensity))
+            if (_settingsDictionary.TryGetValue(eventEnum, out SceneVFXSettings settings))
             {
-                return intensity;
+                return settings;
             }
 
-            // Si no hay configuración para este evento, devolvemos 0 (sin dolor)
-            Debug.LogWarning($"[VFXConfig]: No hay config para {eventEnum}. Intensidad 0.");
-            return 0f;
+            Debug.LogWarning($"[VFXConfig]: No hay config para {eventEnum}. Retornando valores default (0).");
+
+            // Retornamos una struct vacía (todos sus valores serán 0 por defecto)
+            return new SceneVFXSettings();
         }
     }
 }

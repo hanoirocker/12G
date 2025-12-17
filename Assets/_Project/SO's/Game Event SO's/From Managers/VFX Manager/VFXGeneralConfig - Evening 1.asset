@@ -15,29 +15,43 @@ MonoBehaviour:
   sceneSettings:
   - eventEnum: 0
     initialHeadacheIntensity: 0
+    resonanceCoefficient: 0
   - eventEnum: 1
     initialHeadacheIntensity: 0
+    resonanceCoefficient: 0
   - eventEnum: 2
     initialHeadacheIntensity: 0.1
+    resonanceCoefficient: 0.0125
   - eventEnum: 3
     initialHeadacheIntensity: 0.15
+    resonanceCoefficient: 0.025
   - eventEnum: 4
     initialHeadacheIntensity: 0.15
+    resonanceCoefficient: 0.025
   - eventEnum: 5
     initialHeadacheIntensity: 0.2
+    resonanceCoefficient: 0.05
   - eventEnum: 6
     initialHeadacheIntensity: 0.25
+    resonanceCoefficient: 0.075
   - eventEnum: 7
     initialHeadacheIntensity: 0.4
+    resonanceCoefficient: 0.1
   - eventEnum: 8
     initialHeadacheIntensity: 0.5
+    resonanceCoefficient: 0.125
   - eventEnum: 9
     initialHeadacheIntensity: 0.65
+    resonanceCoefficient: 0.35
   - eventEnum: 10
     initialHeadacheIntensity: 0.75
+    resonanceCoefficient: 0.5
   - eventEnum: 11
     initialHeadacheIntensity: 0.825
+    resonanceCoefficient: 0.75
   - eventEnum: 12
     initialHeadacheIntensity: 0.85
+    resonanceCoefficient: 0.85
   - eventEnum: 13
     initialHeadacheIntensity: 0.9
+    resonanceCoefficient: 0.9

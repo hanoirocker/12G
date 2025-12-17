@@ -48,12 +48,12 @@ namespace TwelveG.VFXController
                 return;
             }
 
-            float initialIntensity = vfxGeneralConfig.GetIntensityForScene(eventEnum);
+            SceneVFXSettings settings = vfxGeneralConfig.GetVFXSettingsForEvenum(eventEnum);
 
             if (headacheHandler != null)
             {
-                headacheHandler.SetIntensityMultiplier(initialIntensity);
-                headacheHandler.CalculateEffectCoefficients();
+                headacheHandler.SetIntensityMultiplier(settings.initialHeadacheIntensity);
+                headacheHandler.SetVolumeCoefficient(settings.resonanceCoefficient);
             }
         }
 

@@ -157,44 +157,14 @@ namespace TwelveG.VFXController
                 isEffectEnabled = false;
                 resonanceIntensityMultiplier = 0f;
             }
+
+            Debug.Log("[HeadacheEffectHandler]: SetIntensityMultiplier to " + resonanceIntensityMultiplier);
         }
 
-        public void CalculateEffectCoefficients()
+        public void SetVolumeCoefficient(float coefficient)
         {
-            if (resonanceIntensityMultiplier > 0f && resonanceIntensityMultiplier <= 0.1f)
-            {
-                resonanceVolumeCoefficient = 0.075f;
-            }
-            else if (resonanceIntensityMultiplier > 0.1f && resonanceIntensityMultiplier <= 0.3f)
-            {
-                resonanceVolumeCoefficient = 0.1f;
-            }
-            else if (resonanceIntensityMultiplier > 0.3f && resonanceIntensityMultiplier <= 0.325f)
-            {
-                resonanceVolumeCoefficient = 0.2f;
-            }
-            else if (resonanceIntensityMultiplier > 0.325f && resonanceIntensityMultiplier <= 0.45f)
-            {
-                resonanceVolumeCoefficient = 0.225f;
-            }
-            else if (resonanceIntensityMultiplier > 0.45f && resonanceIntensityMultiplier <= 0.55f)
-            {
-                resonanceVolumeCoefficient = 0.25f;
-            }
-            else if (resonanceIntensityMultiplier > 0.55f && resonanceIntensityMultiplier <= 0.7f)
-            {
-                resonanceVolumeCoefficient = 0.35f;
-            }
-            else if (resonanceIntensityMultiplier > 0.7f && resonanceIntensityMultiplier < 1f)
-            {
-                resonanceVolumeCoefficient = 0.5f;
-            }
-            else
-            {
-                resonanceVolumeCoefficient = 1f;
-            }
-
-            // Debug.Log($"[HeadacheEffectHandler]: Coeficiente de volumen ajustado a {resonanceVolumeCoefficient} para multiplicador de intensidad {resonanceIntensityMultiplier}.");
+            resonanceVolumeCoefficient = coefficient;
+            Debug.Log("[HeadacheEffectHandler]: SetVolumeCoefficient to " + resonanceVolumeCoefficient);
         }
 
         private void PlayAudio(Vector3 position, float maxDist)
