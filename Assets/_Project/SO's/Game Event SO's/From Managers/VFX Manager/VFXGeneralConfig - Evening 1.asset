@@ -36,4 +36,8 @@ MonoBehaviour:
   - eventEnum: 10
     initialHeadacheIntensity: 0.75
   - eventEnum: 11
+    initialHeadacheIntensity: 0.825
+  - eventEnum: 12
     initialHeadacheIntensity: 0.85
+  - eventEnum: 13
+    initialHeadacheIntensity: 0.9

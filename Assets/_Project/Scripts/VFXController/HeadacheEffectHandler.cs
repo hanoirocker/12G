@@ -79,7 +79,7 @@ namespace TwelveG.VFXController
                 postProcessingHandler.SetHeadacheWeight(currentAppliedIntensity);
             }
 
-            if(currentAppliedIntensity > 0.7f)
+            if(currentAppliedIntensity > 0.85f)
             {
                 Debug.LogWarning("YES!");
             }
