@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using TwelveG.DialogsController;
 using TwelveG.GameController;
 using UnityEngine;
@@ -24,18 +25,34 @@ namespace TwelveG.InteractableObjects
         }
     }
 
+    [System.Serializable]
+    public struct WalkieTalkieChannelData
+    {
+        public string channelText;
+        public string frequencyText;
+    }
+
     public class WalkieTalkie : PlayerItemBase, IPlayerItem
     {
+        [Header("General References")]
+        [SerializeField] private TextMeshProUGUI channelNumberText;
+        [SerializeField] private TextMeshProUGUI frequencyText;
+        [Space]
+        [SerializeField] private WalkieTalkieChannelData[] walkieTalkieChannelData;
+
+        [Space]
         [Header("Data SO References")]
         [SerializeField] private WalkieTalkieDataSO[] walkieTalkieEveningData;
         [SerializeField] private WalkieTalkieDataSO[] walkieTalkieNightData;
         [SerializeField] private WalkieTalkieDataSO walkieTalkieFreeRoamData;
 
+        [Space]
         [Header("Audio")]
         [SerializeField] private AudioClip channelSwitchAudioClip;
         [SerializeField] private AudioClip incomingDialogAlertClip;
         [SerializeField, Range(0f, 1f)] private float switchChannelVolume = 0.8f;
 
+        [Space]
         [Header("Runtime Data")]
         public WalkieTalkieChannel[] walkieTalkieChannels;
 
@@ -95,6 +112,9 @@ namespace TwelveG.InteractableObjects
 
             currentChannelIndex += direction;
             WalkieTalkieChannel currentChannelObj = walkieTalkieChannels[currentChannelIndex];
+
+            frequencyText.text = walkieTalkieChannelData[currentChannelIndex].frequencyText;
+            channelNumberText.text = walkieTalkieChannelData[currentChannelIndex].channelText;
 
             try
             {
@@ -344,6 +364,9 @@ namespace TwelveG.InteractableObjects
                 int direction = micaChannelIndex > currentChannelIndex ? 1 : -1;
                 currentChannelIndex += direction;
 
+                frequencyText.text = walkieTalkieChannelData[currentChannelIndex].frequencyText;
+                channelNumberText.text = walkieTalkieChannelData[currentChannelIndex].channelText;
+
                 audioSource.PlayOneShot(channelSwitchAudioClip, switchChannelVolume);
                 float waitTime = channelSwitchAudioClip.length / Mathf.Max(0.01f, audioSource.pitch);
                 yield return new WaitForSeconds(waitTime);
@@ -378,6 +401,9 @@ namespace TwelveG.InteractableObjects
             }
             else if (!itemIsShown && canBeToogled)
             {
+                frequencyText.text = walkieTalkieChannelData[currentChannelIndex].frequencyText;
+                channelNumberText.text = walkieTalkieChannelData[currentChannelIndex].channelText;
+
                 animationPlaying = true;
                 anim.Play("ShowItem");
                 onShowingItem.Raise(this, null);
@@ -390,7 +416,6 @@ namespace TwelveG.InteractableObjects
                 // Al sacar el WT, si no hay llamada entrante, reproducir el ruido del canal actual
                 if (!incomingCallWaiting)
                 {
-                    Debug.Log("Current index" + currentChannelIndex);
                     // Revisamos si el canal actual tiene ruido o diálogo pendiente
                     WalkieTalkieChannel currentCh = walkieTalkieChannels[currentChannelIndex];
                     if (!currentCh.HasPendingDialog() && currentCh.channelClip != null)
