@@ -1,5 +1,6 @@
 using UnityEngine;
 using TwelveG.AudioController;
+using TwelveG.PlayerController;
 
 namespace TwelveG.VFXController
 {
@@ -70,7 +71,7 @@ namespace TwelveG.VFXController
                     targetIntensity = rawIntensity * resonanceIntensityMultiplier;
 
                     // Loggear distancia actual entre zona y player
-                    Debug.Log($"Distancia a zona: {distance}");
+                    // Debug.Log($"Distancia a centro de zona: {distance}");
                 }
             }
 
@@ -83,18 +84,27 @@ namespace TwelveG.VFXController
                 postProcessingHandler.SetHeadacheWeight(currentAppliedIntensity);
             }
 
-            if (currentAppliedIntensity > 0.85f && !dizzinessEffectRunning)
+            // Comunicar al PlayerController para iniciar el efecto de mareo
+            if (currentAppliedIntensity > 0.3f)
             {
-                dizzinessEffectRunning = true;
-                // Comunicar al PlayerController para iniciar el efecto de mareo
-                Debug.Log("[HeadacheEffectHandler]: Iniciando efecto de mareo.");
+                if (!dizzinessEffectRunning)
+                {
+                    dizzinessEffectRunning = true;
+                    playerTransform.GetComponentInParent<DizzinessHandler>().enabled = true;
+                }
+
+                playerTransform.GetComponentInParent<DizzinessHandler>().SetDizzinessIntensity(currentAppliedIntensity);
             }
 
-            if (currentAppliedIntensity <= 0.85f && dizzinessEffectRunning)
+            // Comunicar al PlayerController para detener el efecto de mareo
+            if (currentAppliedIntensity <= 0.3f && dizzinessEffectRunning)
             {
-                dizzinessEffectRunning = false;
-                // Comunicar al PlayerController para detener el efecto de mareo
-                Debug.Log("[HeadacheEffectHandler]: Deteniendo efecto de mareo.");
+                if (dizzinessEffectRunning)
+                {
+                    dizzinessEffectRunning = false;
+                }
+
+                playerTransform.GetComponentInParent<DizzinessHandler>().enabled = false;
             }
 
             HandleAudio();
