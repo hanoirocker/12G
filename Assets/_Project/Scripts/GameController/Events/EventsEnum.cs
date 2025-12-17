@@ -2,8 +2,15 @@ namespace TwelveG.GameController
 {
     public enum EventsEnum
     {
-        NarrativeEvent,
+        // --- GENERICOS / COMPARTIDOS ---
+        None = 0,
+
+        // --- AFTERNOON SCENE---
+        Afternoon_Narrative_Intro,
         TVTime,
+
+        // --- EVENING SCENE---
+        Evening_Narrative_Intro,
         WakeUp,
         Birds,
         PizzaTime,
@@ -14,5 +21,8 @@ namespace TwelveG.GameController
         FirstContact,
         Noises,
         Headaches,
+
+        // --- NIGHT SCENE ---
+        // ...
     }
 }

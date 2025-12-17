@@ -1,7 +1,6 @@
 using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
-using TwelveG.Utils;
 using UnityEngine;
 
 namespace TwelveG.EnvironmentController
@@ -24,7 +23,7 @@ namespace TwelveG.EnvironmentController
 
         public string GetContemplationText()
         {
-            SceneEnum sceneEnum = GameManager.Instance.RetrieveCurrentSceneEnum();
+            SceneEnum sceneEnum = SceneUtils.RetrieveCurrentSceneEnum();
             int eventIndex = GameManager.Instance.EventsHandler.RetrieveCurrentEventIndex();
 
             var so = contextualSO.GetSOForContext(sceneEnum, eventIndex);

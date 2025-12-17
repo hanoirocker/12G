@@ -6,6 +6,7 @@ using TwelveG.UIController;
 using TwelveG.AudioController;
 using TwelveG.InteractableObjects;
 using TwelveG.VFXController;
+using System;
 
 namespace TwelveG.GameController
 {
@@ -22,7 +23,7 @@ namespace TwelveG.GameController
         [Space]
         [SerializeField] private bool freeRoam = false;
         [SerializeField] private bool loadSpecificEvent = false;
-        [SerializeField] private int eventIndexToLoad = 0;
+        [SerializeField] private EventsEnum eventEnumToLoad = EventsEnum.WakeUp;
 
         [Header("VFX Settings")]
         [Space]
@@ -43,6 +44,7 @@ namespace TwelveG.GameController
         private Transform playerCapsuleTransform;
         private int currentSceneIndex;
         private int currentEventIndex;
+        private int eventIndexToLoad = 0;
 
         private Coroutine currentEventCoroutine;
         private GameEventBase currentExecutingEvent;
@@ -164,7 +166,7 @@ namespace TwelveG.GameController
         {
             if (isSpecificIndex)
             {
-                currentEventIndex = eventIndexToLoad;
+                ConvertEventEnumToIndex();
 
                 // Reset de VFX al iniciar evento específico. Sus valores se actualizan desde los
                 // eventos en sí.
@@ -177,6 +179,20 @@ namespace TwelveG.GameController
             }
 
             yield return StartCoroutine(ExecuteEvents());
+        }
+
+        private void ConvertEventEnumToIndex()
+        {
+            for (int i = 0; i < correspondingEvents.Count; i++)
+            {
+                if (correspondingEvents[i].eventEnum == eventEnumToLoad)
+                {
+                    Debug.Log($"[EventsHandler]: Loading specific event: {eventEnumToLoad}, index {i}");
+                    eventIndexToLoad = i;
+                    break;
+                }
+            }
+            currentEventIndex = eventIndexToLoad;
         }
 
         // --------------------------------------------------------------------------------
@@ -198,7 +214,7 @@ namespace TwelveG.GameController
 
                 // Enviar Game Event SO sobre nuevo evento iniciado (Recibe por ejemplo Walkie Talkie para actualizar su estado)
                 EventContextData eventContext = new EventContextData(
-                    GameManager.Instance.RetrieveCurrentSceneEnum(),
+                    SceneUtils.RetrieveCurrentSceneEnum(),
                     currentExecutingEvent.eventEnum);
                 GameEvents.Common.onNewEventBegun.Raise(this, eventContext);
 

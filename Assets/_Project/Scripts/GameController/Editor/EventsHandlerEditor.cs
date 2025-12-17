@@ -1,12 +1,12 @@
-using TwelveG.GameController;
 using UnityEditor;
+using TwelveG.GameController;
+using System.Collections.Generic;
 
 namespace TwelveG.EditorScripts
 {
     [CustomEditor(typeof(EventsHandler))]
     public class EventsHandlerEditor : Editor
     {
-        // Propiedades Serializadas
         SerializedProperty introEvents;
         SerializedProperty afternoonEvents;
         SerializedProperty eveningEvents;
@@ -14,18 +14,15 @@ namespace TwelveG.EditorScripts
 
         SerializedProperty freeRoam;
         SerializedProperty loadSpecificEvent;
-        SerializedProperty eventIndexToLoad;
+        SerializedProperty eventEnumToLoad;
 
         SerializedProperty headacheVFXIntensity;
-
         SerializedProperty weatherEvent;
-
         SerializedProperty enableFlashlight;
         SerializedProperty enableWalkieTalkie;
 
         private void OnEnable()
         {
-            // Vinculamos las propiedades por nombre
             introEvents = serializedObject.FindProperty("introEvents");
             afternoonEvents = serializedObject.FindProperty("afternoonEvents");
             eveningEvents = serializedObject.FindProperty("eveningEvents");
@@ -33,67 +30,110 @@ namespace TwelveG.EditorScripts
 
             freeRoam = serializedObject.FindProperty("freeRoam");
             loadSpecificEvent = serializedObject.FindProperty("loadSpecificEvent");
-            eventIndexToLoad = serializedObject.FindProperty("eventIndexToLoad");
+            eventEnumToLoad = serializedObject.FindProperty("eventEnumToLoad"); // Vinculamos la propiedad
 
             headacheVFXIntensity = serializedObject.FindProperty("headacheVFXIntensity");
-
             weatherEvent = serializedObject.FindProperty("weatherEvent");
-
             enableFlashlight = serializedObject.FindProperty("enableFlashlight");
             enableWalkieTalkie = serializedObject.FindProperty("enableWalkieTalkie");
         }
 
         public override void OnInspectorGUI()
         {
-            // Actualizamos la representación de los datos
             serializedObject.Update();
 
-            // --- 1. EVENTS REFERENCES (Siempre visible) ---
+            EditorGUILayout.LabelField("Events References", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(introEvents);
             EditorGUILayout.PropertyField(afternoonEvents);
             EditorGUILayout.PropertyField(eveningEvents);
             EditorGUILayout.PropertyField(nightEvents);
-
             EditorGUILayout.Space(10);
 
-            // Solo mostramos Free Roam si Load Specific Event NO está activado
+            EditorGUILayout.LabelField("Events Testing Settings", EditorStyles.boldLabel);
+
             if (!loadSpecificEvent.boolValue)
             {
                 EditorGUILayout.PropertyField(freeRoam);
             }
 
-            // Solo mostramos Load Specific Event si Free Roam NO está activado
             if (!freeRoam.boolValue)
             {
                 EditorGUILayout.PropertyField(loadSpecificEvent);
             }
 
-            // Si Load Specific Event está activado, mostramos el índice
             if (loadSpecificEvent.boolValue)
             {
                 EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(eventIndexToLoad);
+                DrawFilteredEnumPopup();
                 EditorGUI.indentLevel--;
             }
 
-            // Solo mostramos la intensidad del VFX de dolor de cabeza si está en Free Roam
-            if (freeRoam.boolValue)
-            {
-                EditorGUILayout.Space(10);
-                EditorGUILayout.PropertyField(headacheVFXIntensity);
-            }
-
             EditorGUILayout.Space(10);
 
+            EditorGUILayout.LabelField("VFX Settings", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(headacheVFXIntensity);
+            EditorGUILayout.Space(10);
+
+            EditorGUILayout.LabelField("Weather Testing Settings", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(weatherEvent);
-
             EditorGUILayout.Space(10);
 
+            EditorGUILayout.LabelField("Items Testing Settings", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(enableFlashlight);
             EditorGUILayout.PropertyField(enableWalkieTalkie);
 
-            // Guardamos cualquier cambio realizado en el inspector
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawFilteredEnumPopup()
+        {
+            SceneEnum currentSceneName = SceneUtils.RetrieveCurrentSceneEnum();
+            
+            List<string> displayOptions = new List<string>();
+            List<int> optionValues = new List<int>();
+            if (currentSceneName == SceneEnum.Afternoon) // Pon el nombre real de tu escena
+            {
+                AddEnumOption(EventsEnum.Afternoon_Narrative_Intro, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.TVTime, displayOptions, optionValues);
+            }
+            else if (currentSceneName == SceneEnum.Evening) // Pon el nombre real de tu escena
+            {
+                // Agrega aquí los de la noche (Evening)
+                AddEnumOption(EventsEnum.Evening_Narrative_Intro, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.WakeUp, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.Birds, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.PizzaTime, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.LostSignal1, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.LostSignal2, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.FernandezSuicide, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.WalkieTalkieQuest, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.FirstContact, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.Noises, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.Headaches, displayOptions, optionValues);
+            }
+            else if (currentSceneName == SceneEnum.Night) // Pon el nombre real de tu escena
+            {
+                // TODO: Agregar los de la noche
+            }
+            
+            // Fallback: Si la lista está vacía (ej: estamos en cualquier Menu), mostramos todo por seguridad
+            if (displayOptions.Count == 0)
+            {
+                EditorGUILayout.PropertyField(eventEnumToLoad);
+                return;
+            }
+
+            int currentEnumInt = eventEnumToLoad.enumValueIndex;
+            
+            int selectedValue = EditorGUILayout.IntPopup("Event To Load", currentEnumInt, displayOptions.ToArray(), optionValues.ToArray());
+
+            eventEnumToLoad.enumValueIndex = selectedValue;
+        }
+
+        private void AddEnumOption(EventsEnum ev, List<string> labels, List<int> values)
+        {
+            labels.Add(ev.ToString());
+            values.Add((int)ev);
         }
     }
 }
