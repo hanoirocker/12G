@@ -20,8 +20,14 @@ namespace TwelveG.PlayerController
         [SerializeField] private float runAmount = 0.1f;
 
         private CharacterController characterController;
+        private FPController fpController;
         private float defaultPosY = 0;
         private float timer = 0;
+
+        private void Awake()
+        {
+            fpController = GetComponent<FPController>();
+        }
 
         private void Start()
         {
@@ -50,7 +56,7 @@ namespace TwelveG.PlayerController
 
             if (speed > 0.1f) // Si nos movemos
             {
-                bool isRunning = Input.GetKey(KeyCode.LeftShift);
+                bool isRunning = fpController.IsSprinting();
 
                 PlayMotion(
                     isRunning ? runFrequency : walkFrequency,

@@ -8,6 +8,8 @@ namespace TwelveG.VFXController
     {
         [Header("Specific Settings")]
         [SerializeField] private float effectSmoothSpeed = 5f;
+        [Tooltip("Intensity threshold to start applying dizziness effect (Includes disabling sprint).")]
+        [SerializeField, Range(0f, 1f)] private float dizzinessThreshold = 0.3f;
         [SerializeField] private LayerMask obstacleLayer;
         [Space]
         [Header("Audio Settings")]
@@ -28,6 +30,7 @@ namespace TwelveG.VFXController
         // Dependencias inyectadas por el Manager
         private Transform playerTransform;
         private DizzinessHandler dizzinessHandler;
+        private FPController fpController;
         private PostProcessingHandler postProcessingHandler;
 
         private AudioSource resonanceAudioSource;
@@ -42,6 +45,7 @@ namespace TwelveG.VFXController
         {
             playerTransform = player;
             dizzinessHandler = playerTransform.GetComponentInParent<DizzinessHandler>();
+            fpController = playerTransform.GetComponentInParent<FPController>();
         }
 
         private void Update()
@@ -88,7 +92,7 @@ namespace TwelveG.VFXController
             }
 
             // Comunicar al PlayerController para iniciar el efecto de mareo
-            if (currentAppliedIntensity > 0.3f)
+            if (currentAppliedIntensity > dizzinessThreshold)
             {
                 if (!dizzinessEffectRunning)
                 {
@@ -96,11 +100,16 @@ namespace TwelveG.VFXController
                     dizzinessHandler.enabled = true;
                 }
 
+                if(fpController.IsSprinting())
+                {
+                    fpController.EnableSprint(false);
+                }
+
                 dizzinessHandler.SetDizzinessIntensity(currentAppliedIntensity);
             }
 
             // Comunicar al PlayerController para detener el efecto de mareo
-            if (currentAppliedIntensity <= 0.3f && dizzinessEffectRunning)
+            if (currentAppliedIntensity <= dizzinessThreshold && dizzinessEffectRunning)
             {
                 if (dizzinessEffectRunning)
                 {
@@ -141,6 +150,7 @@ namespace TwelveG.VFXController
         {
             activeResonanceZone = null;
             maxEffectDistanceOffset = 0.5f;
+            fpController.EnableSprint(false);
 
             StopAudio();
         }

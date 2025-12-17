@@ -1,6 +1,7 @@
 namespace TwelveG.AudioController
 {
     using System.Collections.Generic;
+    using TwelveG.PlayerController;
     using UnityEngine;
 
     public class PlayerSoundsHandler : MonoBehaviour
@@ -12,7 +13,7 @@ namespace TwelveG.AudioController
         public List<AudioClip> mosaicBathroomFS;
 
         [Header("Footsteps Settings")]
-        [SerializeField] private float walkPitch;        
+        [SerializeField] private float walkPitch;
         [SerializeField] private float runPitchMin;
         [SerializeField] private float runPitchMax;
         [SerializeField] private float walkCooldown;
@@ -27,6 +28,12 @@ namespace TwelveG.AudioController
         }
 
         private AudioSource audioSource;
+        private FPController fpController;
+
+        private void Awake()
+        {
+            fpController = GetComponent<FPController>();
+        }
 
         private void Start()
         {
@@ -43,7 +50,7 @@ namespace TwelveG.AudioController
 
             if (!isMoving) return;
 
-            isRunning = Input.GetKey(KeyCode.LeftShift);
+            isRunning = fpController.IsSprinting();
 
             // Controla cooldown entre pasos
             if (Time.time >= nextStepTime)
