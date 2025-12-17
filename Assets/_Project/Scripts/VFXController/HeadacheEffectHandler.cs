@@ -7,13 +7,13 @@ namespace TwelveG.VFXController
     {
         [Header("Specific Settings")]
         [SerializeField] private float effectSmoothSpeed = 5f;
-        [SerializeField] private float maxEffectDistanceOffset = 0.5f;
         [SerializeField] private LayerMask obstacleLayer;
         [Space]
         [Header("Audio Settings")]
         [SerializeField] private AudioClip resonanceClip;
 
         // Estado interno
+        private float maxEffectDistanceOffset = 0.5f;
         private bool isEffectEnabled = true;
         private float resonanceIntensityMultiplier = 0f;
         private float currentAppliedIntensity = 0f;
@@ -68,6 +68,9 @@ namespace TwelveG.VFXController
                 {
                     float rawIntensity = Mathf.InverseLerp(currentMaxEffectDistance, maxEffectDistanceOffset, distance);
                     targetIntensity = rawIntensity * resonanceIntensityMultiplier;
+
+                    // Loggear distancia actual entre zona y player
+                    Debug.Log($"Distancia a zona: {distance}");
                 }
             }
 
@@ -80,14 +83,14 @@ namespace TwelveG.VFXController
                 postProcessingHandler.SetHeadacheWeight(currentAppliedIntensity);
             }
 
-            if(currentAppliedIntensity > 0.85f && !dizzinessEffectRunning)
+            if (currentAppliedIntensity > 0.85f && !dizzinessEffectRunning)
             {
                 dizzinessEffectRunning = true;
                 // Comunicar al PlayerController para iniciar el efecto de mareo
                 Debug.Log("[HeadacheEffectHandler]: Iniciando efecto de mareo.");
             }
 
-            if(currentAppliedIntensity <= 0.85f && dizzinessEffectRunning)
+            if (currentAppliedIntensity <= 0.85f && dizzinessEffectRunning)
             {
                 dizzinessEffectRunning = false;
                 // Comunicar al PlayerController para detener el efecto de mareo
@@ -112,10 +115,11 @@ namespace TwelveG.VFXController
 
         // --- Métodos Controlados por el Manager ---
         // El radio real se calculo en el ResonanceZone.cs
-        public void EnterZone(Transform zone, float radius)
+        public void EnterZone(Transform zone, float radius, float minDistanceForMaxImpact)
         {
             if (!isEffectEnabled) return;
 
+            maxEffectDistanceOffset = minDistanceForMaxImpact;
             activeResonanceZone = zone;
             currentMaxEffectDistance = radius;
             PlayAudio(zone.position, radius);
@@ -124,6 +128,9 @@ namespace TwelveG.VFXController
         public void ExitZone()
         {
             activeResonanceZone = null;
+            maxEffectDistanceOffset = 0.5f;
+
+            StopAudio();
         }
 
         public void SetIntensityMultiplier(float multiplier)

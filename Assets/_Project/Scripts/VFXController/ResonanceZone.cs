@@ -5,6 +5,10 @@ namespace TwelveG.VFXController
     [RequireComponent(typeof(SphereCollider))]
     public class ResonanceZone : MonoBehaviour
     {
+        [Header("Resonance Zone Settings")]
+        [Tooltip("Minimum distance from the center of the zone where the maximum effect is applied.")]
+        [SerializeField, Range(0f, 2f)] private float minDistanceForMaxImpact = 1f;
+
         private bool zoneIsActive = false;
         private SphereCollider sphereCol;
 
@@ -19,7 +23,7 @@ namespace TwelveG.VFXController
             {
                 // Avisa al VFXManager que entre en zona de resonancia
                 float realRadius = sphereCol.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y, transform.lossyScale.z);
-                VFXManager.Instance.ResonanceZoneEntered(transform, realRadius);
+                VFXManager.Instance.ResonanceZoneEntered(transform, realRadius, minDistanceForMaxImpact);
                 zoneIsActive = true;
             }
         }

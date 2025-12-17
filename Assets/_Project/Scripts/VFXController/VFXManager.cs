@@ -66,9 +66,9 @@ namespace TwelveG.VFXController
         }
 
         // Llamado por ResonanceZone.cs
-        public void ResonanceZoneEntered(Transform senderTransform, float zoneRadius)
+        public void ResonanceZoneEntered(Transform senderTransform, float zoneRadius, float minDistanceForMaxImpact)
         {
-            headacheHandler?.EnterZone(senderTransform, zoneRadius);
+            headacheHandler?.EnterZone(senderTransform, zoneRadius, minDistanceForMaxImpact);
         }
 
         public void ResonanceZoneExited()
