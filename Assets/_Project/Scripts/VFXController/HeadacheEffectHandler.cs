@@ -108,7 +108,7 @@ namespace TwelveG.VFXController
                     dizzinessEffectRunning = true;
                     dizzinessHandler.enabled = true;
 
-                    StartCoroutine(HandleHeartBeatAudio(true));
+                    HandleHeartBeatAudio(true);
                 }
 
                 if (fpController.IsSprinting())
@@ -125,53 +125,62 @@ namespace TwelveG.VFXController
                 dizzinessEffectRunning = false;
                 dizzinessHandler.enabled = false;
 
-                StartCoroutine(HandleHeartBeatAudio(false));
+                HandleHeartBeatAudio(false);
             }
-            
+
             HandleResonanceAudio();
         }
 
-        private IEnumerator HandleHeartBeatAudio(bool enable)
+        private void HandleHeartBeatAudio(bool enable)
         {
+            if (heartbeatCoroutine != null)
+            {
+                StopCoroutine(heartbeatCoroutine);
+                heartbeatCoroutine = null;
+            }
+
             if (enable)
             {
-                AudioSource heartbeatSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
-                if (heartbeatSource != null && !heartbeatSource.isPlaying)
+                if (heartBeatAudioSource == null)
                 {
-                    heartBeatAudioSource = heartbeatSource;
+                    heartBeatAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
                     heartBeatSourceState = heartBeatAudioSource.GetSnapshot();
-                    heartBeatAudioSource.volume = 0;
                     heartBeatAudioSource.clip = heartbeatClip;
                     heartBeatAudioSource.loop = true;
+                    heartBeatAudioSource.volume = 0f;
                     heartBeatAudioSource.Play();
                 }
 
-                if (heartbeatCoroutine != null)
-                {
-                    StopCoroutine(heartbeatCoroutine);
-                    heartbeatCoroutine = null;
-                }
-
+                float targetVol = resonanceIntensityMultiplier * heartBeatVolumeMultiplier;
                 heartbeatCoroutine = StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(
-                    heartBeatAudioSource, 0f, resonanceIntensityMultiplier * heartBeatVolumeMultiplier, heartBeatFadeInSpeed
-                    ));
+                    heartBeatAudioSource, heartBeatAudioSource.volume, targetVol, heartBeatFadeInSpeed
+                ));
             }
             else
             {
-                if (heartbeatCoroutine != null)
-                {
-                    StopCoroutine(heartbeatCoroutine);
-                    heartbeatCoroutine = null;
-                }
-
                 if (heartBeatAudioSource != null)
                 {
-                    heartbeatCoroutine = StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(heartBeatAudioSource, heartBeatFadeOutSpeed));
-                    yield return new WaitUntil(() => !heartBeatAudioSource.isPlaying);
-                    heartBeatAudioSource.RestoreSnapshot(heartBeatSourceState);
-                    heartBeatAudioSource = null;
+                    heartbeatCoroutine = StartCoroutine(FadeOutAndReturnRoutine());
                 }
             }
+        }
+
+        // Corrutina auxiliar para manejar el ciclo de vida del Fade Out
+        private IEnumerator FadeOutAndReturnRoutine()
+        {
+            if (heartBeatAudioSource == null) yield break;
+
+            yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(
+                heartBeatAudioSource, heartBeatFadeOutSpeed
+            ));
+
+            if (heartBeatAudioSource != null)
+            {
+                heartBeatAudioSource.Stop();
+                heartBeatAudioSource.RestoreSnapshot(heartBeatSourceState);
+                heartBeatAudioSource = null;
+            }
+            heartbeatCoroutine = null;
         }
 
         private void HandleResonanceAudio()
