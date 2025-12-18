@@ -8,7 +8,8 @@ namespace TwelveG.VFXController
         public static VFXManager Instance { get; private set; }
 
         [Header("Configuration")]
-        [SerializeField] private VFXGeneralConfigSO vfxGeneralConfig;
+        [SerializeField] private VFXGeneralConfigSO headacheGeneralConfigsSO;
+        [SerializeField] private VFXGeneralConfigSO electricFeelGeneralConfigsSO;
 
         // --- DEPENDENCIAS ---
         private PostProcessingHandler postProcessingHandler;
@@ -49,27 +50,36 @@ namespace TwelveG.VFXController
             }
 
             // Inyectamos las dependencias globales a los workers
-            if (headacheHandler != null && postProcessingHandler != null)
-            {
-                headacheHandler.Initialize(postProcessingHandler);
-            }
+            headacheHandler.Initialize(postProcessingHandler);
+            electricFeelHandler.Initialize(postProcessingHandler);
         }
 
         // Llamado desde EventsHandler.cs al iniciar un nuevo evento para configurar los VFX iniciales
         public void InitializeVFXSettings(EventsEnum eventEnum)
         {
-            if (vfxGeneralConfig == null)
+            if (headacheGeneralConfigsSO == null)
             {
-                Debug.LogError("[VFXManager]: Falta asignar el VFXGeneralConfigSO.");
+                Debug.LogError("[VFXManager]: Falta asignar el HeadacheFXGeneralConfigSO!");
                 return;
             }
 
-            SceneVFXSettings settings = vfxGeneralConfig.GetVFXSettingsForEvenum(eventEnum);
+            if (electricFeelGeneralConfigsSO == null)
+            {
+                Debug.LogError("[VFXManager]: Falta asignar el ElectricFeelFXGeneralConfigSO!");
+                return;
+            }
+
+            SceneVFXSettings headachesSettings = headacheGeneralConfigsSO.GetVFXSettingsForEvenum(eventEnum);
+            SceneVFXSettings electricFeelSettings = electricFeelGeneralConfigsSO.GetVFXSettingsForEvenum(eventEnum);
 
             if (headacheHandler != null)
             {
-                headacheHandler.SetIntensityMultiplier(settings.initialHeadacheIntensity);
-                headacheHandler.SetVolumeCoefficient(settings.resonanceCoefficient);
+                headacheHandler.SetIntensityMultiplier(headachesSettings.effectIntensity);
+                headacheHandler.SetVolumeCoefficient(headachesSettings.volumeCoefficient);
+            }
+            if (electricFeelHandler != null)
+            {
+                electricFeelHandler.SetIntensity(electricFeelSettings.effectIntensity);
             }
         }
 
@@ -101,9 +111,15 @@ namespace TwelveG.VFXController
             headacheHandler?.ExitZone();
         }
 
+        // Ejecución forzada de cambios de intensidad.
         public void SetResonanceIntensityMultiplier(float newMultiplier)
         {
             headacheHandler?.SetIntensityMultiplier(newMultiplier);
+        }
+
+        public void SetElectricFeelIntensity(float newMultiplier)
+        {
+            electricFeelHandler?.SetIntensity(newMultiplier);
         }
     }
 }

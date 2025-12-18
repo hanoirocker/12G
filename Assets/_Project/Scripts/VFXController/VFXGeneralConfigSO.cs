@@ -12,16 +12,16 @@ namespace TwelveG.VFXController
 
         [Tooltip("Intensidad de efecto (0 a 1)")]
         [Range(0f, 1f)]
-        public float initialHeadacheIntensity;
+        public float effectIntensity;
 
         [Tooltip("Intensidad de fuentes VFX (0 a 1)")]
         [Range(0f, 1f)]
-        public float resonanceCoefficient;
+        public float volumeCoefficient;
 
         public void Deconstruct(out float intensity, out float volume)
         {
-            intensity = initialHeadacheIntensity;
-            volume = resonanceCoefficient;
+            intensity = effectIntensity;
+            volume = volumeCoefficient;
         }
     }
 

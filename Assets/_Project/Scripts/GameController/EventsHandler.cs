@@ -159,6 +159,7 @@ namespace TwelveG.GameController
             playerCapsuleTransform.rotation = freeRoamTransform.rotation;
 
             VFXManager.Instance?.SetResonanceIntensityMultiplier(headacheVFXIntensity);
+            VFXManager.Instance?.SetElectricFeelIntensity(headacheVFXIntensity);
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
         }
 

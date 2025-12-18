@@ -16,13 +16,13 @@ namespace TwelveG.VFXController
 
         private void Awake()
         {
-            if (headacheVolume != null)
+            if (headacheVolume == null)
             {
-                Debug.Log("[PostProcessingHandler]: Headache Volume assigned via Inspector.");
+                Debug.Log("[PostProcessingHandler]: Headache Volume not assigned via Inspector!");
             }
-            if (electricFeelVolume != null)
+            if (electricFeelVolume == null)
             {
-                Debug.Log("[PostProcessingHandler]: Electric Feel Volume assigned via Inspector.");
+                Debug.Log("[PostProcessingHandler]: Electric Feel Volume not assigned via Inspector!");
             }
         }
 

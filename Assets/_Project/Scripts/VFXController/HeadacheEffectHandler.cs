@@ -230,13 +230,11 @@ namespace TwelveG.VFXController
                 resonanceIntensityMultiplier = 0f;
             }
 
-            Debug.Log("[HeadacheEffectHandler]: SetIntensityMultiplier to " + resonanceIntensityMultiplier);
         }
 
         public void SetVolumeCoefficient(float coefficient)
         {
             resonanceVolumeCoefficient = coefficient;
-            Debug.Log("[HeadacheEffectHandler]: SetVolumeCoefficient to " + resonanceVolumeCoefficient);
         }
 
         private void PlayAudio(Vector3 position, float maxDist)
