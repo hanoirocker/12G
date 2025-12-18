@@ -38,7 +38,6 @@ namespace TwelveG.AudioController
         source.volume = Mathf.Lerp(startVolume, 0f, elapsed / duration);
         yield return null;
       }
-      Debug.Log("Salio del while del fade out");
       source.volume = 0f;
       source.Stop();
     }

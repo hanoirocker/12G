@@ -32,3 +32,4 @@ Modelos:
 * Garbage can_open_close.wav by speedygonzo at freesound.org
 * Trash Dropping in Dumpster - Sound Effect for editing by Sound Library at youtube.com
 * Long Horror Atmosphere by PearceWilsonKing at freesound.org
+* Dramatic Heartbeat Sound Effect by SOUNFFECTX on youtube.com
