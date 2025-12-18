@@ -8,68 +8,49 @@ namespace TwelveG.VFXController
     public class PostProcessingHandler : MonoBehaviour
     {
         [Header("References")]
-        [Tooltip("Si se deja vacío, buscará el componente en este mismo objeto.")]
-        [SerializeField] private Volume volume;
-
-        // Referencias cacheadas a los efectos individuales
-        // (Por si queremos animar uno solo, como el latido de la viñeta)
-        private Vignette vignette;
-        private ChromaticAberration chromaticAberration;
-        private LensDistortion lensDistortion;
+        [SerializeField] private Volume headacheVolume;
+        [SerializeField] private Volume electricFeelVolume;
+    
+        // private Vignette vignette;
+        // private ChromaticAberration chromaticAberration;
 
         private void Awake()
         {
-            if (volume == null) 
-                volume = GetComponent<Volume>();
-
-            if (volume.profile == null)
+            if (headacheVolume != null)
             {
-                Debug.LogError($"[PostProcessingHandler]: El volumen en {gameObject.name} no tiene un Perfil asignado.");
-                return;
+                Debug.Log("[PostProcessingHandler]: Headache Volume assigned via Inspector.");
             }
-
-            // Cachear los efectos individuales para acceso rápido
-            // Nota: TryGet devuelve false si el efecto no está añadido en el perfil del editor.
-            volume.profile.TryGet(out vignette);
-            volume.profile.TryGet(out chromaticAberration);
-            volume.profile.TryGet(out lensDistortion);
+            if (electricFeelVolume != null)
+            {
+                Debug.Log("[PostProcessingHandler]: Electric Feel Volume assigned via Inspector.");
+            }
         }
 
-        /// <summary>
-        /// Controla la intensidad global de todo el efecto de dolor de cabeza.
-        /// 0 = Apagado (Visión normal).
-        /// 1 = Máximo dolor (Todos los efectos al tope configurado en el perfil).
-        /// </summary>
-        /// <param name="weight">Valor entre 0 y 1.</param>
+        // Control global de intensidad para efecto Headache
         public void SetHeadacheWeight(float weight)
         {
-            if (volume != null)
+            if (headacheVolume != null)
             {
-                volume.weight = Mathf.Clamp01(weight);
+                headacheVolume.weight = Mathf.Clamp01(weight);
             }
         }
 
-        /// <summary>
-        /// Permite modificar la intensidad de la viñeta independientemente del peso global.
-        /// Útil para efectos de "latido" (pulsing).
-        /// </summary>
-        public void SetVignetteIntensity(float intensity)
+        // Control global de intensidad para efecto Electric Feel
+        public void SetElectricFeelWeight(float weight)
         {
-            if (vignette != null)
+            if (electricFeelVolume != null)
             {
-                vignette.intensity.value = intensity;
+                electricFeelVolume.weight = Mathf.Clamp01(weight);
             }
         }
 
-        /// <summary>
-        /// Permite modificar la intensidad de la aberración cromática independientemente.
-        /// </summary>
-        public void SetChromaticAberration(float intensity)
-        {
-            if (chromaticAberration != null)
-            {
-                chromaticAberration.intensity.value = intensity;
-            }
-        }
+        // Control individual de efecto Vignette
+        // public void SetVignetteIntensity(float intensity)
+        // {
+        //     if (vignette != null)
+        //     {
+        //         vignette.intensity.value = intensity;
+        //     }
+        // }
     }
 }
