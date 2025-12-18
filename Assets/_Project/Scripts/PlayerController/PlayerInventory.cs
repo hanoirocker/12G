@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TwelveG.GameController;
 using TwelveG.InteractableObjects;
+using TwelveG.VFXController;
 using UnityEngine;
 
 namespace TwelveG.PlayerController
@@ -222,6 +223,7 @@ namespace TwelveG.PlayerController
                 case (ItemType.WalkieTalkie):
                     activeWalkieTalkie = walkieTalkie;
                     activeWalkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                    VFXManager.Instance.EnableElectricFeelVFX(true);
                     break;
                 default:
                     break;

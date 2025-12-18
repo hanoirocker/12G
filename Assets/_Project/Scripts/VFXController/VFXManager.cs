@@ -15,6 +15,7 @@ namespace TwelveG.VFXController
 
         // --- EFFECT HANDLERS ---
         private HeadacheEffectHandler headacheHandler;
+        private ElectricFeelHandler electricFeelHandler;
         // private HallucinationHandler hallucinationHandler; // Futuro efecto
 
         private void Awake()
@@ -23,11 +24,26 @@ namespace TwelveG.VFXController
             else { Destroy(gameObject); return; }
 
             headacheHandler = GetComponent<HeadacheEffectHandler>();
+            electricFeelHandler = GetComponent<ElectricFeelHandler>();
             postProcessingHandler = GetComponentInChildren<PostProcessingHandler>();
 
             if (postProcessingHandler == null)
             {
                 Debug.LogError("VFXManager: PostProcessingHandler missing!");
+                this.enabled = false;
+                return;
+            }
+
+            if (headacheHandler == null)
+            {
+                Debug.LogError("VFXManager: HeadacheEffectHandler missing!");
+                this.enabled = false;
+                return;
+            }
+
+            if (electricFeelHandler == null)
+            {
+                Debug.LogError("VFXManager: ElectricFeelHandler missing!");
                 this.enabled = false;
                 return;
             }
@@ -54,6 +70,15 @@ namespace TwelveG.VFXController
             {
                 headacheHandler.SetIntensityMultiplier(settings.initialHeadacheIntensity);
                 headacheHandler.SetVolumeCoefficient(settings.resonanceCoefficient);
+            }
+        }
+
+        // Llamado desde PlayerInventory.cs al habilitar WalkieTalkie luego de recibir SO onEnablePlayerItem 
+        public void EnableElectricFeelVFX(bool enable)
+        {
+            if (electricFeelHandler != null)
+            {
+                electricFeelHandler.enabled = enable;
             }
         }
 
