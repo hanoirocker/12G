@@ -75,11 +75,12 @@ namespace TwelveG.VFXController
             if (headacheHandler != null)
             {
                 headacheHandler.SetIntensityMultiplier(headachesSettings.effectIntensity);
-                headacheHandler.SetVolumeCoefficient(headachesSettings.volumeCoefficient);
+                headacheHandler.SetAudioSettings(headachesSettings.volumeCoefficient);
             }
             if (electricFeelHandler != null)
             {
                 electricFeelHandler.SetIntensity(electricFeelSettings.effectIntensity);
+                electricFeelHandler.SetAudioSettings(electricFeelSettings.volumeCoefficient, electricFeelSettings.vfxClip);
             }
         }
 

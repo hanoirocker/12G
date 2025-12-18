@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using TwelveG.AudioController;
 using UnityEngine;
+
 namespace TwelveG.VFXController
 {
     public class ElectricFeelHandler : MonoBehaviour
@@ -8,13 +10,41 @@ namespace TwelveG.VFXController
         [Header("Settings")]
         [SerializeField, Range(0f, 15f)] private float effectFadeInDuration = 8f;
         [SerializeField, Range(0f, 15f)] private float effectFadeOutDuration = 8f;
+
         private bool isEffectEnabled = false;
         private float electricFeelMaxIntensity = 0f;
+        private float effectMaxVolume = 0f;
         private PostProcessingHandler postProcessingHandler;
+        private AudioSource electricFeelAudioSource;
+        private AudioSourceState audioSourceState;
+        private AudioClip electricFeelClip = null;
 
         private void OnEnable()
         {
+            if (electricFeelAudioSource == null)
+            {
+                electricFeelAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
+                audioSourceState = electricFeelAudioSource.GetSnapshot();
+                electricFeelAudioSource.spatialBlend = 0f;
+                electricFeelAudioSource.clip = electricFeelClip;
+                electricFeelAudioSource.loop = true;
+                electricFeelAudioSource.volume = 0f;
+                electricFeelAudioSource.Play(); 
+            }
+
             StartCoroutine(EffectUpdateCoroutine());
+        }
+
+        private void OnDisable()
+        {
+            if (electricFeelAudioSource != null)
+            {
+                electricFeelAudioSource.Stop();
+                electricFeelAudioSource.RestoreSnapshot(audioSourceState);
+                electricFeelAudioSource = null;
+            }
+
+            postProcessingHandler.SetElectricFeelWeight(0f);
         }
 
         private IEnumerator EffectUpdateCoroutine()
@@ -26,16 +56,20 @@ namespace TwelveG.VFXController
             {
                 elapsedTime += Time.deltaTime;
                 float newWeight = Mathf.Lerp(0f, electricFeelMaxIntensity, elapsedTime / fadeDuration);
+                float newVolume = Mathf.Lerp(0f, effectMaxVolume, elapsedTime / fadeDuration);
                 postProcessingHandler.SetElectricFeelWeight(newWeight);
+                electricFeelAudioSource.volume = newVolume;
                 yield return null;
             }
 
             postProcessingHandler.SetElectricFeelWeight(electricFeelMaxIntensity);
+            electricFeelAudioSource.volume = effectMaxVolume;
         }
 
-        private void OnDisable()
+        public void SetAudioSettings(float volume, AudioClip clip)
         {
-            postProcessingHandler.SetElectricFeelWeight(0f);
+            effectMaxVolume = volume;
+            electricFeelClip = clip;
         }
 
         public void SetIntensity(float multiplier)

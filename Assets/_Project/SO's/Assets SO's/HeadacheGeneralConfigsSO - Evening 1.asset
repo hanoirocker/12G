@@ -13,45 +13,43 @@ MonoBehaviour:
   m_Name: HeadacheGeneralConfigsSO - Evening 1
   m_EditorClassIdentifier: 
   sceneSettings:
-  - eventEnum: 0
-    effectIntensity: 0
-    volumeCoefficient: 0
-  - eventEnum: 1
-    effectIntensity: 0
-    volumeCoefficient: 0
-  - eventEnum: 2
-    effectIntensity: 0.1
-    volumeCoefficient: 0.0125
-  - eventEnum: 3
-    effectIntensity: 0.15
-    volumeCoefficient: 0.025
   - eventEnum: 4
     effectIntensity: 0.15
     volumeCoefficient: 0.025
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 5
     effectIntensity: 0.2
     volumeCoefficient: 0.05
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 6
     effectIntensity: 0.25
     volumeCoefficient: 0.075
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 7
     effectIntensity: 0.4
     volumeCoefficient: 0.1
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 8
     effectIntensity: 0.5
     volumeCoefficient: 0.125
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 9
     effectIntensity: 0.65
     volumeCoefficient: 0.35
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 10
     effectIntensity: 0.75
     volumeCoefficient: 0.5
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 11
     effectIntensity: 0.825
     volumeCoefficient: 0.75
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 12
     effectIntensity: 0.85
     volumeCoefficient: 0.85
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 13
     effectIntensity: 0.9
     volumeCoefficient: 0.9
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}

@@ -205,7 +205,7 @@ namespace TwelveG.VFXController
             maxEffectDistanceOffset = minDistanceForMaxImpact;
             activeResonanceZone = zone;
             currentMaxEffectDistance = radius;
-            PlayAudio(zone.position, radius);
+            PlayResonanceAudio(zone.position, radius);
         }
 
         public void ExitZone()
@@ -232,14 +232,14 @@ namespace TwelveG.VFXController
 
         }
 
-        public void SetVolumeCoefficient(float coefficient)
+        public void SetAudioSettings(float coefficient)
         {
             resonanceVolumeCoefficient = coefficient;
         }
 
-        private void PlayAudio(Vector3 position, float maxDist)
+        private void PlayResonanceAudio(Vector3 position, float maxDist)
         {
-            if (resonanceClip != null && (resonanceAudioSource == null || !resonanceAudioSource.isPlaying))
+            if (resonanceAudioSource == null || !resonanceAudioSource.isPlaying)
             {
                 resonanceAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
                 if (resonanceAudioSource != null)
