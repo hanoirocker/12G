@@ -1,6 +1,8 @@
 using UnityEngine;
 using TwelveG.AudioController;
 using TwelveG.PlayerController;
+using System;
+using System.Collections;
 
 namespace TwelveG.VFXController
 {
@@ -9,11 +11,15 @@ namespace TwelveG.VFXController
         [Header("Specific Settings")]
         [SerializeField] private float effectSmoothSpeed = 5f;
         [Tooltip("Intensity threshold to start applying dizziness effect (Includes disabling sprint).")]
-        [SerializeField, Range(0f, 1f)] private float dizzinessThreshold = 0.3f;
+        [SerializeField, Range(0f, 1f)] private float dizzinessThreshold = 0.6f;
         [SerializeField] private LayerMask obstacleLayer;
         [Space]
         [Header("Audio Settings")]
         [SerializeField] private AudioClip resonanceClip;
+        [SerializeField] private AudioClip heartbeatClip;
+        [SerializeField, Range(2f, 10f)] private float heartBeatFadeInSpeed = 8f;
+        [SerializeField, Range(2f, 10f)] private float heartBeatFadeOutSpeed = 5f;
+        [SerializeField, Range(0f, 1f)] private float heartBeatVolumeMultiplier = 0.6f;
 
         // Estado interno
         private float maxEffectDistanceOffset = 0.5f;
@@ -34,7 +40,10 @@ namespace TwelveG.VFXController
         private PostProcessingHandler postProcessingHandler;
 
         private AudioSource resonanceAudioSource;
-        private AudioSourceState audioSourceState;
+        private AudioSourceState resonanceSourceState;
+        private AudioSource heartBeatAudioSource;
+        private AudioSourceState heartBeatSourceState;
+        private Coroutine heartbeatCoroutine;
 
         public void Initialize(PostProcessingHandler ppHandler)
         {
@@ -98,9 +107,11 @@ namespace TwelveG.VFXController
                 {
                     dizzinessEffectRunning = true;
                     dizzinessHandler.enabled = true;
+
+                    StartCoroutine(HandleHeartBeatAudio(true));
                 }
 
-                if(fpController.IsSprinting())
+                if (fpController.IsSprinting())
                 {
                     fpController.EnableSprint(false);
                 }
@@ -111,17 +122,59 @@ namespace TwelveG.VFXController
             // Comunicar al PlayerController para detener el efecto de mareo
             if (currentAppliedIntensity <= dizzinessThreshold && dizzinessEffectRunning)
             {
-                if (dizzinessEffectRunning)
-                {
-                    dizzinessEffectRunning = false;
-                    dizzinessHandler.enabled = false;
-                }
-            }
+                dizzinessEffectRunning = false;
+                dizzinessHandler.enabled = false;
 
-            HandleAudio();
+                StartCoroutine(HandleHeartBeatAudio(false));
+            }
+            
+            HandleResonanceAudio();
         }
 
-        private void HandleAudio()
+        private IEnumerator HandleHeartBeatAudio(bool enable)
+        {
+            if (enable)
+            {
+                AudioSource heartbeatSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
+                if (heartbeatSource != null && !heartbeatSource.isPlaying)
+                {
+                    heartBeatAudioSource = heartbeatSource;
+                    heartBeatSourceState = heartBeatAudioSource.GetSnapshot();
+                    heartBeatAudioSource.volume = 0;
+                    heartBeatAudioSource.clip = heartbeatClip;
+                    heartBeatAudioSource.loop = true;
+                    heartBeatAudioSource.Play();
+                }
+
+                if (heartbeatCoroutine != null)
+                {
+                    StopCoroutine(heartbeatCoroutine);
+                    heartbeatCoroutine = null;
+                }
+
+                heartbeatCoroutine = StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(
+                    heartBeatAudioSource, 0f, resonanceIntensityMultiplier * heartBeatVolumeMultiplier, heartBeatFadeInSpeed
+                    ));
+            }
+            else
+            {
+                if (heartbeatCoroutine != null)
+                {
+                    StopCoroutine(heartbeatCoroutine);
+                    heartbeatCoroutine = null;
+                }
+
+                if (heartBeatAudioSource != null)
+                {
+                    heartbeatCoroutine = StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(heartBeatAudioSource, heartBeatFadeOutSpeed));
+                    yield return new WaitUntil(() => !heartBeatAudioSource.isPlaying);
+                    heartBeatAudioSource.RestoreSnapshot(heartBeatSourceState);
+                    heartBeatAudioSource = null;
+                }
+            }
+        }
+
+        private void HandleResonanceAudio()
         {
             if (resonanceAudioSource != null && resonanceAudioSource.isPlaying)
             {
@@ -129,7 +182,7 @@ namespace TwelveG.VFXController
 
                 if (currentAppliedIntensity < 0.02f && activeResonanceZone == null)
                 {
-                    StopAudio();
+                    StopResonanceAudio();
                 }
             }
         }
@@ -152,7 +205,7 @@ namespace TwelveG.VFXController
             maxEffectDistanceOffset = 0.5f;
             fpController.EnableSprint(false);
 
-            StopAudio();
+            StopResonanceAudio();
         }
 
         public void SetIntensityMultiplier(float multiplier)
@@ -184,7 +237,7 @@ namespace TwelveG.VFXController
                 resonanceAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
                 if (resonanceAudioSource != null)
                 {
-                    audioSourceState = resonanceAudioSource.GetSnapshot();
+                    resonanceSourceState = resonanceAudioSource.GetSnapshot();
                     resonanceAudioSource.transform.position = position;
                     resonanceAudioSource.maxDistance = maxDist;
                     resonanceAudioSource.clip = resonanceClip;
@@ -195,12 +248,12 @@ namespace TwelveG.VFXController
             }
         }
 
-        private void StopAudio()
+        private void StopResonanceAudio()
         {
             if (resonanceAudioSource != null)
             {
                 resonanceAudioSource.Stop();
-                resonanceAudioSource.RestoreSnapshot(audioSourceState);
+                resonanceAudioSource.RestoreSnapshot(resonanceSourceState);
                 resonanceAudioSource = null;
             }
         }
