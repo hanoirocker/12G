@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb37a2828d3599e479334233f67160df, type: 3}
   m_Name: WalkieTalkie Data - Noises
   m_EditorClassIdentifier: 
-  eventName: 10
+  eventName: 12
   frequencyData:
   - frequencyName: Canal 1
     hasSpecialAudio: 0
@@ -24,7 +24,8 @@ MonoBehaviour:
     - {fileID: 0}
   - frequencyName: Canal 3 (Mica)
     hasSpecialAudio: 0
-    clips: []
+    clips:
+    - {fileID: 0}
   - frequencyName: Canal 4
     hasSpecialAudio: 0
     clips:
