@@ -19,7 +19,6 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            print("<------ WAKE UP AT NIGHT EVENT NOW -------->");
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardRain);
 
             // Parpadeo del jugador y activación de controles de menú

@@ -24,7 +24,6 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            print("<------ HEADACHES EVENT NOW -------->");
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 

@@ -14,8 +14,6 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            print("<------ Disclaimer event -------->");
-
             // Activar Disclaimer canvas y correr corrutina
             GameEvents.Common.onActivateCanvas.Raise(this, CanvasHandlerType.Disclaimer);
 

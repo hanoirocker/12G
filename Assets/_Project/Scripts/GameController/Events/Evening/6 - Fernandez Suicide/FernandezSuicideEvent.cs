@@ -27,8 +27,6 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            print("<------ F. SUICIDE EVENT NOW -------->");
-
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 

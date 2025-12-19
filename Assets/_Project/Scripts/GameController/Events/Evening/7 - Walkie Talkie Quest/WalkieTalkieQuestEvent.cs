@@ -33,8 +33,6 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            print("<------ WT QUEST EVENT NOW -------->");
-
             yield return new WaitForSeconds(initialTime);
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
 
@@ -61,6 +59,8 @@ namespace TwelveG.GameController
 
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
+
+            yield return new WaitForSeconds(2f);
 
             // Las bromas que jugabamos a la policia ya no son graciosas ...
             GameEvents.Common.onObservationCanvasShowText.Raise(

@@ -34,7 +34,6 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            print("<------ TV TIME EVENT NOW -------->");
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.None);
             AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);

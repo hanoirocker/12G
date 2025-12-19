@@ -28,8 +28,6 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            print("<------ FIRST CONTACT EVENT NOW -------->");
-
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
 
             yield return new WaitForSeconds(initialTime);

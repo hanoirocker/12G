@@ -35,7 +35,6 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            print("<------ BIRDS EVENT NOW -------->");
 
             // Esto es para actualizar los fallback texts para las Main Doors en particular
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);

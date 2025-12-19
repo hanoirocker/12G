@@ -22,8 +22,6 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            print("<------ Disclaimer event -------->");
-
             if (introSource == null)
             {
                 introSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);

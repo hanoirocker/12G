@@ -15,7 +15,6 @@ MonoBehaviour:
   isEventText: 1
   observationTextsStructure:
   - language: 0
-    observationText: "Tengo que encontrar la forma de hablar con Mica como sea ..
-      \xBFPero c\xF3mo?"
+    observationText: Tengo que encontrar alguna forma de hablar con Mica. RAPIDO.
   - language: 1
-    observationText: I have to find a way to talk to Mica somehow... But how?
+    observationText: I need to find a way to talk to Mica. FAST.
