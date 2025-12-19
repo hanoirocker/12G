@@ -29,6 +29,7 @@ namespace TwelveG.GameController
         [Space]
         [Tooltip("Intensidad del efecto. 0 es desactivado, 1 es intensidad máxima.")]
         [SerializeField, Range(0f, 1f)] private float headacheVFXIntensity = 1f;
+        [SerializeField, Range(0f, 1f)] private float electricFeelVFXIntensity = 1f;
 
         [Header("Weather Testing Settings")]
         [Space]
@@ -159,7 +160,7 @@ namespace TwelveG.GameController
             playerCapsuleTransform.rotation = freeRoamTransform.rotation;
 
             VFXManager.Instance?.SetResonanceIntensityMultiplier(headacheVFXIntensity);
-            VFXManager.Instance?.SetElectricFeelIntensity(headacheVFXIntensity);
+            VFXManager.Instance?.SetElectricFeelIntensity(electricFeelVFXIntensity);
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
         }
 

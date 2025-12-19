@@ -11,6 +11,10 @@ namespace TwelveG.VFXController
         [SerializeField, Range(0f, 180)] private float effectFadeInDuration = 60f;
         [SerializeField, Range(0f, 180)] private float effectFadeOutDuration = 12f;
 
+        [Header("Audio Settings")]
+        [SerializeField] private AudioClip electricFeelClip;
+
+
         private bool isEffectEnabled = false;
         private float lastEffectIntensity = 0f;
         private float lastEffectVolume = 0f;
@@ -19,7 +23,6 @@ namespace TwelveG.VFXController
         private PostProcessingHandler postProcessingHandler;
         private AudioSource electricFeelAudioSource;
         private AudioSourceState audioSourceState;
-        private AudioClip electricFeelClip = null;
 
         private void OnEnable()
         {
@@ -70,10 +73,9 @@ namespace TwelveG.VFXController
             electricFeelAudioSource.volume = effectMaxVolume;
         }
 
-        public void SetAudioSettings(float volume, AudioClip clip)
+        public void SetAudioSettings(float volume)
         {
             effectMaxVolume = volume;
-            electricFeelClip = clip;
         }
 
         public void UpdateEffect()

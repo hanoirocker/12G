@@ -79,7 +79,7 @@ namespace TwelveG.VFXController
             if (electricFeelHandler != null)
             {
                 electricFeelHandler.SetIntensity(electricFeelSettings.effectIntensity);
-                electricFeelHandler.SetAudioSettings(electricFeelSettings.volumeCoefficient, electricFeelSettings.vfxClip);
+                electricFeelHandler.SetAudioSettings(electricFeelSettings.volumeCoefficient);
             }
 
             // Si el efecto ya estaba habilitado, actualizamos su estado de intensidad y volumen
@@ -122,7 +122,8 @@ namespace TwelveG.VFXController
 
         public void SetElectricFeelIntensity(float newMultiplier)
         {
-            electricFeelHandler?.SetIntensity(newMultiplier);
+            electricFeelHandler.SetIntensity(newMultiplier);
+            electricFeelHandler.SetAudioSettings(newMultiplier * 0.25f); // Volumen base
         }
     }
 }

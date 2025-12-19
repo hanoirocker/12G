@@ -17,6 +17,7 @@ namespace TwelveG.EditorScripts
         SerializedProperty eventEnumToLoad;
 
         SerializedProperty headacheVFXIntensity;
+        SerializedProperty electricFeelVFXIntensity;
         SerializedProperty weatherEvent;
         SerializedProperty enableFlashlight;
         SerializedProperty enableWalkieTalkie;
@@ -30,9 +31,10 @@ namespace TwelveG.EditorScripts
 
             freeRoam = serializedObject.FindProperty("freeRoam");
             loadSpecificEvent = serializedObject.FindProperty("loadSpecificEvent");
-            eventEnumToLoad = serializedObject.FindProperty("eventEnumToLoad"); // Vinculamos la propiedad
+            eventEnumToLoad = serializedObject.FindProperty("eventEnumToLoad");
 
             headacheVFXIntensity = serializedObject.FindProperty("headacheVFXIntensity");
+            electricFeelVFXIntensity = serializedObject.FindProperty("electricFeelVFXIntensity");
             weatherEvent = serializedObject.FindProperty("weatherEvent");
             enableFlashlight = serializedObject.FindProperty("enableFlashlight");
             enableWalkieTalkie = serializedObject.FindProperty("enableWalkieTalkie");
@@ -42,14 +44,12 @@ namespace TwelveG.EditorScripts
         {
             serializedObject.Update();
 
-            EditorGUILayout.LabelField("Events References", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(introEvents);
             EditorGUILayout.PropertyField(afternoonEvents);
             EditorGUILayout.PropertyField(eveningEvents);
             EditorGUILayout.PropertyField(nightEvents);
             EditorGUILayout.Space(10);
 
-            EditorGUILayout.LabelField("Events Testing Settings", EditorStyles.boldLabel);
 
             if (!loadSpecificEvent.boolValue)
             {
@@ -70,15 +70,13 @@ namespace TwelveG.EditorScripts
 
             EditorGUILayout.Space(10);
 
-            EditorGUILayout.LabelField("VFX Settings", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(headacheVFXIntensity);
+            EditorGUILayout.PropertyField(electricFeelVFXIntensity);
             EditorGUILayout.Space(10);
 
-            EditorGUILayout.LabelField("Weather Testing Settings", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(weatherEvent);
             EditorGUILayout.Space(10);
 
-            EditorGUILayout.LabelField("Items Testing Settings", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(enableFlashlight);
             EditorGUILayout.PropertyField(enableWalkieTalkie);
 

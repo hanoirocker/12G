@@ -18,14 +18,11 @@ namespace TwelveG.VFXController
         [Tooltip("Intensidad de fuentes VFX (0 a 1)")]
         [Range(0f, 1f)]
         public float volumeCoefficient;
-        [Tooltip("Clip especifico para la fuente VFX")]
-        public AudioClip vfxClip;
 
-        public void Deconstruct(out float intensity, out float volume, out AudioClip clip)
+        public void Deconstruct(out float intensity, out float volume)
         {
             intensity = effectIntensity;
             volume = volumeCoefficient;
-            clip = vfxClip;
         }
     }
 

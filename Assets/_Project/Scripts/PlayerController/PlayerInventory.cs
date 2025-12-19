@@ -96,6 +96,11 @@ namespace TwelveG.PlayerController
                 {
                     mesh.enabled = !isExamining;
                 }
+                Canvas wtCanvas = activeWalkieTalkie.GetComponentInChildren<Canvas>();
+                if (wtCanvas != null)
+                {
+                    wtCanvas.enabled = !isExamining;
+                }
             }
             if (activeFlashlight != null && activeFlashlight.activeSelf)
             {
