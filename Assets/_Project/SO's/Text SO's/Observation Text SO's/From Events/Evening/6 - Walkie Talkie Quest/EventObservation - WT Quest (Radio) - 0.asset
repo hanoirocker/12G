@@ -15,6 +15,6 @@ MonoBehaviour:
   isEventText: 1
   observationTextsStructure:
   - language: 0
-    observationText: "\xBFQu\xE9 carajo es eso?"
+    observationText: Ok ...
   - language: 1
-    observationText: What the fuck is that?
+    observationText: Ok ..

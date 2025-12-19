@@ -114,7 +114,7 @@ namespace TwelveG.InteractableObjects
 
         if (turnedOnByEvent)
         {
-          StartCoroutine(MakeObservation(1, 1.5f));
+          StartCoroutine(MakeObservation(0, 1.5f));
           turnedOnByEvent = false;
           canBeInteractedWith = false;
 
@@ -130,7 +130,7 @@ namespace TwelveG.InteractableObjects
             playingCoroutine = null;
           }
 
-          StartCoroutine(MakeObservation(2, 1.5f));
+          StartCoroutine(MakeObservation(1, 1.5f));
           turnedOnRandomly = false;
           canBeInteractedWith = false;
         }
@@ -173,7 +173,6 @@ namespace TwelveG.InteractableObjects
         }
 
         meterGlassMaterial.EnableKeyword("_EMISSION");
-        StartCoroutine(MakeObservation(0, 1f));
         audioSource.clip = (AudioClip)data;
         audioSource.Play();
         canBeInteractedWith = true;
