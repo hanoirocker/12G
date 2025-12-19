@@ -126,11 +126,6 @@ namespace TwelveG.VFXController
                 dizzinessHandler.enabled = false;
 
                 HandleHeartBeatAudio(false);
-
-                if (!fpController.IsSprinting())
-                {
-                    fpController.EnableSprint(true);
-                }
             }
 
             HandleResonanceAudio();
@@ -233,8 +228,6 @@ namespace TwelveG.VFXController
                 isEffectEnabled = false;
                 resonanceIntensityMultiplier = 0f;
             }
-
-            Debug.Log("HEADACHE INTENSITY SET TO: " + resonanceIntensityMultiplier);
         }
 
         public void SetAudioSettings(float coefficient)

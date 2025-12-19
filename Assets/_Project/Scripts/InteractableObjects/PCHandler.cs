@@ -23,7 +23,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private AudioClip logInClip = null;
         [SerializeField] private AudioClip click = null;
         [SerializeField] private AudioClip logOutClip = null;
-        [SerializeField] private AudioClip turnCPUonClip = null;
+        [SerializeField] private AudioClip turnOnCPU = null;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
 
         [Space]
@@ -110,6 +110,7 @@ namespace TwelveG.InteractableObjects
         {
             // Aca avisamos al LostSignal que comenzamos de usar la PC
             onPC.Raise(this, null);
+            turnOnCollider.enabled = false;
             isTurnedOn = true;
 
             (AudioSource pcAudioSource, AudioSourceState pcAudioSourceState) =
@@ -118,20 +119,14 @@ namespace TwelveG.InteractableObjects
             );
 
             pcAudioSource.loop = false;
-            pcAudioSource.clip = turnCPUonClip;
-            pcAudioSource.Play();
-            yield return new WaitForSeconds(turnCPUonClip.length - 0.5f);
-
-            // El sondio del efecto de la resonancia hacia innecesario el uso de un sonido constante de CPU
-            resonanceZone.SetActive(true);
-
-            turnOnCollider.enabled = false;
+            pcAudioSource.PlayOneShot(turnOnCPU);
 
             // Espera el tiempo que tarda en hacer el fadeout + fadein para cambiar
             // a la camara VCPC desde LostSignalEvent
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
 
-
+            resonanceZone.SetActive(true);
+            
             // Change to loading windows screen
             yield return new WaitForSeconds(3f);
             pcScreens[0].SetActive(false);

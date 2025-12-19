@@ -74,7 +74,6 @@ namespace TwelveG.VFXController
             if (headacheHandler != null)
             {
                 headacheHandler.SetIntensityMultiplier(headachesSettings.effectIntensity);
-                Debug.Log("HEADACHE INTENSITY SET TO: " + headachesSettings.effectIntensity);
                 headacheHandler.SetAudioSettings(headachesSettings.volumeCoefficient);
             }
             if (electricFeelHandler != null)
@@ -96,9 +95,6 @@ namespace TwelveG.VFXController
         public void RegisterPlayer(Transform pTransform)
         {
             headacheHandler?.SetPlayer(pTransform);
-
-            // TODO: a futuro efecto ..
-            // hallucinationHandler?.SetPlayer(pTransform);
         }
 
         // Llamado por ResonanceZone.cs
