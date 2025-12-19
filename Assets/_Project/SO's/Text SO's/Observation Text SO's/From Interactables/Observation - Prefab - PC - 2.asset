@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
   m_Name: Observation - Prefab - PC - 2
   m_EditorClassIdentifier: 
+  isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: ..........................................................
+    observationText: "Nunca me sent\xED tan raro frente a mi PC a decir verdad ..
+      esta sensaci\xF3n .."
   - language: 1
-    observationText: ..........................................................
+    observationText: I've never felt so strange in front of my PC to be honest...
+      this feeling...

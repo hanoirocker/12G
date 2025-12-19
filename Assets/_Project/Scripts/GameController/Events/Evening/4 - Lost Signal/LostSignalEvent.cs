@@ -1,11 +1,11 @@
 using System.Collections;
 using TwelveG.AudioController;
+using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
 using TwelveG.Utils;
-using TwelveG.VFXController;
 using UnityEngine;
 
 namespace TwelveG.GameController
@@ -20,6 +20,7 @@ namespace TwelveG.GameController
         [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
         [SerializeField] private ObservationTextSO eventsObservationTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
+        [SerializeField] private DialogSO dialogSOs;
 
         [Header("Other eventsSO references")]
         [SerializeField] private GameEventSO onSpawnVehicle;
@@ -83,6 +84,13 @@ namespace TwelveG.GameController
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+
+            yield return new WaitForSeconds(2f);
+            // Simon expresa que le duele la cabeza al dejar la PC
+            GameEvents.Common.onStartDialog.Raise(this, dialogSOs);
+
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
 
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
         }

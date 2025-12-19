@@ -104,6 +104,9 @@ namespace TwelveG.InteractableObjects
             isTurnedOn = false;
             resonanceZone.SetActive(false);
             turnOffCollider.enabled = false;
+
+            yield return new WaitForSeconds(1f);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[4]);
         }
 
         private IEnumerator UsePC(PlayerInteraction playerCamera)
@@ -126,7 +129,7 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(1f);
 
             resonanceZone.SetActive(true);
-            
+
             // Change to loading windows screen
             yield return new WaitForSeconds(3f);
             pcScreens[0].SetActive(false);
@@ -168,7 +171,7 @@ namespace TwelveG.InteractableObjects
             pcScreens[4].SetActive(true);
 
             yield return new WaitForSeconds(10f);
-            // ..........................
+            // Nunca me senti tan raro frente a mi PC ..
             GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[2]);
 
             // Cambiar a pantalla steam not connected

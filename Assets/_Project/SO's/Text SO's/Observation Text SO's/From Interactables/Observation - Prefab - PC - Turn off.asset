@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
-  m_Name: EventObservation - WT Quest (Radio) - 1
+  m_Name: Observation - Prefab - PC - Turn off
   m_EditorClassIdentifier: 
-  isEventText: 1
+  isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: Ok ...
+    observationText: Mejor asi ...
   - language: 1
-    observationText: Ok ..
+    observationText: Better that way ..
