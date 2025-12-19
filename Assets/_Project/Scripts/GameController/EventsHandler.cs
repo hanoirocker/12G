@@ -209,7 +209,7 @@ namespace TwelveG.GameController
                 currentExecutingEvent.gameObject.SetActive(true);
                 SetUpCurrentEvent();
 
-                VFXManager.Instance?.InitializeVFXSettings(currentExecutingEvent.eventEnum);
+                VFXManager.Instance?.UpdateSceneVFXSettings(currentExecutingEvent.eventEnum);
                 // Ejecutar y almacenar referencia a la corrutina
                 currentEventCoroutine = StartCoroutine(ExecuteSingleEvent(currentExecutingEvent));
 

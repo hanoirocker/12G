@@ -54,7 +54,7 @@ namespace TwelveG.VFXController
         }
 
         // Llamado desde EventsHandler.cs al iniciar un nuevo evento para configurar los VFX iniciales
-        public void InitializeVFXSettings(EventsEnum eventEnum)
+        public void UpdateSceneVFXSettings(EventsEnum eventEnum)
         {
             if (headacheGeneralConfigsSO == null)
             {
@@ -80,6 +80,12 @@ namespace TwelveG.VFXController
             {
                 electricFeelHandler.SetIntensity(electricFeelSettings.effectIntensity);
                 electricFeelHandler.SetAudioSettings(electricFeelSettings.volumeCoefficient, electricFeelSettings.vfxClip);
+            }
+
+            // Si el efecto ya estaba habilitado, actualizamos su estado de intensidad y volumen
+            if(electricFeelHandler.enabled)
+            {
+                electricFeelHandler.UpdateEffect();
             }
         }
 

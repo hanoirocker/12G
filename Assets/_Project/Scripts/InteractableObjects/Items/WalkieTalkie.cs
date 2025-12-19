@@ -405,9 +405,7 @@ namespace TwelveG.InteractableObjects
                 channelNumberText.text = walkieTalkieChannelData[currentChannelIndex].channelText;
 
                 animationPlaying = true;
-                anim.Play("ShowItem");
-                onShowingItem.Raise(this, null);
-                itemIsShown = true;
+                ShowItem();
 
                 yield return new WaitUntil(() => !anim.isPlaying);
                 onItemToggled.Raise(this, itemIsShown);

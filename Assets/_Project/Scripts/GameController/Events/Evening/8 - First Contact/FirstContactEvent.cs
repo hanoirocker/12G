@@ -43,7 +43,6 @@ namespace TwelveG.GameController
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
-            Debug.Log("[FirstContactEvent] Walkie Talkie enabled");
 
             // Llamado a Mica
             GameEvents.Common.onStartDialog.Raise(this, secondEventDialog);

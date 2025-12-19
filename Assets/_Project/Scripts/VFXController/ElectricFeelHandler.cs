@@ -8,10 +8,12 @@ namespace TwelveG.VFXController
     public class ElectricFeelHandler : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField, Range(0f, 15f)] private float effectFadeInDuration = 8f;
-        [SerializeField, Range(0f, 15f)] private float effectFadeOutDuration = 8f;
+        [SerializeField, Range(0f, 180)] private float effectFadeInDuration = 60f;
+        [SerializeField, Range(0f, 180)] private float effectFadeOutDuration = 12f;
 
         private bool isEffectEnabled = false;
+        private float lastEffectIntensity = 0f;
+        private float lastEffectVolume = 0f;
         private float electricFeelMaxIntensity = 0f;
         private float effectMaxVolume = 0f;
         private PostProcessingHandler postProcessingHandler;
@@ -32,7 +34,7 @@ namespace TwelveG.VFXController
                 electricFeelAudioSource.Play(); 
             }
 
-            StartCoroutine(EffectUpdateCoroutine());
+            StartCoroutine(UpdateEffectCoroutine());
         }
 
         private void OnDisable()
@@ -47,7 +49,7 @@ namespace TwelveG.VFXController
             postProcessingHandler.SetElectricFeelWeight(0f);
         }
 
-        private IEnumerator EffectUpdateCoroutine()
+        private IEnumerator UpdateEffectCoroutine()
         {
             float fadeDuration = isEffectEnabled ? effectFadeInDuration : effectFadeOutDuration;
             float elapsedTime = 0f;
@@ -55,13 +57,15 @@ namespace TwelveG.VFXController
             while (elapsedTime < fadeDuration)
             {
                 elapsedTime += Time.deltaTime;
-                float newWeight = Mathf.Lerp(0f, electricFeelMaxIntensity, elapsedTime / fadeDuration);
-                float newVolume = Mathf.Lerp(0f, effectMaxVolume, elapsedTime / fadeDuration);
+                float newWeight = Mathf.Lerp(lastEffectIntensity, electricFeelMaxIntensity, elapsedTime / fadeDuration);
+                float newVolume = Mathf.Lerp(lastEffectVolume, effectMaxVolume, elapsedTime / fadeDuration);
                 postProcessingHandler.SetElectricFeelWeight(newWeight);
                 electricFeelAudioSource.volume = newVolume;
                 yield return null;
             }
 
+            lastEffectIntensity = electricFeelMaxIntensity;
+            lastEffectVolume = effectMaxVolume;
             postProcessingHandler.SetElectricFeelWeight(electricFeelMaxIntensity);
             electricFeelAudioSource.volume = effectMaxVolume;
         }
@@ -70,6 +74,11 @@ namespace TwelveG.VFXController
         {
             effectMaxVolume = volume;
             electricFeelClip = clip;
+        }
+
+        public void UpdateEffect()
+        {
+            StartCoroutine(UpdateEffectCoroutine());
         }
 
         public void SetIntensity(float multiplier)
