@@ -18,7 +18,6 @@ namespace TwelveG.GameController
 
     public override IEnumerator Execute()
     {
-      print("<------ TEXT CANVAS EVENT NOW -------->");
 
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
