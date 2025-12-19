@@ -11,7 +11,7 @@ namespace TwelveG.VFXController
         [Header("Specific Settings")]
         [SerializeField] private float effectSmoothSpeed = 5f;
         [Tooltip("Intensity threshold to start applying dizziness effect (Includes disabling sprint).")]
-        [SerializeField, Range(0f, 1f)] private float dizzinessThreshold = 0.6f;
+        [SerializeField, Range(0f, 1f)] private float dizzinessThreshold = 0.5f;
         [SerializeField] private LayerMask obstacleLayer;
         [Space]
         [Header("Audio Settings")]
@@ -126,6 +126,11 @@ namespace TwelveG.VFXController
                 dizzinessHandler.enabled = false;
 
                 HandleHeartBeatAudio(false);
+
+                if (!fpController.IsSprinting())
+                {
+                    fpController.EnableSprint(true);
+                }
             }
 
             HandleResonanceAudio();
@@ -212,7 +217,6 @@ namespace TwelveG.VFXController
         {
             activeResonanceZone = null;
             maxEffectDistanceOffset = 0.5f;
-            fpController.EnableSprint(false);
 
             StopResonanceAudio();
         }
@@ -230,6 +234,7 @@ namespace TwelveG.VFXController
                 resonanceIntensityMultiplier = 0f;
             }
 
+            Debug.Log("HEADACHE INTENSITY SET TO: " + resonanceIntensityMultiplier);
         }
 
         public void SetAudioSettings(float coefficient)

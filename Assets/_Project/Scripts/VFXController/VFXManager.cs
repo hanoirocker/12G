@@ -17,7 +17,6 @@ namespace TwelveG.VFXController
         // --- EFFECT HANDLERS ---
         private HeadacheEffectHandler headacheHandler;
         private ElectricFeelHandler electricFeelHandler;
-        // private HallucinationHandler hallucinationHandler; // Futuro efecto
 
         private void Awake()
         {
@@ -75,6 +74,7 @@ namespace TwelveG.VFXController
             if (headacheHandler != null)
             {
                 headacheHandler.SetIntensityMultiplier(headachesSettings.effectIntensity);
+                Debug.Log("HEADACHE INTENSITY SET TO: " + headachesSettings.effectIntensity);
                 headacheHandler.SetAudioSettings(headachesSettings.volumeCoefficient);
             }
             if (electricFeelHandler != null)

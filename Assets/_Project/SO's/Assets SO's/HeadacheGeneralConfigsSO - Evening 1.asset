@@ -15,23 +15,23 @@ MonoBehaviour:
   sceneSettings:
   - eventEnum: 4
     effectIntensity: 0.15
-    volumeCoefficient: 0.025
+    volumeCoefficient: 0.05
     vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 5
     effectIntensity: 0.2
-    volumeCoefficient: 0.05
-    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
-  - eventEnum: 6
-    effectIntensity: 0.25
     volumeCoefficient: 0.075
     vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
+  - eventEnum: 6
+    effectIntensity: 0.35
+    volumeCoefficient: 0.125
+    vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 7
-    effectIntensity: 0.4
-    volumeCoefficient: 0.1
+    effectIntensity: 0.5
+    volumeCoefficient: 0.175
     vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 8
-    effectIntensity: 0.5
-    volumeCoefficient: 0.125
+    effectIntensity: 0.55
+    volumeCoefficient: 0.175
     vfxClip: {fileID: 8300000, guid: 7720657c17fa22946b57d7e7068931d3, type: 3}
   - eventEnum: 9
     effectIntensity: 0.65

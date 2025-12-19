@@ -86,9 +86,13 @@ namespace TwelveG.PlayerController
             currentSwayAngleX = swayAngleX * intensity;
             currentSwayAngleZ = swayAngleZ * intensity;
 
-            if (intensity >= 0.3f)
+            if (intensity <= 0.55f)
             {
                 sensitivityFactor = (1 - intensity);
+            }
+            else
+            {
+                sensitivityFactor = 0.75f;
             }
         }
     }

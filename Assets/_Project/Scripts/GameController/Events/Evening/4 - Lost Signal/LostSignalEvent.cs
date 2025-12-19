@@ -31,7 +31,6 @@ namespace TwelveG.GameController
         {
             print("<------ LOST SIGNAL 1 EVENT NOW -------->");
 
-            VFXManager.Instance?.SetResonanceIntensityMultiplier(0.15f);
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 

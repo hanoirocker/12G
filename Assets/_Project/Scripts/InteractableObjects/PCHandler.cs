@@ -23,6 +23,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private AudioClip logInClip = null;
         [SerializeField] private AudioClip click = null;
         [SerializeField] private AudioClip logOutClip = null;
+        [SerializeField] private AudioClip turnCPUonClip = null;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
 
         [Space]
@@ -62,7 +63,7 @@ namespace TwelveG.InteractableObjects
             else
             {
                 StartCoroutine(TurnOffPC(playerCamera));
-                return false;
+                return true;
             }
         }
 
@@ -74,43 +75,57 @@ namespace TwelveG.InteractableObjects
                 yield break;
             }
 
-            playerCamera.GetComponentInParent<PlayerHandler>().PlayerControls(this, new EnablePlayerControllers(false));
+            canBeInteractedWith = false;
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
-            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (AudioSource pcAudioSource, AudioSourceState pcAudioSourceState) =
+                AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+                    gameObject.transform, clipsVolume
+            );
 
             yield return new WaitForSeconds(0.5f);
-            audioSource.PlayOneShot(click);
+            pcAudioSource.PlayOneShot(click);
             yield return new WaitForSeconds(1f);
-            audioSource.PlayOneShot(click);
+            pcAudioSource.PlayOneShot(click);
             yield return new WaitForSeconds(0.7f);
-            audioSource.PlayOneShot(click);
+            pcAudioSource.PlayOneShot(click);
             yield return new WaitForSeconds(1f);
-            audioSource.PlayOneShot(logOutClip);
+            pcAudioSource.PlayOneShot(logOutClip);
             yield return new WaitForSeconds(0.5f);
 
-            playerCamera.GetComponentInParent<PlayerHandler>().PlayerControls(this, new EnablePlayerControllers(true));
-            yield return new WaitUntil(() => !audioSource.isPlaying);
-            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            // Frenar audiosource de sonido de CPU funcionando
+
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            yield return new WaitUntil(() => !pcAudioSource.isPlaying);
+            AudioUtils.StopAndRestoreAudioSource(pcAudioSource, pcAudioSourceState);
 
             pcScreens[5].SetActive(false);
             pcScreens[0].SetActive(true);
             isTurnedOn = false;
             resonanceZone.SetActive(false);
             turnOffCollider.enabled = false;
-            turnOnCollider.enabled = true;
-            canBeInteractedWith = false;
         }
 
         private IEnumerator UsePC(PlayerInteraction playerCamera)
         {
             // Aca avisamos al LostSignal que comenzamos de usar la PC
-            resonanceZone.SetActive(true);
             onPC.Raise(this, null);
             isTurnedOn = true;
 
-            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            (AudioSource pcAudioSource, AudioSourceState pcAudioSourceState) =
+                AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+                    gameObject.transform, clipsVolume
+            );
 
-            gameObject.GetComponent<SphereCollider>().enabled = false;
+            pcAudioSource.loop = false;
+            pcAudioSource.clip = turnCPUonClip;
+            pcAudioSource.Play();
+            yield return new WaitForSeconds(turnCPUonClip.length - 0.5f);
+
+            // El sondio del efecto de la resonancia hacia innecesario el uso de un sonido constante de CPU
+            resonanceZone.SetActive(true);
+
+            turnOnCollider.enabled = false;
 
             // Espera el tiempo que tarda en hacer el fadeout + fadein para cambiar
             // a la camara VCPC desde LostSignalEvent
@@ -126,13 +141,13 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(5f);
             pcScreens[1].SetActive(false);
             pcScreens[2].SetActive(true);
-            audioSource.PlayOneShot(logInClip);
+            pcAudioSource.PlayOneShot(logInClip);
 
-            yield return new WaitUntil(() => !audioSource.isPlaying);
+            yield return new WaitUntil(() => !pcAudioSource.isPlaying);
             yield return new WaitForSeconds(3f);
-            audioSource.PlayOneShot(click);
+            pcAudioSource.PlayOneShot(click);
             yield return new WaitForSeconds(1f);
-            audioSource.PlayOneShot(click);
+            pcAudioSource.PlayOneShot(click);
 
             // Cambiar a pantalla de discordia not connecting
             yield return new WaitForSeconds(3f);
@@ -148,9 +163,9 @@ namespace TwelveG.InteractableObjects
             GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[1]);
 
             yield return new WaitForSeconds(4.5f);
-            audioSource.PlayOneShot(click);
+            pcAudioSource.PlayOneShot(click);
             yield return new WaitForSeconds(0.5f);
-            audioSource.PlayOneShot(click);
+            pcAudioSource.PlayOneShot(click);
 
             // Cambiar a pantalla steam not connecting
             yield return new WaitForSeconds(2f);
@@ -174,9 +189,8 @@ namespace TwelveG.InteractableObjects
 
             // Aca avisamos al LostSignal que ya no usamos mas la PC
             onPC.Raise(this, null);
-            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            AudioUtils.StopAndRestoreAudioSource(pcAudioSource, pcAudioSourceState);
 
-            turnOnCollider.enabled = false;
             turnOffCollider.enabled = true;
         }
 

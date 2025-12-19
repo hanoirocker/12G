@@ -44,7 +44,6 @@ namespace TwelveG.GameController
         {
             print("<------ PIZZA TIME EVENT NOW -------->");
 
-            VFXManager.Instance?.SetResonanceIntensityMultiplier(0.15f);
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 

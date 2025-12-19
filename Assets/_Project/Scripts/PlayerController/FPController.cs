@@ -268,6 +268,7 @@ namespace TwelveG.PlayerController
 
         public void EnableSprint(bool enable)
         {
+            Debug.Log("Llamada para: " + enable);
             _input.sprint = enable;
         }
 
