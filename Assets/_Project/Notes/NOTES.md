@@ -9,7 +9,7 @@ TODO - próximo:
 - Agregar sonidos para cuando come la pizza.
 - Agregar sonidos al tomar escoba y bolsas de basura.
 - Agregar cajas bajo la escalera, o algo.
-- Comenzar a trabajar en evento Headaches.
+- Continuar con evento Headaches: hasta ahora solo hay choque de policia.
 - Componer distintos audios según intensidad de Electric Feel. La idea es que sean clips conformados por el sonido actual (loopeable), luego un clip que incluya el layer anterior mas un fade in del nuevo layer de audio (Play one shot), y finalmente el nuevo audio (loopeable).
 - Agregar canvas de interacción para Objetos examinables en Examination Canvas. El mismo ya muestra el texto al presionar la "E" mientras esté instanciado un objeto examinable, pero no muestra los controles (E para Leer, ESC para salir, Click Izq + Mouse para rotar)
 - Electric Feel FX: alterar entre intesidad máxima y mín dependiendo de si el jugador acerca o no el WT a su cara?
