@@ -1,5 +1,4 @@
-- Se ha agregado el efecto ElectricFeelEffect para la radio. Configurado y funcionando.
-- Se ha agregado un segundo disparo random de la Old Radio luego de el triggerByEvent.
+- Se ha agregado textos al canvas de Examination.
 
 
 TOFIX:
@@ -11,7 +10,6 @@ TODO - próximo:
 - Agregar cajas bajo la escalera, o algo.
 - Continuar con evento Headaches: hasta ahora solo hay choque de policia.
 - Componer distintos audios según intensidad de Electric Feel. La idea es que sean clips conformados por el sonido actual (loopeable), luego un clip que incluya el layer anterior mas un fade in del nuevo layer de audio (Play one shot), y finalmente el nuevo audio (loopeable).
-- Agregar canvas de interacción para Objetos examinables en Examination Canvas. El mismo ya muestra el texto al presionar la "E" mientras esté instanciado un objeto examinable, pero no muestra los controles (E para Leer, ESC para salir, Click Izq + Mouse para rotar)
 - Electric Feel FX: alterar entre intesidad máxima y mín dependiendo de si el jugador acerca o no el WT a su cara?
 
 TODO - despues:

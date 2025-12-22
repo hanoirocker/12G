@@ -11,6 +11,8 @@ using UnityEngine.EventSystems;
 
 namespace TwelveG.InteractableObjects
 {
+  // [RequireComponent] asegura que el objeto tenga colisionador para los eventos de Drag
+  [RequireComponent(typeof(Collider))]
   public class ExaminableObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
   {
     [Header("Audio Settings")]
@@ -36,12 +38,23 @@ namespace TwelveG.InteractableObjects
     private AudioSource interactionSource;
     private AudioSourceState audioSourceState;
     private Vector2 lastMousePosition;
+
     private bool isDragging = false;
     private bool canvasIsShowing = false;
 
+    // Caché para evitar Allocations en tiempo de ejecución
+    private Renderer[] cachedRenderers;
+
     private void Awake()
     {
-      (interactionSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+      // Cacheamos los renderers una sola vez al inicio
+      cachedRenderers = GetComponentsInChildren<Renderer>();
+
+      // Obtenemos el AudioSource del pool
+      if (AudioManager.Instance != null)
+      {
+        (interactionSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+      }
     }
 
     void Start()
@@ -51,7 +64,11 @@ namespace TwelveG.InteractableObjects
         StartCoroutine(PlayExaminationSoundCoroutine(examineInClip));
       }
 
+      // Disparamos eventos de configuración inicial
+      GameEvents.Common.onExaminationCanvasControls.Raise(this, examinationTextSO);
+      GameEvents.Common.onExaminationCanvasControls.Raise(this, new EnableCanvas(true));
       GameEvents.Common.onPlayerControls.Raise(this, new ToggleToObjectExamination(true));
+
       Cursor.visible = true;
       Cursor.lockState = CursorLockMode.None;
     }
@@ -62,7 +79,7 @@ namespace TwelveG.InteractableObjects
       {
         StartCoroutine(StopInspectingRoutine());
       }
-      if (Input.GetKeyDown(KeyCode.E) && examinationTextSO != null)
+      else if (Input.GetKeyDown(KeyCode.E) && examinationTextSO != null)
       {
         ToggleCanvas();
       }
@@ -70,28 +87,31 @@ namespace TwelveG.InteractableObjects
 
     private void ToggleCanvas()
     {
-      if (!canvasIsShowing)
+      canvasIsShowing = !canvasIsShowing;
+
+      if (canvasIsShowing) // Mostrando texto
       {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        GameEvents.Common.onExaminationCanvasShowText.Raise(this, examinationTextSO);
+        GameEvents.Common.onExaminationCanvasShowText.Raise(this, true);
       }
-      else
+      else // Ocultando texto (volviendo a examinar)
       {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        GameEvents.Common.onExaminationCanvasControls.Raise(this, new EnableCanvas(false));
+        GameEvents.Common.onExaminationCanvasShowText.Raise(this, false);
       }
-      canvasIsShowing = !canvasIsShowing;
     }
 
     private IEnumerator StopInspectingRoutine()
     {
+      // Reproducir sonido de salida
       if (examineOutClip != null)
       {
         StartCoroutine(PlayExaminationSoundCoroutine(examineOutClip));
       }
 
+      // Restaurar objeto original en la escena
       var mainCameraHandler = GetComponentInParent<MainCameraHandler>();
       if (mainCameraHandler != null && mainCameraHandler.lastEventSender != null)
       {
@@ -103,34 +123,44 @@ namespace TwelveG.InteractableObjects
         mainCameraHandler.lastEventSender = null;
       }
 
-      // Si se asignó un event SO a disparar luego de dejar de inspeccionar, dispararlo
       if (onObjectExamined != null)
       {
         onObjectExamined.Raise(this, null);
       }
 
+      // Restaurar cursor y controles
       Cursor.visible = false;
       Cursor.lockState = CursorLockMode.Locked;
-      if (canvasIsShowing) { GameEvents.Common.onExaminationCanvasControls.Raise(this, new EnableCanvas(false)); }
+      GameEvents.Common.onExaminationCanvasControls.Raise(this, new EnableCanvas(false));
       GameEvents.Common.onPlayerControls.Raise(this, new ToggleToObjectExamination(false));
 
-      List<Renderer> renderers = new List<Renderer>(GetComponentsInChildren<Renderer>());
-      foreach (Renderer renderer in renderers)
+      if (cachedRenderers != null)
       {
-        renderer.enabled = false;
+        for (int i = 0; i < cachedRenderers.Length; i++)
+        {
+          if (cachedRenderers[i] != null) cachedRenderers[i].enabled = false;
+        }
       }
 
-      yield return new WaitUntil(() => !interactionSource.isPlaying);
+      if (interactionSource != null && interactionSource.isPlaying)
+      {
+        float remainingTime = interactionSource.clip.length - interactionSource.time;
+        if (remainingTime > 0) yield return new WaitForSeconds(remainingTime);
+      }
+
       AudioUtils.StopAndRestoreAudioSource(interactionSource, audioSourceState);
       Destroy(gameObject);
     }
 
     private IEnumerator PlayExaminationSoundCoroutine(AudioClip inspectionClip)
     {
+      if (interactionSource == null) yield break;
+
+      interactionSource.Stop();
       interactionSource.clip = inspectionClip;
       interactionSource.pitch = Random.Range(0.8f, 1.2f);
       interactionSource.Play();
-      yield return new WaitForFixedUpdate();
+      yield return null;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -152,7 +182,11 @@ namespace TwelveG.InteractableObjects
     public void OnEndDrag(PointerEventData eventData)
     {
       isDragging = false;
-      Cursor.visible = true;
+      if (!canvasIsShowing)
+      {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+      }
     }
 
     private void DirectRotation(PointerEventData eventData)
