@@ -1,4 +1,5 @@
 - Se ha agregado textos al canvas de Examination.
+- El efecto Electric feel ahora cambia de intensidad dependiendo del uso del walkie talkie. Su valor siempre fluctua entre el mínimo (maximo * 0.5f) y el máximo que depende del evento.
 
 
 TOFIX:
@@ -10,7 +11,6 @@ TODO - próximo:
 - Agregar cajas bajo la escalera, o algo.
 - Continuar con evento Headaches: hasta ahora solo hay choque de policia.
 - Componer distintos audios según intensidad de Electric Feel. La idea es que sean clips conformados por el sonido actual (loopeable), luego un clip que incluya el layer anterior mas un fade in del nuevo layer de audio (Play one shot), y finalmente el nuevo audio (loopeable).
-- Electric Feel FX: alterar entre intesidad máxima y mín dependiendo de si el jugador acerca o no el WT a su cara?
 
 TODO - despues:
 - Actualizar textos en puertas principales y objetos contemplables al final de la escena de Evening. Por ahora se han dejado de trabajar los SO's.

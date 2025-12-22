@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using TwelveG.AudioController;
 using UnityEngine;
@@ -8,36 +7,42 @@ namespace TwelveG.VFXController
     public class ElectricFeelHandler : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField, Range(0f, 180)] private float effectFadeInDuration = 60f;
-        [SerializeField, Range(0f, 180)] private float effectFadeOutDuration = 12f;
+        [SerializeField, Range(0f, 180)] private float effectFadeInDuration = 5f;
+        [SerializeField, Range(0f, 180)] private float effectFadeOutDuration = 5f;
+        [Tooltip("Duración de la transición rápida al sacar/guardar el objeto.")]
+        [SerializeField, Range(0.1f, 5f)] private float itemTransitionDuration = 2.0f;
 
         [Header("Audio Settings")]
         [SerializeField] private AudioClip electricFeelClip;
 
-
         private bool isEffectEnabled = false;
-        private float lastEffectIntensity = 0f;
-        private float lastEffectVolume = 0f;
-        private float electricFeelMaxIntensity = 0f;
-        private float effectMaxVolume = 0f;
+        private bool isItemShown = false; // Guardamos el estado del objeto
+
+        private float maxEventIntensity = 0f; // La intensidad "global" del evento
+        private float currentTargetIntensity = 0f; // La meta actual (depende del item)
+        private float minIntensityCoefficient = 0.5f;
+
+        // Variables para rastrear el estado actual exacto
+        private float currentWeight = 0f;
+        private float currentVolume = 0f;
+
+        private float effectMaxVolume = 1f;
+
+        private Coroutine updateEffectCoroutine;
         private PostProcessingHandler postProcessingHandler;
         private AudioSource electricFeelAudioSource;
         private AudioSourceState audioSourceState;
 
         private void OnEnable()
         {
-            if (electricFeelAudioSource == null)
-            {
-                electricFeelAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
-                audioSourceState = electricFeelAudioSource.GetSnapshot();
-                electricFeelAudioSource.spatialBlend = 0f;
-                electricFeelAudioSource.clip = electricFeelClip;
-                electricFeelAudioSource.loop = true;
-                electricFeelAudioSource.volume = 0f;
-                electricFeelAudioSource.Play(); 
-            }
+            // Reseteamos valores actuales al habilitar para empezar limpios
+            currentWeight = 0f;
+            currentVolume = 0f;
 
-            StartCoroutine(UpdateEffectCoroutine());
+            // Calculamos objetivo inicial
+            RecalculateTargetIntensity();
+
+            StartTransition(effectFadeInDuration);
         }
 
         private void OnDisable()
@@ -49,28 +54,83 @@ namespace TwelveG.VFXController
                 electricFeelAudioSource = null;
             }
 
-            postProcessingHandler.SetElectricFeelWeight(0f);
+            if (postProcessingHandler != null)
+                postProcessingHandler.SetElectricFeelWeight(0f);
+
+            currentWeight = 0f;
         }
 
-        private IEnumerator UpdateEffectCoroutine()
+        // Método centralizado para recalcular la meta basado en estado del evento y del item
+        private void RecalculateTargetIntensity()
         {
-            float fadeDuration = isEffectEnabled ? effectFadeInDuration : effectFadeOutDuration;
+            if (!isEffectEnabled)
+            {
+                currentTargetIntensity = 0f;
+            }
+            else
+            {
+                // Si el item está mostrado, usamos el 100% de la intensidad del evento.
+                // Si no, usamos el coeficiente (50%).
+                currentTargetIntensity = isItemShown ? maxEventIntensity : maxEventIntensity * minIntensityCoefficient * 0.5f;
+            }
+        }
+
+        public void StartTransition(float duration)
+        {
+            if (electricFeelAudioSource == null)
+            {
+                electricFeelAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
+                audioSourceState = electricFeelAudioSource.GetSnapshot();
+                electricFeelAudioSource.spatialBlend = 0f;
+                electricFeelAudioSource.clip = electricFeelClip;
+                electricFeelAudioSource.loop = true;
+                electricFeelAudioSource.volume = 0f;
+                electricFeelAudioSource.Play();
+            }
+
+            if (updateEffectCoroutine != null) StopCoroutine(updateEffectCoroutine);
+            updateEffectCoroutine = StartCoroutine(UpdateEffectCoroutine(duration));
+        }
+
+        private IEnumerator UpdateEffectCoroutine(float duration)
+        {
+            float startWeight = currentWeight;
+            float startVolume = currentVolume;
+
+            // Calculamos el volumen objetivo proporcional a la intensidad
+            // Si la intensidad objetivo es 0, volumen es 0. Si es maxEventIntensity, volumen es effectMaxVolume.
+            // Usamos una regla de tres simple basada en la intensidad máxima posible (1.0f)
+            float targetVolume = (currentTargetIntensity > 0) ? effectMaxVolume * (currentTargetIntensity / maxEventIntensity) : 0f;
+
+            // Protección contra división por cero o duraciones muy cortas
+            if (duration <= 0.01f) duration = 0.1f;
+
             float elapsedTime = 0f;
 
-            while (elapsedTime < fadeDuration)
+            while (elapsedTime < duration)
             {
                 elapsedTime += Time.deltaTime;
-                float newWeight = Mathf.Lerp(lastEffectIntensity, electricFeelMaxIntensity, elapsedTime / fadeDuration);
-                float newVolume = Mathf.Lerp(lastEffectVolume, effectMaxVolume, elapsedTime / fadeDuration);
-                postProcessingHandler.SetElectricFeelWeight(newWeight);
-                electricFeelAudioSource.volume = newVolume;
+                float t = elapsedTime / duration;
+
+                // Lerp desde donde estábamos (startWeight) hasta la nueva meta
+                currentWeight = Mathf.Lerp(startWeight, currentTargetIntensity, t);
+                currentVolume = Mathf.Lerp(startVolume, targetVolume, t);
+
+                postProcessingHandler.SetElectricFeelWeight(currentWeight);
+                electricFeelAudioSource.volume = currentVolume;
+
                 yield return null;
             }
 
-            lastEffectIntensity = electricFeelMaxIntensity;
-            lastEffectVolume = effectMaxVolume;
-            postProcessingHandler.SetElectricFeelWeight(electricFeelMaxIntensity);
-            electricFeelAudioSource.volume = effectMaxVolume;
+            // Aseguramos valores finales exactos
+            currentWeight = currentTargetIntensity;
+            currentVolume = targetVolume;
+
+            if (postProcessingHandler != null)
+                postProcessingHandler.SetElectricFeelWeight(currentWeight);
+
+            if (electricFeelAudioSource != null)
+                electricFeelAudioSource.volume = currentVolume;
         }
 
         public void SetAudioSettings(float volume)
@@ -78,30 +138,46 @@ namespace TwelveG.VFXController
             effectMaxVolume = volume;
         }
 
-        public void UpdateEffect()
-        {
-            StartCoroutine(UpdateEffectCoroutine());
-        }
-
+        // Llamado por VFXManager y EventsHandler en freeRoam mode
         public void SetIntensity(float multiplier)
         {
+            maxEventIntensity = multiplier;
+
             if (multiplier > 0f)
             {
                 isEffectEnabled = true;
-                electricFeelMaxIntensity = multiplier;
+                RecalculateTargetIntensity();
+
+                // Si estamos activando el evento, usamos el fade largo
+                StartTransition(effectFadeInDuration);
             }
             else
             {
                 isEffectEnabled = false;
-                electricFeelMaxIntensity = 0f;
+                RecalculateTargetIntensity();
+
+                // Si estamos apagando el evento, usamos el fade de salida
+                StartTransition(effectFadeOutDuration);
             }
+        }
+
+        // Callback del evento (OnItemShown / Hidden)
+        public void ReduceEffectCoefficient(Component sender, object data)
+        {
+            if (sender.gameObject.name != "Inventory - Walkie Talkie" && sender.gameObject.name != "WalkieTalkie")
+            {
+                return;
+            }
+
+            isItemShown = (bool)data;
+            RecalculateTargetIntensity();
+
+            StartTransition(itemTransitionDuration);
         }
 
         public void Initialize(PostProcessingHandler ppHandler)
         {
             this.postProcessingHandler = ppHandler;
         }
-
     }
 }
-

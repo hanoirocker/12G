@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
+using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using UnityEngine;
 
@@ -28,6 +29,8 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(initialTime);
 
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+
+            GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.PoliceCarCrash);
 
             yield return new WaitUntil(() => allowNextAction);

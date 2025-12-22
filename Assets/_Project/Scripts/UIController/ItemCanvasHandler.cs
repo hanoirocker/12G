@@ -1,11 +1,10 @@
+using TMPro;
+using TwelveG.InteractableObjects;
+using TwelveG.Localization;
+using UnityEngine;
+
 namespace TwelveG.UIController
 {
-    using System.Collections;
-    using TMPro;
-    using TwelveG.InteractableObjects;
-    using TwelveG.Localization;
-    using UnityEngine;
-
     public class ItemCanvasHandler : MonoBehaviour
     {
         [Header("References")]
@@ -69,7 +68,7 @@ namespace TwelveG.UIController
 
         public void EnablePlayerItem(Component sender, object data)
         {
-            Debug.Log($"[ItemCanvasHandler]: Habilitando item en canvas: {(ItemType)data}");
+            // Debug.Log($"[ItemCanvasHandler]: Habilitando item en canvas: {(ItemType)data}");
 
             if (iconsPanel.activeSelf == false)
             {

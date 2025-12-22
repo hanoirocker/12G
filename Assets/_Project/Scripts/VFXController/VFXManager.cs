@@ -85,7 +85,7 @@ namespace TwelveG.VFXController
             // Si el efecto ya estaba habilitado, actualizamos su estado de intensidad y volumen
             if(electricFeelHandler.enabled)
             {
-                electricFeelHandler.UpdateEffect();
+                electricFeelHandler.StartTransition(20f);
             }
         }
 
@@ -123,7 +123,6 @@ namespace TwelveG.VFXController
         public void SetElectricFeelIntensity(float newMultiplier)
         {
             electricFeelHandler.SetIntensity(newMultiplier);
-            electricFeelHandler.SetAudioSettings(newMultiplier * 0.25f); // Volumen base
         }
     }
 }
