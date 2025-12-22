@@ -10,8 +10,8 @@ namespace TwelveG.PlayerController
         [Header("Settings")]
         [Tooltip("Velocity of the sway effect oscillation.")]
         [SerializeField] private float swaySpeed = 1.0f;
-        [Tooltip("Maximum sway angle on the X axis.")]
-        [SerializeField] private float swayAngleX = 12f;
+        // [Tooltip("Maximum sway angle on the X axis.")]
+        // [SerializeField] private float swayAngleX = 12f;
         [Tooltip("Maximum sway angle on the Z axis.")]
         [SerializeField] private float swayAngleZ = 12f;
 
@@ -59,10 +59,10 @@ namespace TwelveG.PlayerController
             timer += Time.deltaTime * currentSwaySpeed;
 
             // Cálculo del balanceo (Seno y Coseno desincronizados)
-            float rotX = Mathf.Sin(timer) * currentSwayAngleX;
+            // float rotX = Mathf.Sin(timer) * currentSwayAngleX;
             float rotZ = Mathf.Cos(timer * 0.9f) * currentSwayAngleZ; // 0.9f para desincronizar ejes
 
-            Quaternion dizzinessRotation = Quaternion.Euler(rotX, 0f, rotZ);
+            Quaternion dizzinessRotation = Quaternion.Euler(0f, 0f, rotZ);
 
             initialRotation = cameraTransform.localRotation;
             targetRotation = initialRotation * dizzinessRotation;
@@ -83,7 +83,7 @@ namespace TwelveG.PlayerController
         public void SetDizzinessIntensity(float intensity)
         {
             currentSwaySpeed = swaySpeed * intensity;
-            currentSwayAngleX = swayAngleX * intensity;
+            // currentSwayAngleX = swayAngleX * intensity;
             currentSwayAngleZ = swayAngleZ * intensity;
 
             if (intensity <= 0.55f)
