@@ -1,5 +1,6 @@
 - Se ha agregado textos al canvas de Examination.
 - El efecto Electric feel ahora cambia de intensidad dependiendo del uso del walkie talkie. Su valor siempre fluctua entre el mínimo (maximo * 0.5f) y el máximo que depende del evento.
+- Se agregó la animación por script ProceduralFaint (curvas de rotación (tiempo))
 
 
 TOFIX:

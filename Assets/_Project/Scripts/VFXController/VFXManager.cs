@@ -1,4 +1,5 @@
 using TwelveG.GameController;
+using TwelveG.PlayerController;
 using UnityEngine;
 
 namespace TwelveG.VFXController
@@ -13,6 +14,7 @@ namespace TwelveG.VFXController
 
         // --- DEPENDENCIAS ---
         private PostProcessingHandler postProcessingHandler;
+        private Transform playerTransform;
 
         // --- EFFECT HANDLERS ---
         private HeadacheEffectHandler headacheHandler;
@@ -100,6 +102,7 @@ namespace TwelveG.VFXController
 
         public void RegisterPlayer(Transform pTransform)
         {
+            playerTransform = pTransform;
             headacheHandler?.SetPlayer(pTransform);
         }
 
@@ -124,6 +127,15 @@ namespace TwelveG.VFXController
         {
             Debug.Log("[VFXManager] SetElectricFeelIntensity to " + newMultiplier);
             electricFeelHandler.SetIntensity(newMultiplier);
+        }
+
+        public void TriggerProceduralFaint()
+        {
+            ProceduralFaint proceduralFaint = playerTransform?.GetComponentInParent<ProceduralFaint>();
+            if (proceduralFaint != null)
+            {
+                proceduralFaint.enabled = true;
+            }
         }
     }
 }

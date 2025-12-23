@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
@@ -12,7 +11,7 @@ namespace TwelveG.GameController
     public class HeadachesEvent : GameEventBase
     {
         [Header("Event options")]
-        [SerializeField, Range(1, 10)] private int initialTime = 0;
+        [SerializeField, Range(1, 10)] private int initialTime = 2;
 
         [Header("Text event SO")]
         [SerializeField] private DialogSO dialogOs;
@@ -36,6 +35,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            yield return new WaitForSeconds(2f);
             // Conversación que inicia Mica desesperada por la situación
             GameEvents.Common.onStartDialog.Raise(this, dialogOs);
 
@@ -44,6 +44,9 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             VFXManager.Instance.SetElectricFeelIntensity(1f);
+
+            yield return new WaitForSeconds(4f);
+            VFXManager.Instance.TriggerProceduralFaint();
 
             // A esta altura Simon ya debería haber caido al suelo por el dolor de cabeza
             // y el image canvas debería estar negro. Todo esto es manejado por el VFXManager?
