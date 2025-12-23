@@ -21,7 +21,7 @@ MonoBehaviour:
   - language: 1
     dialogText: Simon! ... Simon, answer me! An explosion... I don't understand what
       the hell is going on... dude...
-  spanishDialogClip: {fileID: 8300000, guid: 40d21dabe28b58b4faec8fd2ab0f21ee, type: 3}
+  spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 1
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}

@@ -19,8 +19,8 @@ MonoBehaviour:
     dialogText: Mierda .. debe haber sido el patrullero que enviaron ..
   - language: 1
     dialogText: Damn... it must have been the patrol car they sent...
-  spanishDialogClip: {fileID: 8300000, guid: 40d21dabe28b58b4faec8fd2ab0f21ee, type: 3}
-  timeBeforeShowing: 0
+  spanishDialogClip: {fileID: 0}
+  timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
   nextDialog: {fileID: 11400000, guid: 5c408239f6bd84190bc491bdde4d69be, type: 2}
