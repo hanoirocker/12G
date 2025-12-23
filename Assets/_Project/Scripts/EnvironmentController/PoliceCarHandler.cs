@@ -2,15 +2,13 @@ namespace TwelveG.EnvironmentController
 {
     using System.Collections;
     using System.Collections.Generic;
-    using UnityEngine;
+  using TwelveG.PlayerController;
+  using UnityEngine;
 
     public class PoliceCarHandler : MonoBehaviour
     {
         [Header("Vehicle Settings")]
-        [Space]
         [SerializeField] private VehicleType vehicleType;
-        [Header("Vehicle Settings")]
-        [Space]
         [SerializeField] List<Light> carLights = new List<Light>();
         [SerializeField] private float lightToggleTime = 0.1f;
         [Header("Particle Settings")]
@@ -44,6 +42,10 @@ namespace TwelveG.EnvironmentController
             {
                 light.enabled = false;
             }
+
+            // Activar collider de objeto spotteable
+            Collider collider = GetComponentInChildren<ZoneSpotterHandler>().gameObject.GetComponent<Collider>();
+            collider.enabled = true;
 
             // Activamos el efecto de particulas de la explosion y el humo
             particleFX.SetActive(true);

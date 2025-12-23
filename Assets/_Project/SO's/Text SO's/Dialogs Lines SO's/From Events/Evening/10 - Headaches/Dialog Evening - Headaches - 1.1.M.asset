@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Evening - Headaches - 1.1.M
+  m_EditorClassIdentifier: 
+  characterName: 1
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: "Simon! ... Simon respondeme! Una explosi\xF3n ... no entiendo qu\xE9
+      mierda pasa .. amigo .."
+  - language: 1
+    dialogText: Simon! ... Simon, answer me! An explosion... I don't understand what
+      the hell is going on... dude...
+  spanishDialogClip: {fileID: 8300000, guid: 40d21dabe28b58b4faec8fd2ab0f21ee, type: 3}
+  timeBeforeShowing: 1
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 8c22ff7f40e9644a3808bdb945c23639, type: 2}
+  dialogOptions: []

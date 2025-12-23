@@ -122,6 +122,7 @@ namespace TwelveG.VFXController
 
         public void SetElectricFeelIntensity(float newMultiplier)
         {
+            Debug.Log("[VFXManager] SetElectricFeelIntensity to " + newMultiplier);
             electricFeelHandler.SetIntensity(newMultiplier);
         }
     }

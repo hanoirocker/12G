@@ -4,6 +4,7 @@ using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
+using TwelveG.VFXController;
 using UnityEngine;
 
 namespace TwelveG.GameController
@@ -13,13 +14,10 @@ namespace TwelveG.GameController
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 0;
 
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onObservationCanvasShowText;
-
         [Header("Text event SO")]
-        [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
-        [SerializeField] private DialogSO[] dialogOs;
+        [SerializeField] private DialogSO dialogOs;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
 
         private bool allowNextAction = false;
 
@@ -29,10 +27,28 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(initialTime);
 
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
 
             GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.PoliceCarCrash);
 
+            // "Police Car Crashed - Spot" dispara el evento policeCarSpotted al ser chekeado por Simon
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            // Conversación que inicia Mica desesperada por la situación
+            GameEvents.Common.onStartDialog.Raise(this, dialogOs);
+
+            // Durante el dialogo con Mica se dispara el evento "onHeadacheMaxIntensity"
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            VFXManager.Instance.SetElectricFeelIntensity(1f);
+
+            // A esta altura Simon ya debería haber caido al suelo por el dolor de cabeza
+            // y el image canvas debería estar negro. Todo esto es manejado por el VFXManager?
+
+            // Fin del dialogo
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
         }
