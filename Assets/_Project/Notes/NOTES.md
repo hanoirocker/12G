@@ -1,10 +1,9 @@
-- Se ha agregado textos al canvas de Examination.
-- El efecto Electric feel ahora cambia de intensidad dependiendo del uso del walkie talkie. Su valor siempre fluctua entre el mínimo (maximo * 0.5f) y el máximo que depende del evento.
 - Se agregó la animación por script ProceduralFaint (curvas de rotación (tiempo))
+- Se agregaron corrutinas de Depth of Field, Vignette y filtro pasa bajos que se disparan previo al ProceduralFaint.
 
 
 TOFIX:
-- DizzinessHandler .. al rotar el jugador mientras se aplica el efecto se exprimentan tirones de giro.
+- Se puede "spottear" el auto de la policia antes de que choque, disparando el dialogo de Mica antes de lo deseado.
 
 TODO - próximo:
 - Agregar sonidos para cuando come la pizza.
