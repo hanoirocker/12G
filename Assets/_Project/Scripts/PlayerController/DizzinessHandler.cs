@@ -45,10 +45,15 @@ namespace TwelveG.PlayerController
         {
             // Reducción de la sensibilidad del ratón
             storedSensitivity = FPController.RotationSpeed;
+
+            // Inhabilita al jugador a correr
+            FPController.ToggleSprint(false);
         }
 
         private void OnDisable()
         {
+            FPController.ToggleSprint(true);
+
             FPController.RotationSpeed = storedSensitivity;
         }
 

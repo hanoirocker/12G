@@ -20,7 +20,7 @@ MonoBehaviour:
   - language: 1
     dialogText: Simon..... please ..my friend ..
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 3.5
+  timeBeforeShowing: 7
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
   nextDialog: {fileID: 0}

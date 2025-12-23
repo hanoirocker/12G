@@ -71,6 +71,8 @@ MonoBehaviour:
     type: 2}
   onCutSceneFinished: {fileID: 11400000, guid: ed900cf44ac8c4ec7bb1c776c8839d58, type: 2}
   onTimelineFinished: {fileID: 11400000, guid: 03fa9f9ad32cb4d089a3ca8c5259edab, type: 2}
+  onProceduralFaintFinished: {fileID: 11400000, guid: 257d0282233c546958ff451c44b4e595,
+    type: 2}
   onEnablePlayerItem: {fileID: 11400000, guid: db3f86513c173994cbebbc47a6a65d05, type: 2}
   onPlayerControls: {fileID: 11400000, guid: 451880e154eb744aaa22ab8cf5b0b202, type: 2}
   onVirtualCamerasControl: {fileID: 11400000, guid: 3acb40e7a3c524168b69676446ac2f6a,

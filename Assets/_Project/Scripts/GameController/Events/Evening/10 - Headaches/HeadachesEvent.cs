@@ -3,6 +3,7 @@ using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
+using TwelveG.PlayerController;
 using TwelveG.VFXController;
 using UnityEngine;
 
@@ -42,16 +43,18 @@ namespace TwelveG.GameController
             // Durante el dialogo con Mica se dispara el evento "onHeadacheMaxIntensity"
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
-
             VFXManager.Instance.SetElectricFeelIntensity(1f);
 
-            yield return new WaitForSeconds(4f);
+            // Esperar efecto de Depth of Field, Vignette y filtro pasa graves
+            yield return new WaitForSeconds(15f);
+
             VFXManager.Instance.TriggerProceduralFaint();
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
 
             // A esta altura Simon ya debería haber caido al suelo por el dolor de cabeza
             // y el image canvas debería estar negro. Todo esto es manejado por el VFXManager?
 
-            // Fin del dialogo
+            // ProceduralFaint terminó al cerar los ojos, levanta "onProceduralFaintFinished"
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
         }

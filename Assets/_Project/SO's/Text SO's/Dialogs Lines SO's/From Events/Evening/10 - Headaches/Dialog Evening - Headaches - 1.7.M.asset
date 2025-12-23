@@ -20,7 +20,7 @@ MonoBehaviour:
   - language: 1
     dialogText: Simon, please answer me!
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 3.5
+  timeBeforeShowing: 6
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
   nextDialog: {fileID: 11400000, guid: 5d870423fb5f849e1b43d81e3aa28e98, type: 2}

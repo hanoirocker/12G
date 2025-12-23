@@ -113,7 +113,7 @@ namespace TwelveG.VFXController
 
                 if (fpController.IsSprinting())
                 {
-                    fpController.EnableSprint(false);
+                    fpController.ToggleSprint(false);
                 }
 
                 dizzinessHandler.SetDizzinessIntensity(currentAppliedIntensity);

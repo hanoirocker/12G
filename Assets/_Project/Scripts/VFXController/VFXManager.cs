@@ -1,3 +1,4 @@
+using TwelveG.AudioController;
 using TwelveG.GameController;
 using TwelveG.PlayerController;
 using UnityEngine;
@@ -85,7 +86,7 @@ namespace TwelveG.VFXController
             }
 
             // Si el efecto ya estaba habilitado, actualizamos su estado de intensidad y volumen
-            if(electricFeelHandler.enabled)
+            if (electricFeelHandler.enabled)
             {
                 electricFeelHandler.StartTransition(20f);
             }
@@ -127,11 +128,23 @@ namespace TwelveG.VFXController
         {
             Debug.Log("[VFXManager] SetElectricFeelIntensity to " + newMultiplier);
             electricFeelHandler.SetIntensity(newMultiplier);
+
+            // Maximo valor en el que comienza el desmayo de Simón
+            if (newMultiplier == 1f)
+            {
+                // Deshabilita la capacidad de sprint del jugador
+                playerTransform.GetComponentInParent<FPController>().EnableSprint(false);
+
+                // Se activa el efecto de DoF, Vignette y el filtro pasa graves
+                StartCoroutine(postProcessingHandler.DoFAndVignetteRoutine(15f, 0.3f, 1f, 10f));
+                StartCoroutine(AudioManager.Instance.LowPassCorutine("inGameLowPassCutOff", 250f, 15f));
+            }
         }
 
         public void TriggerProceduralFaint()
         {
             ProceduralFaint proceduralFaint = playerTransform?.GetComponentInParent<ProceduralFaint>();
+
             if (proceduralFaint != null)
             {
                 proceduralFaint.enabled = true;

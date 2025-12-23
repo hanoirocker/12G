@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -21,6 +22,8 @@ namespace TwelveG.PlayerController
         public float RotationSpeed = 1.0f;
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
+        public InputActionAsset inputActions;
+        public InputActionAsset noSprintInputActions;
 
         [Space(10)]
         [Tooltip("The height the player can jump")]
@@ -266,7 +269,7 @@ namespace TwelveG.PlayerController
             Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
         }
 
-        public void EnableSprint(bool enable)
+        public void ToggleSprint(bool enable)
         {
             _input.sprint = enable;
         }
@@ -274,6 +277,19 @@ namespace TwelveG.PlayerController
         public bool IsSprinting()
         {
             return _input.sprint;
+        }
+
+        public void EnableSprint(bool enable)
+        {
+            if(enable)
+            {
+                GetComponent<PlayerInput>().actions = inputActions;
+            }
+            else
+            {
+                _input.sprint = false;
+                GetComponent<PlayerInput>().actions = noSprintInputActions;
+            }
         }
     }
 }

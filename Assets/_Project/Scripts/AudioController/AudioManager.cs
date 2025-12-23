@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Timers;
 using TwelveG.SaveSystem;
 using TwelveG.UIController;
 using UnityEngine;
@@ -155,13 +157,26 @@ namespace TwelveG.AudioController
 
         public void EnableLowPassOnAmbientChannel(bool enable)
         {
-            if(enable)
+            if (enable)
             {
                 masterMixer.SetFloat("ambientLowPassCutOff", 5000f);
             }
             else
             {
                 masterMixer.SetFloat("ambientLowPassCutOff", 22000f);
+            }
+        }
+
+        public IEnumerator LowPassCorutine(string param, float targetValue, float duration)
+        {
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float newValue = Mathf.Lerp(22000f, targetValue, elapsed / duration);
+                masterMixer.SetFloat(param, newValue);
+                yield return null;
             }
         }
 

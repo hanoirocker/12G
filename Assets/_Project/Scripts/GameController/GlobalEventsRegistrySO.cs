@@ -41,6 +41,9 @@ namespace TwelveG.GameController
         public GameEventSO onCutSceneFinished;
         public GameEventSO onTimelineFinished;
 
+        [Header("From Events")]
+        public GameEventSO onProceduralFaintFinished;
+
         [Header("Player & Controls")]
         public GameEventSO onEnablePlayerItem;
         public GameEventSO onPlayerControls;
