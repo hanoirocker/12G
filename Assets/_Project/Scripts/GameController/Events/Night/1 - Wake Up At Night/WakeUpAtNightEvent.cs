@@ -1,69 +1,79 @@
 using System.Collections;
 using TwelveG.AudioController;
+using TwelveG.DialogsController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
 using TwelveG.UIController;
+using TwelveG.Utils;
 using UnityEngine;
 
 namespace TwelveG.GameController
 {
     public class WakeUpAtNightEvent : GameEventBase
     {
-        [Header("EventsSO references")]
-        public GameEventSO onStartWeatherEvent;
-        public GameEventSO onImageCanvasControls;
-        public GameEventSO onDialogCanvasShowDialog;
-        public GameEventSO onInteractionCanvasShowText;
-        public GameEventSO onInteractionCanvasControls;
+        [Header("Event options")]
+        [SerializeField, Range(1, 10)] private int initialTime = 3;
+
+        [Space]
+        [Header("Text event SO")]
+        [SerializeField] private DialogSO dialogSO;
+        [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
+
+        [Space]
+        [Header("Audio Options")]
+        [SerializeField] private AudioClip nightStandUpClip;
 
         private bool allowNextAction = false;
-        private Animation animationComponent;
 
         public override IEnumerator Execute()
         {
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardRain);
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Bed, true));
+            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
 
-            // Parpadeo del jugador y activación de controles de menú
-            // playerCapsule.SetActive(false);
-            // playerVC.enabled = false;
-            // bedVC.enabled = true;
-            // playerShortcuts.enabled = false;
+            yield return new WaitForSeconds(initialTime);
 
-            // controlCanvasHandler.DeactivateControlCanvas();
-
-            // mainCamera.SetActive(true);
-            // cameraZoom.enabled = false;
-
-            // yield return imageCanvasHandler.WakeUpBlinking();
             GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
             yield return new WaitForSeconds(5f);
 
-            // playerShortcuts.enabled = true;
-
             // Comentario sobre qué carajo hace en la cama
-            // yield return dialogCanvasHandler.ShowDialog(eventIndex);
-            onDialogCanvasShowDialog.Raise(this, "PRIMER DIALOGO DE WAKEUPNOCHE");
-            yield return new WaitForSeconds(2f);
+            GameEvents.Common.onStartDialog.Raise(this, dialogSO);
+            yield return new WaitForSeconds(8f);
 
-            // yield return dialogCanvasHandler.ShowDialog(eventIndex);
-            onDialogCanvasShowDialog.Raise(this, "SEGUNDO DIALOGO DE WAKEUPNOCHE");
-            yield return new WaitForSeconds(2f);
-
-            // interactionCanvasHandler.ShowInteractionText("LEVANTARSE [E]");
-            GameEvents.Common.onInteractionCanvasShowText.Raise(this, "LEVANTARSE [E]");
+            // LEVANTARSE [E]
+            GameEvents.Common.onEventInteractionCanvasShowText.Raise(
+                this,
+                eventsInteractionTextsSO
+            );
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            // interactionCanvasHandler.HideText();
             GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
 
-            // animationComponent = bedVC.GetComponent<Animation>();
-            animationComponent.enabled = true;
-            animationComponent.Play();
-            yield return new WaitUntil(() => !animationComponent.isPlaying);
+            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
+            if (audioSource != null && nightStandUpClip != null)
+            {
+                audioSource.PlayOneShot(nightStandUpClip);
+            }
 
-            // yield return imageCanvasHandler.FadeOutImage(0.5f);
+            GameEvents.Common.playWakeUpAtNightVCAnimation.Raise(this, null);
+
+            // Unity Event (WakeUpVCHandler - onAnimationHasEnded):
+            // Cuando termina la animación `incorporarse`, se pasa a lo próximo.
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
             yield return new WaitForSeconds(1f);
 
-            // bedVC.enabled = false;
-            // cameraZoom.enabled = true;
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
+
+            yield return new WaitForSeconds(1f);
+
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
         }
 
         public void AllowNextActions(Component sender, object data)

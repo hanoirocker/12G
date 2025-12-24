@@ -11,22 +11,16 @@ namespace TwelveG.GameController
     public class WakeUpEvent : GameEventBase
     {
         [Header("Event options")]
-        [Space]
         [SerializeField, Range(1, 10)] private int initialTime = 3;
 
-        [Header("Audio Options")]
         [Space]
+        [Header("Audio Options")]
         [SerializeField] private AudioClip standUpClip;
 
-        [Header("Text event SO")]
         [Space]
+        [Header("Text event SO")]
         [SerializeField] private ObservationTextSO eventsObservationTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
-
-        [Header("Other eventsSO references")]
-        [Space]
-        [SerializeField] private GameEventSO playWakeUpVCAnimation;
-        [SerializeField] private GameEventSO playCrashingWindowSound;
 
         private bool allowNextAction = false;
 
@@ -48,7 +42,7 @@ namespace TwelveG.GameController
 
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
 
-            playCrashingWindowSound.Raise(this, null);
+            GameEvents.Common.playCrashingWindowSound.Raise(this, null);
             yield return new WaitForSeconds(3f);
 
             GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
@@ -82,7 +76,7 @@ namespace TwelveG.GameController
 
             GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
 
-            playWakeUpVCAnimation.Raise(this, null);
+            GameEvents.Common.playWakeUpVCAnimation.Raise(this, null);
 
             // Unity Event (WakeUpVCHandler - onAnimationHasEnded):
             // Cuando termina la animación `incorporarse`, se pasa a lo próximo.

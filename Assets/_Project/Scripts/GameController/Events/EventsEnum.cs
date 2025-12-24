@@ -23,6 +23,6 @@ namespace TwelveG.GameController
         Headaches,
 
         // --- NIGHT SCENE ---
-        // ...
+        WakeUpAtNight,
     }
 }
