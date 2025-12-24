@@ -1,10 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.EnvironmentController
 {
-    using System.Collections;
-    using System.Collections.Generic;
-  using TwelveG.PlayerController;
-  using UnityEngine;
-
     public class PoliceCarHandler : MonoBehaviour
     {
         [Header("Vehicle Settings")]
