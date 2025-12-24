@@ -52,7 +52,7 @@ namespace TwelveG.PlayerController
 
         private void OnDisable()
         {
-            FPController.ToggleSprint(true);
+            FPController.EnableSprint(true);
 
             FPController.RotationSpeed = storedSensitivity;
         }
