@@ -1,4 +1,5 @@
 using System.Collections;
+using Cinemachine;
 using TwelveG.AudioController;
 using TwelveG.DialogsController;
 using TwelveG.Localization;
@@ -67,13 +68,30 @@ namespace TwelveG.GameController
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
             yield return new WaitForSeconds(1f);
 
-            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, false));
+            GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Bed, false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             yield return new WaitForSeconds(1f);
 
             GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
+
+            // ----- ESTO IRIA EN EL PROXIMO EVENTO -----
+
+            // // Esto es para actualizar los fallback texts para las Main Doors en particular
+            // GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
+            // // Actualizar text de ayuda del canvas del menu de pausa al presionar ESC
+            // GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
+
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            yield return new WaitForSeconds(1f);
+
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
+
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
         }
 
         public void AllowNextActions(Component sender, object data)

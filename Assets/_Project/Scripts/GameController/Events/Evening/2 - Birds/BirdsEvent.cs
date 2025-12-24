@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using TwelveG.PlayerController;
 using TwelveG.Utils;
 using Cinemachine;
-using TwelveG.AudioController;
 using TwelveG.EnvironmentController;
-using TwelveG.VFXController;
 
 namespace TwelveG.GameController
 {
@@ -25,7 +23,6 @@ namespace TwelveG.GameController
 
         [Header("Other eventsSO references")]
         [Space]
-        [SerializeField] GameEventSO onSpawnVehicle;
         [SerializeField] GameEventSO trashBagCanBePicked;
         [SerializeField] GameEventSO broomCanBePicked;
         [SerializeField] GameEventSO destroyWindowToReplace;

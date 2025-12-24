@@ -23,7 +23,7 @@ namespace TwelveG.VFXController
             {
                 // Avisa al VFXManager que entre en zona de resonancia
                 float realRadius = sphereCol.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y, transform.lossyScale.z);
-                VFXManager.Instance.ResonanceZoneEntered(transform, realRadius, minDistanceForMaxImpact);
+                VFXManager.Instance?.ResonanceZoneEntered(transform, realRadius, minDistanceForMaxImpact);
                 zoneIsActive = true;
             }
         }
