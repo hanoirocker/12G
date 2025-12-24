@@ -64,6 +64,7 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, eyesCloseDuration));
+
             AudioManager.Instance.FaderHandler.FadeAudioGroup(
                 AudioGroup.inGameVol,
                 AudioManager.Instance.GetCurrentChannelVolume("inGameVol"),

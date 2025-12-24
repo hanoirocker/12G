@@ -59,7 +59,7 @@ namespace TwelveG.AudioController
         yield return null;
       }
 
-      masterMixer.SetFloat(audioGroup, Mathf.Log10(to) * 20);
+      masterMixer.SetFloat(audioGroup, AudioUtils.NormalizedToDecibels(to));
     }
   }
 }
