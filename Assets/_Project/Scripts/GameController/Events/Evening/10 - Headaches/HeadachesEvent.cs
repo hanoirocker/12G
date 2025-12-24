@@ -1,9 +1,11 @@
 using System.Collections;
+using TwelveG.AudioController;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
+using TwelveG.UIController;
 using TwelveG.VFXController;
 using UnityEngine;
 
@@ -13,6 +15,8 @@ namespace TwelveG.GameController
     {
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 2;
+        [Tooltip("Duración para cerrar los ojos")]
+        [SerializeField] private float eyesCloseDuration = 6f;
 
         [Header("Text event SO")]
         [SerializeField] private DialogSO dialogOs;
@@ -49,6 +53,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(15f);
 
             VFXManager.Instance.TriggerProceduralFaint();
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
 
             // A esta altura Simon ya debería haber caido al suelo por el dolor de cabeza
@@ -57,6 +62,16 @@ namespace TwelveG.GameController
             // ProceduralFaint terminó al cerar los ojos, levanta "onProceduralFaintFinished"
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, eyesCloseDuration));
+            AudioManager.Instance.FaderHandler.FadeAudioGroup(
+                AudioGroup.inGameVol,
+                AudioManager.Instance.GetCurrentChannelVolume("inGameVol"),
+                0,
+                eyesCloseDuration
+            );
+
+            yield return new WaitForSeconds(eyesCloseDuration);
         }
 
         public void AllowNextActions(Component sender, object data)

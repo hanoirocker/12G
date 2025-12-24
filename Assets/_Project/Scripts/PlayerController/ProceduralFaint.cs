@@ -1,6 +1,5 @@
 using System.Collections;
 using TwelveG.GameController;
-using TwelveG.UIController;
 using UnityEngine;
 
 namespace TwelveG.PlayerController
@@ -13,8 +12,6 @@ namespace TwelveG.PlayerController
         [Header("Procedural Animation Settings")]
         [Tooltip("Duración total de la caída")]
         [SerializeField] private float duration = 2.0f;
-        [Tooltip("Duración para cerrar los ojos")]
-        [SerializeField] private float eyesCloseDuration = 6f;
 
         [Header("Rotation Curves (Variaciones relativas)")]
         [Tooltip("Curva de cabeceo (X). Ej: De 0 a 80.")]
@@ -95,9 +92,6 @@ namespace TwelveG.PlayerController
 
                 yield return null;
             }
-
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, eyesCloseDuration));
-            yield return new WaitForSeconds(eyesCloseDuration);
 
             GameEvents.Common.onProceduralFaintFinished.Raise(this, null);
         }

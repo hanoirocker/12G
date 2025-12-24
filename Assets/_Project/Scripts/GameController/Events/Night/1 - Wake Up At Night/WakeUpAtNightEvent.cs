@@ -1,10 +1,10 @@
+using System.Collections;
+using TwelveG.AudioController;
+using TwelveG.UIController;
+using UnityEngine;
+
 namespace TwelveG.GameController
 {
-    using System.Collections;
-    using TwelveG.AudioController;
-    using TwelveG.UIController;
-    using UnityEngine;
-
     public class WakeUpAtNightEvent : GameEventBase
     {
         [Header("EventsSO references")]
@@ -14,7 +14,7 @@ namespace TwelveG.GameController
         public GameEventSO onInteractionCanvasShowText;
         public GameEventSO onInteractionCanvasControls;
 
-        // private bool allowNextAction = false;
+        private bool allowNextAction = false;
         private Animation animationComponent;
 
         public override IEnumerator Execute()
@@ -66,16 +66,15 @@ namespace TwelveG.GameController
             // cameraZoom.enabled = true;
         }
 
-        // public void AllowNextActions(Component sender, object data)
-        // {
-        //     print(gameObject.name + " recieved event sent by: " + sender.gameObject.name);
-        //     allowNextAction = true;
-        // }
+        public void AllowNextActions(Component sender, object data)
+        {
+            allowNextAction = true;
+        }
 
-        // public void ResetAllowNextActions()
-        // {
-        //     allowNextAction = false;
-        // }
+        public void ResetAllowNextActions()
+        {
+            allowNextAction = false;
+        }
     }
 
 }

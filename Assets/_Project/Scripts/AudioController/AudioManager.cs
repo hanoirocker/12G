@@ -78,7 +78,7 @@ namespace TwelveG.AudioController
             }
         }
 
-        private float GetCurrentChannelVolume(string channel)
+        public float GetCurrentChannelVolume(string channel)
         {
             float currentValue;
             if (masterMixer.GetFloat(channel, out currentValue))

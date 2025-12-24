@@ -4,7 +4,6 @@ using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
 using TwelveG.Utils;
-using TwelveG.VFXController;
 using UnityEngine;
 
 namespace TwelveG.GameController
@@ -104,7 +103,6 @@ namespace TwelveG.GameController
 
         public void AllowNextActions(Component sender, object data)
         {
-            print(gameObject.name + " recieved event sent by: " + sender.gameObject.name);
             allowNextAction = true;
         }
 
