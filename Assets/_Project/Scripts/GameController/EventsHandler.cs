@@ -24,6 +24,7 @@ namespace TwelveG.GameController
         [SerializeField] private bool freeRoam = false;
         [SerializeField] private bool loadSpecificEvent = false;
         [SerializeField] private EventsEnum eventEnumToLoad = EventsEnum.WakeUp;
+        [SerializeField] private bool loadNextSceneOnEventsFinished = true;
 
         [Header("VFX Settings")]
         [Space]
@@ -234,7 +235,7 @@ namespace TwelveG.GameController
             }
 
             // Finalización normal de todos los eventos
-            if (!loadSpecificEvent)
+            if (loadNextSceneOnEventsFinished)
             {
                 currentEventIndex = 0;
                 GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);

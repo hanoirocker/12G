@@ -15,6 +15,7 @@ namespace TwelveG.EditorScripts
         SerializedProperty freeRoam;
         SerializedProperty loadSpecificEvent;
         SerializedProperty eventEnumToLoad;
+        SerializedProperty loadNextSceneOnEventsFinished;
 
         SerializedProperty headacheVFXIntensity;
         SerializedProperty electricFeelVFXIntensity;
@@ -32,6 +33,7 @@ namespace TwelveG.EditorScripts
             freeRoam = serializedObject.FindProperty("freeRoam");
             loadSpecificEvent = serializedObject.FindProperty("loadSpecificEvent");
             eventEnumToLoad = serializedObject.FindProperty("eventEnumToLoad");
+            loadNextSceneOnEventsFinished = serializedObject.FindProperty("loadNextSceneOnEventsFinished");
 
             headacheVFXIntensity = serializedObject.FindProperty("headacheVFXIntensity");
             electricFeelVFXIntensity = serializedObject.FindProperty("electricFeelVFXIntensity");
@@ -58,6 +60,7 @@ namespace TwelveG.EditorScripts
 
             if (!freeRoam.boolValue)
             {
+                EditorGUILayout.PropertyField(loadNextSceneOnEventsFinished);
                 EditorGUILayout.PropertyField(loadSpecificEvent);
             }
 
