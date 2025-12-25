@@ -54,8 +54,9 @@ namespace TwelveG.GameController
         public GameEventSO onVirtualCamerasControl;
         public GameEventSO onMainCameraSettings;
 
-        [Header("Inventory")]
+        [Header("Items & Inventory")]
         public GameEventSO onPizzaPickedUp;
+        public GameEventSO onFlashlightPickedUp;
 
         [Header("Localization")]
         public GameEventSO onLanguageChanged;

@@ -88,7 +88,6 @@ namespace TwelveG.InteractableObjects
         {
             isMoving = true;
             float duration = PlaySlidingDrawerSounds();
-            Debug.Log(duration);
             float elapsedTime = 0f;
 
             Transform targetTransform = slidesParent ? parentObject.transform : gameObject.transform;

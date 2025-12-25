@@ -9,7 +9,6 @@ namespace TwelveG.PlayerController
     {
         [Header("Player Capsule References")]
         [SerializeField] private GameObject playerCapsule;
-        [SerializeField] private CapsuleCollider playerCapsuleCollider;
         [SerializeField] private FPController fPController;
         [SerializeField] private AudioSource playerAudioSource;
         [SerializeField] private PlayerSoundsHandler playerSoundsHandler;
@@ -63,6 +62,9 @@ namespace TwelveG.PlayerController
                     break;
                 case EnablePauseMenuCanvasAccess cmd:
                     playerShortcuts.playerCanOpenPauseMenu = cmd.Enabled;
+                    break;
+                case EnablePlayerSprint cmd:
+                    fPController.EnableSprint(cmd.Enabled);
                     break;
                 case TogglePlayerCapsule cmd:
                     playerCapsule.SetActive(cmd.Enabled);

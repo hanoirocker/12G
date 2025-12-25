@@ -116,6 +116,7 @@ namespace TwelveG.EditorScripts
             {
                 AddEnumOption(EventsEnum.Night_Narrative_Intro, displayOptions, optionValues);
                 AddEnumOption(EventsEnum.WakeUpAtNight, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.LockedUp, displayOptions, optionValues);
             }
             
             // Fallback: Si la lista está vacía (ej: estamos en cualquier Menu), mostramos todo por seguridad

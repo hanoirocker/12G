@@ -25,5 +25,6 @@ namespace TwelveG.GameController
         // --- NIGHT SCENE ---
         Night_Narrative_Intro,
         WakeUpAtNight,
+        LockedUp,
     }
 }

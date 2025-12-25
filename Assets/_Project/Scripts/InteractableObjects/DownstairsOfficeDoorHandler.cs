@@ -34,6 +34,7 @@ namespace TwelveG.InteractableObjects
         [Header("Audio settings")]
         [SerializeField] private AudioClip lockedSound = null;
         [SerializeField] private AudioClip unclockedSound = null;
+        [SerializeField] private AudioClip eventUnlockedSound = null;
         [SerializeField] private AudioClip openingDoorSound;
         [SerializeField] private AudioClip closingDoorSound;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
@@ -197,6 +198,16 @@ namespace TwelveG.InteractableObjects
             {
                 playerInventory.RemoveItem(itemNeeded);
             }
+        }
+
+        public void UnlockDoorByEvent()
+        {
+            if (eventUnlockedSound != null)
+            {
+                audioSource.PlayOneShot(eventUnlockedSound);
+            }
+
+            doorIsLocked = false;
         }
 
         public ObservationTextSO GetFallBackText()

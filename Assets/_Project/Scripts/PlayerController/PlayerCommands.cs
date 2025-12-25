@@ -45,6 +45,12 @@ namespace TwelveG.PlayerController
         public EnablePlayerControllers(bool enabled) => Enabled = enabled;
     }
 
+    public class EnablePlayerSprint : PlayerCommandBase
+    {
+        public bool Enabled;
+        public EnablePlayerSprint(bool enabled) => Enabled = enabled;
+    }
+
     public class TogglePlayerMainCamera : PlayerCommandBase
     {
         public bool Enabled;
