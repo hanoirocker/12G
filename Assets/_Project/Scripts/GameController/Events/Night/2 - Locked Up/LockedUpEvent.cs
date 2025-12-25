@@ -1,4 +1,6 @@
 using System.Collections;
+using TwelveG.AudioController;
+using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
@@ -17,7 +19,7 @@ namespace TwelveG.GameController
 
         [Space]
         [Header("Audio Options")]
-        // [SerializeField] private AudioClip nightStandUpClip;
+        [SerializeField] private AudioClip hauntingSoundClip;
 
         [Space]
         [Header("Game Event SO's")]
@@ -48,13 +50,32 @@ namespace TwelveG.GameController
             // Recibe "onFlashlightPickedUp" para permitir la siguiente acción
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+            GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.Flashlight);
 
+            yield return new WaitForSeconds(6f);
             // Ruido de desbloqueo de la puerta
             onPlayerDoorUnlock.Raise(this, null);
-
             yield return new WaitForSeconds(2f);
             // Ya era hora ..
             GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[1]);
+
+            yield return new WaitForSeconds(2f);
+
+            // Comienza musica "Haunting Sound"
+            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
+
+            if (bgMusicSource != null && hauntingSoundClip != null)
+            {
+                bgMusicSource.clip = hauntingSoundClip;
+                bgMusicSource.volume = 0f;
+                bgMusicSource.loop = true;
+                bgMusicSource.Play();
+
+                StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, 0.5f, 13f));
+            }
+
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
         }
 
         public void AllowNextActions(Component sender, object data)

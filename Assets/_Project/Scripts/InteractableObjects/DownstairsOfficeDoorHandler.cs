@@ -151,9 +151,7 @@ namespace TwelveG.InteractableObjects
                 }
                 else
                 {
-                    doorPickAnimation.Play();
-                    audioSource.PlayOneShot(lockedSound);
-                    lockedIndex += 1;
+                    StartCoroutine(PlayLockCoroutine());
                     return false;
                 }
             }
@@ -163,6 +161,16 @@ namespace TwelveG.InteractableObjects
                 return true;
             }
 
+        }
+
+        private IEnumerator PlayLockCoroutine()
+        {
+            isMoving = true;
+            doorPickAnimation.Play();
+            audioSource.PlayOneShot(lockedSound);
+            yield return new WaitForSeconds(1.5f);
+            lockedIndex += 1;
+            isMoving = false;
         }
 
         private IEnumerator UnlockDoor(PlayerInteraction playerCamera)
@@ -183,6 +191,8 @@ namespace TwelveG.InteractableObjects
 
         public bool VerifyIfPlayerCanInteract(PlayerInteraction playerCamera)
         {
+            if (objectsNeededType.Count == 0 && doorIsLocked) { return false; }
+
             playerItems = playerCamera.GetComponentInChildren<PlayerInventory>().returnPickedItems();
 
             bool allItemsPresent = objectsNeededType.All(item => playerItems.Contains(item.ToString()));
@@ -200,19 +210,38 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        public void UnlockDoorByEvent()
+        private IEnumerator UnlockDoorByEventCoroutine()
         {
             if (eventUnlockedSound != null)
             {
+                if (audioSource == null)
+                {
+                    (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+                }
+
                 audioSource.PlayOneShot(eventUnlockedSound);
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             }
 
             doorIsLocked = false;
         }
 
+        public void UnlockDoorByEvent()
+        {
+            StartCoroutine(UnlockDoorByEventCoroutine());
+        }
+
         public ObservationTextSO GetFallBackText()
         {
-            return observationFallback;
+            if (lockedIndex == 0)
+            {
+                return observationFallback;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

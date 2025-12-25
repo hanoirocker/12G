@@ -33,7 +33,6 @@ namespace TwelveG.GameController
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
 
-            GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.PoliceCarCrash);
 
             // "Police Car Crashed - Spot" dispara el evento policeCarSpotted al ser chekeado por Simon
