@@ -1,5 +1,4 @@
 using System.Collections;
-using Cinemachine;
 using TwelveG.AudioController;
 using TwelveG.DialogsController;
 using TwelveG.Localization;

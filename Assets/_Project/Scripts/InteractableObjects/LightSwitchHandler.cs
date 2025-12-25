@@ -9,9 +9,9 @@ namespace TwelveG.InteractableObjects
     public class LightSwitchHandler : MonoBehaviour, IInteractable
     {
         [Header("Object settings: ")]
-        [SerializeField] private bool isTableLamp = false;
-        [SerializeField] private GameObject lamp;
-        [SerializeField] private Renderer lampRenderer;
+        [SerializeField] private bool isTableLamp;
+        [SerializeField] private Light[] lights;
+        [SerializeField] private Renderer[] bulbsRenderers;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_turnOn;
@@ -23,69 +23,77 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private AudioClip clickSound;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
 
-        private Light lampLight;
-        private Material bulbMaterial;
         private AudioSource audioSource;
         private AudioSourceState audioSourceState;
-        private bool lampIsActive;
-
-        private void Awake()
-        {
-            lampLight = lamp.GetComponentInChildren<Light>();
-        }
+        private bool lightsAreActive;
 
         private void Start()
         {
-            if (lampRenderer != null)
+            if (lightsAreActive)
             {
-                if (isTableLamp)
+                foreach (Light singleLight in lights)
                 {
-                    bulbMaterial = lampRenderer.materials[1];
+                    singleLight.enabled = true;
                 }
-                else
-                {
-                    bulbMaterial = lampRenderer.material;
-                }
-            }
 
-            lampIsActive = lampLight.isActiveAndEnabled;
+                ToogleEmissions();
+            }
         }
 
-        private void Tooglelamp()
+        private void ToogleLights()
         {
-            if (bulbMaterial != null)
+            ToogleEmissions();
+
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            audioSource.clip = clickSound;
+            audioSource.pitch = Random.Range(0.9f, 1.2f);
+
+            foreach (Light singleLight in lights)
             {
-                ToogleEmission();
+                singleLight.enabled = !singleLight.enabled;
             }
 
-            if (makesClickSound && clickSound != null)
-            {
-                (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
-                audioSource.clip = clickSound;
-                audioSource.pitch = Random.Range(0.78f, 1.15f);
-            }
-
-            lampLight.enabled = !lampLight.enabled;
-            lampIsActive = !lampIsActive;
-            StartCoroutine(MakeClickSoundRoutine());
+            StartCoroutine(PlayLightsSwitchSoundCoroutine());
+            lightsAreActive = !lightsAreActive;
         }
 
-        private IEnumerator MakeClickSoundRoutine()
+        private IEnumerator PlayLightsSwitchSoundCoroutine()
         {
             audioSource.Play();
             yield return new WaitUntil(() => !audioSource.isPlaying);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
         }
 
-        private void ToogleEmission()
+        public void ToogleEmissions()
         {
-            if (!lampLight.enabled)
+            if (isTableLamp)
             {
-                bulbMaterial.EnableKeyword("_EMISSION");
+                Material bulbMaterial = bulbsRenderers[0].materials[1];
+                if (!lightsAreActive)
+                {
+                    bulbMaterial.EnableKeyword("_EMISSION");
+                }
+                else
+                {
+                    bulbMaterial.DisableKeyword("_EMISSION");
+                }
+                return;
             }
             else
             {
-                bulbMaterial.DisableKeyword("_EMISSION");
+                foreach (Renderer bulbRenderer in bulbsRenderers)
+                {
+                    Material bulbMaterial = bulbRenderer.material;
+
+                    if (!lightsAreActive)
+                    {
+                        bulbMaterial.EnableKeyword("_EMISSION");
+                    }
+                    else
+                    {
+                        bulbMaterial.DisableKeyword("_EMISSION");
+                    }
+                }
             }
         }
 
@@ -96,12 +104,12 @@ namespace TwelveG.InteractableObjects
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
-            return lampIsActive ? interactionTextsSO_turnOff : interactionTextsSO_turnOn;
+            return lightsAreActive ? interactionTextsSO_turnOff : interactionTextsSO_turnOn;
         }
 
         public bool Interact(PlayerInteraction interactor)
         {
-            Tooglelamp();
+            ToogleLights();
             return true;
         }
 
@@ -115,5 +123,4 @@ namespace TwelveG.InteractableObjects
             throw new System.NotImplementedException();
         }
     }
-
 }
