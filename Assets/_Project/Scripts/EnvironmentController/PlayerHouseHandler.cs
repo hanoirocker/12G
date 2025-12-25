@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using TwelveG.AudioController;
+using TwelveG.InteractableObjects;
 using UnityEngine;
 
 namespace TwelveG.EnvironmentController
 {
     public class PlayerHouseHandler : MonoBehaviour
     {
-        [Header("References")]
+        [Header("Light References")]
         [SerializeField] private Light[] HouseLights;
+        [SerializeField] private LightSwitchHandler[] LightSwitches;
+        [SerializeField] private Collider[] electricInteractableColliders;
+
+        [Space]
+        [Header("Audio References")]
         [SerializeField] private GameObject acousticZonesParent;
 
         [SerializeField, Range(0f, 15f)] private float defaultDelay = 0.3f;
@@ -74,6 +80,21 @@ namespace TwelveG.EnvironmentController
             foreach (Light light in HouseLights)
             {
                 light.enabled = originalStates[light];
+            }
+        }
+
+        public void EnablePlayerHouseEnergy(Component sender, object data)
+        {
+            if(data == null) return;
+
+            foreach(LightSwitchHandler lightSwitch in LightSwitches)
+            {
+                lightSwitch.itWorks = (bool)data;
+            }
+
+            foreach(Collider col in electricInteractableColliders)
+            {
+                col.enabled = (bool)data;
             }
         }
     }

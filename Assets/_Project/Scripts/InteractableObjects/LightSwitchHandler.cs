@@ -10,7 +10,7 @@ namespace TwelveG.InteractableObjects
     {
         [Header("Object settings: ")]
         [SerializeField] private bool isTableLamp;
-        [SerializeField] private bool itWorks = true;
+        public bool itWorks = true;
         [SerializeField] private Light[] lights;
         [SerializeField] private Renderer[] bulbsRenderers;
 

@@ -45,6 +45,7 @@ namespace TwelveG.GameController
         public GameEventSO onProceduralFaintFinished;
         public GameEventSO playWakeUpVCAnimation; // WakeUpEvent
         public GameEventSO playCrashingWindowSound; // WakeUpEvent
+        public GameEventSO onEnablePlayerHouseEnergy; // WakeUpAtNightEvent
         public GameEventSO playWakeUpAtNightVCAnimation; // WakeUpAtNightEvent
 
         [Header("Player & Controls")]

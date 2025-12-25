@@ -114,7 +114,8 @@ namespace TwelveG.EditorScripts
             }
             else if (currentSceneName == SceneEnum.Night) // Pon el nombre real de tu escena
             {
-                // TODO: Agregar los de la noche
+                AddEnumOption(EventsEnum.Night_Narrative_Intro, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.WakeUpAtNight, displayOptions, optionValues);
             }
             
             // Fallback: Si la lista está vacía (ej: estamos en cualquier Menu), mostramos todo por seguridad

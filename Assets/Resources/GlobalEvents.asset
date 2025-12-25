@@ -77,6 +77,8 @@ MonoBehaviour:
     type: 2}
   playCrashingWindowSound: {fileID: 11400000, guid: 7f19d8987ec97492f9b7a0d8d9948b03,
     type: 2}
+  onEnablePlayerHouseEnergy: {fileID: 11400000, guid: ce42476a207fa4c1987b3884ba0fd9e3,
+    type: 2}
   playWakeUpAtNightVCAnimation: {fileID: 11400000, guid: 63ebebc29696c4eb7927dd7984e38e09,
     type: 2}
   onEnablePlayerItem: {fileID: 11400000, guid: db3f86513c173994cbebbc47a6a65d05, type: 2}
