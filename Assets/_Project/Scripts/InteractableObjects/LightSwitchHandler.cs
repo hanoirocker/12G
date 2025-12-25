@@ -10,6 +10,7 @@ namespace TwelveG.InteractableObjects
     {
         [Header("Object settings: ")]
         [SerializeField] private bool isTableLamp;
+        [SerializeField] private bool itWorks = true;
         [SerializeField] private Light[] lights;
         [SerializeField] private Renderer[] bulbsRenderers;
 
@@ -29,7 +30,7 @@ namespace TwelveG.InteractableObjects
 
         private void Start()
         {
-            if (lightsAreActive)
+            if (lightsAreActive && itWorks)
             {
                 foreach (Light singleLight in lights)
                 {
@@ -44,10 +45,6 @@ namespace TwelveG.InteractableObjects
         {
             ToogleEmissions();
 
-            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
-            audioSource.clip = clickSound;
-            audioSource.pitch = Random.Range(0.9f, 1.2f);
-
             foreach (Light singleLight in lights)
             {
                 singleLight.enabled = !singleLight.enabled;
@@ -59,6 +56,10 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator PlayLightsSwitchSoundCoroutine()
         {
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
+            audioSource.clip = clickSound;
+            audioSource.pitch = Random.Range(0.9f, 1.2f);
+
             audioSource.Play();
             yield return new WaitUntil(() => !audioSource.isPlaying);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
@@ -77,7 +78,6 @@ namespace TwelveG.InteractableObjects
                 {
                     bulbMaterial.DisableKeyword("_EMISSION");
                 }
-                return;
             }
             else
             {
@@ -104,23 +104,33 @@ namespace TwelveG.InteractableObjects
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
+            if (!itWorks) return null;
+
             return lightsAreActive ? interactionTextsSO_turnOff : interactionTextsSO_turnOn;
         }
 
         public bool Interact(PlayerInteraction interactor)
         {
-            ToogleLights();
-            return true;
+            if (!itWorks)
+            {
+                StartCoroutine(PlayLightsSwitchSoundCoroutine());
+                return false;
+            }
+            else
+            {
+                ToogleLights();
+                return true;
+            }
         }
 
         public bool VerifyIfPlayerCanInteract(PlayerInteraction interactor)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public ObservationTextSO GetFallBackText()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
     }
 }
