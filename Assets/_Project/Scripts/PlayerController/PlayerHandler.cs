@@ -84,7 +84,12 @@ namespace TwelveG.PlayerController
                 case EnablePlayerCameraZoom cmd:
                     cameraZoom.enabled = cmd.Enabled;
                     break;
-
+                case EnablePlayerDyingMode cmd:
+                    playerShortcuts.enabled = !cmd.Enabled;
+                    SwitchPlayerControllers(!cmd.Enabled);
+                    playerInteraction.enabled = !cmd.Enabled;
+                    playerContemplation.enabled = !cmd.Enabled;
+                    break;
                 default:
                     Debug.LogWarning($"[PlayerHandler] Comando desconocido recibido: {data}");
                     break;

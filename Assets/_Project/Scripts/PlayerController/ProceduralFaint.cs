@@ -43,8 +43,7 @@ namespace TwelveG.PlayerController
             isFainting = true;
 
             // Bloqueo de jugador
-            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerDyingMode(true));
 
             // Estados inciales
             Quaternion startRotation = playerRootTransform.rotation;
