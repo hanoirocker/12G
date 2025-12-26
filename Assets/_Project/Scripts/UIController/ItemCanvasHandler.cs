@@ -68,8 +68,6 @@ namespace TwelveG.UIController
 
         public void EnablePlayerItem(Component sender, object data)
         {
-            // Debug.Log($"[ItemCanvasHandler]: Habilitando item en canvas: {(ItemType)data}");
-
             if (iconsPanel.activeSelf == false)
             {
                 iconsPanel.SetActive(true);
@@ -83,6 +81,20 @@ namespace TwelveG.UIController
             else if (itemType == ItemType.Flashlight)
             {
                 FlashlightImageObject.SetActive(true);
+            }
+        }
+
+        public void RemovePlayerItem(Component sender, object data)
+        {
+            ItemType itemType = (ItemType)data;
+
+            if (itemType == ItemType.WalkieTalkie)
+            {
+                WTImageObject.SetActive(false);
+            }
+            else if (itemType == ItemType.Flashlight)
+            {
+                FlashlightImageObject.SetActive(false);
             }
         }
     }

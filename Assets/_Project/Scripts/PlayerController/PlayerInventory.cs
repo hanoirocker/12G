@@ -190,10 +190,13 @@ namespace TwelveG.PlayerController
                         Destroy(activeFullTrashBag);
                         break;
                     case ItemType.Flashlight:
-                        Destroy(activeFlashlight);
+                        activeFlashlight = null;
+                        activeFlashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
                         break;
                     case ItemType.WalkieTalkie:
-                        Destroy(activeWalkieTalkie);
+                        activeWalkieTalkie = null;
+                        activeWalkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
+                        VFXManager.Instance?.EnableElectricFeelVFX(false);
                         break;
                     case ItemType.Plate:
                         Destroy(activePlate);
@@ -212,6 +215,12 @@ namespace TwelveG.PlayerController
                         break;
                 }
             }
+        }
+
+        public void RemovePlayerItem(Component sender, object data)
+        {
+            ItemType itemType = (ItemType)data;
+            RemoveItem(itemType);
         }
 
         public void EnablePlayerItem(Component sender, object data)

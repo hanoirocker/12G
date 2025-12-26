@@ -50,6 +50,7 @@ namespace TwelveG.GameController
 
         [Header("Player & Controls")]
         public GameEventSO onEnablePlayerItem;
+        public GameEventSO onRemovePlayerItem;
         public GameEventSO onPlayerControls;
         public GameEventSO onVirtualCamerasControl;
         public GameEventSO onMainCameraSettings;

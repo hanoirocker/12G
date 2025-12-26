@@ -82,12 +82,15 @@ MonoBehaviour:
   playWakeUpAtNightVCAnimation: {fileID: 11400000, guid: 63ebebc29696c4eb7927dd7984e38e09,
     type: 2}
   onEnablePlayerItem: {fileID: 11400000, guid: db3f86513c173994cbebbc47a6a65d05, type: 2}
+  onRemovePlayerItem: {fileID: 11400000, guid: dc4cd2c022a0a43519fc164a582b9930, type: 2}
   onPlayerControls: {fileID: 11400000, guid: 451880e154eb744aaa22ab8cf5b0b202, type: 2}
   onVirtualCamerasControl: {fileID: 11400000, guid: 3acb40e7a3c524168b69676446ac2f6a,
     type: 2}
   onMainCameraSettings: {fileID: 11400000, guid: 8f576867975014f8fbb8407594c8ba38,
     type: 2}
   onPizzaPickedUp: {fileID: 11400000, guid: 0655c3c6307484235bd7de1c9b08bd1d, type: 2}
+  onFlashlightPickedUp: {fileID: 11400000, guid: 375b543779b874613a6d38cabcb345d7,
+    type: 2}
   onLanguageChanged: {fileID: 11400000, guid: b02a0912e606340caba42a908fc8e7cf, type: 2}
   onShowDialog: {fileID: 11400000, guid: 9fcf4b0f869f6466eb2bb2b02aeb7b23, type: 2}
   onStartDialog: {fileID: 11400000, guid: 66b799bbe356f49f4a5fb671f7a5992f, type: 2}

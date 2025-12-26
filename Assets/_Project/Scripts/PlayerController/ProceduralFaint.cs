@@ -35,15 +35,19 @@ namespace TwelveG.PlayerController
         private void OnEnable()
         {
             if (isFainting) return;
+
+            // Bloqueo de jugador
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerDyingMode(true));
+
+            // TODO: Detenemos examinaciones si existen
+
+
             StartCoroutine(FaintRoutine());
         }
 
         private IEnumerator FaintRoutine()
         {
             isFainting = true;
-
-            // Bloqueo de jugador
-            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerDyingMode(true));
 
             // Estados inciales
             Quaternion startRotation = playerRootTransform.rotation;

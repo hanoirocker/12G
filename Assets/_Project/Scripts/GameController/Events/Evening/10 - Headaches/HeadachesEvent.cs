@@ -65,7 +65,9 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            GameEvents.Common.onRemovePlayerItem.Raise(this, ItemType.WalkieTalkie);
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, eyesCloseDuration));
+
             float currentInGameVolume = AudioManager.Instance.GetCurrentChannelVolume("inGameVol");
             AudioManager.Instance.FaderHandler.FadeAudioGroup(
                 AudioGroup.inGameVol,
