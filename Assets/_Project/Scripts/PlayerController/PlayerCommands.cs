@@ -62,10 +62,4 @@ namespace TwelveG.PlayerController
         public bool Enabled;
         public EnablePlayerCameraZoom(bool enabled) => Enabled = enabled;
     }
-
-    public class EnablePlayerDyingMode : PlayerCommandBase
-    {
-        public bool Enabled;
-        public EnablePlayerDyingMode(bool enabled) => Enabled = enabled;
-    }
 }

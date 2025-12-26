@@ -84,6 +84,14 @@ namespace TwelveG.UIController
             }
         }
 
+        public void HandlePlayerDeath()
+        {
+            WTImageObject.SetActive(false);
+            WTImageObject.GetComponent<CanvasGroup>().alpha = unequipiedItemAlpha;
+            FlashlightImageObject.SetActive(false);
+            FlashlightImageObject.GetComponent<CanvasGroup>().alpha = unequipiedItemAlpha;
+        }
+
         public void RemovePlayerItem(Component sender, object data)
         {
             ItemType itemType = (ItemType)data;

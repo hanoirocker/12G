@@ -103,10 +103,10 @@ namespace TwelveG.InteractableObjects
       }
     }
 
-    private IEnumerator StopInspectingRoutine()
+    private IEnumerator StopInspectingRoutine(bool byForce = false)
     {
       // Reproducir sonido de salida
-      if (examineOutClip != null)
+      if (examineOutClip != null && !byForce)
       {
         StartCoroutine(PlayExaminationSoundCoroutine(examineOutClip));
       }
@@ -148,7 +148,11 @@ namespace TwelveG.InteractableObjects
         if (remainingTime > 0) yield return new WaitForSeconds(remainingTime);
       }
 
-      AudioUtils.StopAndRestoreAudioSource(interactionSource, audioSourceState);
+      if (!byForce)
+      {
+        AudioUtils.StopAndRestoreAudioSource(interactionSource, audioSourceState);
+      }
+
       Destroy(gameObject);
     }
 
@@ -187,6 +191,11 @@ namespace TwelveG.InteractableObjects
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
       }
+    }
+
+    public void CancelExaminationMode()
+    {
+      StartCoroutine(StopInspectingRoutine(true));
     }
 
     private void DirectRotation(PointerEventData eventData)

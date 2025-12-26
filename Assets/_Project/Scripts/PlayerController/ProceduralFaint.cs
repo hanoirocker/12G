@@ -1,5 +1,6 @@
 using System.Collections;
 using TwelveG.GameController;
+using TwelveG.InteractableObjects;
 using UnityEngine;
 
 namespace TwelveG.PlayerController
@@ -36,11 +37,8 @@ namespace TwelveG.PlayerController
         {
             if (isFainting) return;
 
-            // Bloqueo de jugador
-            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerDyingMode(true));
-
-            // TODO: Detenemos examinaciones si existen
-
+            // Escucha PlayerHandler y el UI Manager (invoca funciones de Item Canvas y futuro Dying Menu)
+            GameEvents.Common.onPlayerDying.Raise(this, null);
 
             StartCoroutine(FaintRoutine());
         }

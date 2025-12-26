@@ -9,6 +9,8 @@ namespace TwelveG.Utils
         [Header("References")]
         public GameObject lastEventSender = null;
 
+        private GameObject objectUnderExamination = null;
+
         public void SetCurrentCamera(Component sender, object data)
         {
             if (data != null)
@@ -46,8 +48,14 @@ namespace TwelveG.Utils
             if (data != null)
             {
                 lastEventSender = sender.gameObject;
-                Instantiate((GameObject)data, gameObject.transform);
+                objectUnderExamination = Instantiate((GameObject)data, gameObject.transform);
             }
+        }
+
+        public void RemoveExaminationObject()
+        {
+            Destroy(objectUnderExamination);
+            objectUnderExamination = null;
         }
     }
 }

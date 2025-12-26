@@ -190,12 +190,12 @@ namespace TwelveG.PlayerController
                         Destroy(activeFullTrashBag);
                         break;
                     case ItemType.Flashlight:
-                        activeFlashlight = null;
                         activeFlashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
+                        activeFlashlight = null;
                         break;
                     case ItemType.WalkieTalkie:
-                        activeWalkieTalkie = null;
                         activeWalkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
+                        activeWalkieTalkie = null;
                         VFXManager.Instance?.EnableElectricFeelVFX(false);
                         break;
                     case ItemType.Plate:

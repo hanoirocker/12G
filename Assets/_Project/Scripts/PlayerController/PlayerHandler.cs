@@ -1,4 +1,5 @@
 using TwelveG.AudioController;
+using TwelveG.InteractableObjects;
 using TwelveG.VFXController;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -81,12 +82,6 @@ namespace TwelveG.PlayerController
                 case EnablePlayerCameraZoom cmd:
                     cameraZoom.enabled = cmd.Enabled;
                     break;
-                case EnablePlayerDyingMode cmd:
-                    playerShortcuts.enabled = !cmd.Enabled;
-                    SwitchPlayerControllers(!cmd.Enabled);
-                    playerInteraction.enabled = !cmd.Enabled;
-                    playerContemplation.enabled = !cmd.Enabled;
-                    break;
                 default:
                     Debug.LogWarning($"[PlayerHandler] Comando desconocido recibido: {data}");
                     break;
@@ -111,6 +106,19 @@ namespace TwelveG.PlayerController
             playerInput.enabled = enabled;
             characterController.enabled = enabled;
             headBobController.enabled = enabled;
+        }
+
+        public void PlayerDyingMode()
+        {
+            mainCamera.GetComponentInChildren<ExaminableObject>()?.CancelExaminationMode();
+            playerShortcuts.enabled = false;
+            playerShortcuts.playerCanOpenPauseMenu = false;
+            SwitchPlayerControllers(false);
+            playerInteraction.enabled = false;
+            playerContemplation.enabled = false;
+            playerAddItem.enabled = false;
+            cameraZoom.enabled = false;
+            headBobController.enabled = false;
         }
 
         public void PauseGame(Component sender, object data)
