@@ -212,7 +212,10 @@ namespace TwelveG.GameController
                 SetUpCurrentEvent();
 
                 // Actualizar VFX Settings al iniciar el evento
-                VFXManager.Instance?.UpdateSceneVFXSettings(currentExecutingEvent.eventEnum);
+                if(VFXManager.Instance != null)
+                {
+                    VFXManager.Instance.UpdateSceneVFXSettings(currentExecutingEvent.eventEnum);
+                }
 
                 Debug.Log($"<--- Iniciando: {currentExecutingEvent.name} --->");
 
@@ -237,6 +240,7 @@ namespace TwelveG.GameController
             // Finalización normal de todos los eventos
             if (loadNextSceneOnEventsFinished)
             {
+                loadSpecificEvent = false;
                 currentEventIndex = 0;
                 GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
             }
@@ -299,6 +303,7 @@ namespace TwelveG.GameController
                 // Si estamos en modo test event index, no cargar próxima escena
                 if (!loadSpecificEvent)
                 {
+                    loadSpecificEvent = false;
                     currentEventIndex = 0;
                     GetComponent<SceneLoaderHandler>().LoadNextSceneSequence(currentSceneIndex + 1);
                 }

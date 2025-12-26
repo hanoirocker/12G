@@ -150,7 +150,6 @@ namespace TwelveG.UIController
         if (canvasDict.TryGetValue(canvasType, out var canvasGO))
         {
           canvasGO.SetActive(false);
-          Debug.Log($"[UIManager] Desactivado canvas: {canvasType}");
         }
       }
       else

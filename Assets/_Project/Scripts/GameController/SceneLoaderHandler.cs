@@ -79,8 +79,8 @@ namespace TwelveG.GameController
 
     public void LoadNextSceneSequence(int sceneToLoadIndex)
     {
-      // Debug.Log($"Escena actual: {SceneManager.GetActiveScene().buildIndex}");
-      // Debug.Log($"Escena a cargar {sceneToLoadIndex}");
+      Debug.Log($"Escena actual: {SceneManager.GetActiveScene().buildIndex}");
+      Debug.Log($"Escena a cargar {sceneToLoadIndex}");
 
       if (SceneManager.GetActiveScene().buildIndex == 0)
       {

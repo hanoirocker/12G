@@ -228,7 +228,7 @@ namespace TwelveG.PlayerController
                 case (ItemType.WalkieTalkie):
                     activeWalkieTalkie = walkieTalkie;
                     activeWalkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
-                    VFXManager.Instance.EnableElectricFeelVFX(true);
+                    VFXManager.Instance?.EnableElectricFeelVFX(true);
                     break;
                 default:
                     break;

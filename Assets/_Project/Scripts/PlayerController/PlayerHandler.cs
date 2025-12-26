@@ -37,10 +37,7 @@ namespace TwelveG.PlayerController
 
         void Start()
         {
-            if (VFXManager.Instance != null)
-            {
-                VFXManager.Instance.RegisterPlayer(playerCameraRoot);
-            }
+            VFXManager.Instance?.RegisterPlayer(playerCameraRoot);
         }
 
         public void PlayerControls(Component sender, object data)
