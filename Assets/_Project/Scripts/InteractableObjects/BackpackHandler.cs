@@ -109,6 +109,7 @@ namespace TwelveG.InteractableObjects
             GameEvents.Common.onObservationCanvasShowText.Raise(this, searchingTexts[3]);
 
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
         }
 
         public void SetVCAnimationComponent(Component sender, object data)

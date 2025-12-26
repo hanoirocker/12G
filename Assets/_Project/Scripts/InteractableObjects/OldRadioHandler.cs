@@ -107,6 +107,7 @@ namespace TwelveG.InteractableObjects
         yield return new WaitForSeconds(toggleClip.length);
 
         AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+        audioSource = null;
 
         audioSource = null;
         isTurnedOn = false;

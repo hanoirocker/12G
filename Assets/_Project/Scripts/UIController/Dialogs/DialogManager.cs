@@ -226,6 +226,7 @@ namespace TwelveG.DialogsController
                 GameEvents.Common.onConversationHasEnded.Raise(this, null);
                 dialogCanvas.enabled = false;
                 AudioUtils.StopAndRestoreAudioSource(dialogSource, audioSourceState);
+                dialogSource = null;
             }
         }
 

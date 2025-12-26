@@ -63,6 +63,7 @@ namespace TwelveG.InteractableObjects
             audioSource.Play();
             yield return new WaitUntil(() => !audioSource.isPlaying);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
         }
 
         public void ToogleEmissions()

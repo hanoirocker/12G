@@ -46,6 +46,7 @@ namespace TwelveG.EnvironmentController
             audioSource.Play();
             yield return new WaitUntil(() => !audioSource.isPlaying);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
         }
     }
 }

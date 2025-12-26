@@ -1,12 +1,12 @@
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using TwelveG.AudioController;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TwelveG.AudioController;
 using TwelveG.GameController;
 using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using UnityEngine;
+using TwelveG.PlayerController;
+using UnityEngine;
 
 
 namespace TwelveG.InteractableObjects
@@ -122,7 +122,11 @@ namespace TwelveG.InteractableObjects
             }
 
             boxTop.transform.localRotation = targetRotation;
-            if (actionSound) { AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState); }
+            if (actionSound)
+            {
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+                audioSource = null;
+            }
 
             pizzaBoxIsOpen = !pizzaBoxIsOpen;
             canBeInteractedWith = true;

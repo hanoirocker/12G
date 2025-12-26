@@ -151,6 +151,7 @@ namespace TwelveG.InteractableObjects
       if (!byForce)
       {
         AudioUtils.StopAndRestoreAudioSource(interactionSource, audioSourceState);
+        interactionSource = null;
       }
 
       Destroy(gameObject);

@@ -75,6 +75,7 @@ namespace TwelveG.InteractableObjects
                 audioSource.PlayOneShot(pickItemSound);
                 yield return new WaitUntil(() => !audioSource.isPlaying);
                 AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+                audioSource = null;
             }
 
             Destroy(gameObject);

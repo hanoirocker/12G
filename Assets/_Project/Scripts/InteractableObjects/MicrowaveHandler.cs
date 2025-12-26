@@ -131,6 +131,7 @@ namespace TwelveG.InteractableObjects
             // Avisa a PizzaTimeEvent para que despliegue texto.
             pizzaHeatingFinished.Raise(this, null);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
         }
 
         private void AddHeatedPizzaToInventory(PlayerInteraction playerCamera)

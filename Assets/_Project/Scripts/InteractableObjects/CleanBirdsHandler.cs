@@ -138,6 +138,7 @@ namespace TwelveG.InteractableObjects
 
             cleanZoomBird.Raise(this, null);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
 
             Destroy(this.gameObject);
         }

@@ -98,6 +98,7 @@ namespace TwelveG.InteractableObjects
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
             yield return new WaitUntil(() => !pcAudioSource.isPlaying);
             AudioUtils.StopAndRestoreAudioSource(pcAudioSource, pcAudioSourceState);
+            pcAudioSource = null;
 
             pcScreens[5].SetActive(false);
             pcScreens[0].SetActive(true);
@@ -188,6 +189,7 @@ namespace TwelveG.InteractableObjects
             // Aca avisamos al LostSignal que ya no usamos mas la PC
             onPC.Raise(this, null);
             AudioUtils.StopAndRestoreAudioSource(pcAudioSource, pcAudioSourceState);
+            pcAudioSource = null;
 
             turnOffCollider.enabled = true;
         }

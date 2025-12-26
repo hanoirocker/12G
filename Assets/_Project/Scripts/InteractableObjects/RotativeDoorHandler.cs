@@ -69,6 +69,8 @@ namespace TwelveG.InteractableObjects
             door.transform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
+
             isMoving = false;
         }
 

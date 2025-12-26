@@ -90,6 +90,7 @@ namespace TwelveG.InteractableObjects
             doorIsOpen = !doorIsOpen;
             isMoving = false;
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
 
             if (!doorIsOpen && consequentObjectsToActivate != null)
             {

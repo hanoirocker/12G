@@ -114,7 +114,7 @@ namespace TwelveG.InteractableObjects
 
         private void SetupAudioSource()
         {
-            if (audioSource == null || !audioSource.gameObject.activeInHierarchy)
+            if (audioSource == null)
             {
                 (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(transform, clipsVolume);
             }
@@ -164,6 +164,7 @@ namespace TwelveG.InteractableObjects
             isMoving = false;
 
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
         }
 
         private IEnumerator PlayLockCoroutine()
@@ -217,7 +218,6 @@ namespace TwelveG.InteractableObjects
             if (eventUnlockedSound != null)
             {
                 yield return PlaySoundAndWait(eventUnlockedSound);
-                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             }
 
             doorIsLocked = false;
@@ -251,7 +251,6 @@ namespace TwelveG.InteractableObjects
             {
                 audioSource.PlayOneShot(clip);
                 yield return new WaitUntil(() => !audioSource.isPlaying);
-                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             }
         }
     }

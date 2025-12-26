@@ -95,6 +95,7 @@ namespace TwelveG.InteractableObjects
                 audioSource.PlayOneShot(dumpingTrashSound);
                 yield return new WaitUntil(() => !audioSource.isPlaying);
                 AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+                audioSource = null;
             }
 
             yield return StartCoroutine(RotateTop(initialRotation));
@@ -130,6 +131,7 @@ namespace TwelveG.InteractableObjects
             gameObject.transform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
         }
 
         private float PlayDoorSounds()

@@ -70,6 +70,7 @@ namespace TwelveG.InteractableObjects
         {
             playerCanExit = false;
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
 
             safeBoxCanvas.SetActive(false);
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.SafeBox, false));
