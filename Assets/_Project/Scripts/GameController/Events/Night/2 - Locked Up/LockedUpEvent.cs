@@ -20,6 +20,7 @@ namespace TwelveG.GameController
         [Space]
         [Header("Audio Options")]
         [SerializeField] private AudioClip hauntingSoundClip;
+        [SerializeField, Range(0f, 1f)] private float hauntingSoundVolume = 0.25f;
 
         [Space]
         [Header("Game Event SO's")]
@@ -55,9 +56,6 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(6f);
             // Ruido de desbloqueo de la puerta
             onPlayerDoorUnlock.Raise(this, null);
-            yield return new WaitForSeconds(2f);
-            // Ya era hora ..
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[1]);
 
             yield return new WaitForSeconds(2f);
 
@@ -71,7 +69,7 @@ namespace TwelveG.GameController
                 bgMusicSource.loop = true;
                 bgMusicSource.Play();
 
-                StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, 0.5f, 13f));
+                StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, hauntingSoundVolume, 10f));
             }
 
             yield return new WaitUntil(() => allowNextAction);
