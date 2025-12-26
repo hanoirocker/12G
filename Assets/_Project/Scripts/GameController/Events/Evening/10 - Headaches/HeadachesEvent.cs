@@ -65,13 +65,12 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            GameEvents.Common.onRemovePlayerItem.Raise(this, ItemType.WalkieTalkie);
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, eyesCloseDuration));
 
-            float currentInGameVolume = AudioManager.Instance.GetCurrentChannelVolume("inGameVol");
+            // Fade out del canal inGameVol
             AudioManager.Instance.FaderHandler.FadeAudioGroup(
                 AudioGroup.inGameVol,
-                currentInGameVolume,
+                AudioManager.Instance.GetCurrentChannelVolume("inGameVol"),
                 0,
                 eyesCloseDuration
             );
@@ -80,16 +79,6 @@ namespace TwelveG.GameController
 
             // Detener todas las audio sources de la pool inGameVol
             AudioManager.Instance.PoolsHandler.StopActiveSourcesOnMixChannel(AudioMixChannel.InGame);
-
-            yield return new WaitForFixedUpdate();
-            AudioManager.Instance.FaderHandler.FadeAudioGroup(
-                AudioGroup.inGameVol,
-                0,
-                currentInGameVolume,
-                3f
-            );
-
-            yield return new WaitForSeconds(3f);
         }
 
         public void AllowNextActions(Component sender, object data)

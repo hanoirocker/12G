@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Timers;
 using TwelveG.SaveSystem;
 using TwelveG.UIController;
 using UnityEngine;
@@ -81,6 +80,7 @@ namespace TwelveG.AudioController
         public float GetCurrentChannelVolume(string channel)
         {
             float currentValue;
+
             if (masterMixer.GetFloat(channel, out currentValue))
             {
                 return AudioUtils.DecibelsToNormalized(currentValue);
@@ -125,6 +125,8 @@ namespace TwelveG.AudioController
             SetMusicVol(initialMusicVol);
             SetInterfaceVol(initialInterfaceVol);
             SetSFXVol(initialSFXVol);
+
+            masterMixer.SetFloat("inGameLowPassCutOff", 22000f); // Asegura que el LowPass del canal inGameVol esté desactivado
         }
 
         public void PauseGame(Component sender, object data)

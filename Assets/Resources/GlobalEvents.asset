@@ -108,6 +108,7 @@ MonoBehaviour:
     type: 2}
   onNewEventBegun: {fileID: 11400000, guid: 1e413680ee7ee2c4abc25bb0bd48a16a, type: 2}
   onSceneLoaded: {fileID: 11400000, guid: f8e2983d3a7a6466391c628112c18ac2, type: 2}
+  onSceneActivated: {fileID: 11400000, guid: dd460a392a8434bb1aa0b87a7d4a5804, type: 2}
   onAnyKeyPressed: {fileID: 11400000, guid: 73fde926fb431b5438950349d7e271aa, type: 2}
   onPlayGame: {fileID: 11400000, guid: cbdce6e253f894a86b079cf805899625, type: 2}
   onPauseGame: {fileID: 11400000, guid: 13a63d0eb1c1b411e81c5be2e547a739, type: 2}

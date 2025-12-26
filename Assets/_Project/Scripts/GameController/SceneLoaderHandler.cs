@@ -75,6 +75,9 @@ namespace TwelveG.GameController
       asyncLoad.allowSceneActivation = true;
 
       GameEvents.Common.onDeactivateCanvas.Raise(this, CanvasHandlerType.LoadScene);
+
+      // Escucha AudioManager, ... , para volver a los estados originales
+      GameEvents.Common.onSceneActivated.Raise(this, null);
     }
 
     public void LoadNextSceneSequence(int sceneToLoadIndex)
