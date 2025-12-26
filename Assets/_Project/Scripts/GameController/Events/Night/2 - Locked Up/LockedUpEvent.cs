@@ -20,7 +20,7 @@ namespace TwelveG.GameController
         [Space]
         [Header("Audio Options")]
         [SerializeField] private AudioClip hauntingSoundClip;
-        [SerializeField, Range(0f, 1f)] private float hauntingSoundVolume = 0.25f;
+        [SerializeField, Range(0f, 1f)] private float hauntingSoundVolume = 0.15f;
 
         [Space]
         [Header("Game Event SO's")]
@@ -34,6 +34,7 @@ namespace TwelveG.GameController
             // DESACTIVAR SPRINT DEL JUGADOR DURANTE PRIMEROS EVENTOS
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerSprint(false));
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             yield return new WaitForSeconds(initialTime);
 
