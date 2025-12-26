@@ -15,6 +15,13 @@ namespace TwelveG.AudioController
     VFX
   }
 
+  public enum AudioMixChannel
+  {
+    UI,
+    Music,
+    InGame,
+  }
+
   public enum WeatherEvent
   {
     SoftRain,
@@ -105,6 +112,46 @@ namespace TwelveG.AudioController
             audioSource.UnPause();
           }
         }
+      }
+    }
+    
+    public void StopActivePoolSources(AudioPoolType audioPoolType)
+    {
+      if (!poolMap.TryGetValue(audioPoolType, out var sources))
+      {
+        Debug.LogError($"[AudioPoolsHandler]: No se encontró lista para pool '{audioPoolType}'");
+        return;
+      }
+
+      foreach (AudioSource audioSource in sources)
+      {
+        if (audioSource.isPlaying)
+        {
+          audioSource.Stop();
+        }
+      }
+    }
+
+    public void StopActiveSourcesOnMixChannel(AudioMixChannel audioMixChannel)
+    {
+      switch (audioMixChannel)
+      {
+        case AudioMixChannel.UI:
+          StopActivePoolSources(AudioPoolType.UI);
+          break;
+        case AudioMixChannel.Music:
+          StopActivePoolSources(AudioPoolType.BGMusic);
+          break;
+        case AudioMixChannel.InGame:
+          StopActivePoolSources(AudioPoolType.Environment);
+          StopActivePoolSources(AudioPoolType.Interaction);
+          StopActivePoolSources(AudioPoolType.Dialogs);
+          StopActivePoolSources(AudioPoolType.Player);
+          StopActivePoolSources(AudioPoolType.VFX);
+          break;
+        default:
+          Debug.LogWarning($"[AudioPoolsHandler]: Canal de mezcla desconocido '{audioMixChannel}'");
+          break;
       }
     }
 
