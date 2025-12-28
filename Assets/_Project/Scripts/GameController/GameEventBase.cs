@@ -7,7 +7,7 @@ namespace TwelveG.GameController
     public class GameEventBase : MonoBehaviour
     {
         public EventsEnum eventEnum;
-        public bool isCheckpointEvent = false;
+        public bool isCheckpointEvent = false; // Solo para lectura visual rápida
         public virtual IEnumerator Execute()
         {
             yield break;
