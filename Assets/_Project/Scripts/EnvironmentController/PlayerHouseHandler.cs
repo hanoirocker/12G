@@ -89,14 +89,14 @@ namespace TwelveG.EnvironmentController
 
         public void EnablePlayerHouseEnergy(Component sender, object data)
         {
-            if(data == null) return;
+            if (data == null) return;
 
-            foreach(LightSwitchHandler lightSwitch in LightSwitches)
+            foreach (LightSwitchHandler lightSwitch in LightSwitches)
             {
                 lightSwitch.itWorks = (bool)data;
             }
 
-            foreach(Collider col in electricInteractableColliders)
+            foreach (Collider col in electricInteractableColliders)
             {
                 col.enabled = (bool)data;
             }
@@ -104,10 +104,17 @@ namespace TwelveG.EnvironmentController
 
         public void ToggleCheckpointPrefabs(Component sender, object data)
         {
-            ObjectData objectData = (ObjectData)data;
-            foreach(GameObject prefab in checkpointPrefabs)
+            if (checkpointPrefabs == null || checkpointPrefabs.Length == 0)
             {
-                if(prefab.name == objectData.objectID)
+                Debug.LogWarning("No checkpoint prefabs assigned in PlayerHouseHandler.");
+                return;
+            }
+
+            ObjectData objectData = (ObjectData)data;
+
+            foreach (GameObject prefab in checkpointPrefabs)
+            {
+                if (prefab.name == objectData.objectID)
                 {
                     Debug.Log("Toggling prefab: " + prefab.name + " to " + objectData.isActive);
                     prefab.SetActive(objectData.isActive);

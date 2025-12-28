@@ -28,6 +28,7 @@ namespace TwelveG.GameController
 
         [Header("Player State")]
         public List<ItemType> startingInventory;
+        [Space(5)]
         public bool flashlightEnabled;
         public bool walkieTalkieEnabled;
 
@@ -38,8 +39,11 @@ namespace TwelveG.GameController
         // Una lista simple de IDs o nombres de objetos que deben estar
         // en un estado diferente al default de la escena.
 
-        // TODO: trabjar un "StateEnforcer" o algo así para manejar esto mejor.
+        // La data de objectsToToggle es disparada a través de GameEvents.Common.onTogglePrefab
+        // en el EventsHandler.cs. Recibe PlayerHouseHandler.cs y EnvironmentHandler.cs para activar/desactivar
+        // los prefabs correspondientes.
         public List<ObjectData> objectsToToggle;
-        // public bool officeDoorIsOpen; --- IGNORE --- 
+        
+        
     }
 }

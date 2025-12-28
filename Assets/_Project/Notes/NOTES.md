@@ -26,19 +26,15 @@ TODO - despues:
 
 - SISTEMA GUARDADO POR CHECKPOINTS: Crear Checkpoint assets para cada evento en particular y setear configuraciones.
 
-  - CHECKPOINT PizzaTime:
-    - GiantWindow.001: recibe destroyWindowToReplace.Raise(this, null); que desactiva "Window To Replace" para activar "Replaced Window" y "ZoomBird".
-    - Mostrar la mancha de sangre "Blood Stain" en la PanoramaWindow.
-    - Desactivar la escoba de la cocina y la bolsa de basura del garage.
-    - Activar la "Used - Broom". Esto quizas involucre modificar el PlayerInventory también.
+  - Checkpoint - Pizza Time:
+    - GiantWindow.001: recibe destroyWindowToReplace.Raise(this, null); que desactiva "Window To Replace" para activar "Replaced Window" y "ZoomBird". *DONE
+    - Mostrar la mancha de sangre "Blood Stain" en la PanoramaWindow. *DONE
+    - Desactivar la escoba de la cocina y la bolsa de basura del garage. *DONE
+    - Activar la "Used - Broom". Esto quizas involucre modificar el PlayerInventory también. *DONE
     - Deshabilitar el Sphere Collider de Top de "Trash Can"
-
-  - CHECKPOINT WakeUpAtNight:
-    - Lluvia activada.
-  - Luego de Locked Up:
-    - Linterna habilitada.
-    - Puerta de la pieza del jugador desbloqueada.
-    - Electricidad caida. 
+  
+  - Checkpoint - Fernandez Suicide:
+  - Checkpoint - First Contact:
 
 TOCHECK:
 

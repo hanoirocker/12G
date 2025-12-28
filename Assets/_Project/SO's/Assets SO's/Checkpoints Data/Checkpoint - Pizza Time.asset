@@ -18,5 +18,17 @@ MonoBehaviour:
   startingInventory: 
   flashlightEnabled: 0
   walkieTalkieEnabled: 0
-  initialWeather: 0
-  objectsToToggle: []
+  initialWeather: 6
+  objectsToToggle:
+  - objectID: Window To Replace
+    isActive: 0
+  - objectID: New Window
+    isActive: 1
+  - objectID: Broom
+    isActive: 0
+  - objectID: Pickable - Empty Trash Bag (1)
+    isActive: 0
+  - objectID: Used - Broom
+    isActive: 1
+  - objectID: Blood Stain
+    isActive: 1

@@ -1,4 +1,5 @@
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using UnityEngine;
 
 namespace TwelveG.EnvironmentController
@@ -10,6 +11,9 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private GameObject rainObject;
         [SerializeField] private GameObject windZoneObject;
         [SerializeField] private WindZone windZone;
+
+        [Header("Prefab References")]
+        [SerializeField] private GameObject[] checkpointPrefabs;
 
         public void EnvironmentWeatherConfig(Component sender, object data)
         {
@@ -38,6 +42,27 @@ namespace TwelveG.EnvironmentController
                     break;
                 default:
                     break;
+            }
+        }
+
+        public void ToggleCheckpointPrefabs(Component sender, object data)
+        {
+            if(checkpointPrefabs == null || checkpointPrefabs.Length == 0)
+            {
+                Debug.LogWarning("No checkpoint prefabs assigned in EnvironmentHandler.");
+                return;
+            }
+
+            ObjectData objectData = (ObjectData)data;
+
+            foreach (GameObject prefab in checkpointPrefabs)
+            {
+                if (prefab.name == objectData.objectID)
+                {
+                    Debug.Log("Toggling prefab: " + prefab.name + " to " + objectData.isActive);
+                    prefab.SetActive(objectData.isActive);
+                    break;
+                }
             }
         }
     }

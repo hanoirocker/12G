@@ -398,13 +398,7 @@ namespace TwelveG.GameController
             {
                 foreach (ObjectData objData in profile.objectsToToggle)
                 {
-                    GameObject obj = GameObject.Find(objData.objectID);
-                    if (obj != null)
-                    {
-                        Debug.Log($"[EventsHandler]: Objecto encontrado: {objData.objectID}");
-                        Debug.Log($"[EventsHandler]: Activarlo?: {objData.isActive}");
-                        obj.SetActive(objData.isActive);
-                    }
+                    GameEvents.Common.onTogglePrefab.Raise(this, objData);
                 }
 
                 yield return new WaitForFixedUpdate();
