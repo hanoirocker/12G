@@ -5,7 +5,14 @@ using TwelveG.AudioController;
 
 namespace TwelveG.GameController
 {
-    [CreateAssetMenu(fileName = "NewCheckpointProfile", menuName = "SO's/Data Structures/Checkpoint Profile")]
+    [System.Serializable]
+    public struct ObjectData
+    {
+        public string objectID;
+        public bool isActive;
+    }
+
+    [CreateAssetMenu(fileName = "Checkpoint - ", menuName = "SO's/Data Structures/Checkpoint Profile")]
     public class CheckpointProfileSO : ScriptableObject
     {
         [Header("Identity")]
@@ -25,8 +32,8 @@ namespace TwelveG.GameController
         // en un estado diferente al default de la escena.
 
         // TODO: trabjar un "StateEnforcer" o algo así para manejar esto mejor.
-        public List<string> objectsToDisable; 
-        public List<string> objectsToEnable;
+        public List<ObjectData> objectsToDisable; 
+        public List<ObjectData> objectsToEnable;
         // public bool officeDoorIsOpen; --- IGNORE --- 
     }
 }
