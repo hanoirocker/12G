@@ -80,6 +80,8 @@ namespace TwelveG.GameController
 
             trashBagCanBePicked.Raise(this, true);
 
+            // Instanciar collider Crashing Bird con script TriggerByCollider
+            // TODO: enviar un evento para activar el objeto en vez de instanciarlo directamente
             GameObject crashingBird = Instantiate(crashingBirdPrefab);
 
             yield return new WaitUntil(() => allowNextAction);
@@ -126,7 +128,6 @@ namespace TwelveG.GameController
 
         public void AllowNextActions(Component sender, object data)
         {
-            print(gameObject.name + "recieved event sent by: " + sender.gameObject.name);
             allowNextAction = true;
         }
 

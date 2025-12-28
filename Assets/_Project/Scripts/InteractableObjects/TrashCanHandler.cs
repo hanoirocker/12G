@@ -89,6 +89,7 @@ namespace TwelveG.InteractableObjects
             yield return new WaitUntil(() => !audioSource.isPlaying);
 
             RemoveUsedItems(playerCamera);
+
             if (dumpingTrashSound != null)
             {
                 (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(bottomOfTrashCanTransform, clipsVolume);
@@ -110,12 +111,6 @@ namespace TwelveG.InteractableObjects
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         }
 
-        private void ToggleTop()
-        {
-            Quaternion targetRotation = doorIsOpen ? initialRotation : initialRotation * Quaternion.Euler(0, 90, 0);
-            StartCoroutine(RotateTop(targetRotation));
-        }
-
         private IEnumerator RotateTop(Quaternion targetRotation)
         {
             float coroutineDuration = PlayDoorSounds();
@@ -130,8 +125,6 @@ namespace TwelveG.InteractableObjects
             }
             gameObject.transform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
-            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
-            audioSource = null;
         }
 
         private float PlayDoorSounds()
