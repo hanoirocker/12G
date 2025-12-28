@@ -17,6 +17,6 @@ MonoBehaviour:
   chapterThumbnail: {fileID: 0}
   startingInventory: 
   flashlightEnabled: 0
-  initialWeather: 1
-  objectsToDisable: []
-  objectsToEnable: []
+  walkieTalkieEnabled: 0
+  initialWeather: 0
+  objectsToToggle: []

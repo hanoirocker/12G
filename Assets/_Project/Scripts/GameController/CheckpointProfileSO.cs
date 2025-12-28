@@ -23,6 +23,7 @@ namespace TwelveG.GameController
         [Header("Player State")]
         public List<ItemType> startingInventory;
         public bool flashlightEnabled;
+        public bool walkieTalkieEnabled;
 
         [Header("World State")]
         public WeatherEvent initialWeather;
@@ -32,8 +33,7 @@ namespace TwelveG.GameController
         // en un estado diferente al default de la escena.
 
         // TODO: trabjar un "StateEnforcer" o algo así para manejar esto mejor.
-        public List<ObjectData> objectsToDisable; 
-        public List<ObjectData> objectsToEnable;
+        public List<ObjectData> objectsToToggle;
         // public bool officeDoorIsOpen; --- IGNORE --- 
     }
 }

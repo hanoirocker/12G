@@ -12,6 +12,8 @@ namespace TwelveG.EditorScripts
         SerializedProperty eveningEvents;
         SerializedProperty nightEvents;
 
+        SerializedProperty checkpointProfiles;
+
         SerializedProperty freeRoam;
         SerializedProperty loadSpecificEvent;
         SerializedProperty eventEnumToLoad;
@@ -29,6 +31,8 @@ namespace TwelveG.EditorScripts
             afternoonEvents = serializedObject.FindProperty("afternoonEvents");
             eveningEvents = serializedObject.FindProperty("eveningEvents");
             nightEvents = serializedObject.FindProperty("nightEvents");
+
+            checkpointProfiles = serializedObject.FindProperty("checkpointProfiles");
 
             freeRoam = serializedObject.FindProperty("freeRoam");
             loadSpecificEvent = serializedObject.FindProperty("loadSpecificEvent");
@@ -50,6 +54,9 @@ namespace TwelveG.EditorScripts
             EditorGUILayout.PropertyField(afternoonEvents);
             EditorGUILayout.PropertyField(eveningEvents);
             EditorGUILayout.PropertyField(nightEvents);
+            EditorGUILayout.Space(10);
+
+            EditorGUILayout.PropertyField(checkpointProfiles);
             EditorGUILayout.Space(10);
 
 

@@ -7,6 +7,8 @@ using TwelveG.AudioController;
 using TwelveG.InteractableObjects;
 using TwelveG.VFXController;
 using System;
+using TwelveG.PlayerController;
+using UnityEditor;
 
 namespace TwelveG.GameController
 {
@@ -25,6 +27,10 @@ namespace TwelveG.GameController
         [SerializeField] private bool loadSpecificEvent = false;
         [SerializeField] private EventsEnum eventEnumToLoad = EventsEnum.WakeUp;
         [SerializeField] private bool loadNextSceneOnEventsFinished = true;
+
+        [Header("Checkpoint System")]
+        [Space]
+        [SerializeField] private List<CheckpointProfileSO> checkpointProfiles;
 
         [Header("VFX Settings")]
         [Space]
@@ -130,6 +136,7 @@ namespace TwelveG.GameController
             else if (freeRoam)
             {
                 ExecuteFreeRoam();
+                return;
             }
             else
             {
@@ -171,9 +178,8 @@ namespace TwelveG.GameController
             {
                 ConvertEventEnumToIndex();
 
-                // Reset de VFX al iniciar evento específico. Sus valores se actualizan desde los
-                // eventos en sí.
-                VFXManager.Instance?.SetResonanceIntensityMultiplier(0f);
+                // Esperar a que todo esté listo antes de iniciar el evento específico
+                yield return StartCoroutine(CheckpointSetUp());
 
                 if (eventIndexToLoad > 1)
                 {
@@ -212,7 +218,7 @@ namespace TwelveG.GameController
                 SetUpCurrentEvent();
 
                 // Actualizar VFX Settings al iniciar el evento
-                if(VFXManager.Instance != null)
+                if (VFXManager.Instance != null)
                 {
                     VFXManager.Instance.UpdateSceneVFXSettings(currentExecutingEvent.eventEnum);
                 }
@@ -317,6 +323,92 @@ namespace TwelveG.GameController
         public int RetrieveCurrentEventIndex()
         {
             return currentEventIndex;
+        }
+
+        // ---- LOGICA DE CHECKPOINTS ----
+        private IEnumerator CheckpointSetUp()
+        {
+            // Chequeamos si el evento a cargar es un checkpoint
+            EventsEnum checkpointToLoad = correspondingEvents[currentEventIndex].isCheckpointEvent
+                ? correspondingEvents[currentEventIndex].eventEnum
+                : EventsEnum.None;
+
+            if (checkpointToLoad != EventsEnum.None)
+            {
+                CheckpointProfileSO profile = checkpointProfiles.Find(p => p.eventEnum == checkpointToLoad);
+
+                if (profile != null)
+                {
+                    yield return StartCoroutine(ApplyCheckpointProfile(profile));
+                }
+                else
+                {
+                    Debug.LogWarning($"[EventsHandler]: No se encontró Checkpoint Profile para {checkpointToLoad}.");
+                    yield return null;
+                }
+            }
+            else
+            {
+                Debug.Log($"[EventsHandler]: El evento a cargar no es un checkpoint.");
+                yield return null;
+            }
+        }
+
+        private IEnumerator ApplyCheckpointProfile(CheckpointProfileSO profile)
+        {
+            Debug.Log($"[EventsHandler]: Aplicando Checkpoint Profile: {profile.name} ({profile.eventEnum})");
+
+            // 1. Configurar Inventario del Jugador
+            PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
+
+            if (inventory != null)
+            {
+                // inventory.ClearInventory();
+                foreach (var item in profile.startingInventory)
+                {
+                    inventory.AddItem(item);
+                    Debug.Log($"[EventsHandler]: Añadido al inventario: {item}");
+                }
+
+                // Si el perfil dice que tiene linterna, forzamos el equipamiento
+                if (profile.flashlightEnabled)
+                {
+                    GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.Flashlight);
+                    Debug.Log($"[EventsHandler]: Linterna habilitada desde Checkpoint Profile.");
+                }
+                // Si el perfil dice que tiene linterna, forzamos el equipamiento
+                if (profile.walkieTalkieEnabled)
+                {
+                    GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
+                    Debug.Log($"[EventsHandler]: Walkie Talkie habilitado desde Checkpoint Profile.");
+                }
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            // 2. Configurar Clima
+            if (profile.initialWeather != WeatherEvent.None)
+            {
+                GameEvents.Common.onStartWeatherEvent.Raise(this, profile.initialWeather);
+                yield return new WaitForFixedUpdate();
+            }
+
+            // 3. Objetos de Escena
+            if (profile.objectsToToggle.Count > 0)
+            {
+                foreach (ObjectData objData in profile.objectsToToggle)
+                {
+                    GameObject obj = GameObject.Find(objData.objectID);
+                    if (obj != null)
+                    {
+                        Debug.Log($"[EventsHandler]: Objecto encontrado: {objData.objectID}");
+                        Debug.Log($"[EventsHandler]: Activarlo?: {objData.isActive}");
+                        obj.SetActive(objData.isActive);
+                    }
+                }
+
+                yield return new WaitForFixedUpdate();
+            }
         }
     }
 }
