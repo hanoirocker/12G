@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TwelveG.EnvironmentController;
 using TwelveG.GameController;
 using TwelveG.InteractableObjects;
 using TwelveG.VFXController;
@@ -9,103 +10,45 @@ namespace TwelveG.PlayerController
 {
     public class PlayerInventory : MonoBehaviour
     {
-        [Header("Hands transforms ")]
-        [SerializeField] Transform leftHandTransform;
-        [SerializeField] Transform rightHandTransform;
-
-        [Header("Inventory Objects")]
+        [Header("Inventory Prefabs")]
         [SerializeField] GameObject flashlight;
         [SerializeField] GameObject walkieTalkie;
 
-        [Header("Inventory Prefabs")]
+        [Space(5)]
         [SerializeField] GameObject broom;
         [SerializeField] GameObject fullTrashBag;
-        [SerializeField] GameObject pizzaInClosedBox;
         [SerializeField] GameObject plate;
         [SerializeField] GameObject pizzaSliceOnPlate;
         [SerializeField] GameObject pizzaSlice;
         [SerializeField] GameObject phone;
 
-        [Header("After used Objects: ")]
-        [SerializeField] GameObject usedBroom;
-
         private List<String> pickedUpItems = new List<String>();
-        private GameObject activeBroom = null;
-        private GameObject activeFlashlight = null;
-        private GameObject activeWalkieTalkie = null;
-        private GameObject activeFullTrashBag = null;
-        private GameObject activePlate = null;
-        private GameObject activePizzaSliceOnPlate = null;
-        private GameObject activePizzaSlice = null;
-        private GameObject activePhone = null;
 
         private bool playerCanToggleItems = true;
-
-        private void MakeItemUseable(ItemType itemType, bool instantiateItem, GameObject objectToInstantiate, Transform inventoryTransform)
-        {
-            if (instantiateItem && objectToInstantiate != null)
-            {
-                switch (itemType)
-                {
-                    case (ItemType.Flashlight):
-                        flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
-                        activeFlashlight = flashlight;
-                        break;
-                    case (ItemType.WalkieTalkie):
-                        walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
-                        activeFlashlight = walkieTalkie;
-                        break;
-                    case (ItemType.Broom):
-                        activeBroom = Instantiate(objectToInstantiate, inventoryTransform);
-                        break;
-                    case (ItemType.FullTrashBag):
-                        activeFullTrashBag = Instantiate(objectToInstantiate, inventoryTransform);
-                        break;
-                    case (ItemType.Plate):
-                        activePlate = Instantiate(objectToInstantiate, inventoryTransform);
-                        break;
-                    case (ItemType.PizzaSliceOnPlate):
-                        activePizzaSliceOnPlate = Instantiate(objectToInstantiate, inventoryTransform);
-                        break;
-                    case (ItemType.HeatedPizzaSliceOnPlate):
-                        activePizzaSliceOnPlate = Instantiate(objectToInstantiate, inventoryTransform);
-                        break;
-                    case (ItemType.PizzaSlice):
-                        activePizzaSlice = Instantiate(objectToInstantiate, inventoryTransform);
-                        break;
-                    case (ItemType.Phone):
-                        activePhone = Instantiate(objectToInstantiate, inventoryTransform);
-                        break;
-                    default:
-                        Instantiate(objectToInstantiate, inventoryTransform);
-                        break;
-                }
-            }
-        }
 
         public void HandleExaminationWhileUsingItems(bool isExamining)
         {
             // Si comienza a examinar, el jugador no puede alternar los objetos en las manos
             playerCanToggleItems = !isExamining;
 
-            if (activeWalkieTalkie != null && activeWalkieTalkie.activeSelf)
+            if (walkieTalkie != null && walkieTalkie.activeSelf)
             {
                 // Primero ocultamos los meshes de cualquier objeto que esté en la mano izquierda
-                MeshRenderer mesh = activeWalkieTalkie.GetComponent<MeshRenderer>();
+                MeshRenderer mesh = walkieTalkie.GetComponent<MeshRenderer>();
                 if (mesh != null)
                 {
                     mesh.enabled = !isExamining;
                 }
-                Canvas wtCanvas = activeWalkieTalkie.GetComponentInChildren<Canvas>();
+                Canvas wtCanvas = walkieTalkie.GetComponentInChildren<Canvas>();
                 if (wtCanvas != null)
                 {
                     wtCanvas.enabled = !isExamining;
                 }
             }
-            if (activeFlashlight != null && activeFlashlight.activeSelf)
+            if (flashlight != null && flashlight.activeSelf)
             {
-                activeFlashlight.GetComponent<MeshRenderer>().enabled = !isExamining;
-                activeFlashlight.GetComponentInChildren<Light>().enabled = !isExamining;
+                flashlight.GetComponent<MeshRenderer>().enabled = !isExamining;
+                flashlight.GetComponentInChildren<Light>().enabled = !isExamining;
             }
         }
 
@@ -114,49 +57,46 @@ namespace TwelveG.PlayerController
             // Se agrega el item a la lista de items recogidos
             pickedUpItems.Add(itemType.ToString());
 
-            // Se instancia el prefab correspondiente en la mano del jugador para todos los items MENOS Flashlight y WalkieTalkie (ya están en cada mano)
             switch (itemType)
             {
                 case ItemType.Flashlight:
-                    MakeItemUseable(ItemType.Flashlight, true, flashlight, rightHandTransform);
+                    flashlight.SetActive(true);
+                    flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
                     break;
                 case ItemType.WalkieTalkie:
-                    MakeItemUseable(ItemType.WalkieTalkie, true, walkieTalkie, leftHandTransform);
+                    walkieTalkie.SetActive(true);
+                    walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
                     break;
                 case ItemType.EmptyTrashBag:
-                    MakeItemUseable(ItemType.EmptyTrashBag, false, null, null);
                     break;
                 case ItemType.Broom:
-                    MakeItemUseable(ItemType.Broom, true, broom, rightHandTransform);
+                    broom.SetActive(true);
                     break;
                 case ItemType.FullTrashBag:
-                    MakeItemUseable(ItemType.FullTrashBag, true, fullTrashBag, leftHandTransform);
-                    break;
-                case ItemType.PizzaInClosedBox:
-                    MakeItemUseable(ItemType.PizzaInClosedBox, true, pizzaInClosedBox, rightHandTransform);
+                    fullTrashBag.SetActive(true);
                     break;
                 case ItemType.Plate:
-                    MakeItemUseable(ItemType.Plate, true, plate, rightHandTransform);
+                    plate.SetActive(true);
                     break;
                 case ItemType.PizzaSliceOnPlate:
-                    MakeItemUseable(ItemType.PizzaSliceOnPlate, true, pizzaSliceOnPlate, rightHandTransform);
+                    pizzaSliceOnPlate.SetActive(true);
                     GameEvents.Common.onPizzaPickedUp.Raise(this, null);
                     break;
                 case ItemType.HeatedPizzaSliceOnPlate:
-                    MakeItemUseable(ItemType.HeatedPizzaSliceOnPlate, true, pizzaSliceOnPlate, rightHandTransform);
+                    pizzaSliceOnPlate.SetActive(true);
                     break;
                 case ItemType.PizzaSlice:
-                    MakeItemUseable(ItemType.PizzaSlice, true, pizzaSlice, rightHandTransform);
+                    pizzaSlice.SetActive(true);
                     break;
                 case ItemType.Phone:
-                    MakeItemUseable(ItemType.Phone, true, phone, leftHandTransform);
+                    phone.SetActive(true);
                     break;
             }
         }
 
         public bool PlayerIsUsingFlashlight()
         {
-            if (activeFlashlight != null && activeFlashlight.activeSelf)
+            if (flashlight != null && flashlight.activeSelf)
                 return true;
             return false;
         }
@@ -183,35 +123,35 @@ namespace TwelveG.PlayerController
                     case ItemType.EmptyTrashBag:
                         break;
                     case ItemType.Broom:
-                        Destroy(activeBroom);
-                        Instantiate(usedBroom);
+                        broom.SetActive(false);
+                        // GameEvents.Common.onActivatePrefab.Raise(this, "Used - Broom");
                         break;
                     case ItemType.FullTrashBag:
-                        Destroy(activeFullTrashBag);
+                        fullTrashBag.SetActive(false);
                         break;
                     case ItemType.Flashlight:
-                        activeFlashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
-                        activeFlashlight = null;
+                        flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
+                        flashlight.SetActive(false);
                         break;
                     case ItemType.WalkieTalkie:
-                        activeWalkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
-                        activeWalkieTalkie = null;
+                        walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
+                        walkieTalkie.SetActive(false);
                         VFXManager.Instance?.EnableElectricFeelVFX(false);
                         break;
                     case ItemType.Plate:
-                        Destroy(activePlate);
+                        plate.SetActive(false);
                         break;
                     case ItemType.PizzaSliceOnPlate:
-                        Destroy(activePizzaSliceOnPlate);
+                        pizzaSliceOnPlate.SetActive(false);
                         break;
                     case ItemType.HeatedPizzaSliceOnPlate:
-                        Destroy(activePizzaSliceOnPlate);
+                        pizzaSliceOnPlate.SetActive(false);
                         break;
                     case ItemType.PizzaSlice:
-                        Destroy(activePizzaSlice);
+                        pizzaSlice.SetActive(false);
                         break;
                     case ItemType.Phone:
-                        Destroy(activePhone);
+                        phone.SetActive(false);
                         break;
                 }
             }
@@ -231,12 +171,10 @@ namespace TwelveG.PlayerController
             switch (itemType)
             {
                 case (ItemType.Flashlight):
-                    activeFlashlight = flashlight;
-                    activeFlashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                    flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
                     break;
                 case (ItemType.WalkieTalkie):
-                    activeWalkieTalkie = walkieTalkie;
-                    activeWalkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                    walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
                     VFXManager.Instance?.EnableElectricFeelVFX(true);
                     break;
                 default:

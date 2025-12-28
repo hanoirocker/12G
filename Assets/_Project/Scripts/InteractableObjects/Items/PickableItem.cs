@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TwelveG.AudioController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
@@ -65,20 +64,19 @@ namespace TwelveG.InteractableObjects
             }
             if (pickItemSound != null)
             {
-                List<Renderer> renderers = new List<Renderer>(GetComponentsInChildren<Renderer>());
-                foreach (Renderer renderer in renderers)
-                {
-                    renderer.enabled = false;
-                }
+                (AudioSource audioSource, AudioSourceState audioSourceState) =
+                    AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+                        gameObject.transform, 
+                        pickItemSoundVolume
+                );
 
-                (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, pickItemSoundVolume);
                 audioSource.PlayOneShot(pickItemSound);
                 yield return new WaitUntil(() => !audioSource.isPlaying);
                 AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
                 audioSource = null;
             }
 
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
