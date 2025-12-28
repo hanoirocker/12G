@@ -3,7 +3,7 @@ namespace TwelveG.Localization
     using System.Collections.Generic;
     using UnityEngine;
     
-    [CreateAssetMenu(fileName = "ObservationTextSO", menuName = "SO's/ObservationTextSO", order = 0)]
+    [CreateAssetMenu(fileName = "ObservationTextSO", menuName = "SO's/In Game Texts/ObservationTextSO", order = 0)]
     public class ObservationTextSO : ScriptableObject
     {
         public bool isEventText = false;

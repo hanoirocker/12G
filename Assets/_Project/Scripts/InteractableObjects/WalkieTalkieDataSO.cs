@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TwelveG.InteractableObjects
 {
-    [CreateAssetMenu(fileName = "WalkieTalkie Data - ", menuName = "SO's/WalkieTalkie Data", order = 0)]
+    [CreateAssetMenu(fileName = "WalkieTalkie Data - ", menuName = "SO's/Data Structures/WalkieTalkie Data", order = 0)]
     public class WalkieTalkieDataSO : ScriptableObject
     {
         public EventsEnum eventName;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TwelveG.Localization
 {
-    [CreateAssetMenu(fileName = "ExaminationText", menuName = "SO's/ExaminationTextSO", order = 0)]
+    [CreateAssetMenu(fileName = "ExaminationText", menuName = "SO's/In Game Texts/ExaminationTextSO", order = 0)]
     public class ExaminationTextSO : ScriptableObject
     {
         public List<ExaminationTextStructure> examinationTextStructure;

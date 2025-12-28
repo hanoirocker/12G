@@ -3,7 +3,7 @@ namespace TwelveG.Localization
   using System.Collections.Generic;
   using UnityEngine;
 
-  [CreateAssetMenu(fileName = "UIOptionTextSO", menuName = "SO's/UIOptionTextSO", order = 0)]
+  [CreateAssetMenu(fileName = "UIOptionTextSO", menuName = "SO's/UI Texts/UIOptionTextSO", order = 0)]
   public class UIOptionsTextSO : ScriptableObject
   {
     public List<UIMenuTextStructure> uImenuTextStructure;

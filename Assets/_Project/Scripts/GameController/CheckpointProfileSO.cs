@@ -5,7 +5,7 @@ using TwelveG.AudioController;
 
 namespace TwelveG.GameController
 {
-    [CreateAssetMenu(fileName = "NewCheckpointProfile", menuName = "TwelveG/Data/Checkpoint Profile")]
+    [CreateAssetMenu(fileName = "NewCheckpointProfile", menuName = "SO's/Data Structures/Checkpoint Profile")]
     public class CheckpointProfileSO : ScriptableObject
     {
         [Header("Identity")]

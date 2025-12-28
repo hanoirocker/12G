@@ -26,7 +26,7 @@ namespace TwelveG.VFXController
         }
     }
 
-    [CreateAssetMenu(fileName = "VFXGeneralConfig", menuName = "TwelveG/VFX/General Config")]
+    [CreateAssetMenu(fileName = "VFXEventConfigs", menuName = "SO's/Data Structures/VFX Event Configs")]
     public class VFXGeneralConfigSO : ScriptableObject
     {
         [Header("Scene VFX Settings")]

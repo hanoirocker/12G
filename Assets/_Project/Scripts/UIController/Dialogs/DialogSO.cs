@@ -19,7 +19,7 @@ namespace TwelveG.DialogsController
         public string dialogText;
     }
 
-    [CreateAssetMenu(fileName = "NewDialogSO", menuName = "DialogSystem/DialogSO")]
+    [CreateAssetMenu(fileName = "NewDialogSO", menuName = "SO's/Dialogs/DialogSO")]
     public class DialogSO : ScriptableObject
     {
         public CharacterName characterName;

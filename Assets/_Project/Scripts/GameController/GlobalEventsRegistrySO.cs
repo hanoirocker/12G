@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TwelveG.GameController
 {
-    [CreateAssetMenu(fileName = "GlobalEventsRegistry", menuName = "TwelveG/Global Events Registry")]
+    [CreateAssetMenu(fileName = "GlobalEventsRegistry", menuName = "SO's/Data Structures/Global Events Registry")]
     public class GlobalEventsRegistrySO : ScriptableObject
     {
         [Header("Canvas & UI")]

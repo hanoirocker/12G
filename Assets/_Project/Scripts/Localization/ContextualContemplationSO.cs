@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TwelveG.Localization
 {
-    [CreateAssetMenu(fileName = "ContextualContemplation", menuName = "SO's/ContextualContemplationSO")]
+    [CreateAssetMenu(fileName = "ContextualContemplation", menuName = "SO's/In Game Texts/ContextualContemplationSO")]
     public class ContextualContemplationSO : ScriptableObject
     {
         [Serializable]

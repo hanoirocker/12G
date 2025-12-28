@@ -3,7 +3,7 @@ namespace TwelveG.Localization
     using System.Collections.Generic;
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "InteractionText", menuName = "SO's/InteractionTextSO", order = 0)]
+    [CreateAssetMenu(fileName = "InteractionText", menuName = "SO's/In Game Texts/InteractionTextSO", order = 0)]
     public class InteractionTextSO : ScriptableObject
     {
         public List<InteractionTextsStructure> interactionTextsStructure;
