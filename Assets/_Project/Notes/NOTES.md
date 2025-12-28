@@ -1,5 +1,5 @@
-- Se agregó la animación por script ProceduralFaint (curvas de rotación (tiempo))
-- Se agregaron corrutinas de Depth of Field, Vignette y filtro pasa bajos que se disparan previo al ProceduralFaint.
+- Se reorganizaron en el editor las configuraciones de creación de assets (Scriptable Objects). Ahora todas están dentro de Create -> SO's
+- Se creó el asset CheckpointProfileSO con la intención de guardar todas las configuraciones necesarias para cargar al iniciar desde un checkpoint (Lógica no aplicada aún). * SE DECIDIO NO TRABAJAR CHECKPOINTS COMO ESCENAS MAS CHICAS.
 
 TOFIX:
 
@@ -22,7 +22,7 @@ TODO - despues:
 - Implementar cambios de Video del Settings Menu
 - Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
 
-- SISTEMA GUARDADO POR CHECKPOINTS: Dividir las escenas evening y night en escenas mas chicas con menos eventos, y configurar cada escena con los objetos necesarios para usarlas como punto de restauracion de juego.
+- SISTEMA GUARDADO POR CHECKPOINTS: Crear Checkpoint assets para cada evento en particular y setear configuraciones.
   - Luego de Wake Up At Night:
     - Lluvia activada.
   - Luego de Locked Up:
