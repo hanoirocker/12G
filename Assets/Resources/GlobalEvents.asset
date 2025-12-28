@@ -104,7 +104,7 @@ MonoBehaviour:
   onStartWeatherEvent: {fileID: 11400000, guid: 4eb0d878e5164450b8321d44e0143ad4,
     type: 2}
   onSpawnVehicle: {fileID: 11400000, guid: 609dd1a2b8c188d4aa71fc295bc305a8, type: 2}
-  onActivatePrefab: {fileID: 11400000, guid: c427e1247c8764ebb88846f791b89526, type: 2}
+  onTogglePrefab: {fileID: 11400000, guid: c427e1247c8764ebb88846f791b89526, type: 2}
   onResetEventDrivenTexts: {fileID: 11400000, guid: e93534826f06b764e9032606ac286371,
     type: 2}
   onNewEventBegun: {fileID: 11400000, guid: 1e413680ee7ee2c4abc25bb0bd48a16a, type: 2}

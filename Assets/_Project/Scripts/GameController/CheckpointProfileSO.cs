@@ -10,6 +10,12 @@ namespace TwelveG.GameController
     {
         public string objectID;
         public bool isActive;
+
+        public ObjectData(string id, bool active)
+        {
+            this.objectID = id;
+            this.isActive = active;
+        }
     }
 
     [CreateAssetMenu(fileName = "Checkpoint - ", menuName = "SO's/Data Structures/Checkpoint Profile")]
@@ -27,7 +33,7 @@ namespace TwelveG.GameController
 
         [Header("World State")]
         public WeatherEvent initialWeather;
-        
+
         [Header("Critical Objects State")]
         // Una lista simple de IDs o nombres de objetos que deben estar
         // en un estado diferente al default de la escena.

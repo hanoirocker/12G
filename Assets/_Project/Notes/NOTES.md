@@ -1,6 +1,7 @@
 - Se reorganizaron en el editor las configuraciones de creación de assets (Scriptable Objects). Ahora todas están dentro de Create -> SO's
 - Se creó el asset CheckpointProfileSO con la intención de guardar todas las configuraciones necesarias para cargar al iniciar desde un checkpoint (Lógica no aplicada aún). * SE DECIDIO NO TRABAJAR CHECKPOINTS COMO ESCENAS MAS CHICAS.
 - Se modificó el PlayerInventory. Ahora todos los items están instanciados por defecto en mano izq o mano derecha, solo se activan o desactivan.
+- Se agregó evento onTogglePrefab que se envía con la struct ObjectData que contiene el nombre del objeto a activar/desactivar. Reciben Player House y Environment prefabs. 
 
 TOFIX:
 

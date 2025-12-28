@@ -102,7 +102,7 @@ namespace TwelveG.EnvironmentController
             }
         }
 
-        public void TogglecheckpointPrefabs(Component sender, object data)
+        public void ToggleCheckpointPrefabs(Component sender, object data)
         {
             ObjectData objectData = (ObjectData)data;
             foreach(GameObject prefab in checkpointPrefabs)
