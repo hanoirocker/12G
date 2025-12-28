@@ -23,7 +23,15 @@ TODO - despues:
 - Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
 
 - SISTEMA GUARDADO POR CHECKPOINTS: Crear Checkpoint assets para cada evento en particular y setear configuraciones.
-  - Luego de Wake Up At Night:
+
+  - CHECKPOINT PizzaTime:
+    - GiantWindow.001: recibe destroyWindowToReplace.Raise(this, null); que desactiva "Window To Replace" para activar "Replaced Window" y "ZoomBird".
+    - Mostrar la mancha de sangre "Blood Stain" en la PanoramaWindow.
+    - Desactivar la escoba de la cocina y la bolsa de basura del garage.
+    - Activar la "Used - Broom". Esto quizas involucre modificar el PlayerInventory también.
+    - Deshabilitar el Sphere Collider de Top de "Trash Can"
+
+  - CHECKPOINT WakeUpAtNight:
     - Lluvia activada.
   - Luego de Locked Up:
     - Linterna habilitada.
