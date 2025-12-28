@@ -43,7 +43,5 @@ namespace TwelveG.GameController
         // en el EventsHandler.cs. Recibe PlayerHouseHandler.cs y EnvironmentHandler.cs para activar/desactivar
         // los prefabs correspondientes.
         public List<ObjectData> objectsToToggle;
-        
-        
     }
 }

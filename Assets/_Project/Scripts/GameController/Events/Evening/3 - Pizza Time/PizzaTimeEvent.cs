@@ -6,7 +6,6 @@ using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
 using TwelveG.Utils;
-using TwelveG.VFXController;
 using UnityEngine;
 
 namespace TwelveG.GameController

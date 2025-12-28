@@ -23,7 +23,6 @@ namespace TwelveG.GameController
         [SerializeField] private DialogSO dialogSOs;
 
         [Header("Other eventsSO references")]
-        [SerializeField] private GameEventSO onSpawnVehicle;
         [SerializeField] private GameEventSO enablePC;
 
         private bool allowNextAction = false;
