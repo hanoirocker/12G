@@ -124,7 +124,7 @@ namespace TwelveG.PlayerController
                         break;
                     case ItemType.Broom:
                         broom.SetActive(false);
-                        // GameEvents.Common.onActivatePrefab.Raise(this, "Used - Broom");
+                        GameEvents.Common.onActivatePrefab.Raise(this, "Used - Broom");
                         break;
                     case ItemType.FullTrashBag:
                         fullTrashBag.SetActive(false);

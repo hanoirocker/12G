@@ -70,9 +70,10 @@ namespace TwelveG.GameController
         public GameEventSO onDialogNodeRunning;
         public GameEventSO onConversationHasEnded;
 
-        [Header("Environment")]
+        [Header("Environment & Player House")]
         public GameEventSO onStartWeatherEvent;
         public GameEventSO onSpawnVehicle;
+        public GameEventSO onActivatePrefab;
 
         [Header("Game Management")]
         public GameEventSO onResetEventDrivenTexts; // para defaultear textos de Player Data Helper y mainDoorsFallbacks

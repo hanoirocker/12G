@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.InteractableObjects;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ namespace TwelveG.EnvironmentController
 {
     public class PlayerHouseHandler : MonoBehaviour
     {
+        [Header("Prefab References")]
+        [SerializeField] private GameObject[] checkpointPrefabs;
+
         [Header("Light References")]
         [SerializeField] private Light[] HouseLights;
         [SerializeField] private LightSwitchHandler[] LightSwitches;
@@ -95,6 +99,20 @@ namespace TwelveG.EnvironmentController
             foreach(Collider col in electricInteractableColliders)
             {
                 col.enabled = (bool)data;
+            }
+        }
+
+        public void TogglecheckpointPrefabs(Component sender, object data)
+        {
+            ObjectData objectData = (ObjectData)data;
+            foreach(GameObject prefab in checkpointPrefabs)
+            {
+                if(prefab.name == objectData.objectID)
+                {
+                    Debug.Log("Toggling prefab: " + prefab.name + " to " + objectData.isActive);
+                    prefab.SetActive(objectData.isActive);
+                    break;
+                }
             }
         }
     }
