@@ -1,5 +1,6 @@
 using System.Collections;
 using TwelveG.SaveSystem;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -110,6 +111,7 @@ namespace TwelveG.GameController
       if (data.savedSceneIndex > 1)
       {
         _savedSceneIndex = data.savedSceneIndex;
+        EventsHandler.SetSavedCheckpointList(data.checkpointEventsCompleted);
       }
     }
 

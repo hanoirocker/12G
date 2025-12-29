@@ -106,7 +106,6 @@ namespace TwelveG.EnvironmentController
         {
             if (checkpointPrefabs == null || checkpointPrefabs.Length == 0)
             {
-                Debug.LogWarning("No checkpoint prefabs assigned in PlayerHouseHandler.");
                 return;
             }
 
@@ -116,7 +115,6 @@ namespace TwelveG.EnvironmentController
             {
                 if (prefab.name == objectData.objectID)
                 {
-                    Debug.Log("Toggling prefab: " + prefab.name + " to " + objectData.isActive);
                     prefab.SetActive(objectData.isActive);
                     break;
                 }

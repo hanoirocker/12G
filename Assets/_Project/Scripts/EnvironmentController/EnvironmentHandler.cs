@@ -49,7 +49,6 @@ namespace TwelveG.EnvironmentController
         {
             if(checkpointPrefabs == null || checkpointPrefabs.Length == 0)
             {
-                Debug.LogWarning("No checkpoint prefabs assigned in EnvironmentHandler.");
                 return;
             }
 

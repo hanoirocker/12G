@@ -50,6 +50,7 @@ namespace TwelveG.GameController
 
         private GameObject eventsParent = null;
         private List<GameEventBase> correspondingEvents = new List<GameEventBase>();
+        private List<string> currentCheckpointList = new();
         private Transform playerCapsuleTransform;
         private int currentSceneIndex;
         private int currentEventIndex;
@@ -224,7 +225,7 @@ namespace TwelveG.GameController
                     VFXManager.Instance.UpdateSceneVFXSettings(currentExecutingEvent.eventEnum);
                 }
 
-                if (currentExecutingEvent.isCheckpointEvent)
+                if (currentExecutingEvent.isCheckpointEvent && !currentCheckpointList.Contains(currentExecutingEvent.eventEnum.ToString()))
                 {
                     // Escuchan Saving Canvas y Data Persistence Manager (que ejecuta el guardado en cada Manager)
                     // La diferencia con llamar a la funcion directamente es que también mostramos el Saving Canvas
@@ -333,6 +334,15 @@ namespace TwelveG.GameController
             return currentEventIndex;
         }
 
+        // Al iniciar el juego, recibe la última lista de checkpoints completados 
+        // desde el Game Manager (LoadData)
+        public void SetSavedCheckpointList(List<string> checkpointList)
+        {
+            currentCheckpointList = checkpointList;
+        }
+
+        // Actualiza la lista de eventos de checkpoint completados, recibiendo desde el Game Manager
+        // la lista actual y añadiendo el evento de checkpoint actual si no está ya incluido.
         public List<string> UpdateCompletedCheckpointEvents(List<string> completedCheckpointEvents)
         {
             if (completedCheckpointEvents == null)
@@ -340,7 +350,7 @@ namespace TwelveG.GameController
                 completedCheckpointEvents = new List<string>();
             }
 
-            if (currentExecutingEvent != null)
+            if (currentExecutingEvent != null && !completedCheckpointEvents.Contains(currentExecutingEvent.eventEnum.ToString()))
             {
                 completedCheckpointEvents.Add(currentExecutingEvent.eventEnum.ToString());
             }
