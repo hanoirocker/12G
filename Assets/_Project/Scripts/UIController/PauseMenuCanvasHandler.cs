@@ -18,17 +18,12 @@ namespace TwelveG.UIController
         [Header("Testing")]
         public static bool gameIsPaused;
 
-        private AudioSource inGameAudioSource;
-
-        private void Start()
-        {
-            inGameAudioSource = AudioManager.Instance?.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
-        }
+        private AudioSource pauseMenuSource;
 
         private void OnEnable()
         {
             UpdateUITextOptions();
-            PlayInGameMenuSound();
+            PlayPauseMenuSound();
             SetPauseGameSettings();
         }
 
@@ -43,7 +38,7 @@ namespace TwelveG.UIController
 
         private void OnDisable()
         {
-            PlayInGameMenuSound();
+            PlayPauseMenuSound();
             SetResumeGameSettings();
         }
 
@@ -55,18 +50,18 @@ namespace TwelveG.UIController
             }
         }
 
-        private void PlayInGameMenuSound()
+        private void PlayPauseMenuSound()
         {
-            if (inGameAudioSource == null) { return; }
-
-            if (inGameMenuClip == null)
+            if (pauseMenuSource == null)
             {
-                Debug.Log("[MenuCanvasHandler]: gameMenuSound not assigned!");
-                return;
+                pauseMenuSource = AudioManager.Instance?.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
             }
 
-            if (inGameAudioSource.isPlaying) { inGameAudioSource.Stop(); }
-            inGameAudioSource.PlayOneShot(inGameMenuClip);
+            if (inGameMenuClip == null) { return; }
+
+            if (pauseMenuSource.isPlaying) { pauseMenuSource.Stop(); }
+
+            pauseMenuSource.PlayOneShot(inGameMenuClip);
         }
 
         private void SetResumeGameSettings()

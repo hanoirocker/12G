@@ -201,7 +201,7 @@ namespace TwelveG.AudioController
     {
       foreach (AudioSource audioSource in sources)
       {
-        if (!audioSource.isPlaying)
+        if (audioSource != null && !audioSource.isPlaying)
         {
           return audioSource;
         }
