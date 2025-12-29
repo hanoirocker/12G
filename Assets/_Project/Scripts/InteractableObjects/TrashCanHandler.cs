@@ -11,13 +11,10 @@ using UnityEngine;
 
 namespace TwelveG.InteractableObjects
 {
-    public class TrashCanHandler : MonoBehaviour, IInteractable
+    public class TrashCanHandler : MonoBehaviour, IInteractable, ICheckpointListener
     {
         [Header("Objects needed to interact")]
         [SerializeField] private List<ItemType> objectsNeededType;
-
-        [Header("Resulting Objects")]
-        [SerializeField] private List<ItemType> resultingObjectsType;
 
         [Header("Visual settings")]
         [SerializeField] private bool fadesImage = false;
@@ -31,8 +28,6 @@ namespace TwelveG.InteractableObjects
 
         [Header("EventsSO references")]
         [SerializeField] private GameEventSO trowAwayTrash;
-        [SerializeField] private GameEventSO onPlayerControls;
-        [SerializeField] private GameEventSO onImageCanvasControls;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO;
@@ -169,6 +164,14 @@ namespace TwelveG.InteractableObjects
         public ObservationTextSO GetFallBackText()
         {
             throw new NotImplementedException();
+        }
+
+        public void OnCheckpointReached(string state)
+        {
+            if(state == "NO_INTERACTION")
+            {
+                gameObject.GetComponent<Collider>().enabled = false;
+            }
         }
     }
 }

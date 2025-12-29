@@ -18,6 +18,19 @@ namespace TwelveG.GameController
         }
     }
 
+    [System.Serializable]
+    public struct objectCheckpointData
+    {
+        public string objectID;
+        public string state;
+
+        public objectCheckpointData(string id, string state)
+        {
+            this.objectID = id;
+            this.state = state;
+        }
+    }
+
     [CreateAssetMenu(fileName = "Checkpoint - ", menuName = "SO's/Data Structures/Checkpoint Profile")]
     public class CheckpointProfileSO : ScriptableObject
     {
@@ -36,12 +49,12 @@ namespace TwelveG.GameController
         public WeatherEvent initialWeather;
 
         [Header("Critical Objects State")]
+        [Space(5)]
         // Una lista simple de IDs o nombres de objetos que deben estar
         // en un estado diferente al default de la escena.
 
-        // La data de objectsToToggle es disparada a través de GameEvents.Common.onTogglePrefab
-        // en el EventsHandler.cs. Recibe PlayerHouseHandler.cs y EnvironmentHandler.cs para activar/desactivar
-        // los prefabs correspondientes.
         public List<ObjectData> objectsToToggle;
+        [Space(5)]
+        public List<objectCheckpointData> objectsWithCheckpointListener;
     }
 }

@@ -32,3 +32,6 @@ MonoBehaviour:
     isActive: 1
   - objectID: Blood Stain
     isActive: 1
+  objectsWithCheckpointListener:
+  - objectID: Garage Trash Can Top
+    state: NO_INTERACTION

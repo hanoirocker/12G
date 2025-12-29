@@ -123,7 +123,7 @@ namespace TwelveG.PlayerController
                         break;
                     case ItemType.Broom:
                         broom.SetActive(false);
-                        GameEvents.Common.onTogglePrefab.Raise(this, new ObjectData("Used - Broom", true));
+                        FindAnyObjectByType<PlayerHouseHandler>()?.ToggleCheckpointPrefabs(new ObjectData("Used - Broom", true));
                         break;
                     case ItemType.FullTrashBag:
                         fullTrashBag.SetActive(false);

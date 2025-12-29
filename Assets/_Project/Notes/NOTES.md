@@ -1,5 +1,6 @@
-- Se agregó evento onCheckpointEventReached que es llamado desde el EventsHandler al comenzar un evento que sea checkpoint. Escucha Data Persistence Manager para guardar, y el futuro canvas que muestra el logo de guardando.
-- Se creó e implementó Saving Canvas para mostrar el logo cuando se guarda el juego mediante checkpoints en EventsHandler 
+- Se creó e implementó Saving Canvas para mostrar el logo cuando se guarda el juego mediante checkpoints en EventsHandler
+- Se creó la interfaz ICheckpointListener para que escuchen todos los objetos con scripts en particular que deben alterar sus estados en orden de cumplir con el sistema de checkpoints. De esta forma, Se llama por ID a estos objetos en EventsHandler y se busca y ejecuta su ICheckpointListener con definiciones propias.
+- Se eliminó evento onTogglePrefab recientemente creado. Se reemplazó por llamadas directas a los handlers de Player House y Environment.
 
 TOFIX:
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales.
@@ -20,7 +21,7 @@ TODO - despues:
 - Continuar con evento Headaches: hasta ahora solo hay choque de policia.
 
 - Actualizar textos en puertas principales y objetos contemplables al final de la escena de Evening. Por ahora se han dejado de trabajar los SO's.
-- Posiblidad de muerte por sobreexposición a la resonancia? *SI! con sonido de vomito, crear nuevas curvas .. similar a Procedural Faint.
+- Posiblidad de muerte por sobreexposición a la resonancia? *SI! con sonido de vomito, crear nuevas curvas de caida .. similares a Procedural Faint.
 - Implementar cambios de Video del Settings Menu
 - Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
 
@@ -31,7 +32,7 @@ TODO - despues:
     - Mostrar la mancha de sangre "Blood Stain" en la PanoramaWindow. *DONE
     - Desactivar la escoba de la cocina y la bolsa de basura del garage. *DONE
     - Activar la "Used - Broom". Esto quizas involucre modificar el PlayerInventory también. *DONE
-    - Deshabilitar el Sphere Collider de Top de "Trash Can"
+    - Deshabilitar el Sphere Collider de Top de "Trash Can" *DONE
   
   - Checkpoint - Fernandez Suicide:
   - Checkpoint - First Contact:

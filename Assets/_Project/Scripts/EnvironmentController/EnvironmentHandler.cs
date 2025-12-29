@@ -45,14 +45,12 @@ namespace TwelveG.EnvironmentController
             }
         }
 
-        public void ToggleCheckpointPrefabs(Component sender, object data)
+        public void ToggleCheckpointPrefabs(ObjectData objectData)
         {
-            if(checkpointPrefabs == null || checkpointPrefabs.Length == 0)
+            if (checkpointPrefabs == null || checkpointPrefabs.Length == 0)
             {
                 return;
             }
-
-            ObjectData objectData = (ObjectData)data;
 
             foreach (GameObject prefab in checkpointPrefabs)
             {

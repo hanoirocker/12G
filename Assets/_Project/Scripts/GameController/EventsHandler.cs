@@ -8,8 +8,7 @@ using TwelveG.InteractableObjects;
 using TwelveG.VFXController;
 using System;
 using TwelveG.PlayerController;
-using TwelveG.SaveSystem;
-using UnityEngine.UIElements;
+using TwelveG.EnvironmentController;
 
 namespace TwelveG.GameController
 {
@@ -394,9 +393,12 @@ namespace TwelveG.GameController
         private IEnumerator ApplyCheckpointProfile(CheckpointProfileSO profile)
         {
             Debug.Log($"[EventsHandler]: Aplicando Checkpoint Profile: {profile.name} ({profile.eventEnum})");
+            // 0. Buscar referencias necesarias
+            PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
+            EnvironmentHandler environmentHandler = FindObjectOfType<EnvironmentHandler>();
+            PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
 
             // 1. Configurar Inventario del Jugador
-            PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
 
             if (inventory != null)
             {
@@ -428,12 +430,31 @@ namespace TwelveG.GameController
                 yield return new WaitForFixedUpdate();
             }
 
-            // 3. Objetos de Escena
+            // 3. Objetos de la escena
             if (profile.objectsToToggle.Count > 0)
             {
                 foreach (ObjectData objData in profile.objectsToToggle)
                 {
-                    GameEvents.Common.onTogglePrefab.Raise(this, objData);
+                    playerHouseHandler?.ToggleCheckpointPrefabs(objData);
+                    environmentHandler?.ToggleCheckpointPrefabs(objData);
+                }
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            if (profile.objectsWithCheckpointListener.Count > 0)
+            {
+                foreach (objectCheckpointData objCheckpointData in profile.objectsWithCheckpointListener)
+                {
+                    GameObject obj = GameObject.Find(objCheckpointData.objectID);
+                    if (obj != null)
+                    {
+                        ICheckpointListener listener = obj.GetComponent<ICheckpointListener>();
+                        if (listener != null)
+                        {
+                            listener.OnCheckpointReached(objCheckpointData.state);
+                        }
+                    }
                 }
 
                 yield return new WaitForFixedUpdate();
