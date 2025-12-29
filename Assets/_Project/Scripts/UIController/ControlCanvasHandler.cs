@@ -44,7 +44,7 @@ namespace TwelveG.UIController
 
         public void UpdateCanvasTextOnLanguageChanged()
         {
-            string newLanguageSet = LocalizationManager.Instance.GetCurrentLanguageCode();
+            string newLanguageSet = LocalizationManager.Instance?.GetCurrentLanguageCode();
 
             string updatedHeadTitleText = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
                 newLanguageSet,

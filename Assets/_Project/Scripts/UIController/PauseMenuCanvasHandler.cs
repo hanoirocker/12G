@@ -20,9 +20,9 @@ namespace TwelveG.UIController
 
         private AudioSource inGameAudioSource;
 
-        private void Awake()
+        private void Start()
         {
-            inGameAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
+            inGameAudioSource = AudioManager.Instance?.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
         }
 
         private void OnEnable()
