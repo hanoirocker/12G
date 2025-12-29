@@ -84,5 +84,6 @@ namespace TwelveG.GameController
         public GameEventSO onPlayGame;
         public GameEventSO onPauseGame;
         public GameEventSO onFinishedNarrativeCouritine;
+        public GameEventSO onCheckpointEventReached;
     }
 }

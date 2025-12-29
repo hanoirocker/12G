@@ -60,7 +60,6 @@ namespace TwelveG.PlayerController
             switch (itemType)
             {
                 case ItemType.Flashlight:
-                    flashlight.SetActive(true);
                     flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
                     break;
                 case ItemType.WalkieTalkie:
@@ -174,6 +173,7 @@ namespace TwelveG.PlayerController
                     flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
                     break;
                 case (ItemType.WalkieTalkie):
+                    walkieTalkie.SetActive(true);
                     walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
                     VFXManager.Instance?.EnableElectricFeelVFX(true);
                     break;

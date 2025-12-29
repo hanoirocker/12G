@@ -116,6 +116,7 @@ namespace TwelveG.GameController
     public void SaveData(ref GameData data)
     {
       data.savedSceneIndex = currentSceneIndex;
+      data.checkpointEventsCompleted = EventsHandler.UpdateCompletedCheckpointEvents(data.checkpointEventsCompleted);
     }
   }
 }

@@ -115,3 +115,5 @@ MonoBehaviour:
   onPauseGame: {fileID: 11400000, guid: 13a63d0eb1c1b411e81c5be2e547a739, type: 2}
   onFinishedNarrativeCouritine: {fileID: 11400000, guid: 57a1f58459c9b408a9f6c800316908a7,
     type: 2}
+  onCheckpointEventReached: {fileID: 11400000, guid: a02485b4e23544d6dbaf62da79692abe,
+    type: 2}

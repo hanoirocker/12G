@@ -8,7 +8,8 @@ using TwelveG.InteractableObjects;
 using TwelveG.VFXController;
 using System;
 using TwelveG.PlayerController;
-using UnityEditor;
+using TwelveG.SaveSystem;
+using UnityEngine.UIElements;
 
 namespace TwelveG.GameController
 {
@@ -223,6 +224,13 @@ namespace TwelveG.GameController
                     VFXManager.Instance.UpdateSceneVFXSettings(currentExecutingEvent.eventEnum);
                 }
 
+                if (currentExecutingEvent.isCheckpointEvent)
+                {
+                    // Escuchan Saving Canvas y Data Persistence Manager (que ejecuta el guardado en cada Manager)
+                    // La diferencia con llamar a la funcion directamente es que también mostramos el Saving Canvas
+                    GameEvents.Common.onCheckpointEventReached.Raise(this, currentExecutingEvent.eventEnum);
+                }
+
                 Debug.Log($"<--- Iniciando: {currentExecutingEvent.name} --->");
 
                 // Ejecutar y almacenar referencia a la corrutina
@@ -325,6 +333,25 @@ namespace TwelveG.GameController
             return currentEventIndex;
         }
 
+        public List<string> UpdateCompletedCheckpointEvents(List<string> completedCheckpointEvents)
+        {
+            if (completedCheckpointEvents == null)
+            {
+                completedCheckpointEvents = new List<string>();
+            }
+
+            if (currentExecutingEvent != null)
+            {
+                completedCheckpointEvents.Add(currentExecutingEvent.eventEnum.ToString());
+            }
+            else
+            {
+                Debug.LogWarning("[EventsHandler]: currentExecutingEvent es nulo al actualizar eventos completados.");
+            }
+
+            return completedCheckpointEvents;
+        }
+
         // ---- LOGICA DE CHECKPOINTS ----
         private IEnumerator CheckpointSetUp()
         {
@@ -349,7 +376,7 @@ namespace TwelveG.GameController
             }
             else
             {
-                Debug.Log($"[EventsHandler]: El evento a cargar no es un checkpoint.");
+                // Debug.Log($"[EventsHandler]: El evento a cargar no es un checkpoint.");
                 yield return null;
             }
         }
@@ -374,13 +401,11 @@ namespace TwelveG.GameController
                 if (profile.flashlightEnabled)
                 {
                     GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.Flashlight);
-                    Debug.Log($"[EventsHandler]: Linterna habilitada desde Checkpoint Profile.");
                 }
                 // Si el perfil dice que tiene linterna, forzamos el equipamiento
                 if (profile.walkieTalkieEnabled)
                 {
                     GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
-                    Debug.Log($"[EventsHandler]: Walkie Talkie habilitado desde Checkpoint Profile.");
                 }
 
                 yield return new WaitForFixedUpdate();

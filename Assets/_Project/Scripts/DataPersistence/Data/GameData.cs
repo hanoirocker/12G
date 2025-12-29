@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace TwelveG.SaveSystem
 {
   [System.Serializable]
@@ -6,6 +8,7 @@ namespace TwelveG.SaveSystem
     // Scene data
     public int savedSceneIndex;
     public int savesNumber;
+    public List<string> checkpointEventsCompleted = new();
 
     // Localization
     public string languageCode;
@@ -19,6 +22,7 @@ namespace TwelveG.SaveSystem
     // Valores inciales para cuando decidimos iniciar un nuevo juego
     public GameData()
     {
+      this.checkpointEventsCompleted = new List<string>();
       this.savedSceneIndex = 0;
       this.savesNumber = 0;
 

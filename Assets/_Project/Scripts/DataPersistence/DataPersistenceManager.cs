@@ -33,7 +33,7 @@ namespace TwelveG.SaveSystem
         {
             // Application.persistentDataPath retorna el directorio de data persitente según
             // cada OS para proyectos en Unity!
-            print("Guardado data en: " + Application.persistentDataPath);
+            // Debug.Log("Guardado data en: " + Application.persistentDataPath);
             dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadPersistenceData();
@@ -51,7 +51,7 @@ namespace TwelveG.SaveSystem
         // Cuando el jugador abandone la partida. O si? hmmmm
         private void OnApplicationQuit()
         {
-            SavePersistenceData();
+            // SavePersistenceData();
         }
 
         public void NewGame()
@@ -61,6 +61,7 @@ namespace TwelveG.SaveSystem
 
         public void SavePersistenceData()
         {
+            Debug.Log("[DataPersistenceManager]: Saving data...");
             // Pasar información a otros scripts para actualiar la gameData
             foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
             {
