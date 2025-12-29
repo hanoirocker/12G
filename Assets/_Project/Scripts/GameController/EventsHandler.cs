@@ -393,9 +393,11 @@ namespace TwelveG.GameController
         private IEnumerator ApplyCheckpointProfile(CheckpointProfileSO profile)
         {
             Debug.Log($"[EventsHandler]: Aplicando Checkpoint Profile: {profile.name} ({profile.eventEnum})");
+
             // 0. Buscar referencias necesarias
             PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
             EnvironmentHandler environmentHandler = FindObjectOfType<EnvironmentHandler>();
+
             PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
 
             // 1. Configurar Inventario del Jugador
@@ -436,6 +438,15 @@ namespace TwelveG.GameController
                 foreach (ObjectData objData in profile.objectsToToggle)
                 {
                     playerHouseHandler?.ToggleCheckpointPrefabs(objData);
+                }
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            if (profile.environmentObjectsToToggle.Count > 0)
+            {
+                foreach (ObjectData objData in profile.environmentObjectsToToggle)
+                {
                     environmentHandler?.ToggleCheckpointPrefabs(objData);
                 }
 

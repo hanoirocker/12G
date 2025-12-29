@@ -55,6 +55,8 @@ namespace TwelveG.GameController
 
         public List<ObjectData> objectsToToggle;
         [Space(5)]
+        public List<ObjectData> environmentObjectsToToggle;
+        [Space(5)]
         public List<objectCheckpointData> objectsWithCheckpointListener;
     }
 }
