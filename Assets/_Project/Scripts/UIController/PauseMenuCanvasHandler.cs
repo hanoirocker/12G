@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TwelveG.AudioController;
 using TwelveG.GameController;
+using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.SaveSystem;
 using UnityEngine;
@@ -13,7 +14,6 @@ namespace TwelveG.UIController
         [Header("References")]
         [SerializeField] private AudioClip inGameMenuClip;
         [SerializeField] private List<UpdateTextHandler> textHandlers;
-        [SerializeField] private GameEventSO playerHelperDataObj;
 
         [Header("Testing")]
         public static bool gameIsPaused;

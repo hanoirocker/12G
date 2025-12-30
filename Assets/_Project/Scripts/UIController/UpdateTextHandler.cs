@@ -14,7 +14,12 @@ namespace TwelveG.UIController
     [SerializeField] private TextListSO textListSO;
     [SerializeField] private bool textDependsOnEvents = false;
 
-    private UIOptionsTextSO eventDrivenTextSO;
+    public UIOptionsTextSO eventDrivenTextSO; // Solo para rápida lectura desde el editor
+
+    private void OnEnable()
+    {
+      UpdateText(LocalizationManager.Instance?.GetCurrentLanguageCode());
+    }
 
     public void UpdateText(string languageCode)
     {

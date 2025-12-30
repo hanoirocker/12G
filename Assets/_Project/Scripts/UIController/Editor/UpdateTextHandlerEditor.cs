@@ -9,6 +9,7 @@ namespace TwelveG.EditorScripts
         SerializedProperty isTMPSingleText;
         SerializedProperty isTMPDropDownList;
         SerializedProperty textDependsOnEvents;
+        SerializedProperty eventDrivenTextSO;
         
         SerializedProperty uIOptionTextSO;
         SerializedProperty textListSO;
@@ -18,6 +19,7 @@ namespace TwelveG.EditorScripts
             isTMPSingleText = serializedObject.FindProperty("isTMPSingleText");
             isTMPDropDownList = serializedObject.FindProperty("isTMPDropDownList");
             textDependsOnEvents = serializedObject.FindProperty("textDependsOnEvents");
+            eventDrivenTextSO = serializedObject.FindProperty("eventDrivenTextSO");
             
             uIOptionTextSO = serializedObject.FindProperty("uIOptionTextSO");
             textListSO = serializedObject.FindProperty("textListSO");
@@ -37,14 +39,17 @@ namespace TwelveG.EditorScripts
 
             if (isTMPSingleText.boolValue)
             {
-                EditorGUILayout.LabelField("Singular Text SO's", EditorStyles.boldLabel);
                 EditorGUILayout.PropertyField(uIOptionTextSO);
             }
 
             if (isTMPDropDownList.boolValue)
             {
-                EditorGUILayout.LabelField("List Text SO's", EditorStyles.boldLabel);
                 EditorGUILayout.PropertyField(textListSO);
+            }
+
+            if( textDependsOnEvents.boolValue)
+            {
+                EditorGUILayout.PropertyField(eventDrivenTextSO);
             }
 
             serializedObject.ApplyModifiedProperties();
