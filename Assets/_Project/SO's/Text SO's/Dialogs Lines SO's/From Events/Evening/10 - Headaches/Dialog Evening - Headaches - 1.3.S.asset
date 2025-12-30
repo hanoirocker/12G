@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Dialog Evening - Headaches - 1.3.S
   m_EditorClassIdentifier: 
   characterName: 0
-  isSelfDialog: 0
+  isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: "Mica ! Ac\xE1 estoy !"
+    dialogText: Siempre la misma mierda con estos aparatos!
   - language: 1
-    dialogText: Mica! I'm here !
+    dialogText: It's always the same crap with these devices!
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 0.5
+  timeBeforeShowing: 5
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: a82f9fa5eadb84a7ea09a99af8a17a0a, type: 2}
+  nextDialog: {fileID: 0}
   dialogOptions: []

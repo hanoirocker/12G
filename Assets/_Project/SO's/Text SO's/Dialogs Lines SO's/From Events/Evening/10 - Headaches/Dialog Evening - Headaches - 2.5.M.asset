@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - Headaches - 1.8.M
+  m_Name: Dialog Evening - Headaches - 2.5.M
   m_EditorClassIdentifier: 
   characterName: 1
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Simon ..... por favor .. amigo ..
+    dialogText: "Qu\xE9 mierda pasa? Qu\xE9 carajo est\xE1 pasando .."
   - language: 1
-    dialogText: Simon..... please ..my friend ..
+    dialogText: What the hell is going on? What the hell is happening?
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 7
+  timeBeforeShowing: 2
   startingEvent: {fileID: 0}
-  endingEvent: {fileID: 0}
-  nextDialog: {fileID: 0}
+  endingEvent: {fileID: 11400000, guid: e818602a8ea614f63a2ce3fc359f984b, type: 2}
+  nextDialog: {fileID: 11400000, guid: 25896357d52554cdfb879d738668c97c, type: 2}
   dialogOptions: []

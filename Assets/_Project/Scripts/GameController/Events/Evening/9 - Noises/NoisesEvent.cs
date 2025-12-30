@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
+using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.Utils;
 using UnityEngine;
@@ -33,6 +34,9 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
+            // TODO: borrar (solo de prueba)
+            // GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
+
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 
@@ -132,6 +136,10 @@ namespace TwelveG.GameController
                 this,
                 eventObservationsTextsSOs[2]
             );
+
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                eventObservationsTextsSOs[2].observationTextsStructure[0].observationText
+            ));
         }
 
         public void AllowNextActions(Component sender, object data)

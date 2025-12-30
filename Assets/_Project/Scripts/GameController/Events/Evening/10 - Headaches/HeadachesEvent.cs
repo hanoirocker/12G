@@ -6,6 +6,7 @@ using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
+using TwelveG.Utils;
 using TwelveG.VFXController;
 using UnityEngine;
 
@@ -13,13 +14,18 @@ namespace TwelveG.GameController
 {
     public class HeadachesEvent : GameEventBase
     {
+        [SerializeField] private GameEventListener onConversationHasEndedListener;
+        [Space(10)]
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 2;
         [Tooltip("Duración para cerrar los ojos")]
+        [SerializeField, Range(1f, 50f)] private float timeUntilPoliceCarCrash = 20f;
         [SerializeField] private float eyesCloseDuration = 6f;
 
+        [Space(10)]
         [Header("Text event SO")]
-        [SerializeField] private DialogSO dialogOs;
+        [SerializeField] private ObservationTextSO[] eventObservationsTextsSOs;
+        [SerializeField] private DialogSO[] dialogOs;
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
         [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
 
@@ -33,6 +39,28 @@ namespace TwelveG.GameController
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 
+            // Debo contactar a Mica urgente...
+            GameEvents.Common.onObservationCanvasShowText.Raise(
+                this,
+                eventObservationsTextsSOs[0]
+            );
+
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                eventObservationsTextsSOs[0].observationTextsStructure[0].observationText
+            ));
+
+            // Simon intenta contactarse con Mica nuevamente luego de haber escuchado
+            // la conversación policial en el evento anterior (Noises). MICA NO CONTESTA.
+            GameEvents.Common.onStartDialog.Raise(this, dialogOs[0]);
+
+            // "conversationHasEnded"
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+            // Apagar el listener para que el último dialogo no resetee el allowNextAction
+            onConversationHasEndedListener.enabled = false;
+
+            yield return new WaitForSeconds(timeUntilPoliceCarCrash);
+
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
 
@@ -44,7 +72,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(2f);
             // Conversación que inicia Mica desesperada por la situación
-            GameEvents.Common.onStartDialog.Raise(this, dialogOs);
+            GameEvents.Common.onStartDialog.Raise(this, dialogOs[1]);
 
             // Durante el dialogo con Mica se dispara el evento "onHeadacheMaxIntensity"
             yield return new WaitUntil(() => allowNextAction);

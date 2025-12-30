@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - Headaches - 1.4.S
+  m_Name: Dialog Evening - Headaches - 1.1.S
   m_EditorClassIdentifier: 
   characterName: 0
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: La policia .. escuche hace unos minutos que hablaban de enviar un
-      patrullero .. te quise avisar pero no respondias ..
+    dialogText: Hey! Acabo de escuchar hablar a la cana sobre el disparo de Fernandez
+      .. Estan viniendo!
   - language: 1
-    dialogText: The police... I heard a few minutes ago that they were talking about
-      sending a patrol car... I wanted to let you know but you didn't answer...
+    dialogText: Hey! I just heard the cops talking about Fernandez's shooting...
+      They're coming!
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 1
+  timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 4d969030d5c024f929da37bd01eac33e, type: 2}
+  nextDialog: {fileID: 11400000, guid: 02c53a857a4124eb5b38139b32b1b89f, type: 2}
   dialogOptions: []

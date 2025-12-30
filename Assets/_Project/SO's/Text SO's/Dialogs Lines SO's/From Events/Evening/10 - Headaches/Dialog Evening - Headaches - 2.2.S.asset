@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - Headaches - 1.7.M
+  m_Name: Dialog Evening - Headaches - 2.2.S
   m_EditorClassIdentifier: 
-  characterName: 1
-  isSelfDialog: 0
+  characterName: 0
+  isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: "Sim\xF3n respondeme por favor!"
+    dialogText: Mierda .. debe haber sido el patrullero que enviaron ..
   - language: 1
-    dialogText: Simon, please answer me!
+    dialogText: Damn... it must have been the patrol car they sent...
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 6
+  timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 5d870423fb5f849e1b43d81e3aa28e98, type: 2}
+  nextDialog: {fileID: 11400000, guid: 5c408239f6bd84190bc491bdde4d69be, type: 2}
   dialogOptions: []

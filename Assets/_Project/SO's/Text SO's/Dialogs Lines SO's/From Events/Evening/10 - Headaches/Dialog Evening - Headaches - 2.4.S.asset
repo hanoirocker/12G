@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - Headaches - 1.6.M
+  m_Name: Dialog Evening - Headaches - 2.4.S
   m_EditorClassIdentifier: 
-  characterName: 1
+  characterName: 0
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Hey! Estas ahi!?
+    dialogText: La policia .. escuche hace unos minutos que hablaban de enviar un
+      patrullero .. te quise avisar pero no respondias ..
   - language: 1
-    dialogText: Hey! Are you there!?
+    dialogText: The police... I heard a few minutes ago that they were talking about
+      sending a patrol car... I wanted to let you know but you didn't answer...
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 6
+  timeBeforeShowing: 1
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 115304203dcdd4ed0b58e2bca46c0f7e, type: 2}
+  nextDialog: {fileID: 11400000, guid: 4d969030d5c024f929da37bd01eac33e, type: 2}
   dialogOptions: []

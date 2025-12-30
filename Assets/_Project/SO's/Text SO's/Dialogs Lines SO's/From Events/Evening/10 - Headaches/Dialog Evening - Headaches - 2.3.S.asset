@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - Headaches - 1.2.S
+  m_Name: Dialog Evening - Headaches - 2.3.S
   m_EditorClassIdentifier: 
   characterName: 0
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Mica! Hey!
+    dialogText: "Mica ! Ac\xE1 estoy !"
   - language: 1
-    dialogText: Mica! Hey!
+    dialogText: Mica! I'm here !
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 7
+  timeBeforeShowing: 0.5
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 19f01cbc8fdba4a04a49c79f8c78be86, type: 2}
+  nextDialog: {fileID: 11400000, guid: a82f9fa5eadb84a7ea09a99af8a17a0a, type: 2}
   dialogOptions: []

@@ -10,20 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Evening - Headaches - 1.1.M
+  m_Name: Dialog Evening - Headaches - 2.7.M
   m_EditorClassIdentifier: 
   characterName: 1
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Simon! ... Simon respondeme! Una explosi\xF3n ... no entiendo qu\xE9
-      mierda pasa .. amigo .."
+    dialogText: "Sim\xF3n respondeme por favor!"
   - language: 1
-    dialogText: Simon! ... Simon, answer me! An explosion... I don't understand what
-      the hell is going on... dude...
+    dialogText: Simon, please answer me!
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 1
+  timeBeforeShowing: 6
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 8c22ff7f40e9644a3808bdb945c23639, type: 2}
+  nextDialog: {fileID: 11400000, guid: 5d870423fb5f849e1b43d81e3aa28e98, type: 2}
   dialogOptions: []
