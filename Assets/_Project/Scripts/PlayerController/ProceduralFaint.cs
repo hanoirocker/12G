@@ -9,6 +9,7 @@ namespace TwelveG.PlayerController
     {
         [Header("References")]
         [SerializeField] private Transform playerRootTransform;
+        [SerializeField] private Animation walkieTalkieAnimation;
 
         [Header("Procedural Animation Settings")]
         [Tooltip("Duración total de la caída")]
@@ -61,6 +62,8 @@ namespace TwelveG.PlayerController
             }
 
             float timer = 0f;
+
+            walkieTalkieAnimation.Play("Walkie_Talkie_Faint");
 
             while (timer < duration)
             {
