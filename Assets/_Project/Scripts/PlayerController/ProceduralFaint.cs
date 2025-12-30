@@ -1,6 +1,5 @@
 using System.Collections;
 using TwelveG.GameController;
-using TwelveG.InteractableObjects;
 using UnityEngine;
 
 namespace TwelveG.PlayerController

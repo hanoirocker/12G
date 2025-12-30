@@ -8,32 +8,46 @@ namespace TwelveG.PlayerController
 {
     public class PlayerHandler : MonoBehaviour
     {
-        [Header("Player Capsule References")]
+        [Header("References")]
         [SerializeField] private GameObject playerCapsule;
-        [SerializeField] private FPController fPController;
-        [SerializeField] private AudioSource playerAudioSource;
-        [SerializeField] private PlayerSoundsHandler playerSoundsHandler;
-        [SerializeField] private PlayerInput playerInput;
-        [SerializeField] private CharacterController characterController;
-        [SerializeField] private HeadBobController headBobController;
-        [SerializeField] private Transform playerCameraRoot;
-
-        [Header("Player Camera References")]
-        [SerializeField] private HeadLookAround headLookAround;
         [SerializeField] private GameObject mainCamera;
-        [SerializeField] private CameraZoom cameraZoom;
-        [SerializeField] private PlayerInteraction playerInteraction;
-        [SerializeField] private PlayerContemplation playerContemplation;
-        [SerializeField] private PlayerAddItem playerAddItem;
+        [SerializeField]private Transform playerCameraRoot;
 
-        [Header("Player Inventory Reference")]
-        [SerializeField] private PlayerInventory playerInventory;
+        [Header("Player Settings")]
 
         private PlayerShortcuts playerShortcuts;
+
+        private PlayerInput playerInput;
+        private CharacterController characterController;
+        private AudioSource playerAudioSource;
+        private FPController fPController;
+        private PlayerSoundsHandler playerSoundsHandler;
+        private HeadBobController headBobController;
+
+        private PlayerInteraction playerInteraction;
+        private PlayerContemplation playerContemplation;
+        private PlayerAddItem playerAddItem;
+        private CameraZoom cameraZoom;
+        private HeadLookAround headLookAround;
+        private PlayerInventory playerInventory;
 
         private void Awake()
         {
             playerShortcuts = GetComponent<PlayerShortcuts>();
+
+            playerInput = playerCapsule.GetComponent<PlayerInput>();
+            characterController = playerCapsule.GetComponent<CharacterController>();
+            playerAudioSource = playerCapsule.GetComponent<AudioSource>();
+            fPController = playerCapsule.GetComponent<FPController>();
+            playerSoundsHandler = playerCapsule.GetComponent<PlayerSoundsHandler>();
+            headBobController = playerCapsule.GetComponent<HeadBobController>();
+
+            playerInteraction = mainCamera.GetComponent<PlayerInteraction>();
+            playerContemplation = mainCamera.GetComponent<PlayerContemplation>();
+            playerAddItem = mainCamera.GetComponent<PlayerAddItem>();
+            cameraZoom = mainCamera.GetComponent<CameraZoom>();
+            headLookAround = mainCamera.GetComponent<HeadLookAround>();
+            playerInventory = mainCamera.GetComponentInChildren<PlayerInventory>();
         }
 
         void Start()
@@ -47,10 +61,10 @@ namespace TwelveG.PlayerController
             {
                 case ToggleToObjectExamination cmd:
                     bool isActive = !cmd.Enabled;
-                    
+
                     ToggleInteractionModules(isActive);
                     SwitchPlayerControllers(isActive);
-                    
+
                     playerShortcuts.playerCanOpenPauseMenu = isActive;
                     HandleExamination(cmd.Enabled);
                     break;
