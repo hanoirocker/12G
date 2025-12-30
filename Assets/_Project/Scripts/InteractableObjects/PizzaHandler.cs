@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace TwelveG.InteractableObjects
 {
-    public class PizzaHandler : MonoBehaviour, IInteractable
+    public class PizzaHandler : MonoBehaviour, IInteractable, ICheckpointListener
     {
         [Header("Objects to Modify")]
         [SerializeField] private List<GameObject> pizzaSlices = new List<GameObject>();
@@ -26,9 +26,6 @@ namespace TwelveG.InteractableObjects
         [Header("Audio settings")]
         [SerializeField] private AudioClip actionSound;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
-
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onPlayerControls;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO;
@@ -164,6 +161,14 @@ namespace TwelveG.InteractableObjects
         public ObservationTextSO GetFallBackText()
         {
             return observationTextSO;
+        }
+
+        public void OnCheckpointReached(string state)
+        {
+            if (state == "SLICE_TAKEN")
+            {
+                sliceHasBeenTaken = true;
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ namespace TwelveG.EnvironmentController
     public class PlayerHouseHandler : MonoBehaviour
     {
         [Header("Prefab References")]
+        [Tooltip("Prefabs that will be enabled/disabled based on checkpoint data")]
         [SerializeField] private GameObject[] checkpointPrefabs;
 
         [Header("Light References")]

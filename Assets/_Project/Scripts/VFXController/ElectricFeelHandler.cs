@@ -138,7 +138,7 @@ namespace TwelveG.VFXController
             effectMaxVolume = volume;
         }
 
-        // Llamado por VFXManager y EventsHandler en freeRoam mode
+        // Llamado por VFXManager
         public void SetIntensity(float multiplier)
         {
             maxEventIntensity = multiplier;
@@ -147,24 +147,18 @@ namespace TwelveG.VFXController
             {
                 isEffectEnabled = true;
                 RecalculateTargetIntensity();
-
-                // Si estamos activando el evento, usamos el fade largo
-                StartTransition(effectFadeInDuration);
             }
             else
             {
                 isEffectEnabled = false;
                 RecalculateTargetIntensity();
-
-                // Si estamos apagando el evento, usamos el fade de salida
-                StartTransition(effectFadeOutDuration);
             }
         }
 
         // Callback del evento (OnItemShown / Hidden)
         public void ReduceEffectCoefficient(Component sender, object data)
         {
-            if (sender.gameObject.name != "Inventory - Walkie Talkie" && sender.gameObject.name != "WalkieTalkie")
+            if (sender.gameObject.name != "WalkieTalkie")
             {
                 return;
             }

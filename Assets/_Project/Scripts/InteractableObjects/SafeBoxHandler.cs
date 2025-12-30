@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TwelveG.InteractableObjects
 {
-    public class SafeBoxHandler : MonoBehaviour, IInteractable
+    public class SafeBoxHandler : MonoBehaviour, IInteractable, ICheckpointListener
     {
         [Header("Object Settings")]
         [SerializeField] private GameObject doorInteractable;
@@ -117,6 +117,19 @@ namespace TwelveG.InteractableObjects
             doorInteractable.GetComponent<RotativeDrawerHandler>().enabled = true;
             doorInteractable.GetComponent<Collider>().enabled = true;
             walkieTalkie.GetComponent<PickableItem>().canBePicked = true;
+        }
+
+        public void OnCheckpointReached(string state)
+        {
+            if (state == "SAFEBOX_UNLOCKED")
+            {
+                doorIsLocked = false;
+                canBeInteractedWith = false;
+                GetComponent<BoxCollider>().enabled = false;
+
+                doorInteractable.GetComponent<RotativeDrawerHandler>().enabled = true;
+                doorInteractable.GetComponent<Collider>().enabled = true;
+            }
         }
     }
 }

@@ -168,7 +168,7 @@ namespace TwelveG.InteractableObjects
 
         public void OnCheckpointReached(string state)
         {
-            if(state == "NO_INTERACTION")
+            if(state == "INTERACTION_DISABLED")
             {
                 gameObject.GetComponent<Collider>().enabled = false;
             }

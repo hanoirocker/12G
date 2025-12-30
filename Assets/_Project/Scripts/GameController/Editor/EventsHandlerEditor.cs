@@ -21,6 +21,7 @@ namespace TwelveG.EditorScripts
 
         SerializedProperty headacheVFXIntensity;
         SerializedProperty electricFeelVFXIntensity;
+        SerializedProperty freeRoamVolumeCoefficient;
         SerializedProperty weatherEvent;
         SerializedProperty enableFlashlight;
         SerializedProperty enableWalkieTalkie;
@@ -41,6 +42,7 @@ namespace TwelveG.EditorScripts
 
             headacheVFXIntensity = serializedObject.FindProperty("headacheVFXIntensity");
             electricFeelVFXIntensity = serializedObject.FindProperty("electricFeelVFXIntensity");
+            freeRoamVolumeCoefficient = serializedObject.FindProperty("freeRoamVolumeCoefficient");
             weatherEvent = serializedObject.FindProperty("weatherEvent");
             enableFlashlight = serializedObject.FindProperty("enableFlashlight");
             enableWalkieTalkie = serializedObject.FindProperty("enableWalkieTalkie");
@@ -82,6 +84,7 @@ namespace TwelveG.EditorScripts
 
             EditorGUILayout.PropertyField(headacheVFXIntensity);
             EditorGUILayout.PropertyField(electricFeelVFXIntensity);
+            EditorGUILayout.PropertyField(freeRoamVolumeCoefficient);
             EditorGUILayout.Space(10);
 
             EditorGUILayout.PropertyField(weatherEvent);

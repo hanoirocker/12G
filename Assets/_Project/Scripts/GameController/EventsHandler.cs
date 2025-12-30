@@ -37,6 +37,8 @@ namespace TwelveG.GameController
         [Tooltip("Intensidad del efecto. 0 es desactivado, 1 es intensidad máxima.")]
         [SerializeField, Range(0f, 1f)] private float headacheVFXIntensity = 1f;
         [SerializeField, Range(0f, 1f)] private float electricFeelVFXIntensity = 1f;
+        [Space(5)]
+        [SerializeField, Range(0f, 1f)] private float freeRoamVolumeCoefficient = 1f;
 
         [Header("Weather Testing Settings")]
         [Space]
@@ -169,7 +171,7 @@ namespace TwelveG.GameController
             playerCapsuleTransform.rotation = freeRoamTransform.rotation;
 
             VFXManager.Instance?.SetResonanceIntensityMultiplier(headacheVFXIntensity);
-            VFXManager.Instance?.SetElectricFeelIntensity(electricFeelVFXIntensity);
+            VFXManager.Instance?.SetFreeRoamElectricFeelIntensity(electricFeelVFXIntensity, freeRoamVolumeCoefficient);
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
         }
 
@@ -380,7 +382,6 @@ namespace TwelveG.GameController
                 else
                 {
                     Debug.LogWarning($"[EventsHandler]: No se encontró Checkpoint Profile para {checkpointToLoad}.");
-                    yield return null;
                 }
             }
             else
