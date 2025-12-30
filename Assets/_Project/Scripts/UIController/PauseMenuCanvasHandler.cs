@@ -59,9 +59,11 @@ namespace TwelveG.UIController
 
             if (inGameMenuClip == null) { return; }
 
-            if (pauseMenuSource.isPlaying) { pauseMenuSource.Stop(); }
-
-            pauseMenuSource.PlayOneShot(inGameMenuClip);
+            if (pauseMenuSource)
+            {
+                if (pauseMenuSource.isPlaying) { pauseMenuSource.Stop(); }
+                pauseMenuSource.PlayOneShot(inGameMenuClip);
+            }
         }
 
         private void SetResumeGameSettings()

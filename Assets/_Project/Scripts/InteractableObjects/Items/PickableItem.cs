@@ -62,21 +62,27 @@ namespace TwelveG.InteractableObjects
                 eventToTriggerWhenItemPicked.Raise(this, null);
 
             }
+
             if (pickItemSound != null)
             {
                 (AudioSource audioSource, AudioSourceState audioSourceState) =
                     AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
-                        gameObject.transform, 
+                        gameObject.transform,
                         pickItemSoundVolume
                 );
 
                 audioSource.PlayOneShot(pickItemSound);
+                gameObject.SetActive(false);
                 yield return new WaitUntil(() => !audioSource.isPlaying);
                 AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
                 audioSource = null;
             }
+            else
+            {
+                gameObject.SetActive(false);
+                yield return null;
+            }
 
-            gameObject.SetActive(false);
         }
     }
 }

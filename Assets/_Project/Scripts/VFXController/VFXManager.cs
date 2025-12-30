@@ -124,9 +124,14 @@ namespace TwelveG.VFXController
             headacheHandler?.SetIntensityMultiplier(newMultiplier);
         }
 
+        public void SetFreeRoamElectricFeelIntensity(float newMultiplier, float freeRoamVolumeCoefficient)
+        {
+            electricFeelHandler.SetIntensity(newMultiplier);
+            electricFeelHandler.SetAudioSettings(freeRoamVolumeCoefficient);
+        }
+
         public void SetElectricFeelIntensity(float newMultiplier)
         {
-            Debug.Log("[VFXManager] SetElectricFeelIntensity to " + newMultiplier);
             electricFeelHandler.SetIntensity(newMultiplier);
 
             // Maximo valor en el que comienza el desmayo de Simón
