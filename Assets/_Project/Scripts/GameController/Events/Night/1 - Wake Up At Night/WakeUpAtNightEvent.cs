@@ -27,7 +27,7 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-            GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, false);
+            GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, true);
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardRain);
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Bed, true));

@@ -26,7 +26,7 @@ namespace TwelveG.GameController
         [Header("Game Event SO's")]
         [SerializeField] private GameEventSO onPlayerDoorUnlock;
 
-        private bool flashLightWasPickedUp = false;
+        private bool walkieTalkiePickedUp = false;
         private bool allowNextAction = false;
 
         public override IEnumerator Execute()
@@ -44,15 +44,15 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(10f);
             // Supongo que una linterna me vendria bien ..
-            if (!flashLightWasPickedUp)
+            if (!walkieTalkiePickedUp)
             {
                 GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[0]);
             }
 
-            // Recibe "onFlashlightPickedUp" para permitir la siguiente acción
+            // Recibe "onWalkieTalkiePickedUp" para permitir la siguiente acción
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
-            GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.Flashlight);
+            GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
 
             yield return new WaitForSeconds(6f);
             // Ruido de desbloqueo de la puerta
@@ -87,9 +87,9 @@ namespace TwelveG.GameController
             allowNextAction = false;
         }
 
-        public void OnFlashLightPickedUp(Component sender, object data)
+        public void OnWalkieTalkiePickedUp(Component sender, object data)
         {
-            flashLightWasPickedUp = true;
+            walkieTalkiePickedUp = true;
             allowNextAction = true;
         }
     }
