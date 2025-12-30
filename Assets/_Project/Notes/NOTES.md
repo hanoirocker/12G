@@ -1,6 +1,4 @@
-- Se eliminó evento onTogglePrefab recientemente creado. Se reemplazó por llamadas directas a los handlers de Player House y Environment.
-- Se creo la lista environmentObjectsToToggle en CheckpointProfileSO para diferenciar de los objetos de la casa.
-- Se creó el archivo CHECKPOINTS_DATA.md para guardar la información sobre los estados de cada checkpoint a implementar.
+- Se comenzó a trabajar en la posibilidad de muerte del jugador. A analizar si vale la pena o no. Stasheado.
 
 TOFIX:
 
@@ -18,10 +16,8 @@ TODO - despues:
 - Agregar sonidos para cuando come la pizza.
 - Agregar sonidos al tomar escoba y bolsas de basura.
 - Agregar cajas bajo la escalera, o algo.
-- Continuar con evento Headaches: hasta ahora solo hay choque de policia.
 
 - Actualizar textos en puertas principales y objetos contemplables al final de la escena de Evening. Por ahora se han dejado de trabajar los SO's.
-- Posiblidad de muerte por sobreexposición a la resonancia? \*SI! con sonido de vomito, crear nuevas curvas de caida .. similares a Procedural Faint.
 - Implementar cambios de Video del Settings Menu
 - Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
 
