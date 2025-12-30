@@ -14,10 +14,10 @@
     - Desactivar la escoba de la cocina y la bolsa de basura del garage. \*DONE
     - Activar la "Used - Broom". Esto quizas involucre modificar el PlayerInventory también. \*DONE
     - Deshabilitar el Sphere Collider de Top de "Trash Can" \*DONE
-    - Desactivar plato de la cocina y activar plato en la mesa.
-    - Desactivar porción de pizza de la caja.
-    - Desactivar telefono del sofá.
-    - Activar viento suave.
+    - Desactivar plato de la cocina y activar plato en la mesa. \*DONE
+    - Desactivar porción de pizza de la caja. \*DONE
+    - Desactivar telefono del sofá. \*DONE
+    - Activar viento suave. \*DONE
 
   - Checkpoint - First Contact:
     - GiantWindow.001: recibe destroyWindowToReplace.Raise(this, null); que desactiva "Window To Replace" para activar "Replaced Window" y "ZoomBird". \*DONE
@@ -25,9 +25,9 @@
     - Desactivar la escoba de la cocina y la bolsa de basura del garage. \*DONE
     - Activar la "Used - Broom". Esto quizas involucre modificar el PlayerInventory también. \*DONE
     - Deshabilitar el Sphere Collider de Top de "Trash Can" \*DONE
-    - Desactivar plato de la cocina y activar plato en la mesa.
-    - Desactivar porción de pizza de la caja.
-    - Desactivar telefono del sofá.
+    - Desactivar plato de la cocina y activar plato en la mesa. \*DONE
+    - Desactivar porción de pizza de la caja. \*DONE
+    - Desactivar telefono del sofá. \*DONE
     - Habilitar armario de padres.
     - Desbloquear caja fuerte.
     - Desactivar item de walkie talkie dentro de caja fuerte.

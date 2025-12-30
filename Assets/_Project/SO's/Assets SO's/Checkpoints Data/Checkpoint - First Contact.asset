@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd898e50876474ecfbe1e282dac01260, type: 3}
-  m_Name: Checkpoint - Pizza Time
+  m_Name: Checkpoint - First Contact
   m_EditorClassIdentifier: 
-  eventEnum: 6
-  chapterName: Pizza Time
+  eventEnum: 11
+  chapterName: First Contact
   chapterThumbnail: {fileID: 0}
   startingInventory: 
   flashlightEnabled: 0
   walkieTalkieEnabled: 0
-  initialWeather: 6
+  initialWeather: 3
   objectsToToggle:
   - objectID: Window To Replace
     isActive: 0
@@ -32,7 +32,23 @@ MonoBehaviour:
     isActive: 1
   - objectID: Blood Stain
     isActive: 1
+  - objectID: Kitchen Washed Plate
+    isActive: 0
+  - objectID: Pizza Slice To Take
+    isActive: 0
+  - objectID: Sofa Phone
+    isActive: 0
+  - objectID: Wardrobe L Interactable
+    isActive: 1
+  - objectID: Wardrobe R Interactable
+    isActive: 1
+  - objectID: Pickable - Walkie Talkie
+    isActive: 0
   environmentObjectsToToggle: []
   objectsWithCheckpointListener:
   - objectID: Garage Trash Can Top
     state: INTERACTION_DISABLED
+  - objectID: Pizza Interactable
+    state: SLICE_TAKEN
+  - objectID: Safe Box
+    state: SAFEBOX_UNLOCKED
