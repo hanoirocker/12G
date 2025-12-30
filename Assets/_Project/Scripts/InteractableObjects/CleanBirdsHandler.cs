@@ -41,6 +41,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private ObservationTextSO observationTextSO_hasBroom;
         [SerializeField] private ObservationTextSO observationTextSO_hasBag;
         [SerializeField] private ObservationTextSO observationTextSO_noneItem;
+        [SerializeField, Range(0f, 5f)] private float timeBeforeShowingFallbackText = 0f;
 
         List<String> playerItems = new List<String>();
         private AudioSourceState audioSourceState;
@@ -171,22 +172,22 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        public ObservationTextSO GetFallBackText()
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText()
         {
             if (!playerItems.Contains(ItemType.EmptyTrashBag.ToString()) && playerItems.Contains(ItemType.Broom.ToString()))
             {
                 //"Aun me falta una bolsa, creo que habia un rollo en el cajon de la cocina...";
-                return observationTextSO_hasBroom;
+                return (observationTextSO_hasBroom, timeBeforeShowingFallbackText);
             }
             if (playerItems.Contains(ItemType.EmptyTrashBag.ToString()) && !playerItems.Contains(ItemType.Broom.ToString()))
             {
                 //"Aun me falta la escoba";
-                return observationTextSO_hasBag;
+                return (observationTextSO_hasBag, timeBeforeShowingFallbackText);
             }
             else
             {
                 //"La escoba de la cocina y una bolsa me vendrian bien para esto...";
-                return observationTextSO_noneItem;
+                return (observationTextSO_noneItem, timeBeforeShowingFallbackText);
             }
         }
     }

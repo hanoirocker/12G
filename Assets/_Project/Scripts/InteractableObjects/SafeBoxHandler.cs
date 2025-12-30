@@ -18,7 +18,7 @@ namespace TwelveG.InteractableObjects
 
         [Header("Text Settings")]
         [SerializeField] private ObservationTextSO observationFallback;
-
+        [SerializeField, Range(0f, 5f)] private float timeBeforeShowingFallbackText = 0f;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_try;
@@ -103,9 +103,9 @@ namespace TwelveG.InteractableObjects
             return CanBeInteractedWith(playerCamera);
         }
 
-        public ObservationTextSO GetFallBackText()
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText()
         {
-            return observationFallback;
+            return (observationFallback, timeBeforeShowingFallbackText);
         }
 
         public void UnlockSafeBox()

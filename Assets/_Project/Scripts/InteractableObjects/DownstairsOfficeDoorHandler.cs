@@ -22,6 +22,7 @@ namespace TwelveG.InteractableObjects
 
         [Header("Text Settings")]
         [SerializeField] private ObservationTextSO observationFallback;
+        [SerializeField, Range(0f, 5f)] private float timeBeforeShowingFallbackText = 0f;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
@@ -89,9 +90,9 @@ namespace TwelveG.InteractableObjects
             return true;
         }
 
-        public ObservationTextSO GetFallBackText()
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText()
         {
-            return lockedIndex == 0 ? observationFallback : null;
+            return lockedIndex == 0 ? (observationFallback, timeBeforeShowingFallbackText) : (null, 0f);
         }
 
         public bool VerifyIfPlayerCanInteract(PlayerInteraction playerCamera)

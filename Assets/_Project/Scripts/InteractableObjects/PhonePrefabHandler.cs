@@ -38,9 +38,9 @@ namespace TwelveG.InteractableObjects
             return true;
         }
 
-        public ObservationTextSO GetFallBackText()
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText()
         {
-            return null;
+            return (null, 0f);
         }
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)

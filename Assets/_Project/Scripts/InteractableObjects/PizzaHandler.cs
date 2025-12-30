@@ -32,6 +32,7 @@ namespace TwelveG.InteractableObjects
 
         [Header("Fallback Texts SO")]
         [SerializeField] private ObservationTextSO observationTextSO;
+        [SerializeField, Range(0f, 5f)] private float timeBeforeShowingFallbackText = 0f;
 
         private List<String> playerItems = new List<string>();
         private bool canBeInteractedWith = true;
@@ -158,9 +159,9 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        public ObservationTextSO GetFallBackText()
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText()
         {
-            return observationTextSO;
+            return (observationTextSO, timeBeforeShowingFallbackText);
         }
 
         public void OnCheckpointReached(string state)

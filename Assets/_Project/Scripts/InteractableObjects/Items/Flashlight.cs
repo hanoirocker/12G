@@ -1,5 +1,6 @@
 namespace TwelveG.InteractableObjects
 {
+    using System;
     using System.Collections;
     using UnityEngine;
 
@@ -7,6 +8,9 @@ namespace TwelveG.InteractableObjects
     {
         [Header("References")]
         [SerializeField] private Light flashlightLight;
+
+        [Header("Settings")]
+        [SerializeField, Range(0f, 1f)] private float maxIntensity = 1f;
 
         private void Update()
         {
@@ -34,6 +38,7 @@ namespace TwelveG.InteractableObjects
                 animationPlaying = true;
                 // Si está visible, ejecuta animación para ocultar
                 anim.Play("HideItem");
+                StartCoroutine(LightCoroutine(maxIntensity, 0f, 1f));
                 itemIsShown = false;
                 yield return new WaitUntil(() => !anim.isPlaying);
                 onItemToggled.Raise(this, itemIsShown);
@@ -43,6 +48,7 @@ namespace TwelveG.InteractableObjects
             {
                 animationPlaying = true;
                 // Si está oculto, ejecuta animación para mostrar
+                StartCoroutine(LightCoroutine(0f, maxIntensity, 1f));
                 anim.Play("ShowItem");
                 itemIsShown = true;
                 yield return new WaitUntil(() => !anim.isPlaying);
@@ -53,6 +59,22 @@ namespace TwelveG.InteractableObjects
             {
                 yield return null;
             }
+        }
+
+        private IEnumerator LightCoroutine(float from, float to, float duration)
+        {
+            canBeToogled = false;
+
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float currentValue = Mathf.Lerp(from, to, elapsed / duration);
+                flashlightLight.intensity = currentValue;
+                yield return null;
+            }
+
+            canBeToogled = true;
         }
 
         public void ToogleFlashlightLight(int state)

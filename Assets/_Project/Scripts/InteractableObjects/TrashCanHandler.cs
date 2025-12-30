@@ -161,7 +161,7 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        public ObservationTextSO GetFallBackText()
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText()
         {
             throw new NotImplementedException();
         }

@@ -63,7 +63,7 @@ namespace TwelveG.PlayerController
 
         private IEnumerator CancelInteractionAndShowObservation(IInteractable interactObj, Collider collider)
         {
-            ObservationTextSO observationTextSO = interactObj.GetFallBackText();
+            (ObservationTextSO observationTextSO, float timeUntilShown) = interactObj.GetFallBackText();
             PlayerContemplation contemplation = this.GetComponent<PlayerContemplation>();
             contemplation.enabled = false;
 
@@ -77,8 +77,9 @@ namespace TwelveG.PlayerController
 
             if (observationTextSO == null) { yield return null; }
 
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSO);
             lastColliderInteractedWith.GetComponent<Collider>().enabled = false;
+            yield return new WaitForSeconds(timeUntilShown);
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSO);
             yield return new WaitForSeconds(timeToWait);
             lastColliderInteractedWith.GetComponent<Collider>().enabled = true;
             contemplation.enabled = true;

@@ -10,6 +10,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private bool isMainEntranceDoor;
         [SerializeField] private ObservationTextSO observationFallbackTextDefault = null;
         [SerializeField] private ObservationTextSO defaultEventDrivenObservationFallbackText = null;
+        [SerializeField, Range(0f, 5f)] private float timeBeforeShowingFallbackText = 0f;
 
         [Space]
         [Header("Testing")]
@@ -57,10 +58,10 @@ namespace TwelveG.InteractableObjects
             throw new System.NotImplementedException();
         }
 
-        public ObservationTextSO GetFallBackText()
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText()
         {
-            if (isMainEntranceDoor) { return currentObservationFallbackText; }
-            return observationFallbackTextDefault;
+            if (isMainEntranceDoor) { return (currentObservationFallbackText, timeBeforeShowingFallbackText); }
+            return (observationFallbackTextDefault, timeBeforeShowingFallbackText);
         }
 
         // onResetEventDrivenTexts: Llamado en eventos para volver a la lista default de textos

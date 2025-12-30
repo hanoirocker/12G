@@ -12,6 +12,6 @@ using TwelveG.Localization;
 
         public bool VerifyIfPlayerCanInteract(PlayerInteraction playerCameraObject);
 
-        public ObservationTextSO GetFallBackText();
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText();
     }
 }

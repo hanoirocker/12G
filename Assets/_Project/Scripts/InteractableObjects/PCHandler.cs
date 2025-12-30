@@ -43,7 +43,7 @@ namespace TwelveG.InteractableObjects
             return canBeInteractedWith;
         }
 
-        public ObservationTextSO GetFallBackText()
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText()
         {
             throw new System.NotImplementedException();
         }
