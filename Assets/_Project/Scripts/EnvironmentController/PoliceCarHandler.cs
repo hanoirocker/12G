@@ -11,9 +11,13 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private VehicleType vehicleType;
         [SerializeField] List<Light> carLights = new List<Light>();
         [SerializeField] private float lightToggleTime = 0.1f;
+        [SerializeField, Range(0f, 20f)] private float lightsDurationAfterCrash = 20f;
+
+        [Space(10)]
         [Header("Particle Settings")]
         [Space]
         [SerializeField] GameObject particleFX;
+        [SerializeField, Range(0f, 900f)] private float particleDuration = 900f;
 
         private Coroutine sirenLightsRoutine;
 
@@ -37,20 +41,25 @@ namespace TwelveG.EnvironmentController
             yield return new WaitUntil(() => !animationComponent.isPlaying);
 
             // El auto choca contra la escuela
-            StopCoroutine(sirenLightsRoutine);
-            foreach (Light light in carLights)
-            {
-                light.enabled = false;
-            }
-
             // Activar collider de objeto spotteable
             Collider collider = GetComponentInChildren<ZoneSpotterHandler>().gameObject.GetComponent<Collider>();
             collider.enabled = true;
 
             // Activamos el efecto de particulas de la explosion y el humo
             particleFX.SetActive(true);
-            yield return new WaitForSeconds(900f);
+
+            // Esperar para apagar las luces
+            yield return new WaitForSeconds(lightsDurationAfterCrash);
+            StopCoroutine(sirenLightsRoutine);
+            foreach (Light light in carLights)
+            {
+                light.enabled = false;
+            }
+
             audioSource.Stop();
+
+            // Esperar para apagar los efectos de particulas
+            yield return new WaitForSeconds(particleDuration);
             particleFX.SetActive(false);
         }
 
