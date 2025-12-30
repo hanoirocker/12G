@@ -13,22 +13,23 @@ namespace TwelveG.GameController
         [Header("Event options")]
         [SerializeField, Range(1, 10)] private int initialTime = 1;
 
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onObservationCanvasShowText;
-
+        [Space(10)]
         [Header("Text event SO")]
-
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
+        [Space(5)]
+        [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
+        [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
+        [Space(5)]
         [SerializeField] private DialogSO firstEventDialog;
         [SerializeField] private DialogSO secondEventDialog;
         [SerializeField] private DialogSO thirdEventDialog;
-        [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
 
         private bool allowNextAction = false;
 
         public override IEnumerator Execute()
         {
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
 
             yield return new WaitForSeconds(initialTime);
 
