@@ -346,21 +346,29 @@ namespace TwelveG.GameController
         // la lista actual y añadiendo el evento de checkpoint actual si no está ya incluido.
         public List<string> UpdateCompletedCheckpointEvents(List<string> completedCheckpointEvents)
         {
-            if (completedCheckpointEvents == null)
+            // Si se intenta guardar sobre un evento que no es checkpoint, no hacemos nada
+            if (!currentExecutingEvent.isCheckpointEvent)
             {
-                completedCheckpointEvents = new List<string>();
-            }
-
-            if (currentExecutingEvent != null && !completedCheckpointEvents.Contains(currentExecutingEvent.eventEnum.ToString()))
-            {
-                completedCheckpointEvents.Add(currentExecutingEvent.eventEnum.ToString());
+                return completedCheckpointEvents;
             }
             else
             {
-                Debug.LogWarning("[EventsHandler]: currentExecutingEvent es nulo al actualizar eventos completados.");
-            }
+                if (completedCheckpointEvents == null)
+                {
+                    completedCheckpointEvents = new List<string>();
+                }
 
-            return completedCheckpointEvents;
+                if (!completedCheckpointEvents.Contains(currentExecutingEvent.eventEnum.ToString()))
+                {
+                    completedCheckpointEvents.Add(currentExecutingEvent.eventEnum.ToString());
+                }
+                else
+                {
+                    Debug.LogWarning("[EventsHandler]: currentExecutingEvent es nulo al actualizar eventos completados.");
+                }
+
+                return completedCheckpointEvents;
+            }
         }
 
         // ---- LOGICA DE CHECKPOINTS ----
