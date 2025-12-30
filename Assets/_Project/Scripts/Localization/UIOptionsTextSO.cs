@@ -12,6 +12,7 @@ namespace TwelveG.Localization
     public class UIMenuTextStructure
     {
       public LanguagesEnum language;
+      [TextArea(3, 10)]
       public string value;
     }
   }
