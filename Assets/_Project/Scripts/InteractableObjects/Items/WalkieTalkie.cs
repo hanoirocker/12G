@@ -50,6 +50,7 @@ namespace TwelveG.InteractableObjects
         [Header("Audio")]
         [SerializeField] private AudioClip channelSwitchAudioClip;
         [SerializeField] private AudioClip incomingDialogAlertClip;
+        [SerializeField, Range(0f, 1f)] private float alertClipVolume = 0.7f;
         [SerializeField, Range(0f, 1f)] private float switchChannelVolume = 0.8f;
 
         [Space]
@@ -297,6 +298,8 @@ namespace TwelveG.InteractableObjects
 
         public void StartDialog(Component sender, object data)
         {
+            Debug.Log($"WT recibe desde {sender.name} el diálogo: {data}");
+
             lastDialogReceived = (DialogSO)data;
 
             if (lastDialogReceived == null) return;
@@ -338,12 +341,19 @@ namespace TwelveG.InteractableObjects
                 AllowChannelSwitching(false);
                 GameEvents.Common.onShowDialog.Raise(this, lastDialogReceived);
             }
+
+            if(lastDialogReceived.characterName == CharacterName.Unknown)
+            {
+                incomingCallWaiting = true;
+                StartCoroutine(IncomingDialogAlertCourutine());
+            }
         }
 
         private IEnumerator IncomingDialogAlertCourutine()
         {
             GameEvents.Common.onShowIncomingCallPanel.Raise(this, true);
             audioSource.clip = incomingDialogAlertClip;
+            audioSource.volume = alertClipVolume;
             audioSource.Play();
 
             yield return new WaitUntil(() => itemIsShown);

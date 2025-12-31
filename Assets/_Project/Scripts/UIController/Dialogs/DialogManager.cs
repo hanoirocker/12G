@@ -139,9 +139,17 @@ namespace TwelveG.DialogsController
             {
                 charNameString = currentDialog.characterName.ToString();
             }
-            else
+            else if( charName == CharacterName.Cops)
             {
                 charNameString = " ... ";
+            }
+            else if( charName == CharacterName.Unknown)
+            {
+                charNameString = "UNKNOWN";
+            }
+            else
+            {
+                charNameString = "NO CHAR NAME";
             }
 
             yield return ShowDialogCoroutine(charNameString, textToShow, dialogTime);

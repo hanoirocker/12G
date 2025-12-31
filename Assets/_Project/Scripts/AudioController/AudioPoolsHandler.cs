@@ -64,6 +64,7 @@ namespace TwelveG.AudioController
     [Header("Audio References")]
     [SerializeField] private AudioClip softWindClip;
     [SerializeField] private AudioClip softRainClip;
+    [SerializeField] private AudioClip hardRainClip;
 
     private Dictionary<AudioPoolType, List<AudioSource>> poolMap;
     private List<AudioSource> lastActiveAudioSources = new List<AudioSource>();
@@ -247,7 +248,7 @@ namespace TwelveG.AudioController
           audioClip = softRainClip;
           break;
         case (WeatherEvent.HardRain):
-          audioClip = softRainClip; // TODO: cargar audio de lluvia fuerte a futuro
+          audioClip = hardRainClip; // TODO: cargar audio de lluvia fuerte a futuro
           break;
         case (WeatherEvent.SoftWind):
           audioClip = softWindClip;

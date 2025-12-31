@@ -8,7 +8,8 @@ namespace TwelveG.DialogsController
     {
         Simon,
         Mica,
-        Cops
+        Cops,
+        Unknown
     }
 
     [System.Serializable]

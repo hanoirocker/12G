@@ -1,6 +1,7 @@
 using System.Collections;
 using TwelveG.AudioController;
 using TwelveG.DialogsController;
+using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
@@ -12,7 +13,7 @@ namespace TwelveG.GameController
     public class WakeUpAtNightEvent : GameEventBase
     {
         [Header("Event options")]
-        [SerializeField, Range(1, 10)] private int initialTime = 3;
+        [SerializeField, Range(0f, 10f)] private float initialTime = 0f;
 
         [Space]
         [Header("Text event SO")]
@@ -27,6 +28,13 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
+            AudioManager.Instance.FaderHandler.FadeAudioGroup(
+                AudioGroup.inGameVol,
+                0,
+                AudioManager.Instance.GetCurrentChannelVolume("inGameVol"),
+                7f
+            );
+
             GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, true);
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardRain);
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
@@ -38,12 +46,15 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(initialTime);
 
-            GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
-            yield return new WaitForSeconds(5f);
+            // Empezar a hacer sonar el walkie-talkie (se desactiva solo al recoger el Walkie Talkie)
+            FindAnyObjectByType<LightBeepHandler>().enabled = true;
 
-            // Comentario sobre qué carajo hace en la cama
+            GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
+            yield return new WaitForSeconds(4f);
+
+            // Comentario sobre dolor de cabeza y algo asi
             GameEvents.Common.onStartDialog.Raise(this, dialogSO);
-            yield return new WaitForSeconds(8f);
+            yield return new WaitForSeconds(5f);
 
             // LEVANTARSE [E]
             GameEvents.Common.onEventInteractionCanvasShowText.Raise(

@@ -1,5 +1,6 @@
 using System.Collections;
 using TwelveG.AudioController;
+using TwelveG.DialogsController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
@@ -11,11 +12,12 @@ namespace TwelveG.GameController
     public class LockedUpEvent : GameEventBase
     {
         [Header("Event options")]
-        [SerializeField, Range(1, 10)] private int initialTime = 3;
+        [SerializeField, Range(1, 10)] private int initialTime = 0;
 
         [Space]
         [Header("Text event SO")]
         [SerializeField] private ObservationTextSO[] observationTextSOs;
+        [SerializeField] private DialogSO[] dialogSOs;
 
         [Space]
         [Header("Audio Options")]
@@ -42,8 +44,8 @@ namespace TwelveG.GameController
             GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
 
-            yield return new WaitForSeconds(10f);
-            // Supongo que una linterna me vendria bien ..
+            yield return new WaitForSeconds(3f);
+            // Qué mierda hago en mi habitación? Mi walkie talkie ...
             if (!walkieTalkiePickedUp)
             {
                 GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[0]);
@@ -52,10 +54,18 @@ namespace TwelveG.GameController
             // Recibe "onWalkieTalkiePickedUp" para permitir la siguiente acción
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
-            GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
 
-            yield return new WaitForSeconds(6f);
-            // Ruido de desbloqueo de la puerta
+            GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
+            // Sonidos extraños, y Simon intentando hablar.
+            GameEvents.Common.onStartDialog.Raise(this, dialogSOs[0]);
+
+            // "onConversationHasEnded"
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            yield return new WaitForSeconds(1f);
+
+            // Se desbloquea sola la puerta de su pieza
             onPlayerDoorUnlock.Raise(this, null);
 
             yield return new WaitForSeconds(2f);
