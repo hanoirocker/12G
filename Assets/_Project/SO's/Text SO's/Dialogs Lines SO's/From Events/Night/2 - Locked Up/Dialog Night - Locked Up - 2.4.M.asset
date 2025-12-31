@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Night - Locked Up - 1.4.S
+  m_Name: Dialog Night - Locked Up - 2.4.M
   m_EditorClassIdentifier: 
-  characterName: 0
-  isSelfDialog: 1
+  characterName: 1
+  isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Esos ruidos ... parece ...
+    dialogText: "En tu habitaci\xF3n? Pens\xE9 que estabas abajo .."
   - language: 1
-    dialogText: That noise ... seems like ...
+    dialogText: In your room? I thought you were downstairs...
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
-  nextDialog: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: cf56f6af150b1469bbc0a5dbd51a3319, type: 2}
   dialogOptions: []

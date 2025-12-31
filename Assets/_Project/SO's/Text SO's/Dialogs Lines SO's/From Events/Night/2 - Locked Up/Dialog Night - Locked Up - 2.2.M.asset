@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Dialog Night - Locked Up - 1.4.S
+  m_Name: Dialog Night - Locked Up - 2.2.M
   m_EditorClassIdentifier: 
-  characterName: 0
-  isSelfDialog: 1
+  characterName: 1
+  isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Esos ruidos ... parece ...
+    dialogText: Te escucho. Algo alterado de hecho. Pasa algo?
   - language: 1
-    dialogText: That noise ... seems like ...
+    dialogText: I can hear you. You sound a bit agitated, actually. Is something
+      wrong?
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
-  nextDialog: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 187661c064d4c4d769621fbfe7fcab60, type: 2}
   dialogOptions: []

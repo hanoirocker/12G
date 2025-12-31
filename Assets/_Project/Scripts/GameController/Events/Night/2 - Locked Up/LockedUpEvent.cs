@@ -5,6 +5,7 @@ using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
+using TwelveG.Utils;
 using UnityEngine;
 
 namespace TwelveG.GameController
@@ -63,7 +64,21 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(3f);
+            // "Necesito hablarte ..."
+            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[1]);
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                observationTextSOs[1].observationTextsStructure[0].observationText
+            ));
+
+            // Intenta comunicarse con Micaela
+            GameEvents.Common.onStartDialog.Raise(this, dialogSOs[1]);
+
+            // "onConversationHasEnded"
+            yield return new WaitUntil(() => allowNextAction);
+            ResetAllowNextActions();
+
+            yield return new WaitForSeconds(2f);
 
             // Se desbloquea sola la puerta de su pieza
             onPlayerDoorUnlock.Raise(this, null);
