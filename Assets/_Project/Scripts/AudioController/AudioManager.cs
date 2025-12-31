@@ -95,7 +95,7 @@ namespace TwelveG.AudioController
         // Llamado cuando se recibe onResetWeatherConfigs (no implementado en ningun evento aun)
         public void ResetWeatherConfigs()
         {
-            PoolsHandler.ResetWeatherClips();
+            PoolsHandler.ResetWeatherSources();
             AZHandler.ResetAcousticSources();
         }
 

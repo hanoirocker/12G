@@ -66,6 +66,11 @@ namespace TwelveG.AudioController
     [SerializeField] private AudioClip softRainClip;
     [SerializeField] private AudioClip hardRainClip;
 
+    [Space]
+    [Header("Weather Settings")]
+    [SerializeField, Range (1f, 4f)] private float softWeatherDefaultDistance = 4f;
+    [SerializeField, Range (4f, 5.5f)] private float hardWeatherDistance = 4.5f;
+
     private Dictionary<AudioPoolType, List<AudioSource>> poolMap;
     private List<AudioSource> lastActiveAudioSources = new List<AudioSource>();
 
@@ -212,7 +217,7 @@ namespace TwelveG.AudioController
       return null;
     }
 
-    public void ResetWeatherClips()
+    public void ResetWeatherSources()
     {
       foreach (AudioSource source in EnvironmentSources)
       {
@@ -236,27 +241,34 @@ namespace TwelveG.AudioController
       if((WeatherEvent)data == WeatherEvent.None)
       {
         // Resetea clips de audio
-        ResetWeatherClips();
+        ResetWeatherSources();
         return;
       }
 
       AudioClip audioClip;
+      float sourceMaxDistance;
 
       switch ((WeatherEvent)data)
       {
         case (WeatherEvent.SoftRain):
           audioClip = softRainClip;
+          sourceMaxDistance = softWeatherDefaultDistance;
           break;
         case (WeatherEvent.HardRain):
-          audioClip = hardRainClip; // TODO: cargar audio de lluvia fuerte a futuro
+          audioClip = hardRainClip;
+          sourceMaxDistance = hardWeatherDistance;
+          StartCoroutine(AudioManager.Instance.LowPassCorutine("ambientLowPassCutOff", 7500f, 1f));
           break;
         case (WeatherEvent.SoftWind):
+          sourceMaxDistance = softWeatherDefaultDistance;
           audioClip = softWindClip;
           break;
         case (WeatherEvent.HardWind):
-          audioClip = softWindClip; // TODO: cargar audio de viento fuerte a futuro
+          sourceMaxDistance = hardWeatherDistance;
+          audioClip = softWindClip;
           break;
         default:
+          sourceMaxDistance = softWeatherDefaultDistance;
           audioClip = null;
           break;
       }
@@ -264,6 +276,7 @@ namespace TwelveG.AudioController
       foreach (AudioSource source in EnvironmentSources)
       {
         source.clip = audioClip;
+        source.maxDistance = sourceMaxDistance;
       }
 
       // Le asigna las fuentes al AudioZoneHandler para que las posicione en zonas acústicas
