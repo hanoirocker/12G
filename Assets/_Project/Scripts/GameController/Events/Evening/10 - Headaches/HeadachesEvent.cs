@@ -25,9 +25,12 @@ namespace TwelveG.GameController
         [Space(10)]
         [Header("Text event SO")]
         [SerializeField] private ObservationTextSO[] eventObservationsTextsSOs;
+        [Space(5)]
         [SerializeField] private DialogSO[] dialogOs;
+        [Space(5)]
         [SerializeField] private ObservationTextSO mainDoorsFallbacksTextsSO;
-        [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
+        [Space(5)]
+        [SerializeField] private UIOptionsTextSO[] playerHelperDataTextSO;
 
         private bool allowNextAction = false;
 
@@ -62,13 +65,18 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(timeUntilPoliceCarCrash);
 
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
-            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
 
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.PoliceCarCrash);
+
+            // Tiempo aproximado de la animación del choque del auto policial
+            yield return new WaitForSeconds(10f);
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
 
             // "Police Car Crashed - Spot" dispara el evento policeCarSpotted al ser chekeado por Simon
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
 
             yield return new WaitForSeconds(2f);
             // Conversación que inicia Mica desesperada por la situación

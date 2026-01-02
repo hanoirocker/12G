@@ -4,6 +4,7 @@ using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
+using TwelveG.UIController;
 using TwelveG.Utils;
 using UnityEngine;
 
@@ -49,6 +50,8 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
                 eventObservationsTextsSOs[0].observationTextsStructure[0].observationText
             ));
+
+            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(true));
 
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
