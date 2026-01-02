@@ -61,9 +61,11 @@ namespace TwelveG.PlayerController
             {
                 case ItemType.Flashlight:
                     flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                    flashlight.GetComponent<PlayerItemBase>().ActivateItem(true);
                     break;
                 case ItemType.WalkieTalkie:
                     walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                    walkieTalkie.GetComponent<PlayerItemBase>().ActivateItem(true);
                     break;
                 case ItemType.EmptyTrashBag:
                     break;
@@ -129,11 +131,11 @@ namespace TwelveG.PlayerController
                         break;
                     case ItemType.Flashlight:
                         flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
-                        flashlight.SetActive(false);
+                        flashlight.GetComponent<PlayerItemBase>().ActivateItem(false);
                         break;
                     case ItemType.WalkieTalkie:
                         walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
-                        walkieTalkie.SetActive(false);
+                        walkieTalkie.GetComponent<PlayerItemBase>().ActivateItem(false);
                         VFXManager.Instance?.EnableElectricFeelVFX(false);
                         break;
                     case ItemType.Plate:
@@ -170,9 +172,11 @@ namespace TwelveG.PlayerController
             {
                 case (ItemType.Flashlight):
                     flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                    flashlight.GetComponent<PlayerItemBase>().ActivateItem(true);
                     break;
                 case (ItemType.WalkieTalkie):
                     walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(true);
+                    walkieTalkie.GetComponent<PlayerItemBase>().ActivateItem(true);
                     VFXManager.Instance?.EnableElectricFeelVFX(true);
                     break;
                 default:

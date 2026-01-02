@@ -9,6 +9,7 @@ namespace TwelveG.InteractableObjects
         private protected bool canBeToogled = false;
         private protected bool animationPlaying = false;
         private protected bool itemIsShown = false;
+        private protected bool isActiveOnGame = false;
 
         [Header("Event SO's references")]
 
@@ -24,6 +25,13 @@ namespace TwelveG.InteractableObjects
         public void AllowItemToBeToggled(bool allow)
         {
             canBeToogled = allow;
+        }
+
+        // Llamada al hacer habilitar el item mediante GameEvent o al recogerlo
+        // También al deshabilitarlo.
+        public void ActivateItem(bool activate)
+        {
+            isActiveOnGame = activate;
         }
 
         public bool CanBeToggled()

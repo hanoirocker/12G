@@ -73,19 +73,22 @@ namespace TwelveG.InteractableObjects
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.K))
+            if (isActiveOnGame)
             {
-                ToggleItem();
-            }
-            if (itemIsShown && canSwitchChannel)
-            {
-                if (Input.GetKeyDown(KeyCode.V))
+                if (Input.GetKeyDown(KeyCode.K))
                 {
-                    StartCoroutine(SwitchChannel(-1));
+                    ToggleItem();
                 }
-                if (Input.GetKeyDown(KeyCode.B))
+                if (itemIsShown && canSwitchChannel)
                 {
-                    StartCoroutine(SwitchChannel(+1));
+                    if (Input.GetKeyDown(KeyCode.V))
+                    {
+                        StartCoroutine(SwitchChannel(-1));
+                    }
+                    if (Input.GetKeyDown(KeyCode.B))
+                    {
+                        StartCoroutine(SwitchChannel(+1));
+                    }
                 }
             }
         }
@@ -342,7 +345,7 @@ namespace TwelveG.InteractableObjects
                 GameEvents.Common.onShowDialog.Raise(this, lastDialogReceived);
             }
 
-            if(lastDialogReceived.characterName == CharacterName.Unknown)
+            if (lastDialogReceived.characterName == CharacterName.Unknown)
             {
                 incomingCallWaiting = true;
                 StartCoroutine(IncomingDialogAlertCourutine());
