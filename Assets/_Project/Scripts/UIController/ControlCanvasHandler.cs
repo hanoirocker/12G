@@ -1,14 +1,22 @@
 namespace TwelveG.UIController
 {
+    using System.Collections;
     using TMPro;
+    using TwelveG.GameController;
     using TwelveG.Localization;
+    using TwelveG.PlayerController;
     using UnityEngine;
 
     public class ControlCanvasHandler : MonoBehaviour
     {
+        [Header("UI References")]
+        [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private TextMeshProUGUI controlsHeadTitle;
         [SerializeField] private TextMeshProUGUI defaultOptions;
         [SerializeField] private TextMeshProUGUI specificOptions;
+
+        [Header("Settings")]
+        [SerializeField, Range(0f, 3f)] private float fadeDuration = 3f;
 
         [Header("Text SO")]
         [SerializeField] private EventsControlCanvasInteractionTextSO defaultOptionsTextsSO;
@@ -76,10 +84,10 @@ namespace TwelveG.UIController
             switch (data)
             {
                 case EnableCanvas cmd:
-                    controlCanvas.enabled = cmd.Enabled;
+                    StartCoroutine(ToggleControlCanvasCoroutine(cmd.Enabled));
                     break;
                 case AlternateCanvasCurrentState:
-                    controlCanvas.enabled = !controlCanvas.enabled;
+                    StartCoroutine(ToggleControlCanvasCoroutine(!controlCanvas.enabled));
                     break;
                 case ResetControlCanvasSpecificOptions:
                     specificOptions.text = defaultOptionText;
@@ -91,6 +99,37 @@ namespace TwelveG.UIController
                     Debug.LogWarning($"[ControlCanvasHandler] Received unknown command: {data}");
                     break;
             }
+        }
+
+        private IEnumerator ToggleControlCanvasCoroutine(bool enableCanvas)
+        {
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
+
+            if (enableCanvas)
+            {
+                controlCanvas.enabled = true;
+            }
+
+            float elapsed = 0f;
+            float target = enableCanvas ? 1f : 0f;
+            float initialAlpha = canvasGroup.alpha;
+
+            while (elapsed < fadeDuration)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(initialAlpha, target, elapsed / fadeDuration);
+                canvasGroup.alpha = alpha;
+                yield return null;
+            }
+
+            canvasGroup.alpha = target;
+
+            if (!enableCanvas)
+            {
+                controlCanvas.enabled = false;
+            }
+
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
         }
     }
 }
