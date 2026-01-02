@@ -64,11 +64,11 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(5f);
             // "Necesito hablarte ..."
             GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[1]);
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
-                observationTextSOs[1].observationTextsStructure[0].observationText
+                observationTextSOs[1].observationTextsStructure[0].observationText + 3f
             ));
 
             // Intenta comunicarse con Micaela

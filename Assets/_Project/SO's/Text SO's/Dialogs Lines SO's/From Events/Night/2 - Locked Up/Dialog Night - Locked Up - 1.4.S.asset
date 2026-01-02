@@ -20,7 +20,7 @@ MonoBehaviour:
   - language: 1
     dialogText: That noise ... seems like ...
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 1.5
+  timeBeforeShowing: 2
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
   nextDialog: {fileID: 0}
