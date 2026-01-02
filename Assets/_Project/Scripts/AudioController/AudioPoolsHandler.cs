@@ -65,6 +65,7 @@ namespace TwelveG.AudioController
     [SerializeField] private AudioClip softWindClip;
     [SerializeField] private AudioClip softRainClip;
     [SerializeField] private AudioClip hardRainClip;
+    [SerializeField] private AudioClip hardRainAndWindClip;
 
     [Space]
     [Header("Weather Settings")]
@@ -250,6 +251,14 @@ namespace TwelveG.AudioController
 
       switch ((WeatherEvent)data)
       {
+        case (WeatherEvent.SoftWind):
+          sourceMaxDistance = softWeatherDefaultDistance;
+          audioClip = softWindClip;
+          break;
+        case (WeatherEvent.HardWind):
+          sourceMaxDistance = hardWeatherDistance;
+          audioClip = softWindClip;
+          break;
         case (WeatherEvent.SoftRain):
           audioClip = softRainClip;
           sourceMaxDistance = softWeatherDefaultDistance;
@@ -259,13 +268,10 @@ namespace TwelveG.AudioController
           sourceMaxDistance = hardWeatherDistance;
           StartCoroutine(AudioManager.Instance.LowPassCorutine("ambientLowPassCutOff", 7500f, 1f));
           break;
-        case (WeatherEvent.SoftWind):
-          sourceMaxDistance = softWeatherDefaultDistance;
-          audioClip = softWindClip;
-          break;
-        case (WeatherEvent.HardWind):
+        case (WeatherEvent.HardRainAndWind):
+          audioClip = hardRainAndWindClip;
           sourceMaxDistance = hardWeatherDistance;
-          audioClip = softWindClip;
+          StartCoroutine(AudioManager.Instance.LowPassCorutine("ambientLowPassCutOff", 7500f, 1f));
           break;
         default:
           sourceMaxDistance = softWeatherDefaultDistance;

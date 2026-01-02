@@ -19,13 +19,6 @@ namespace TwelveG.EnvironmentController
         {
             switch ((WeatherEvent)data)
             {
-                case (WeatherEvent.SoftRain):
-                    rainObject.SetActive(true);
-                    break;
-                case (WeatherEvent.HardRain):
-                    rainObject.SetActive(true);
-                    Debug.Log($"Aun no hay diferencia entre soft rain y hard rain!");
-                    break;
                 case (WeatherEvent.SoftWind):
                     windZone.windMain = 0.2f;
                     windZone.windTurbulence = 0.2f;
@@ -34,6 +27,21 @@ namespace TwelveG.EnvironmentController
                     windZoneObject.SetActive(true);
                     break;
                 case (WeatherEvent.HardWind):
+                    windZone.windMain = 1f;
+                    windZone.windTurbulence = 0.3f;
+                    windZone.windPulseFrequency = 0.2f;
+                    windZone.windPulseMagnitude = 0.7f;
+                    windZoneObject.SetActive(true);
+                    break;
+                case (WeatherEvent.SoftRain):
+                    rainObject.SetActive(true);
+                    break;
+                case (WeatherEvent.HardRain):
+                    rainObject.SetActive(true);
+                    Debug.Log($"Aun no hay diferencia de VFX particule entre soft rain y hard rain!");
+                    break;
+                case (WeatherEvent.HardRainAndWind):
+                    rainObject.SetActive(true);
                     windZone.windMain = 1f;
                     windZone.windTurbulence = 0.3f;
                     windZone.windPulseFrequency = 0.2f;
