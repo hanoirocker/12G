@@ -17,14 +17,10 @@ MonoBehaviour:
   - language: 0
     eventControlCanvasInteractionText: '- Mostrar/Ocultar [H]
 
-      - Observar [Mover
-      Mouse]
-
-      - Enfocar vision [Click derecho]'
+      - Obsevar (Zoom)
+      [Click D]'
   - language: 1
     eventControlCanvasInteractionText: '- Show/Hide [H]
 
-      - Look Around  [Move
-      Mouse]
-
-      - Zoom in [Right Click]'
+      - Check (Zoom In)
+      [R Click]'

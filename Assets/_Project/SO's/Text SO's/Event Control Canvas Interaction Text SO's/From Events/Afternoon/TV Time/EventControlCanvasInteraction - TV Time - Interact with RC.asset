@@ -15,18 +15,16 @@ MonoBehaviour:
   eventName: 
   eventControlCanvasInteractionStructures:
   - language: 0
-    eventControlCanvasInteractionText: '- Subir/Bajar volumen [Flechas Arriba/Abajo]
+    eventControlCanvasInteractionText: '- +/- Volumen [Flecha Arriba/Abajo]
 
       -
-      Anterior/Siguiente canal [Flechas Izq/Der]
+      Cambiar canal[Flechas I/D]
 
-      - Dejar de interactuar con
-      TV [E]'
+      - Dejar de interactuar con TV [E]'
   - language: 1
-    eventControlCanvasInteractionText: '- Higher/Lower volume [Up/Down Arrow Keys]
+    eventControlCanvasInteractionText: '- +/- volume [U/D Arrow Keys]
 
-      -
-      Previous/Next channel [Left/Right Arrow Keys]
+      - Change
+      channel [L/R Arrow Keys]
 
-      - Stop interacting with
-      TV [E]'
+      - Stop interacting with TV [E]'
