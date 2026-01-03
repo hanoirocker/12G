@@ -13,6 +13,9 @@ namespace TwelveG.VFXController
         [SerializeField] private VFXGeneralConfigSO headacheGeneralConfigsSO;
         [SerializeField] private VFXGeneralConfigSO electricFeelGeneralConfigsSO;
 
+        [Header("Settings")]
+        [SerializeField, Range(0f, 1f)] private float electricFaintCoefficient = 0.2f;
+
         // --- DEPENDENCIAS ---
         private PostProcessingHandler postProcessingHandler;
         private Transform playerTransform;
@@ -88,7 +91,7 @@ namespace TwelveG.VFXController
             // Si el efecto ya estaba habilitado, actualizamos su estado de intensidad y volumen
             if (electricFeelHandler.enabled)
             {
-                electricFeelHandler.StartTransition(20f);
+                electricFeelHandler.StartTransition(10f);
             }
         }
 
@@ -132,17 +135,24 @@ namespace TwelveG.VFXController
 
         public void SetElectricFeelIntensity(float newMultiplier)
         {
-            electricFeelHandler.SetIntensity(newMultiplier);
-
             // Maximo valor en el que comienza el desmayo de Simón
             if (newMultiplier == 1f)
             {
+                electricFeelHandler.SetAudioSettings(electricFaintCoefficient);
                 // Deshabilita la capacidad de sprint del jugador
                 playerTransform.GetComponentInParent<FPController>().EnableSprint(false);
 
                 // Se activa el efecto de DoF, Vignette y el filtro pasa graves
-                StartCoroutine(postProcessingHandler.DoFAndVignetteRoutine(15f, 0.3f, 1f, 10f));
-                StartCoroutine(AudioManager.Instance.LowPassCorutine("inGameLowPassCutOff", 250f, 15f));
+                StartCoroutine(postProcessingHandler.DoFAndVignetteRoutine(9.3f, 0.3f, 1f, 6f));
+
+                StartCoroutine(AudioManager.Instance.LowPassCorutine("inGameLowPassCutOff", 1500f, 12f));
+            }
+
+            electricFeelHandler.SetIntensity(newMultiplier);
+
+            if (electricFeelHandler.enabled)
+            {
+                electricFeelHandler.StartTransition(newMultiplier < 1f ? 15f : 5f);
             }
         }
 

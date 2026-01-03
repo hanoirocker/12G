@@ -90,10 +90,12 @@ namespace TwelveG.UIController
             WTImageObject.GetComponent<CanvasGroup>().alpha = unequipiedItemAlpha;
             FlashlightImageObject.SetActive(false);
             FlashlightImageObject.GetComponent<CanvasGroup>().alpha = unequipiedItemAlpha;
+            iconsPanel.SetActive(false);
         }
 
         public void RemovePlayerItem(Component sender, object data)
         {
+            Debug.Log($"ItemCanvasHandler: RemovePlayerItem called from {sender.name} with data {data}");
             ItemType itemType = (ItemType)data;
 
             if (itemType == ItemType.WalkieTalkie)

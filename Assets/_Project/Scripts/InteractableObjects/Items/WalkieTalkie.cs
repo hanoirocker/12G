@@ -301,8 +301,6 @@ namespace TwelveG.InteractableObjects
 
         public void StartDialog(Component sender, object data)
         {
-            Debug.Log($"WT recibe desde {sender.name} el diálogo: {data}");
-
             lastDialogReceived = (DialogSO)data;
 
             if (lastDialogReceived == null) return;

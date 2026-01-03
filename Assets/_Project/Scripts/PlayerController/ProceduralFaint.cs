@@ -1,4 +1,5 @@
 using System.Collections;
+using TwelveG.AudioController;
 using TwelveG.GameController;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ namespace TwelveG.PlayerController
         {
             if (isFainting) return;
 
-            // Escucha PlayerHandler y el UI Manager (invoca funciones de Item Canvas y futuro Dying Menu)
+            // Escucha PlayerHandler y el UI Manager (invoca funciones de Item Canvas)
             GameEvents.Common.onPlayerDying.Raise(this, null);
 
             StartCoroutine(FaintRoutine());

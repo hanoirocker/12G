@@ -85,10 +85,13 @@ namespace TwelveG.GameController
             // Durante el dialogo con Mica se dispara el evento "onHeadacheMaxIntensity"
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+
+            yield return new WaitForSeconds(10f);
+
             VFXManager.Instance.SetElectricFeelIntensity(1f);
 
-            // Esperar efecto de Depth of Field, Vignette y filtro pasa graves
-            yield return new WaitForSeconds(15f);
+            // Esperar efecto de Depth of Field, Vignette (El filtro pasa graves se activa desde el ProceduralFaint)
+            yield return new WaitForSeconds(9.3f);
 
             VFXManager.Instance.TriggerProceduralFaint();
             GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
@@ -115,6 +118,8 @@ namespace TwelveG.GameController
 
             // Detener todas las audio sources de la pool inGameVol
             AudioManager.Instance.PoolsHandler.StopActiveSourcesOnMixChannel(AudioMixChannel.InGame);
+
+            yield return new WaitForSeconds(5f);
         }
 
         public void AllowNextActions(Component sender, object data)

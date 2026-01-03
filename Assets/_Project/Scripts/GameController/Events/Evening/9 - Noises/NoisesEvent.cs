@@ -36,7 +36,7 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             // TODO: borrar (solo de prueba)
-            // GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
+            GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
 
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);

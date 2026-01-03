@@ -14,7 +14,9 @@ namespace TwelveG.VFXController
 
         [Header("Audio Settings")]
         [SerializeField] private AudioClip electricFeelClip;
+        [SerializeField] private AudioClip faintingClip;
 
+        private AudioClip currentAudioClip;
         private bool isEffectEnabled = false;
         private bool isItemShown = false; // Guardamos el estado del objeto
 
@@ -82,10 +84,16 @@ namespace TwelveG.VFXController
                 electricFeelAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
                 audioSourceState = electricFeelAudioSource.GetSnapshot();
                 electricFeelAudioSource.spatialBlend = 0f;
-                electricFeelAudioSource.clip = electricFeelClip;
                 electricFeelAudioSource.loop = true;
                 electricFeelAudioSource.volume = 0f;
+            }
+
+            electricFeelAudioSource.clip = currentAudioClip;
+
+            if (!electricFeelAudioSource.isPlaying)
+            {
                 electricFeelAudioSource.Play();
+
             }
 
             if (updateEffectCoroutine != null) StopCoroutine(updateEffectCoroutine);
@@ -141,18 +149,32 @@ namespace TwelveG.VFXController
         // Llamado por VFXManager
         public void SetIntensity(float multiplier)
         {
+            Debug.Log($"Updating to ...: {multiplier}");
+
             maxEventIntensity = multiplier;
 
-            if (multiplier > 0f)
+            if (multiplier > 0f && multiplier < 1f)
             {
                 isEffectEnabled = true;
-                RecalculateTargetIntensity();
+                currentAudioClip = electricFeelClip;
             }
-            else
+            else if (multiplier == 0f)
             {
                 isEffectEnabled = false;
-                RecalculateTargetIntensity();
+                currentAudioClip = null;
             }
+            else if (multiplier == 1f)
+            {
+                isEffectEnabled = true;
+
+                if (electricFeelAudioSource.isPlaying)
+                {
+                    electricFeelAudioSource.Stop();
+                }
+                currentAudioClip = faintingClip;
+            }
+
+            RecalculateTargetIntensity();
         }
 
         // Callback del evento (OnItemShown / Hidden)
