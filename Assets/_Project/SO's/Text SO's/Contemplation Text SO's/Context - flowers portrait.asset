@@ -21,3 +21,7 @@ MonoBehaviour:
     minEventIndex: 7
     maxEventIndex: 10
     texts: {fileID: 11400000, guid: 1822e980780704157ba8606fd0c5e9de, type: 2}
+  - sceneEnum: 2
+    minEventIndex: 1
+    maxEventIndex: 15
+    texts: {fileID: 11400000, guid: 4b835147580b0634fbfe41d63328c540, type: 2}

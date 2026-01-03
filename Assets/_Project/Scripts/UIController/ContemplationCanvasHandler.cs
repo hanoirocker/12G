@@ -21,10 +21,12 @@ namespace TwelveG.UIController
 
         public void ShowContemplationText(Component sender, object data)
         {
-            if ((string)data != null)
+            string textToShow = (string)data;
+
+            if (textToShow != null && !string.IsNullOrEmpty(textToShow))
             {
                 contemplationCanvas.enabled = true;
-                contemplationCanvasText.text = (string)data;
+                contemplationCanvasText.text = textToShow;
             }
         }
 
