@@ -12,6 +12,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private GameObject door;
         [SerializeField] private bool doorIsOpen;
         [SerializeField] Animation doorPickAnimation;
+        [SerializeField] private bool canBeClosed = true;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
@@ -20,7 +21,12 @@ namespace TwelveG.InteractableObjects
         [Header("Audio settings: ")]
         [SerializeField] private AudioClip openingDoorSound;
         [SerializeField] private AudioClip closingDoorSound;
+        [SerializeField] private AudioClip hardClosingDoorSound;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.7f;
+        [SerializeField, Range(0f, 1f)] private float hardClipsVolume = 1f;
+
+        [Header("Settings")]
+        [SerializeField, Range(0.1f, 1f)] private float quickToggleDuration = 0.45f;
 
         private bool isMoving;
         private Quaternion initialRotation;
@@ -76,6 +82,8 @@ namespace TwelveG.InteractableObjects
 
         public bool Interact(PlayerInteraction interactor)
         {
+            if (doorIsOpen && !canBeClosed) return false;
+
             ToggleDoor();
             return true;
         }
@@ -88,6 +96,11 @@ namespace TwelveG.InteractableObjects
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
+            if (!canBeClosed && doorIsOpen)
+            {
+                return null;
+            }
+
             return doorIsOpen ? interactionTextsSO_close : interactionTextsSO_open;
         }
 
@@ -98,7 +111,50 @@ namespace TwelveG.InteractableObjects
 
         public (ObservationTextSO, float timeUntilShown) GetFallBackText()
         {
-            throw new System.NotImplementedException();
+            return (null, 0f);
+        }
+
+        public void StrongClosing()
+        {
+            Quaternion targetRotation = doorIsOpen ? initialRotation : initialRotation * Quaternion.Euler(0, 90, 0);
+            StartCoroutine(StrongRotationCoroutine(targetRotation));
+        }
+
+        private IEnumerator StrongRotationCoroutine(Quaternion targetRotation)
+        {
+            isMoving = true;
+
+            AudioClip clip = doorIsOpen ? closingDoorSound : openingDoorSound;
+
+            float elapsedTime = 0f;
+            Quaternion startRotation = door.transform.localRotation;
+
+            while (elapsedTime < quickToggleDuration)
+            {
+                door.transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, elapsedTime / quickToggleDuration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            door.transform.localRotation = targetRotation;
+            doorIsOpen = !doorIsOpen;
+
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+                door.transform,
+                hardClipsVolume
+            );
+
+            if (hardClosingDoorSound != null && audioSource != null)
+            {
+                audioSource.clip = hardClosingDoorSound;
+                audioSource.Play();
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+                audioSource = null;
+            }
+
+            isMoving = false;
+            canBeClosed = true;
         }
     }
 }

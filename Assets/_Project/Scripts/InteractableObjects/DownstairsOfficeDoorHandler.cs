@@ -10,7 +10,7 @@ using TwelveG.GameController;
 
 namespace TwelveG.InteractableObjects
 {
-    public class DownstairsOfficeDoorHandler : MonoBehaviour, IInteractable
+    public class DownstairsOfficeDoorHandler : MonoBehaviour, IInteractable, ICheckpointListener
     {
         [Header("Object Settings")]
         [SerializeField] private GameObject door;
@@ -252,6 +252,14 @@ namespace TwelveG.InteractableObjects
             {
                 audioSource.PlayOneShot(clip);
                 yield return new WaitUntil(() => !audioSource.isPlaying);
+            }
+        }
+
+        public void OnCheckpointReached(string state)
+        {
+            if (state == "UNLOCKED")
+            {
+                doorIsLocked = false;
             }
         }
     }

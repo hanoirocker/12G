@@ -17,6 +17,7 @@ TagManager:
   - Door
   - Main Video
   - PlayerCapsule
+  - GarageNoise
   layers:
   - Default
   - TransparentFX

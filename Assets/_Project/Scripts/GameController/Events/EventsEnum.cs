@@ -26,5 +26,10 @@ namespace TwelveG.GameController
         Night_Narrative_Intro,
         WakeUpAtNight,
         LockedUp,
+        Unwired,
+        Bodies,
+        RedHours,
+        Voices,
+        SomethingElse,
     }
 }

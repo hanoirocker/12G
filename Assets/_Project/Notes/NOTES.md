@@ -1,4 +1,5 @@
-- Se comenzó a trabajar en la posibilidad de muerte del jugador. A analizar si vale la pena o no. Stasheado.
+- Se canceló la posibilidad de muerte del jugador.
+- Se creó evento "Unwired" donde el jugador chequea las supuestas luces de la entrada y los ruidos en el garage. 
 
 TOFIX:
 
@@ -23,4 +24,4 @@ TODO - despues:
 
 TOCHECK:
 
-- aumentar umbral de mareos?
+- Trabajar sobre el RotativeDoorHandler y sus corrutinas. Código repetido y no tiene sentido que el jugador pueda abrir la puerta luego de que se cierra fuerte. Quizas se deba desactivar el RotativeDoorHandler y activar el DownstairsOfficeDoorHandler en la misma puerta?

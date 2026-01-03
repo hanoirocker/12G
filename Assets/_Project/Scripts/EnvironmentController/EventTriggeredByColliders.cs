@@ -12,7 +12,7 @@ namespace TwelveG.EnvironmentController
             if (other.gameObject.CompareTag("PlayerCapsule"))
             {
                 eventTriggered.Raise(this, null);
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
     }

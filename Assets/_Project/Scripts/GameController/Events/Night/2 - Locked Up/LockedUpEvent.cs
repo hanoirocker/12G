@@ -21,11 +21,6 @@ namespace TwelveG.GameController
         [SerializeField] private DialogSO[] dialogSOs;
 
         [Space]
-        [Header("Audio Options")]
-        [SerializeField] private AudioClip hauntingSoundClip;
-        [SerializeField, Range(0f, 1f)] private float hauntingSoundVolume = 0.15f;
-
-        [Space]
         [Header("Game Event SO's")]
         [SerializeField] private GameEventSO onPlayerDoorUnlock;
 
@@ -83,23 +78,7 @@ namespace TwelveG.GameController
             // Se desbloquea sola la puerta de su pieza
             onPlayerDoorUnlock.Raise(this, null);
 
-            yield return new WaitForSeconds(2f);
-
-            // Comienza musica "Haunting Sound"
-            AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
-
-            if (bgMusicSource != null && hauntingSoundClip != null)
-            {
-                bgMusicSource.clip = hauntingSoundClip;
-                bgMusicSource.volume = 0f;
-                bgMusicSource.loop = true;
-                bgMusicSource.Play();
-
-                StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, hauntingSoundVolume, 10f));
-            }
-
-            yield return new WaitUntil(() => allowNextAction);
-            ResetAllowNextActions();
+            yield return new WaitForSeconds(3f);
         }
 
         public void AllowNextActions(Component sender, object data)
