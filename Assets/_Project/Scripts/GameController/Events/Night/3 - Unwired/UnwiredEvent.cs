@@ -27,7 +27,7 @@ namespace TwelveG.GameController
         [SerializeField, Range(0f, 1f)] private float garageClipVolume = 0.5f;
         [Space(5)]
         [SerializeField] private AudioClip neckWhisperClip;
-        [SerializeField, Range(0f, 1f)] private float neckWhisperVolume = 0.5f;
+        [SerializeField, Range(0f, 1f)] private float neckWhisperVolume = 0.35f;
 
         [Space]
         [Header("Game Event SO's")]
@@ -122,7 +122,7 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             // esperamos un segundo y disparamos audio en la nuca del jugador
-            yield return new WaitForSeconds(6f);
+            yield return new WaitForSeconds(12f);
             AudioSource neckSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
 
             if (neckSource != null && neckWhisperClip != null)
