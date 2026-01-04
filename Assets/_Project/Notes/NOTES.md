@@ -1,9 +1,8 @@
-- Se canceló la posibilidad de muerte del jugador.
-- Se creó evento "Unwired" donde el jugador chequea las supuestas luces de la entrada y los ruidos en el garage. 
+- Se trabajó en Unwired event, agregando sonidos de garage e interacció con linterna.
 
 TOFIX:
 
-- Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales.
+- Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales. // Esto sucede cuando no existe extructura de audios de canales para el evento en particular //
 
 TODO - próximo:
 
@@ -14,6 +13,7 @@ TODO - próximo:
 
 TODO - despues:
 
+- Agregar animación de primera activación de linterna para Unwired? (MAYBE)
 - Agregar sonidos para cuando come la pizza.
 - Agregar sonidos al tomar escoba y bolsas de basura.
 - Agregar cajas bajo la escalera, o algo.
@@ -24,4 +24,3 @@ TODO - despues:
 
 TOCHECK:
 
-- Trabajar sobre el RotativeDoorHandler y sus corrutinas. Código repetido y no tiene sentido que el jugador pueda abrir la puerta luego de que se cierra fuerte. Quizas se deba desactivar el RotativeDoorHandler y activar el DownstairsOfficeDoorHandler en la misma puerta?

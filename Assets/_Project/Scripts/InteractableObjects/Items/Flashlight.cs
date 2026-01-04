@@ -10,7 +10,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private Light flashlightLight;
 
         [Header("Settings")]
-        [SerializeField, Range(0f, 1f)] private float maxIntensity = 1f;
+        [SerializeField, Range(0f, 5f)] private float maxIntensity = 2.5f;
 
         private void Update()
         {

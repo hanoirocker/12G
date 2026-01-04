@@ -173,6 +173,7 @@ namespace TwelveG.GameController
         public void OnFlashlightPickedUp(Component sender, object data)
         {
             flashlightPickedUp = true;
+            GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.Flashlight);
             allowNextAction = true;
         }
     }
