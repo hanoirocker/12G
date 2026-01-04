@@ -15,7 +15,8 @@ namespace TwelveG.Utils
     Phone,
     TV,
     Sofa,
-    SafeBox
+    SafeBox,
+    Flashlight
   }
 
   public class ToggleVirtualCamera : VirtualCamerasCommandsBase

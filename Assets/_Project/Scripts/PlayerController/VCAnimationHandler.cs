@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TwelveG.Utils
 {
-    public class WakeUpVCHandler : MonoBehaviour
+    public class VCAnimationHandler : MonoBehaviour
     {
         private Animation _animation;
 

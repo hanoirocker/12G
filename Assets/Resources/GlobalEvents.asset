@@ -83,6 +83,8 @@ MonoBehaviour:
     type: 2}
   playWakeUpAtNightVCAnimation: {fileID: 11400000, guid: 63ebebc29696c4eb7927dd7984e38e09,
     type: 2}
+  playFlashlightVCAnimation: {fileID: 11400000, guid: 3654b22f5f81b448093f32656e466f8a,
+    type: 2}
   onEnablePlayerItem: {fileID: 11400000, guid: db3f86513c173994cbebbc47a6a65d05, type: 2}
   onRemovePlayerItem: {fileID: 11400000, guid: dc4cd2c022a0a43519fc164a582b9930, type: 2}
   onPlayerDying: {fileID: 11400000, guid: 5d7613b2c6cb646c09460070afb0a95c, type: 2}

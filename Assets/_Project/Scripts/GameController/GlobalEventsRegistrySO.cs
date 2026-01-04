@@ -48,6 +48,7 @@ namespace TwelveG.GameController
         public GameEventSO triggerHouseLightsFlickering; // WakeUpEvent
         public GameEventSO onEnablePlayerHouseEnergy; // WakeUpAtNightEvent
         public GameEventSO playWakeUpAtNightVCAnimation; // WakeUpAtNightEvent
+        public GameEventSO playFlashlightVCAnimation; // UnwiredEvent
 
         [Header("Player & Controls")]
         public GameEventSO onEnablePlayerItem;

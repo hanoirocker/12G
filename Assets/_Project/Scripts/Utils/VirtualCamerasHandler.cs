@@ -15,7 +15,8 @@ namespace TwelveG.Utils
         [SerializeField] private CinemachineVirtualCamera bedVC;
         [SerializeField] private CinemachineVirtualCamera tvVC;
         [SerializeField] private CinemachineVirtualCamera safeBox;
-        [SerializeField] private CinemachineVirtualCamera SofaVC;
+        [SerializeField] private CinemachineVirtualCamera sofaVC;
+        [SerializeField] private CinemachineVirtualCamera flashlightVC;
 
 
         [Header("EventsSO references")]
@@ -103,8 +104,9 @@ namespace TwelveG.Utils
                 VirtualCameraTarget.Backpack => backpackVC,
                 VirtualCameraTarget.Phone => phoneVC,
                 VirtualCameraTarget.TV => tvVC,
-                VirtualCameraTarget.Sofa => SofaVC,
+                VirtualCameraTarget.Sofa => sofaVC,
                 VirtualCameraTarget.SafeBox => safeBox,
+                VirtualCameraTarget.Flashlight => flashlightVC,
                 _ => null
             };
         }

@@ -15,7 +15,10 @@ namespace TwelveG.EnvironmentController
 
         [Header("Light References")]
         [SerializeField] private Light[] HouseLights;
+        [SerializeField] private Renderer[] HouseLightsBulbs;
+        [Space(5)]
         [SerializeField] private LightSwitchHandler[] LightSwitches;
+        [Space(5)]
         [SerializeField] private Collider[] electricInteractableColliders;
 
         [Space]
@@ -103,6 +106,11 @@ namespace TwelveG.EnvironmentController
                 foreach (Light light in HouseLights)
                 {
                     light.enabled = false;
+                }
+
+                foreach (Renderer bulb in HouseLightsBulbs)
+                {
+                    bulb.material.DisableKeyword("_EMISSION");
                 }
             }
 
