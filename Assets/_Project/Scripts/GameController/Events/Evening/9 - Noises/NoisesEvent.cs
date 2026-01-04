@@ -70,7 +70,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onStartDialog.Raise(this, dialogSOs[0]);
 
             // Parpadean luces de la casa
-            triggerHouseLightsFlickering.Raise(this, 5f);
+            GameEvents.Common.triggerHouseLightsFlickering.Raise(this, 5f);
 
             // Espera a que termine la conversacion con Micaela "conversationHasEnded"
             yield return new WaitUntil(() => allowNextAction);

@@ -97,6 +97,15 @@ namespace TwelveG.EnvironmentController
                 lightSwitch.itWorks = (bool)data;
             }
 
+            if((bool)data == false)
+            {
+                // Apagar todas las luces de la casa
+                foreach (Light light in HouseLights)
+                {
+                    light.enabled = false;
+                }
+            }
+
             foreach (Collider col in electricInteractableColliders)
             {
                 col.enabled = (bool)data;

@@ -77,6 +77,8 @@ MonoBehaviour:
     type: 2}
   playCrashingWindowSound: {fileID: 11400000, guid: 7f19d8987ec97492f9b7a0d8d9948b03,
     type: 2}
+  triggerHouseLightsFlickering: {fileID: 11400000, guid: 0f71c96d3baf6664b94de18f0305cd02,
+    type: 2}
   onEnablePlayerHouseEnergy: {fileID: 11400000, guid: ce42476a207fa4c1987b3884ba0fd9e3,
     type: 2}
   playWakeUpAtNightVCAnimation: {fileID: 11400000, guid: 63ebebc29696c4eb7927dd7984e38e09,
@@ -104,7 +106,6 @@ MonoBehaviour:
   onStartWeatherEvent: {fileID: 11400000, guid: 4eb0d878e5164450b8321d44e0143ad4,
     type: 2}
   onSpawnVehicle: {fileID: 11400000, guid: 609dd1a2b8c188d4aa71fc295bc305a8, type: 2}
-  onTogglePrefab: {fileID: 11400000, guid: c427e1247c8764ebb88846f791b89526, type: 2}
   onResetEventDrivenTexts: {fileID: 11400000, guid: e93534826f06b764e9032606ac286371,
     type: 2}
   onNewEventBegun: {fileID: 11400000, guid: 1e413680ee7ee2c4abc25bb0bd48a16a, type: 2}

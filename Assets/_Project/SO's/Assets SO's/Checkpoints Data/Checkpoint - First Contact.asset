@@ -18,6 +18,7 @@ MonoBehaviour:
   startingInventory: 
   flashlightEnabled: 0
   walkieTalkieEnabled: 0
+  playerCanSprint: 1
   initialWeather: 3
   objectsToToggle:
   - objectID: Window To Replace

@@ -35,6 +35,7 @@ namespace TwelveG.GameController
                 7f
             );
 
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, true);
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardRainAndWind);
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);

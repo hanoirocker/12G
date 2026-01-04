@@ -420,16 +420,19 @@ namespace TwelveG.GameController
                     Debug.Log($"[EventsHandler]: Añadido al inventario: {item}");
                 }
 
-                // Si el perfil dice que tiene linterna, forzamos el equipamiento
+                // Flashlight Enabled?
                 if (profile.flashlightEnabled)
                 {
                     GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.Flashlight);
                 }
-                // Si el perfil dice que tiene linterna, forzamos el equipamiento
+                // Walkie Talkie Enabled?
                 if (profile.walkieTalkieEnabled)
                 {
                     GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
                 }
+
+                // Player Can Sprint?
+                GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerSprint(profile.playerCanSprint));
 
                 yield return new WaitForFixedUpdate();
             }

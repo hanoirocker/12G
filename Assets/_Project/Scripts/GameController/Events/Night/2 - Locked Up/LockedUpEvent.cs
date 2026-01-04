@@ -29,6 +29,7 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             // DESACTIVAR SPRINT DEL JUGADOR DURANTE PRIMEROS EVENTOS
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerSprint(false));
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));

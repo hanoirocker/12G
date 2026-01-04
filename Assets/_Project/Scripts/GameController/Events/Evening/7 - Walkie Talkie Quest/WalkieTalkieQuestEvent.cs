@@ -93,7 +93,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardWind);
 
             // Parpadean luces de la casa nuevamente
-            triggerHouseLightsFlickering.Raise(this, 10f);
+            GameEvents.Common.triggerHouseLightsFlickering.Raise(this, 10f);
         }
 
         public void OnSagaBookExamined(Component sender, object data)
@@ -102,7 +102,7 @@ namespace TwelveG.GameController
             {
                 bookHasBeenExamined = true;
                 // Aca sucede el flickering de las luces recibido y disparado por el PlayerHouseHandler
-                triggerHouseLightsFlickering.Raise(this, 5f);
+                GameEvents.Common.triggerHouseLightsFlickering.Raise(this, 5f);
             }
         }
 

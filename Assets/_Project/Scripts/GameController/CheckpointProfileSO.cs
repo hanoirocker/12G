@@ -44,6 +44,8 @@ namespace TwelveG.GameController
         [Space(5)]
         public bool flashlightEnabled;
         public bool walkieTalkieEnabled;
+        [Space(5)]
+        public bool playerCanSprint = true;
 
         [Header("World State")]
         public WeatherEvent initialWeather;
