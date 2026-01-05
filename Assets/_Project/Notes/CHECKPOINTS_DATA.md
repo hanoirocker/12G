@@ -44,7 +44,7 @@
     - Habilitar item Walkie Talkie. \*DONE
     - {Pickable - Walkie Talkie, unchecked} \*DONE
     - {Player Door Lock, UNLOCKED} \*DONE
-    - {Unwired - Entrance colliders, unchecked}
-    - {Unwired - Garage colliders, unchecked}
-    - {Pickable - Flashlight, unchecked}
+    - {Unwired - Entrance colliders, unchecked} \*DONE
+    - {Unwired - Garage colliders, unchecked} \*DONE
+    - {Pickable - Flashlight, unchecked} \*DONE
     - Habilitar Flashlight. \*DONE
