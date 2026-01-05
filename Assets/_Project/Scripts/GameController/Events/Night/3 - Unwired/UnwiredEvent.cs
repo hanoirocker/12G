@@ -29,10 +29,6 @@ namespace TwelveG.GameController
         [SerializeField] private AudioClip neckWhisperClip;
         [SerializeField, Range(0f, 1f)] private float neckWhisperVolume = 0.35f;
 
-        [Space]
-        [Header("Game Event SO's")]
-        // [SerializeField] private GameEventSO triggerHouseLightsFlickering;
-
         private bool playerHasNotEnteredGarage = true;
         private bool flashlightPickedUp = false;
         private bool allowNextAction = false;
@@ -40,6 +36,7 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
+            PlayerSoundsHandler playerSoundsHandler = FindAnyObjectByType<PlayerSoundsHandler>();
             AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
             Transform garageTransform = GameObject.FindGameObjectWithTag("GarageNoise").transform;
             (AudioSource garageSource, AudioSourceState garageState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(garageTransform, garageClipVolume);
@@ -91,8 +88,11 @@ namespace TwelveG.GameController
                 garageDoorHandler.StrongClosing();
             }
 
-            yield return new WaitForSeconds(0.5f);
-            // TODO: Corrutina de audio de corazón latiendo?
+            yield return new WaitForSeconds(0.45f);
+            if (playerSoundsHandler)
+            {
+                playerSoundsHandler.PlayPlayerSounds(PlayerSoundsType.HeartBeat, false, 0.2f, 5f, 3f);
+            }
 
             // Cortar la luz de la casa
             GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, false);

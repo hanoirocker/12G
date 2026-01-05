@@ -1,8 +1,15 @@
 namespace TwelveG.AudioController
 {
-    using System.Collections.Generic;
+  using System.Collections;
+  using System.Collections.Generic;
     using TwelveG.PlayerController;
     using UnityEngine;
+
+    public enum PlayerSoundsType
+    {
+        HeartBeat,
+        Breathing
+    }
 
     public class PlayerSoundsHandler : MonoBehaviour
     {
@@ -11,6 +18,10 @@ namespace TwelveG.AudioController
         public List<AudioClip> carpetFS;
         public List<AudioClip> mosaicGarageFS;
         public List<AudioClip> mosaicBathroomFS;
+
+        [Header("Other Clips")]
+        [SerializeField] private AudioClip heartBeatClip;
+        [SerializeField] private AudioClip breathingClip;
 
         [Header("Footsteps Settings")]
         [SerializeField] private float walkPitch;
@@ -110,6 +121,35 @@ namespace TwelveG.AudioController
                 : walkPitch;
 
             audioSource.PlayOneShot(clip);
+        }
+
+        public void PlayPlayerSounds(PlayerSoundsType soundType, bool loop, float volume, float timeUntilFadeOut, float fadeOutTime)
+        {
+            switch (soundType)
+            {
+                case PlayerSoundsType.HeartBeat:
+                    StartCoroutine(PlayPlayerSoundCoroutine(heartBeatClip, loop, volume, timeUntilFadeOut, fadeOutTime));
+                    break;
+                case PlayerSoundsType.Breathing:
+                    StartCoroutine(PlayPlayerSoundCoroutine(breathingClip, loop, volume, timeUntilFadeOut, fadeOutTime));
+                    break;
+            }
+        }
+
+        // TODO: actualmente invocado directamente desde UnwiredEvent.cs, evaluar si dejarlo así
+        // o llamar desde VFX si se combina con algún efecto visual.
+        private IEnumerator PlayPlayerSoundCoroutine(AudioClip clip, bool loop, float volume, float timeUntilFadeOut, float fadeOutTime)
+        {
+            AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
+            AudioSourceState sourceState = source.GetSnapshot();
+            source.clip = clip;
+            source.volume = volume;
+            source.loop = loop;
+            source.Play();
+            yield return new WaitForSeconds(timeUntilFadeOut);
+            yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(source, fadeOutTime));
+            AudioUtils.StopAndRestoreAudioSource(source, sourceState);
+            yield return null;
         }
     }
 }
