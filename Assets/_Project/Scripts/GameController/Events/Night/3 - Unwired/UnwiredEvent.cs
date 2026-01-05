@@ -97,7 +97,7 @@ namespace TwelveG.GameController
             // Cortar la luz de la casa
             GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, false);
 
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(8f);
 
             // Observación sobre que ya no hay luz en la casa
             GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[0]);
@@ -121,8 +121,14 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            AudioSource hauntingSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
+            if (hauntingSource != null)
+            {
+                 yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(hauntingSource, 5f));
+            }
+
             // esperamos un segundo y disparamos audio en la nuca del jugador
-            yield return new WaitForSeconds(12f);
+            yield return new WaitForSeconds(7f);
             AudioSource neckSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
 
             if (neckSource != null && neckWhisperClip != null)
@@ -144,8 +150,7 @@ namespace TwelveG.GameController
         {
             while (playerHasNotEnteredGarage)
             {
-                Debug.Log("[UnwiredEvent]: Parpadeo de luces de la casa...");
-                yield return new WaitForSeconds(UnityEngine.Random.Range(5f, 15f));
+                yield return new WaitForSeconds(UnityEngine.Random.Range(5f, 25f));
                 // Parpadean luces de la casa mientras el jugador no haya colisionado con los colliders
                 // del garage
                 GameEvents.Common.triggerHouseLightsFlickering.Raise(this, 5f);
