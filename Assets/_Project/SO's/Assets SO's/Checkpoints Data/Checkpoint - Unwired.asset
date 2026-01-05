@@ -18,6 +18,7 @@ MonoBehaviour:
   startingInventory: 
   flashlightEnabled: 0
   walkieTalkieEnabled: 1
+  playerCanSprint: 0
   initialWeather: 5
   objectsToToggle:
   - objectID: Pickable - Walkie Talkie
