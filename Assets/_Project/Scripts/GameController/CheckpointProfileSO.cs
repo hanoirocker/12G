@@ -40,6 +40,9 @@ namespace TwelveG.GameController
         public Sprite chapterThumbnail; // La foto para el menú de capítulos
 
         [Header("Player State")]
+        // El transform del player se actualiza mediante el script 
+        // PlayerTransformHandler.cs en Player Capsule.
+
         public List<ItemType> startingInventory;
         [Space(5)]
         public bool flashlightEnabled;

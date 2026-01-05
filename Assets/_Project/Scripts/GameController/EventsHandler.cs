@@ -406,10 +406,16 @@ namespace TwelveG.GameController
             // 0. Buscar referencias necesarias
             PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
             EnvironmentHandler environmentHandler = FindObjectOfType<EnvironmentHandler>();
-
             PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
+            PlayerTransformHandler playerTransformHandler = FindObjectOfType<PlayerTransformHandler>();
 
-            // 1. Configurar Inventario del Jugador
+            // 1. Estado inicial del jugador
+
+            if(playerTransformHandler != null)
+            {
+                playerTransformHandler.SetPlayerTransform(profile.eventEnum);
+                yield return new WaitForFixedUpdate();
+            }
 
             if (inventory != null)
             {

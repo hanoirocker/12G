@@ -1,4 +1,5 @@
 - Se comenzó a trabajar en el evento Visions.
+- Se implementó el script PlayerTransformHandler que actualiza la posición del Player Capsule dependiendo del checkpoint.
 
 TOFIX:
 
