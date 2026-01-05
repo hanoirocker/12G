@@ -27,7 +27,7 @@ namespace TwelveG.GameController
         WakeUpAtNight,
         LockedUp,
         Unwired,
-        Bodies,
+        Visions,
         RedHours,
         Voices,
         SomethingElse,

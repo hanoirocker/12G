@@ -121,6 +121,8 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
+
             AudioSource hauntingSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
             if (hauntingSource != null)
             {

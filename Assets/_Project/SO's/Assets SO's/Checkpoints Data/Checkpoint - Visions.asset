@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd898e50876474ecfbe1e282dac01260, type: 3}
+  m_Name: Checkpoint - Visions
+  m_EditorClassIdentifier: 
+  eventEnum: 18
+  chapterName: Visions
+  chapterThumbnail: {fileID: 0}
+  startingInventory: 
+  flashlightEnabled: 1
+  walkieTalkieEnabled: 1
+  playerCanSprint: 0
+  initialWeather: 5
+  objectsToToggle:
+  - objectID: Pickable - Walkie Talkie
+    isActive: 0
+  - objectID: Unwired - Entrance colliders
+    isActive: 0
+  - objectID: Unwired - Garage colliders
+    isActive: 0
+  - objectID: Pickable - Flashlight
+    isActive: 0
+  environmentObjectsToToggle: []
+  objectsWithCheckpointListener:
+  - objectID: Players Door Lock
+    state: UNLOCKED

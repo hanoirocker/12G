@@ -32,3 +32,19 @@
     - Desbloquear caja fuerte.
     - Desactivar item de walkie talkie dentro de caja fuerte.
     - Activar viento fuerte.
+
+  - Checkpoint - Unwired:
+    - Deshabilitar playerCanSpring. \*DONE
+    - Habilitar item Walkie Talkie. \*DONE
+    - Objetos de la casa: {Pickable - Walkie Talkie, unchecked} \*DONE
+    - Estados de objetos: { Player Door Lock, UNLOCKED} \*DONE
+  
+  - Checkpoint - Visions:
+    - Deshabilitar playerCanSpring. \*DONE
+    - Habilitar item Walkie Talkie. \*DONE
+    - {Pickable - Walkie Talkie, unchecked} \*DONE
+    - {Player Door Lock, UNLOCKED} \*DONE
+    - {Unwired - Entrance colliders, unchecked}
+    - {Unwired - Garage colliders, unchecked}
+    - {Pickable - Flashlight, unchecked}
+    - Habilitar Flashlight. \*DONE

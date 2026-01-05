@@ -1,4 +1,4 @@
-- Se trabajó en Unwired event, agregando sonidos de garage e interacció con linterna.
+- Se comenzó a trabajar en el evento Visions.
 
 TOFIX:
 
