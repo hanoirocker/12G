@@ -51,6 +51,7 @@ namespace TwelveG.GameController
         public bool playerCanSprint = true;
 
         [Header("World State")]
+        public bool houseHasEnergy = true;
         public WeatherEvent initialWeather;
 
         [Header("Critical Objects State")]

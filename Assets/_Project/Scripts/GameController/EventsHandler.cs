@@ -443,7 +443,13 @@ namespace TwelveG.GameController
                 yield return new WaitForFixedUpdate();
             }
 
-            // 2. Configurar Clima
+            // 2. Configurar del mundo
+            if (!profile.houseHasEnergy)
+            {
+                GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, false);
+                yield return new WaitForFixedUpdate();
+            }
+
             if (profile.initialWeather != WeatherEvent.None)
             {
                 GameEvents.Common.onStartWeatherEvent.Raise(this, profile.initialWeather);

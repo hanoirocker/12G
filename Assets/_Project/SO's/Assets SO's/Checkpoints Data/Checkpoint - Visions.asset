@@ -19,6 +19,7 @@ MonoBehaviour:
   flashlightEnabled: 1
   walkieTalkieEnabled: 1
   playerCanSprint: 0
+  houseHasEnergy: 0
   initialWeather: 5
   objectsToToggle:
   - objectID: Pickable - Walkie Talkie

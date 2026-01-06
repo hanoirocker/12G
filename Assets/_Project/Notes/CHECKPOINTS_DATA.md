@@ -47,4 +47,5 @@
     - {Unwired - Entrance colliders, unchecked} \*DONE
     - {Unwired - Garage colliders, unchecked} \*DONE
     - {Pickable - Flashlight, unchecked} \*DONE
+    - Deshabilitar energía en la casa del jugador.
     - Habilitar Flashlight. \*DONE
