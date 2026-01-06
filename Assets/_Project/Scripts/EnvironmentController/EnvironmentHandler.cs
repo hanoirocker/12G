@@ -6,6 +6,7 @@ namespace TwelveG.EnvironmentController
 {
     public enum EnemyPositions
     {
+        None,
         PlayerHouseCorner,
         MiddleOfTheStreet
     }
@@ -99,6 +100,9 @@ namespace TwelveG.EnvironmentController
                     enemyPrefab.transform.position = middleOfTheStreetTransform.position;
                     enemyPrefab.transform.rotation = middleOfTheStreetTransform.rotation;
                     break;
+                case EnemyPositions.None:
+                    enemyPrefab.SetActive(false);
+                    return;
                 default:
                     Debug.LogWarning("Invalid enemy position specified.");
                     return;

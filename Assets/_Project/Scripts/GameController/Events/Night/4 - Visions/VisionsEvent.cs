@@ -6,6 +6,7 @@ using TwelveG.EnvironmentController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using UnityEngine;
+using UnityEngine.Video;
 
 namespace TwelveG.GameController
 {
@@ -26,6 +27,10 @@ namespace TwelveG.GameController
     [Header("Audio Options")]
     [SerializeField] private AudioClip track2Clip;
     [SerializeField, Range(0f, 1f)] private float track2Volume = 0.15f;
+
+    [Space]
+    [Header("Video Settings")]
+    [SerializeField] private VideoClip subliminalJSClip1;
 
     private PlayerHandler playerHandler;
     private CameraZoom cameraZoom;
@@ -67,6 +72,12 @@ namespace TwelveG.GameController
         StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, track2Volume, 2f));
       }
 
+      // Preparamos el video con las imágenes subliminales
+      if (subliminalJSClip1 != null)
+      {
+        GameEvents.Common.onVideoCanvasLoadClip.Raise(this, subliminalJSClip1);
+      }
+
       yield return new WaitUntil(() => allowNextAction && playerSpottedFromUpstairs);
       ResetAllowNextActions();
 
@@ -75,11 +86,23 @@ namespace TwelveG.GameController
       yield return new WaitUntil(() => !cameraZoom.playerIsZooming());
       ResetAllowNextActions();
 
-      // Acá sucede el relámpago, con el sonido de terror al ver al enemigo, las imágenes subliminales, etc ..
-      Debug.Log("Aquí sucede el relámpago con el sonido de terror y las imágenes subliminales.");
+      // Desactivar controles del jugador y espera hasta que el zoom out termine
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+      yield return new WaitForSeconds(0.5f);
 
+      // Indica a la Virtual Camera activa que debe mirar hacia el enemigo
+      // Espera a que termine la animación de la cámara y el clip sorprendido del jugador 
+      yield return new WaitForSeconds(1f);
+
+      GameEvents.Common.onVideoCanvasPlay.Raise(this, null);
+
+      // "onCanvasVideoFinished"
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
+      GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.None);
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+
+
     }
 
     // Hace aparecer el enemigo dependiendo del lugar donde esté el jugador

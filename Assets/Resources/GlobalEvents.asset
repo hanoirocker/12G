@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392f2965c7a9f284ba04f2c7c12f551c, type: 3}
   m_Name: GlobalEvents
   m_EditorClassIdentifier: 
+  onCanvasVideoFinished: {fileID: 11400000, guid: 0e98af14483ae40a186fcad72eb4d7cc,
+    type: 2}
+  onVideoCanvasLoadClip: {fileID: 11400000, guid: 4405009a0d1d546c6a0616680c8df027,
+    type: 2}
+  onVideoCanvasPlay: {fileID: 11400000, guid: 4ac3890b622594f56a4ec9cb4f512da5, type: 2}
   onObservationCanvasShowText: {fileID: 11400000, guid: 21665bdceeba748ad93c85a910b97415,
     type: 2}
   onActivateCanvas: {fileID: 11400000, guid: d59bf113ac1e54e4d946d872d08be254, type: 2}

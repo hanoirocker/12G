@@ -6,6 +6,9 @@ namespace TwelveG.GameController
     public class GlobalEventsRegistrySO : ScriptableObject
     {
         [Header("Canvas & UI")]
+        public GameEventSO onCanvasVideoFinished;
+        public GameEventSO onVideoCanvasLoadClip;
+        public GameEventSO onVideoCanvasPlay;
         public GameEventSO onObservationCanvasShowText;
         public GameEventSO onActivateCanvas;
         public GameEventSO onImageCanvasControls;
