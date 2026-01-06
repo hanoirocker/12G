@@ -71,6 +71,7 @@ MonoBehaviour:
     type: 2}
   onCutSceneFinished: {fileID: 11400000, guid: ed900cf44ac8c4ec7bb1c776c8839d58, type: 2}
   onTimelineFinished: {fileID: 11400000, guid: 03fa9f9ad32cb4d089a3ca8c5259edab, type: 2}
+  onShowEnemy: {fileID: 11400000, guid: ca283ed0ffa924fd5b09dc9290594306, type: 2}
   onProceduralFaintFinished: {fileID: 11400000, guid: 257d0282233c546958ff451c44b4e595,
     type: 2}
   playWakeUpVCAnimation: {fileID: 11400000, guid: a5ac32080ee2c40f0a927e8a4e9845ea,

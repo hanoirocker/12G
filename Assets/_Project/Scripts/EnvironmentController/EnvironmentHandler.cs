@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace TwelveG.EnvironmentController
 {
+    public enum EnemyPositions
+    {
+        PlayerHouseCorner,
+        MiddleOfTheStreet
+    }
+
     public class EnvironmentHandler : MonoBehaviour
     {
         [Header("References")]
@@ -11,6 +17,14 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private GameObject rainObject;
         [SerializeField] private GameObject windZoneObject;
         [SerializeField] private WindZone windZone;
+
+        [Space(10)]
+        [Header("Enemy References")]
+        [Space(5)]
+        [SerializeField] GameObject enemyPrefab;
+        [Space(5)]
+        [SerializeField] private Transform cornerTransform;
+        [SerializeField] private Transform middleOfTheStreetTransform;
 
         [Header("Prefab References")]
         [SerializeField] private GameObject[] checkpointPrefabs;
@@ -69,6 +83,28 @@ namespace TwelveG.EnvironmentController
                     break;
                 }
             }
+        }
+
+        public void OnShowEnemy(Component sender, object data)
+        {
+            EnemyPositions position = (EnemyPositions)data;
+
+            switch (position)
+            {
+                case EnemyPositions.PlayerHouseCorner:
+                    enemyPrefab.transform.position = cornerTransform.position;
+                    enemyPrefab.transform.rotation = cornerTransform.rotation;
+                    break;
+                case EnemyPositions.MiddleOfTheStreet:
+                    enemyPrefab.transform.position = middleOfTheStreetTransform.position;
+                    enemyPrefab.transform.rotation = middleOfTheStreetTransform.rotation;
+                    break;
+                default:
+                    Debug.LogWarning("Invalid enemy position specified.");
+                    return;
+            }
+
+            enemyPrefab.SetActive(true);
         }
     }
 }

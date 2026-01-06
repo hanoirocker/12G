@@ -42,6 +42,7 @@ namespace TwelveG.GameController
         public GameEventSO onTimelineFinished;
 
         [Header("From Events")]
+        public GameEventSO onShowEnemy;
         public GameEventSO onProceduralFaintFinished;
         public GameEventSO playWakeUpVCAnimation; // WakeUpEvent
         public GameEventSO playCrashingWindowSound; // WakeUpEvent

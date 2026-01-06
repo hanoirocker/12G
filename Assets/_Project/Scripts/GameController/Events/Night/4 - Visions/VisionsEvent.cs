@@ -3,10 +3,8 @@ using System.Collections;
 using TwelveG.AudioController;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
-using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
-using TwelveG.Utils;
 using UnityEngine;
 
 namespace TwelveG.GameController
@@ -29,6 +27,9 @@ namespace TwelveG.GameController
     [SerializeField] private AudioClip track2Clip;
     [SerializeField, Range(0f, 1f)] private float track2Volume = 0.15f;
 
+    private PlayerHandler playerHandler;
+    private CameraZoom cameraZoom;
+
     private bool playerSpottedFromDownstairsAlready = false;
     private bool playerSpottedFromUpstairs = false;
     private bool allowNextAction = false;
@@ -37,6 +38,9 @@ namespace TwelveG.GameController
     {
       AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
       PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
+      playerHandler = FindObjectOfType<PlayerHandler>();
+      cameraZoom = playerHandler.GetComponentInChildren<CameraZoom>();
+
       GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
       yield return new WaitForSeconds(initialTime);
 
@@ -50,13 +54,10 @@ namespace TwelveG.GameController
       GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
 
       // Activar "Visions - Colliders"
-      if(playerHouseHandler != null)
-      {
-        playerHouseHandler?.ToggleCheckpointPrefabs(new ObjectData("Visions - Colliders", true));
-      }
+      playerHouseHandler.ToggleCheckpointPrefabs(new ObjectData("Visions - Colliders", true));
 
       // Comienza música ""
-      if (bgMusicSource != null && track2Clip != null)
+      if (track2Clip != null)
       {
         bgMusicSource.clip = track2Clip;
         bgMusicSource.volume = 0f;
@@ -69,10 +70,35 @@ namespace TwelveG.GameController
       yield return new WaitUntil(() => allowNextAction && playerSpottedFromUpstairs);
       ResetAllowNextActions();
 
-      Debug.Log("Player spotted from upstairs - Ending visions event");
+      SpawnEnemy();
+
+      yield return new WaitUntil(() => !cameraZoom.playerIsZooming());
+      ResetAllowNextActions();
+
+      // Acá sucede el relámpago, con el sonido de terror al ver al enemigo, las imágenes subliminales, etc ..
+      Debug.Log("Aquí sucede el relámpago con el sonido de terror y las imágenes subliminales.");
 
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
+    }
+
+    // Hace aparecer el enemigo dependiendo del lugar donde esté el jugador
+    private void SpawnEnemy()
+    {
+      HouseArea currentHouseArea = playerHandler.GetCurrentHouseArea();
+
+      switch (currentHouseArea)
+      {
+        case HouseArea.PlayerBedroom:
+          GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.MiddleOfTheStreet);
+          break;
+        case HouseArea.GuestsBedroom:
+          GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.PlayerHouseCorner);
+          break;
+        default:
+          Debug.LogWarning("Player is not in a valid house area to spawn the enemy.");
+          break;
+      }
     }
 
     public void AllowNextActions(Component sender, object data)

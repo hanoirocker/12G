@@ -1,9 +1,7 @@
-- Se implementó houseHasEnergy en el checkpoint asset. Desactivado para asset "Visions" y funcionando.
-- Se crearon collides para visualizar al enemigo o instanciar falsos colliders de spot. Lógica funcionando.
 - Se implementó HouseAreas.cs y creó House Areas prefab para avisar a controladores como PlayerHandler, GameManager y posiblmente AudioManager (a futuro) acerca de la posición del jugador en la casa.
+- Se está activando correctamente el enemigo dependiendo del lugar de spot del jugador en el primer piso.
 
 TOCHECK:
-- Actualmente si el jugador sube rápido a los colliders correctos mientras tiene la charla con Micaela pidiendole ayuda, al activarse los colliders puede ver que aparece de la nada el enemigo. Buscar manera de evitar esto.
 
 TOFIX:
 
