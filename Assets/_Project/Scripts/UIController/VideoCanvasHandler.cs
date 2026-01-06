@@ -28,6 +28,10 @@ namespace TwelveG.UIController
         videoPlayer.Play();
 
         yield return new WaitUntil(() => !videoPlayer.isPlaying);
+
+        videoPlayer.Stop();
+        videoPlayer.clip = null;
+
         rawImage.enabled = false;
         videoCanvas.enabled = false;
       }
