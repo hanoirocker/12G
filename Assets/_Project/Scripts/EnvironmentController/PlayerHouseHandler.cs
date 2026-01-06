@@ -7,6 +7,26 @@ using UnityEngine;
 
 namespace TwelveG.EnvironmentController
 {
+    public enum HouseArea
+    {
+        PlayerBedroom,
+        GuestsBathroom,
+        GuestsBedroom,
+        ParentsBedroom,
+        Zoom,
+        ParentsBathroom,
+        UpstairsHall,
+        MiddleStairs,
+        LivingRoom,
+        Kitchen,
+        KitchenDepot,
+        DownstairsHall,
+        DownstairsOffice,
+        Entrance,
+        Garage,
+        None
+    }
+
     public class PlayerHouseHandler : MonoBehaviour
     {
         [Header("Prefab References")]

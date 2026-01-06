@@ -1,4 +1,5 @@
 using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.VFXController;
 using UnityEngine;
@@ -11,10 +12,11 @@ namespace TwelveG.PlayerController
         [Header("References")]
         [SerializeField] private GameObject playerCapsule;
         [SerializeField] private GameObject mainCamera;
-        [SerializeField]private Transform playerCameraRoot;
+        [SerializeField] private Transform playerCameraRoot;
 
         [Header("Player Settings")]
 
+        private HouseArea currentHouseArea = HouseArea.None;
         private PlayerShortcuts playerShortcuts;
 
         private PlayerInput playerInput;
@@ -163,6 +165,17 @@ namespace TwelveG.PlayerController
             playerInput.enabled = enabled;
             characterController.enabled = enabled;
             headBobController.enabled = enabled;
+        }
+
+        public void OnPlayerEnteredHouseArea(Component sender, object data)
+        {
+            HouseArea houseArea = (HouseArea)data;
+            currentHouseArea = houseArea;
+        }
+
+        public HouseArea GetCurrentHouseArea()
+        {
+            return currentHouseArea;
         }
     }
 }
