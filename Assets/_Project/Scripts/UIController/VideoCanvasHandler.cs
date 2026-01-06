@@ -1,4 +1,5 @@
 using System.Collections;
+using TwelveG.GameController;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -28,6 +29,8 @@ namespace TwelveG.UIController
         videoPlayer.Play();
 
         yield return new WaitUntil(() => !videoPlayer.isPlaying);
+
+        GameEvents.Common.onVideoCanvasFinished.Raise(this, null);
 
         videoPlayer.Stop();
         videoPlayer.clip = null;

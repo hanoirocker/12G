@@ -96,13 +96,15 @@ namespace TwelveG.GameController
 
       GameEvents.Common.onVideoCanvasPlay.Raise(this, null);
 
-      // "onCanvasVideoFinished"
+      // "onVideoCanvasFinished"
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
       GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.None);
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
-
+      // bla
+      yield return new WaitUntil(() => allowNextAction);
+      ResetAllowNextActions();
     }
 
     // Hace aparecer el enemigo dependiendo del lugar donde esté el jugador

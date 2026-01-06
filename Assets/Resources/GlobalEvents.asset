@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392f2965c7a9f284ba04f2c7c12f551c, type: 3}
   m_Name: GlobalEvents
   m_EditorClassIdentifier: 
-  onCanvasVideoFinished: {fileID: 11400000, guid: 0e98af14483ae40a186fcad72eb4d7cc,
+  onVideoCanvasFinished: {fileID: 11400000, guid: 0e98af14483ae40a186fcad72eb4d7cc,
     type: 2}
   onVideoCanvasLoadClip: {fileID: 11400000, guid: 4405009a0d1d546c6a0616680c8df027,
     type: 2}
