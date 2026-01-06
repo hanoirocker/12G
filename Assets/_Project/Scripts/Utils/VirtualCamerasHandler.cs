@@ -17,6 +17,7 @@ namespace TwelveG.Utils
         [SerializeField] private CinemachineVirtualCamera safeBox;
         [SerializeField] private CinemachineVirtualCamera sofaVC;
         [SerializeField] private CinemachineVirtualCamera flashlightVC;
+        [SerializeField] private CinemachineVirtualCamera focusVC;
 
 
         [Header("EventsSO references")]
@@ -79,12 +80,43 @@ namespace TwelveG.Utils
                     lastActiveCamera = null;
                 }
             }
+            else if(data is LookAtTarget lookAtCmd)
+            {
+                HandleFocusCamera(lookAtCmd.LookAtTransform);
+            }
             else
             {
                 Debug.LogWarning($"[VirtualCamerasHandler] Comando desconocido recibido: {data}");
             }
 
             setCurrentCamera.Raise(this, currentActiveCamera);
+        }
+
+        private void HandleFocusCamera(Transform target)
+        {
+            if (target != null)
+            {
+                focusVC.m_LookAt = target;
+
+                // Para evitar que la cámara viaje desde el origen del mundo,
+                // forzamos su posición a la de la cámara actual antes de encenderla.
+                focusVC.transform.position = currentActiveCamera.transform.position;
+                focusVC.transform.rotation = currentActiveCamera.transform.rotation;
+
+                focusVC.enabled = true;
+                focusVC.Priority = 100;
+            }
+            else
+            {
+                focusVC.Priority = 0;
+                focusVC.enabled = false;
+
+                focusVC.m_LookAt = null;
+
+                // Ubicar la cámara del jugador en la última de al Focus VC
+                currentActiveCamera.transform.position = focusVC.transform.position;
+                currentActiveCamera.transform.rotation = focusVC.transform.rotation;
+            }
         }
 
         private void ReturnVCInstance()
@@ -107,6 +139,7 @@ namespace TwelveG.Utils
                 VirtualCameraTarget.Sofa => sofaVC,
                 VirtualCameraTarget.SafeBox => safeBox,
                 VirtualCameraTarget.Flashlight => flashlightVC,
+                VirtualCameraTarget.Focus => focusVC,
                 _ => null
             };
         }

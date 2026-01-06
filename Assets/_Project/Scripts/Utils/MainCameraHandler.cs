@@ -10,6 +10,12 @@ namespace TwelveG.Utils
         public GameObject lastEventSender = null;
 
         private GameObject objectUnderExamination = null;
+        private CinemachineBrain cinemachineBrain;
+
+        private void Awake()
+        {
+            cinemachineBrain = GetComponent<CinemachineBrain>();
+        }
 
         public void SetCurrentCamera(Component sender, object data)
         {
@@ -25,7 +31,6 @@ namespace TwelveG.Utils
 
         public void CameraSettings(Component sender, object data)
         {
-            CinemachineBrain cinemachineBrain = GetComponent<CinemachineBrain>();
             switch (data)
             {
                 case SetCameraBlend cmd:
@@ -36,6 +41,9 @@ namespace TwelveG.Utils
                     break;
                 case SetCustomCameraBlend cmd:
                     cinemachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Custom, cmd.Time);
+                    break;
+                case ResetCinemachineBrain cmd:
+                    cinemachineBrain.m_DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, 0);
                     break;
                 default:
                     Debug.LogWarning($"[MainCameraHandler] Received unknown command: {data}");

@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
+using Cinemachine;
 using TwelveG.AudioController;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
+using TwelveG.Utils;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -34,6 +36,7 @@ namespace TwelveG.GameController
 
     private PlayerHandler playerHandler;
     private CameraZoom cameraZoom;
+    private Transform enemyTransform;
 
     private bool playerSpottedFromDownstairsAlready = false;
     private bool playerSpottedFromUpstairs = false;
@@ -91,14 +94,21 @@ namespace TwelveG.GameController
       yield return new WaitForSeconds(0.5f);
 
       // Indica a la Virtual Camera activa que debe mirar hacia el enemigo
-      // Espera a que termine la animación de la cámara y el clip sorprendido del jugador 
+      GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(enemyTransform));
+      GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseIn, 1));
+      // Espera a que termine la animación de la cámara y el clip sorprendido del jugador
+
+      // Espera a que la cámara mire al enemigo
       yield return new WaitForSeconds(1f);
 
+      // Se dispara un video jumpscare
       GameEvents.Common.onVideoCanvasPlay.Raise(this, null);
 
       // "onVideoCanvasFinished"
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
+      GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(null));
+      GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
       GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.None);
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
@@ -124,6 +134,9 @@ namespace TwelveG.GameController
           Debug.LogWarning("Player is not in a valid house area to spawn the enemy.");
           break;
       }
+
+      EnvironmentHandler environmentHandler = FindObjectOfType<EnvironmentHandler>();
+      enemyTransform = environmentHandler.GetCurrentEnemyTransform();
     }
 
     public void AllowNextActions(Component sender, object data)

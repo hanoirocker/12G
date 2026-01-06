@@ -1,9 +1,12 @@
 - Se implementó HouseAreas.cs y creó House Areas prefab para avisar a controladores como PlayerHandler, GameManager y posiblmente AudioManager (a futuro) acerca de la posición del jugador en la casa.
 - Se está activando correctamente el enemigo dependiendo del lugar de spot del jugador en el primer piso.
+- La VC activa mira al enemigo correctamente luego de soltar el zoom, pero resulta un giro muy rápdio de cámara y pierde realismo. Quizas no es la mejor forma de manejarlo con la misma VC activa ... hacerle caso a google gemini y crear una VC para hacer focus?
 
 TOCHECK:
 
 TOFIX:
+
+- El último "beep" del walkie talkie al terminar la conversación si el último dialogo fue de Simon, no se ejecuta.
 
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales. // Esto sucede cuando no existe extructura de audios de canales para el evento en particular //
 
@@ -11,6 +14,7 @@ TODO - próximo:
 
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún agregar lo que sucedería entre el final de Noises y el comienzo de Headaches donde choca el auto de la policia. Simon debería intentar contactarse con Mica luego de haber escuchado la conversación policial, pero sin lograrlo. Se podría mencionar el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)
 - Agregar sonido de mareo y caida del jugador al suelo, dependiendo del lugar donde caiga debe sonar distinto (3 materiales: carpet, wood, mosaic)
+- Agregar sonidos stereo en loop para ambientación de cada habitación dentro de la casa. Se pueden disparar gracias al House Areas handler creado recientemente. 
 - Componer distintos audios según intensidad de Electric Feel. La idea es que sean clips conformados por el sonido actual (loopeable), luego un clip que incluya el layer anterior mas un fade in del nuevo layer de audio (Play one shot), y finalmente el nuevo audio (loopeable).
 
 TODO - despues:

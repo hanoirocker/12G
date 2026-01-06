@@ -79,11 +79,17 @@ namespace TwelveG.EnvironmentController
             {
                 if (prefab.name == objectData.objectID)
                 {
-                    Debug.Log("Toggling prefab: " + prefab.name + " to " + objectData.isActive);
+                    // Debug.Log("Toggling prefab: " + prefab.name + " to " + objectData.isActive);
                     prefab.SetActive(objectData.isActive);
                     break;
                 }
             }
+        }
+
+        public Transform GetCurrentEnemyTransform()
+        {
+            Transform headTransform = enemyPrefab.transform.Find("Head");
+            return headTransform;
         }
 
         public void OnShowEnemy(Component sender, object data)

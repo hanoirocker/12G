@@ -1,6 +1,7 @@
 namespace TwelveG.Utils
 {
   using Cinemachine;
+  using UnityEngine;
 
   public abstract class VirtualCamerasCommandsBase { }
 
@@ -16,7 +17,8 @@ namespace TwelveG.Utils
     TV,
     Sofa,
     SafeBox,
-    Flashlight
+    Flashlight,
+    Focus
   }
 
   public class ToggleVirtualCamera : VirtualCamerasCommandsBase
@@ -30,6 +32,16 @@ namespace TwelveG.Utils
       Enabled = enabled;
     }
   }
+
+  public class LookAtTarget : VirtualCamerasCommandsBase
+  {
+    public Transform LookAtTransform;
+
+    public LookAtTarget(Transform lookAtTransform) =>
+      (LookAtTransform) = (lookAtTransform);
+  }
+
+  public class ResetCinemachineBrain : VirtualCamerasCommandsBase { }
 
   public class ToggleIntoCinematicCameras : VirtualCamerasCommandsBase
   {

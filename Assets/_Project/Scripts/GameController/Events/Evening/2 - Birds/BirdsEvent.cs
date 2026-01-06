@@ -44,7 +44,7 @@ namespace TwelveG.GameController
             destroyWindowToReplace.Raise(this, null);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
-            GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.Cut, 0));
+            GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
