@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Night - Visions - 1.6.M
+  m_EditorClassIdentifier: 
+  characterName: 1
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: "Podr\xEDas ver qui\xE9n carajo es?"
+  - language: 1
+    dialogText: Could you see who the hell it is?
+  spanishDialogClip: {fileID: 0}
+  timeBeforeShowing: 1.5
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: ed077a010a07d4badb0586b502afd701, type: 2}
+  dialogOptions: []

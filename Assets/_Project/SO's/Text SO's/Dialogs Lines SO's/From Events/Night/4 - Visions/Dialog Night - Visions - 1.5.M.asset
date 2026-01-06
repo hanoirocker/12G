@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
+  m_Name: Dialog Night - Visions - 1.5.M
+  m_EditorClassIdentifier: 
+  characterName: 1
+  isSelfDialog: 0
+  dialogTextStructure:
+  - language: 0
+    dialogText: "Escuch\xE1 .. necesito que me hagas un favor. Hay alguien tocando
+      el timbre de casa, pero no pienso abrirle en medio de la lluvia .."
+  - language: 1
+    dialogText: Listen... I need you to do me a favor. Someone's ringing the doorbell,
+      but I'm not going to open it in the rain ..
+  spanishDialogClip: {fileID: 0}
+  timeBeforeShowing: 1
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: e7916fde542ba475c933018855610de0, type: 2}
+  dialogOptions: []

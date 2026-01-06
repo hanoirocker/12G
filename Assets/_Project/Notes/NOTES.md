@@ -1,5 +1,8 @@
-- Se comenzó a trabajar en el evento Visions.
-- Se implementó el script PlayerTransformHandler que actualiza la posición del Player Capsule dependiendo del checkpoint.
+- Se implementó houseHasEnergy en el checkpoint asset. Desactivado para asset "Visions" y funcionando.
+- Se crearon collides para visualizar al enemigo o instanciar falsos colliders de spot. Lógica funcionando.
+
+TOCHECK:
+- Actualmente si el jugador sube rápido a los colliders correctos mientras tiene la charla con Micaela pidiendole ayuda, al activarse los colliders puede ver que aparece de la nada el enemigo. Buscar manera de evitar esto.
 
 TOFIX:
 
@@ -23,6 +26,4 @@ TODO - despues:
 - Actualizar textos en puertas principales y objetos contemplables al final de la escena de Evening. Por ahora se han dejado de trabajar los SO's.
 - Implementar cambios de Video del Settings Menu
 - Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
-
-TOCHECK:
 
