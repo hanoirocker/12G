@@ -62,6 +62,9 @@ namespace TwelveG.GameController
             // Apagar el listener para que el último dialogo no resetee el allowNextAction
             onConversationHasEndedListener.enabled = false;
 
+            // TODO: acá podría pasar algo como se menciona en NOTES.txt, aparatos electrónicos de la casa
+            // volviendose locos y luces parpadeando quizás?
+
             yield return new WaitForSeconds(timeUntilPoliceCarCrash);
 
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO);
