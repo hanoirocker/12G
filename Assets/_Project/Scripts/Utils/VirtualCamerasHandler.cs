@@ -23,12 +23,23 @@ namespace TwelveG.Utils
         [Header("EventsSO references")]
         public GameEventSO setCurrentCamera;
         public GameEventSO returnCurrentCamera;
-
+        
+        private GameObject playerCameraRoot;
         private CinemachineVirtualCamera currentActiveCamera;
         private CinemachineVirtualCamera lastActiveCamera;
 
         private void Start()
         {
+            playerCameraRoot = GameObject.FindWithTag("CinemachineTarget");
+
+            if(playerCameraRoot == null)
+            {
+                Debug.LogError("No se encontró el GameObject con el tag 'CinemachineTarget'");
+            }
+
+            playerVC.m_Follow = playerCameraRoot.transform;
+            focusVC.m_Follow = playerCameraRoot.transform;
+
             GetCurrentActiveCamera();
             setCurrentCamera.Raise(this, currentActiveCamera);
         }
