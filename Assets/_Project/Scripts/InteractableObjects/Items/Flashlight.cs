@@ -2,6 +2,7 @@ namespace TwelveG.InteractableObjects
 {
     using System;
     using System.Collections;
+    using TwelveG.PlayerController;
     using UnityEngine;
 
     public class Flashlight : PlayerItemBase, IPlayerItem
@@ -41,11 +42,13 @@ namespace TwelveG.InteractableObjects
                 StartCoroutine(LightCoroutine(maxIntensity, 0f, 1f));
                 itemIsShown = false;
                 yield return new WaitUntil(() => !anim.isPlaying);
+                GetComponentInParent<PlayerInventory>().HandleTogglingItemsHandState(itemType, false);
                 onItemToggled.Raise(this, itemIsShown);
                 animationPlaying = false;
             }
             else if (!itemIsShown && canBeToogled)
             {
+                GetComponentInParent<PlayerInventory>().HandleTogglingItemsHandState(itemType, true);
                 animationPlaying = true;
                 // Si está oculto, ejecuta animación para mostrar
                 StartCoroutine(LightCoroutine(0f, maxIntensity, 1f));

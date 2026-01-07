@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using TwelveG.DialogsController;
 using TwelveG.GameController;
+using TwelveG.PlayerController;
 using UnityEngine;
 
 namespace TwelveG.InteractableObjects
@@ -400,6 +401,7 @@ namespace TwelveG.InteractableObjects
                 anim.Play("HideItem");
                 itemIsShown = false;
                 yield return new WaitUntil(() => !anim.isPlaying);
+                GetComponentInParent<PlayerInventory>().HandleTogglingItemsHandState(itemType, false);
                 onItemToggled.Raise(this, itemIsShown);
                 animationPlaying = false;
 
@@ -414,7 +416,7 @@ namespace TwelveG.InteractableObjects
             {
                 frequencyText.text = walkieTalkieChannelData[currentChannelIndex].frequencyText;
                 channelNumberText.text = walkieTalkieChannelData[currentChannelIndex].channelText;
-
+                GetComponentInParent<PlayerInventory>().HandleTogglingItemsHandState(itemType, true);
                 animationPlaying = true;
                 ShowItem();
 

@@ -24,12 +24,39 @@ namespace TwelveG.PlayerController
 
         private List<String> pickedUpItems = new List<String>();
 
-        private bool playerCanToggleItems = true;
+        private bool hasLeftHandOcuppied = false;
+        private bool hasRightHandOccupied = false;
+        private bool hasBothHandsOccupied = false;
+
+        private void UpdatePlayerHandsState()
+        {
+            hasBothHandsOccupied = hasLeftHandOcuppied && hasRightHandOccupied;
+        }
+
+        public bool PlayerHasBothHandsOccupied()
+        {
+            return hasBothHandsOccupied;
+        }
+
+        public void HandleTogglingItemsHandState(ItemType itemType, bool isUsing)
+        {
+            switch (itemType)
+            {
+                case ItemType.Flashlight:
+                    hasRightHandOccupied = isUsing;
+                    break;
+                case ItemType.WalkieTalkie:
+                    hasLeftHandOcuppied = isUsing;
+                    break;
+                default:
+                    break;
+            }
+
+            UpdatePlayerHandsState();
+        }
 
         public void HandleExaminationWhileUsingItems(bool isExamining)
         {
-            // Si comienza a examinar, el jugador no puede alternar los objetos en las manos
-            playerCanToggleItems = !isExamining;
 
             if (walkieTalkie != null && walkieTalkie.activeSelf)
             {
@@ -70,28 +97,37 @@ namespace TwelveG.PlayerController
                 case ItemType.EmptyTrashBag:
                     break;
                 case ItemType.Broom:
+                    hasRightHandOccupied = true;
                     broom.SetActive(true);
                     break;
                 case ItemType.FullTrashBag:
+                    hasLeftHandOcuppied = true;
                     fullTrashBag.SetActive(true);
                     break;
                 case ItemType.Plate:
+                    hasRightHandOccupied = true;
                     plate.SetActive(true);
                     break;
                 case ItemType.PizzaSliceOnPlate:
+                    hasRightHandOccupied = true;
                     pizzaSliceOnPlate.SetActive(true);
                     GameEvents.Common.onPizzaPickedUp.Raise(this, null);
                     break;
                 case ItemType.HeatedPizzaSliceOnPlate:
+                    hasRightHandOccupied = true;
                     pizzaSliceOnPlate.SetActive(true);
                     break;
                 case ItemType.PizzaSlice:
+                    hasRightHandOccupied = true;
                     pizzaSlice.SetActive(true);
                     break;
                 case ItemType.Phone:
+                    hasLeftHandOcuppied = true;
                     phone.SetActive(true);
                     break;
             }
+
+            UpdatePlayerHandsState();
         }
 
         public bool PlayerIsUsingFlashlight()
@@ -123,10 +159,12 @@ namespace TwelveG.PlayerController
                     case ItemType.EmptyTrashBag:
                         break;
                     case ItemType.Broom:
+                        hasRightHandOccupied = false;
                         broom.SetActive(false);
                         FindAnyObjectByType<PlayerHouseHandler>()?.ToggleCheckpointPrefabs(new ObjectData("Used - Broom", true));
                         break;
                     case ItemType.FullTrashBag:
+                        hasLeftHandOcuppied = false;
                         fullTrashBag.SetActive(false);
                         break;
                     case ItemType.Flashlight:
@@ -139,21 +177,28 @@ namespace TwelveG.PlayerController
                         VFXManager.Instance?.EnableElectricFeelVFX(false);
                         break;
                     case ItemType.Plate:
+                        hasRightHandOccupied = false;
                         plate.SetActive(false);
                         break;
                     case ItemType.PizzaSliceOnPlate:
+                        hasRightHandOccupied = false;
                         pizzaSliceOnPlate.SetActive(false);
                         break;
                     case ItemType.HeatedPizzaSliceOnPlate:
+                        hasRightHandOccupied = false;
                         pizzaSliceOnPlate.SetActive(false);
                         break;
                     case ItemType.PizzaSlice:
+                        hasRightHandOccupied = false;
                         pizzaSlice.SetActive(false);
                         break;
                     case ItemType.Phone:
+                        hasLeftHandOcuppied = false;
                         phone.SetActive(false);
                         break;
                 }
+
+                UpdatePlayerHandsState();
             }
         }
 

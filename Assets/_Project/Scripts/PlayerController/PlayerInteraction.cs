@@ -9,15 +9,25 @@ namespace TwelveG.PlayerController
 {
     public class PlayerInteraction : MonoBehaviour
     {
-        [Header("Raycast settings")]
+        [Header("Raycast Settings")]
         [SerializeField] private LayerMask interactableMask;
         [SerializeField, Range(0.5f, 2f)] private float interactRange = 1.2f;
+
+        [Header("Text References")]
+        [SerializeField] private ObservationTextSO[] cantInteractDueToHandsTextSO;
+
         public Transform interactorSource;
         public Color raycastColor;
 
         private Collider lastColliderInteractedWith;
         private bool canvasIsShowing;
         private InteractionTextSO canvasText;
+        private PlayerInventory playerInventory;
+
+        void Awake()
+        {
+            playerInventory = GetComponentInChildren<PlayerInventory>();
+        }
 
         private void Start()
         {
@@ -42,6 +52,12 @@ namespace TwelveG.PlayerController
 
                     if (Input.GetKeyDown(KeyCode.E))
                     {
+                        if (playerInventory.PlayerHasBothHandsOccupied())
+                        {
+                            lastColliderInteractedWith = hitInfo.collider;
+                            StartCoroutine(CancelInteractionAndShowObservation(interactObj, true));
+                            return;
+                        }
                         if (interactObj.Interact(this))
                         {
                             HideUI();
@@ -50,7 +66,7 @@ namespace TwelveG.PlayerController
                         else
                         {
                             lastColliderInteractedWith = hitInfo.collider;
-                            StartCoroutine(CancelInteractionAndShowObservation(interactObj, hitInfo.collider));
+                            StartCoroutine(CancelInteractionAndShowObservation(interactObj, false));
                         }
                     }
                 }
@@ -61,9 +77,21 @@ namespace TwelveG.PlayerController
             }
         }
 
-        private IEnumerator CancelInteractionAndShowObservation(IInteractable interactObj, Collider collider)
+        private IEnumerator CancelInteractionAndShowObservation(IInteractable interactObj, bool hasOccupiedHands)
         {
-            (ObservationTextSO observationTextSO, float timeUntilShown) = interactObj.GetFallBackText();
+            ObservationTextSO observationTextSO;
+            float timeUntilShown;
+
+            if (hasOccupiedHands)
+            {
+                observationTextSO = cantInteractDueToHandsTextSO[UnityEngine.Random.Range(0, cantInteractDueToHandsTextSO.Length)];
+                timeUntilShown = 0.25f;
+            }
+            else
+            {
+                (observationTextSO, timeUntilShown) = interactObj.GetFallBackText();
+            }
+
             PlayerContemplation contemplation = this.GetComponent<PlayerContemplation>();
             contemplation.enabled = false;
 

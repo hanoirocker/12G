@@ -1,3 +1,4 @@
+using TwelveG.PlayerController;
 using UnityEngine;
 
 namespace TwelveG.InteractableObjects
@@ -5,17 +6,18 @@ namespace TwelveG.InteractableObjects
     public abstract class PlayerItemBase : MonoBehaviour
     {
         [Header("Common Item Settings")]
+        public ItemType itemType;
+
+        [Header("Event SO's references")]
+        // Se disparan para que los reciban el Item Canvas y el Dialog Manager
+        [SerializeField] private protected GameEventSO onItemToggled;
+        [SerializeField] private protected GameEventSO onShowingItem;
+
         private protected Animation anim;
         private protected bool canBeToogled = false;
         private protected bool animationPlaying = false;
         private protected bool itemIsShown = false;
         private protected bool isActiveOnGame = false;
-
-        [Header("Event SO's references")]
-
-        // Se disparan para que los reciban el Item Canvas y el Dialog Manager
-        [SerializeField] private protected GameEventSO onItemToggled;
-        [SerializeField] private protected GameEventSO onShowingItem;
 
         protected virtual void Awake()
         {
@@ -47,6 +49,7 @@ namespace TwelveG.InteractableObjects
             anim.Play("ShowItem");
             itemIsShown = true;
             onItemToggled.Raise(this, itemIsShown);
+            GetComponentInParent<PlayerInventory>().HandleTogglingItemsHandState(itemType, true);
         }
     }
 }

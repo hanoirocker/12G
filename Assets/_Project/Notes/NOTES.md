@@ -1,9 +1,8 @@
-- Se implementó el nuevo método "SyncRotationWithCurrentCamera" en FPController que al ser llamado, sincroniza los últimos valores de rotación de cámara con los guardados por comando. De esta forma podemos forzar estados de posición y rotación sincronizados.
+- Se implementó el la comunicacióen los Items WT/Flashlight y el PlayerInventory para determinar cuándo el jugador tiene o no los dos manos ocupadas, y en caso de ser asi, restringir la interacción/examinación del mismo con objetos.
 
 TOCHECK:
 
 TOFIX:
-- El último "beep" del walkie talkie al terminar la conversación si el último dialogo fue de Simon, no se ejecuta.
 
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales. // Esto sucede cuando no existe extructura de audios de canales para el evento en particular //
 
