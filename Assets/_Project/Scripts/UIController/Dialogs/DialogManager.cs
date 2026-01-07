@@ -157,6 +157,7 @@ namespace TwelveG.DialogsController
             if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
             {
                 AudioManager.Instance.AudioDialogsHandler.PlayBeepSound(dialogSource, WTBeepClip, WTBeepVolume);
+                yield return new WaitForSeconds(WTBeepClip.length);
             }
 
             if (currentDialog.endingEvent != null)
