@@ -16,7 +16,6 @@ namespace TwelveG.PlayerController
         [SerializeField] private float swayAngleZ = 12f;
 
         private float currentSwaySpeed = 0f;
-        private float currentSwayAngleX = 0f;
         private float currentSwayAngleZ = 0f;
 
         private float timer = 0f;
@@ -64,7 +63,6 @@ namespace TwelveG.PlayerController
             timer += Time.deltaTime * currentSwaySpeed;
 
             // Cálculo del balanceo (Seno y Coseno desincronizados)
-            // float rotX = Mathf.Sin(timer) * currentSwayAngleX;
             float rotZ = Mathf.Cos(timer * 0.9f) * currentSwayAngleZ; // 0.9f para desincronizar ejes
 
             Quaternion dizzinessRotation = Quaternion.Euler(0f, 0f, rotZ);
@@ -88,7 +86,6 @@ namespace TwelveG.PlayerController
         public void SetDizzinessIntensity(float intensity)
         {
             currentSwaySpeed = swaySpeed * intensity;
-            // currentSwayAngleX = swayAngleX * intensity;
             currentSwayAngleZ = swayAngleZ * intensity;
 
             if (intensity <= 0.55f)

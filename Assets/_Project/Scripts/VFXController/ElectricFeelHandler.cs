@@ -8,7 +8,6 @@ namespace TwelveG.VFXController
     {
         [Header("Settings")]
         [SerializeField, Range(0f, 180)] private float effectFadeInDuration = 5f;
-        [SerializeField, Range(0f, 180)] private float effectFadeOutDuration = 5f;
         [Tooltip("Duración de la transición rápida al sacar/guardar el objeto.")]
         [SerializeField, Range(0.1f, 5f)] private float itemTransitionDuration = 2.0f;
 

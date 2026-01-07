@@ -33,7 +33,7 @@ namespace TwelveG.GameController
         [Header("Executing configs")]
         [SerializeField] private bool freeRoam = false;
         [SerializeField] private bool loadSpecificEvent = false;
-        [SerializeField] private EventsEnum eventEnumToLoad = EventsEnum.WakeUp;
+        [SerializeField] private EventsEnum eventEnumToLoad = EventsEnum.None;
         [SerializeField] private bool loadNextSceneOnEventsFinished = true;
 
         [Header("Checkpoint System")]

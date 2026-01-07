@@ -24,7 +24,7 @@ namespace TwelveG.PlayerController
 
         eventToTrigger.Raise(this, null);
 
-        if (destroyAfterSpotted) Destroy(this.gameObject);
+        if (destroyAfterSpotted) this.gameObject.SetActive(false);
       }
     }
 
