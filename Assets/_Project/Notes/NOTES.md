@@ -1,11 +1,9 @@
-- Se implementó HouseAreas.cs y creó House Areas prefab para avisar a controladores como PlayerHandler, GameManager y posiblmente AudioManager (a futuro) acerca de la posición del jugador en la casa.
-- Se está activando correctamente el enemigo dependiendo del lugar de spot del jugador en el primer piso.
-- La VC activa mira al enemigo correctamente luego de soltar el zoom, pero resulta un giro muy rápdio de cámara y pierde realismo. Quizas no es la mejor forma de manejarlo con la misma VC activa ... hacerle caso a google gemini y crear una VC para hacer focus?
+- Se implementó el nuevo método "SetUpPlayerTransform" en EventsHandler.cs para colocar al jugador donde debe estar según el evento o tipo de juego (freeRoam o loadSpecificEvent).
 
 TOCHECK:
 
 TOFIX:
-
+- Chequear CHECKPOINTS_DATA para resolver lo faltante sobre checkpoint de FirstContact.
 - El último "beep" del walkie talkie al terminar la conversación si el último dialogo fue de Simon, no se ejecuta.
 
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales. // Esto sucede cuando no existe extructura de audios de canales para el evento en particular //

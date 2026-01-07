@@ -12,6 +12,10 @@ namespace TwelveG.EditorScripts
         SerializedProperty eveningEvents;
         SerializedProperty nightEvents;
 
+        SerializedProperty fromEvents;
+        SerializedProperty defaultEveningTransform;
+        SerializedProperty defaultNightTransform;
+
         SerializedProperty checkpointProfiles;
 
         SerializedProperty freeRoam;
@@ -32,6 +36,10 @@ namespace TwelveG.EditorScripts
             afternoonEvents = serializedObject.FindProperty("afternoonEvents");
             eveningEvents = serializedObject.FindProperty("eveningEvents");
             nightEvents = serializedObject.FindProperty("nightEvents");
+
+            fromEvents = serializedObject.FindProperty("fromEvents");
+            defaultEveningTransform = serializedObject.FindProperty("defaultEveningTransform");
+            defaultNightTransform = serializedObject.FindProperty("defaultNightTransform");
 
             checkpointProfiles = serializedObject.FindProperty("checkpointProfiles");
 
@@ -56,6 +64,11 @@ namespace TwelveG.EditorScripts
             EditorGUILayout.PropertyField(afternoonEvents);
             EditorGUILayout.PropertyField(eveningEvents);
             EditorGUILayout.PropertyField(nightEvents);
+            EditorGUILayout.Space(10);
+
+            EditorGUILayout.PropertyField(fromEvents);
+            EditorGUILayout.PropertyField(defaultEveningTransform);
+            EditorGUILayout.PropertyField(defaultNightTransform);
             EditorGUILayout.Space(10);
 
             EditorGUILayout.PropertyField(checkpointProfiles);

@@ -9,6 +9,7 @@ using TwelveG.VFXController;
 using System;
 using TwelveG.PlayerController;
 using TwelveG.EnvironmentController;
+using Unity.VisualScripting;
 
 namespace TwelveG.GameController
 {
@@ -22,7 +23,14 @@ namespace TwelveG.GameController
         [SerializeField] private GameObject nightEvents;
 
         [Header("Events Testing Settings")]
-        [Space]
+        [Space(10)]
+        [Header("Transforms")]
+        [SerializeField] private GameObject fromEvents;
+        [SerializeField] private Transform defaultEveningTransform;
+        [SerializeField] private Transform defaultNightTransform;
+
+        [Space(5)]
+        [Header("Executing configs")]
         [SerializeField] private bool freeRoam = false;
         [SerializeField] private bool loadSpecificEvent = false;
         [SerializeField] private EventsEnum eventEnumToLoad = EventsEnum.WakeUp;
@@ -52,7 +60,8 @@ namespace TwelveG.GameController
         private GameObject eventsParent = null;
         private List<GameEventBase> correspondingEvents = new List<GameEventBase>();
         private List<string> currentCheckpointList = new();
-        private Transform playerCapsuleTransform;
+        private Transform[] eventsTransforms;
+        private Transform startingTransform;
         private int currentSceneIndex;
         private int currentEventIndex;
         private int eventIndexToLoad = 0;
@@ -154,21 +163,10 @@ namespace TwelveG.GameController
             if (enableWalkieTalkie)
                 GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
 
-            Transform freeRoamTransform = GameObject.FindGameObjectWithTag("FreeRoam")
-                .GetComponent<Transform>();
-            playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
-                .GetComponent<Transform>();
-
             // Enviar Game Event SO sobre nuevo evento iniciado (Recibe por ejemplo Walkie Talkie para actualizar su estado)
             GameEvents.Common.onNewEventBegun.Raise(this, "FreeRoam");
 
-            if (freeRoamTransform == null)
-            {
-                Debug.LogError("[EventsHandler]: FreeRoam prefab not found on scene!");
-            }
-
-            playerCapsuleTransform.position = freeRoamTransform.position;
-            playerCapsuleTransform.rotation = freeRoamTransform.rotation;
+            SetUpPlayerTransform();
 
             VFXManager.Instance?.SetResonanceIntensityMultiplier(headacheVFXIntensity);
             VFXManager.Instance?.SetFreeRoamElectricFeelIntensity(electricFeelVFXIntensity, freeRoamVolumeCoefficient);
@@ -180,6 +178,7 @@ namespace TwelveG.GameController
             if (isSpecificIndex)
             {
                 ConvertEventEnumToIndex();
+                SetUpPlayerTransform();
 
                 // Esperar a que todo esté listo antes de iniciar el evento específico
                 yield return StartCoroutine(CheckpointSetUp());
@@ -191,6 +190,70 @@ namespace TwelveG.GameController
             }
 
             yield return StartCoroutine(ExecuteEvents());
+        }
+
+        private void SetUpPlayerTransform()
+        {
+            PlayerTransformHandler playerTransformHandler = FindObjectOfType<PlayerTransformHandler>();
+            eventsTransforms = fromEvents.GetComponentsInChildren<Transform>();
+
+            string targetEventEnumName = "";
+
+            if (loadSpecificEvent)
+            {
+                if (correspondingEvents != null && correspondingEvents.Count > eventIndexToLoad)
+                {
+                    targetEventEnumName = correspondingEvents[eventIndexToLoad].eventEnum.ToString();
+                }
+            }
+            else if (currentExecutingEvent != null)
+            {
+                targetEventEnumName = currentExecutingEvent.eventEnum.ToString();
+            }
+
+            if (playerTransformHandler != null)
+            {
+                bool specificTransformFound = false;
+
+                for (int i = 0; i < eventsTransforms.Length; i++)
+                {
+                    if (eventsTransforms[i].gameObject.name == targetEventEnumName)
+                    {
+                        Debug.Log($"[EventsHandler]: Seteando transform inicial de evento {targetEventEnumName}");
+                        startingTransform = eventsTransforms[i];
+                        specificTransformFound = true;
+                        break;
+                    }
+                }
+
+                // 3. Si no se encontró (o es FreeRoam), aplicamos el default de la escena
+                if (!specificTransformFound)
+                {
+                    if (!freeRoam) Debug.LogWarning($"[EventsHandler]: No se encontró transform inicial para {targetEventEnumName}");
+
+                    SceneEnum sceneEnum = SceneUtils.RetrieveCurrentSceneEnum();
+
+                    switch (sceneEnum)
+                    {
+                        case SceneEnum.Afternoon:
+                            Debug.LogWarning("[EventsHandler]: Usando transform por defecto de Afternoon.");
+                            break;
+                        case SceneEnum.Evening:
+                            startingTransform = defaultEveningTransform;
+                            Debug.Log("[EventsHandler]: Usando transform por defecto de Evening.");
+                            break;
+                        case SceneEnum.Night:
+                            startingTransform = defaultNightTransform;
+                            Debug.Log("[EventsHandler]: Usando transform por defecto de Night.");
+                            break;
+                        default:
+                            Debug.LogError("[EventsHandler]: SceneEnum no reconocido al setear transform inicial.");
+                            break;
+                    }
+                }
+
+                playerTransformHandler.SetPlayerTransform(startingTransform);
+            }
         }
 
         private void ConvertEventEnumToIndex()
@@ -407,15 +470,8 @@ namespace TwelveG.GameController
             PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
             EnvironmentHandler environmentHandler = FindObjectOfType<EnvironmentHandler>();
             PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
-            PlayerTransformHandler playerTransformHandler = FindObjectOfType<PlayerTransformHandler>();
 
             // 1. Estado inicial del jugador
-
-            if(playerTransformHandler != null)
-            {
-                playerTransformHandler.SetPlayerTransform(profile.eventEnum);
-                yield return new WaitForFixedUpdate();
-            }
 
             if (inventory != null)
             {
