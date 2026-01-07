@@ -17,11 +17,14 @@ TODO - próximo:
 
 TODO - despues:
 
-- Agregar animación de primera activación de linterna para Unwired? (MAYBE)
-- Agregar sonido para animación "Night - Unwired - Look For Flashlight" de FlashlightVC
-- Aumentar ganancia de tracks 12G - Door - Close (Hard) 2 y 12G - Door - Close (Hard) 1 ??
 - Agregar sonidos para cuando come la pizza.
 - Agregar sonidos al tomar escoba y bolsas de basura.
+- Aumentar ganancia de tracks 12G - Door - Close (Hard) 2 y 12G - Door - Close (Hard) 1 ??
+- Agregar animación de primera activación de linterna para Unwired? (MAYBE)
+- Agregar sonido para animación "Night - Stand Up".
+- Agregar sonido para animación "Night - Unwired - Look For Flashlight" de FlashlightVC
+- Agregar sonido de duda "Hum?" para transición de cámara a Focus enemy en Visions.
+
 - Agregar cajas bajo la escalera, o algo.
 
 - Actualizar textos en puertas principales y objetos contemplables al final de la escena de Evening. Por ahora se han dejado de trabajar los SO's.
