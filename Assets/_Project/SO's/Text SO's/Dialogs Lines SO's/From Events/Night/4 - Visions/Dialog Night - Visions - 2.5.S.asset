@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dialog Night - Visions - 2.5.S
   m_EditorClassIdentifier: 
   characterName: 0
-  isSelfDialog: 0
+  isSelfDialog: 1
   dialogTextStructure:
   - language: 0
     dialogText: Genial ...

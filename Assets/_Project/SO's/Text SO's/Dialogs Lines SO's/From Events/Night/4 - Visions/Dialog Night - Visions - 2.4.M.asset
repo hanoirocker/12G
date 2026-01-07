@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
   m_Name: Dialog Night - Visions - 2.4.M
   m_EditorClassIdentifier: 
-  characterName: 1
+  characterName: 0
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
@@ -20,7 +20,7 @@ MonoBehaviour:
   - language: 1
     dialogText: Mica?
   spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 7
+  timeBeforeShowing: 5
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
   nextDialog: {fileID: 11400000, guid: d07ce98d5a8fe4f2aa461f9195f673cc, type: 2}

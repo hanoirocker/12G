@@ -94,7 +94,8 @@ namespace TwelveG.GameController
                 playerSoundsHandler.PlayPlayerSounds(PlayerSoundsType.HeartBeat, false, 0.2f, 5f, 3f);
             }
 
-            // Cortar la luz de la casa
+            // Espera lo que tardaría la puerta en cerrarse fuertemente y corta la luz de la casa
+            yield return new WaitForSeconds(0.5f);
             GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, false);
 
             yield return new WaitForSeconds(8f);
@@ -126,7 +127,7 @@ namespace TwelveG.GameController
             AudioSource hauntingSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
             if (hauntingSource != null)
             {
-                 yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(hauntingSource, 5f));
+                yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(hauntingSource, 5f));
             }
 
             // esperamos un segundo y disparamos audio en la nuca del jugador
@@ -144,8 +145,7 @@ namespace TwelveG.GameController
                 AudioUtils.StopAndRestoreAudioSource(neckSource, neckState);
             }
 
-            yield return new WaitUntil(() => allowNextAction);
-            ResetAllowNextActions();
+            yield return new WaitForSeconds(4f);
         }
 
         private IEnumerator FlickeringLightsAndPowerOutage()

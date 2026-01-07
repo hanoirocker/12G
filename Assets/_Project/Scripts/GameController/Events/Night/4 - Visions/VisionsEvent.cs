@@ -6,6 +6,7 @@ using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
+using TwelveG.UIController;
 using TwelveG.Utils;
 using UnityEngine;
 using UnityEngine.Video;
@@ -166,12 +167,14 @@ namespace TwelveG.GameController
       {
         // Cancela el movimiento del jugador para evitar que durante el dialogo el mismo
         // se desplace hacia un collider correcto.
+        GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
         GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
         GameEvents.Common.onStartDialog.Raise(this, dialogSOs[1]);
         playerSpottedFromDownstairsAlready = true;
 
         // Espera a que termine el diálogo para
         yield return new WaitUntil(() => allowNextAction);
+        GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));
         GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
         GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
       }
