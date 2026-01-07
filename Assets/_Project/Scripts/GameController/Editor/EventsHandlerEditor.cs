@@ -64,15 +64,12 @@ namespace TwelveG.EditorScripts
             EditorGUILayout.PropertyField(afternoonEvents);
             EditorGUILayout.PropertyField(eveningEvents);
             EditorGUILayout.PropertyField(nightEvents);
-            EditorGUILayout.Space(10);
 
             EditorGUILayout.PropertyField(fromEvents);
             EditorGUILayout.PropertyField(defaultEveningTransform);
             EditorGUILayout.PropertyField(defaultNightTransform);
-            EditorGUILayout.Space(10);
 
             EditorGUILayout.PropertyField(checkpointProfiles);
-            EditorGUILayout.Space(10);
 
 
             if (!loadSpecificEvent.boolValue)
@@ -93,15 +90,11 @@ namespace TwelveG.EditorScripts
                 EditorGUI.indentLevel--;
             }
 
-            EditorGUILayout.Space(10);
-
             EditorGUILayout.PropertyField(headacheVFXIntensity);
             EditorGUILayout.PropertyField(electricFeelVFXIntensity);
             EditorGUILayout.PropertyField(freeRoamVolumeCoefficient);
-            EditorGUILayout.Space(10);
 
             EditorGUILayout.PropertyField(weatherEvent);
-            EditorGUILayout.Space(10);
 
             EditorGUILayout.PropertyField(enableFlashlight);
             EditorGUILayout.PropertyField(enableWalkieTalkie);
