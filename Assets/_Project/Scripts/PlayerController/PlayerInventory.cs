@@ -66,7 +66,10 @@ namespace TwelveG.PlayerController
                 {
                     mesh.enabled = !isExamining;
                 }
+
                 Canvas wtCanvas = walkieTalkie.GetComponentInChildren<Canvas>();
+                walkieTalkie.GetComponent<PlayerItemBase>().ActivateItem(!isExamining);
+
                 if (wtCanvas != null)
                 {
                     wtCanvas.enabled = !isExamining;
@@ -74,6 +77,7 @@ namespace TwelveG.PlayerController
             }
             if (flashlight != null && flashlight.activeSelf)
             {
+                flashlight.GetComponent<PlayerItemBase>().ActivateItem(!isExamining);
                 flashlight.GetComponent<MeshRenderer>().enabled = !isExamining;
                 flashlight.GetComponentInChildren<Light>().enabled = !isExamining;
             }
@@ -130,11 +134,9 @@ namespace TwelveG.PlayerController
             UpdatePlayerHandsState();
         }
 
-        public bool PlayerIsUsingFlashlight()
+        public bool PlayerHasFlashlightEquipped()
         {
-            if (flashlight != null && flashlight.activeSelf)
-                return true;
-            return false;
+            return flashlight.GetComponent<PlayerItemBase>().ItemIsEquipped();
         }
 
         public List<String> returnPickedItems()

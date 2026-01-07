@@ -16,9 +16,10 @@ MonoBehaviour:
   chapterName: Unwired
   chapterThumbnail: {fileID: 0}
   startingInventory: 
-  flashlightEnabled: 0
+  flashlightEnabled: 1
   walkieTalkieEnabled: 1
   playerCanSprint: 0
+  houseHasEnergy: 1
   initialWeather: 5
   objectsToToggle:
   - objectID: Pickable - Walkie Talkie

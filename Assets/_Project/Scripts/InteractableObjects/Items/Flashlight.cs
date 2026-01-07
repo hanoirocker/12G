@@ -15,9 +15,12 @@ namespace TwelveG.InteractableObjects
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.L) && canBeToogled)
+            if (isActiveOnGame)
             {
-                ToggleItem();
+                if (Input.GetKeyDown(KeyCode.L) && canBeToogled)
+                {
+                    ToggleItem();
+                }
             }
         }
 

@@ -36,6 +36,16 @@ namespace TwelveG.InteractableObjects
             isActiveOnGame = activate;
         }
 
+        public bool IsItemActiveInGame()
+        {
+            return isActiveOnGame;
+        }
+
+        public bool ItemIsEquipped()
+        {
+            return itemIsShown;
+        }
+
         public bool CanBeToggled()
         {
             return canBeToogled;

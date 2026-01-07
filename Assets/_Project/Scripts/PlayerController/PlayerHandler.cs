@@ -33,6 +33,8 @@ namespace TwelveG.PlayerController
         private HeadLookAround headLookAround;
         private PlayerInventory playerInventory;
 
+        private bool playerIsExaminingObject = false;
+
         private void Awake()
         {
             playerShortcuts = GetComponent<PlayerShortcuts>();
@@ -138,7 +140,9 @@ namespace TwelveG.PlayerController
 
         private void HandleExamination(bool isExamining)
         {
-            if (playerInventory.PlayerIsUsingFlashlight())
+            playerIsExaminingObject = isExamining;
+
+            if (playerInventory.PlayerHasFlashlightEquipped())
             {
                 var camLight = mainCamera.GetComponent<Light>();
                 if (camLight != null) camLight.enabled = isExamining;
@@ -176,6 +180,11 @@ namespace TwelveG.PlayerController
         public HouseArea GetCurrentHouseArea()
         {
             return currentHouseArea;
+        }
+
+        public bool PlayerIsExaminingObject()
+        {
+            return playerIsExaminingObject;
         }
     }
 }

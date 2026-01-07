@@ -1,4 +1,4 @@
-- Se implementó el la comunicacióen los Items WT/Flashlight y el PlayerInventory para determinar cuándo el jugador tiene o no los dos manos ocupadas, y en caso de ser asi, restringir la interacción/examinación del mismo con objetos.
+- Se limitó el toggle del WT/Flashlight al momento de examinar un objeto. Al examinar (si posee una mano libre al menos, se desactivan ambos items para impedir ocultarlos / mostrarlos)
 
 TOCHECK:
 
