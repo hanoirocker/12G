@@ -28,7 +28,7 @@ namespace TwelveG.GameController
         LockedUp,
         Unwired,
         Visions,
-        RedHours,
+        RedHour,
         Voices,
         SomethingElse,
     }

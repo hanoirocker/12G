@@ -16,7 +16,7 @@ MonoBehaviour:
   chapterName: Unwired
   chapterThumbnail: {fileID: 0}
   startingInventory: 
-  flashlightEnabled: 1
+  flashlightEnabled: 0
   walkieTalkieEnabled: 1
   playerCanSprint: 0
   houseHasEnergy: 1

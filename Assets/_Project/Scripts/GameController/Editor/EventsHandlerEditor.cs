@@ -135,7 +135,7 @@ namespace TwelveG.EditorScripts
                 AddEnumOption(EventsEnum.LockedUp, displayOptions, optionValues);
                 AddEnumOption(EventsEnum.Unwired, displayOptions, optionValues);
                 AddEnumOption(EventsEnum.Visions, displayOptions, optionValues);
-                AddEnumOption(EventsEnum.RedHours, displayOptions, optionValues);
+                AddEnumOption(EventsEnum.RedHour, displayOptions, optionValues);
                 AddEnumOption(EventsEnum.Voices, displayOptions, optionValues);
                 AddEnumOption(EventsEnum.SomethingElse, displayOptions, optionValues);
             }
