@@ -16,9 +16,9 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: '*Suspiros .. No, para nada ... '
+    dialogText: '(*Suspiros) .. No, para nada ... '
   - language: 1
-    dialogText: '*Sighs... No, not at all ...'
+    dialogText: (*Sighs) ... No, not at all ...
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}

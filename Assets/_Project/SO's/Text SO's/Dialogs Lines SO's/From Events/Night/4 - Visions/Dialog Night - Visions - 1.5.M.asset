@@ -16,10 +16,10 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Escuch\xE1 .. necesito que me hagas un favor. Hay alguien tocando
-      el timbre de casa, pero no pienso abrirle en medio de la lluvia .."
+    dialogText: Eu .. necesito que me hagas un favor. Hay alguien tocando el timbre
+      de casa, pero no pienso abrirle en medio de la lluvia ..
   - language: 1
-    dialogText: Listen... I need you to do me a favor. Someone's ringing the doorbell,
+    dialogText: Hey ... I need you to do me a favor. Someone's ringing the doorbell,
       but I'm not going to open it in the rain ..
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 1

@@ -3,7 +3,6 @@
 TOCHECK:
 
 TOFIX:
-- Modificar dialogo de Visions, cambiar "Escuchame.. " por "Eu", "Es mejor si lo hayo yo no" por ".. yo, no? y "*Suspiros por (*Suspiros).
 - El jugador puede interactuar con objetos y examinar otros incluso teniendo las dos manos ocupadas, implementar logica para que pueda hacer esto sólo si posee una mano libre.
 - El último "beep" del walkie talkie al terminar la conversación si el último dialogo fue de Simon, no se ejecuta.
 
