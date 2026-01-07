@@ -39,6 +39,7 @@ namespace TwelveG.InteractableObjects
     private AudioSourceState audioSourceState;
     private Vector2 lastMousePosition;
 
+    private bool isExiting = false;
     private bool isDragging = false;
     private bool canvasIsShowing = false;
 
@@ -75,8 +76,11 @@ namespace TwelveG.InteractableObjects
 
     private void Update()
     {
+      if (isExiting) return;
+
       if (Input.GetKeyDown(KeyCode.Escape))
       {
+        isExiting = true;
         StartCoroutine(StopInspectingRoutine());
       }
       else if (Input.GetKeyDown(KeyCode.E) && examinationTextSO != null)
