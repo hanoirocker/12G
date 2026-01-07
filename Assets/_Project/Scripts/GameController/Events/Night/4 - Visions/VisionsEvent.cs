@@ -34,6 +34,7 @@ namespace TwelveG.GameController
     [Space]
     [Header("Video Settings")]
     [SerializeField] private VideoClip subliminalJSClip1;
+    [SerializeField, Range(0f, 1f)] private float jumpScareVolume = 1f;
 
     private PlayerHandler playerHandler;
     private CameraZoom cameraZoom;
@@ -103,7 +104,7 @@ namespace TwelveG.GameController
       yield return new WaitForSeconds(1f);
 
       // Se dispara un video jumpscare
-      GameEvents.Common.onVideoCanvasPlay.Raise(this, null);
+      GameEvents.Common.onVideoCanvasPlay.Raise(this, jumpScareVolume);
 
       // "onVideoCanvasFinished"
       yield return new WaitUntil(() => allowNextAction);

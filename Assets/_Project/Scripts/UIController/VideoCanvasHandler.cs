@@ -1,4 +1,5 @@
 using System.Collections;
+using TwelveG.AudioController;
 using TwelveG.GameController;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,16 +15,19 @@ namespace TwelveG.UIController
     public VideoClip videoClip;
 
     private Canvas videoCanvas;
+    private AudioSource videoAudioSource;
+    private AudioSourceState videoAudioSourceState;
 
     private void Awake()
     {
       videoCanvas = GetComponent<Canvas>();
     }
 
-    private IEnumerator VideoSequence()
+    private IEnumerator VideoSequence(float volume)
     {
       if (videoPlayer.isPrepared)
       {
+        videoAudioSource.volume = volume;
         videoCanvas.enabled = true;
         rawImage.enabled = true;
         videoPlayer.Play();
@@ -34,6 +38,9 @@ namespace TwelveG.UIController
 
         videoPlayer.Stop();
         videoPlayer.clip = null;
+        videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
+        videoAudioSource.RestoreSnapshot(videoAudioSourceState);
+        videoAudioSource = null;
 
         rawImage.enabled = false;
         videoCanvas.enabled = false;
@@ -42,6 +49,11 @@ namespace TwelveG.UIController
 
     public void OnLoadVideo(Component sender, object data)
     {
+      videoAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
+      videoAudioSourceState = videoAudioSource.GetSnapshot();
+      videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
+      videoPlayer.SetTargetAudioSource(0, videoAudioSource);
+
       VideoClip clip = data as VideoClip;
 
       if (clip == null) { return; }
@@ -57,7 +69,9 @@ namespace TwelveG.UIController
 
     public void OnPlayVideo(Component sender, object data)
     {
-      StartCoroutine(VideoSequence());
+      float volume = (float)data;
+
+      StartCoroutine(VideoSequence(volume));
     }
   }
 }
