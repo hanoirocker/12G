@@ -28,10 +28,10 @@
     - Desactivar plato de la cocina y activar plato en la mesa. \*DONE
     - Desactivar porción de pizza de la caja. \*DONE
     - Desactivar telefono del sofá. \*DONE
-    - Habilitar armario de padres.
-    - Desbloquear caja fuerte.
-    - Desactivar item de walkie talkie dentro de caja fuerte.
-    - Activar viento fuerte.
+    - Habilitar armario de padres. \*DONE
+    - Desbloquear caja fuerte. \*DONE
+    - Desactivar item de walkie talkie dentro de caja fuerte. \*DONE
+    - Activar viento fuerte. \*DONE
 
   - Checkpoint - Unwired:
     - Deshabilitar playerCanSpring. \*DONE

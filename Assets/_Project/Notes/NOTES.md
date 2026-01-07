@@ -3,7 +3,6 @@
 TOCHECK:
 
 TOFIX:
-- Chequear CHECKPOINTS_DATA para resolver lo faltante sobre checkpoint de FirstContact.
 - El último "beep" del walkie talkie al terminar la conversación si el último dialogo fue de Simon, no se ejecuta.
 
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales. // Esto sucede cuando no existe extructura de audios de canales para el evento en particular //
