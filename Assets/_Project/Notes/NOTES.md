@@ -1,8 +1,9 @@
-- Se limitó el toggle del WT/Flashlight al momento de examinar un objeto. Al examinar (si posee una mano libre al menos, se desactivan ambos items para impedir ocultarlos / mostrarlos)
+- Se modificaron los colliders de todos los objetos examinables en la casa, aumentando su tamaño.
 
 TOCHECK:
 
 TOFIX:
+- Si cancelamos la examinación de un objeto, y luego presionamos escape para abrir el menu de pause, se vuelve a ejecutar el sonido de examinacion.
 
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales. // Esto sucede cuando no existe extructura de audios de canales para el evento en particular //
 
