@@ -1,4 +1,5 @@
 using Cinemachine;
+using TwelveG.PlayerController;
 using UnityEngine;
 
 namespace TwelveG.Utils
@@ -23,16 +24,19 @@ namespace TwelveG.Utils
         [Header("EventsSO references")]
         public GameEventSO setCurrentCamera;
         public GameEventSO returnCurrentCamera;
-        
+
         private GameObject playerCameraRoot;
+        private Transform playerCapsuleTransform;
         private CinemachineVirtualCamera currentActiveCamera;
         private CinemachineVirtualCamera lastActiveCamera;
 
         private void Start()
         {
             playerCameraRoot = GameObject.FindWithTag("CinemachineTarget");
+            playerCapsuleTransform = GameObject.FindGameObjectWithTag("PlayerCapsule")
+                .GetComponent<Transform>();
 
-            if(playerCameraRoot == null)
+            if (playerCameraRoot == null)
             {
                 Debug.LogError("No se encontró el GameObject con el tag 'CinemachineTarget'");
             }
@@ -91,7 +95,7 @@ namespace TwelveG.Utils
                     lastActiveCamera = null;
                 }
             }
-            else if(data is LookAtTarget lookAtCmd)
+            else if (data is LookAtTarget lookAtCmd)
             {
                 HandleFocusCamera(lookAtCmd.LookAtTransform);
             }
@@ -119,14 +123,24 @@ namespace TwelveG.Utils
             }
             else
             {
+                playerCapsuleTransform.position = focusVC.transform.position;
+                Vector3 focusEuler = focusVC.transform.rotation.eulerAngles;
+                playerCapsuleTransform.rotation = Quaternion.Euler(0, focusEuler.y, 0);
+
+                playerCameraRoot.transform.localRotation = Quaternion.Euler(focusEuler.x, 0, 0);
+
                 focusVC.Priority = 0;
                 focusVC.enabled = false;
-
                 focusVC.m_LookAt = null;
 
-                // Ubicar la cámara del jugador en la última de al Focus VC
-                currentActiveCamera.transform.position = focusVC.transform.position;
-                currentActiveCamera.transform.rotation = focusVC.transform.rotation;
+                currentActiveCamera = playerVC;
+
+                FPController fpController = playerCameraRoot.GetComponentInParent<FPController>();
+
+                if (fpController != null)
+                {
+                    fpController.SyncRotationWithCurrentCamera();
+                }
             }
         }
 

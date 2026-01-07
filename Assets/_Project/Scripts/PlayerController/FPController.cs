@@ -269,6 +269,15 @@ namespace TwelveG.PlayerController
             Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
         }
 
+        // Llamado desde VirtualCamerasHandler para sincronizar la rotación del jugador con la cámara actual
+        public void SyncRotationWithCurrentCamera()
+        {
+            float currentPitch = CinemachineCameraTarget.transform.localEulerAngles.x;
+            if (currentPitch > 180f) currentPitch -= 360f;
+            _cinemachineTargetPitch = currentPitch;
+            _rotationVelocity = 0f;
+        }
+
         public void ToggleSprint(bool enable)
         {
             _input.sprint = enable;

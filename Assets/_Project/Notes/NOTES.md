@@ -1,8 +1,10 @@
-- Se implementó el nuevo método "SetUpPlayerTransform" en EventsHandler.cs para colocar al jugador donde debe estar según el evento o tipo de juego (freeRoam o loadSpecificEvent).
+- Se implementó el nuevo método "SyncRotationWithCurrentCamera" en FPController que al ser llamado, sincroniza los últimos valores de rotación de cámara con los guardados por comando. De esta forma podemos forzar estados de posición y rotación sincronizados.
 
 TOCHECK:
 
 TOFIX:
+- Modificar dialogo de Visions, cambiar "Escuchame.. " por "Eu", "Es mejor si lo hayo yo no" por ".. yo, no? y "*Suspiros por (*Suspiros).
+- El jugador puede interactuar con objetos y examinar otros incluso teniendo las dos manos ocupadas, implementar logica para que pueda hacer esto sólo si posee una mano libre.
 - El último "beep" del walkie talkie al terminar la conversación si el último dialogo fue de Simon, no se ejecuta.
 
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales. // Esto sucede cuando no existe extructura de audios de canales para el evento en particular //
