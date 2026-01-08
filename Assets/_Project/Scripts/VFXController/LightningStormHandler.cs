@@ -64,7 +64,7 @@ namespace TwelveG.EnvironmentController
             StopAllCoroutines();
             SetUpThunder(true);
             StartCoroutine(FlashRoutine(1f));
-            StartCoroutine(ThunderAudioRoutine(1f));
+            StartCoroutine(ThunderAudioRoutine(0.25f));
         }
 
         private IEnumerator ThunderRoutine()
@@ -101,9 +101,9 @@ namespace TwelveG.EnvironmentController
 
             currentActiveCamera = virtualCamerasHandler?.GetCurrentActiveCamera();
             float distanceToPlayer = Vector3.Distance(currentStrikeTransform.position, currentActiveCamera.transform.position);
-            Debug.Log("Distance to player: " + distanceToPlayer);
+            // Debug.Log("Distance to player: " + distanceToPlayer);
             currentDistanceFactor = Mathf.Clamp01(soundMaxDistance / distanceToPlayer);
-            Debug.Log("Distance factor: " + currentDistanceFactor);
+            // Debug.Log("Distance factor: " + currentDistanceFactor);
         }
 
         private IEnumerator FlashRoutine(float currentDistanceFactor)
