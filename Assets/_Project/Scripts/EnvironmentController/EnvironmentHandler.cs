@@ -35,8 +35,11 @@ namespace TwelveG.EnvironmentController
         {
             switch ((WeatherEvent)data)
             {
-                case (WeatherEvent.Thunder):
-                    lightningStormHandler.StartThunder();
+                case (WeatherEvent.ConstantThunders):
+                    lightningStormHandler.StartConstantThunder();
+                    break;
+                case (WeatherEvent.CloseThunder):
+                    lightningStormHandler.StartCloseThunder();
                     break;
                 case (WeatherEvent.SoftWind):
                     windZone.windMain = 0.2f;

@@ -45,7 +45,7 @@ namespace TwelveG.AudioController
       UpdateAudioSources();
     }
 
-    public void AssignAudioSourcesFromPool(List<AudioSource> audioSources)
+    public void AssignWeatherSourcesFromPool(List<AudioSource> audioSources)
     {
       ambienceSources = audioSources;
     }

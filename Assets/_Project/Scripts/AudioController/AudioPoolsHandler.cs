@@ -4,10 +4,10 @@ namespace TwelveG.AudioController
 {
   public enum AudioPoolType
   {
-    Rain,
+    RainAndWind, // Especial para lluvia y viento mediante las Acoustic Zones
     BGMusic,
     UI,
-    Environment,
+    Environment, // Eventos puntuales transicionales (como truenos)
     Interaction,
     Wind,
     Dialogs,
@@ -31,7 +31,8 @@ namespace TwelveG.AudioController
     SoftRainAndWind,
     HardRainAndWind,
     None,
-    Thunder,
+    ConstantThunders,
+    CloseThunder,
   }
 
   public class AudioPoolsHandler : MonoBehaviour
@@ -43,6 +44,7 @@ namespace TwelveG.AudioController
     [Header("Audio Source Pools")]
     [SerializeField] private List<AudioSource> BGMusicSources;
     [SerializeField] private List<AudioSource> EnvironmentSources;
+    [SerializeField] private List<AudioSource> RainAndWindSources;
     [SerializeField] private List<AudioSource> InteractionSources;
     [SerializeField] private List<AudioSource> UISources;
     [SerializeField] private List<AudioSource> DialogsSources;
@@ -57,6 +59,7 @@ namespace TwelveG.AudioController
     AudioPoolType.Interaction,
     AudioPoolType.BGMusic,
     AudioPoolType.Environment,
+    AudioPoolType.RainAndWind,
     AudioPoolType.Player,
     AudioPoolType.VFX
     };
@@ -82,6 +85,7 @@ namespace TwelveG.AudioController
       {
         { AudioPoolType.BGMusic, BGMusicSources },
         { AudioPoolType.Environment, EnvironmentSources },
+        { AudioPoolType.RainAndWind, RainAndWindSources },
         { AudioPoolType.Interaction, InteractionSources },
         { AudioPoolType.UI, UISources },
         { AudioPoolType.Dialogs, DialogsSources},
@@ -240,7 +244,7 @@ namespace TwelveG.AudioController
 
     public void AssignWeatherEvents(Component sender, object data)
     {
-      if((WeatherEvent)data == WeatherEvent.None)
+      if ((WeatherEvent)data == WeatherEvent.None)
       {
         // Resetea clips de audio
         ResetWeatherSources();
@@ -255,39 +259,52 @@ namespace TwelveG.AudioController
         case (WeatherEvent.SoftWind):
           sourceMaxDistance = softWeatherDefaultDistance;
           audioClip = softWindClip;
+          SetAudioZoneSources(audioClip, sourceMaxDistance);
           break;
         case (WeatherEvent.HardWind):
           sourceMaxDistance = hardWeatherDistance;
           audioClip = softWindClip;
+          SetAudioZoneSources(audioClip, sourceMaxDistance);
+          StartCoroutine(AudioManager.Instance.LowPassCorutine("ambientLowPassCutOff", 7500f, 1f));
           break;
         case (WeatherEvent.SoftRain):
           audioClip = softRainClip;
           sourceMaxDistance = softWeatherDefaultDistance;
+          SetAudioZoneSources(audioClip, sourceMaxDistance);
           break;
         case (WeatherEvent.HardRain):
           audioClip = hardRainClip;
           sourceMaxDistance = hardWeatherDistance;
+          SetAudioZoneSources(audioClip, sourceMaxDistance);
           StartCoroutine(AudioManager.Instance.LowPassCorutine("ambientLowPassCutOff", 7500f, 1f));
           break;
         case (WeatherEvent.HardRainAndWind):
           audioClip = hardRainAndWindClip;
           sourceMaxDistance = hardWeatherDistance;
+          SetAudioZoneSources(audioClip, sourceMaxDistance);
           StartCoroutine(AudioManager.Instance.LowPassCorutine("ambientLowPassCutOff", 7500f, 1f));
           break;
+        case (WeatherEvent.ConstantThunders):
+          // No hace nada, el rayo usa su propia fuente de audio
+          break;
+        case (WeatherEvent.CloseThunder):
+          // No hace nada, el rayo usa su propia fuente de audio
+          break;
         default:
-          sourceMaxDistance = softWeatherDefaultDistance;
-          audioClip = null;
           break;
       }
+    }
 
-      foreach (AudioSource source in EnvironmentSources)
+    private void SetAudioZoneSources(AudioClip audioClip, float sourceMaxDistance)
+    {
+      foreach (AudioSource source in RainAndWindSources)
       {
         source.clip = audioClip;
         source.maxDistance = sourceMaxDistance;
       }
 
       // Le asigna las fuentes al AudioZoneHandler para que las posicione en zonas acústicas
-      audioZoneHandler?.AssignAudioSourcesFromPool(EnvironmentSources);
+      audioZoneHandler?.AssignWeatherSourcesFromPool(RainAndWindSources);
     }
   }
 }

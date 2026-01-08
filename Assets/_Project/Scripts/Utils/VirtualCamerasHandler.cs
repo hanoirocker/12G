@@ -44,11 +44,16 @@ namespace TwelveG.Utils
             playerVC.m_Follow = playerCameraRoot.transform;
             focusVC.m_Follow = playerCameraRoot.transform;
 
-            GetCurrentActiveCamera();
+            SetCurrentActiveCamera();
             setCurrentCamera.Raise(this, currentActiveCamera);
         }
 
-        private void GetCurrentActiveCamera()
+        public CinemachineVirtualCamera GetCurrentActiveCamera()
+        {
+            return currentActiveCamera;
+        }
+
+        private void SetCurrentActiveCamera()
         {
             CinemachineVirtualCamera[] listOfVirtualCameras = GetComponentsInChildren<CinemachineVirtualCamera>();
             foreach (CinemachineVirtualCamera vc in listOfVirtualCameras)
