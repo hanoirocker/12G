@@ -16,7 +16,7 @@ TODO - próximo:
 TODO - despues:
 
 - Agregar sonidos para cuando come la pizza.
-- Agregar sonidos al tomar escoba y bolsas de basura.
+- Agregar sonidos al tomar bolsas de basura.
 - Agregar sonido de mareo y caida del jugador al suelo, dependiendo del lugar donde caiga debe sonar distinto (3 materiales: carpet, wood, mosaic)
 - Agregar animación de primera activación de linterna para Unwired? (MAYBE)
 - Componer distintos audios según intensidad de Electric Feel. La idea es que sean clips conformados por el sonido actual (loopeable), luego un clip que incluya el layer anterior mas un fade in del nuevo layer de audio (Play one shot), y finalmente el nuevo audio (loopeable).
