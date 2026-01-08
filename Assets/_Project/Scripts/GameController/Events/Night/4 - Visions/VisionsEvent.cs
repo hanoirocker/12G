@@ -30,6 +30,8 @@ namespace TwelveG.GameController
     [Header("Audio Options")]
     [SerializeField] private AudioClip track2Clip;
     [SerializeField, Range(0f, 1f)] private float track2Volume = 0.15f;
+    [SerializeField] private AudioClip playerSurprisedClip;
+    [SerializeField, Range(0f, 1f)] private float playerSurprisedClipVolume = 0.7f;
 
     [Space]
     [Header("Video Settings")]
@@ -47,6 +49,8 @@ namespace TwelveG.GameController
     public override IEnumerator Execute()
     {
       AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
+      AudioSource playerSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
+      AudioSourceState playerSourceState = playerSource.GetSnapshot();
       PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
       playerHandler = FindObjectOfType<PlayerHandler>();
       cameraZoom = playerHandler.GetComponentInChildren<CameraZoom>();
@@ -98,9 +102,15 @@ namespace TwelveG.GameController
       // Indica a la Virtual Camera activa que debe mirar hacia el enemigo
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(enemyTransform));
       GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseIn, 1));
-      // Espera a que termine la animación de la cámara y el clip sorprendido del jugador
 
-      // Espera a que la cámara mire al enemigo
+      if (playerSource != null)
+      {
+        playerSource.clip = playerSurprisedClip;
+        playerSource.loop = false;
+        playerSource.volume = playerSurprisedClipVolume;
+        playerSource.Play();
+      }
+      // Espera a que termine la animación de la cámara y el clip sorprendido del jugador
       yield return new WaitForSeconds(1f);
 
       // Se dispara un video jumpscare
@@ -109,6 +119,7 @@ namespace TwelveG.GameController
       // "onVideoCanvasFinished"
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
+      AudioUtils.StopAndRestoreAudioSource(playerSource, playerSourceState);
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(null));
       GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
       GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.None);
