@@ -99,7 +99,7 @@ namespace TwelveG.GameController
             }
 
             // Espera lo que tardaría la puerta en cerrarse fuertemente y corta la luz de la casa
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.45f);
             GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, false);
 
             yield return new WaitForSeconds(8f);
