@@ -24,11 +24,12 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private float flashDuration = 0.5f;
 
         [Header("Timing Settings")]
-        [SerializeField] private float minInterval = 5f;
-        [SerializeField] private float maxInterval = 15f;
+        [SerializeField] private float minInterval = 25f;
+        [SerializeField] private float maxInterval = 60f;
 
         [Header("Visual Bolt (Optional)")]
         [SerializeField] private Transform[] skyPositions;
+        [SerializeField] private Transform[] closeSkyPositions;
 
         [Header("Audio Settings")]
         [SerializeField, Range(0f, 200f)] private float soundMaxDistance = 200f;
@@ -41,7 +42,7 @@ namespace TwelveG.EnvironmentController
         private AudioSource thunderSource;
         private AudioSourceState audioSourceState;
         private Transform currentStrikeTransform;
-        private float distanceFactor = 1f;
+        private float currentDistanceFactor = 1f;
 
         private void Awake()
         {
@@ -51,7 +52,6 @@ namespace TwelveG.EnvironmentController
         private void Start()
         {
             if (lightningLight != null) lightningLight.intensity = 0f;
-            StartConstantThunder();
         }
 
         public void StartConstantThunder()
@@ -62,6 +62,7 @@ namespace TwelveG.EnvironmentController
         public void StartCloseThunder()
         {
             StopAllCoroutines();
+            SetUpThunder(true);
             StartCoroutine(FlashRoutine(1f));
             StartCoroutine(ThunderAudioRoutine(1f));
         }
@@ -71,29 +72,41 @@ namespace TwelveG.EnvironmentController
             while (true)
             {
                 // 1. Determinar valores de estado inicial
-
-                // Determinar qué tan "lejos" cayó (simulado)
-                // 0 = muy cerca (trueno inmediato), 1 = lejos (trueno con delay)
-                currentStrikeTransform = skyPositions[Random.Range(0, skyPositions.Length)];
-                currentActiveCamera = virtualCamerasHandler?.GetCurrentActiveCamera();
-                float distanceToPlayer = Vector3.Distance(currentStrikeTransform.position, currentActiveCamera.transform.position);
-                Debug.Log("Distance to player: " + distanceToPlayer);
-                distanceFactor = Mathf.Clamp01(soundMaxDistance / distanceToPlayer);
-                Debug.Log("Distance factor: " + distanceFactor);
+                SetUpThunder();
 
                 // 2. Esperar tiempo aleatorio para el próximo rayo
                 float waitTime = Random.Range(minInterval, maxInterval);
                 yield return new WaitForSeconds(waitTime);
 
                 // 3. Ejecutar el Flash Visual (Luz)
-                yield return StartCoroutine(FlashRoutine(distanceFactor));
+                yield return StartCoroutine(FlashRoutine(currentDistanceFactor));
 
                 // 4. Ejecutar el Sonido (con delay basado en distancia)
-                yield return StartCoroutine(ThunderAudioRoutine(distanceFactor));
+                yield return StartCoroutine(ThunderAudioRoutine(currentDistanceFactor));
             }
         }
 
-        private IEnumerator FlashRoutine(float distanceFactor)
+        private void SetUpThunder(bool isClose = false)
+        {
+            // Determinar qué tan "lejos" cayó (simulado)
+            // 0 = muy cerca (trueno inmediato), 1 = lejos (trueno con delay)
+            if(isClose)
+            {
+                currentStrikeTransform = closeSkyPositions[Random.Range(0, closeSkyPositions.Length)];
+            }
+            else
+            {
+                currentStrikeTransform = skyPositions[Random.Range(0, skyPositions.Length)];
+            }
+
+            currentActiveCamera = virtualCamerasHandler?.GetCurrentActiveCamera();
+            float distanceToPlayer = Vector3.Distance(currentStrikeTransform.position, currentActiveCamera.transform.position);
+            Debug.Log("Distance to player: " + distanceToPlayer);
+            currentDistanceFactor = Mathf.Clamp01(soundMaxDistance / distanceToPlayer);
+            Debug.Log("Distance factor: " + currentDistanceFactor);
+        }
+
+        private IEnumerator FlashRoutine(float currentDistanceFactor)
         {
             float timer = 0f;
 
@@ -108,7 +121,7 @@ namespace TwelveG.EnvironmentController
                 // Aplicamos intensidad
                 if (lightningLight != null)
                 {
-                    lightningLight.intensity = curveVal * maxIntensity * distanceFactor;
+                    lightningLight.intensity = curveVal * maxIntensity * currentDistanceFactor;
                 }
 
                 yield return null;
@@ -118,13 +131,13 @@ namespace TwelveG.EnvironmentController
             if (lightningLight != null) lightningLight.intensity = 0f;
         }
 
-        private IEnumerator ThunderAudioRoutine(float distanceFactor)
+        private IEnumerator ThunderAudioRoutine(float currentDistanceFactor)
         {
             thunderSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Environment);
             audioSourceState = thunderSource.GetSnapshot();
 
             // Calculamos el delay: Si está cerca, delay casi 0. Si está lejos, delay alto.
-            float delay = distanceFactor * speedOfSoundDelay; // Ej: 1.0 * 3 segundos = 3s delay
+            float delay = currentDistanceFactor * speedOfSoundDelay; // Ej: 1.0 * 3 segundos = 3s delay
 
             yield return new WaitForSeconds(delay);
 

@@ -54,8 +54,9 @@ namespace TwelveG.GameController
       PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
       playerHandler = FindObjectOfType<PlayerHandler>();
       cameraZoom = playerHandler.GetComponentInChildren<CameraZoom>();
-
+      GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.ConstantThunders);
       GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
+
       yield return new WaitForSeconds(initialTime);
 
       // Simón decide llamar a Micaela

@@ -73,6 +73,10 @@ namespace TwelveG.GameController
 
             GameEvents.Common.playWakeUpAtNightVCAnimation.Raise(this, null);
 
+            // Tiempo de espera aproximado en el que la animación del jugador mira hacia la ventana
+            yield return new WaitForSeconds(2.5f);
+            GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
+
             // Unity Event (WakeUpVCHandler - onAnimationHasEnded):
             // Cuando termina la animación `incorporarse`, se pasa a lo próximo.
             yield return new WaitUntil(() => allowNextAction);
