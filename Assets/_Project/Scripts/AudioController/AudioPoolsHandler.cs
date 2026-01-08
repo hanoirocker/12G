@@ -236,7 +236,7 @@ namespace TwelveG.AudioController
     {
       AudioSource audioSource = AudioManager.Instance.
           PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
-      AudioSourceState originalSourceParams = AudioExtensions.GetSnapshot(audioSource);
+      AudioSourceState originalSourceParams = audioSource.GetSnapshot();
       audioSource.transform.position = transform.position;
       audioSource.volume = clipsVolume;
       return (audioSource, originalSourceParams);

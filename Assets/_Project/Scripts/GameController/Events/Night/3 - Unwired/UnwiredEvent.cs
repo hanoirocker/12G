@@ -39,7 +39,6 @@ namespace TwelveG.GameController
             PlayerSoundsHandler playerSoundsHandler = FindAnyObjectByType<PlayerSoundsHandler>();
             AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
             Transform garageTransform = GameObject.FindGameObjectWithTag("GarageNoise").transform;
-            (AudioSource garageSource, AudioSourceState garageState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(garageTransform, garageClipVolume);
             RotativeDoorHandler garageDoorHandler = GameObject.Find("Garage Rotative Door").GetComponentInChildren<RotativeDoorHandler>();
 
             yield return new WaitForSeconds(initialTime);
@@ -67,6 +66,11 @@ namespace TwelveG.GameController
             // Disparamos el sonido de ruido en el garage
             if (garageTransform)
             {
+                (AudioSource garageSource, AudioSourceState garageState) =
+                    AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+                        garageTransform, garageClipVolume
+                );
+
                 if (garageSource != null && garageClip != null)
                 {
                     garageSource.clip = garageClip;
