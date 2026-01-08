@@ -5,9 +5,6 @@ TOCHECK:
 - Agregar trueno al bajar por las escaleras en Unwired?
 
 TOFIX:
-- Si comienza un dialogo teniendo previamente la mano izq desocupada, y teniendo la derecha ocupada,
-el jugador no ocupa sus ambas manos (puede interactuar).
-- Se puede agarrar la linterna antes que termine la animación (agregar evento).
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales. // Esto sucede cuando no existe extructura de audios de canales para el evento en particular //
 
 TODO - próximo:

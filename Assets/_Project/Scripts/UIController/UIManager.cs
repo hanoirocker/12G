@@ -91,7 +91,7 @@ namespace TwelveG.UIController
     {
       bool isPaused = (bool)data;
 
-      if (canvasDict.TryGetValue(CanvasHandlerType.PauseMenu, out var puaseCanvasGO))
+      if (canvasDict.TryGetValue(CanvasHandlerType.PauseMenu, out var pauseCanvasGO))
       {
         // Leemos el estado de los canvas a apagar en la lista
         for (int i = 0; i < canvasesToHideWhilePaused.Count; i++)
@@ -118,8 +118,8 @@ namespace TwelveG.UIController
         }
 
         // Habilitar o deshabilitar el canvas de pausa y script asociado
-        puaseCanvasGO.GetComponent<Canvas>().enabled = isPaused;
-        puaseCanvasGO.GetComponent<PauseMenuCanvasHandler>().enabled = isPaused;
+        pauseCanvasGO.GetComponent<Canvas>().enabled = isPaused;
+        pauseCanvasGO.GetComponent<PauseMenuCanvasHandler>().enabled = isPaused;
       }
     }
 

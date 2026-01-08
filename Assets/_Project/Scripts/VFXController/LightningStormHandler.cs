@@ -151,8 +151,12 @@ namespace TwelveG.EnvironmentController
                 thunderSource.maxDistance = soundMaxDistance;
                 thunderSource.pitch = Random.Range(0.9f, 1.15f);
                 thunderSource.Play();
-                yield return new WaitUntil(() => !thunderSource.isPlaying);
+
+                float duration = AudioUtils.CalculateDurationWithPitch(thunderSource.clip, thunderSource.pitch);
+                yield return new WaitForSeconds(duration);
+
                 AudioUtils.StopAndRestoreAudioSource(thunderSource, audioSourceState);
+                thunderSource = null;
             }
         }
     }
