@@ -24,7 +24,6 @@ TODO - despues:
   -> Se podrían disparar gracias al House Areas handler creado recientemente. El problema es que el volumen de audio sería el mismo en todos los puntos del volumen del collider.
 - Agregar sonido para animación "Night - Stand Up".
 - Agregar sonido para animación "Night - Unwired - Look For Flashlight" de FlashlightVC
-- Agregar sonido de duda "Hum?" para transición de cámara a Focus enemy en Visions.
 
 - Agregar cajas bajo la escalera, o algo.
 
