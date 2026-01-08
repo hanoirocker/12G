@@ -31,6 +31,7 @@ namespace TwelveG.AudioController
     SoftRainAndWind,
     HardRainAndWind,
     None,
+    Thunder,
   }
 
   public class AudioPoolsHandler : MonoBehaviour

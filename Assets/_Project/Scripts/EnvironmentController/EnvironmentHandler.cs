@@ -16,6 +16,7 @@ namespace TwelveG.EnvironmentController
         [Header("References")]
         [Space]
         [SerializeField] private GameObject rainObject;
+        [SerializeField] private LightningStormHandler lightningStormHandler;
         [SerializeField] private GameObject windZoneObject;
         [SerializeField] private WindZone windZone;
 
@@ -34,6 +35,9 @@ namespace TwelveG.EnvironmentController
         {
             switch ((WeatherEvent)data)
             {
+                case (WeatherEvent.Thunder):
+                    lightningStormHandler.StartThunder();
+                    break;
                 case (WeatherEvent.SoftWind):
                     windZone.windMain = 0.2f;
                     windZone.windTurbulence = 0.2f;
