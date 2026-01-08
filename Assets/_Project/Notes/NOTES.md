@@ -18,7 +18,6 @@ TODO - despues:
 - Agregar sonidos para cuando come la pizza.
 - Agregar sonidos al tomar escoba y bolsas de basura.
 - Agregar sonido de mareo y caida del jugador al suelo, dependiendo del lugar donde caiga debe sonar distinto (3 materiales: carpet, wood, mosaic)
-- Aumentar ganancia de tracks 12G - Door - Close (Hard) 2 y 12G - Door - Close (Hard) 1 ??
 - Agregar animación de primera activación de linterna para Unwired? (MAYBE)
 - Componer distintos audios según intensidad de Electric Feel. La idea es que sean clips conformados por el sonido actual (loopeable), luego un clip que incluya el layer anterior mas un fade in del nuevo layer de audio (Play one shot), y finalmente el nuevo audio (loopeable).
 - Agregar sonidos stereo en loop para ambientación de cada habitación dentro de la casa??
