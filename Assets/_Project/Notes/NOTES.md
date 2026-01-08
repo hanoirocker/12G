@@ -2,7 +2,6 @@ NOVEDADES:
 
 
 TOCHECK:
-- Agregar tiempo de espera entre el dialogo primero raro en LockedUp y el que llama a Mica.
 - Agregar trueno al bajar por las escaleras en Unwired?
 
 TOFIX:
