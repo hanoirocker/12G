@@ -5,7 +5,6 @@ TOCHECK:
 - Agregar trueno al bajar por las escaleras en Unwired?
 
 TOFIX:
-- No se están pausando las fuentes de lluvia al pausar el juego.
 - El transform de los sonidos de garage cambia si se interactua con una puerta o algo, hay bobo.
 - Si comienza un dialogo teniendo previamente la mano izq desocupada, y teniendo la derecha ocupada,
 el jugador no ocupa sus ambas manos (puede interactuar).
