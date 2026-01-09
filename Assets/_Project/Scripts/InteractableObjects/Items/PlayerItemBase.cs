@@ -1,4 +1,6 @@
+using TwelveG.GameController;
 using TwelveG.PlayerController;
+using TwelveG.UIController;
 using UnityEngine;
 
 namespace TwelveG.InteractableObjects
@@ -34,6 +36,22 @@ namespace TwelveG.InteractableObjects
         public void ActivateItem(bool activate)
         {
             isActiveOnGame = activate;
+
+            // Avisarle al Control Canvas para que muestre/oculte las opciones del item
+            InteractionObjectType interactionType = itemType switch
+            {
+                ItemType.Flashlight => InteractionObjectType.Flashlight,
+                ItemType.WalkieTalkie => InteractionObjectType.WalkieTalkie,
+                _ => InteractionObjectType.None,
+            };
+
+            GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(interactionType, activate));
+
+            // Mostrar el Control Canvas por defecto al activar el item
+            if (activate)
+            {
+                GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(true));
+            }
         }
 
         public bool IsItemActiveInGame()

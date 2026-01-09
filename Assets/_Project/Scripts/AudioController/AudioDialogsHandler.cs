@@ -1,4 +1,5 @@
 using System.Collections;
+using TwelveG.GameController;
 using TwelveG.InteractableObjects;
 using UnityEngine;
 
@@ -26,6 +27,13 @@ namespace TwelveG.AudioController
 
     private void Awake()
     {
+      SceneEnum sceneEnum = SceneUtils.RetrieveCurrentSceneEnum();
+
+      if(sceneEnum != SceneEnum.Evening || sceneEnum != SceneEnum.Night)
+      {
+        return;
+      }
+
       WTSource = FindAnyObjectByType<WalkieTalkie>().GetComponent<AudioSource>();
 
       if (WTSource == null)

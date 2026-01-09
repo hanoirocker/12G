@@ -1,30 +1,44 @@
+using System;
+using System.Collections;
+using TwelveG.GameController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.UIController
 {
-    using System.Collections;
-    using TMPro;
-    using TwelveG.GameController;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using UnityEngine;
+    public struct InteractionObjectConfig
+    {
+        public InteractionObjectType InteractionObjectType;
+        public bool Enabled;
+
+        public InteractionObjectConfig(InteractionObjectType interactionObjectType, bool enabled)
+            => (InteractionObjectType, Enabled) = (interactionObjectType, enabled);
+    }
+
+    public enum InteractionObjectType
+    {
+        None,
+        TV,
+        RemoteControl,
+        WalkieTalkie,
+        Flashlight,
+    }
 
     public class ControlCanvasHandler : MonoBehaviour
     {
         [Header("UI References")]
         [SerializeField] private CanvasGroup canvasGroup;
-        [SerializeField] private TextMeshProUGUI controlsHeadTitle;
-        [SerializeField] private TextMeshProUGUI defaultOptions;
-        [SerializeField] private TextMeshProUGUI specificOptions;
+        [SerializeField] private GameObject TVOptions;
+        [SerializeField] private GameObject RCOptions;
+        [SerializeField] private GameObject WTOptions;
+        [SerializeField] private GameObject FlashlightOptions;
 
+        [Space(10)]
         [Header("Settings")]
         [SerializeField, Range(0f, 3f)] private float fadeDuration = 3f;
 
-        [Header("Text SO")]
-        [SerializeField] private EventsControlCanvasInteractionTextSO defaultOptionsTextsSO;
-        [SerializeField] private EventsControlCanvasInteractionTextSO headTitleTextSO;
-
-        private EventsControlCanvasInteractionTextSO lastEventControlCanvasInteractionTextSORecieved = null;
         private Canvas controlCanvas;
-        private string defaultOptionText = "";
 
         void Awake()
         {
@@ -34,53 +48,46 @@ namespace TwelveG.UIController
 
         private void OnEnable()
         {
-            UpdateCanvasTextOnLanguageChanged();
+            UpdateCanvasTextOnLanguageChanged(LocalizationManager.Instance.GetCurrentLanguageCode());
         }
 
         public void SetInteractionSpecificOptions(Component sender, object data)
         {
-            if (data != null)
+            InteractionObjectConfig interactionType = (InteractionObjectConfig)data;
+
+            switch (interactionType.InteractionObjectType)
             {
-                lastEventControlCanvasInteractionTextSORecieved = (EventsControlCanvasInteractionTextSO)data;
-                string textToShow = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
-                    LocalizationManager.Instance.GetCurrentLanguageCode(),
-                    lastEventControlCanvasInteractionTextSORecieved
-                );
-                specificOptions.text = textToShow;
+                case InteractionObjectType.TV:
+                    TVOptions.SetActive(interactionType.Enabled);
+                    break;
+                case InteractionObjectType.RemoteControl:
+                    RCOptions.SetActive(interactionType.Enabled);
+                    break;
+                case InteractionObjectType.WalkieTalkie:
+                    WTOptions.SetActive(interactionType.Enabled);
+                    break;
+                case InteractionObjectType.Flashlight:
+                    FlashlightOptions.SetActive(interactionType.Enabled);
+                    break;
+                default:
+                    Debug.LogWarning($"[ControlCanvasHandler] Unknown InteractionObjectType received: {interactionType}");
+                    return;
             }
         }
 
-        public void UpdateCanvasTextOnLanguageChanged()
+        // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos
+        // en relación a sus propios assets SO
+        public void UpdateCanvasTextOnLanguageChanged(string languageCode)
         {
-            string newLanguageSet = LocalizationManager.Instance?.GetCurrentLanguageCode();
-
-            string updatedHeadTitleText = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
-                newLanguageSet,
-                headTitleTextSO
-            );
-            controlsHeadTitle.text = updatedHeadTitleText;
-
-            // Actualiza las opciones basicas del componente
-            string updatedDefaultOptionsText = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
-                newLanguageSet,
-                defaultOptionsTextsSO
-            );
-            defaultOptions.text = updatedDefaultOptionsText;
-
-            // Actualiza las opciones específicas envidas en el último
-            // EventsControlCanvasInteractionTextSO recibido y guardado.
-            // Si no se envió el evento pero se inició la escena y se ejecutó el seteo de lenguaje, retorna.
-            if (lastEventControlCanvasInteractionTextSORecieved == null) { return; }
-
-            string updatedSpecificOptionsText = Utils.TextFunctions.RetrieveEventControlCanvasInteractionsText(
-                newLanguageSet,
-                lastEventControlCanvasInteractionTextSORecieved
-            );
-            specificOptions.text = updatedSpecificOptionsText;
+            foreach (UpdateTextHandler updateTextHandler in GetComponentsInChildren<UpdateTextHandler>())
+            {
+                updateTextHandler.UpdateText(languageCode);
+            }
         }
 
         public void ControlCanvasControls(Component sender, object data)
         {
+            Debug.Log("called by sender: " + sender);
             switch (data)
             {
                 case EnableCanvas cmd:
@@ -88,12 +95,6 @@ namespace TwelveG.UIController
                     break;
                 case AlternateCanvasCurrentState:
                     StartCoroutine(ToggleControlCanvasCoroutine(!controlCanvas.enabled));
-                    break;
-                case ResetControlCanvasSpecificOptions:
-                    specificOptions.text = defaultOptionText;
-                    // Previene que si el jugador cambia de idioma luego de eliminar las opciones extra
-                    // aún se pueda imprimir lo último recibido en base al SO.
-                    lastEventControlCanvasInteractionTextSORecieved = null;
                     break;
                 default:
                     Debug.LogWarning($"[ControlCanvasHandler] Received unknown command: {data}");

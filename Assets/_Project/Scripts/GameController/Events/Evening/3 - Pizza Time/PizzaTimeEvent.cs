@@ -136,7 +136,6 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            GameEvents.Common.onControlCanvasControls.Raise(this, new ResetControlCanvasSpecificOptions());
             yield return new WaitForSeconds(3.5f);
             GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
             // LEVANTARSE [E]

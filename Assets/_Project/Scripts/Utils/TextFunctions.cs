@@ -79,24 +79,6 @@ namespace TwelveG.Utils
             }
         }
 
-        public static string RetrieveEventControlCanvasInteractionsText(string languageCode, EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO)
-        {
-            if (eventsControlCanvasInteractionTextSO == null)
-            {
-                return "eventsControlCanvasInteractionTextSO is null";
-            }
-
-            var languageStructure = eventsControlCanvasInteractionTextSO.eventControlCanvasInteractionStructures
-                .Find(texts => texts.language.ToString().Equals(languageCode, System.StringComparison.OrdinalIgnoreCase));
-
-            if (languageStructure == null)
-            {
-                return "Language not found in eventControlCanvasInteractionStructures";
-            }
-
-            return languageStructure.eventControlCanvasInteractionText;
-        }
-
         public static (string contemplationText, bool hasReachedMaxContemplations, int updatedIndex)
         RetrieveContemplationText(
             int currentContemplationIndex,
