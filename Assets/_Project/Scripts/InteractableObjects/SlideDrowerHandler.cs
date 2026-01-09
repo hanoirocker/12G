@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TwelveG.InteractableObjects
 {
-    public class SlideDrowerHandler : MonoBehaviour, IInteractable
+    public class SlideDrawerHandler : MonoBehaviour, IInteractable
     {
         [Header("Drawer Settings: ")]
         public bool slidesParent = false;
@@ -17,20 +17,23 @@ namespace TwelveG.InteractableObjects
         [Header("Audio Settings: ")]
         [SerializeField] private AudioClip openingDoorSound;
         [SerializeField] private AudioClip closingDoorSound;
+        
+        [SerializeField, Range(0.9f, 1.2f)] private float minPitch = 0.9f;
+        [SerializeField, Range(1.2f, 1.5f)] private float maxPitch = 1.2f;
+
+        [Tooltip("Ajusta cuánto tarda en deslizarse respecto al audio. Valor Negativo = Desliza más rápido que el audio.")]
         [SerializeField, Range(-2f, 2f)] private float openingSoundOffset = 0f;
         [SerializeField, Range(-2f, 2f)] private float closingSoundOffset = 0f;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
 
         [Header("Testing Settings: ")]
         [SerializeField] private bool doorIsOpen;
-        [SerializeField, Range(1f, 3f)] private float slidingDuration = 1.5f;
+        [SerializeField, Range(1f, 3f)] private float fallbackDuration = 1.5f;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
         [SerializeField] private InteractionTextSO interactionTextsSO_close;
 
-        private AudioSourceState audioSourceState;
-        private AudioSource audioSource;
         private Vector3 initialPosition = new Vector3();
         private bool isMoving = false;
 
@@ -53,59 +56,75 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-
         private void ToggleDrawer(Vector3 playerPosition)
         {
-            Vector3 targetPosition = doorIsOpen ? initialPosition : new Vector3(initialPosition.x + xOffSet, initialPosition.y, initialPosition.z + zOffSet);
+            Vector3 targetPosition = doorIsOpen 
+                ? initialPosition 
+                : new Vector3(initialPosition.x + xOffSet, initialPosition.y, initialPosition.z + zOffSet);
+            
             StartCoroutine(SlideDrawerDoor(targetPosition));
         }
-
-        private float PlaySlidingDrawerSounds()
-        {
-            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
-
-            audioSource.pitch = Random.Range(0.9f, 1.2f);
-            if (doorIsOpen & closingDoorSound != null)
-            {
-                audioSource.clip = closingDoorSound;
-                audioSource.Play();
-                return AudioUtils.CalculateDurationWithPitch(null, audioSource.pitch, closingDoorSound.length + closingSoundOffset);
-            }
-            else if (!doorIsOpen & openingDoorSound != null)
-            {
-                audioSource.clip = openingDoorSound;
-                audioSource.Play();
-                return AudioUtils.CalculateDurationWithPitch(null, audioSource.pitch, openingDoorSound.length + openingSoundOffset);
-            }
-            else
-            {
-                return slidingDuration;
-            }
-        }
-
 
         private IEnumerator SlideDrawerDoor(Vector3 targetPosition)
         {
             isMoving = true;
-            float duration = PlaySlidingDrawerSounds();
-            float elapsedTime = 0f;
 
+            (float rawClipLength, AudioClip clip, float offsetUsed) = AudioClipData();
+
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+                gameObject.transform, clipsVolume);
+
+            float randomPitch = Random.Range(minPitch, maxPitch);
+            audioSource.pitch = randomPitch;
+            audioSource.clip = clip;
+            audioSource.Play();
+
+            float realAudioDuration = (clip != null) ? (clip.length / randomPitch) : fallbackDuration;
+
+            float slidingDuration = realAudioDuration + offsetUsed;
+            
+            if (slidingDuration < 0.1f) slidingDuration = 0.1f;
+
+            float elapsedTime = 0f;
             Transform targetTransform = slidesParent ? parentObject.transform : gameObject.transform;
             Vector3 startPosition = targetTransform.localPosition;
 
-            while (elapsedTime < duration)
+            while (elapsedTime < slidingDuration)
             {
-                targetTransform.localPosition = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+                targetTransform.localPosition = Vector3.Lerp(startPosition, targetPosition, elapsedTime / slidingDuration);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
             targetTransform.localPosition = targetPosition;
             doorIsOpen = !doorIsOpen;
-            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
-            audioSource = null;
 
             isMoving = false;
+
+            float remainingAudioTime = realAudioDuration - slidingDuration;
+
+            if (remainingAudioTime > 0f)
+            {
+                yield return new WaitForSeconds(remainingAudioTime);
+            }
+
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+        }
+
+        private (float, AudioClip, float) AudioClipData()
+        {
+            if (doorIsOpen && closingDoorSound != null)
+            {
+                return (closingDoorSound.length, closingDoorSound, closingSoundOffset);
+            }
+            else if (!doorIsOpen && openingDoorSound != null)
+            {
+                return (openingDoorSound.length, openingDoorSound, openingSoundOffset);
+            }
+            else
+            {
+                return (fallbackDuration, null, 0f);
+            }
         }
 
         public bool Interact(PlayerInteraction interactor)
@@ -116,8 +135,7 @@ namespace TwelveG.InteractableObjects
 
         public bool CanBeInteractedWith(PlayerInteraction playerCamera)
         {
-            if (isMoving) { return false; }
-            else { return true; }
+            return !isMoving;
         }
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
