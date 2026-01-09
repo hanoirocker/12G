@@ -72,6 +72,13 @@ namespace TwelveG.AudioController
     [SerializeField] private AudioClip softRainClip;
     [SerializeField] private AudioClip hardRainClip;
     [SerializeField] private AudioClip hardRainAndWindClip;
+    [Space(5)]
+    [Header("Volumes")]
+    [SerializeField, Range (0f, 1f)] private float softWindVolume = 0.225f;
+    [SerializeField, Range (0f, 1f)] private float softRainVolume = 0.6f;
+    [SerializeField, Range (0f, 1f)] private float hardWindVolume = 0.5f;
+    [SerializeField, Range (0f, 1f)] private float hardRainVolume = 1f;
+    [SerializeField, Range (0f, 1f)] private float hardRainAndWindVolume = 1f;
 
     [Space]
     [Header("Weather Settings")]
@@ -264,30 +271,27 @@ namespace TwelveG.AudioController
         case (WeatherEvent.SoftWind):
           sourceMaxDistance = softWeatherDefaultDistance;
           audioClip = softWindClip;
-          SetAudioZoneSources(audioClip, sourceMaxDistance);
+          SetAudioZoneSources(audioClip, sourceMaxDistance, softWindVolume);
           break;
         case (WeatherEvent.HardWind):
           sourceMaxDistance = hardWeatherDistance;
           audioClip = softWindClip;
-          SetAudioZoneSources(audioClip, sourceMaxDistance);
-          StartCoroutine(AudioManager.Instance.LowPassCorutine("ambientLowPassCutOff", 7500f, 1f));
+          SetAudioZoneSources(audioClip, sourceMaxDistance, hardWindVolume);
           break;
         case (WeatherEvent.SoftRain):
           audioClip = softRainClip;
           sourceMaxDistance = softWeatherDefaultDistance;
-          SetAudioZoneSources(audioClip, sourceMaxDistance);
+          SetAudioZoneSources(audioClip, sourceMaxDistance, softRainVolume);
           break;
         case (WeatherEvent.HardRain):
           audioClip = hardRainClip;
           sourceMaxDistance = hardWeatherDistance;
-          SetAudioZoneSources(audioClip, sourceMaxDistance);
-          StartCoroutine(AudioManager.Instance.LowPassCorutine("ambientLowPassCutOff", 7500f, 1f));
+          SetAudioZoneSources(audioClip, sourceMaxDistance, hardRainVolume);
           break;
         case (WeatherEvent.HardRainAndWind):
           audioClip = hardRainAndWindClip;
           sourceMaxDistance = hardWeatherDistance;
-          SetAudioZoneSources(audioClip, sourceMaxDistance);
-          StartCoroutine(AudioManager.Instance.LowPassCorutine("ambientLowPassCutOff", 7500f, 1f));
+          SetAudioZoneSources(audioClip, sourceMaxDistance, hardRainAndWindVolume);
           break;
         case (WeatherEvent.ConstantThunders):
           // No hace nada, el rayo usa su propia fuente de audio
@@ -300,11 +304,12 @@ namespace TwelveG.AudioController
       }
     }
 
-    private void SetAudioZoneSources(AudioClip audioClip, float sourceMaxDistance)
+    private void SetAudioZoneSources(AudioClip audioClip, float sourceMaxDistance, float volume)
     {
       foreach (AudioSource source in RainAndWindSources)
       {
         source.clip = audioClip;
+        source.volume = volume;
         source.maxDistance = sourceMaxDistance;
       }
 

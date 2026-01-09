@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d179f317807cfa47a28a61c1fe9d399, type: 3}
-  m_Name: AmbienceProfileSO - Wooden environment
+  m_Name: AmbienceProfileSO - Kitchen environment
   m_EditorClassIdentifier: 
-  activeAreas: 000000000600000003000000040000000700000008000000090000000d0000000c0000000b000000
+  activeAreas: 09000000
   ambientClips:
-  - clip: {fileID: 8300000, guid: 6096216962b0da74b94874535f8e6166, type: 3}
-    volume: 0.1
+  - clip: {fileID: 8300000, guid: fa4a1543137ba4499b10bafa850fc7c1, type: 3}
+    volume: 0.028
