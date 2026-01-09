@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TwelveG.EnvironmentController;
+using TwelveG.GameController;
 using UnityEngine;
 
 namespace TwelveG.AudioController
@@ -15,7 +16,15 @@ namespace TwelveG.AudioController
 
         [Space(10)]
         [Header("Area-based Ambient Profiles")]
-        [SerializeField] private List<AmbienceProfileSO> areaAmbientProfiles;
+        [Space(5)]
+        [Header("Afternoon profiles")]
+        [SerializeField] private List<AmbienceProfileSO> afternoonAreaAmbientProfiles;
+        [Space(5)]
+        [Header("Evening profiles")]
+        [SerializeField] private List<AmbienceProfileSO> eveningAreaAmbientProfiles;
+        [Space(5)]
+        [Header("Night profiles")]
+        [SerializeField] private List<AmbienceProfileSO> nightAreaAmbientProfiles;
 
         [Space(5)]
         [Header("Global Settings")]
@@ -35,13 +44,48 @@ namespace TwelveG.AudioController
         }
 
         private Dictionary<AudioClip, ActiveAudioInfo> activeAmbientSounds = new Dictionary<AudioClip, ActiveAudioInfo>();
+        private List<AmbienceProfileSO> currentAreaProfiles = new List<AmbienceProfileSO>();
+
+        private void Start()
+        {
+            SceneEnum sceneEnum = SceneUtils.RetrieveCurrentSceneEnum();
+
+            switch (sceneEnum)
+            {
+                case SceneEnum.Afternoon:
+                    InitiateEnvironmentSounds(2);
+                    break;
+                case SceneEnum.Evening:
+                    InitiateEnvironmentSounds(3);
+                    break;
+                case SceneEnum.Night:
+                    InitiateEnvironmentSounds(4);
+                    break;
+                default:
+                    DisableAllSceneAmbients();
+                    break;
+            }
+        }
 
         public void InitiateEnvironmentSounds(float sceneIndex)
         {
             DisableAllSceneAmbients();
-            if (sceneIndex == 2) ActivateList(afternoonSoundsTransforms);
-            else if (sceneIndex == 3) ActivateList(eveningSoundsTransforms);
-            else if (sceneIndex == 4) ActivateList(nightSoundsTransforms);
+
+            if (sceneIndex == 2)
+            {
+                ActivateList(afternoonSoundsTransforms);
+                currentAreaProfiles = afternoonAreaAmbientProfiles;
+            }
+            else if (sceneIndex == 3)
+            {
+                ActivateList(eveningSoundsTransforms);
+                currentAreaProfiles = eveningAreaAmbientProfiles;
+            }
+            else if (sceneIndex == 4)
+            {
+                ActivateList(nightSoundsTransforms);
+                currentAreaProfiles = nightAreaAmbientProfiles;
+            }
         }
 
         private void DisableAllSceneAmbients()
@@ -69,7 +113,7 @@ namespace TwelveG.AudioController
             // Mapeo de Clip -> Volumen Deseado
             Dictionary<AudioClip, float> targetClipsData = new Dictionary<AudioClip, float>();
 
-            foreach (var profile in areaAmbientProfiles)
+            foreach (var profile in currentAreaProfiles)
             {
                 // Si el perfil corresponde al área actual
                 if (Array.Exists(profile.activeAreas, area => area == houseArea))
