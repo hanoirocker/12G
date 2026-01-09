@@ -120,6 +120,8 @@ namespace TwelveG.InteractableObjects
             yield return new WaitUntil(() => !audioSource.isPlaying);
             doorMaterial.DisableKeyword("_EMISSION");
 
+            // TODO: Separacion de audio
+
             GetComponentInChildren<SphereCollider>().enabled = true;
 
             yield return new WaitUntil(() => rotativeDrawerHandler.DoorIsOpen());

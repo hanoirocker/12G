@@ -56,7 +56,7 @@ namespace TwelveG.GameController
 
         [Header("Player & Controls")]
         public GameEventSO onEnablePlayerItem;
-        public GameEventSO onRemovePlayerItem; // Ideal para usar durante el juego, sin que el jugador muera
+        public GameEventSO onRemovePlayerItem;
         public GameEventSO onPlayerDying;
         public GameEventSO onPlayerControls;
 

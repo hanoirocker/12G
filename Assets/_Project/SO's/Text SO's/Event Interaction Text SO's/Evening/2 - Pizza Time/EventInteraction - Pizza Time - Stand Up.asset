@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a007a3b4402b459c926e9c77c6f59f6, type: 3}
   m_Name: EventInteraction - Pizza Time - Stand Up
   m_EditorClassIdentifier: 
-  eventName: Wake Up
+  eventName: Pizza Time
   eventsInteractionTexts:
   - language: 0
     eventsInteractionsText: LEVANTARSE [E]

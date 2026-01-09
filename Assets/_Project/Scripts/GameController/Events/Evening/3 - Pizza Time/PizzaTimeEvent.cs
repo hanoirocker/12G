@@ -28,14 +28,11 @@ namespace TwelveG.GameController
         [SerializeField] private List<UIOptionsTextSO> playerHelperDataTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
-        [SerializeField] private EventsControlCanvasInteractionTextSO eventsControlCanvasInteractionTextSO_eating;
 
         [Header("Other eventsSO references")]
         [Space]
         [SerializeField] private GameEventSO plateCanBePicked;
         [SerializeField] private GameEventSO pizzaCanBePicked;
-        [SerializeField] private GameEventSO updateFallbackTexts;
-        [SerializeField] private GameEventSO onSpawnVehicle;
 
         private bool allowNextAction = false;
 
@@ -80,8 +77,6 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
-
             yield return new WaitForSeconds(0.5f);
             GameEvents.Common.onObservationCanvasShowText.Raise(
                 this,
@@ -115,14 +110,9 @@ namespace TwelveG.GameController
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+
             yield return new WaitForSeconds(1f);
 
-            GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(
-                this,
-                eventsControlCanvasInteractionTextSO_eating
-            );
-
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             // Unity Event (PizzaSliceHandler - instantiatePoliceCar)

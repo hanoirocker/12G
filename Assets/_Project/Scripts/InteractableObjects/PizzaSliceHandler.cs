@@ -1,10 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using TwelveG.GameController;
+using TwelveG.Localization;
+using TwelveG.UIController;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using TwelveG.Localization;
-    using UnityEngine;
-
     public class PizzaSliceHandler : MonoBehaviour
     {
         [Header("Audio settings")]
@@ -14,7 +16,9 @@ namespace TwelveG.InteractableObjects
         public GameEventSO instantiatePoliceCar;
         public GameEventSO finishedEatingPizza;
 
-        private AudioSource audioSource;
+        [Header("Text SO's")]
+        [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
+
         private Animation animationComponent;
 
         private void Awake()
@@ -28,30 +32,53 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator EatPizzaSlice()
         {
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            animationComponent.PlayQueued("Pizza Slice - Idle");
+            // Espera inicial (FadeIn + FadeOut de PizzaTimeEvent + 1 segundo extra)
+            yield return new WaitForSeconds(3f);
 
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            animationComponent.PlayQueued("Pizza Slice - First Bite");
-            yield return new WaitUntil(() => !animationComponent.isPlaying);
+            // Iniciamos Idle. Usamos Play para asegurar estado.
+            animationComponent.Play("Pizza Slice - Idle");
 
+            GameEvents.Common.onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
+
+            // --- PRIMER MORDISCO ---
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            animationComponent.PlayQueued("Pizza Slice - Second Bite");
-            yield return new WaitUntil(() => !animationComponent.isPlaying);
+            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+
+            // Ejecutamos la animación (Play y wait por duración es más seguro que isPlaying)
+            PlayAnimationAndWait("Pizza Slice - First Bite");
+            // Esperamos la duración del clip
+            yield return new WaitForSeconds(animationComponent["Pizza Slice - First Bite"].length);
+
+
+            GameEvents.Common.onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
+
+            // --- SEGUNDO MORDISCO ---
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
+            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
 
             // Avisa a PizzaTimeEvent que debe instanciar el auto de policia.
             instantiatePoliceCar.Raise(this, null);
 
+            animationComponent.Play("Pizza Slice - Second Bite");
+            yield return new WaitForSeconds(animationComponent["Pizza Slice - Second Bite"].length);
+
+            GameEvents.Common.onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
+
+            // --- TERCER MORDISCO ---
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            animationComponent.PlayQueued("Pizza Slice - Third Bite");
-            yield return new WaitUntil(() => !animationComponent.isPlaying);
+            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+
+            animationComponent.Play("Pizza Slice - Third Bite");
+            yield return new WaitForSeconds(animationComponent["Pizza Slice - Third Bite"].length);
 
             // Avisa a PizzaTimeEvent que terminó de comer.
             finishedEatingPizza.Raise(this, null);
-
-            yield return new WaitForSeconds(1f);
-
             Destroy(gameObject);
+        }
+
+        private void PlayAnimationAndWait(string clipName)
+        {
+            animationComponent.Play(clipName);
         }
     }
 }

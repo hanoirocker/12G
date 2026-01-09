@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se mudó la lógica de audio de DialogManager a AudioDialogsHandler en el AudioManager object. Ahora solo se usa una Dialog source cuando el dialogo es de Simon, mientras que se pide la audio source del WT cuando es un audio de Micaela o cualquier otro audio que se supone interceptado.
+- Se eliminó el texto del canvas controls para comer pizza y se reemplazó por uno de interacción.
 
 TOCHECK:
 
@@ -7,12 +7,11 @@ TOCHECK:
 - Agregar trueno al bajar por las escaleras en Unwired?
 
 TOFIX:
-
+- Separar audio de microondas. Logica en MicrowaveHandler.cs
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales. // Esto sucede cuando no existe extructura de audios de canales para el evento en particular //
 
 TODO - próximo:
 - Luego de terminar la primera conversación con Mica en Noises, se debe hacer hacer aparecer el panel de controles mostrando los inputs para cambiar de canal en el Walkie Talkie. De hecho, se podrian mostrar siempre que esté habilitado el Walkie Talkie. Idem para la linterna.
-- Tambien se debe abrir el panel de controles luego que choque el auto.
 - Actualmente el sistema de audio por perfiles de ambiente funciona en base a la escena. Por ende, si quisieramos detener la lluvia en algun momento, la lluvia estereo del los perfiles seguiria sonando. Analizar si es conveniente o no ampliar la estructura logica.
 - Finalizar Visions y comenzar con RedHour
 
