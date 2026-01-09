@@ -33,3 +33,6 @@ Modelos:
 * Trash Dropping in Dumpster - Sound Effect for editing by Sound Library at youtube.com
 * Long Horror Atmosphere by PearceWilsonKing at freesound.org
 * Dramatic Heartbeat Sound Effect by SOUNFFECTX on youtube.com
+* Rain plastic roof woodshed.wav by Metzik at freesound.org
+* room tone heating by PivanlaDbrouille at freesound.org
+* creaking wooden floors.wav by MichelleGrobler at freesound.org 

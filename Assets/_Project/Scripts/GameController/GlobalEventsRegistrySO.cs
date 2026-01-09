@@ -80,6 +80,7 @@ namespace TwelveG.GameController
 
         [Header("Environment & Player House")]
         public GameEventSO onPlayerEnteredHouseArea;
+        public GameEventSO onPlayerExitedHouseArea;
         public GameEventSO onStartWeatherEvent;
         public GameEventSO onSpawnVehicle;
 

@@ -23,7 +23,7 @@ namespace TwelveG.EnvironmentController
     {
       if (other.CompareTag("PlayerCapsule"))
       {
-        // Debug.Log($"Exited zone {houseArea}");
+        GameEvents.Common.onPlayerExitedHouseArea.Raise(this, houseArea);
       }
     }
   }

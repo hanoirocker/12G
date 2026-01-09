@@ -113,6 +113,8 @@ MonoBehaviour:
     type: 2}
   onPlayerEnteredHouseArea: {fileID: 11400000, guid: bc28b997ba9184f4bb8ddd6cd10394b0,
     type: 2}
+  onPlayerExitedHouseArea: {fileID: 11400000, guid: cdbaac4fa401741438fac5142c99da42,
+    type: 2}
   onStartWeatherEvent: {fileID: 11400000, guid: 4eb0d878e5164450b8321d44e0143ad4,
     type: 2}
   onSpawnVehicle: {fileID: 11400000, guid: 609dd1a2b8c188d4aa71fc295bc305a8, type: 2}

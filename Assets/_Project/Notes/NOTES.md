@@ -1,4 +1,6 @@
 NOVEDADES:
+- GRAN update: se implemento un sistema de perfiles de audio AmbienceProfileSO analizado en EnvironmentAudioHandler cada vez que se registra que el usuario entra en una House Area distinta.
+De esta forma, se ejecutan clips stereo para ambientar la escena.
 
 TOCHECK:
 

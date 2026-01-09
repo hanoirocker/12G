@@ -12,7 +12,8 @@ namespace TwelveG.AudioController
     Wind,
     Dialogs,
     Player,
-    VFX
+    VFX,
+    HouseStereoAmbient // Sonidos de ambiente stereo por zona de la casa
   }
 
   public enum AudioMixChannel
@@ -50,7 +51,7 @@ namespace TwelveG.AudioController
     [SerializeField] private List<AudioSource> DialogsSources;
     [SerializeField] private List<AudioSource> PlayerSources;
     [SerializeField] private List<AudioSource> VFXSources;
-
+    [SerializeField] private List<AudioSource> HouseStereoAmbientSources;
     [Space]
     [Header("Pause Settings")]
     [SerializeField]
@@ -61,7 +62,8 @@ namespace TwelveG.AudioController
     AudioPoolType.Environment,
     AudioPoolType.RainAndWind,
     AudioPoolType.Player,
-    AudioPoolType.VFX
+    AudioPoolType.VFX,
+    AudioPoolType.HouseStereoAmbient
     };
 
     [Space]
@@ -87,6 +89,7 @@ namespace TwelveG.AudioController
         { AudioPoolType.Environment, EnvironmentSources },
         { AudioPoolType.RainAndWind, RainAndWindSources },
         { AudioPoolType.Interaction, InteractionSources },
+        { AudioPoolType.HouseStereoAmbient, HouseStereoAmbientSources },
         { AudioPoolType.UI, UISources },
         { AudioPoolType.Dialogs, DialogsSources},
         { AudioPoolType.Player, PlayerSources},
@@ -155,11 +158,13 @@ namespace TwelveG.AudioController
           StopActivePoolSources(AudioPoolType.BGMusic);
           break;
         case AudioMixChannel.InGame:
+          StopActivePoolSources(AudioPoolType.RainAndWind);
           StopActivePoolSources(AudioPoolType.Environment);
           StopActivePoolSources(AudioPoolType.Interaction);
           StopActivePoolSources(AudioPoolType.Dialogs);
           StopActivePoolSources(AudioPoolType.Player);
           StopActivePoolSources(AudioPoolType.VFX);
+          StopActivePoolSources(AudioPoolType.HouseStereoAmbient);
           break;
         default:
           Debug.LogWarning($"[AudioPoolsHandler]: Canal de mezcla desconocido '{audioMixChannel}'");
