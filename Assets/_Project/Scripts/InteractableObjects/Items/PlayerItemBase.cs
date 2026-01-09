@@ -21,6 +21,8 @@ namespace TwelveG.InteractableObjects
         private protected bool itemIsShown = false;
         private protected bool isActiveOnGame = false;
 
+        private bool wasAlreadyActivated = false;
+
         protected virtual void Awake()
         {
             anim = GetComponent<Animation>();
@@ -46,12 +48,6 @@ namespace TwelveG.InteractableObjects
             };
 
             GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(interactionType, activate));
-
-            // Mostrar el Control Canvas por defecto al activar el item
-            if (activate)
-            {
-                GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(true));
-            }
         }
 
         public bool IsItemActiveInGame()

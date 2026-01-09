@@ -48,9 +48,12 @@ namespace TwelveG.UIController
 
         private void OnEnable()
         {
-            UpdateCanvasTextOnLanguageChanged(LocalizationManager.Instance.GetCurrentLanguageCode());
+            UpdateCanvasTextOnLanguageChanged();
         }
-
+        
+        // Escucha el evento onControlCanvasSetInteractionOptions llamado desde 
+        // PlayerItemBase y PlayerInventory para mostrar/ocultar las opciones
+        // específicas de cada objeto de interacción.
         public void SetInteractionSpecificOptions(Component sender, object data)
         {
             InteractionObjectConfig interactionType = (InteractionObjectConfig)data;
@@ -77,11 +80,11 @@ namespace TwelveG.UIController
 
         // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos
         // en relación a sus propios assets SO
-        public void UpdateCanvasTextOnLanguageChanged(string languageCode)
+        public void UpdateCanvasTextOnLanguageChanged()
         {
             foreach (UpdateTextHandler updateTextHandler in GetComponentsInChildren<UpdateTextHandler>())
             {
-                updateTextHandler.UpdateText(languageCode);
+                updateTextHandler.UpdateText(LocalizationManager.Instance.GetCurrentLanguageCode());
             }
         }
 
@@ -100,6 +103,13 @@ namespace TwelveG.UIController
                     Debug.LogWarning($"[ControlCanvasHandler] Received unknown command: {data}");
                     break;
             }
+        }
+
+        // Ejecutado cuando recibe onEnablePlayerItem (usado para mostrar el canvas al encontrar
+        // la linterna o el walkie talkie por primera vez)
+        public void ToggleControlCanvas(bool enable)
+        {
+            StartCoroutine(ToggleControlCanvasCoroutine(enable));
         }
 
         private IEnumerator ToggleControlCanvasCoroutine(bool enableCanvas)

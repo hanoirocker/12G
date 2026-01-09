@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TwelveG.EnvironmentController;
 using TwelveG.GameController;
 using TwelveG.InteractableObjects;
+using TwelveG.UIController;
 using TwelveG.VFXController;
 using UnityEngine;
 
@@ -170,10 +171,12 @@ namespace TwelveG.PlayerController
                         fullTrashBag.SetActive(false);
                         break;
                     case ItemType.Flashlight:
+                        GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(InteractionObjectType.Flashlight, false));
                         flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
                         flashlight.GetComponent<PlayerItemBase>().ActivateItem(false);
                         break;
                     case ItemType.WalkieTalkie:
+                        GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(InteractionObjectType.WalkieTalkie, false));
                         walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
                         walkieTalkie.GetComponent<PlayerItemBase>().ActivateItem(false);
                         VFXManager.Instance?.EnableElectricFeelVFX(false);
@@ -210,6 +213,9 @@ namespace TwelveG.PlayerController
             RemoveItem(itemType);
         }
 
+        // Recibe evento onEnablePlayerItem
+        // --- Control canvas escucha directamente el evento onEnablePlayerItem para actualizar
+        // sus opciones ---
         public void EnablePlayerItem(Component sender, object data)
         {
             ItemType itemType = (ItemType)data;

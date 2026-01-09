@@ -55,8 +55,6 @@ namespace TwelveG.GameController
         public GameEventSO playFlashlightVCAnimation; // UnwiredEvent
 
         [Header("Player & Controls")]
-        public GameEventSO onEnablePlayerItem;
-        public GameEventSO onRemovePlayerItem;
         public GameEventSO onPlayerDying;
         public GameEventSO onPlayerControls;
 
@@ -65,6 +63,8 @@ namespace TwelveG.GameController
         public GameEventSO onMainCameraSettings;
 
         [Header("Items & Inventory")]
+        public GameEventSO onEnablePlayerItem;
+        public GameEventSO onRemovePlayerItem;
         public GameEventSO onPizzaPickedUp;
         public GameEventSO onFlashlightPickedUp;
 
