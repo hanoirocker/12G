@@ -354,6 +354,7 @@ namespace TwelveG.InteractableObjects
         private IEnumerator IncomingDialogAlertCourutine()
         {
             GameEvents.Common.onShowIncomingCallPanel.Raise(this, true);
+            audioSource.loop = true;
             audioSource.clip = incomingDialogAlertClip;
             audioSource.volume = alertClipVolume;
             audioSource.Play();
@@ -361,7 +362,7 @@ namespace TwelveG.InteractableObjects
             yield return new WaitUntil(() => itemIsShown);
 
             GameEvents.Common.onShowIncomingCallPanel.Raise(this, false);
-            AllowItemToBeToggled(false);
+            audioSource.loop = true;
             audioSource.Stop();
             audioSource.clip = null;
         }
@@ -429,6 +430,7 @@ namespace TwelveG.InteractableObjects
                 {
                     // Revisamos si el canal actual tiene ruido o diálogo pendiente
                     WalkieTalkieChannel currentCh = walkieTalkieChannels[currentChannelIndex];
+
                     if (!currentCh.HasPendingDialog() && currentCh.channelClip != null)
                     {
                         audioSource.clip = currentCh.channelClip;

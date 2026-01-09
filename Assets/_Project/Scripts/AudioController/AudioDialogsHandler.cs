@@ -1,25 +1,82 @@
+using System.Collections;
+using TwelveG.InteractableObjects;
+using UnityEngine;
+
 namespace TwelveG.AudioController
 {
-  using UnityEngine;
   public class AudioDialogsHandler : MonoBehaviour
   {
-    public void PlayDialogClip(AudioSource audioSource, AudioClip dialogClip, float charPitch, float charVolume)
+    [Header("References")]
+    [SerializeField] private AudioClip WTBeepClip;
+    [Space(5)]
+    [Header("Audio Settings")]
+    [SerializeField, Range(0f, 1f)] private float WTBeepVolume = 0.55f;
+    [Space(5)]
+    [SerializeField, Range(0f, 3f)] float charactersPitch = 1f;
+    [SerializeField, Range(0f, 1f)] float simonClipsVolume = 0.55f;
+    [SerializeField, Range(0f, 1f)] float recievedClipsVolume = 0.3f;
+
+    [Space(10)]
+    [Header("Debug")]
+    public AudioSource currentSource;
+    public AudioClip currentClip;
+
+    private AudioSource WTSource;
+    private AudioSource simonSource;
+
+    private void Awake()
     {
-      if (dialogClip != null)
+      WTSource = FindAnyObjectByType<WalkieTalkie>().GetComponent<AudioSource>();
+
+      if (WTSource == null)
       {
-        audioSource.volume = charVolume;
-        audioSource.pitch = charPitch;
-        audioSource.PlayOneShot(dialogClip);
+        Debug.LogError("[AudioDialogsHandler] WalkieTalkie AudioSource not found!");
       }
     }
 
-    public void PlayBeepSound(AudioSource audioSource, AudioClip dialogClip, float beepVolume)
+    private void Start()
     {
-      if (dialogClip != null && audioSource != null)
+      simonSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Dialogs);
+
+      if (simonSource == null)
       {
-        audioSource.volume = beepVolume;
-        audioSource.pitch = 1f;
-        audioSource.PlayOneShot(dialogClip);
+        Debug.LogError("[AudioDialogsHandler] Couldn't find a free AudioSource for Simon!");
+      }
+    }
+
+    public IEnumerator PlayDialogClip(AudioClip dialogClip, bool isSimon)
+    {
+      currentSource = isSimon ? simonSource : WTSource;
+
+      if (dialogClip != null)
+      {
+        currentClip = dialogClip;
+
+        if (isSimon)
+        {
+          currentSource.volume = simonClipsVolume;
+        }
+        else
+        {
+          currentSource.volume = recievedClipsVolume;
+        }
+
+        currentSource.pitch = charactersPitch;
+        currentSource.clip = dialogClip;
+        currentSource.Play();
+        yield return new WaitForSeconds(dialogClip.length);
+      }
+    }
+
+    public IEnumerator PlayBeepSound()
+    {
+      if (WTBeepClip != null && WTSource != null)
+      {
+        WTSource.volume = WTBeepVolume;
+        WTSource.pitch = 1f;
+        WTSource.clip = WTBeepClip;
+        WTSource.Play();
+        yield return new WaitForSeconds(WTBeepClip.length);
       }
     }
   }

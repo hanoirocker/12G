@@ -26,13 +26,6 @@ namespace TwelveG.DialogsController
         [SerializeField] private TextMeshProUGUI dialogCanvasText;
         [SerializeField] private TextMeshProUGUI characterNameCanvasText;
 
-        [Header("Audio")]
-        [SerializeField] private AudioClip WTBeepClip;
-        [SerializeField, Range(0f, 1f)] private float WTBeepVolume = 0.7f;
-        [SerializeField, Range(0f, 3f)] float charactersPitch = 1f;
-
-        private AudioSource dialogSource;
-        private AudioSourceState audioSourceState;
         private DialogSO currentDialog;
         private List<DialogOptions> currentOptions;
 
@@ -83,12 +76,6 @@ namespace TwelveG.DialogsController
 
         private IEnumerator StartDialogCoroutine(DialogSO currentDialog)
         {
-            if(dialogSource == null)
-            {
-                dialogSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Dialogs);
-                audioSourceState = dialogSource.GetSnapshot();
-            }
-
             float timeBeforeShowing = currentDialog.timeBeforeShowing;
 
             currentOptions = currentDialog.dialogOptions;
@@ -110,20 +97,20 @@ namespace TwelveG.DialogsController
 
             if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
             {
-                AudioManager.Instance.AudioDialogsHandler.PlayBeepSound(dialogSource, WTBeepClip, WTBeepVolume);
+                yield return StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayBeepSound());
             }
 
             float dialogTime = currentDialog.spanishDialogClip != null ? currentDialog.spanishDialogClip.length : Utils.TextFunctions.CalculateTextDisplayDuration(textToShow);
 
             if (currentDialog.spanishDialogClip != null)
             {
-                if (currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
+                if (currentDialog.characterName == CharacterName.Simon)
                 {
-                    AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(dialogSource, currentDialog.spanishDialogClip, charactersPitch, 1f);
+                    StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip, isSimon: true));
                 }
                 else
                 {
-                    AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(dialogSource, currentDialog.spanishDialogClip, charactersPitch, 1f);
+                    StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip, isSimon: false));
                 }
             }
 
@@ -156,8 +143,7 @@ namespace TwelveG.DialogsController
 
             if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
             {
-                AudioManager.Instance.AudioDialogsHandler.PlayBeepSound(dialogSource, WTBeepClip, WTBeepVolume);
-                yield return new WaitForSeconds(WTBeepClip.length);
+                yield return StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayBeepSound());
             }
 
             if (currentDialog.endingEvent != null)
@@ -234,8 +220,6 @@ namespace TwelveG.DialogsController
                 // Debug.Log("conversationHasEnded Raised from DialogManager");
                 GameEvents.Common.onConversationHasEnded.Raise(this, null);
                 dialogCanvas.enabled = false;
-                AudioUtils.StopAndRestoreAudioSource(dialogSource, audioSourceState);
-                dialogSource = null;
             }
         }
 
