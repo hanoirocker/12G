@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TwelveG.GameController;
 using TwelveG.InteractableObjects;
@@ -29,31 +30,16 @@ namespace TwelveG.AudioController
     {
       SceneEnum sceneEnum = SceneUtils.RetrieveCurrentSceneEnum();
 
-      if(sceneEnum != SceneEnum.Evening || sceneEnum != SceneEnum.Night)
+      if (sceneEnum != SceneEnum.Evening || sceneEnum != SceneEnum.Night)
       {
         return;
-      }
-
-      WTSource = FindAnyObjectByType<WalkieTalkie>().GetComponent<AudioSource>();
-
-      if (WTSource == null)
-      {
-        Debug.LogError("[AudioDialogsHandler] WalkieTalkie AudioSource not found!");
-      }
-    }
-
-    private void Start()
-    {
-      simonSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Dialogs);
-
-      if (simonSource == null)
-      {
-        Debug.LogError("[AudioDialogsHandler] Couldn't find a free AudioSource for Simon!");
       }
     }
 
     public IEnumerator PlayDialogClip(AudioClip dialogClip, bool isSimon)
     {
+      GetAudioSources();
+
       currentSource = isSimon ? simonSource : WTSource;
 
       if (dialogClip != null)
@@ -70,9 +56,27 @@ namespace TwelveG.AudioController
         }
 
         currentSource.pitch = charactersPitch;
+        currentSource.loop = false;
         currentSource.clip = dialogClip;
         currentSource.Play();
         yield return new WaitForSeconds(dialogClip.length);
+      }
+    }
+
+    private void GetAudioSources()
+    {
+      WTSource = FindAnyObjectByType<WalkieTalkie>().GetComponent<AudioSource>();
+
+      if (WTSource == null)
+      {
+        Debug.LogError("[AudioDialogsHandler] WalkieTalkie AudioSource not found!");
+      }
+
+      simonSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Dialogs);
+
+      if (simonSource == null)
+      {
+        Debug.LogError("[AudioDialogsHandler] Couldn't find a free AudioSource for Simon!");
       }
     }
 

@@ -34,6 +34,7 @@ namespace TwelveG.PlayerController
         private PlayerInventory playerInventory;
 
         private bool playerIsExaminingObject = false;
+        private bool playerCanExamineObjects = true;
 
         private void Awake()
         {
@@ -115,6 +116,20 @@ namespace TwelveG.PlayerController
             }
         }
 
+        public void PlayerOnDialogMode(bool isInDialog)
+        {
+            if (isInDialog)
+            {
+                // Cancelar cualquier examen en curso si existe
+                mainCamera.GetComponentInChildren<ExaminableObject>()?.CancelExaminationMode();
+            }
+
+            // Alternar la posibilidad de que el jugador examine 
+            // o contemple objetos
+            playerCanExamineObjects = !isInDialog;
+            playerContemplation.enabled = !isInDialog;
+        }
+
         public void PlayerDyingMode()
         {
             // Cancelar cualquier examen en curso si existe
@@ -185,6 +200,11 @@ namespace TwelveG.PlayerController
         public bool PlayerIsExaminingObject()
         {
             return playerIsExaminingObject;
+        }
+
+        public bool PlayerCanExamineObjects()
+        {
+            return playerCanExamineObjects;
         }
     }
 }

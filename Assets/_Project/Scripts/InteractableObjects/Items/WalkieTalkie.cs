@@ -362,7 +362,7 @@ namespace TwelveG.InteractableObjects
             yield return new WaitUntil(() => itemIsShown);
 
             GameEvents.Common.onShowIncomingCallPanel.Raise(this, false);
-            audioSource.loop = true;
+            audioSource.loop = false;
             audioSource.Stop();
             audioSource.clip = null;
         }

@@ -90,7 +90,6 @@ namespace TwelveG.UIController
 
         public void ControlCanvasControls(Component sender, object data)
         {
-            Debug.Log("called by sender: " + sender);
             switch (data)
             {
                 case EnableCanvas cmd:

@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se re trabajo sobre Control Canvas, para activar/desactivar las opciones de cada interacción en el juego dependiendo del tipo de la misma. Llamado desde eventos o desde PlayerItemBase.
+- Se trabajó sobre la examinación y contemplación de objetos al comenzar y terminar un dialogo, usando el método PlayerOnDialogMode en el PlayerHandler.cs.
 
 TOCHECK:
 

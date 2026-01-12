@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TwelveG.GameController;
+using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.UIController;
 using UnityEngine;
@@ -23,10 +24,12 @@ namespace TwelveG.PlayerController
         private bool canvasIsShowing;
         private InteractionTextSO canvasText;
         private PlayerInventory playerInventory;
+        private PlayerHandler playerHandler;
 
         void Awake()
         {
             playerInventory = GetComponentInChildren<PlayerInventory>();
+            playerHandler = GetComponentInParent<PlayerHandler>();
         }
 
         private void Start()
@@ -43,7 +46,15 @@ namespace TwelveG.PlayerController
             {
                 HideUI();
                 bool objectHasInteractableComponent = hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj);
-                // Check if the object is interactable
+                bool objectIsExaminable = hitInfo.collider.gameObject.TryGetComponent(out ObjectExaminationHandler examinableObj);
+
+                // Si el objeto es examinable pero el jugador no puede examinar objetos, salir
+                if (objectIsExaminable && !playerHandler.PlayerCanExamineObjects())
+                {
+                    return;
+                }
+
+                // Checkear si el objeto es interactuable y se puede interactuar con él
                 if (objectHasInteractableComponent && interactObj.CanBeInteractedWith(this))
                 {
                     // Debug.Log($"{hitInfo.collider.gameObject.name}");
