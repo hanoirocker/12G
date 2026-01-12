@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se amplió la lógica del microwave handler para actualizar su texto y avisar al Pizza Time event cuando se llegue a mitad de la cocción de la pizza asi suena clip de estómago del jugador y se muestra contemplación.
+- Se agregó noise a la cámara PlayerVC. Dos perfiles, uno por defecto, y otro para cuando se ejecuta la rutina de Shaking Camera llamada por el LightningStormHandler al ejecutaerse un WeatherEvent.CloseThunder.
 
 TOCHECK:
 

@@ -22,6 +22,14 @@ namespace TwelveG.Utils
         [SerializeField] private CinemachineVirtualCamera focusVC;
 
         [Space(10)]
+        [Header("Camera Shake Profiles")]
+        [SerializeField] private NoiseSettings defaultShakeProfile;
+        [SerializeField] private NoiseSettings thunderShakeProfile;
+        [Space(5)]
+        [SerializeField, Range(0f, 5f)] private float defaultAmplitude = 1f;
+        [SerializeField, Range(0f, 5f)] private float defaultFrequency = 0.25f;
+
+        [Space(10)]
         [Header("EventsSO references")]
         public GameEventSO setCurrentCamera;
         public GameEventSO returnCurrentCamera;
@@ -43,6 +51,9 @@ namespace TwelveG.Utils
             }
 
             playerVC.m_Follow = playerCameraRoot.transform;
+            playerVC.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = defaultAmplitude;
+            playerVC.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = defaultFrequency;
+
             focusVC.m_Follow = playerCameraRoot.transform;
 
             SetCurrentActiveCamera();
@@ -160,15 +171,22 @@ namespace TwelveG.Utils
         {
             CinemachineVirtualCamera vCam = GetCurrentActiveCamera();
 
+            if (vCam != playerVC && vCam != focusVC)
+            {
+                yield break;
+            }
+
             if (vCam != null)
             {
                 CinemachineBasicMultiChannelPerlin noise = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
                 if (noise == null)
                 {
-                    Debug.LogWarning($"[VirtualCamerasHandler] La cámara {vCam.name} no tiene un componente CinemachineBasicMultiChannelPerlin. Se asignará el perfil de ruido por defecto.");
-                    yield break;
+                    Debug.LogWarning($"[VirtualCamerasHandler] Se agregó componente de ruido a {vCam.name}");
+                    noise = vCam.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
                 }
+
+                noise.m_NoiseProfile = thunderShakeProfile;
 
                 noise.m_AmplitudeGain = shakeAmplitude;
                 noise.m_FrequencyGain = shakeFrequency;
@@ -185,6 +203,14 @@ namespace TwelveG.Utils
 
                 noise.m_AmplitudeGain = 0f;
                 noise.m_FrequencyGain = 0f;
+
+                // Si la cámara sobre la que se aplicó el shake es la cámara del jugador, restauramos el perfil por defecto
+                if (vCam == playerVC)
+                {
+                    noise.m_NoiseProfile = defaultShakeProfile;
+                    noise.m_AmplitudeGain = defaultAmplitude;
+                    noise.m_FrequencyGain = defaultFrequency;
+                }
             }
         }
 
