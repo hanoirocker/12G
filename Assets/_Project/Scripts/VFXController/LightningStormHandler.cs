@@ -32,7 +32,7 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private Transform[] closeSkyPositions;
 
         [Header("Audio Settings - Thunder")]
-        [SerializeField, Range(0f, 200f)] private float soundMaxDistance = 200f;
+        [SerializeField, Range(0f, 500f)] private float soundMaxDistance = 300f;
         [SerializeField] private AudioClip thunderSoundClip;
         [SerializeField, Range(0f, 1f)] private float thunderVolume = 1f;
         [Space(5)]
