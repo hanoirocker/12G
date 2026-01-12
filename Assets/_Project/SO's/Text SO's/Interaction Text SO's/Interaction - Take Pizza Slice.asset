@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
-  m_Name: EventFallbacks - Pizza Time - mainDoors 2
+  m_Script: {fileID: 11500000, guid: 8daa743a17a204232a4e109d49181525, type: 3}
+  m_Name: Interaction - Take Pizza Slice
   m_EditorClassIdentifier: 
-  isEventText: 0
-  observationTextsStructure:
+  interactionTextsStructure:
   - language: 0
-    observationText: No creo que haya microondas ahi fuera ...
+    interactionText: TOMAR PORCION
   - language: 1
-    observationText: I don't think there are microwaves out there...
+    interactionText: TAKE PIZZA SLICE

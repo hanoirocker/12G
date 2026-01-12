@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
-  m_Name: EventFallbacks - Pizza Time - mainDoors 2
+  m_Script: {fileID: 11500000, guid: 16d9a8e54e1054f03bd40c7a55a3b0b2, type: 3}
+  m_Name: UI - Player Helper Data - Pizza Time.2
   m_EditorClassIdentifier: 
-  isEventText: 0
-  observationTextsStructure:
+  uImenuTextStructure:
   - language: 0
-    observationText: No creo que haya microondas ahi fuera ...
+    value: Calienta la porcion de pizza
   - language: 1
-    observationText: I don't think there are microwaves out there...
+    value: Heat the pizza slice

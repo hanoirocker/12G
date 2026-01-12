@@ -145,7 +145,7 @@ namespace TwelveG.AudioController
 
             foreach (var clip in clipsToRemove)
             {
-                Debug.Log($"Deteniendo sonido de ambiente: {clip.name} en área {houseArea}");
+                // Debug.Log($"Deteniendo sonido de ambiente: {clip.name} en área {houseArea}");
                 FadeOutAndReturn(clip);
             }
 
@@ -158,12 +158,12 @@ namespace TwelveG.AudioController
                 if (!activeAmbientSounds.ContainsKey(clip))
                 {
                     // Nuevo sonido -> Fade In
-                    Debug.Log($"Iniciando sonido de ambiente: {clip.name} en área {houseArea}");
+                    // Debug.Log($"Iniciando sonido de ambiente: {clip.name} en área {houseArea}");
                     FadeInAndPlay(clip, specificVolume);
                 }
                 else
                 {
-                    Debug.Log($"Actualizando volumen de de clip {clip.name}");
+                    // Debug.Log($"Actualizando volumen de de clip {clip.name}");
                     // Si el sonido ya está sonando:
                     CheckUpdateVolume(clip, specificVolume);
                 }

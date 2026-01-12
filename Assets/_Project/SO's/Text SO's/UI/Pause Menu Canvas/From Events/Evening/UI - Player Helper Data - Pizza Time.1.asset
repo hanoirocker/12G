@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16d9a8e54e1054f03bd40c7a55a3b0b2, type: 3}
-  m_Name: UI - Player Helper Data - Pizza Time
+  m_Name: UI - Player Helper Data - Pizza Time.1
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: "Hazle caso a tu est\xF3mago y si\xE9ntate a comer un buen pedazo de pizza
-      caliente"
+    value: "Hazle caso a tu est\xF3mago y busca algo de comer"
   - language: 1
-    value: Listen to your stomach and sit down to eat a nice hot pizza slice
+    value: Listen to your stomach and look for something to eat

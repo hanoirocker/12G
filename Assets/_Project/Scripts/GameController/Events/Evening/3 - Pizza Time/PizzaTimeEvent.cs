@@ -69,10 +69,11 @@ namespace TwelveG.GameController
                 this,
                 eventsObservationTextSO[1]
             );
-
+            
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
 
-            // Unity Event (MicrowaveHandler - pizzaHeatingFinished):
+            // Unity Event (MicrowaveHandler - PizzaHeatingFinished):
             // Se muestra el diálogo luego de calentar pizza
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
@@ -82,6 +83,9 @@ namespace TwelveG.GameController
                 this,
                 eventsObservationTextSO[2]
             );
+
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[2]);
+            GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[2]);
 
             // Unity Event (SitAndEat - sitAndEatPizza):
             // Al interactuar con SitAndEat (mesa de la cocina) se deshabilitan controles pples 

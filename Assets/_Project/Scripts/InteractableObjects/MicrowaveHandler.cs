@@ -14,15 +14,16 @@ namespace TwelveG.InteractableObjects
         [Header("Objects needed to interact")]
         [SerializeField] private List<ItemType> objectsNeededType = null;
 
-        [Header("Resulting Objects")]
-        [SerializeField] private ItemType resultingObjectType;
-        [SerializeField] private GameObject pizzaSlice = null;
-        [SerializeField] private Transform plateTransform = null;
+        [Header("Pickable to activate")]
+        [SerializeField] private GameObject pickableHeatedPizza = null;
 
         [Header("Audio settings")]
         [SerializeField] private AudioClip heatingSound = null;
+        [SerializeField, Range(0f, 1f)] private float heatingSoundVolume = 0.5f;
+        [SerializeField] private AudioClip finishedHeatingSound = null;
+        [SerializeField, Range(0f, 1f)] private float finishedHeatingSoundVolume = 0.5f;
         [SerializeField] private AudioClip managePlate = null;
-        [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.5f;
+        [SerializeField, Range(0f, 1f)] private float managePlateVolume = 0.5f;
 
         [Header("Other components settings")]
         [SerializeField] private RotativeDrawerHandler rotativeDrawerHandler;
@@ -33,14 +34,10 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private InteractionTextSO interactionTextsSO_close;
         [SerializeField] private InteractionTextSO interactionTextsSO_heatPizza;
 
-        [Header("Other eventsSO references")]
-        [SerializeField] private GameEventSO pizzaHeatingFinished;
-
         private List<String> playerItems = new List<String>();
         private AudioSource audioSource;
         private AudioSourceState audioSourceState;
         private Material doorMaterial;
-        private float heatingTime;
 
         void Start()
         {
@@ -105,41 +102,43 @@ namespace TwelveG.InteractableObjects
         {
             RemoveUsedItems(playerCamera);
 
-            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
-
-            audioSource.PlayOneShot(managePlate);
-            GameObject heatedPizza = Instantiate(pizzaSlice, plateTransform);
+            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, 1f);
+            audioSource.clip = managePlate;
+            audioSource.volume = managePlateVolume;
+            audioSource.Play();
             GetComponentInChildren<RotativeDrawerHandler>().Interact(playerCamera);
 
             yield return new WaitUntil(() => !rotativeDrawerHandler.DoorIsOpen());
 
             // Comentar siguiente bloque al testear evento
-            GetComponentInChildren<SphereCollider>().enabled = false;
-            doorMaterial.EnableKeyword("_EMISSION");
-            audioSource.PlayOneShot(heatingSound);
-            yield return new WaitUntil(() => !audioSource.isPlaying);
-            doorMaterial.DisableKeyword("_EMISSION");
+            if (heatingSound)
+            {
+                GetComponentInChildren<SphereCollider>().enabled = false;
+                audioSource.clip = heatingSound;
+                audioSource.volume = heatingSoundVolume;
+                audioSource.Play();
+                doorMaterial.EnableKeyword("_EMISSION");
+                yield return new WaitForSeconds(heatingSound.length * 0.5f);
+                doorMaterial.DisableKeyword("_EMISSION");
+            }
 
-            // TODO: Separacion de audio
+            if (finishedHeatingSound)
+            {
+                audioSource.clip = finishedHeatingSound;
+                audioSource.volume = finishedHeatingSoundVolume;
+                audioSource.Play();
+                yield return new WaitForSeconds(finishedHeatingSound.length);
+                GetComponentInChildren<SphereCollider>().enabled = true;
+            }
 
-            GetComponentInChildren<SphereCollider>().enabled = true;
+            pickableHeatedPizza.SetActive(true);
 
             yield return new WaitUntil(() => rotativeDrawerHandler.DoorIsOpen());
-            Destroy(heatedPizza);
-            AddHeatedPizzaToInventory(playerCamera);
-            audioSource.PlayOneShot(managePlate);
-            GetComponent<BoxCollider>().enabled = false;
 
-            // Avisa a PizzaTimeEvent para que despliegue texto.
-            pizzaHeatingFinished.Raise(this, null);
+            pickableHeatedPizza.GetComponent<Collider>().enabled = true;
+
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             audioSource = null;
-        }
-
-        private void AddHeatedPizzaToInventory(PlayerInteraction playerCamera)
-        {
-            print("Trying to add: " + resultingObjectType + " to player Inventory");
-            playerCamera.GetComponentInChildren<PlayerInventory>().AddItem(resultingObjectType);
         }
 
         public bool VerifyIfPlayerCanInteract(PlayerInteraction playerCamera)

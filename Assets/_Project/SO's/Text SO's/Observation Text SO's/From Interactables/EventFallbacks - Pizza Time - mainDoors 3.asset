@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
-  m_Name: EventFallbacks - Pizza Time - mainDoors 2
+  m_Name: EventFallbacks - Pizza Time - mainDoors 3
   m_EditorClassIdentifier: 
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: No creo que haya microondas ahi fuera ...
+    observationText: "Por alguna raz\xF3n prefiero pizza sentado en las comodidades
+      de mi cocina .."
   - language: 1
-    observationText: I don't think there are microwaves out there...
+    observationText: For some reason I prefer to eat pizza sitting in the comfort
+      of my kitchen.
