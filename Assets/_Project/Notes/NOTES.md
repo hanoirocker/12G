@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se trabajó sobre la examinación y contemplación de objetos al comenzar y terminar un dialogo, usando el método PlayerOnDialogMode en el PlayerHandler.cs.
+- Se amplió la lógica del microwave handler para actualizar su texto y avisar al Pizza Time event cuando se llegue a mitad de la cocción de la pizza asi suena clip de estómago del jugador y se muestra contemplación.
 
 TOCHECK:
 

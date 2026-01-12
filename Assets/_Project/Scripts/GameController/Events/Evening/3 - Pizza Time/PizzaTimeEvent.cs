@@ -69,7 +69,7 @@ namespace TwelveG.GameController
                 this,
                 eventsObservationTextSO[1]
             );
-            
+
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
 
@@ -163,6 +163,38 @@ namespace TwelveG.GameController
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
+        }
+
+        // Recibe desde el MicrowaveHandler "onSpecificHeatingTimeReached"
+        public void OnSpecificHeatingTimeReached(Component sender, object data)
+        {
+            PlayerHandler playerHandler = FindAnyObjectByType<PlayerHandler>();
+            PlayerSoundsHandler playerSoundsHandler = playerHandler.GetComponentInChildren<PlayerSoundsHandler>();
+
+            if (playerHandler == null) return;
+
+            HouseArea currentArea = playerHandler.GetCurrentHouseArea();
+
+            if (currentArea == HouseArea.Kitchen || currentArea == HouseArea.LivingRoom || currentArea == HouseArea.DownstairsHall)
+            {
+                // Ya casi peudo sentir el olor a queso caliente ...
+                GameEvents.Common.onObservationCanvasShowText.Raise(
+                    this,
+                    eventsObservationTextSO[4]
+                );
+            }
+            else
+            {
+                // No debería faltar mucho para que la pizza esté lista ...
+                GameEvents.Common.onObservationCanvasShowText.Raise(
+                    this,
+                    eventsObservationTextSO[5]
+                );
+            }
+
+            if (playerSoundsHandler == null) return;
+
+            playerSoundsHandler.PlayPlayerSounds(PlayerSoundsType.StomachGrowl, false, 0, 0);
         }
 
         public void AllowNextActions(Component sender, object data)

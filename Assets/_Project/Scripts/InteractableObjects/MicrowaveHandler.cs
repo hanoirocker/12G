@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using UnityEngine;
@@ -28,6 +30,10 @@ namespace TwelveG.InteractableObjects
         [Header("Other components settings")]
         [SerializeField] private RotativeDrawerHandler rotativeDrawerHandler;
         [SerializeField] private Renderer doorRenderer;
+        [SerializeField] private TextMeshProUGUI microwaveText;
+
+        [Header("Event SO's")]
+        [SerializeField] private GameEventSO onSpecificHeatingTimeReached;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
@@ -38,9 +44,13 @@ namespace TwelveG.InteractableObjects
         private AudioSource audioSource;
         private AudioSourceState audioSourceState;
         private Material doorMaterial;
+        private bool isHeating = false;
+        private string defaultMicrowaveText;
 
         void Start()
         {
+            defaultMicrowaveText = microwaveText.text;
+
             if (doorRenderer != null)
             {
                 doorMaterial = doorRenderer.material;
@@ -113,13 +123,16 @@ namespace TwelveG.InteractableObjects
             // Comentar siguiente bloque al testear evento
             if (heatingSound)
             {
+                isHeating = true;
+                StartCoroutine(UpdateMicrowaveTextRoutine());
                 GetComponentInChildren<SphereCollider>().enabled = false;
                 audioSource.clip = heatingSound;
                 audioSource.volume = heatingSoundVolume;
                 audioSource.Play();
                 doorMaterial.EnableKeyword("_EMISSION");
-                yield return new WaitForSeconds(heatingSound.length * 0.5f);
+                yield return new WaitForSeconds(heatingSound.length);
                 doorMaterial.DisableKeyword("_EMISSION");
+                isHeating = false;
             }
 
             if (finishedHeatingSound)
@@ -139,6 +152,37 @@ namespace TwelveG.InteractableObjects
 
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             audioSource = null;
+        }
+        
+        // TODO: quizas mover lógica de conversión númerica a un Utils para utilizarla si es necesario
+        // en otros scripts ..
+        private IEnumerator UpdateMicrowaveTextRoutine()
+        {
+            float timePassed = 0f;
+            float totalDuration = heatingSound.length; // Guardamos la referencia para limpieza
+            float targetTriggerTime = totalDuration / 2f;
+            bool eventFired = false;
+
+            while (isHeating)
+            {
+                float timeRemaining = Mathf.Max(0, totalDuration - timePassed);
+
+                int minutes = Mathf.FloorToInt(timeRemaining / 60f);
+                int seconds = Mathf.FloorToInt(timeRemaining % 60f);
+
+                microwaveText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+                if (!eventFired && timePassed >= targetTriggerTime)
+                {
+                    onSpecificHeatingTimeReached.Raise(this, null);
+                    eventFired = true;
+                }
+
+                yield return new WaitForSeconds(1f);
+                timePassed += 1f;
+            }
+
+            microwaveText.text = defaultMicrowaveText;
         }
 
         public bool VerifyIfPlayerCanInteract(PlayerInteraction playerCamera)

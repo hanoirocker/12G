@@ -1,14 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
+using TwelveG.PlayerController;
+using UnityEngine;
+
 namespace TwelveG.AudioController
 {
-  using System.Collections;
-  using System.Collections.Generic;
-    using TwelveG.PlayerController;
-    using UnityEngine;
-
     public enum PlayerSoundsType
     {
         HeartBeat,
-        Breathing
+        NormalBreathing,
+        HardBreathing,
+        RecoveringBreathing,
+        StomachGrowl
     }
 
     public class PlayerSoundsHandler : MonoBehaviour
@@ -21,7 +24,11 @@ namespace TwelveG.AudioController
 
         [Header("Other Clips")]
         [SerializeField] private AudioClip heartBeatClip;
+        [SerializeField, Range(0f, 1f)] private float heartBeatVolume = 0.2f;
         [SerializeField] private AudioClip breathingClip;
+        [SerializeField, Range(0f, 1f)] private float breathingVolume = 0.7f;
+        [SerializeField] private AudioClip stomachGrowlClip;
+        [SerializeField, Range(0f, 1f)] private float stomachGrowlVolume = 0.7f;
 
         [Header("Footsteps Settings")]
         [SerializeField] private float walkPitch;
@@ -123,22 +130,40 @@ namespace TwelveG.AudioController
             audioSource.PlayOneShot(clip);
         }
 
-        public void PlayPlayerSounds(PlayerSoundsType soundType, bool loop, float volume, float timeUntilFadeOut, float fadeOutTime)
+        public void PlayPlayerSounds(PlayerSoundsType soundType, bool loop, float timeUntilFadeOut, float fadeOutTime)
         {
             switch (soundType)
             {
                 case PlayerSoundsType.HeartBeat:
-                    StartCoroutine(PlayPlayerSoundCoroutine(heartBeatClip, loop, volume, timeUntilFadeOut, fadeOutTime));
+                    StartCoroutine(PlayFadedPlayerSoundCoroutine(heartBeatClip, loop, heartBeatVolume, timeUntilFadeOut, fadeOutTime));
                     break;
-                case PlayerSoundsType.Breathing:
-                    StartCoroutine(PlayPlayerSoundCoroutine(breathingClip, loop, volume, timeUntilFadeOut, fadeOutTime));
+                case PlayerSoundsType.NormalBreathing:
+                    StartCoroutine(PlayFadedPlayerSoundCoroutine(breathingClip, loop, breathingVolume, timeUntilFadeOut, fadeOutTime));
+                    break;
+                case PlayerSoundsType.StomachGrowl:
+                    StartCoroutine(PlaySimplePlayerSound(stomachGrowlClip, stomachGrowlVolume));
+                    break;
+                default:
                     break;
             }
         }
 
+        private IEnumerator PlaySimplePlayerSound(AudioClip audioClip, float volume)
+        {
+            AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
+            AudioSourceState sourceState = source.GetSnapshot();
+            source.clip = audioClip;
+            source.volume = volume;
+            source.Play();
+            Debug.Log($"Playing stomach sound");
+            yield return new WaitForSeconds(audioClip.length);
+            AudioUtils.StopAndRestoreAudioSource(source, sourceState);
+            yield return null;
+        }
+
         // TODO: actualmente invocado directamente desde UnwiredEvent.cs, evaluar si dejarlo así
         // o llamar desde VFX si se combina con algún efecto visual.
-        private IEnumerator PlayPlayerSoundCoroutine(AudioClip clip, bool loop, float volume, float timeUntilFadeOut, float fadeOutTime)
+        private IEnumerator PlayFadedPlayerSoundCoroutine(AudioClip clip, bool loop, float volume, float timeUntilFadeOut, float fadeOutTime)
         {
             AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
             AudioSourceState sourceState = source.GetSnapshot();

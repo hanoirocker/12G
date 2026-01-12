@@ -219,7 +219,7 @@ namespace TwelveG.GameController
                 {
                     if (eventsTransforms[i].gameObject.name == targetEventEnumName)
                     {
-                        Debug.Log($"[EventsHandler]: Seteando transform inicial de evento {targetEventEnumName}");
+                        // Debug.Log($"[EventsHandler]: Seteando transform inicial de evento {targetEventEnumName}");
                         startingTransform = eventsTransforms[i];
                         specificTransformFound = true;
                         break;

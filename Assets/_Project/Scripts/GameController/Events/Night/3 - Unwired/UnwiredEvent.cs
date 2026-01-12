@@ -95,7 +95,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(0.45f);
             if (playerSoundsHandler)
             {
-                playerSoundsHandler.PlayPlayerSounds(PlayerSoundsType.HeartBeat, false, 0.2f, 5f, 3f);
+                playerSoundsHandler.PlayPlayerSounds(PlayerSoundsType.HeartBeat, false, 5f, 3f);
             }
 
             // Espera lo que tardaría la puerta en cerrarse fuertemente y corta la luz de la casa
