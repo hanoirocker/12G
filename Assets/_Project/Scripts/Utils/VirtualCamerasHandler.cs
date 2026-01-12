@@ -1,3 +1,4 @@
+using System.Collections;
 using Cinemachine;
 using TwelveG.PlayerController;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace TwelveG.Utils
         [SerializeField] private CinemachineVirtualCamera flashlightVC;
         [SerializeField] private CinemachineVirtualCamera focusVC;
 
-
+        [Space(10)]
         [Header("EventsSO references")]
         public GameEventSO setCurrentCamera;
         public GameEventSO returnCurrentCamera;
@@ -152,6 +153,39 @@ namespace TwelveG.Utils
         private void ReturnVCInstance()
         {
             returnCurrentCamera.Raise(this, currentActiveCamera);
+        }
+
+        // Perfil de Noise actualmente asignado solo a PlayerVC y FocusVC
+        public IEnumerator CameraShakeRoutine(float shakeAmplitude, float shakeFrequency, float shakeDuration)
+        {
+            CinemachineVirtualCamera vCam = GetCurrentActiveCamera();
+
+            if (vCam != null)
+            {
+                CinemachineBasicMultiChannelPerlin noise = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+                if (noise == null)
+                {
+                    Debug.LogWarning($"[VirtualCamerasHandler] La cámara {vCam.name} no tiene un componente CinemachineBasicMultiChannelPerlin. Se asignará el perfil de ruido por defecto.");
+                    yield break;
+                }
+
+                noise.m_AmplitudeGain = shakeAmplitude;
+                noise.m_FrequencyGain = shakeFrequency;
+
+                float elapsedTime = 0f;
+                while (elapsedTime < shakeDuration)
+                {
+                    float dampingFactor = 1f - (elapsedTime / shakeDuration);
+                    noise.m_AmplitudeGain = Mathf.Lerp(0f, shakeAmplitude, dampingFactor);
+
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                noise.m_AmplitudeGain = 0f;
+                noise.m_FrequencyGain = 0f;
+            }
         }
 
         private CinemachineVirtualCamera GetVCByEnum(VirtualCameraTarget target)

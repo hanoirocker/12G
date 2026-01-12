@@ -125,8 +125,8 @@ namespace TwelveG.GameController
       GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
       GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.None);
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
-
-      // bla
+      GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
+      
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
     }

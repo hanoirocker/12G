@@ -12,7 +12,7 @@ namespace TwelveG.EnvironmentController
         [Tooltip("La luz direccional dedicada exclusivamente al rayo")]
         [SerializeField] private Light lightningLight;
         [SerializeField] private float maxIntensity = 2.0f;
-        [Tooltip("Curva para simular el parpadeo del rayo. Configurar como picos rápidos.")]
+        [Tooltip("Curva para simular el parpadeo del rayo.")]
         [SerializeField]
         private AnimationCurve flashProfile = new AnimationCurve(
             new Keyframe(0, 0),
@@ -31,18 +31,26 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private Transform[] skyPositions;
         [SerializeField] private Transform[] closeSkyPositions;
 
-        [Header("Audio Settings")]
+        [Header("Audio Settings - Thunder")]
         [SerializeField, Range(0f, 200f)] private float soundMaxDistance = 200f;
         [SerializeField] private AudioClip thunderSoundClip;
         [SerializeField, Range(0f, 1f)] private float thunderVolume = 1f;
-        [SerializeField] private float speedOfSoundDelay = 1.5f;
+        [Space(5)]
+        [SerializeField] private float speedOfSoundDelay = 1f;
+
+        [Header("Audio Settings - Ground Vibration")]
+        [SerializeField] private AudioClip groundVibrationClip;
+        [SerializeField, Range(0f, 1f)] private float vibrationVolume = 0.8f;
+        [SerializeField, Range(0f, 5f)] private float fallbackVibrationDuration = 5f;
+
+        [Header("Camera Shake Settings")]
+        [SerializeField, Range(0f, 5f)] private float shakeAmplitude = 1.5f;
+        [SerializeField, Range(0f, 10f)] private float shakeFrequency = 2.0f;
 
         private CinemachineVirtualCamera currentActiveCamera;
         private VirtualCamerasHandler virtualCamerasHandler;
-        private AudioSource thunderSource;
-        private AudioSourceState audioSourceState;
-        private Transform currentStrikeTransform;
-        private float currentDistanceFactor = 1f;
+
+        private bool isFlashingLight = false;
 
         private void Awake()
         {
@@ -61,53 +69,82 @@ namespace TwelveG.EnvironmentController
 
         public void StartCloseThunder()
         {
-            StopAllCoroutines();
-            SetUpThunder(true);
-            StartCoroutine(FlashRoutine(1f));
-            StartCoroutine(ThunderAudioRoutine(0.25f));
+            (Transform strikePos, float distFactor) = GetThunderData(isClose: true);
+
+            StartCoroutine(FlashRoutine(distFactor));
+            StartCoroutine(ThunderAudioRoutine(distFactor, strikePos, isCloseThunder: true));
+            StartCoroutine(GroundVibrationsRouteine());
+        }
+
+        private IEnumerator GroundVibrationsRouteine()
+        {
+            yield return new WaitForSeconds(0.25f);
+
+            if (groundVibrationClip != null)
+            {
+                // Variables locales: Seguras para ejecución simultánea
+                AudioSource vibSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.HouseStereoAmbient);
+                AudioSourceState vibState = vibSource.GetSnapshot();
+
+                vibSource.clip = groundVibrationClip;
+                vibSource.volume = vibrationVolume;
+                vibSource.Play();
+                yield return new WaitForSeconds(groundVibrationClip.length);
+
+                AudioUtils.StopAndRestoreAudioSource(vibSource, vibState);
+            }
+
+            float vibrationDuration = thunderSoundClip != null ? thunderSoundClip.length * 1.1f : fallbackVibrationDuration;
+
+            StartCoroutine(virtualCamerasHandler.CameraShakeRoutine(shakeAmplitude, shakeFrequency, vibrationDuration));
         }
 
         private IEnumerator ThunderRoutine()
         {
             while (true)
             {
-                // 1. Determinar valores de estado inicial
-                SetUpThunder();
+                (Transform strikePos, float distFactor) = GetThunderData(isClose: false);
 
-                // 2. Esperar tiempo aleatorio para el próximo rayo
                 float waitTime = Random.Range(minInterval, maxInterval);
                 yield return new WaitForSeconds(waitTime);
 
-                // 3. Ejecutar el Flash Visual (Luz)
-                yield return StartCoroutine(FlashRoutine(currentDistanceFactor));
-
-                // 4. Ejecutar el Sonido (con delay basado en distancia)
-                yield return StartCoroutine(ThunderAudioRoutine(currentDistanceFactor));
+                StartCoroutine(FlashRoutine(distFactor));
+                StartCoroutine(ThunderAudioRoutine(distFactor, strikePos));
             }
         }
 
-        private void SetUpThunder(bool isClose = false)
+        private (Transform, float) GetThunderData(bool isClose)
         {
-            // Determinar qué tan "lejos" cayó (simulado)
-            // 0 = muy cerca (trueno inmediato), 1 = lejos (trueno con delay)
-            if(isClose)
+            Transform targetTransform;
+
+            if (isClose)
             {
-                currentStrikeTransform = closeSkyPositions[Random.Range(0, closeSkyPositions.Length)];
+                targetTransform = closeSkyPositions[Random.Range(0, closeSkyPositions.Length)];
             }
             else
             {
-                currentStrikeTransform = skyPositions[Random.Range(0, skyPositions.Length)];
+                targetTransform = skyPositions[Random.Range(0, skyPositions.Length)];
             }
 
             currentActiveCamera = virtualCamerasHandler?.GetCurrentActiveCamera();
-            float distanceToPlayer = Vector3.Distance(currentStrikeTransform.position, currentActiveCamera.transform.position);
-            // Debug.Log("Distance to player: " + distanceToPlayer);
-            currentDistanceFactor = Mathf.Clamp01(soundMaxDistance / distanceToPlayer);
-            // Debug.Log("Distance factor: " + currentDistanceFactor);
+            float distanceFactor = 1f;
+
+            if (currentActiveCamera != null)
+            {
+                float distanceToPlayer = Vector3.Distance(targetTransform.position, currentActiveCamera.transform.position);
+                distanceFactor = Mathf.Clamp01(soundMaxDistance / distanceToPlayer);
+            }
+            else
+            {
+                distanceFactor = 0.5f;
+            }
+
+            return (targetTransform, distanceFactor);
         }
 
-        private IEnumerator FlashRoutine(float currentDistanceFactor)
+        private IEnumerator FlashRoutine(float distanceIncidenceFactor)
         {
+            isFlashingLight = true;
             float timer = 0f;
 
             while (timer < flashDuration)
@@ -115,48 +152,53 @@ namespace TwelveG.EnvironmentController
                 timer += Time.deltaTime;
                 float progress = timer / flashDuration;
 
-                // Evaluamos la curva para obtener esa "vibración" de luz
                 float curveVal = flashProfile.Evaluate(progress);
 
-                // Aplicamos intensidad
                 if (lightningLight != null)
                 {
-                    lightningLight.intensity = curveVal * maxIntensity * currentDistanceFactor;
+                    lightningLight.intensity = curveVal * maxIntensity * distanceIncidenceFactor;
                 }
 
                 yield return null;
             }
 
-            // Asegurar apagado
             if (lightningLight != null) lightningLight.intensity = 0f;
+            isFlashingLight = false;
         }
 
-        private IEnumerator ThunderAudioRoutine(float currentDistanceFactor)
+        private IEnumerator ThunderAudioRoutine(float currentDistanceFactor, Transform soundOrigin, bool isCloseThunder = false)
         {
-            thunderSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Environment);
-            audioSourceState = thunderSource.GetSnapshot();
+            AudioSource localSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Environment);
 
-            // Calculamos el delay: Si está cerca, delay casi 0. Si está lejos, delay alto.
-            float delay = currentDistanceFactor * speedOfSoundDelay; // Ej: 1.0 * 3 segundos = 3s delay
+            if (localSource == null) yield break;
+
+            AudioSourceState localState = localSource.GetSnapshot();
+
+            float delay = isCloseThunder ? 0f : currentDistanceFactor * speedOfSoundDelay;
 
             yield return new WaitForSeconds(delay);
 
-            if (thunderSoundClip != null && thunderSource != null)
+            if (thunderSoundClip != null)
             {
-                // Tip de realismo: Si está lejos, suena más despacio y grave (low pass filter sería ideal, pero volumen sirve)
-                thunderSource.clip = thunderSoundClip;
-                thunderSource.loop = false;
-                thunderSource.volume = thunderVolume;
-                thunderSource.transform.position = currentStrikeTransform.position;
-                thunderSource.maxDistance = soundMaxDistance;
-                thunderSource.pitch = Random.Range(0.9f, 1.15f);
-                thunderSource.Play();
+                localSource.clip = thunderSoundClip;
+                localSource.loop = false;
+                localSource.volume = thunderVolume;
 
-                float duration = AudioUtils.CalculateDurationWithPitch(thunderSource.clip, thunderSource.pitch);
+                if (soundOrigin != null)
+                    localSource.transform.position = soundOrigin.position;
+
+                localSource.maxDistance = soundMaxDistance;
+                localSource.pitch = Random.Range(0.9f, 1.15f);
+                localSource.Play();
+
+                float duration = AudioUtils.CalculateDurationWithPitch(localSource.clip, localSource.pitch);
                 yield return new WaitForSeconds(duration);
 
-                AudioUtils.StopAndRestoreAudioSource(thunderSource, audioSourceState);
-                thunderSource = null;
+                AudioUtils.StopAndRestoreAudioSource(localSource, localState);
+            }
+            else
+            {
+                AudioUtils.StopAndRestoreAudioSource(localSource, localState);
             }
         }
     }

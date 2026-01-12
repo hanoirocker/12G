@@ -1,9 +1,9 @@
+using Cinemachine;
+using UnityEngine;
+using TwelveG.PlayerController;
+
 namespace TwelveG.Utils
 {
-    using Cinemachine;
-    using UnityEngine;
-    using TwelveG.PlayerController;
-
     public class MainCameraHandler : MonoBehaviour
     {
         [Header("References")]

@@ -19,7 +19,7 @@ namespace TwelveG.PlayerController
     {
       if (canBeChecked)
       {
-        Debug.Log("Zone spotted!");
+        // Debug.Log("Zone spotted!");
         if (disableAfterSpotted) canBeChecked = false;
 
         eventToTrigger.Raise(this, null);
