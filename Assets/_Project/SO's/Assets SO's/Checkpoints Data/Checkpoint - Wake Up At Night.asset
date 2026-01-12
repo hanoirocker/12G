@@ -10,21 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd898e50876474ecfbe1e282dac01260, type: 3}
-  m_Name: Checkpoint - Unwired
+  m_Name: Checkpoint - Wake Up At Night
   m_EditorClassIdentifier: 
-  eventEnum: 17
-  chapterName: Unwired
+  eventEnum: 15
+  chapterName: Wake Up At Night
   chapterThumbnail: {fileID: 0}
   startingInventory: 
   flashlightEnabled: 0
-  walkieTalkieEnabled: 1
+  walkieTalkieEnabled: 0
   playerCanSprint: 0
   houseHasEnergy: 1
   initialWeather: 5
-  objectsToToggle:
-  - objectID: Pickable - Walkie Talkie
-    isActive: 0
+  objectsToToggle: []
   environmentObjectsToToggle: []
-  objectsWithCheckpointListener:
-  - objectID: Players Door Lock
-    state: UNLOCKED
+  objectsWithCheckpointListener: []

@@ -1,4 +1,5 @@
 using System.Collections;
+using TwelveG.GameController;
 using UnityEngine;
 
 namespace TwelveG.UIController
@@ -24,8 +25,15 @@ namespace TwelveG.UIController
       savingCanvas.enabled = false;
     }
 
-    public void SavingCoroutine()
+    // Recibe "onCheckpointEventReached" desde EventsHandler.cs
+    public void SavingCoroutine(Component sender, object data)
     {
+      EventsEnum currentEvent = (EventsEnum)data;
+
+      // Si bien se guarda el juego al despertar tanto a la tare
+      // como a la noche, no mostramos la animación de guardado
+      if (currentEvent == EventsEnum.WakeUp || currentEvent == EventsEnum.WakeUpAtNight) return;
+
       StartCoroutine(SavingSequence());
     }
 
@@ -38,13 +46,13 @@ namespace TwelveG.UIController
       float elapsed = 0f;
       float cycleTime = routineDuration / cycles;
 
-      while(elapsed < routineDuration)
+      while (elapsed < routineDuration)
       {
         elapsed += Time.deltaTime;
         canvasGroup.alpha = Mathf.PingPong(elapsed, cycleTime) / cycleTime;
         yield return null;
       }
-  
+
       savingCanvas.enabled = false;
     }
   }

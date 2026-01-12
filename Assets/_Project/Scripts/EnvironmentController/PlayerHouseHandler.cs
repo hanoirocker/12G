@@ -32,6 +32,8 @@ namespace TwelveG.EnvironmentController
         [Header("Prefab References")]
         [Tooltip("Prefabs that will be enabled/disabled based on checkpoint data")]
         [SerializeField] private GameObject[] checkpointPrefabs;
+        [Space(5)]
+        [SerializeField] private DownstairsOfficeDoorHandler[] lockeableDoorsInHouse;
 
         [Header("Light References")]
         [SerializeField] private Light[] HouseLights;
@@ -137,6 +139,14 @@ namespace TwelveG.EnvironmentController
             foreach (Collider col in electricInteractableColliders)
             {
                 col.enabled = (bool)data;
+            }
+        }
+
+        public void UnlockAllLockedDoors()
+        {
+            foreach(ICheckpointListener door in lockeableDoorsInHouse)
+            {
+                door.OnCheckpointReached("UNLOCKED");
             }
         }
 

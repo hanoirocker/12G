@@ -158,6 +158,10 @@ namespace TwelveG.GameController
 
         private void ExecuteFreeRoam()
         {
+            PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
+
+            if(playerHouseHandler)
+                playerHouseHandler.UnlockAllLockedDoors();
             if (enableFlashlight)
                 GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.Flashlight);
             if (enableWalkieTalkie)

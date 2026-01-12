@@ -261,6 +261,10 @@ namespace TwelveG.InteractableObjects
             {
                 doorIsLocked = false;
             }
+            else if (state == "LOCKED")
+            {
+                doorIsLocked = true;
+            }
         }
     }
 }
