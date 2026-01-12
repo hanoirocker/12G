@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TwelveG.GameController;
 using TwelveG.InteractableObjects;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TwelveG.AudioController
@@ -26,20 +27,13 @@ namespace TwelveG.AudioController
     private AudioSource WTSource;
     private AudioSource simonSource;
 
-    private void Awake()
+    private void Start()
     {
-      SceneEnum sceneEnum = SceneUtils.RetrieveCurrentSceneEnum();
-
-      if (sceneEnum != SceneEnum.Evening || sceneEnum != SceneEnum.Night)
-      {
-        return;
-      }
+      GetAudioSources();
     }
 
     public IEnumerator PlayDialogClip(AudioClip dialogClip, bool isSimon)
     {
-      GetAudioSources();
-
       currentSource = isSimon ? simonSource : WTSource;
 
       if (dialogClip != null)
@@ -65,6 +59,13 @@ namespace TwelveG.AudioController
 
     private void GetAudioSources()
     {
+      SceneEnum sceneEnum = SceneUtils.RetrieveCurrentSceneEnum();
+
+      if (sceneEnum != SceneEnum.Evening && sceneEnum != SceneEnum.Night)
+      {
+        return;
+      }
+
       WTSource = FindAnyObjectByType<WalkieTalkie>().GetComponent<AudioSource>();
 
       if (WTSource == null)
