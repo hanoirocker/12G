@@ -22,14 +22,7 @@ namespace TwelveG.PlayerController
 
     private void Update()
     {
-      if (cameraZoom.playerIsZooming())
-      {
-        Spot();
-      }
-      else
-      {
-        return;
-      }
+      Spot();
     }
 
     private void Spot()
@@ -41,7 +34,7 @@ namespace TwelveG.PlayerController
         bool hasSpotComponent = hitInfo.collider.gameObject.TryGetComponent(out ISpot spotteableObject);
         if (hasSpotComponent && spotteableObject.CanBeSpotted())
         {
-          spotteableObject.SpotOnObject();
+          spotteableObject.SpotOnObject(cameraZoom.playerIsZooming());
 
           // Si estoy contemplando un objeto distinto al anterior
           if (lastSpottedObject != null && lastSpottedObject != spotteableObject)

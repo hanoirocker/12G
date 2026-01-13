@@ -7,35 +7,34 @@ namespace TwelveG.PlayerController
     [Header("Settings")]
     [Space]
     public bool disableAfterSpotted = false;
-    public bool destroyAfterSpotted = false;
+    public bool needsToBeZoomed = true;
 
     [Header("References")]
     [Space]
     [SerializeField] private GameEventSO eventToTrigger;
 
-    private bool canBeChecked = true;
+    private bool canBeSpotted = true;
 
-    public void SpotOnObject()
+    public void SpotOnObject(bool playerIsZooming)
     {
-      if (canBeChecked)
+      if (!needsToBeZoomed || (needsToBeZoomed && playerIsZooming))
       {
-        // Debug.Log("Zone spotted!");
-        if (disableAfterSpotted) canBeChecked = false;
+        Debug.Log("Zone spotted!");
+
+        if (disableAfterSpotted) canBeSpotted = false;
 
         eventToTrigger.Raise(this, null);
-
-        if (destroyAfterSpotted) this.gameObject.SetActive(false);
       }
     }
 
     public bool CanBeSpotted()
     {
-      return canBeChecked;
+      return canBeSpotted;
     }
 
     public void IsAbleToBeSpotted(bool isAble)
     {
-      canBeChecked = isAble;
+      canBeSpotted = isAble;
     }
   }
 }

@@ -27,10 +27,10 @@ namespace TwelveG.PlayerController
                     GameEvents.Common.onPauseGame.Raise(this, false);
                 }
             }
-            // else if(Input.GetKeyDown(KeyCode.U))
-            // {
-            //     GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
-            // }
+            else if(Input.GetKeyDown(KeyCode.U))
+            {
+                GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
+            }
             // else if(Input.GetKeyDown(KeyCode.I))
             // {
             //     GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(false));

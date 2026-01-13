@@ -2,7 +2,7 @@ namespace TwelveG.PlayerController
 {
   interface ISpot
   {
-    public void SpotOnObject();
+    public void SpotOnObject(bool playerIsZooming);
 
     public bool CanBeSpotted();
 
