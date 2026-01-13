@@ -27,6 +27,12 @@ namespace TwelveG.EnvironmentController
         None
     }
 
+    public enum HouseObjects
+    {
+        EntranceMainDoor,
+        GarageNoise,
+    }
+
     public class PlayerHouseHandler : MonoBehaviour
     {
         [Header("Prefab References")]
@@ -34,6 +40,9 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private GameObject[] checkpointPrefabs;
         [Space(5)]
         [SerializeField] private DownstairsOfficeDoorHandler[] lockeableDoorsInHouse;
+        [Space(5)]
+        [SerializeField] private Transform entranceMainDoorTransform;
+        [SerializeField] private Transform garageNoiseTransform;
 
         [Header("Light References")]
         [SerializeField] private Light[] HouseLights;
@@ -43,7 +52,7 @@ namespace TwelveG.EnvironmentController
         [Space(5)]
         [SerializeField] private Collider[] electricInteractableColliders;
 
-        [Space]
+        [Space(10)]
         [Header("Audio References")]
         [SerializeField] private GameObject acousticZonesParent;
 
@@ -122,7 +131,7 @@ namespace TwelveG.EnvironmentController
                 lightSwitch.itWorks = (bool)data;
             }
 
-            if((bool)data == false)
+            if ((bool)data == false)
             {
                 // Apagar todas las luces de la casa
                 foreach (Light light in HouseLights)
@@ -142,9 +151,23 @@ namespace TwelveG.EnvironmentController
             }
         }
 
+        public Transform GetTransformByObject(HouseObjects houseObject)
+        {
+            switch (houseObject)
+            {
+                case HouseObjects.EntranceMainDoor:
+                    return entranceMainDoorTransform;
+                case HouseObjects.GarageNoise:
+                    return garageNoiseTransform;
+                default:
+                    Debug.LogWarning("Objeto de casa inválido.");
+                    return null;
+            }
+        }
+
         public void UnlockAllLockedDoors()
         {
-            foreach(ICheckpointListener door in lockeableDoorsInHouse)
+            foreach (ICheckpointListener door in lockeableDoorsInHouse)
             {
                 door.OnCheckpointReached("UNLOCKED");
             }

@@ -9,7 +9,6 @@ using TwelveG.VFXController;
 using System;
 using TwelveG.PlayerController;
 using TwelveG.EnvironmentController;
-using Unity.VisualScripting;
 
 namespace TwelveG.GameController
 {

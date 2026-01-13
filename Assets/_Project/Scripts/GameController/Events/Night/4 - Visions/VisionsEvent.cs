@@ -16,46 +16,60 @@ namespace TwelveG.GameController
   public class VisionsEvent : GameEventBase
   {
     [Header("Event options")]
+    [SerializeField] private GameEventListener enemySpottedListener;
+
+    [Space(10)]
+    [Header("Event options")]
     [SerializeField, Range(1, 10)] private int initialTime = 0;
 
-    [Space]
+    [Space(10)]
     [Header("Text event SO")]
     [SerializeField] private UIOptionsTextSO[] playerHelperDataTextSO;
     [Space(5)]
     [SerializeField] private ObservationTextSO[] observationTextSOs;
     [Space(5)]
     [SerializeField] private DialogSO[] dialogSOs;
+    [SerializeField] private DialogSO dialogFromDownstairsSO;
 
-    [Space]
+    [Space(10)]
     [Header("Audio Options")]
     [SerializeField] private AudioClip track2Clip;
     [SerializeField, Range(0f, 1f)] private float track2Volume = 0.15f;
     [SerializeField] private AudioClip playerSurprisedClip;
     [SerializeField, Range(0f, 1f)] private float playerSurprisedClipVolume = 0.7f;
+    [SerializeField] private AudioClip[] forcingDoorClips;
+    [SerializeField, Range(0f, 1f)] private float forcingDoorClipsVolume = 0.5f;
 
-    [Space]
+    [Space(10)]
     [Header("Video Settings")]
     [SerializeField] private VideoClip subliminalJSClip1;
     [SerializeField, Range(0f, 1f)] private float jumpScareVolume = 1f;
 
     private PlayerHandler playerHandler;
+    private PlayerHouseHandler playerHouseHandler;
     private CameraZoom cameraZoom;
     private Transform enemyTransform;
+    private EnvironmentHandler environmentHandler;
 
     private bool playerSpottedFromDownstairsAlready = false;
     private bool playerSpottedFromUpstairs = false;
     private bool allowNextAction = false;
+    private HouseArea currentHouseArea;
 
     public override IEnumerator Execute()
     {
       AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
       AudioSource playerSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
       AudioSourceState playerSourceState = playerSource.GetSnapshot();
-      PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
+      environmentHandler = FindObjectOfType<EnvironmentHandler>();
+      playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
       playerHandler = FindObjectOfType<PlayerHandler>();
       cameraZoom = playerHandler.GetComponentInChildren<CameraZoom>();
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.ConstantThunders);
       GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
+
+      // Desactiva el listener para que no interfiera con el evento
+      enemySpottedListener.enabled = false;
 
       yield return new WaitForSeconds(initialTime);
 
@@ -69,6 +83,9 @@ namespace TwelveG.GameController
       GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
 
       // Activar "Visions - Colliders"
+      // Nota: Estos colliders son dos y cada uno dispara un evento distinto para activar, o desactivar,
+      // los 2 objetos con ZoneSpotterHandler de Mica Entrance house. Luego, según el spot area
+      // activo al observar, se dispara un evento para distinguir si se observó desde arriba o desde abajo.
       playerHouseHandler.ToggleCheckpointPrefabs(new ObjectData("Visions - Colliders", true));
 
       // Comienza música ""
@@ -91,7 +108,7 @@ namespace TwelveG.GameController
       yield return new WaitUntil(() => allowNextAction && playerSpottedFromUpstairs);
       ResetAllowNextActions();
 
-      SpawnEnemy();
+      SpawnEnemy(environmentHandler);
 
       yield return new WaitUntil(() => !cameraZoom.playerIsZooming());
       ResetAllowNextActions();
@@ -120,36 +137,75 @@ namespace TwelveG.GameController
       // "onVideoCanvasFinished"
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
+      playerHouseHandler.ToggleCheckpointPrefabs(new ObjectData("Visions - Colliders", false));
       AudioUtils.StopAndRestoreAudioSource(playerSource, playerSourceState);
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(null));
       GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
-      GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.None);
+      environmentHandler.ShowEnemy(EnemyPositions.None);
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
-      
+
+      // Self Dialog de simón después de la visión
+      yield return new WaitForSeconds(0.25f);
+      GameEvents.Common.onStartDialog.Raise(this, dialogSOs[1]);
+      // "conversationHasEnded"
+      yield return new WaitUntil(() => allowNextAction);
+      ResetAllowNextActions();
+
+      yield return new WaitForSeconds(2f);
+      // Simon llama a Micaela despues de la vision (interferenciaaaaaaa)
+      GameEvents.Common.onStartDialog.Raise(this, dialogSOs[2]);
+
+      yield return new WaitForSeconds(6f);
+      StartCoroutine(PlayDoorForcingSoundRoutine());
+
+      // "conversationHasEnded"
+      yield return new WaitUntil(() => allowNextAction);
+      ResetAllowNextActions();
+
+      // Espera a que Simon no esté en las áreas de pasillo de abajo ni entrada
+      // para hacer aparecer al enemigo
+      yield return new WaitUntil(
+        () => playerHandler.GetCurrentHouseArea() != HouseArea.DownstairsHall
+        && playerHandler.GetCurrentHouseArea() != HouseArea.LivingRoom
+        && playerHandler.GetCurrentHouseArea() != HouseArea.None
+      );
+
+      enemySpottedListener.enabled = true; // Vuelve a activar el listener para que detecte al jugador
+      environmentHandler.ShowEnemy(EnemyPositions.DownstairsHallWindow);
+      GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.DownstairsHallWindow);
+
+      // "OnEnemySpotted" (el ZoneSpotterHandler del enemigo no precisa needsToBeZoomed)
+      yield return new WaitUntil(() => allowNextAction);
+      ResetAllowNextActions();
+      GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
+      // Se ejecuta animación del enemigo caminando hacia la entrada principal y desactiva al terminar
+      environmentHandler.StartCoroutine(
+        environmentHandler.PlayEnemyAnimation("Enemy - From DHall to Entrance", true)
+      );
+
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
     }
 
     // Hace aparecer el enemigo dependiendo del lugar donde esté el jugador
-    private void SpawnEnemy()
+    private void SpawnEnemy(EnvironmentHandler environmentHandler)
     {
-      HouseArea currentHouseArea = playerHandler.GetCurrentHouseArea();
+      currentHouseArea = playerHandler.GetCurrentHouseArea();
 
       switch (currentHouseArea)
       {
         case HouseArea.PlayerBedroom:
-          GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.MiddleOfTheStreet);
+          environmentHandler.ShowEnemy(EnemyPositions.LivingRoomRightWindow);
           break;
         case HouseArea.GuestsBedroom:
-          GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.PlayerHouseCorner);
+          environmentHandler.ShowEnemy(EnemyPositions.PlayerHouseCorner);
           break;
         default:
-          Debug.LogWarning("Player is not in a valid house area to spawn the enemy.");
+          Debug.LogWarning("El jugador no está en una habitación válida para que aparezca el enemigo.");
           break;
       }
 
-      EnvironmentHandler environmentHandler = FindObjectOfType<EnvironmentHandler>();
       enemyTransform = environmentHandler.GetCurrentEnemyTransform();
     }
 
@@ -174,6 +230,40 @@ namespace TwelveG.GameController
       StartCoroutine(PlayerSpottedFromDownstairsCoroutine());
     }
 
+    private IEnumerator PlayDoorForcingSoundRoutine()
+    {
+      Transform entranceTransform = playerHouseHandler.GetTransformByObject(HouseObjects.EntranceMainDoor);
+      // Espera a que el jugador salga de las áreas de entrada, garage y pasillo de abajo
+      yield return new WaitUntil(() =>
+        playerHandler.GetCurrentHouseArea() != HouseArea.Entrance &&
+        playerHandler.GetCurrentHouseArea() != HouseArea.Garage &&
+        playerHandler.GetCurrentHouseArea() != HouseArea.DownstairsHall
+        && playerHandler.GetCurrentHouseArea() != HouseArea.None
+      );
+
+      if (entranceTransform)
+      {
+        (AudioSource garageSource, AudioSourceState garageState) =
+            AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+                entranceTransform, forcingDoorClipsVolume
+        );
+
+        if (garageSource != null && forcingDoorClips != null)
+        {
+          garageSource.clip = forcingDoorClips[0];
+          garageSource.loop = false;
+          garageSource.Play();
+          yield return new WaitForSeconds(forcingDoorClips[0].length);
+          garageSource.clip = forcingDoorClips[1];
+          yield return new WaitForSeconds(1f);
+          garageSource.Play();
+          yield return new WaitForSeconds(forcingDoorClips[1].length);
+        }
+
+        AudioUtils.StopAndRestoreAudioSource(garageSource, garageState);
+      }
+    }
+
     private IEnumerator PlayerSpottedFromDownstairsCoroutine()
     {
       if (!playerSpottedFromDownstairsAlready)
@@ -182,7 +272,7 @@ namespace TwelveG.GameController
         // se desplace hacia un collider correcto.
         GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
         GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-        GameEvents.Common.onStartDialog.Raise(this, dialogSOs[1]);
+        GameEvents.Common.onStartDialog.Raise(this, dialogFromDownstairsSO);
         playerSpottedFromDownstairsAlready = true;
 
         // Espera a que termine el diálogo para

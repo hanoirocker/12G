@@ -19,6 +19,7 @@ TagManager:
   - PlayerCapsule
   - GarageNoise
   - HouseAreaCollider
+  - EntranceMainDoor
   layers:
   - Default
   - TransparentFX

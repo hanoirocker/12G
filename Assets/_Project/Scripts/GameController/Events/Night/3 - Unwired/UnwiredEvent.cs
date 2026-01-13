@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.Utils;
@@ -36,9 +37,10 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
+            PlayerHouseHandler playerHouseHandler = FindAnyObjectByType<PlayerHouseHandler>();
             PlayerSoundsHandler playerSoundsHandler = FindAnyObjectByType<PlayerSoundsHandler>();
             AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
-            Transform garageTransform = GameObject.FindGameObjectWithTag("GarageNoise").transform;
+            Transform garageTransform = playerHouseHandler.GetTransformByObject(HouseObjects.GarageNoise);
             RotativeDoorHandler garageDoorHandler = GameObject.Find("Garage Rotative Door").GetComponentInChildren<RotativeDoorHandler>();
 
             yield return new WaitForSeconds(initialTime);

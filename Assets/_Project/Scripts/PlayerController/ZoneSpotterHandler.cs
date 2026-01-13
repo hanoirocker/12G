@@ -6,14 +6,14 @@ namespace TwelveG.PlayerController
   {
     [Header("Settings")]
     [Space]
+    public bool canBeSpotted = true;
+    [Space(5)]
     public bool disableAfterSpotted = false;
     public bool needsToBeZoomed = true;
 
     [Header("References")]
     [Space]
     [SerializeField] private GameEventSO eventToTrigger;
-
-    private bool canBeSpotted = true;
 
     public void SpotOnObject(bool playerIsZooming)
     {
