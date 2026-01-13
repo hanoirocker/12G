@@ -15,4 +15,4 @@ MonoBehaviour:
   activeAreas: 09000000
   ambientClips:
   - clip: {fileID: 8300000, guid: fa4a1543137ba4499b10bafa850fc7c1, type: 3}
-    volume: 0.028
+    volume: 0.035

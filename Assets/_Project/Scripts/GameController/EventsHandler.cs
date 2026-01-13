@@ -64,6 +64,7 @@ namespace TwelveG.GameController
         private int currentSceneIndex;
         private int currentEventIndex;
         private int eventIndexToLoad = 0;
+        private float originalMasterVolume = 1f;
 
         private Coroutine currentEventCoroutine;
         private GameEventBase currentExecutingEvent;
@@ -283,6 +284,14 @@ namespace TwelveG.GameController
             {
                 isEventRunning = true;
                 currentExecutingEvent = correspondingEvents[currentEventIndex];
+
+                // Si el evento es narrativo (intro de cada escena) bajamos el master volume
+                if (currentExecutingEvent.gameObject.TryGetComponent(out NarrativeEvent narrativeEvent))
+                {
+                    originalMasterVolume = AudioManager.Instance.GetCurrentChannelVolume("masterVol");
+                    StartCoroutine(AudioManager.Instance.FaderHandler.FadeAudioCoroutine("masterVol", originalMasterVolume, 0f, 0.1f));
+                }
+
                 currentExecutingEvent.gameObject.SetActive(true);
                 SetUpCurrentEvent();
 
@@ -408,6 +417,12 @@ namespace TwelveG.GameController
         public void SetSavedCheckpointList(List<string> checkpointList)
         {
             currentCheckpointList = checkpointList;
+        }
+
+        public void RestoreMasterMixerVolume()
+        {
+            // float originalMasterVol = AudioManager.Instance.GetCurrentChannelVolume("masterVol");
+            StartCoroutine(AudioManager.Instance.FaderHandler.FadeAudioCoroutine("masterVol", 0f, originalMasterVolume, 2f));
         }
 
         // Actualiza la lista de eventos de checkpoint completados, recibiendo desde el Game Manager

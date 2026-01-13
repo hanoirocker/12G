@@ -4,7 +4,7 @@ using TwelveG.AudioController;
 using TwelveG.UIController;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TwelveG.GameController;
+
 namespace TwelveG.GameController
 {
   public class SceneLoaderHandler : MonoBehaviour
@@ -64,6 +64,7 @@ namespace TwelveG.GameController
       GameEvents.Common.onAnyKeyPressed.Raise(this, null);
 
       AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
+
       if (bgMusicSource)
       {
         StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(bgMusicSource, bgMusicFadeOut));
