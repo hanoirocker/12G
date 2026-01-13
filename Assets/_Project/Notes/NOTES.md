@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se trabajó en el refactor de referencias globales.
+- Se trabajó en Visions. Falta agregar el sonido neckWhisperClip con la voz de Micaela bien perra diciendole "Estoy con vos, amigo (risas)".
 
 TOCHECK:
 

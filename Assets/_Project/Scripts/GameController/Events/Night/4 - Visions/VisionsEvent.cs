@@ -39,6 +39,8 @@ namespace TwelveG.GameController
     [SerializeField, Range(0f, 1f)] private float playerSurprisedClipVolume = 0.7f;
     [SerializeField] private AudioClip[] forcingDoorClips;
     [SerializeField, Range(0f, 1f)] private float forcingDoorClipsVolume = 0.5f;
+    [SerializeField] private AudioClip neckWhisperClip;
+    [SerializeField, Range(0f, 1f)] private float neckWhisperVolume = 0.5f;
 
     [Space(10)]
     [Header("Video Settings")]
@@ -160,6 +162,8 @@ namespace TwelveG.GameController
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
 
+      yield return StartCoroutine(PlayWhisperSound());
+
       // Espera a que Simon no esté en las áreas de pasillo de abajo ni entrada
       // para hacer aparecer al enemigo
       yield return new WaitUntil(
@@ -180,9 +184,6 @@ namespace TwelveG.GameController
       environmentHandler.StartCoroutine(
         environmentHandler.PlayEnemyAnimation("Enemy - From DHall to Entrance", true)
       );
-
-      yield return new WaitUntil(() => allowNextAction);
-      ResetAllowNextActions();
     }
 
     // Hace aparecer el enemigo dependiendo del lugar donde esté el jugador
@@ -258,6 +259,22 @@ namespace TwelveG.GameController
         }
 
         AudioUtils.StopAndRestoreAudioSource(garageSource, garageState);
+      }
+    }
+
+    private IEnumerator PlayWhisperSound()
+    {
+      AudioSource neckSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
+
+      if (neckSource != null && neckWhisperClip != null)
+      {
+        AudioSourceState neckState = neckSource.GetSnapshot();
+        neckSource.clip = neckWhisperClip;
+        neckSource.volume = neckWhisperVolume;
+        neckSource.loop = false;
+        neckSource.Play();
+        yield return new WaitUntil(() => !neckSource.isPlaying);
+        AudioUtils.StopAndRestoreAudioSource(neckSource, neckState);
       }
     }
 
