@@ -27,9 +27,6 @@ namespace TwelveG.GameController
         [Space(5)]
         [SerializeField] private AudioClip garageClip;
         [SerializeField, Range(0f, 1f)] private float garageClipVolume = 0.5f;
-        [Space(5)]
-        [SerializeField] private AudioClip neckWhisperClip;
-        [SerializeField, Range(0f, 1f)] private float neckWhisperVolume = 0.35f;
 
         private bool playerHasNotEnteredGarage = true;
         private bool flashlightPickedUp = false;
@@ -95,15 +92,14 @@ namespace TwelveG.GameController
                 garageDoorHandler.StrongClosing();
             }
 
-            yield return new WaitForSeconds(0.45f);
-            if (playerSoundsHandler)
-            {
-                playerSoundsHandler.PlayPlayerSounds(PlayerSoundsType.HeartBeat, false, 5f, 3f);
-            }
-
             // Espera lo que tardaría la puerta en cerrarse fuertemente y corta la luz de la casa
             yield return new WaitForSeconds(0.45f);
             GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, false);
+
+            if (playerSoundsHandler)
+            {
+                StartCoroutine(playerSoundsHandler.PlayPlayerSound(PlayerSoundsType.HeartBeat, 5f, 3f));
+            }
 
             yield return new WaitForSeconds(8f);
 
@@ -137,21 +133,11 @@ namespace TwelveG.GameController
                 yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(hauntingSource, 5f));
             }
 
-            // esperamos un segundo y disparamos audio en la nuca del jugador
+            // esperamos unos segundos y disparamos audio en la nuca del jugador
             yield return new WaitForSeconds(7f);
-            AudioSource neckSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
-
-            if (neckSource != null && neckWhisperClip != null)
-            {
-                AudioSourceState neckState = neckSource.GetSnapshot();
-                neckSource.clip = neckWhisperClip;
-                neckSource.volume = neckWhisperVolume;
-                neckSource.loop = false;
-                neckSource.Play();
-                yield return new WaitUntil(() => !neckSource.isPlaying);
-                AudioUtils.StopAndRestoreAudioSource(neckSource, neckState);
-            }
-
+            yield return StartCoroutine(
+                playerSoundsHandler.PlayPlayerSound(PlayerSoundsType.UnwiredNeckWhisper)
+            );
             yield return new WaitForSeconds(4f);
         }
 

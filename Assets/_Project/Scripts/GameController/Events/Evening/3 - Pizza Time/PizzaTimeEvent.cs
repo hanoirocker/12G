@@ -17,11 +17,6 @@ namespace TwelveG.GameController
         [TextArea(5, 50)]
         [SerializeField, Range(1, 10)] private int initialTime = 4;
 
-        [Header("Audio settings")]
-        [Space]
-        [SerializeField] private AudioClip chairMovingSound = null;
-        [SerializeField][Range(0f, 1f)] private float chairMovingSoundVolume = 0.8f;
-
         [Header("Text event SO")]
         [Space]
         [SerializeField] private ObservationTextSO[] mainDoorsFallbacksTextsSO;
@@ -97,19 +92,10 @@ namespace TwelveG.GameController
 
             GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
 
-
-            if (chairMovingSound)
-            {
-                AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
-                audioSource.volume = chairMovingSoundVolume;
-                audioSource.PlayOneShot(chairMovingSound);
-                yield return new WaitUntil(() => !audioSource.isPlaying);
-            }
-            else
-            {
-                // Espera lo que tarda por defecto el FadeOutImage
-                yield return new WaitForSeconds(1);
-            }
+            yield return StartCoroutine(
+                PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+                PlayPlayerSound(PlayerSoundsType.ChairMoving)
+            );
 
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
@@ -194,7 +180,7 @@ namespace TwelveG.GameController
 
             if (playerSoundsHandler == null) return;
 
-            playerSoundsHandler.PlayPlayerSounds(PlayerSoundsType.StomachGrowl, false, 0, 0);
+            StartCoroutine(playerSoundsHandler.PlayPlayerSound(PlayerSoundsType.StomachGrowl));
         }
 
         public void AllowNextActions(Component sender, object data)

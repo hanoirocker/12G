@@ -14,10 +14,6 @@ namespace TwelveG.GameController
         [SerializeField, Range(1, 10)] private int initialTime = 3;
 
         [Space]
-        [Header("Audio Options")]
-        [SerializeField] private AudioClip standUpClip;
-
-        [Space]
         [Header("Text event SO")]
         [SerializeField] private ObservationTextSO eventsObservationTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
@@ -68,14 +64,12 @@ namespace TwelveG.GameController
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
-            if (audioSource != null && standUpClip != null)
-            {
-                audioSource.PlayOneShot(standUpClip);
-            }
+            StartCoroutine(
+                PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+                PlayPlayerSound(PlayerSoundsType.StandUpEvening)
+            );
 
             GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
-
             GameEvents.Common.playWakeUpVCAnimation.Raise(this, null);
 
             // Unity Event (WakeUpVCHandler - onAnimationHasEnded):

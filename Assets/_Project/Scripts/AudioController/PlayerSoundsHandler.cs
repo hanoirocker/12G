@@ -7,11 +7,19 @@ namespace TwelveG.AudioController
 {
     public enum PlayerSoundsType
     {
+        WakeUpAfternoon,
+        FallAsleepAfternoon,
+        StandUpEvening,
+        ChairMoving,
+        StandUpNight,
+        UnwiredNeckWhisper,
+        VisionsNeckWhisper,
         HeartBeat,
         NormalBreathing,
-        HardBreathing,
-        RecoveringBreathing,
-        StomachGrowl
+        HardBreathing, // Ya incluye al final la recuperacion
+        StomachGrowl,
+        EnemySurpriseReaction,
+        Doubt, // Hmmm?
     }
 
     public class PlayerSoundsHandler : MonoBehaviour
@@ -23,12 +31,32 @@ namespace TwelveG.AudioController
         public List<AudioClip> mosaicBathroomFS;
 
         [Header("Other Clips")]
+        [SerializeField] private AudioClip wakeUpAfternoonClip;
+        [SerializeField, Range(0f, 1f)] private float wakeUpAfternoonClipVolume = 0.7f;
+        [SerializeField] private AudioClip fallAsleepAfternoonClip;
+        [SerializeField, Range(0f, 1f)] private float fallAsleepAfternoonClipVolume = 0.7f;
+        [SerializeField] private AudioClip standUpEveningClip;
+        [SerializeField, Range(0f, 1f)] private float standUpEveningClipVolume = 0.7f;
+        [SerializeField] private AudioClip chairMovingClip;
+        [SerializeField, Range(0f, 1f)] private float chairMovingClipVolume = 0.8f;
+        [SerializeField] private AudioClip standUpNightClip;
+        [SerializeField, Range(0f, 1f)] private float standUpNightClipVolume = 0.7f;
+        [SerializeField] private AudioClip unwiredNeckWhisperClip;
+        [SerializeField, Range(0f, 1f)] private float unwiredNeckWhisperClipVolume = 0.35f;
+        [SerializeField] private AudioClip visionsNeckWhisperClip;
+        [SerializeField, Range(0f, 1f)] private float visionsNeckWhisperClipVolume = 0.4f;
         [SerializeField] private AudioClip heartBeatClip;
-        [SerializeField, Range(0f, 1f)] private float heartBeatVolume = 0.2f;
-        [SerializeField] private AudioClip breathingClip;
-        [SerializeField, Range(0f, 1f)] private float breathingVolume = 0.7f;
+        [SerializeField, Range(0f, 1f)] private float heartBeatClipVolume = 0.2f;
+        [SerializeField] private AudioClip softBreathingClip;
+        [SerializeField, Range(0f, 1f)] private float softBreathingClipVolume = 0.7f;
+        [SerializeField] private AudioClip hardBreathingClip;
+        [SerializeField, Range(0f, 1f)] private float hardBreathingClipVolume = 0.7f;
         [SerializeField] private AudioClip stomachGrowlClip;
-        [SerializeField, Range(0f, 1f)] private float stomachGrowlVolume = 0.7f;
+        [SerializeField, Range(0f, 1f)] private float stomachGrowlClipVolume = 0.7f;
+        [SerializeField] private AudioClip enemySurprisedClip;
+        [SerializeField, Range(0f, 1f)] private float enemySurprisedClipVolume = 0.7f;
+        [SerializeField] private AudioClip doubtClip;
+        [SerializeField, Range(0f, 1f)] private float doubtClipVolume = 0.7f;
 
         [Header("Footsteps Settings")]
         [SerializeField] private float walkPitch;
@@ -130,51 +158,62 @@ namespace TwelveG.AudioController
             audioSource.PlayOneShot(clip);
         }
 
-        public void PlayPlayerSounds(PlayerSoundsType soundType, bool loop, float timeUntilFadeOut, float fadeOutTime)
+        public IEnumerator PlayPlayerSound(PlayerSoundsType playerSoundsType, float timeUntilFadeOut = 0f, float fadeOutTime = 0f)
         {
-            switch (soundType)
+            AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
+            AudioSourceState sourceState = source.GetSnapshot();
+            (AudioClip audioClipToPlay, float volume) = DetermineAudioClip(playerSoundsType);
+            source.clip = audioClipToPlay;
+            source.loop = timeUntilFadeOut > 0f;
+            source.volume = volume;
+            source.Play();
+
+            yield return new WaitForSeconds(timeUntilFadeOut > 0f ? timeUntilFadeOut : audioClipToPlay.length);
+
+            if (timeUntilFadeOut > 0f && fadeOutTime > 0f)
             {
-                case PlayerSoundsType.HeartBeat:
-                    StartCoroutine(PlayFadedPlayerSoundCoroutine(heartBeatClip, loop, heartBeatVolume, timeUntilFadeOut, fadeOutTime));
-                    break;
-                case PlayerSoundsType.NormalBreathing:
-                    StartCoroutine(PlayFadedPlayerSoundCoroutine(breathingClip, loop, breathingVolume, timeUntilFadeOut, fadeOutTime));
-                    break;
-                case PlayerSoundsType.StomachGrowl:
-                    StartCoroutine(PlaySimplePlayerSound(stomachGrowlClip, stomachGrowlVolume));
-                    break;
-                default:
-                    break;
+                yield return AudioManager.Instance.FaderHandler.AudioSourceFadeOut(source, fadeOutTime);
+                source.loop = false;
             }
-        }
 
-        private IEnumerator PlaySimplePlayerSound(AudioClip audioClip, float volume)
-        {
-            AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
-            AudioSourceState sourceState = source.GetSnapshot();
-            source.clip = audioClip;
-            source.volume = volume;
-            source.Play();
-            Debug.Log($"Playing stomach sound");
-            yield return new WaitForSeconds(audioClip.length);
             AudioUtils.StopAndRestoreAudioSource(source, sourceState);
+
             yield return null;
         }
 
-        // TODO: actualmente invocado directamente desde UnwiredEvent.cs, evaluar si dejarlo así
-        // o llamar desde VFX si se combina con algún efecto visual.
-        private IEnumerator PlayFadedPlayerSoundCoroutine(AudioClip clip, bool loop, float volume, float timeUntilFadeOut, float fadeOutTime)
+        private (AudioClip, float) DetermineAudioClip(PlayerSoundsType playerSoundsType)
         {
-            AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
-            AudioSourceState sourceState = source.GetSnapshot();
-            source.clip = clip;
-            source.volume = volume;
-            source.loop = loop;
-            source.Play();
-            yield return new WaitForSeconds(timeUntilFadeOut);
-            yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(source, fadeOutTime));
-            AudioUtils.StopAndRestoreAudioSource(source, sourceState);
-            yield return null;
+            switch (playerSoundsType)
+            {
+                case PlayerSoundsType.WakeUpAfternoon:
+                    return (wakeUpAfternoonClip, wakeUpAfternoonClipVolume);
+                case PlayerSoundsType.FallAsleepAfternoon:
+                    return (fallAsleepAfternoonClip, fallAsleepAfternoonClipVolume);
+                case PlayerSoundsType.StandUpEvening:
+                    return (standUpEveningClip, standUpEveningClipVolume);
+                case PlayerSoundsType.ChairMoving:
+                    return (chairMovingClip, chairMovingClipVolume);
+                case PlayerSoundsType.StandUpNight:
+                    return (standUpNightClip, standUpNightClipVolume);
+                case PlayerSoundsType.UnwiredNeckWhisper:
+                    return (unwiredNeckWhisperClip, unwiredNeckWhisperClipVolume);
+                case PlayerSoundsType.VisionsNeckWhisper:
+                    return (visionsNeckWhisperClip, visionsNeckWhisperClipVolume);
+                case PlayerSoundsType.HeartBeat:
+                    return (heartBeatClip, heartBeatClipVolume);
+                case PlayerSoundsType.NormalBreathing:
+                    return (softBreathingClip, softBreathingClipVolume);
+                case PlayerSoundsType.HardBreathing:
+                    return (hardBreathingClip, hardBreathingClipVolume);
+                case PlayerSoundsType.StomachGrowl:
+                    return (stomachGrowlClip, stomachGrowlClipVolume);
+                case PlayerSoundsType.EnemySurpriseReaction:
+                    return (enemySurprisedClip, enemySurprisedClipVolume);
+                case PlayerSoundsType.Doubt:
+                    return (doubtClip, doubtClipVolume);
+                default:
+                    return (null, 0f);
+            }
         }
     }
 }

@@ -11,24 +11,20 @@ namespace TwelveG.GameController
 {
     public class TVTimeEvent : GameEventBase
     {
-        [Header("Audio")]
-        [SerializeField] private AudioClip wakeUpClip;
-        [SerializeField] private AudioClip fallAsleepClip;
+        [Header("Settings")]
+        [SerializeField, Range(3f, 5f)] private float eventFadeOut = 5f;
 
+        [Space(10)]
         [Header("Text event SO")]
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
         [SerializeField] private UIOptionsTextSO playerHelperDataTextSO;
 
+        [Space(10)]
         [Header("Other eventsSO references")]
         public GameEventSO enableTVHandler;
         public GameEventSO tvAudioFadeOut;
         public GameEventSO allowPlayerToHandleTV;
         public GameEventSO activateRemoteController;
-
-
-        [Header("Settings")]
-
-        [SerializeField, Range(3f, 5f)] private float eventFadeOut = 5f;
 
         private bool allowNextAction = false;
 
@@ -36,7 +32,6 @@ namespace TwelveG.GameController
         {
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.None);
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
             enableTVHandler.Raise(this, null);
 
@@ -45,10 +40,10 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(2f);
             GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
 
-            if (audioSource != null && fallAsleepClip != null)
-            {
-                audioSource.PlayOneShot(wakeUpClip);
-            }
+            StartCoroutine(
+                PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+                PlayPlayerSound(PlayerSoundsType.WakeUpAfternoon)
+            );
 
             activateRemoteController.Raise(this, null);
             yield return new WaitForSeconds(5f);
@@ -95,10 +90,10 @@ namespace TwelveG.GameController
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
-            if (audioSource != null && fallAsleepClip != null)
-            {
-                audioSource.PlayOneShot(fallAsleepClip);
-            }
+            StartCoroutine(
+                PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+                PlayPlayerSound(PlayerSoundsType.FallAsleepAfternoon)
+            );
 
             GameEvents.Common.onInteractionCanvasControls.Raise(this, new VanishTextEffect());
             yield return new WaitForSeconds(2f);

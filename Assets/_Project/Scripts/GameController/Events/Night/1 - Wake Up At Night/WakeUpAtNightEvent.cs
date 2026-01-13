@@ -20,10 +20,6 @@ namespace TwelveG.GameController
         [SerializeField] private DialogSO dialogSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
 
-        [Space]
-        [Header("Audio Options")]
-        [SerializeField] private AudioClip nightStandUpClip;
-
         private bool allowNextAction = false;
 
         public override IEnumerator Execute()
@@ -65,11 +61,10 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
             GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
 
-            AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
-            if (audioSource != null && nightStandUpClip != null)
-            {
-                audioSource.PlayOneShot(nightStandUpClip);
-            }
+            StartCoroutine(
+                PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+                PlayPlayerSound(PlayerSoundsType.StandUpNight)
+            );
 
             GameEvents.Common.playWakeUpAtNightVCAnimation.Raise(this, null);
 

@@ -35,12 +35,8 @@ namespace TwelveG.GameController
     [Header("Audio Options")]
     [SerializeField] private AudioClip track2Clip;
     [SerializeField, Range(0f, 1f)] private float track2Volume = 0.15f;
-    [SerializeField] private AudioClip playerSurprisedClip;
-    [SerializeField, Range(0f, 1f)] private float playerSurprisedClipVolume = 0.7f;
     [SerializeField] private AudioClip[] forcingDoorClips;
     [SerializeField, Range(0f, 1f)] private float forcingDoorClipsVolume = 0.5f;
-    [SerializeField] private AudioClip neckWhisperClip;
-    [SerializeField, Range(0f, 1f)] private float neckWhisperVolume = 0.5f;
 
     [Space(10)]
     [Header("Video Settings")]
@@ -58,8 +54,6 @@ namespace TwelveG.GameController
     public override IEnumerator Execute()
     {
       AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
-      AudioSource playerSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
-      AudioSourceState playerSourceState = playerSource.GetSnapshot();
       EnvironmentHandler environmentHandler = EnvironmentHandler.Instance;
       PlayerHouseHandler playerHouseHandler = PlayerHouseHandler.Instance;
       PlayerHandler playerHandler = PlayerHandler.Instance;
@@ -120,13 +114,8 @@ namespace TwelveG.GameController
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(enemyTransform));
       GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseIn, 1));
 
-      if (playerSource != null)
-      {
-        playerSource.clip = playerSurprisedClip;
-        playerSource.loop = false;
-        playerSource.volume = playerSurprisedClipVolume;
-        playerSource.Play();
-      }
+      StartCoroutine(playerHandler.GetComponentInChildren<PlayerSoundsHandler>().
+        PlayPlayerSound(PlayerSoundsType.Doubt));
       // Espera a que termine la animación de la cámara y el clip sorprendido del jugador
       yield return new WaitForSeconds(1f);
 
@@ -137,7 +126,6 @@ namespace TwelveG.GameController
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
       playerHouseHandler.ToggleCheckpointPrefabs(new ObjectData("Visions - Colliders", false));
-      AudioUtils.StopAndRestoreAudioSource(playerSource, playerSourceState);
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(null));
       GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
       environmentHandler.ShowEnemy(EnemyPositions.None);
@@ -162,7 +150,10 @@ namespace TwelveG.GameController
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
 
-      yield return StartCoroutine(PlayWhisperSound());
+      yield return StartCoroutine(
+        PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+        PlayPlayerSound(PlayerSoundsType.VisionsNeckWhisper)
+      );
 
       // Espera a que Simon no esté en las áreas de pasillo de abajo ni entrada
       // para hacer aparecer al enemigo
@@ -184,6 +175,10 @@ namespace TwelveG.GameController
       environmentHandler.StartCoroutine(
         environmentHandler.PlayEnemyAnimation("Enemy - From DHall to Entrance", true)
       );
+
+      // Espera a que termine de recuperarse del susto
+      yield return StartCoroutine(playerHandler.GetComponentInChildren<PlayerSoundsHandler>().
+        PlayPlayerSound(PlayerSoundsType.EnemySurpriseReaction));
     }
 
     // Hace aparecer el enemigo dependiendo del lugar donde esté el jugador
@@ -259,22 +254,6 @@ namespace TwelveG.GameController
         }
 
         AudioUtils.StopAndRestoreAudioSource(garageSource, garageState);
-      }
-    }
-
-    private IEnumerator PlayWhisperSound()
-    {
-      AudioSource neckSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
-
-      if (neckSource != null && neckWhisperClip != null)
-      {
-        AudioSourceState neckState = neckSource.GetSnapshot();
-        neckSource.clip = neckWhisperClip;
-        neckSource.volume = neckWhisperVolume;
-        neckSource.loop = false;
-        neckSource.Play();
-        yield return new WaitUntil(() => !neckSource.isPlaying);
-        AudioUtils.StopAndRestoreAudioSource(neckSource, neckState);
       }
     }
 
