@@ -14,9 +14,11 @@ namespace TwelveG.EnvironmentController
         LivingRoomRightWindow,
         DownstairsHallWindow
     }
-
+    
     public class EnvironmentHandler : MonoBehaviour
     {
+        public static EnvironmentHandler Instance { get; private set; }
+
         [Header("References")]
         [Space]
         [SerializeField] private GameObject rainObject;
@@ -40,6 +42,24 @@ namespace TwelveG.EnvironmentController
         [Space(10)]
         [Header("Prefab References")]
         [SerializeField] private GameObject[] checkpointPrefabs;
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
 
         public void EnvironmentWeatherConfig(Component sender, object data)
         {
@@ -113,7 +133,7 @@ namespace TwelveG.EnvironmentController
         {
             animationComponent.Play(animationName);
 
-            if(deactivateAfter)
+            if (deactivateAfter)
             {
                 yield return new WaitForSeconds(animationComponent[animationName].length);
                 enemyPrefab.SetActive(false);

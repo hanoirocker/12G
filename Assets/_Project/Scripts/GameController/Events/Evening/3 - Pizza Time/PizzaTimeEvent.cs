@@ -168,7 +168,7 @@ namespace TwelveG.GameController
         // Recibe desde el MicrowaveHandler "onSpecificHeatingTimeReached"
         public void OnSpecificHeatingTimeReached(Component sender, object data)
         {
-            PlayerHandler playerHandler = FindAnyObjectByType<PlayerHandler>();
+            PlayerHandler playerHandler = PlayerHandler.Instance;
             PlayerSoundsHandler playerSoundsHandler = playerHandler.GetComponentInChildren<PlayerSoundsHandler>();
 
             if (playerHandler == null) return;

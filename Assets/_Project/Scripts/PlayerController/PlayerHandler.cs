@@ -9,6 +9,8 @@ namespace TwelveG.PlayerController
 {
     public class PlayerHandler : MonoBehaviour
     {
+        public static PlayerHandler Instance { get; private set; }
+
         [Header("References")]
         [SerializeField] private GameObject playerCapsule;
         [SerializeField] private GameObject mainCamera;
@@ -38,6 +40,14 @@ namespace TwelveG.PlayerController
 
         private void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+
             playerShortcuts = GetComponent<PlayerShortcuts>();
 
             playerInput = playerCapsule.GetComponent<PlayerInput>();
@@ -53,6 +63,14 @@ namespace TwelveG.PlayerController
             cameraZoom = mainCamera.GetComponent<CameraZoom>();
             headLookAround = mainCamera.GetComponent<HeadLookAround>();
             playerInventory = mainCamera.GetComponentInChildren<PlayerInventory>();
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
         }
 
         void Start()

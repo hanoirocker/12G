@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se trabajó en Visions event, agregando dialogos luego de ver por primera vez al enemigo y una segunda aparición en la ventana del hall de abajo (con animación del enemigo al ser spotteado)
+- Se trabajó en el refactor de referencias globales.
 
 TOCHECK:
 
@@ -11,8 +11,9 @@ TOFIX:
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 
 TODO - próximo:
-- REWORK REFERENCIAS: actualmente se buscan referencias en escena mediante "FindObjectOfType" .. tanto en el EventsHandler como en los eventos. 
-  --> SOLUCION A TOMAR: Hacer singleton al EnvironmentHandler, PlayerHandler, PlayerHouseHandler, VirtualCamerasHandler y CinematicsHandler. Luego, reemplazar la búsqueda de estos por la referencia global inmedianta (ahorro de RAM sin necesidad de destruir corrutinas)
+- REWORK REFERENCIAS: actualmente se buscan referencias en escena mediante "FindObjectOfType" .. tanto en el EventsHandler como en los eventos. \*BEINGADDRESED
+  --> SOLUCION A TOMAR: Hacer singleton al EnvironmentHandler, PlayerHandler, PlayerHouseHandler, VirtualCamerasHandler y CinematicsHandler. Luego, reemplazar la búsqueda de estos por la referencia global inmedianta (ahorro de RAM sin necesidad de destruir corrutinas). \*DONE
+  --> ACCIONES SECUNDARIAS: Se posibilita la eliminación de probablemente muchos GameEventSO's que solo se usaban para comunicarse entre un script y estos scripts. Tedioso pero innecesario a su vez (pueden seguir existiendo, aunque su presencia puede confundir a nivel código).
 - Actualmente el sistema de audio por perfiles de ambiente funciona en base a la escena. Por ende, si quisieramos detener la lluvia en algun momento, la lluvia estereo del los perfiles seguiria sonando. Analizar si es conveniente o no ampliar la estructura logica.
 - Finalizar Visions y comenzar con RedHour
 

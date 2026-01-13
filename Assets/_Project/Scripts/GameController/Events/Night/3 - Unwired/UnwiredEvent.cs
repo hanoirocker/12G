@@ -4,6 +4,7 @@ using TwelveG.AudioController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
+using TwelveG.PlayerController;
 using TwelveG.Utils;
 using UnityEngine;
 
@@ -37,8 +38,8 @@ namespace TwelveG.GameController
         public override IEnumerator Execute()
         {
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
-            PlayerHouseHandler playerHouseHandler = FindAnyObjectByType<PlayerHouseHandler>();
-            PlayerSoundsHandler playerSoundsHandler = FindAnyObjectByType<PlayerSoundsHandler>();
+            PlayerHouseHandler playerHouseHandler = PlayerHouseHandler.Instance;
+            PlayerSoundsHandler playerSoundsHandler = PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>();
             AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
             Transform garageTransform = playerHouseHandler.GetTransformByObject(HouseObjects.GarageNoise);
             RotativeDoorHandler garageDoorHandler = GameObject.Find("Garage Rotative Door").GetComponentInChildren<RotativeDoorHandler>();

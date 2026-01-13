@@ -48,14 +48,8 @@ namespace TwelveG.EnvironmentController
         [SerializeField, Range(0f, 50f)] private float shakeFrequency = 10f;
 
         private CinemachineVirtualCamera currentActiveCamera;
-        private VirtualCamerasHandler virtualCamerasHandler;
 
         private bool isFlashingLight = false;
-
-        private void Awake()
-        {
-            virtualCamerasHandler = FindObjectOfType<VirtualCamerasHandler>();
-        }
 
         private void Start()
         {
@@ -97,7 +91,7 @@ namespace TwelveG.EnvironmentController
             float vibrationDuration = thunderSoundClip != null ? thunderSoundClip.length * 1.1f : fallbackVibrationDuration;
 
             yield return new WaitForSeconds(0.4f);
-            StartCoroutine(virtualCamerasHandler.CameraShakeRoutine(shakeAmplitude, shakeFrequency, vibrationDuration));
+            StartCoroutine(VirtualCamerasHandler.Instance?.CameraShakeRoutine(shakeAmplitude, shakeFrequency, vibrationDuration));
         }
 
         private IEnumerator ThunderRoutine()
@@ -127,7 +121,7 @@ namespace TwelveG.EnvironmentController
                 targetTransform = skyPositions[Random.Range(0, skyPositions.Length)];
             }
 
-            currentActiveCamera = virtualCamerasHandler?.GetCurrentActiveCamera();
+            currentActiveCamera = VirtualCamerasHandler.Instance?.GetCurrentActiveCamera();
             float distanceFactor = 1f;
 
             if (currentActiveCamera != null)

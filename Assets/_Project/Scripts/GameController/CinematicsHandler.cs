@@ -6,9 +6,29 @@ namespace TwelveG.GameController
 {
     public class CinematicsHandler : MonoBehaviour
     {
+        public static CinematicsHandler Instance { get; private set; }
+
         [Header("References")]
         [SerializeField] private List<GameObject> timelineDirectors = new();
         [SerializeField] private GameObject cameraGameObject;
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
 
         public void PlayerDirectorsControls(Component sender, object data)
         {

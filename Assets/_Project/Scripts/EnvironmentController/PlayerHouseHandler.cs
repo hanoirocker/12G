@@ -35,6 +35,8 @@ namespace TwelveG.EnvironmentController
 
     public class PlayerHouseHandler : MonoBehaviour
     {
+        public static PlayerHouseHandler Instance { get; private set; }
+
         [Header("Prefab References")]
         [Tooltip("Prefabs that will be enabled/disabled based on checkpoint data")]
         [SerializeField] private GameObject[] checkpointPrefabs;
@@ -57,6 +59,24 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private GameObject acousticZonesParent;
 
         [SerializeField, Range(0f, 15f)] private float defaultDelay = 0.3f;
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
 
         public void FlickerLights(Component sender, object data)
         {

@@ -24,12 +24,10 @@ namespace TwelveG.PlayerController
         private bool canvasIsShowing;
         private InteractionTextSO canvasText;
         private PlayerInventory playerInventory;
-        private PlayerHandler playerHandler;
 
         void Awake()
         {
             playerInventory = GetComponentInChildren<PlayerInventory>();
-            playerHandler = GetComponentInParent<PlayerHandler>();
         }
 
         private void Start()
@@ -49,7 +47,7 @@ namespace TwelveG.PlayerController
                 bool objectIsExaminable = hitInfo.collider.gameObject.TryGetComponent(out ObjectExaminationHandler examinableObj);
 
                 // Si el objeto es examinable pero el jugador no puede examinar objetos, salir
-                if (objectIsExaminable && !playerHandler.PlayerCanExamineObjects())
+                if (objectIsExaminable && !PlayerHandler.Instance.PlayerCanExamineObjects())
                 {
                     return;
                 }

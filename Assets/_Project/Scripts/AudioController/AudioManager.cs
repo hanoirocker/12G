@@ -33,7 +33,7 @@ namespace TwelveG.AudioController
 
         public AudioPoolsHandler PoolsHandler => audioPoolsHandler;
         public AudioFaderHandler FaderHandler => audioFaderHandler;
-        public EnvironmentAudioHandler EnvironmentHandler => audioEnvironmentHandler;
+        public EnvironmentAudioHandler EnvironmentAudioHandler => audioEnvironmentHandler;
         public AudioZoneHandler AZHandler => audioZoneHandler;
         public AudioDialogsHandler AudioDialogsHandler => audioDialogsHandler;
 

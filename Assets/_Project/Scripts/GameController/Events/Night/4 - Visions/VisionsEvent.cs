@@ -45,11 +45,8 @@ namespace TwelveG.GameController
     [SerializeField] private VideoClip subliminalJSClip1;
     [SerializeField, Range(0f, 1f)] private float jumpScareVolume = 1f;
 
-    private PlayerHandler playerHandler;
-    private PlayerHouseHandler playerHouseHandler;
     private CameraZoom cameraZoom;
     private Transform enemyTransform;
-    private EnvironmentHandler environmentHandler;
 
     private bool playerSpottedFromDownstairsAlready = false;
     private bool playerSpottedFromUpstairs = false;
@@ -61,9 +58,9 @@ namespace TwelveG.GameController
       AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
       AudioSource playerSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
       AudioSourceState playerSourceState = playerSource.GetSnapshot();
-      environmentHandler = FindObjectOfType<EnvironmentHandler>();
-      playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
-      playerHandler = FindObjectOfType<PlayerHandler>();
+      EnvironmentHandler environmentHandler = EnvironmentHandler.Instance;
+      PlayerHouseHandler playerHouseHandler = PlayerHouseHandler.Instance;
+      PlayerHandler playerHandler = PlayerHandler.Instance;
       cameraZoom = playerHandler.GetComponentInChildren<CameraZoom>();
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.ConstantThunders);
       GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
@@ -191,7 +188,7 @@ namespace TwelveG.GameController
     // Hace aparecer el enemigo dependiendo del lugar donde esté el jugador
     private void SpawnEnemy(EnvironmentHandler environmentHandler)
     {
-      currentHouseArea = playerHandler.GetCurrentHouseArea();
+      currentHouseArea = PlayerHandler.Instance.GetCurrentHouseArea();
 
       switch (currentHouseArea)
       {
@@ -232,13 +229,13 @@ namespace TwelveG.GameController
 
     private IEnumerator PlayDoorForcingSoundRoutine()
     {
-      Transform entranceTransform = playerHouseHandler.GetTransformByObject(HouseObjects.EntranceMainDoor);
+      Transform entranceTransform = PlayerHouseHandler.Instance?.GetTransformByObject(HouseObjects.EntranceMainDoor);
       // Espera a que el jugador salga de las áreas de entrada, garage y pasillo de abajo
       yield return new WaitUntil(() =>
-        playerHandler.GetCurrentHouseArea() != HouseArea.Entrance &&
-        playerHandler.GetCurrentHouseArea() != HouseArea.Garage &&
-        playerHandler.GetCurrentHouseArea() != HouseArea.DownstairsHall
-        && playerHandler.GetCurrentHouseArea() != HouseArea.None
+        PlayerHandler.Instance.GetCurrentHouseArea() != HouseArea.Entrance &&
+        PlayerHandler.Instance.GetCurrentHouseArea() != HouseArea.Garage &&
+        PlayerHandler.Instance.GetCurrentHouseArea() != HouseArea.DownstairsHall
+        && PlayerHandler.Instance.GetCurrentHouseArea() != HouseArea.None
       );
 
       if (entranceTransform)

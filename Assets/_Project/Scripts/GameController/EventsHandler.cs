@@ -157,9 +157,9 @@ namespace TwelveG.GameController
 
         private void ExecuteFreeRoam()
         {
-            PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
+            PlayerHouseHandler playerHouseHandler = PlayerHouseHandler.Instance;
 
-            if(playerHouseHandler)
+            if (playerHouseHandler)
                 playerHouseHandler.UnlockAllLockedDoors();
             if (enableFlashlight)
                 GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.Flashlight);
@@ -197,7 +197,7 @@ namespace TwelveG.GameController
 
         private void SetUpPlayerTransform()
         {
-            PlayerTransformHandler playerTransformHandler = FindObjectOfType<PlayerTransformHandler>();
+            PlayerTransformHandler playerTransformHandler = PlayerHandler.Instance.GetComponentInChildren<PlayerTransformHandler>();
             eventsTransforms = fromEvents.GetComponentsInChildren<Transform>();
 
             string targetEventEnumName = "";
@@ -398,6 +398,8 @@ namespace TwelveG.GameController
 
         public int RetrieveCurrentEventIndex()
         {
+            // FindObjectOfType DONE 
+            // FindAnyObjectByType
             return currentEventIndex;
         }
 
@@ -470,9 +472,9 @@ namespace TwelveG.GameController
             Debug.Log($"[EventsHandler]: Aplicando Checkpoint Profile: {profile.name} ({profile.eventEnum})");
 
             // 0. Buscar referencias necesarias
-            PlayerHouseHandler playerHouseHandler = FindObjectOfType<PlayerHouseHandler>();
-            EnvironmentHandler environmentHandler = FindObjectOfType<EnvironmentHandler>();
-            PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
+            PlayerHouseHandler playerHouseHandler = PlayerHouseHandler.Instance;
+            EnvironmentHandler environmentHandler = EnvironmentHandler.Instance;
+            PlayerInventory inventory = PlayerHandler.Instance.GetComponentInChildren<PlayerInventory>();
 
             // 1. Estado inicial del jugador
 

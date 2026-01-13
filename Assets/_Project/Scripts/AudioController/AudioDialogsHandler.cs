@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TwelveG.GameController;
 using TwelveG.InteractableObjects;
+using TwelveG.PlayerController;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -66,7 +67,7 @@ namespace TwelveG.AudioController
         return;
       }
 
-      WTSource = FindAnyObjectByType<WalkieTalkie>().GetComponent<AudioSource>();
+      WTSource = PlayerHandler.Instance.GetComponentInChildren<WalkieTalkie>().GetComponent<AudioSource>();
 
       if (WTSource == null)
       {

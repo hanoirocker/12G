@@ -7,6 +7,8 @@ namespace TwelveG.Utils
 {
     public class VirtualCamerasHandler : MonoBehaviour
     {
+        public static VirtualCamerasHandler Instance { get; private set; }
+
         [Header("VC's references")]
         [SerializeField] private CinemachineVirtualCamera playerVC;
         [SerializeField] private CinemachineVirtualCamera wakeUpVC;
@@ -38,6 +40,24 @@ namespace TwelveG.Utils
         private Transform playerCapsuleTransform;
         private CinemachineVirtualCamera currentActiveCamera;
         private CinemachineVirtualCamera lastActiveCamera;
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
 
         private void Start()
         {
