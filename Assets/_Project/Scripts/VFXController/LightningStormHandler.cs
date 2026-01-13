@@ -44,8 +44,8 @@ namespace TwelveG.EnvironmentController
         [SerializeField, Range(0f, 5f)] private float fallbackVibrationDuration = 5f;
 
         [Header("Camera Shake Settings")]
-        [SerializeField, Range(0f, 5f)] private float shakeAmplitude = 1.5f;
-        [SerializeField, Range(0f, 10f)] private float shakeFrequency = 2.0f;
+        [SerializeField, Range(0f, 5f)] private float shakeAmplitude = 0.1f;
+        [SerializeField, Range(0f, 50f)] private float shakeFrequency = 10f;
 
         private CinemachineVirtualCamera currentActiveCamera;
         private VirtualCamerasHandler virtualCamerasHandler;
@@ -96,6 +96,7 @@ namespace TwelveG.EnvironmentController
 
             float vibrationDuration = thunderSoundClip != null ? thunderSoundClip.length * 1.1f : fallbackVibrationDuration;
 
+            yield return new WaitForSeconds(0.4f);
             StartCoroutine(virtualCamerasHandler.CameraShakeRoutine(shakeAmplitude, shakeFrequency, vibrationDuration));
         }
 
