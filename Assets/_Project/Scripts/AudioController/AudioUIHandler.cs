@@ -1,7 +1,7 @@
+using UnityEngine;
+
 namespace TwelveG.AudioController
 {
-  using UnityEngine;
-
   public class AudioUIHandler : MonoBehaviour
   {
     [Header("UI Audio Clips")]

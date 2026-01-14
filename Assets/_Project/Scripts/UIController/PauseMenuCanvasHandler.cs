@@ -1,8 +1,5 @@
 using System.Collections.Generic;
 using TwelveG.AudioController;
-using TwelveG.GameController;
-using TwelveG.Localization;
-using TwelveG.PlayerController;
 using TwelveG.SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +17,7 @@ namespace TwelveG.UIController
         private void OnEnable()
         {
             UpdateUITextOptions();
-            UIManager.Instance.AudioUIHandler.PlayPauseMenuSound();
+            AudioManager.Instance.AudioUIHandler.PlayPauseMenuSound();
             SetPauseGameSettings();
         }
 
@@ -35,7 +32,7 @@ namespace TwelveG.UIController
 
         private void OnDisable()
         {
-            UIManager.Instance.AudioUIHandler.PlayPauseMenuSound();
+            AudioManager.Instance.AudioUIHandler.PlayPauseMenuSound();
             SetResumeGameSettings();
         }
 
