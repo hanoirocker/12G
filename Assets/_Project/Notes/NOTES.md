@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se movieron todas las invocaciones desde eventos para disparar sonidos del jugador hacia PlayerSoundsHandler. Ahora se ejecutan las corrutinas indicando el enum correspondiente.
+- Se trabajó sobre el Menu Principal, implementando nuevas fuentes y arreglando elementos.
 
 TOCHECK:
 
