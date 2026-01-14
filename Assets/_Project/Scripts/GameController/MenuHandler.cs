@@ -48,6 +48,8 @@ namespace TwelveG.GameController
 
     private void SetMenuSceneSettings()
     {
+      GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
+
       AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
       string currentSceneName = SceneManager.GetActiveScene().name;
 

@@ -69,7 +69,7 @@ namespace TwelveG.GameController
           eventsHandler.BuildEvents();
           break;
         default:
-          Debug.LogError("currentSceneIndex not found");
+          menuHandler.enabled = true; // Para evitar errores en escenas no contempladas como Evening Menu, o Night Menu
           break;
       }
     }
