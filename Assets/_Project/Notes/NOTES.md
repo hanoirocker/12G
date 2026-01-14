@@ -1,5 +1,6 @@
 NOVEDADES:
-- Se trabajó sobre el Menu Principal, implementando nuevas fuentes y arreglando elementos.
+- Se reemplazaron todos los llamados a onImangeCanvasControls para hacer fade del canvas por el llamado mismo a su instancia mediante UIManager.Instance.
+onImangeCanvasControls borrado.
 
 TOCHECK:
 

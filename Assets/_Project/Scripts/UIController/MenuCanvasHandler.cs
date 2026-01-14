@@ -30,8 +30,8 @@ namespace TwelveG.UIController
 
     private IEnumerator StartPlaying(bool isNewGame)
     {
-      GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, fadeOutDuration));
-      yield return new WaitForSeconds(fadeOutDuration);
+      yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, fadeOutDuration));
+
       // Escuchado por GameManager para luego llamar al SceneLoaderHandler.
       GameEvents.Common.onPlayGame.Raise(this, isNewGame);
       gameObject.SetActive(false);

@@ -48,8 +48,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-            yield return new WaitForSeconds(1f);
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
 
             // Parece que algo pasó arriba, mejor reviso qué fue eso.
             GameEvents.Common.onObservationCanvasShowText.Raise(

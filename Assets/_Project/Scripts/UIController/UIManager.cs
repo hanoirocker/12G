@@ -44,6 +44,13 @@ namespace TwelveG.UIController
     [SerializeField] private GameObject inGameCanvas;
     [SerializeField] private List<GameObject> canvasesToHideWhilePaused;
 
+    [Header("Children references")]
+    [SerializeField] private ImageCanvasHandler imageCanvasHandler;
+    [SerializeField] private MenuCanvasHandler menuCanvasHandler;
+
+    public ImageCanvasHandler ImageCanvasHandler => imageCanvasHandler;
+    public MenuCanvasHandler MenuCanvasHandler => menuCanvasHandler;
+
     private Dictionary<CanvasHandlerType, GameObject> canvasDict;
     private List<bool> originalStates = new List<bool>();
 
@@ -100,7 +107,7 @@ namespace TwelveG.UIController
         }
 
         // Deshabilitamos los canvas de la lista
-        if(isPaused)
+        if (isPaused)
         {
           foreach (var canvas in canvasesToHideWhilePaused)
           {

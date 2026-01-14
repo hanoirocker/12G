@@ -174,7 +174,7 @@ namespace TwelveG.GameController
 
             VFXManager.Instance?.SetResonanceIntensityMultiplier(headacheVFXIntensity);
             VFXManager.Instance?.SetFreeRoamElectricFeelIntensity(electricFeelVFXIntensity, freeRoamVolumeCoefficient);
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+            StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
         }
 
         private IEnumerator SetStartingIndex(bool isSpecificIndex)
@@ -189,7 +189,7 @@ namespace TwelveG.GameController
 
                 if (eventIndexToLoad > 1)
                 {
-                    GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
+                    StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
                 }
             }
 

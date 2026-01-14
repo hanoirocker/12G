@@ -3,6 +3,7 @@ using TwelveG.AudioController;
 using TwelveG.UIController;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace TwelveG.GameController
 {
@@ -36,7 +37,13 @@ namespace TwelveG.GameController
 
       yield return new WaitForSeconds(1f);
 
-      GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, blackFadeInDuration));
+      yield return StartCoroutine(
+        UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, blackFadeInDuration)
+      );
+
+      // Esperamos al fade in del canvas de fondo negro para activar
+      // el raycasting del main menu
+      UIManager.Instance.MenuCanvasHandler.GetComponent<GraphicRaycaster>().enabled = true;
 
       AudioManager.Instance.FaderHandler.FadeAudioGroup(
         AudioGroup.masterVol,

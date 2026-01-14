@@ -41,8 +41,7 @@ namespace TwelveG.GameController
             GameEvents.Common.playCrashingWindowSound.Raise(this, null);
             yield return new WaitForSeconds(3f);
 
-            GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
-            yield return new WaitForSeconds(2f);
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.WakeUpBlinkingCoroutine());
 
             // QUE MIERDA FUE ESO?
             GameEvents.Common.onObservationCanvasShowText.Raise(
@@ -77,8 +76,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
-            yield return new WaitForSeconds(1f);
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 1f));
 
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));

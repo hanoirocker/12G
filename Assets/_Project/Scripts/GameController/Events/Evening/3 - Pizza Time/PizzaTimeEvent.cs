@@ -90,7 +90,7 @@ namespace TwelveG.GameController
 
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
+            StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 1f));
 
             yield return StartCoroutine(
                 PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
@@ -99,9 +99,7 @@ namespace TwelveG.GameController
 
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-
-            yield return new WaitForSeconds(1f);
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
 
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
@@ -140,12 +138,10 @@ namespace TwelveG.GameController
             GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 2f));
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
-            yield return new WaitForSeconds(2f);
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 2f));
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, false));
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 2f));
-            yield return new WaitForSeconds(1f);
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);

@@ -61,13 +61,10 @@ namespace TwelveG.GameController
             // (El onResetEventDrivenTexts hace en PhonePrefabHandler)
 
             // Retorna a la camara del player desde la del sofá
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
-            yield return new WaitForSeconds(1f);
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 1f));
             GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Sofa, false));
-            yield return new WaitForSeconds(1f);
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // Nos aseguramos que el interactuable del Backpack se destruya

@@ -38,7 +38,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.WakeUp, true));
             yield return new WaitForSeconds(2f);
-            GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
+            StartCoroutine(UIManager.Instance.ImageCanvasHandler.WakeUpBlinkingCoroutine());
 
             StartCoroutine(
                 PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
@@ -100,7 +100,7 @@ namespace TwelveG.GameController
 
             tvAudioFadeOut.Raise(this, eventFadeOut);
 
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, eventFadeOut));
+            StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, eventFadeOut));
             yield return new WaitForSeconds(5f);
         }
 

@@ -108,8 +108,7 @@ namespace TwelveG.InteractableObjects
 
             if (fadesImage)
             {
-                GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
-                yield return new WaitForSeconds(1f);
+                yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 1f));
             }
 
             yield return new WaitUntil(() => !audioSource.isPlaying);
@@ -131,8 +130,7 @@ namespace TwelveG.InteractableObjects
 
             if (fadesImage)
             {
-                GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeIn, 1f));
-                yield return new WaitForSeconds(1f);
+                yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
             }
 
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));

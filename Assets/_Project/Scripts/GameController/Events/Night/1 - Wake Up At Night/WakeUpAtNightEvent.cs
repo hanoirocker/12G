@@ -46,8 +46,7 @@ namespace TwelveG.GameController
             // Empezar a hacer sonar el walkie-talkie (se desactiva solo al recoger el Walkie Talkie)
             FindAnyObjectByType<LightBeepHandler>().enabled = true;
 
-            GameEvents.Common.onImageCanvasControls.Raise(this, new WakeUpBlinking());
-            yield return new WaitForSeconds(4f);
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.WakeUpBlinkingCoroutine());
 
             // Comentario sobre dolor de cabeza y algo asi
             GameEvents.Common.onStartDialog.Raise(this, dialogSO);
@@ -77,8 +76,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            GameEvents.Common.onImageCanvasControls.Raise(this, new FadeImage(FadeType.FadeOut, 1f));
-            yield return new WaitForSeconds(1f);
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 1f));
 
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Bed, false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
