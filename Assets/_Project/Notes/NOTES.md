@@ -1,6 +1,5 @@
 NOVEDADES:
-- Se reemplazaron todos los llamados a onImangeCanvasControls para hacer fade del canvas por el llamado mismo a su instancia mediante UIManager.Instance.
-onImangeCanvasControls borrado.
+- Menu Canvas updated
 
 TOCHECK:
 
