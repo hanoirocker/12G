@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -137,7 +139,7 @@ namespace TwelveG.UIController
         if (canvasDict.TryGetValue(canvasType, out var canvasGO))
         {
           canvasGO.SetActive(true);
-          Debug.Log($"[UIManager] Activado canvas: {canvasType}");
+          // Debug.Log($"[UIManager] Activado canvas: {canvasType}");
         }
         else
         {
@@ -163,6 +165,12 @@ namespace TwelveG.UIController
       {
         Debug.LogError("[UIManager] Tipo de datos inválido para activación de canvas");
       }
+    }
+
+    // Llamado desde cualquier botón del UI
+    public void OnButtonPointed()
+    {
+      AudioManager.Instance.AudioUIHandler.PlayPointerEnterSound();
     }
 
     public void LoadData(GameData data)

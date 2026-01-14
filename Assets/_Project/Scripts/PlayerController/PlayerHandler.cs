@@ -14,9 +14,15 @@ namespace TwelveG.PlayerController
         [Header("References")]
         [SerializeField] private GameObject playerCapsule;
         [SerializeField] private GameObject mainCamera;
+
+        [SerializeField] private FPController fpController;
+
+        [SerializeField] private AudioSource playerCapsuleAudioSource;
         [SerializeField] private Transform playerCameraRoot;
 
-        [Header("Player Settings")]
+        public AudioSource PlayerCapsuleAudioSource => playerCapsuleAudioSource;
+        public FPController FPController => fpController;
+
 
         private HouseArea currentHouseArea = HouseArea.None;
         private PlayerShortcuts playerShortcuts;
@@ -24,8 +30,6 @@ namespace TwelveG.PlayerController
         private PlayerInput playerInput;
         private CharacterController characterController;
         private AudioSource playerAudioSource;
-        private FPController fPController;
-        private PlayerSoundsHandler playerSoundsHandler;
         private HeadBobController headBobController;
 
         private PlayerInteraction playerInteraction;
@@ -53,8 +57,6 @@ namespace TwelveG.PlayerController
             playerInput = playerCapsule.GetComponent<PlayerInput>();
             characterController = playerCapsule.GetComponent<CharacterController>();
             playerAudioSource = playerCapsule.GetComponent<AudioSource>();
-            fPController = playerCapsule.GetComponent<FPController>();
-            playerSoundsHandler = playerCapsule.GetComponent<PlayerSoundsHandler>();
             headBobController = playerCapsule.GetComponent<HeadBobController>();
 
             playerInteraction = mainCamera.GetComponent<PlayerInteraction>();
@@ -63,6 +65,10 @@ namespace TwelveG.PlayerController
             cameraZoom = mainCamera.GetComponent<CameraZoom>();
             headLookAround = mainCamera.GetComponent<HeadLookAround>();
             playerInventory = mainCamera.GetComponentInChildren<PlayerInventory>();
+
+            // Registra al PlayerHAndler en el PlayerSoundsHandler para que este último
+            // pueda acceder a FPController y al PlayerCapsuleAudioSource
+            AudioManager.Instance.PlayerSoundsHandler.RegisterPlayerHandler(this);
         }
 
         private void OnDestroy()
@@ -101,7 +107,7 @@ namespace TwelveG.PlayerController
                     break;
 
                 case EnablePlayerSprint cmd:
-                    fPController.EnableSprint(cmd.Enabled);
+                    fpController.EnableSprint(cmd.Enabled);
                     break;
 
                 case TogglePlayerCapsule cmd:
@@ -196,9 +202,9 @@ namespace TwelveG.PlayerController
         // Agrupa todos los scripts de movimiento y input físico
         private void SwitchPlayerControllers(bool enabled)
         {
-            fPController.enabled = enabled;
+            fpController.enabled = enabled;
             playerAudioSource.enabled = enabled;
-            playerSoundsHandler.enabled = enabled;
+            AudioManager.Instance.PlayerSoundsHandler.enabled = enabled;
             playerInput.enabled = enabled;
             characterController.enabled = enabled;
             headBobController.enabled = enabled;

@@ -25,6 +25,7 @@ namespace TwelveG.AudioController
         [SerializeField] private AudioMixer masterMixer;
 
         [Header("Children references")]
+        [SerializeField] private PlayerSoundsHandler playerSoundsHandler;
         [SerializeField] private AudioPoolsHandler audioPoolsHandler;
         [SerializeField] private AudioFaderHandler audioFaderHandler;
         [SerializeField] private EnvironmentAudioHandler audioEnvironmentHandler;
@@ -32,6 +33,7 @@ namespace TwelveG.AudioController
         [SerializeField] private AudioZoneHandler audioZoneHandler;
         [SerializeField] private AudioDialogsHandler audioDialogsHandler;
 
+        public PlayerSoundsHandler PlayerSoundsHandler => playerSoundsHandler;
         public AudioPoolsHandler PoolsHandler => audioPoolsHandler;
         public AudioFaderHandler FaderHandler => audioFaderHandler;
         public EnvironmentAudioHandler EnvironmentAudioHandler => audioEnvironmentHandler;

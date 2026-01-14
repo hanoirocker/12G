@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TwelveG.GameController;
 using UnityEngine;
@@ -6,6 +7,10 @@ namespace TwelveG.UIController
 {
   public class MenuCanvasHandler : MonoBehaviour
   {
+    [Header("References")]
+    [SerializeField] private CanvasGroup menuCanvasGroup;
+
+    [Space(10)]
     [Header("Settings")]
     [SerializeField, Range(0.5f, 3f)] private float fadeOutDuration = 1.5f;
 
@@ -32,23 +37,9 @@ namespace TwelveG.UIController
     {
       yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, fadeOutDuration));
 
-      // Escuchado por GameManager para luego llamar al SceneLoaderHandler.
-      GameEvents.Common.onPlayGame.Raise(this, isNewGame);
+      GameManager.Instance.PlayGame(isNewGame);
+
       gameObject.SetActive(false);
-    }
-
-    private IEnumerator FadeCanvasCoroutine(CanvasGroup group, float from, float to, float duration)
-    {
-      float elapsed = 0f;
-
-      while (elapsed < duration)
-      {
-        group.alpha = Mathf.Lerp(from, to, elapsed / duration);
-        elapsed += Time.deltaTime;
-        yield return null;
-      }
-
-      group.alpha = to;
     }
 
     // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos
@@ -64,6 +55,22 @@ namespace TwelveG.UIController
     public void PlayOption(bool isNewGame)
     {
       StartCoroutine(StartPlaying(isNewGame));
+      StartCoroutine(FadeMenuCanvasRoutine());
+    }
+
+    private IEnumerator FadeMenuCanvasRoutine()
+    {
+      float originalAlpha = menuCanvasGroup.alpha;
+
+      yield return StartCoroutine(UIUtils.FadeCanvasGroup(
+        menuCanvasGroup,
+        originalAlpha,
+        0f,
+        fadeOutDuration
+      ));
+
+      menuCanvas.enabled = false;
+      menuCanvasGroup.alpha = originalAlpha;
     }
 
     public void QuitGameCanvasOption()

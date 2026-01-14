@@ -64,7 +64,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
             StartCoroutine(
-                PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+                AudioManager.Instance.GetComponentInChildren<PlayerSoundsHandler>().
                 PlayPlayerSound(PlayerSoundsType.StandUpEvening)
             );
 

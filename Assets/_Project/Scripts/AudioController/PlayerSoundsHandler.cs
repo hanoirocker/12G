@@ -22,6 +22,15 @@ namespace TwelveG.AudioController
         Doubt, // Hmmm?
     }
 
+    public enum FSMaterial
+    {
+        Empty,
+        Wood,
+        Carpet,
+        MosaicGarage,
+        MosaicBathroom
+    }
+
     public class PlayerSoundsHandler : MonoBehaviour
     {
         [Header("Footsteps Clips")]
@@ -30,6 +39,7 @@ namespace TwelveG.AudioController
         public List<AudioClip> mosaicGarageFS;
         public List<AudioClip> mosaicBathroomFS;
 
+        [Space(10)]
         [Header("Other Clips")]
         [SerializeField] private AudioClip wakeUpAfternoonClip;
         [SerializeField, Range(0f, 1f)] private float wakeUpAfternoonClipVolume = 0.7f;
@@ -58,6 +68,7 @@ namespace TwelveG.AudioController
         [SerializeField] private AudioClip doubtClip;
         [SerializeField, Range(0f, 1f)] private float doubtClipVolume = 0.7f;
 
+        [Space(10)]
         [Header("Footsteps Settings")]
         [SerializeField] private float walkPitch;
         [SerializeField] private float runPitchMin;
@@ -68,27 +79,15 @@ namespace TwelveG.AudioController
         private float nextStepTime = 0f;
         private bool isRunning = false;
 
-        private enum FSMaterial
-        {
-            Wood, Carpet, MosaicGarage, MosaicBathroom, Empty
-        }
-
-        private AudioSource audioSource;
+        private PlayerHandler playerHandler;
+        private AudioSource playerCapsuleAudioSource;
         private FPController fpController;
-
-        private void Awake()
-        {
-            fpController = GetComponent<FPController>();
-        }
-
-        private void Start()
-        {
-            audioSource = GetComponent<AudioSource>();
-            audioSource.pitch = walkPitch;
-        }
 
         private void Update()
         {
+            // Nos aseguramos que se haya registrado correctamente el PlayerHandler
+            if (fpController == null) return;
+
             bool isMoving = Input.GetKey(KeyCode.W) ||
                             Input.GetKey(KeyCode.A) ||
                             Input.GetKey(KeyCode.S) ||
@@ -109,7 +108,7 @@ namespace TwelveG.AudioController
         private FSMaterial SurfaceSelect()
         {
             RaycastHit hit;
-            Ray ray = new Ray(transform.position + Vector3.up * 0.5f, -Vector3.up);
+            Ray ray = new Ray(fpController.gameObject.transform.position + Vector3.up * 0.5f, -Vector3.up);
 
             if (Physics.Raycast(ray, out hit, 1.0f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
             {
@@ -151,11 +150,32 @@ namespace TwelveG.AudioController
             }
             if (clip == null) return;
 
-            audioSource.pitch = isRunning
+            playerCapsuleAudioSource.pitch = isRunning
                 ? Random.Range(runPitchMin, runPitchMax)
                 : walkPitch;
 
-            audioSource.PlayOneShot(clip);
+            playerCapsuleAudioSource.PlayOneShot(clip);
+        }
+
+        public void RegisterPlayerHandler(PlayerHandler handler)
+        {
+            playerHandler = handler;
+
+            fpController = playerHandler?.FPController;
+
+            if (fpController == null)
+            {
+                Debug.LogWarning("[PlayerSoundsHandler]: Desactivandose por no tener referencia de FPController");
+                this.enabled = false;
+                return;
+            }
+
+            playerCapsuleAudioSource = playerHandler?.PlayerCapsuleAudioSource;
+
+            if (playerCapsuleAudioSource == null)
+            {
+                Debug.LogWarning("[PlayerSoundsHandler]: No se encontró referencia a AudioSource del PlayerCapsule");
+            }
         }
 
         public IEnumerator PlayPlayerSound(PlayerSoundsType playerSoundsType, float timeUntilFadeOut = 0f, float fadeOutTime = 0f)

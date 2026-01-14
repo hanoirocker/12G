@@ -93,7 +93,7 @@ namespace TwelveG.GameController
             StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 1f));
 
             yield return StartCoroutine(
-                PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+                AudioManager.Instance.GetComponentInChildren<PlayerSoundsHandler>().
                 PlayPlayerSound(PlayerSoundsType.ChairMoving)
             );
 

@@ -36,7 +36,7 @@ namespace TwelveG.GameController
         {
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             PlayerHouseHandler playerHouseHandler = PlayerHouseHandler.Instance;
-            PlayerSoundsHandler playerSoundsHandler = PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>();
+            PlayerSoundsHandler playerSoundsHandler = AudioManager.Instance.GetComponentInChildren<PlayerSoundsHandler>();
             AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
             Transform garageTransform = playerHouseHandler.GetTransformByObject(HouseObjects.GarageNoise);
             RotativeDoorHandler garageDoorHandler = GameObject.Find("Garage Rotative Door").GetComponentInChildren<RotativeDoorHandler>();

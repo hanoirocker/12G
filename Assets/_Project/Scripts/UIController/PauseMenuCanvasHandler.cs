@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TwelveG.AudioController;
+using TwelveG.GameController;
 using TwelveG.SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,6 +45,27 @@ namespace TwelveG.UIController
             }
         }
 
+        public void OnResumeGameButtonPressed()
+        {
+            Debug.LogWarning($"[PauseMenuCanvasHandler]: Resuming game");
+            GameEvents.Common.onPauseGame.Raise(this, false);
+        }
+
+        public void OnSaveGameButtonPressed()
+        {
+            Debug.LogWarning($"[PauseMenuCanvasHandler]: Saving game data");
+            DataPersistenceManager.Instance.SavePersistenceData();
+            GameEvents.Common.onPauseGame.Raise(this, false);
+        }
+
+        public void OnQuitGameButtonPressed()
+        {
+            Debug.LogWarning($"[MenuCanvasHandler]: Quitting game");
+            Application.Quit();
+        }
+
+        // Settings se llama desde UIManager, ya que debe detectar al que lo llamó
+
         private void SetResumeGameSettings()
         {
             Time.timeScale = 1f;
@@ -52,31 +74,6 @@ namespace TwelveG.UIController
             // Ocultar el cursor y bloquearlo en el centro de la pantalla
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-        }
-
-        public void OnPauseMenuButtonClicked(Button btn)
-        {
-            switch (btn.name)
-            {
-                case "Settings Btn":
-                    // Load Settings canvas
-                    Debug.Log("TODO: Open Setting Canvas now!");
-                    break;
-                case "Save Btn":
-                    Debug.Log("Saving data!");
-                    DataPersistenceManager.Instance.SavePersistenceData();
-                    break;
-                case "Return Btn":
-                    Debug.Log("TODO: Resuming game!");
-                    break;
-                case "Quit Btn":
-                    Debug.Log("Quitting game!");
-                    Application.Quit();
-                    break;
-                default:
-                    Debug.LogError($"[PauseMenuCanvasHandler]: clickedButton not recognized");
-                    break;
-            }
         }
     }
 }

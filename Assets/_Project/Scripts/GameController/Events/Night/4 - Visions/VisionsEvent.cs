@@ -151,7 +151,7 @@ namespace TwelveG.GameController
       ResetAllowNextActions();
 
       yield return StartCoroutine(
-        PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+        AudioManager.Instance.GetComponentInChildren<PlayerSoundsHandler>().
         PlayPlayerSound(PlayerSoundsType.VisionsNeckWhisper)
       );
 

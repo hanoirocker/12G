@@ -96,7 +96,7 @@ namespace TwelveG.GameController
       VerifySceneType();
     }
 
-    public void PlayGame(Component sender, object isNewGame)
+    public void PlayGame(bool isNewGame)
     {
       sceneLoaderHandler.LoadNextSceneSequence((bool)isNewGame ? 2 : _savedSceneIndex);
     }

@@ -66,10 +66,10 @@ namespace TwelveG.GameController
           source.clip = afternoonMusic;
           break;
         case "Menu Evening":
-          source.clip = eveningMusic;
+          source.clip = afternoonMusic;
           break;
         case "Menu Night":
-          source.clip = nightMusic;
+          source.clip = afternoonMusic;
           break;
         default:
           Debug.LogWarning($"[MenuHandler]: No background music assigned for scene '{currentSceneName}'");

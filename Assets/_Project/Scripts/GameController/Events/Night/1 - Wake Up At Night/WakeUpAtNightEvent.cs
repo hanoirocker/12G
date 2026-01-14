@@ -61,7 +61,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
 
             StartCoroutine(
-                PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+                AudioManager.Instance.GetComponentInChildren<PlayerSoundsHandler>().
                 PlayPlayerSound(PlayerSoundsType.StandUpNight)
             );
 

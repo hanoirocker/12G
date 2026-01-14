@@ -41,7 +41,7 @@ namespace TwelveG.GameController
             StartCoroutine(UIManager.Instance.ImageCanvasHandler.WakeUpBlinkingCoroutine());
 
             StartCoroutine(
-                PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+                AudioManager.Instance.GetComponentInChildren<PlayerSoundsHandler>().
                 PlayPlayerSound(PlayerSoundsType.WakeUpAfternoon)
             );
 
@@ -91,7 +91,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 
             StartCoroutine(
-                PlayerHandler.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+                AudioManager.Instance.GetComponentInChildren<PlayerSoundsHandler>().
                 PlayPlayerSound(PlayerSoundsType.FallAsleepAfternoon)
             );
 

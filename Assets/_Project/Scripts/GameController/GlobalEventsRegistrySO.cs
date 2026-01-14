@@ -89,7 +89,6 @@ namespace TwelveG.GameController
         public GameEventSO onSceneLoaded;
         public GameEventSO onSceneActivated;
         public GameEventSO onAnyKeyPressed;
-        public GameEventSO onPlayGame;
         public GameEventSO onPauseGame;
         public GameEventSO onFinishedNarrativeCouritine;
         public GameEventSO onCheckpointEventReached;
