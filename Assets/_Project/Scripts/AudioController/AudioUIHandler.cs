@@ -4,9 +4,17 @@ namespace TwelveG.AudioController
 
   public class AudioUIHandler : MonoBehaviour
   {
-    [SerializeField] public AudioClip pointerEnterSound;
-    [SerializeField] public AudioClip pointerClickSound;
-    [SerializeField] public AudioClip playGameSound;
+    [Header("UI Audio Clips")]
+    [SerializeField] public AudioClip pointerSelectClip;
+    [SerializeField, Range(0f, 1f)] public float pointerSelectVolume = 1f;
+    [SerializeField] public AudioClip pointerClickClip;
+    [SerializeField, Range(0f, 1f)] public float pointerClickVolume = 1f;
+    [SerializeField] public AudioClip playGameClip;
+    [SerializeField, Range(0f, 1f)] public float playGameVolume = 1f;
+
+    [Header("Specific Canvas clips")]
+    [SerializeField] private AudioClip inGameMenuClip;
+    [SerializeField, Range(0f, 1f)] private float inGameMenuVolume = 1f;
 
     private AudioSource uiAudioSource;
 
@@ -17,19 +25,30 @@ namespace TwelveG.AudioController
 
     public void PlayPointerEnterSound()
     {
-      uiAudioSource.PlayOneShot(pointerEnterSound);
+      uiAudioSource.PlayOneShot(pointerSelectClip, pointerSelectVolume);
     }
 
     public void PlayPointerClickSound()
     {
-      uiAudioSource.PlayOneShot(pointerClickSound);
+      uiAudioSource.PlayOneShot(pointerClickClip, pointerClickVolume);
     }
 
     public void PlayGameSound()
     {
       // TODO: Asignar placeholder para playGameSound
       Debug.LogWarning("[AudioUIHandler]: Playing playGameSound!");
-      // uiAudioSource.PlayOneShot(playGameSound);
+      // uiAudioSource.PlayOneShot(playGameClip, playGameVolume);
+    }
+
+    public void PlayPauseMenuSound()
+    {
+      if (uiAudioSource == null) { return; }
+
+      if (uiAudioSource)
+      {
+        if (uiAudioSource.isPlaying) { uiAudioSource.Stop(); }
+        uiAudioSource.PlayOneShot(inGameMenuClip, inGameMenuVolume);
+      }
     }
   }
 }

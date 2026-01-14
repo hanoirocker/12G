@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TwelveG.AudioController;
 using TwelveG.SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,9 +46,11 @@ namespace TwelveG.UIController
     [SerializeField] private List<GameObject> canvasesToHideWhilePaused;
 
     [Header("Children references")]
+    [SerializeField] private AudioUIHandler audioUIHandler;
     [SerializeField] private ImageCanvasHandler imageCanvasHandler;
     [SerializeField] private MenuCanvasHandler menuCanvasHandler;
 
+    public AudioUIHandler AudioUIHandler => audioUIHandler;
     public ImageCanvasHandler ImageCanvasHandler => imageCanvasHandler;
     public MenuCanvasHandler MenuCanvasHandler => menuCanvasHandler;
 

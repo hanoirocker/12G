@@ -12,18 +12,15 @@ namespace TwelveG.UIController
     public class PauseMenuCanvasHandler : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private AudioClip inGameMenuClip;
         [SerializeField] private List<UpdateTextHandler> textHandlers;
 
         [Header("Testing")]
         public static bool gameIsPaused;
 
-        private AudioSource pauseMenuSource;
-
         private void OnEnable()
         {
             UpdateUITextOptions();
-            PlayPauseMenuSound();
+            UIManager.Instance.AudioUIHandler.PlayPauseMenuSound();
             SetPauseGameSettings();
         }
 
@@ -38,7 +35,7 @@ namespace TwelveG.UIController
 
         private void OnDisable()
         {
-            PlayPauseMenuSound();
+            UIManager.Instance.AudioUIHandler.PlayPauseMenuSound();
             SetResumeGameSettings();
         }
 
@@ -47,22 +44,6 @@ namespace TwelveG.UIController
             foreach (UpdateTextHandler textHandler in textHandlers)
             {
                 textHandler.UpdateText(Localization.LocalizationManager.Instance.GetCurrentLanguageCode());
-            }
-        }
-
-        private void PlayPauseMenuSound()
-        {
-            if (pauseMenuSource == null)
-            {
-                pauseMenuSource = AudioManager.Instance?.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.UI);
-            }
-
-            if (inGameMenuClip == null) { return; }
-
-            if (pauseMenuSource)
-            {
-                if (pauseMenuSource.isPlaying) { pauseMenuSource.Stop(); }
-                pauseMenuSource.PlayOneShot(inGameMenuClip);
             }
         }
 
@@ -82,17 +63,17 @@ namespace TwelveG.UIController
             {
                 case "Settings Btn":
                     // Load Settings canvas
-                    print("TODO: Open Setting Canvas now!");
+                    Debug.Log("TODO: Open Setting Canvas now!");
                     break;
                 case "Save Btn":
-                    print("Saving data!");
+                    Debug.Log("Saving data!");
                     DataPersistenceManager.Instance.SavePersistenceData();
                     break;
                 case "Return Btn":
-                    GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+                    Debug.Log("TODO: Resuming game!");
                     break;
                 case "Quit Btn":
-                    print("Quitting game!");
+                    Debug.Log("Quitting game!");
                     Application.Quit();
                     break;
                 default:

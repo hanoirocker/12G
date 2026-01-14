@@ -17,11 +17,11 @@ namespace TwelveG.UIController
 
         public IEnumerator FadeImageCanvas(FadeType fadeType, float duration)
         {
-            if (fadeType == FadeType.FadeIn)
+            if (fadeType == FadeType.FadeOut)
             {
                 yield return UIUtils.FadeCanvasGroup(canvasGroup, 0f, 1f, duration);
             }
-            else if (fadeType == FadeType.FadeOut)
+            else if (fadeType == FadeType.FadeIn)
             {
                 yield return UIUtils.FadeCanvasGroup(canvasGroup, 1f, 0f, duration);
             }

@@ -1,5 +1,5 @@
 NOVEDADES:
-- Menu Canvas updated
+- Pause Manu Canvas actualizado para que siga los estilos del Main Menu.
 
 TOCHECK:
 
