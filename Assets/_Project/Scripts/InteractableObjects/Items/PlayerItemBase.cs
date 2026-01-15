@@ -21,8 +21,6 @@ namespace TwelveG.InteractableObjects
         private protected bool itemIsShown = false;
         private protected bool isActiveOnGame = false;
 
-        private bool wasAlreadyActivated = false;
-
         protected virtual void Awake()
         {
             anim = GetComponent<Animation>();
@@ -47,7 +45,7 @@ namespace TwelveG.InteractableObjects
                 _ => InteractionObjectType.None,
             };
 
-            GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(interactionType, activate));
+            UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(interactionType, activate);
         }
 
         public bool IsItemActiveInGame()

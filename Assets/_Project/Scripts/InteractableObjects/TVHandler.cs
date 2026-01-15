@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TwelveG.GameController;
 using TwelveG.UIController;
 using UnityEngine;
 using UnityEngine.Video;
@@ -69,7 +68,7 @@ namespace TwelveG.PlayerController
             }
 
             currentChannelIndex = initialChannelIndex;
-            GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(InteractionObjectType.TV, true));
+            UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.TV, true);
             playerIsInteracting = false;
             StartCoroutine(InitializeTV());
         }
@@ -116,14 +115,14 @@ namespace TwelveG.PlayerController
 
             if (playerIsInteracting)
             {
-                GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(InteractionObjectType.TV, false));
-                GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(InteractionObjectType.RemoteControl, true));
+                UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.TV, false);
+                UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.RemoteControl, true);
                 ShowRemoteControl(true);
             }
             else
             {
-                GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(InteractionObjectType.RemoteControl, false));
-                GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(InteractionObjectType.TV, true));
+                UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.RemoteControl, false);
+                UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.TV, true);
                 ShowRemoteControl(false);
             }
         }
@@ -214,7 +213,7 @@ namespace TwelveG.PlayerController
             {
                 hasReachedNews.Raise(this, null);
                 ShowRemoteControl(false);
-                GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(InteractionObjectType.RemoteControl, false));
+                UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.RemoteControl, false);
                 playerIsAllowedToInteract = false;
                 DisableAllGameEventListeners();
             }

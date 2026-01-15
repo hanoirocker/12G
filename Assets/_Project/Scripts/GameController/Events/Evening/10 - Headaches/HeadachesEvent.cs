@@ -70,7 +70,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(10f);
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
 
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(true));
+            UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(true);
 
             // "Police Car Crashed - Spot" dispara el evento policeCarSpotted al ser chekeado por Simon
             yield return new WaitUntil(() => allowNextAction);

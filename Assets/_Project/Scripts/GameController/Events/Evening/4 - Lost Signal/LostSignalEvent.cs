@@ -70,7 +70,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
             yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 2f));
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(false);
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
             yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 2f));

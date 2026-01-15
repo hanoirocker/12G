@@ -171,12 +171,12 @@ namespace TwelveG.PlayerController
                         fullTrashBag.SetActive(false);
                         break;
                     case ItemType.Flashlight:
-                        GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(InteractionObjectType.Flashlight, false));
+                        UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.Flashlight, false);
                         flashlight.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
                         flashlight.GetComponent<PlayerItemBase>().ActivateItem(false);
                         break;
                     case ItemType.WalkieTalkie:
-                        GameEvents.Common.onControlCanvasSetInteractionOptions.Raise(this, new InteractionObjectConfig(InteractionObjectType.WalkieTalkie, false));
+                        UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.WalkieTalkie, false);
                         walkieTalkie.GetComponent<PlayerItemBase>().AllowItemToBeToggled(false);
                         walkieTalkie.GetComponent<PlayerItemBase>().ActivateItem(false);
                         VFXManager.Instance?.EnableElectricFeelVFX(false);

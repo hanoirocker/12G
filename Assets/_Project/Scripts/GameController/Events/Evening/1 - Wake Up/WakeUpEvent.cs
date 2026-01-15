@@ -26,7 +26,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(initialTime);
 
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(false);
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));
 

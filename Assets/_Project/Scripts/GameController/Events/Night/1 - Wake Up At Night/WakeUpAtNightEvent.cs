@@ -36,7 +36,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardRainAndWind);
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Bed, true));
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(false);
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(false));

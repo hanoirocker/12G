@@ -49,7 +49,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(5f);
 
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(true));
+            UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(true);
 
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
@@ -62,7 +62,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(false);
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));

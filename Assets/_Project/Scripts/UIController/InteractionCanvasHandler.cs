@@ -21,11 +21,6 @@ namespace TwelveG.UIController
             UpdateCanvasTextOnLanguageChanged();
         }
 
-        private void OnDisable()
-        {
-            interactionCavas.enabled = false;
-        }
-
         private void Start()
         {
             interactionCavas.enabled = false;
@@ -77,13 +72,12 @@ namespace TwelveG.UIController
             }
         }
 
-        // TODO: Refactor to use HideInteractionText in all places
         public void HideInteractionText()
         {
             interactionCavas.enabled = false;
         }
 
-        // TODO: Refactor to use HideInteractionText in all places
+        // TODO: Quizas mover a UIUtils a futuro
         public void VanishTextEffect()
         {
             StartCoroutine(UIUtils.VanishTextEffectCoroutine(interactionCanvasText, interactionCavas));

@@ -120,7 +120,7 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             yield return new WaitForSeconds(3.5f);
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(false);
             // LEVANTARSE [E]
             UIManager.Instance.InteractionCanvasHandler.ShowEventInteractionText(eventsInteractionTextsSO);
 

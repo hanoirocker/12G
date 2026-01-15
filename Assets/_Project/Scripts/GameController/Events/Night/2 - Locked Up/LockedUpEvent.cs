@@ -37,7 +37,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(initialTime);
 
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
+            UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(false);
             GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
 
             yield return new WaitForSeconds(3f);

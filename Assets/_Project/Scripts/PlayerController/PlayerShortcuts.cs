@@ -14,7 +14,7 @@ namespace TwelveG.PlayerController
         {
             if (Input.GetKeyDown(KeyCode.H) && playerCanOpenCanvasControls)
             {
-                GameEvents.Common.onControlCanvasControls.Raise(this, new AlternateCanvasCurrentState());
+                UIManager.Instance.ControlCanvasHandler.AlternateControlCanvas();
             }
             else if (Input.GetKeyDown(KeyCode.Escape) && playerCanOpenPauseMenu)
             {

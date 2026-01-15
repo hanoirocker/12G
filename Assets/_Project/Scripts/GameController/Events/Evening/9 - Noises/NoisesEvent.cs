@@ -49,7 +49,7 @@ namespace TwelveG.GameController
                 eventObservationsTextsSOs[0].observationTextsStructure[0].observationText
             ));
 
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(true));
+            UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(true);
 
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
@@ -85,7 +85,7 @@ namespace TwelveG.GameController
 
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
-            GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(true));
+            UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(true);
 
             // Cargar dialogo. El mismo no inicia hasta que el jugador cambie al canal 4.
             GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel

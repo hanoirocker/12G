@@ -7,15 +7,6 @@ using UnityEngine;
 
 namespace TwelveG.UIController
 {
-    public struct InteractionObjectConfig
-    {
-        public InteractionObjectType InteractionObjectType;
-        public bool Enabled;
-
-        public InteractionObjectConfig(InteractionObjectType interactionObjectType, bool enabled)
-            => (InteractionObjectType, Enabled) = (interactionObjectType, enabled);
-    }
-
     public enum InteractionObjectType
     {
         None,
@@ -50,30 +41,28 @@ namespace TwelveG.UIController
         {
             UpdateCanvasTextOnLanguageChanged();
         }
-        
+
         // Escucha el evento onControlCanvasSetInteractionOptions llamado desde 
         // PlayerItemBase y PlayerInventory para mostrar/ocultar las opciones
         // específicas de cada objeto de interacción.
-        public void SetInteractionSpecificOptions(Component sender, object data)
+        public void SetInteractionSpecificOptions(InteractionObjectType interactionObjectType, bool enabled)
         {
-            InteractionObjectConfig interactionType = (InteractionObjectConfig)data;
-
-            switch (interactionType.InteractionObjectType)
+            switch (interactionObjectType)
             {
                 case InteractionObjectType.TV:
-                    TVOptions.SetActive(interactionType.Enabled);
+                    TVOptions.SetActive(enabled);
                     break;
                 case InteractionObjectType.RemoteControl:
-                    RCOptions.SetActive(interactionType.Enabled);
+                    RCOptions.SetActive(enabled);
                     break;
                 case InteractionObjectType.WalkieTalkie:
-                    WTOptions.SetActive(interactionType.Enabled);
+                    WTOptions.SetActive(enabled);
                     break;
                 case InteractionObjectType.Flashlight:
-                    FlashlightOptions.SetActive(interactionType.Enabled);
+                    FlashlightOptions.SetActive(enabled);
                     break;
                 default:
-                    Debug.LogWarning($"[ControlCanvasHandler] Unknown InteractionObjectType received: {interactionType}");
+                    Debug.LogWarning($"[ControlCanvasHandler] Unknown InteractionObjectType received: {interactionObjectType}");
                     return;
             }
         }
@@ -87,21 +76,10 @@ namespace TwelveG.UIController
                 updateTextHandler.UpdateText(LocalizationManager.Instance.GetCurrentLanguageCode());
             }
         }
-
-        public void ControlCanvasControls(Component sender, object data)
+        
+        public void AlternateControlCanvas()
         {
-            switch (data)
-            {
-                case EnableCanvas cmd:
-                    StartCoroutine(ToggleControlCanvasCoroutine(cmd.Enabled));
-                    break;
-                case AlternateCanvasCurrentState:
-                    StartCoroutine(ToggleControlCanvasCoroutine(!controlCanvas.enabled));
-                    break;
-                default:
-                    Debug.LogWarning($"[ControlCanvasHandler] Received unknown command: {data}");
-                    break;
-            }
+            StartCoroutine(ToggleControlCanvasCoroutine(!controlCanvas.enabled));
         }
 
         // Ejecutado cuando recibe onEnablePlayerItem (usado para mostrar el canvas al encontrar
