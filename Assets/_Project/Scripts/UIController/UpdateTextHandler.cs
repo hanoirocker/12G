@@ -65,7 +65,8 @@ namespace TwelveG.UIController
 
         if (formatText)
         {
-          finalValue = UIManager.Instance.UIFormatter.FormatTextByType(finalValue, uITextType, this.gameObject);
+          finalValue = UIManager.Instance.UIFormatter.UpdateTextColors(finalValue, uITextType, this.gameObject);
+          UIManager.Instance.UIFormatter.AssignFontByType(uITextType, GetComponent<TextMeshProUGUI>());
         }
 
         gameObject.GetComponent<TextMeshProUGUI>().text = finalValue;
@@ -87,7 +88,8 @@ namespace TwelveG.UIController
 
           if (formatText)
           {
-            textValue = UIManager.Instance.UIFormatter.FormatTextByType(textValue, uITextType, this.gameObject);
+            textValue = UIManager.Instance.UIFormatter.UpdateTextColors(textValue, uITextType, this.gameObject);
+            UIManager.Instance.UIFormatter.AssignFontByType(uITextType, GetComponent<TextMeshProUGUI>());
           }
 
           dropdown.options[i].text = textValue;

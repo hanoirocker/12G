@@ -23,6 +23,7 @@ namespace TwelveG.UIController
         private void Start()
         {
             interactionCavas.enabled = false;
+            UIManager.Instance.UIFormatter.AssignFontByType(UIFormatingType.PlayerInteractionText, interactionCanvasText);
         }
 
         private void OnEnable()
@@ -35,6 +36,7 @@ namespace TwelveG.UIController
             if (Application.isPlaying && isActiveAndEnabled && interactionCavas.enabled)
             {
                 UpdateCanvasText();
+                UIManager.Instance.UIFormatter.AssignFontByType(UIFormatingType.PlayerInteractionText, interactionCanvasText);
             }
         }
 
@@ -99,7 +101,7 @@ namespace TwelveG.UIController
 
             if (string.IsNullOrEmpty(rawText)) return;
 
-            string formattedText = UIManager.Instance.UIFormatter.FormatTextByType(
+            string formattedText = UIManager.Instance.UIFormatter.UpdateTextColors(
                 rawText,
                 UIFormatingType.PlayerInteractionText,
                 this.gameObject

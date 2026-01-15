@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,32 +10,33 @@ namespace TwelveG.UIController
     None,
     ControlsSpecificText,
     AlertColorText,
-    ButtonHighlightColorText,
+    ButtonText,
     PlayerInteractionText,
+    PlayerContemplationText,
+    PlayerObservationText,
   }
 
-  public  class UIFormatter: MonoBehaviour
+  public class UIFormatter : MonoBehaviour
   {
-    [SerializeField] private UIFormattingDataSO palette;
+    [SerializeField] private UIFormattingDataSO formatData;
 
-    public string FormatTextByType(string inputText, UIFormatingType formatType, GameObject contextObject)
+    public string UpdateTextColors(string inputText, UIFormatingType formatType, GameObject contextObject)
     {
-      // Seguridad: Si no hay paleta, devolvemos el texto sin formato para evitar errores
-      if (palette == null) return inputText;
+      if (formatData == null) return inputText;
 
       switch (formatType)
       {
         case UIFormatingType.ControlsSpecificText:
-          return FormatInteractionInputText(inputText, palette.GetColorByType(formatType));
+          return FormatControlsText(inputText, formatData.GetColorByType(formatType));
 
         case UIFormatingType.AlertColorText:
-          return FormatAlertText(inputText, palette.GetColorByType(formatType));
+          return FormatAlertText(inputText, formatData.GetColorByType(formatType));
 
         case UIFormatingType.PlayerInteractionText:
-          return FormatInteractionInputText(inputText, palette.playerInteractionColor);
+          return FormatControlsText(inputText, formatData.GetColorByType(formatType));
 
-        case UIFormatingType.ButtonHighlightColorText:
-          ConfigureParentButtonColor(contextObject, palette.GetColorByType(formatType));
+        case UIFormatingType.ButtonText:
+          ConfigureParentButtonColor(contextObject, formatData.GetColorByType(formatType));
           return inputText;
 
         case UIFormatingType.None:
@@ -43,7 +45,15 @@ namespace TwelveG.UIController
       }
     }
 
-    private string FormatInteractionInputText(string inputText, Color colorToUse)
+    public void AssignFontByType(UIFormatingType formatType, TextMeshProUGUI textComponent)
+    {
+      if (formatData == null) return;
+
+      TMP_FontAsset fontToAssign = formatData.GetFontByType(formatType);
+      textComponent.font = fontToAssign;
+    }
+
+    private string FormatControlsText(string inputText, Color colorToUse)
     {
       if (string.IsNullOrEmpty(inputText)) return inputText;
 
