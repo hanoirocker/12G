@@ -8,6 +8,7 @@ TOCHECK:
 - Agregar mas sonidos stereo para los perfiles sonoros de ambiente?
 
 TOFIX:
+- Los textos de controles secundarios están muy pegados a los default
 - Arreglar el error que se muestra en TV Time event sobre el TV Options no pudiendo actualizar su texto.
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 

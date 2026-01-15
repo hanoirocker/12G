@@ -14,15 +14,7 @@ namespace TwelveG.GameController
         public GameEventSO onLoadPlayerHelperData;
         public GameEventSO onShowNarrativeIntro;
         public GameEventSO onToggleInGameCanvasAll;
-        public GameEventSO onInformationFadeIn;
-        public GameEventSO onInformationFadeOut;
         public GameEventSO onDeactivateCanvas;
-        public GameEventSO onDisclaimerFadeIn;
-        public GameEventSO onDisclaimerFadeInFinished;
-        public GameEventSO onDisclaimerFadeOut;
-        public GameEventSO onDisclaimerFadeOutFinished;
-        public GameEventSO onInformationFadeInFinished;
-        public GameEventSO onInformationFadeOutFinished;
         public GameEventSO onShowIncomingCallPanel; // WT
         public GameEventSO onExaminationCanvasControls;
         public GameEventSO onExaminationCanvasShowText;

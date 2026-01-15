@@ -52,6 +52,8 @@ namespace TwelveG.UIController
     [SerializeField] private ContemplationCanvasHandler contemplationCanvasHandler;
     [SerializeField] private ObservationCanvasHandler observationCanvasHandler;
     [SerializeField] private ControlCanvasHandler controlCanvasHandler;
+    [SerializeField] private DisclaimerCanvasHandler disclaimerCanvasHandler;
+    [SerializeField] private InformationCanvasHandler informationCanvasHandler;
 
     public ImageCanvasHandler ImageCanvasHandler => imageCanvasHandler;
     public MenuCanvasHandler MenuCanvasHandler => menuCanvasHandler;
@@ -59,6 +61,9 @@ namespace TwelveG.UIController
     public ContemplationCanvasHandler ContemplationCanvasHandler => contemplationCanvasHandler;
     public ObservationCanvasHandler ObservationCanvasHandler => observationCanvasHandler;
     public ControlCanvasHandler ControlCanvasHandler => controlCanvasHandler;
+    public LoadingSceneCanvasHandler LoadingSceneCanvasHandler => loadingSceneCanvasHandler;
+    public DisclaimerCanvasHandler DisclaimerCanvasHandler => disclaimerCanvasHandler;
+    public InformationCanvasHandler InformationCanvasHandler => informationCanvasHandler;
 
     private Dictionary<CanvasHandlerType, GameObject> canvasDict;
     private List<bool> originalStates = new List<bool>();

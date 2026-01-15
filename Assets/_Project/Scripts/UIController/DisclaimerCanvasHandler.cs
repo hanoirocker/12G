@@ -6,8 +6,7 @@ using UnityEngine;
 
 namespace TwelveG.UIController
 {
-  [RequireComponent(typeof(GameEventListener))]
-  public class DisclaimerCanvasHandler : IntroCanvasBase
+  public class DisclaimerCanvasHandler : MonoBehaviour
   {
     [Header("References")]
     [SerializeField] private List<CanvasGroup> canvasGroups = new();
@@ -40,34 +39,20 @@ namespace TwelveG.UIController
       canvasGroupsReady = true;
     }
 
-    private IEnumerator DisclaimerFadeInSequence()
+    public IEnumerator DisclaimerFadeInSequence()
     {
       yield return new WaitUntil(() => canvasGroupsReady);
 
       disclaimerCanvas.enabled = true;
 
-      yield return FadeCanvasGroup(canvasGroups[0], 0f, 1f, 2f, 2f); // Title
-      yield return FadeCanvasGroup(canvasGroups[1], 0f, 1f, 2f, 7f); // Content
-      yield return FadeCanvasGroup(canvasGroups[2], 0f, 1f, 6f, 4f); // Phrase
-
-      GameEvents.Common.onDisclaimerFadeInFinished.Raise(this, null);
+      yield return StartCoroutine(UIUtils.FadeIntroCanvasGroup(canvasGroups[0], 0f, 1f, 2f, 2f)); // Title
+      yield return StartCoroutine(UIUtils.FadeIntroCanvasGroup(canvasGroups[1], 0f, 1f, 2f, 7f)); // Content
+      yield return StartCoroutine(UIUtils.FadeIntroCanvasGroup(canvasGroups[2], 0f, 1f, 6f, 4f)); // Phrase
     }
 
-    private IEnumerator DisclaimerFadeOutSequence()
+    public IEnumerator DisclaimerFadeOutSequence()
     {
-      yield return FadeCanvasGroup(textsCanvasGroup, 1f, 0f, 3f);
-
-      GameEvents.Common.onDisclaimerFadeOutFinished.Raise(this, null);
-    }
-
-    public void DisclaimerFadeIn(Component sender, object data)
-    {
-      StartCoroutine(DisclaimerFadeInSequence());
-    }
-
-    public void DisclaimerFadeOut(Component sender, object data)
-    {
-      StartCoroutine(DisclaimerFadeOutSequence());
+      yield return StartCoroutine(UIUtils.FadeIntroCanvasGroup(textsCanvasGroup, 1f, 0f, 3f));
     }
 
     // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos

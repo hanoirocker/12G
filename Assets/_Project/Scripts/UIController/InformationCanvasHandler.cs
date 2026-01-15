@@ -1,12 +1,10 @@
 using System.Collections;
-using TwelveG.GameController;
 using TwelveG.Localization;
 using UnityEngine;
 
 namespace TwelveG.UIController
 {
-  [RequireComponent(typeof(GameEventListener))]
-  public class InformationCanvasHandler : IntroCanvasBase
+  public class InformationCanvasHandler : MonoBehaviour
   {
     [Header("References")]
     [SerializeField] private CanvasGroup elementsCanvasGroup;
@@ -28,43 +26,15 @@ namespace TwelveG.UIController
       elementsCanvasGroup.alpha = 0;
     }
 
-    public void InformationCanvasFadeIn(Component sender, object data)
-    {
-      if (data == null)
-      {
-        Debug.LogError($"[InformationCanvasFadeOut]: empty fadeInDuration param");
-        return;
-      }
-
-      StartCoroutine(InformationFadeInSequence((float)data));
-    }
-
-    public void InformationCanvasFadeOut(Component sender, object data)
-    {
-      if (data == null)
-      {
-        Debug.LogError($"[InformationCanvasFadeOut]: empty fadeOutDuration param");
-        return;
-      }
-
-      StartCoroutine(InformationFadeOutSequence((float)data));
-    }
-
     public IEnumerator InformationFadeInSequence(float fadeInDuration)
     {
-
       informationCanvas.enabled = true;
-
-      yield return FadeCanvasGroup(elementsCanvasGroup, 0f, 1f, fadeInDuration, 8f); // All elements fade in
-
-      GameEvents.Common.onInformationFadeInFinished.Raise(this, null);
+      yield return UIUtils.FadeIntroCanvasGroup(elementsCanvasGroup, 0f, 1f, fadeInDuration, 8f); // All elements fade in
     }
 
     public IEnumerator InformationFadeOutSequence(float fadeOutDuration)
     {
-      yield return FadeCanvasGroup(elementsCanvasGroup, 1f, 0f, fadeOutDuration, 2f); // All elements fade out
-
-      GameEvents.Common.onInformationFadeOutFinished.Raise(this, null);
+      yield return UIUtils.FadeIntroCanvasGroup(elementsCanvasGroup, 1f, 0f, fadeOutDuration, 2f); // All elements fade out
     }
 
     // Llamar a cada TextMeshProUGUI anidado para actualizar sus textos

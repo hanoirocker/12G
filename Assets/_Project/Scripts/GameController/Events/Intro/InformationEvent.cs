@@ -16,8 +16,6 @@ namespace TwelveG.GameController
 
         [HideInInspector]
         public AudioSource introSource = null;
-
-        private bool allowNextAction = false;
         private Coroutine fadeInCoroutine = null;
 
         public override IEnumerator Execute()
@@ -32,15 +30,10 @@ namespace TwelveG.GameController
 
             // Activar Information canvas y correr corrutina
             GameEvents.Common.onActivateCanvas.Raise(this, CanvasHandlerType.StudioInformation);
-
-            GameEvents.Common.onInformationFadeIn.Raise(this, fadeInDuration);
-
-            // DisclaimerCanvasHandler: envia onInformationFadeInFinished
-            yield return new WaitUntil(() => allowNextAction);
-            ResetAllowNextActions();
+            yield return StartCoroutine(UIManager.Instance.InformationCanvasHandler.InformationFadeInSequence(fadeInDuration));
 
             // Fade out del Information Canvas
-            GameEvents.Common.onInformationFadeOut.Raise(this, fadeOutDuration);
+            yield return StartCoroutine(UIManager.Instance.InformationCanvasHandler.InformationFadeOutSequence(fadeOutDuration));
 
             // Si el fade in del audio se estaba ejecutando (por ejemplo por probar
             // específicamente este evento, se detiene para comenzar el fade out
@@ -55,24 +48,10 @@ namespace TwelveG.GameController
             // Fade out del audio al mismo tiempo
             yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(introSource, fadeOutDuration));
 
-            // DisclaimerCanvasHandler: envia onInformationFadeOutFinished
-            yield return new WaitUntil(() => allowNextAction);
-            ResetAllowNextActions();
-
             GameEvents.Common.onDeactivateCanvas.Raise(this, CanvasHandlerType.StudioInformation);
 
             // TODO: Carga asincrónica del Menu, esperar hasta que termine
             yield return new WaitForSeconds(3f);
-        }
-
-        public void AllowNextActions(Component sender, object data)
-        {
-            allowNextAction = true;
-        }
-
-        public void ResetAllowNextActions()
-        {
-            allowNextAction = false;
         }
     }
 }
