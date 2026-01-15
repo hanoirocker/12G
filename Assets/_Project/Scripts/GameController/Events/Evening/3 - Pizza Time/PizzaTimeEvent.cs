@@ -127,10 +127,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(3.5f);
             GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
             // LEVANTARSE [E]
-            GameEvents.Common.onEventInteractionCanvasShowText.Raise(
-                this,
-                eventsInteractionTextsSO
-            );
+            UIManager.Instance.InteractionCanvasHandler.ShowEventInteractionText(eventsInteractionTextsSO);
 
             // Espera hasta que el jugador presione nuevamente la E
             // para levantarse de la silla.

@@ -83,10 +83,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(3f);
 
             // DESCANSAR UN RATO [E]
-            GameEvents.Common.onEventInteractionCanvasShowText.Raise(
-                this,
-                eventsInteractionTextsSO
-            );
+            UIManager.Instance.InteractionCanvasHandler.ShowEventInteractionText(eventsInteractionTextsSO);
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 

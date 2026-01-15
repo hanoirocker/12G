@@ -56,10 +56,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             // LEVANTARSE [E]
-            GameEvents.Common.onEventInteractionCanvasShowText.Raise(
-                this,
-                eventsInteractionTextsSO
-            );
+            UIManager.Instance.InteractionCanvasHandler.ShowEventInteractionText(eventsInteractionTextsSO);
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
 

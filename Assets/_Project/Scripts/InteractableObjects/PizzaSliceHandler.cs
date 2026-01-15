@@ -38,7 +38,7 @@ namespace TwelveG.InteractableObjects
             // Iniciamos Idle. Usamos Play para asegurar estado.
             animationComponent.Play("Pizza Slice - Idle");
 
-            GameEvents.Common.onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
+            UIManager.Instance.InteractionCanvasHandler.ShowEventInteractionText(eventsInteractionTextsSO);
 
             // --- PRIMER MORDISCO ---
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
@@ -50,7 +50,7 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(animationComponent["Pizza Slice - First Bite"].length);
 
 
-            GameEvents.Common.onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
+            UIManager.Instance.InteractionCanvasHandler.ShowEventInteractionText(eventsInteractionTextsSO);
 
             // --- SEGUNDO MORDISCO ---
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
@@ -61,8 +61,8 @@ namespace TwelveG.InteractableObjects
 
             animationComponent.Play("Pizza Slice - Second Bite");
             yield return new WaitForSeconds(animationComponent["Pizza Slice - Second Bite"].length);
-
-            GameEvents.Common.onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
+            
+            UIManager.Instance.InteractionCanvasHandler.ShowEventInteractionText(eventsInteractionTextsSO);
 
             // --- TERCER MORDISCO ---
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));

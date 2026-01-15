@@ -67,7 +67,7 @@ namespace TwelveG.GameController
 
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
-            GameEvents.Common.onEventInteractionCanvasShowText.Raise(this, eventsInteractionTextsSO);
+            UIManager.Instance.InteractionCanvasHandler.ShowEventInteractionText(eventsInteractionTextsSO);
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));

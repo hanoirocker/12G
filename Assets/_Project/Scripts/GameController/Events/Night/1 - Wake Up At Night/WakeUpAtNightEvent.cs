@@ -53,10 +53,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(5f);
 
             // LEVANTARSE [E]
-            GameEvents.Common.onEventInteractionCanvasShowText.Raise(
-                this,
-                eventsInteractionTextsSO
-            );
+            UIManager.Instance.InteractionCanvasHandler.ShowEventInteractionText(eventsInteractionTextsSO);
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
             UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
 
