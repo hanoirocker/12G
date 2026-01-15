@@ -68,7 +68,7 @@ namespace TwelveG.GameController
                 PlayPlayerSound(PlayerSoundsType.StandUpEvening)
             );
 
-            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+            UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
             GameEvents.Common.playWakeUpVCAnimation.Raise(this, null);
 
             // Unity Event (WakeUpVCHandler - onAnimationHasEnded):

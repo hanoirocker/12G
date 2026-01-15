@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TwelveG.AudioController;
-using TwelveG.GameController;
 using TwelveG.SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,9 +48,11 @@ namespace TwelveG.UIController
     [Header("Children references")]
     [SerializeField] private ImageCanvasHandler imageCanvasHandler;
     [SerializeField] private MenuCanvasHandler menuCanvasHandler;
+    [SerializeField] private InteractionCanvasHandler interactionCanvasHandler;
 
     public ImageCanvasHandler ImageCanvasHandler => imageCanvasHandler;
     public MenuCanvasHandler MenuCanvasHandler => menuCanvasHandler;
+    public InteractionCanvasHandler InteractionCanvasHandler => interactionCanvasHandler;
 
     private Dictionary<CanvasHandlerType, GameObject> canvasDict;
     private List<bool> originalStates = new List<bool>();

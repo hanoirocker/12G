@@ -42,7 +42,7 @@ namespace TwelveG.InteractableObjects
 
             // --- PRIMER MORDISCO ---
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+            UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
 
             // Ejecutamos la animación (Play y wait por duración es más seguro que isPlaying)
             PlayAnimationAndWait("Pizza Slice - First Bite");
@@ -54,7 +54,7 @@ namespace TwelveG.InteractableObjects
 
             // --- SEGUNDO MORDISCO ---
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+            UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
 
             // Avisa a PizzaTimeEvent que debe instanciar el auto de policia.
             instantiatePoliceCar.Raise(this, null);
@@ -66,7 +66,7 @@ namespace TwelveG.InteractableObjects
 
             // --- TERCER MORDISCO ---
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+            UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
 
             animationComponent.Play("Pizza Slice - Third Bite");
             yield return new WaitForSeconds(animationComponent["Pizza Slice - Third Bite"].length);

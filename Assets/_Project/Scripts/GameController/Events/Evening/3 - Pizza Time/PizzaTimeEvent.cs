@@ -135,7 +135,7 @@ namespace TwelveG.GameController
             // Espera hasta que el jugador presione nuevamente la E
             // para levantarse de la silla.
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+            UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);

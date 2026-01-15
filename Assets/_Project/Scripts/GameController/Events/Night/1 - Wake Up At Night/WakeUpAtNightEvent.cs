@@ -58,7 +58,7 @@ namespace TwelveG.GameController
                 eventsInteractionTextsSO
             );
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+            UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
 
             StartCoroutine(
                 AudioManager.Instance.GetComponentInChildren<PlayerSoundsHandler>().

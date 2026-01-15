@@ -71,7 +71,7 @@ namespace TwelveG.GameController
 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-            GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+            UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
             yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 2f));
             GameEvents.Common.onControlCanvasControls.Raise(this, new EnableCanvas(false));
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, false));

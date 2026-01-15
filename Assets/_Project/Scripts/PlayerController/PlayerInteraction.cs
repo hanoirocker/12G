@@ -126,7 +126,7 @@ namespace TwelveG.PlayerController
         {
             if (!canvasIsShowing && retrievedInteractionSO != null)
             {
-                GameEvents.Common.onInteractionCanvasShowText.Raise(this, retrievedInteractionSO);
+                UIManager.Instance.InteractionCanvasHandler.ShowInteractionText(retrievedInteractionSO);
                 canvasIsShowing = true;
             }
         }
@@ -136,7 +136,7 @@ namespace TwelveG.PlayerController
             // Ocultar el canvas de interaction si no se mira al objeto interactuable
             if (canvasIsShowing)
             {
-                GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+                UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
                 canvasIsShowing = false;
             }
         }

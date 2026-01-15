@@ -95,7 +95,7 @@ namespace TwelveG.GameController
                 PlayPlayerSound(PlayerSoundsType.FallAsleepAfternoon)
             );
 
-            GameEvents.Common.onInteractionCanvasControls.Raise(this, new VanishTextEffect());
+            UIManager.Instance.InteractionCanvasHandler.VanishTextEffect();
             yield return new WaitForSeconds(2f);
 
             tvAudioFadeOut.Raise(this, eventFadeOut);

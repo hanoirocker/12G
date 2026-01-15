@@ -1,4 +1,3 @@
-using TwelveG.GameController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.UIController;
@@ -60,7 +59,7 @@ namespace TwelveG.PlayerController
         {
             if (!canvasIsShowing)
             {
-                GameEvents.Common.onInteractionCanvasShowText.Raise(this, retrievedInteractionSO);
+                UIManager.Instance.InteractionCanvasHandler.ShowInteractionText(retrievedInteractionSO);
                 canvasIsShowing = true;
             }
         }
@@ -68,7 +67,7 @@ namespace TwelveG.PlayerController
         private void ChangeUI(IItem itemObj)
         {
             canvasText = itemObj.RetrieveInteractionSO(null);
-            GameEvents.Common.onInteractionCanvasShowText.Raise(this, canvasText);
+            UIManager.Instance.InteractionCanvasHandler.ShowInteractionText(canvasText);
         }
 
         private void HideUI()
@@ -76,7 +75,7 @@ namespace TwelveG.PlayerController
             // Hide the canvas if not looking at an item object
             if (canvasIsShowing)
             {
-                GameEvents.Common.onInteractionCanvasControls.Raise(this, new HideText());
+                UIManager.Instance.InteractionCanvasHandler.HideInteractionText();
                 canvasIsShowing = false;
             }
         }

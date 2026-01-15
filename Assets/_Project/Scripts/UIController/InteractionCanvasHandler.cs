@@ -1,10 +1,9 @@
+using TMPro;
+using TwelveG.Localization;
+using UnityEngine;
+
 namespace TwelveG.UIController
 {
-    using System.Collections;
-    using TMPro;
-    using TwelveG.Localization;
-    using UnityEngine;
-
     public class InteractionCanvasHandler : MonoBehaviour
     {
         private TextMeshProUGUI interactionCanvasText;
@@ -37,24 +36,24 @@ namespace TwelveG.UIController
             return interactionCavas.isActiveAndEnabled;
         }
 
-        public void ShowInteractionText(Component sender, object data)
+        public void ShowInteractionText(InteractionTextSO interactionTextSO)
         {
-            if (data != null)
+            if (interactionTextSO != null)
             {
                 string textToShow = Utils.TextFunctions.RetrieveInteractionText(
                     LocalizationManager.Instance.GetCurrentLanguageCode(),
-                    (InteractionTextSO)data
+                    interactionTextSO
                 );
                 interactionCanvasText.text = textToShow;
                 interactionCavas.enabled = true;
             }
         }
 
-        public void ShowEventInteractionText(Component sender, object data)
+        public void ShowEventInteractionText(EventsInteractionTextsSO eventsInteractionTextsSO)
         {
-            if (data != null)
+            if (eventsInteractionTextsSO != null)
             {
-                lastEventInteractionTextSORecieved = (EventsInteractionTextsSO)data;
+                lastEventInteractionTextSORecieved = eventsInteractionTextsSO;
                 string textToShow = Utils.TextFunctions.RetrieveEventInteractionText(
                     LocalizationManager.Instance.GetCurrentLanguageCode(),
                     lastEventInteractionTextSORecieved
@@ -78,55 +77,16 @@ namespace TwelveG.UIController
             }
         }
 
-        public void InteractionCanvasControls(Component sender, object data)
+        // TODO: Refactor to use HideInteractionText in all places
+        public void HideInteractionText()
         {
-            switch (data)
-            {
-                case HideText:
-                    interactionCavas.enabled = false;
-                    break;
-                case VanishTextEffect:
-                    StartCoroutine(VanishTextEffectCoroutine());
-                    break;
-                default:
-                    Debug.LogWarning($"[InteractionCanvasHandler] Received unknown command: {data}");
-                    break;
-            }
+            interactionCavas.enabled = false;
         }
 
-
-        private IEnumerator VanishTextEffectCoroutine()
+        // TODO: Refactor to use HideInteractionText in all places
+        public void VanishTextEffect()
         {
-            float duration = 2f;
-
-            float startAlpha = 1f;
-            float endAlpha = 0f;
-
-            float startFontSize = interactionCanvasText.fontSize;
-            float maxFontSize = interactionCanvasText.fontSize * 1.25f;
-            float textElapsedDuration = 0.15f * duration;
-
-            float totalElapsedTime = 0f;
-            while (totalElapsedTime < duration)
-            {
-                if (totalElapsedTime < textElapsedDuration)
-                {
-                    interactionCanvasText.fontSize = Mathf.Lerp(startFontSize, maxFontSize, totalElapsedTime / textElapsedDuration);
-                }
-                else
-                {
-                    interactionCanvasText.fontSize = Mathf.Lerp(maxFontSize, startFontSize, totalElapsedTime / duration);
-                }
-
-                interactionCanvasText.alpha = Mathf.Lerp(startAlpha, endAlpha, totalElapsedTime / duration);
-                totalElapsedTime += Time.deltaTime;
-                yield return null;
-            }
-
-            interactionCanvasText.alpha = endAlpha;
-            interactionCanvasText.text = "";
-            interactionCavas.enabled = false;
-            interactionCanvasText.alpha = 1f;
+            StartCoroutine(UIUtils.VanishTextEffectCoroutine(interactionCanvasText, interactionCavas));
         }
 
         public void ChangeText(string textGiven)
