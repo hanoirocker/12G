@@ -65,10 +65,6 @@ namespace TwelveG.PlayerController
             cameraZoom = mainCamera.GetComponent<CameraZoom>();
             headLookAround = mainCamera.GetComponent<HeadLookAround>();
             playerInventory = mainCamera.GetComponentInChildren<PlayerInventory>();
-
-            // Registra al PlayerHAndler en el PlayerSoundsHandler para que este último
-            // pueda acceder a FPController y al PlayerCapsuleAudioSource
-            AudioManager.Instance.PlayerSoundsHandler.RegisterPlayerHandler(this);
         }
 
         private void OnDestroy()
@@ -82,6 +78,7 @@ namespace TwelveG.PlayerController
         void Start()
         {
             VFXManager.Instance?.RegisterPlayer(playerCameraRoot);
+            AudioManager.Instance.PlayerSoundsHandler.RegisterPlayerHandler(this);
         }
 
         public void PlayerControls(Component sender, object data)
