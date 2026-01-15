@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: '- +/- Volumen [Flecha Arriba/Abajo]
+    value: '~ +/- Volumen [Flecha Arriba/Abajo]
 
-      - Cambiar canal[Flechas I/D]
+      ~ Cambiar canal[Flechas I/D]
 
-      -
+      ~
       Dejar de interactuar con TV [E]'
   - language: 1
-    value: '- +/- volume [U/D Arrow Keys]
+    value: '~ +/- volume [U/D Arrow Keys]
 
-      - Change channel [L/R Arrow Keys]
+      ~ Change channel [L/R Arrow Keys]
 
-      -
+      ~
       Stop interacting with TV [E]'

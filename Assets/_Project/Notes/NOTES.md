@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se trabajó sobre Interactable Canvas y Contemplation Canvas para ser llamados directamente por referencia guardada en UIManager.Instance. Game Event SO's relacionados borrados.
+- Se trabajó sobre los canvas de Disclaimer e Information con cosas similares a lo realizado antes. Además, ahora el UpdateTextHandler puede aplicar formato de colores según enum UIFormatingType si se especifica.
 
 TOCHECK:
 
@@ -8,7 +8,6 @@ TOCHECK:
 - Agregar mas sonidos stereo para los perfiles sonoros de ambiente?
 
 TOFIX:
-- Los textos de controles secundarios están muy pegados a los default
 - Arreglar el error que se muestra en TV Time event sobre el TV Options no pudiendo actualizar su texto.
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: '- Mostrar/Ocultar [H]
+    value: '~ Mostrar/Ocultar [H]
 
-      - Obsevar (Zoom) [Click D]'
+      ~ Obsevar (Zoom) [Click D]'
   - language: 1
-    value: '- Show/Hide [H]
+    value: '~ Show/Hide [H]
 
-      - Check (Zoom In) [R Click]'
+      ~ Check (Zoom In) [R Click]'

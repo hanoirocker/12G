@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: '- Interactuar con TV [E]'
+    value: ~ Interactuar con TV [E]
   - language: 0
-    value: '- Interact with TV [E]'
+    value: ~ Interact with TV [E]

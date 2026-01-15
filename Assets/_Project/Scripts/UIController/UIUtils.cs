@@ -4,6 +4,20 @@ using UnityEngine;
 
 namespace TwelveG.UIController
 {
+  public struct UIColors
+  {
+    public static Color32 CONTROLS_ORANGE = new Color32(212, 126, 29, 255); // #D47E1D
+    public static Color32 DEFAULT_RED = new Color32(255, 0, 0, 255); // #FF0000
+  }
+
+  public enum UIFormatingType
+  {
+    None,
+    ControlsSpecificText,
+    AlertColorText,
+    ButtonHighlightColorText,
+  }
+
   public enum FadeType
   {
     FadeIn,

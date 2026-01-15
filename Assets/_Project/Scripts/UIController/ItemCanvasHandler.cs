@@ -15,14 +15,17 @@ namespace TwelveG.UIController
         [SerializeField] private GameObject WTImageObject;
         [SerializeField] private GameObject FlashlightImageObject;
 
-        [Header("Text SO's References")]
-        [SerializeField] private InteractionTextSO acceptCallTextSO;
-
         [Header("Testing Settings")]
         [Space]
         [SerializeField, Range(0.5f, 1f)] public float equippedAlpha = 0.8f;
 
+        private Canvas itemCanvas;
         private float unequipiedItemAlpha = 0.15f;
+
+        private void Awake()
+        {
+            itemCanvas = GetComponent<Canvas>();
+        }
 
         public void ToggleItemAlpha(Component sender, object data)
         {
@@ -48,22 +51,7 @@ namespace TwelveG.UIController
 
         public void IncomingDialogAlert(Component sender, object data)
         {
-            bool tooglePanel = (bool)data;
-
-            if (acceptCallTextSO != null && !alertPanel.activeSelf)
-            {
-                string textToShow = Utils.TextFunctions.RetrieveInteractionText(
-                    LocalizationManager.Instance.GetCurrentLanguageCode(),
-                    acceptCallTextSO
-                );
-                alertText.text = textToShow;
-            }
-            else if (alertPanel.activeSelf)
-            {
-                alertText.text = "";
-            }
-
-            alertPanel.SetActive(tooglePanel);
+            alertPanel.SetActive((bool)data);
         }
 
         public void EnablePlayerItem(Component sender, object data)
@@ -74,6 +62,7 @@ namespace TwelveG.UIController
             }
 
             ItemType itemType = (ItemType)data;
+
             if (itemType == ItemType.WalkieTalkie)
             {
                 WTImageObject.SetActive(true);
@@ -82,6 +71,8 @@ namespace TwelveG.UIController
             {
                 FlashlightImageObject.SetActive(true);
             }
+
+            itemCanvas.enabled = true;
         }
 
         public void HandlePlayerDeath()
@@ -91,6 +82,7 @@ namespace TwelveG.UIController
             FlashlightImageObject.SetActive(false);
             FlashlightImageObject.GetComponent<CanvasGroup>().alpha = unequipiedItemAlpha;
             iconsPanel.SetActive(false);
+            itemCanvas.enabled = false;
         }
 
         public void RemovePlayerItem(Component sender, object data)
@@ -105,6 +97,12 @@ namespace TwelveG.UIController
             else if (itemType == ItemType.Flashlight)
             {
                 FlashlightImageObject.SetActive(false);
+            }
+
+            if (!WTImageObject.activeSelf && !FlashlightImageObject.activeSelf)
+            {
+                iconsPanel.SetActive(false);
+                itemCanvas.enabled = false;
             }
         }
     }

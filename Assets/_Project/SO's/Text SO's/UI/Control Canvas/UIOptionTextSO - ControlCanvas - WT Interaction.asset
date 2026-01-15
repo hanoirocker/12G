@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: '- Guardar/Equipar walkie talkie [K]
+    value: '~ Guardar/Equipar walkie talkie [K]
 
-      - Cambiar de canal [V/B]'
+      ~ Cambiar de canal [V/B]'
   - language: 1
-    value: '- Toggle walkie talkie [K]
+    value: '~ Toggle walkie talkie [K]
 
-      - Change channel [V/B]'
+      ~ Change channel [V/B]'

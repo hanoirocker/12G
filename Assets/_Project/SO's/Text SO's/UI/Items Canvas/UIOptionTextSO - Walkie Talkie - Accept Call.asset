@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8daa743a17a204232a4e109d49181525, type: 3}
-  m_Name: Item - Walkie Talkie - Accept Call
+  m_Script: {fileID: 11500000, guid: 16d9a8e54e1054f03bd40c7a55a3b0b2, type: 3}
+  m_Name: UIOptionTextSO - Walkie Talkie - Accept Call
   m_EditorClassIdentifier: 
-  interactionTextsStructure:
+  uImenuTextStructure:
   - language: 0
-    interactionText: Aceptar llamada [K]
+    value: Aceptar llamada [K]
   - language: 1
-    interactionText: Accept call [K]
+    value: Accept call [K]
