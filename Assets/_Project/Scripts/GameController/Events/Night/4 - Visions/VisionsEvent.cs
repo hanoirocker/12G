@@ -114,7 +114,7 @@ namespace TwelveG.GameController
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(enemyTransform));
       GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseIn, 1));
 
-      StartCoroutine(playerHandler.GetComponentInChildren<PlayerSoundsHandler>().
+      StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.
         PlayPlayerSound(PlayerSoundsType.Doubt));
       // Espera a que termine la animación de la cámara y el clip sorprendido del jugador
       yield return new WaitForSeconds(1f);
@@ -151,7 +151,7 @@ namespace TwelveG.GameController
       ResetAllowNextActions();
 
       yield return StartCoroutine(
-        AudioManager.Instance.GetComponentInChildren<PlayerSoundsHandler>().
+        AudioManager.Instance.PlayerSoundsHandler.
         PlayPlayerSound(PlayerSoundsType.VisionsNeckWhisper)
       );
 
@@ -177,7 +177,7 @@ namespace TwelveG.GameController
       );
 
       // Espera a que termine de recuperarse del susto
-      yield return StartCoroutine(playerHandler.GetComponentInChildren<PlayerSoundsHandler>().
+      yield return StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.
         PlayPlayerSound(PlayerSoundsType.EnemySurpriseReaction));
     }
 
