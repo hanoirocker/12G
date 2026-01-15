@@ -6,19 +6,18 @@ namespace TwelveG.UIController
 {
     public class InteractionCanvasHandler : MonoBehaviour
     {
-        private TextMeshProUGUI interactionCanvasText;
+        [Header("References")]
+        [SerializeField] private TextMeshProUGUI interactionCanvasText;
         private Canvas interactionCavas;
-        private EventsInteractionTextsSO lastEventInteractionTextSORecieved = null;
+
+        private InteractionTextSO currentSimpleTextSO;
+        private EventsInteractionTextsSO currentEventTextSO;
+        private bool isShowingEventText = false;
 
         private void Awake()
         {
             interactionCavas = GetComponent<Canvas>();
-            interactionCanvasText = GetComponentInChildren<TextMeshProUGUI>();
-        }
-
-        private void OnEnable()
-        {
-            UpdateCanvasTextOnLanguageChanged();
+            if (interactionCanvasText == null) interactionCanvasText = GetComponentInChildren<TextMeshProUGUI>();
         }
 
         private void Start()
@@ -26,50 +25,43 @@ namespace TwelveG.UIController
             interactionCavas.enabled = false;
         }
 
-        public bool IsShowingText()
+        private void OnEnable()
         {
-            return interactionCavas.isActiveAndEnabled;
+            UpdateCanvasText();
+        }
+
+        private void OnValidate()
+        {
+            if (Application.isPlaying && isActiveAndEnabled && interactionCavas.enabled)
+            {
+                UpdateCanvasText();
+            }
         }
 
         public void ShowInteractionText(InteractionTextSO interactionTextSO)
         {
-            if (interactionTextSO != null)
-            {
-                string textToShow = Utils.TextFunctions.RetrieveInteractionText(
-                    LocalizationManager.Instance.GetCurrentLanguageCode(),
-                    interactionTextSO
-                );
-                interactionCanvasText.text = textToShow;
-                interactionCavas.enabled = true;
-            }
+            if (interactionTextSO == null) return;
+
+            currentSimpleTextSO = interactionTextSO;
+            currentEventTextSO = null;
+            isShowingEventText = false;
+
+            UpdateCanvasText();
+
+            interactionCavas.enabled = true;
         }
 
         public void ShowEventInteractionText(EventsInteractionTextsSO eventsInteractionTextsSO)
         {
-            if (eventsInteractionTextsSO != null)
-            {
-                lastEventInteractionTextSORecieved = eventsInteractionTextsSO;
-                string textToShow = Utils.TextFunctions.RetrieveEventInteractionText(
-                    LocalizationManager.Instance.GetCurrentLanguageCode(),
-                    lastEventInteractionTextSORecieved
-                );
-                interactionCanvasText.text = textToShow;
-                interactionCavas.enabled = true;
-            }
-        }
+            if (eventsInteractionTextsSO == null) return;
 
-        public void UpdateCanvasTextOnLanguageChanged()
-        {
-            if (lastEventInteractionTextSORecieved != null && interactionCavas.isActiveAndEnabled)
-            {
-                interactionCavas.enabled = false;
-                string textToShow = Utils.TextFunctions.RetrieveEventInteractionText(
-                    LocalizationManager.Instance.GetCurrentLanguageCode(),
-                    lastEventInteractionTextSORecieved
-                );
-                interactionCanvasText.text = textToShow;
-                interactionCavas.enabled = true;
-            }
+            currentEventTextSO = eventsInteractionTextsSO;
+            currentSimpleTextSO = null;
+            isShowingEventText = true;
+
+            UpdateCanvasText();
+
+            interactionCavas.enabled = true;
         }
 
         public void HideInteractionText()
@@ -77,7 +69,45 @@ namespace TwelveG.UIController
             interactionCavas.enabled = false;
         }
 
-        // TODO: Quizas mover a UIUtils a futuro
+        public void UpdateCanvasTextOnLanguageChanged()
+        {
+            if (interactionCavas.isActiveAndEnabled)
+            {
+                UpdateCanvasText();
+            }
+        }
+
+        private void UpdateCanvasText()
+        {
+            if (LocalizationManager.Instance == null || UIManager.Instance == null) return;
+
+            string rawText = "";
+            if (isShowingEventText && currentEventTextSO != null)
+            {
+                rawText = Utils.TextFunctions.RetrieveEventInteractionText(
+                    LocalizationManager.Instance.GetCurrentLanguageCode(),
+                    currentEventTextSO
+                );
+            }
+            else if (!isShowingEventText && currentSimpleTextSO != null)
+            {
+                rawText = Utils.TextFunctions.RetrieveInteractionText(
+                    LocalizationManager.Instance.GetCurrentLanguageCode(),
+                    currentSimpleTextSO
+                );
+            }
+
+            if (string.IsNullOrEmpty(rawText)) return;
+
+            string formattedText = UIManager.Instance.UIFormatter.FormatTextByType(
+                rawText,
+                UIFormatingType.PlayerInteractionText,
+                this.gameObject
+            );
+
+            interactionCanvasText.text = formattedText;
+        }
+
         public void VanishTextEffect()
         {
             StartCoroutine(UIUtils.VanishTextEffectCoroutine(interactionCanvasText, interactionCavas));
@@ -86,6 +116,11 @@ namespace TwelveG.UIController
         public void ChangeText(string textGiven)
         {
             interactionCanvasText.text = textGiven;
+        }
+
+        public bool IsShowingText()
+        {
+            return interactionCavas.isActiveAndEnabled;
         }
     }
 }

@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se trabajó sobre los canvas de Disclaimer e Information con cosas similares a lo realizado antes. Además, ahora el UpdateTextHandler puede aplicar formato de colores según enum UIFormatingType si se especifica.
+- Se movió la lógica de formateo a nuevo UIFormatter, que recibe las llamadas para actualizar los textos o parámetros de formato usando una nuevo estructura de datos de formato UIFormattingDataSO. Aplicado también a textos de interacción.
 
 TOCHECK:
 

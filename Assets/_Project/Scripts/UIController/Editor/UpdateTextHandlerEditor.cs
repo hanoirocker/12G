@@ -11,8 +11,9 @@ namespace TwelveG.EditorScripts
         SerializedProperty textDependsOnEvents;
         SerializedProperty eventDrivenTextSO;
 
+        SerializedProperty formatText;
         SerializedProperty uITextType;
-        
+
         SerializedProperty uIOptionTextSO;
         SerializedProperty textListSO;
 
@@ -23,8 +24,9 @@ namespace TwelveG.EditorScripts
             textDependsOnEvents = serializedObject.FindProperty("textDependsOnEvents");
             eventDrivenTextSO = serializedObject.FindProperty("eventDrivenTextSO");
 
+            formatText = serializedObject.FindProperty("formatText");
             uITextType = serializedObject.FindProperty("uITextType");
-            
+
             uIOptionTextSO = serializedObject.FindProperty("uIOptionTextSO");
             textListSO = serializedObject.FindProperty("textListSO");
         }
@@ -32,13 +34,21 @@ namespace TwelveG.EditorScripts
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            
+
             EditorGUILayout.LabelField("Options", EditorStyles.boldLabel);
-            
+
             EditorGUILayout.PropertyField(isTMPSingleText);
             EditorGUILayout.PropertyField(isTMPDropDownList);
             EditorGUILayout.PropertyField(textDependsOnEvents);
-            EditorGUILayout.PropertyField(uITextType);
+
+            EditorGUILayout.PropertyField(formatText);
+
+            if (formatText.boolValue)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(uITextType);
+                EditorGUI.indentLevel--;
+            }
 
             EditorGUILayout.Space(10);
 
@@ -52,7 +62,7 @@ namespace TwelveG.EditorScripts
                 EditorGUILayout.PropertyField(textListSO);
             }
 
-            if( textDependsOnEvents.boolValue)
+            if (textDependsOnEvents.boolValue)
             {
                 EditorGUILayout.PropertyField(eventDrivenTextSO);
             }
