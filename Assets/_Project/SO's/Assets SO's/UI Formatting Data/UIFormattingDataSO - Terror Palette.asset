@@ -15,3 +15,4 @@ MonoBehaviour:
   controlsHighlightColor: {r: 0.83137256, g: 0.49411765, b: 0.11372549, a: 1}
   alertColor: {r: 0.83137256, g: 0.49411765, b: 0.11372549, a: 1}
   buttonHighlightColor: {r: 0.83137256, g: 0.49411765, b: 0.11372549, a: 1}
+  playerInteractionColor: {r: 0.4000934, g: 0.38808292, b: 0.5377358, a: 0}
