@@ -5,6 +5,7 @@ using TwelveG.Localization;
 using TwelveG.AudioController;
 using TwelveG.EnvironmentController;
 using TwelveG.Utils;
+using TwelveG.UIController;
 
 namespace TwelveG.GameController
 {
@@ -37,8 +38,7 @@ namespace TwelveG.GameController
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
 
             // Tengo que encontrar la forma de hablar con Mica como sea.
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[0]
             );
 
@@ -49,8 +49,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             // Mi Walkie Talkie! Si no mal recuerdo mi madre lo había escondido ...
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[1]
             );
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
@@ -63,11 +62,9 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(2f);
 
             // Las bromas que jugabamos a la policia ya no son graciosas ...
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[2]
             );
-
             drawerCanBeInteracted.Raise(this, null);
 
             // Unity Event (SafeBoxHandler - safeBoxNoteCanBeExamine):

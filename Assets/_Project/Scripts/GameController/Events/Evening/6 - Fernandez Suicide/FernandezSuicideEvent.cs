@@ -31,8 +31,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(initialTime);
 
             // YA FUE, me voy a lo de Mica.
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[0]
             );
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
@@ -61,8 +60,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(1f);
 
             // Ese sonido ...
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[1]
             );
 
@@ -78,8 +76,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(13f);
             // NO NO NO NO. MIERDA!
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[2]
             );
 
@@ -92,8 +89,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(5.5f);
             // Esto no puede ser real
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[3]
             );
 
@@ -107,8 +103,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(1f);
 
             // No puede ser ...
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[4]
             );
 

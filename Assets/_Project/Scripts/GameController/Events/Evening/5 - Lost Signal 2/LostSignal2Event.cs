@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TwelveG.Localization;
 using TwelveG.UIController;
-using Cinemachine;
 using TwelveG.PlayerController;
 using TwelveG.Utils;
 using UnityEngine;
@@ -38,8 +37,7 @@ namespace TwelveG.GameController
             enablePhone.Raise(this, null);
 
             // ¡Mi teléfono! Necesito hablar con Mica y ver si soy el único con esta suerte. Pero .. ¿Dónde lo habré dejado?
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[0]
             );
 

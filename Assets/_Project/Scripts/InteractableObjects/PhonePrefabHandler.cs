@@ -1,13 +1,14 @@
+using System.Collections;
+using Cinemachine;
+using TwelveG.GameController;
+using TwelveG.Localization;
+using TwelveG.PlayerController;
+using TwelveG.UIController;
+using TwelveG.Utils;
+using UnityEngine;
+
 namespace TwelveG.InteractableObjects
 {
-    using System.Collections;
-    using Cinemachine;
-    using TwelveG.GameController;
-    using TwelveG.Localization;
-    using TwelveG.PlayerController;
-    using TwelveG.Utils;
-    using UnityEngine;
-
     public class PhonePrefabHandler : MonoBehaviour, IInteractable
     {
         [Header("Settings")]
@@ -77,7 +78,7 @@ namespace TwelveG.InteractableObjects
             yield return new WaitUntil(() => !phoneAnimation.isPlaying);
 
             yield return new WaitForSeconds(0.5f);
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSO);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(observationTextSO);
             yield return new WaitForSeconds(0.5f);
 
             pickableObject.SetActive(true);

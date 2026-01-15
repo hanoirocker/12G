@@ -276,7 +276,9 @@ namespace TwelveG.GameController
       }
       else
       {
-        GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[0]);
+        UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
+            observationTextSOs[0]
+        );
       }
     }
   }

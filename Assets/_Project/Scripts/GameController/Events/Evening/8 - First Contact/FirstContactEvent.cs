@@ -4,6 +4,7 @@ using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
+using TwelveG.UIController;
 using UnityEngine;
 
 namespace TwelveG.GameController
@@ -51,8 +52,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.FastCars);
 
             // No hay chance que lo tenga encedido ... la puta madre.
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[0]
             );
 

@@ -36,8 +36,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[0]
             );
 
@@ -60,8 +59,7 @@ namespace TwelveG.GameController
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[1]
             );
 
@@ -74,8 +72,7 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             yield return new WaitForSeconds(0.5f);
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[2]
             );
 
@@ -113,11 +110,9 @@ namespace TwelveG.GameController
             // Espera mas o menos un tiempo adecuado para cuando el auto de la policia
             // ya haya pasado y comenta al respecto.
             yield return new WaitForSeconds(6f);
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[3]
             );
-
             // Unity Event (PizzaSliceHandler - finishedEatingPizza):
             // Se invoca finishedEatingPizza al final de comer la pizza para que el jugador vuelva
             // a estar disponible.
@@ -157,16 +152,14 @@ namespace TwelveG.GameController
             if (currentArea == HouseArea.Kitchen || currentArea == HouseArea.LivingRoom || currentArea == HouseArea.DownstairsHall)
             {
                 // Ya casi peudo sentir el olor a queso caliente ...
-                GameEvents.Common.onObservationCanvasShowText.Raise(
-                    this,
+                UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                     eventsObservationTextSO[4]
                 );
             }
             else
             {
                 // No debería faltar mucho para que la pizza esté lista ...
-                GameEvents.Common.onObservationCanvasShowText.Raise(
-                    this,
+                UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                     eventsObservationTextSO[5]
                 );
             }

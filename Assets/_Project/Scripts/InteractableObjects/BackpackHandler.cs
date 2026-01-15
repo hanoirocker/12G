@@ -6,6 +6,7 @@ using TwelveG.AudioController;
 using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
+using TwelveG.UIController;
 using TwelveG.Utils;
 using UnityEngine;
 
@@ -75,7 +76,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(1f);
             // Un par de forros ( sin usar obviamente )
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, searchingTexts[0]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(searchingTexts[0]);
             yield return new WaitForSeconds(1f);
 
             backpackAnimation.PlayQueued("Night - Backpack - Search 2");
@@ -85,7 +86,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(1f);
             // Caramelos cubiertos de pelos?
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, searchingTexts[1]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(searchingTexts[1]);
             yield return new WaitForSeconds(1f);
 
             backpackAnimation.PlayQueued("Night - Backpack - Search 3");
@@ -95,7 +96,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(1f);
             // Definitivamente no está aca dentro
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, searchingTexts[2]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(searchingTexts[2]);
             yield return new WaitForSeconds(1f);
 
 
@@ -106,7 +107,7 @@ namespace TwelveG.InteractableObjects
 
             // Si no mal recuerdo, la última vez que revisé mi celular fue mientras miraba la TV hoy por la mañana
             yield return new WaitForSeconds(3f);
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, searchingTexts[3]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(searchingTexts[3]);
 
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             audioSource = null;

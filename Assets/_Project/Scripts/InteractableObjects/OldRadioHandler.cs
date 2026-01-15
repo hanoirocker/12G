@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TwelveG.AudioController;
 using TwelveG.GameController;
+using TwelveG.UIController;
 
 namespace TwelveG.InteractableObjects
 {
@@ -186,9 +187,8 @@ namespace TwelveG.InteractableObjects
     private IEnumerator MakeObservation(int observationIndex, float timeBeforeObservation)
     {
       yield return new WaitForSeconds(timeBeforeObservation);
-      GameEvents.Common.onObservationCanvasShowText.Raise(
-        this,
-        eventObservationsTextsSOs[observationIndex]
+      UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
+          eventObservationsTextsSOs[observationIndex]
       );
     }
   }

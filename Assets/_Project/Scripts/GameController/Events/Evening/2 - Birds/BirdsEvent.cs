@@ -5,7 +5,6 @@ using TwelveG.UIController;
 using System.Collections.Generic;
 using TwelveG.PlayerController;
 using TwelveG.Utils;
-using Cinemachine;
 using TwelveG.EnvironmentController;
 
 namespace TwelveG.GameController
@@ -51,8 +50,7 @@ namespace TwelveG.GameController
             yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 2f));
 
             // Parece que algo pasó arriba, mejor reviso qué fue eso.
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[0]
             );
 
@@ -61,8 +59,7 @@ namespace TwelveG.GameController
 
             // Uff, voy a tener que limpiar esto si no quiero que vuelvan 
             // y me culpen por esta desastre.
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[1]
             );
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
@@ -90,8 +87,7 @@ namespace TwelveG.GameController
 
             // Y ahora qué m...
             yield return new WaitForSeconds(0.5f);
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[2]
             );
 
@@ -100,8 +96,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(1.5f);
             // Mejor tiro esta basura antes que ...
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[3]
             );
 
@@ -116,8 +111,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(1f);
 
             // A otra cosa.
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[4]
             );
 

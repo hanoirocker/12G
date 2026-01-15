@@ -44,10 +44,7 @@ namespace TwelveG.GameController
             yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.WakeUpBlinkingCoroutine());
 
             // QUE MIERDA FUE ESO?
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
-                eventsObservationTextSO
-            );
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(eventsObservationTextSO);
 
             // TODO: quizas encontrar una forma de en vez de esperar 3 segundos,
             // ligarlo a cuando el canvas ya no esté mostrando el texto.

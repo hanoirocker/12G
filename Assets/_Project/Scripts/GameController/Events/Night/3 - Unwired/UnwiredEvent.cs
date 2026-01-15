@@ -5,6 +5,7 @@ using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
+using TwelveG.UIController;
 using TwelveG.Utils;
 using UnityEngine;
 
@@ -104,7 +105,9 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(8f);
 
             // Observación sobre que ya no hay luz en la casa
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[0]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
+                observationTextSOs[0]
+            );
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
                 observationTextSOs[0].observationTextsStructure[0].observationText
             ));
@@ -114,7 +117,9 @@ namespace TwelveG.GameController
             if (!flashlightPickedUp)
             {
                 // Observación sobre recordar tener una linterna en algún lado del garage
-                GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[1]);
+                UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
+                    observationTextSOs[1]
+                );
                 yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
                     observationTextSOs[1].observationTextsStructure[0].observationText
                 ));

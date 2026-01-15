@@ -116,7 +116,7 @@ namespace TwelveG.PlayerController
 
             lastColliderInteractedWith.GetComponent<Collider>().enabled = false;
             yield return new WaitForSeconds(timeUntilShown);
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSO);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(observationTextSO);
             yield return new WaitForSeconds(timeToWait);
             lastColliderInteractedWith.GetComponent<Collider>().enabled = true;
             contemplation.enabled = true;

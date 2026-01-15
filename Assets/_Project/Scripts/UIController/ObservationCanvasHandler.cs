@@ -1,11 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using TwelveG.Localization;
+using UnityEngine;
+
 namespace TwelveG.UIController
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using TMPro;
-    using TwelveG.Localization;
-    using UnityEngine;
-
     public class ObservationCanvasHandler : MonoBehaviour
     {
         [Header("Settings")]
@@ -56,12 +56,9 @@ namespace TwelveG.UIController
         }
 
         // Entrada pública: encolar el texto
-        public void ShowObservationText(Component sender, object data)
+        public void ShowObservationText(ObservationTextSO so)
         {
             // Debug.Log("[ObservationCanvasHandler] ShowObservationText called by " + sender.name);
-            if (data == null) return;
-
-            var so = data as ObservationTextSO;
             if (so == null) return;
 
             // Si llega un texto de evento, preempte (si hay un texto de interacción en pantalla)

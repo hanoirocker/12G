@@ -9,7 +9,6 @@ namespace TwelveG.GameController
         public GameEventSO onVideoCanvasFinished;
         public GameEventSO onVideoCanvasLoadClip;
         public GameEventSO onVideoCanvasPlay;
-        public GameEventSO onObservationCanvasShowText;
         public GameEventSO onActivateCanvas;
         public GameEventSO updateFallbackTexts;
         public GameEventSO onLoadPlayerHelperData;

@@ -2,7 +2,6 @@ using System.Collections;
 using TwelveG.AudioController;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
-using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
@@ -43,11 +42,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(initialTime);
 
             // Debo contactar a Mica urgente...
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
-                eventObservationsTextsSOs[0]
-            );
-
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(eventObservationsTextsSOs[0]);
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
                 eventObservationsTextsSOs[0].observationTextsStructure[0].observationText
             ));

@@ -44,7 +44,9 @@ namespace TwelveG.GameController
             // Qué mierda hago en mi habitación? Mi walkie talkie ...
             if (!walkieTalkiePickedUp)
             {
-                GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[0]);
+                UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
+                    observationTextSOs[0]
+                );
             }
 
             // Recibe "onWalkieTalkiePickedUp" para permitir la siguiente acción
@@ -61,7 +63,9 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(10f);
             // "Necesito hablarte ..."
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationTextSOs[1]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
+                observationTextSOs[1]
+            );
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
                 observationTextSOs[1].observationTextsStructure[0].observationText + 3f
             ));

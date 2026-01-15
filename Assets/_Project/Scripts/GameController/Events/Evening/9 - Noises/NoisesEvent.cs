@@ -41,8 +41,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(initialTime);
 
             // Desde cualquier ventana del primer piso deberia tener ...
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[0]
             );
 
@@ -76,8 +75,7 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             // Debo cambiar al canal 4 y pedir ayuda cuanto antes ..
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[1]
             );
 
@@ -134,8 +132,7 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(2f);
             // Parece que alguien ya dió aviso sobre el disparo ..
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventObservationsTextsSOs[2]
             );
 

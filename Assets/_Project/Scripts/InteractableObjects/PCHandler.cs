@@ -6,6 +6,7 @@ using TwelveG.Localization;
 using UnityEngine;
 using TwelveG.AudioController;
 using TwelveG.GameController;
+using TwelveG.UIController;
 
 namespace TwelveG.InteractableObjects
 {
@@ -107,7 +108,7 @@ namespace TwelveG.InteractableObjects
             turnOffCollider.enabled = false;
 
             yield return new WaitForSeconds(1f);
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[4]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(observationsTextsSOs[4]);
         }
 
         private IEnumerator UsePC(PlayerInteraction playerCamera)
@@ -156,10 +157,10 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(8f);
 
             // Qué raro ¿La habrán cagado con la última actualización?
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[0]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(observationsTextsSOs[0]);
             yield return new WaitForSeconds(4f);
             // Ok, a lo importante.
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[1]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(observationsTextsSOs[1]);
 
             yield return new WaitForSeconds(4.5f);
             pcAudioSource.PlayOneShot(click);
@@ -173,7 +174,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(10f);
             // Nunca me senti tan raro frente a mi PC ..
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[2]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(observationsTextsSOs[2]);
 
             // Cambiar a pantalla steam not connected
             yield return new WaitForSeconds(7f);
@@ -182,7 +183,7 @@ namespace TwelveG.InteractableObjects
 
             yield return new WaitForSeconds(3f);
             // Parece que no hay chances que algo salga bien hoy. Fibertol me re contra defeco en vos.
-            GameEvents.Common.onObservationCanvasShowText.Raise(this, observationsTextsSOs[3]);
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(observationsTextsSOs[3]);
 
             yield return new WaitForSeconds(3f);
 

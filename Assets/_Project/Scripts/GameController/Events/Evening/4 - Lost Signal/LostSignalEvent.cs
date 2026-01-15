@@ -32,10 +32,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
 
-            GameEvents.Common.onObservationCanvasShowText.Raise(
-                this,
-                eventsObservationTextSO
-            );
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(eventsObservationTextSO);
 
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
