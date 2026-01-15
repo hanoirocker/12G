@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se resolvieron bugs introducidos al mover el PlayerSoundsHandler al prefab de Audio Manager. También se ajustaron componentes de Main Menu y Pause Menu.
+- Se trabajó sobre Interactable Canvas y Contemplation Canvas para ser llamados directamente por referencia guardada en UIManager.Instance. Game Event SO's relacionados borrados.
 
 TOCHECK:
 

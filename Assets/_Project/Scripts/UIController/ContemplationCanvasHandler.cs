@@ -1,12 +1,16 @@
+using System.Collections;
+using TMPro;
+using TwelveG.Utils;
+using UnityEngine;
+
 namespace TwelveG.UIController
 {
-    using TMPro;
-    using UnityEngine;
-
     public class ContemplationCanvasHandler : MonoBehaviour
     {
         private Canvas contemplationCanvas;
         private TextMeshProUGUI contemplationCanvasText;
+
+        private Coroutine currentDisplayCoroutine;
 
         private void Awake()
         {
@@ -19,45 +23,43 @@ namespace TwelveG.UIController
             contemplationCanvas.enabled = false;
         }
 
-        public void ShowContemplationText(Component sender, object data)
+        public IEnumerator ShowContemplationText(float delay, string contemplationText)
         {
-            string textToShow = (string)data;
+            if (currentDisplayCoroutine != null) StopCoroutine(currentDisplayCoroutine);
 
-            if (textToShow != null && !string.IsNullOrEmpty(textToShow))
-            {
-                contemplationCanvas.enabled = true;
-                contemplationCanvasText.text = textToShow;
-            }
+            currentDisplayCoroutine = StartCoroutine(ShowTextSequence(delay, contemplationText));
+            yield return currentDisplayCoroutine;
         }
 
-        private void HideContemplationCanvas()
+        public void HideContemplationCanvas()
         {
+            if (currentDisplayCoroutine != null) StopCoroutine(currentDisplayCoroutine);
             contemplationCanvas.enabled = false;
+            currentDisplayCoroutine = null;
+        }
+
+        private IEnumerator ShowTextSequence(float delay, string text)
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                contemplationCanvas.enabled = false;
+                contemplationCanvasText.text = text;
+
+                if (delay > 0) yield return new WaitForSeconds(delay);
+
+                contemplationCanvas.enabled = true;
+
+                float displayDuration = TextFunctions.CalculateTextDisplayDuration(text);
+                yield return new WaitForSeconds(displayDuration);
+
+                contemplationCanvas.enabled = false;
+                currentDisplayCoroutine = null;
+            }
         }
 
         public bool IsShowingText()
         {
             return contemplationCanvas.isActiveAndEnabled;
         }
-
-        public void ContemplationCanvasControls(Component sender, object data)
-        {
-            switch (data)
-            {
-                case EnableCanvas cmd:
-                    contemplationCanvas.enabled = cmd.Enabled;
-                    break;
-                case ActivateCanvas cmd:
-                    contemplationCanvas.gameObject.SetActive(cmd.Activate);
-                    break;
-                case AlternateCanvasCurrentState:
-                    contemplationCanvas.enabled = !contemplationCanvas.enabled;
-                    break;
-                default:
-                    Debug.LogWarning($"[ContemplationCanvasHandler] Received unknown command: {data}");
-                    break;
-            }
-        }
     }
-
 }

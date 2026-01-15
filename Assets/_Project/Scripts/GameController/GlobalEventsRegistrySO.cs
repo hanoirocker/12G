@@ -16,8 +16,6 @@ namespace TwelveG.GameController
         public GameEventSO onControlCanvasSetInteractionOptions;
         public GameEventSO onControlCanvasControls;
         public GameEventSO onEventInteractionCanvasShowText;
-        public GameEventSO onContemplationCanvasControls;
-        public GameEventSO onContemplationCanvasShowText;
         public GameEventSO onShowNarrativeIntro;
         public GameEventSO onToggleInGameCanvasAll;
         public GameEventSO onInformationFadeIn;

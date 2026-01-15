@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using TwelveG.GameController;
 using TwelveG.UIController;
 using UnityEngine;
 
@@ -8,26 +7,25 @@ namespace TwelveG.PlayerController
 {
     public class PlayerContemplation : MonoBehaviour
     {
+        [Header("Settings")]
+        [SerializeField, Range(0f, 2f)] private float contemplationDelay = 0.5f;
+
+        [Space(10)]
         [Header("Raycast settings")]
         [SerializeField] private LayerMask contemplableMask;
         [SerializeField, Range(0.5f, 5f)] private float contemplationRange = 3f;
         public Color raycastColor;
 
+        [Space(10)]
         [Header("Cameras Settings")]
         [SerializeField] private Transform interactorSource;
 
         private CameraZoom cameraZoom;
         private IContemplable lastContemplatedObject = null;
-        private int defaultTextCounter = 0;
 
         private void Awake()
         {
             cameraZoom = GetComponent<CameraZoom>();
-        }
-
-        private void Start()
-        {
-            GameEvents.Common.onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
         }
 
         private void Update()
@@ -38,8 +36,11 @@ namespace TwelveG.PlayerController
             }
             else
             {
-                GameEvents.Common.onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
-                lastContemplatedObject?.IsAbleToBeContemplate(true);
+                if (lastContemplatedObject != null)
+                {
+                    lastContemplatedObject.IsAbleToBeContemplate(true);
+                    lastContemplatedObject = null;
+                }
             }
         }
 
@@ -51,61 +52,65 @@ namespace TwelveG.PlayerController
             {
                 bool hasContemplable = hitInfo.collider.gameObject.TryGetComponent(out IContemplable contemplableObj);
 
-                if (hasContemplable && contemplableObj.CanBeInteractedWith())
+                // Verificamos si es un objeto válido y si es DIFERENTE al que ya procesamos en este zoom
+                if (hasContemplable && contemplableObj.CanBeInteractedWith() && contemplableObj != lastContemplatedObject)
                 {
-                    // Si estoy contemplando un objeto distinto al anterior
-                    if (lastContemplatedObject != null && lastContemplatedObject != contemplableObj)
+                    if (lastContemplatedObject != null)
                     {
                         lastContemplatedObject.IsAbleToBeContemplate(true);
                     }
 
                     lastContemplatedObject = contemplableObj;
-                    StartCoroutine(ContemplationCoroutine(contemplableObj));
+
+                    if (UIManager.Instance != null && UIManager.Instance.ContemplationCanvasHandler != null)
+                    {
+                        StartCoroutine(ContemplationCoroutine(contemplableObj));
+                    }
                 }
             }
             else
             {
-                // Si no golpeamos nada, re-habilitamos el último contemplado
                 if (lastContemplatedObject != null)
                 {
                     lastContemplatedObject.IsAbleToBeContemplate(true);
                     lastContemplatedObject = null;
-                }
 
-                GameEvents.Common.onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
+                    // Opcional: Si miras a la nada, ¿quieres que se borre el texto?
+                    // Según tu prompt, el texto se cancela "si el jugador deja de hacer zoom Y vuelve a hacerlo".
+                    // Aquí el jugador sigue haciendo zoom pero miró a otro lado. 
+                    // Si quieres que se borre al mirar a la nada manteniendo zoom, descomenta:
+                    // UIManager.Instance.ContemplationCanvasHandler.HideContemplationCanvas();
+                }
+            }
+        }
+
+        private IEnumerator ContemplationCoroutine(IContemplable contemplableObj)
+        {
+            contemplableObj.IsAbleToBeContemplate(false);
+
+            if (!contemplableObj.HasReachedMaxContemplations())
+            {
+                string contemplationText = contemplableObj.GetContemplationText();
+
+                yield return StartCoroutine(UIManager.Instance.ContemplationCanvasHandler.ShowContemplationText(contemplationDelay, contemplationText));
+            }
+            else
+            {
+                // Si ya llegó al máximo, nos aseguramos que no se pueda volver a interactuar
+                contemplableObj.IsAbleToBeContemplate(false);
             }
         }
 
         private void OnDisable()
         {
-            GameEvents.Common.onContemplationCanvasControls.Raise(this, new EnableCanvas(false));
-        }
-
-
-        private IEnumerator ContemplationCoroutine(IContemplable contemplableObj)
-        {
-            defaultTextCounter = contemplableObj.RetrieveDefaultTextCounter();
-            contemplableObj.IsAbleToBeContemplate(false);
-            string contemplationText;
-            yield return new WaitForSeconds(0.25f);
-
-            // Si el objeto puede ser contemplado varias veces, muestran los textos del objeto
-            // Logica dentro de ContemplateObject.
-            if (!contemplableObj.HasReachedMaxContemplations())
+            if (UIManager.Instance != null && UIManager.Instance.ContemplationCanvasHandler != null)
             {
-                contemplationText = contemplableObj.GetContemplationText();
-
-                GameEvents.Common.onContemplationCanvasShowText.Raise(this, contemplationText);
-            }
-            else
-            {
-                contemplableObj.IsAbleToBeContemplate(false);
+                UIManager.Instance.ContemplationCanvasHandler.HideContemplationCanvas();
             }
         }
 
         private void OnDrawGizmos()
         {
-
             Gizmos.color = raycastColor;
             Vector3 direction = interactorSource.TransformDirection(Vector3.forward) * contemplationRange;
             Gizmos.DrawRay(interactorSource.position, direction);
