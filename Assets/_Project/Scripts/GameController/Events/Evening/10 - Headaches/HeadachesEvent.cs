@@ -119,7 +119,7 @@ namespace TwelveG.GameController
             // Detener todas las audio sources de la pool inGameVol
             AudioManager.Instance.PoolsHandler.StopActiveSourcesOnMixChannel(AudioMixChannel.InGame);
 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(3f);
         }
 
         public void AllowNextActions(Component sender, object data)

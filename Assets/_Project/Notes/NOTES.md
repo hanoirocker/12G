@@ -9,7 +9,6 @@ TOCHECK:
 
 TOFIX:
 - Arreglar el error que se muestra en TV Time event sobre el TV Options no pudiendo actualizar su texto.
-- El evento HEADACHES no funciona bien en cuanto a los audios, items activados, etc, desde el último refactor. Chequear. Quizas es porque no es checkpoint y no habilité el Walkie Talkie, ojo ...
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 
 TODO - próximo:
