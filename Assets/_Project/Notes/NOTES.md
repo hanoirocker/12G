@@ -1,5 +1,6 @@
 NOVEDADES:
-- Se movió la lógica de formateo a nuevo UIFormatter, que recibe las llamadas para actualizar los textos o parámetros de formato usando una nuevo estructura de datos de formato UIFormattingDataSO. Aplicado también a textos de interacción.
+- Previamente se implementó UIFormatter al habilitar los handlers de los canvas de Interaction, Contemplation, Observation, Controls, Main Menu y Pause Menu.
+- Se arregló el error del objeto de control texts para TV interaction.
 
 TOCHECK:
 
@@ -8,7 +9,6 @@ TOCHECK:
 - Agregar mas sonidos stereo para los perfiles sonoros de ambiente?
 
 TOFIX:
-- Arreglar el error que se muestra en TV Time event sobre el TV Options no pudiendo actualizar su texto.
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 
 TODO - próximo:

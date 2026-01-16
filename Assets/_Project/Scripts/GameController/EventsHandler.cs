@@ -241,6 +241,7 @@ namespace TwelveG.GameController
                     {
                         case SceneEnum.Afternoon:
                             Debug.LogWarning("[EventsHandler]: Usando transform por defecto de Afternoon.");
+                            startingTransform = defaultEveningTransform;
                             break;
                         case SceneEnum.Evening:
                             startingTransform = defaultEveningTransform;

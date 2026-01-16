@@ -115,14 +115,14 @@ namespace TwelveG.PlayerController
 
             if (playerIsInteracting)
             {
-                UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.TV, false);
                 UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.RemoteControl, true);
+                UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.TV, false);
                 ShowRemoteControl(true);
             }
             else
             {
-                UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.RemoteControl, false);
                 UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.TV, true);
+                UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(InteractionObjectType.RemoteControl, false);
                 ShowRemoteControl(false);
             }
         }

@@ -15,5 +15,5 @@ MonoBehaviour:
   uImenuTextStructure:
   - language: 0
     value: ~ Interactuar con TV [E]
-  - language: 0
+  - language: 1
     value: ~ Interact with TV [E]
