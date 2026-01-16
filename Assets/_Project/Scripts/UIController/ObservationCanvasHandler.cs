@@ -43,6 +43,7 @@ namespace TwelveG.UIController
         private void OnEnable()
         {
             UpdateCanvasTextOnLanguageChanged();
+            UIManager.Instance.UIFormatter.AssignFontByType(UIFormatingType.PlayerObservationText, observationCanvasText);
         }
 
         void Start()

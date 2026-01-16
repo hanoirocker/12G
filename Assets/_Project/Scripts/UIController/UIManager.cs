@@ -54,6 +54,7 @@ namespace TwelveG.UIController
     [SerializeField] private ControlCanvasHandler controlCanvasHandler;
     [SerializeField] private DisclaimerCanvasHandler disclaimerCanvasHandler;
     [SerializeField] private InformationCanvasHandler informationCanvasHandler;
+    [SerializeField] private PauseMenuCanvasHandler pauseMenuCanvasHandler;
     [SerializeField] private UIFormatter uIFormatter;
 
     public ImageCanvasHandler ImageCanvasHandler => imageCanvasHandler;
@@ -65,6 +66,7 @@ namespace TwelveG.UIController
     public LoadingSceneCanvasHandler LoadingSceneCanvasHandler => loadingSceneCanvasHandler;
     public DisclaimerCanvasHandler DisclaimerCanvasHandler => disclaimerCanvasHandler;
     public InformationCanvasHandler InformationCanvasHandler => informationCanvasHandler;
+    public PauseMenuCanvasHandler PauseMenuCanvasHandler => pauseMenuCanvasHandler;
     public UIFormatter UIFormatter => uIFormatter;
 
     private Dictionary<CanvasHandlerType, GameObject> canvasDict;

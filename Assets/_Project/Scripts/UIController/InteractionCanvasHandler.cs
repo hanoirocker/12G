@@ -23,21 +23,12 @@ namespace TwelveG.UIController
         private void Start()
         {
             interactionCavas.enabled = false;
-            UIManager.Instance.UIFormatter.AssignFontByType(UIFormatingType.PlayerInteractionText, interactionCanvasText);
         }
 
         private void OnEnable()
         {
             UpdateCanvasText();
-        }
-
-        private void OnValidate()
-        {
-            if (Application.isPlaying && isActiveAndEnabled && interactionCavas.enabled)
-            {
-                UpdateCanvasText();
-                UIManager.Instance.UIFormatter.AssignFontByType(UIFormatingType.PlayerInteractionText, interactionCanvasText);
-            }
+            UIManager.Instance.UIFormatter.AssignFontByType(UIFormatingType.PlayerInteractionText, interactionCanvasText);
         }
 
         public void ShowInteractionText(InteractionTextSO interactionTextSO)
@@ -84,30 +75,32 @@ namespace TwelveG.UIController
             if (LocalizationManager.Instance == null || UIManager.Instance == null) return;
 
             string rawText = "";
+            string textToShow = "";
             if (isShowingEventText && currentEventTextSO != null)
             {
                 rawText = Utils.TextFunctions.RetrieveEventInteractionText(
                     LocalizationManager.Instance.GetCurrentLanguageCode(),
                     currentEventTextSO
                 );
+
+                // Aplicar formato de color SOLO si es EventInteractionText
+                textToShow = UIManager.Instance.UIFormatter.UpdateTextColors(
+                    rawText,
+                    UIFormatingType.PlayerInteractionText,
+                    this.gameObject
+                );
             }
             else if (!isShowingEventText && currentSimpleTextSO != null)
             {
-                rawText = Utils.TextFunctions.RetrieveInteractionText(
+                textToShow = Utils.TextFunctions.RetrieveInteractionText(
                     LocalizationManager.Instance.GetCurrentLanguageCode(),
                     currentSimpleTextSO
                 );
             }
 
-            if (string.IsNullOrEmpty(rawText)) return;
+            if (string.IsNullOrEmpty(textToShow)) return;
 
-            string formattedText = UIManager.Instance.UIFormatter.UpdateTextColors(
-                rawText,
-                UIFormatingType.PlayerInteractionText,
-                this.gameObject
-            );
-
-            interactionCanvasText.text = formattedText;
+            interactionCanvasText.text = textToShow;
         }
 
         public void VanishTextEffect()

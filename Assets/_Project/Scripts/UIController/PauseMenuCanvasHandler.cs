@@ -1,16 +1,16 @@
 using System.Collections.Generic;
+using TMPro;
 using TwelveG.AudioController;
 using TwelveG.GameController;
 using TwelveG.SaveSystem;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace TwelveG.UIController
 {
     public class PauseMenuCanvasHandler : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private List<UpdateTextHandler> textHandlers;
+        [SerializeField] private List<UpdateTextHandler> updateTextHandlers;
 
         [Header("Testing")]
         public static bool gameIsPaused;
@@ -39,9 +39,14 @@ namespace TwelveG.UIController
 
         public void UpdateUITextOptions()
         {
-            foreach (UpdateTextHandler textHandler in textHandlers)
+            foreach (UpdateTextHandler textHandler in updateTextHandlers)
             {
                 textHandler.UpdateText(Localization.LocalizationManager.Instance.GetCurrentLanguageCode());
+
+                UIManager.Instance.UIFormatter.AssignFontByType(
+                textHandler.uITextType,
+                textHandler.GetComponent<TextMeshProUGUI>()
+                );
             }
         }
 

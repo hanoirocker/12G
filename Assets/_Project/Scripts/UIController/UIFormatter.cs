@@ -8,17 +8,29 @@ namespace TwelveG.UIController
   public enum UIFormatingType
   {
     None,
+    ControlsDefaultText,
     ControlsSpecificText,
     AlertColorText,
     ButtonText,
     PlayerInteractionText,
     PlayerContemplationText,
     PlayerObservationText,
+    DialogContentText,
+    DialogCharacterText,
   }
 
   public class UIFormatter : MonoBehaviour
   {
+    [Header("Formatting Data")]
     [SerializeField] private UIFormattingDataSO formatData;
+
+    private void Awake()
+    {
+      if (formatData == null)
+      {
+        Debug.LogWarning("UIFormattingDataSO no asignada al UIFormatter.");
+      }
+    }
 
     public string UpdateTextColors(string inputText, UIFormatingType formatType, GameObject contextObject)
     {
@@ -57,7 +69,7 @@ namespace TwelveG.UIController
     {
       if (string.IsNullOrEmpty(inputText)) return inputText;
 
-      string hexColor = "#" + ColorUtility.ToHtmlStringRGB(colorToUse);
+      string hexColor = "#" + UnityEngine.ColorUtility.ToHtmlStringRGB(colorToUse);
       string pattern = @"~|\[.*?\]";
 
       return Regex.Replace(inputText, pattern, match =>
@@ -70,7 +82,7 @@ namespace TwelveG.UIController
     {
       if (string.IsNullOrEmpty(inputText)) return inputText;
 
-      string hexColor = "#" + ColorUtility.ToHtmlStringRGB(colorToUse);
+      string hexColor = "#" + UnityEngine.ColorUtility.ToHtmlStringRGB(colorToUse);
       return $"<color={hexColor}>{inputText}</color>";
     }
 

@@ -16,14 +16,20 @@ MonoBehaviour:
   alertColor: {r: 0.83137256, g: 0.49411765, b: 0.11372549, a: 1}
   buttonHighlightColor: {r: 0.83137256, g: 0.49411765, b: 0.11372549, a: 1}
   playerInteractionColor: {r: 0.83137256, g: 0.49411765, b: 0.11372549, a: 1}
+  playerObservationColor: {r: 0, g: 0, b: 0, a: 0}
+  playerContemplationColor: {r: 0, g: 0, b: 0, a: 0}
+  dialogContentColor: {r: 0, g: 0, b: 0, a: 0}
+  dialogCharacterNameColor: {r: 0, g: 0, b: 0, a: 0}
   buttonsTextFont: {fileID: 11400000, guid: a566d22a38fd8408982f25c6209460da, type: 2}
-  controlCanvasTextFont: {fileID: 11400000, guid: b996ef19ecbdc4a94b892e529afa4cd6,
+  controlsSpecificTextFont: {fileID: 11400000, guid: b996ef19ecbdc4a94b892e529afa4cd6,
+    type: 2}
+  controlsDefaultTextFont: {fileID: 11400000, guid: b996ef19ecbdc4a94b892e529afa4cd6,
     type: 2}
   interactionTextFont: {fileID: 11400000, guid: b996ef19ecbdc4a94b892e529afa4cd6,
     type: 2}
-  contemplationTextFont: {fileID: 11400000, guid: a566d22a38fd8408982f25c6209460da,
+  contemplationTextFont: {fileID: 11400000, guid: bba558cb650e44366bc603b5fdbc953f,
     type: 2}
-  observationTextFont: {fileID: 11400000, guid: a566d22a38fd8408982f25c6209460da,
+  observationTextFont: {fileID: 11400000, guid: bba558cb650e44366bc603b5fdbc953f,
     type: 2}
   dialogsContentFont: {fileID: 11400000, guid: bba558cb650e44366bc603b5fdbc953f, type: 2}
   dialogsCharacterNameFont: {fileID: 11400000, guid: bba558cb650e44366bc603b5fdbc953f,

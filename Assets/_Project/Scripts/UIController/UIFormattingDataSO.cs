@@ -12,11 +12,16 @@ namespace TwelveG.UIController
     public Color alertColor;
     public Color buttonHighlightColor;
     public Color playerInteractionColor;
+    public Color playerObservationColor;
+    public Color playerContemplationColor;
+    public Color dialogContentColor;
+    public Color dialogCharacterNameColor;
 
     [Header("Fonts")]
     [Space(10)]
     public TMP_FontAsset buttonsTextFont;
-    public TMP_FontAsset controlCanvasTextFont;
+    public TMP_FontAsset controlsSpecificTextFont;
+    public TMP_FontAsset controlsDefaultTextFont;
     public TMP_FontAsset interactionTextFont;
     public TMP_FontAsset contemplationTextFont;
     public TMP_FontAsset observationTextFont;
@@ -40,6 +45,18 @@ namespace TwelveG.UIController
         case UIFormatingType.PlayerInteractionText:
           return playerInteractionColor;
 
+        case UIFormatingType.PlayerContemplationText:
+          return playerContemplationColor;
+
+        case UIFormatingType.PlayerObservationText:
+          return playerObservationColor;
+
+        case UIFormatingType.DialogContentText:
+          return dialogContentColor;
+
+        case UIFormatingType.DialogCharacterText:
+          return dialogCharacterNameColor;
+
         default:
           return Color.white;
       }
@@ -52,7 +69,10 @@ namespace TwelveG.UIController
       switch (type)
       {
         case UIFormatingType.ControlsSpecificText:
-          fontToReturn = controlCanvasTextFont;
+          fontToReturn = controlsSpecificTextFont;
+          break;
+        case UIFormatingType.ControlsDefaultText:
+          fontToReturn = controlsDefaultTextFont;
           break;
         case UIFormatingType.AlertColorText:
           fontToReturn = interactionTextFont;

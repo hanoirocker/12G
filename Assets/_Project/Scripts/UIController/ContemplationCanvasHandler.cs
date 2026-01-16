@@ -18,6 +18,11 @@ namespace TwelveG.UIController
             contemplationCanvasText = GetComponentInChildren<TextMeshProUGUI>();
         }
 
+        private void OnEnable()
+        {
+            UIManager.Instance.UIFormatter.AssignFontByType(UIFormatingType.PlayerContemplationText, contemplationCanvasText);
+        }
+
         void Start()
         {
             contemplationCanvas.enabled = false;

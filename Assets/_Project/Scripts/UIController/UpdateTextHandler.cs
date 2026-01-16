@@ -20,7 +20,7 @@ namespace TwelveG.UIController
     [Header("Formatting Settings")]
     [Space]
     [Tooltip("Define el comportamiento visual del texto según su tipo.")]
-    [SerializeField] private UIFormatingType uITextType = UIFormatingType.None;
+    public UIFormatingType uITextType = UIFormatingType.None;
 
     [Header("Text SO's")]
     [Space]
@@ -66,7 +66,6 @@ namespace TwelveG.UIController
         if (formatText)
         {
           finalValue = UIManager.Instance.UIFormatter.UpdateTextColors(finalValue, uITextType, this.gameObject);
-          UIManager.Instance.UIFormatter.AssignFontByType(uITextType, GetComponent<TextMeshProUGUI>());
         }
 
         gameObject.GetComponent<TextMeshProUGUI>().text = finalValue;
@@ -89,7 +88,6 @@ namespace TwelveG.UIController
           if (formatText)
           {
             textValue = UIManager.Instance.UIFormatter.UpdateTextColors(textValue, uITextType, this.gameObject);
-            UIManager.Instance.UIFormatter.AssignFontByType(uITextType, GetComponent<TextMeshProUGUI>());
           }
 
           dropdown.options[i].text = textValue;
@@ -101,7 +99,6 @@ namespace TwelveG.UIController
 
     private void OnValidate()
     {
-      // Si estamos en el editor y el juego está corriendo, forzamos update al tocar algo
       if (Application.isPlaying && isActiveAndEnabled)
       {
         UpdateText(LocalizationManager.Instance?.GetCurrentLanguageCode());

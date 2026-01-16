@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
@@ -25,6 +26,9 @@ namespace TwelveG.UIController
         [SerializeField] private GameObject WTOptions;
         [SerializeField] private GameObject FlashlightOptions;
 
+        [Space(5)]
+        [SerializeField] private UpdateTextHandler[] updateTextHandlers;
+
         [Space(10)]
         [Header("Settings")]
         [SerializeField, Range(0f, 3f)] private float fadeDuration = 3f;
@@ -40,11 +44,16 @@ namespace TwelveG.UIController
         private void OnEnable()
         {
             UpdateCanvasTextOnLanguageChanged();
+
+            foreach (var textHandler in updateTextHandlers)
+            {
+                UIManager.Instance.UIFormatter.AssignFontByType(
+                textHandler.uITextType,
+                textHandler.GetComponent<TextMeshProUGUI>()
+                );
+            }
         }
 
-        // Escucha el evento onControlCanvasSetInteractionOptions llamado desde 
-        // PlayerItemBase y PlayerInventory para mostrar/ocultar las opciones
-        // específicas de cada objeto de interacción.
         public void SetInteractionSpecificOptions(InteractionObjectType interactionObjectType, bool enabled)
         {
             switch (interactionObjectType)
@@ -76,7 +85,7 @@ namespace TwelveG.UIController
                 updateTextHandler.UpdateText(LocalizationManager.Instance.GetCurrentLanguageCode());
             }
         }
-        
+
         public void AlternateControlCanvas()
         {
             StartCoroutine(ToggleControlCanvasCoroutine(!controlCanvas.enabled));
@@ -98,19 +107,12 @@ namespace TwelveG.UIController
                 controlCanvas.enabled = true;
             }
 
-            float elapsed = 0f;
-            float target = enableCanvas ? 1f : 0f;
-            float initialAlpha = canvasGroup.alpha;
-
-            while (elapsed < fadeDuration)
-            {
-                elapsed += Time.deltaTime;
-                float alpha = Mathf.Lerp(initialAlpha, target, elapsed / fadeDuration);
-                canvasGroup.alpha = alpha;
-                yield return null;
-            }
-
-            canvasGroup.alpha = target;
+            yield return StartCoroutine(UIUtils.FadeCanvasGroup(
+                canvasGroup,
+                canvasGroup.alpha,
+                enableCanvas ? 1f : 0f,
+                fadeDuration
+            ));
 
             if (!enableCanvas)
             {
