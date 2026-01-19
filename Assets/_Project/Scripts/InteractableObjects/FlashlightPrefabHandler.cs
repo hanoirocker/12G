@@ -61,11 +61,13 @@ namespace TwelveG.InteractableObjects
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Flashlight, true));
       yield return new WaitForSeconds(3f);
 
-      GameEvents.Common.playFlashlightVCAnimation.Raise(this, null);
+      VCAnimationHandler vcHandler = VirtualCamerasHandler.Instance.GetCurrentActiveCamera().GetComponent<VCAnimationHandler>();
+      Animation vcAnimationComponent = VirtualCamerasHandler.Instance.GetCurrentActiveCamera().GetComponent<Animation>();
+      vcHandler.PlayAnimation();
 
       // TODO: Reproducir sonido de jugador agachandose
 
-      yield return new WaitUntil(() => vcAnimationHasEnded);
+      yield return new WaitUntil(() => !vcAnimationComponent.isPlaying);
 
       yield return new WaitForSeconds(1f);
 
@@ -90,11 +92,6 @@ namespace TwelveG.InteractableObjects
     public bool VerifyIfPlayerCanInteract(PlayerInteraction playerCameraObject)
     {
       throw new System.NotImplementedException();
-    }
-
-    public void OnAnimationHasEnded()
-    {
-      vcAnimationHasEnded = true;
     }
   }
 }
