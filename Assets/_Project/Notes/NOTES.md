@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se continuó trabajando en Red Hour event.
+- Se hizo override del sample rate original (44Khz) a 48Khz de todos los clips del proyecto. También se seteó a 48Khz el sample rate default del proyecto en sí.
 
 TOCHECK:
 
