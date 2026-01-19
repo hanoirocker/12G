@@ -29,7 +29,6 @@ namespace TwelveG.GameController
         [SerializeField, Range(0f, 1f)] private float garageClipVolume = 0.5f;
 
         private bool playerHasNotEnteredGarage = true;
-        private bool flashlightPickedUp = false;
         private bool allowNextAction = false;
 
         public override IEnumerator Execute()
@@ -39,7 +38,7 @@ namespace TwelveG.GameController
             PlayerSoundsHandler playerSoundsHandler = AudioManager.Instance.GetComponentInChildren<PlayerSoundsHandler>();
             AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
             Transform garageTransform = playerHouseHandler.GetTransformByObject(HouseObjects.GarageNoise);
-            RotativeDoorHandler garageDoorHandler = GameObject.Find("Garage Rotative Door").GetComponentInChildren<RotativeDoorHandler>();
+            RotativeDoorHandler garageDoorHandler = PlayerHouseHandler.Instance.GetStoredObjectByID("Garage Rotative Door").GetComponentInChildren<RotativeDoorHandler>();
 
             yield return new WaitForSeconds(initialTime);
 
@@ -113,17 +112,17 @@ namespace TwelveG.GameController
 
             yield return new WaitForSeconds(5f);
 
-            if (!flashlightPickedUp)
-            {
-                // Observación sobre recordar tener una linterna en algún lado del garage
-                UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
-                    observationTextSOs[1]
-                );
-                yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
-                    observationTextSOs[1].observationTextsStructure[0].observationText
-                ));
-                GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
-            }
+            // Observación sobre recordar tener una linterna en algún lado del garage
+            UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
+                observationTextSOs[1]
+            );
+            yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
+                observationTextSOs[1].observationTextsStructure[0].observationText
+            ));
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO);
+
+            // Activar collider de interactuable de Pickable - Flashlight
+            PlayerHouseHandler.Instance.GetStoredObjectByID("Pickable - Flashlight").GetComponentInChildren<BoxCollider>().enabled = true;
 
             // "onFlashlightPickedUp" (El jugador ha recogido la linterna)
             yield return new WaitUntil(() => allowNextAction);
@@ -176,7 +175,6 @@ namespace TwelveG.GameController
 
         public void OnFlashlightPickedUp(Component sender, object data)
         {
-            flashlightPickedUp = true;
             GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.Flashlight);
             allowNextAction = true;
         }

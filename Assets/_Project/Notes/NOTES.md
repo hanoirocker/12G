@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se arregló el problema que el flashlight pudiese ser obtenido antes de que terminara la animación para alcanzarlo.
+- Se creó el método "GetStoredObjectByID" para retornar cualquier objeto de la lista stored objects del PlayerHouseHandler. Usado desde eventos para ejecutar funciones de dichos objetos o demás.
 
 TOCHECK:
 

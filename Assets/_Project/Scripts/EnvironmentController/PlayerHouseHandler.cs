@@ -31,7 +31,8 @@ namespace TwelveG.EnvironmentController
     {
         EntranceMainDoor,
         GarageNoise,
-        GarageDoor, // TODO: agregar transform
+        GarageGate,
+        GarageDoor
     }
 
     public class PlayerHouseHandler : MonoBehaviour
@@ -47,6 +48,7 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private Transform entranceMainDoorTransform;
         [SerializeField] private Transform garageNoiseTransform;
         [SerializeField] private Transform garageDoorTransform;
+        [SerializeField] private Transform garageGateTransform;
 
         [Header("Light References")]
         [SerializeField] private Light[] HouseLights;
@@ -181,6 +183,8 @@ namespace TwelveG.EnvironmentController
                     return entranceMainDoorTransform;
                 case HouseObjects.GarageNoise:
                     return garageNoiseTransform;
+                case HouseObjects.GarageGate:
+                    return garageGateTransform;
                 case HouseObjects.GarageDoor:
                     return garageDoorTransform;
                 default:
@@ -195,6 +199,25 @@ namespace TwelveG.EnvironmentController
             {
                 door.OnCheckpointReached("UNLOCKED");
             }
+        }
+
+        public GameObject GetStoredObjectByID(string objectID)
+        {
+            if (storedPrefabs == null || storedPrefabs.Length == 0)
+            {
+                return null;
+            }
+
+            foreach (GameObject prefab in storedPrefabs)
+            {
+                if (prefab.name == objectID)
+                {
+                    return prefab;
+                }
+            }
+
+            Debug.Log("Prefab con ID " + objectID + " no encontrado.");
+            return null;
         }
 
         public void ToggleStoredPrefabs(ObjectData objectData)

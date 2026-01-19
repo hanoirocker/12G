@@ -18,7 +18,7 @@ namespace TwelveG.AudioController
         NormalBreathing,
         HardBreathing, // Ya incluye al final la recuperacion
         StomachGrowl,
-        EnemySurpriseReaction,
+        EnemySurpriseReaction, // TODO: Componer sonido de sorpresa enemigo (Sorpresa + Respiración agitada + Latidos + Recuperacion del aire)
         Doubt, // Hmmm?
     }
 
