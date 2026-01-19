@@ -37,3 +37,5 @@ Modelos:
 * room tone heating by PivanlaDbrouille at freesound.org
 * creaking wooden floors.wav by MichelleGrobler at freesound.org
 * fav.stomach.growl.mp3 by CropDub6425 at freesound.org
+* 03201 closing garage gate.wav by Robinhood76 at freesound.org
+* 101127__CGEffex__Bug_Zapper_Long_moth_electrocution_Remix.wav by Timbre at freesound.org
