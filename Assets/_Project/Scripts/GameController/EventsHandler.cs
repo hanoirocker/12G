@@ -538,7 +538,7 @@ namespace TwelveG.GameController
             {
                 foreach (ObjectData objData in profile.objectsToToggle)
                 {
-                    playerHouseHandler?.ToggleCheckpointPrefabs(objData);
+                    playerHouseHandler?.ToggleStoredPrefabs(objData);
                 }
 
                 yield return new WaitForFixedUpdate();
@@ -548,7 +548,7 @@ namespace TwelveG.GameController
             {
                 foreach (ObjectData objData in profile.environmentObjectsToToggle)
                 {
-                    environmentHandler?.ToggleCheckpointPrefabs(objData);
+                    environmentHandler?.ToggleStoredPrefabs(objData);
                 }
 
                 yield return new WaitForFixedUpdate();

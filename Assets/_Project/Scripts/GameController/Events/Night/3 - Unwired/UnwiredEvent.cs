@@ -4,7 +4,6 @@ using TwelveG.AudioController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
-using TwelveG.PlayerController;
 using TwelveG.UIController;
 using TwelveG.Utils;
 using UnityEngine;
@@ -83,7 +82,7 @@ namespace TwelveG.GameController
                 AudioUtils.StopAndRestoreAudioSource(garageSource, garageState);
             }
 
-            // "unwiredGarageCollidersTriggered" (El jugador ya está en la entrada del garage)
+            // "OnGarageCollidersTriggered" (El jugador ya está en la entrada del garage)
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
 

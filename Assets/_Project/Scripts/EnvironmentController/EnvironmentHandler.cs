@@ -41,7 +41,7 @@ namespace TwelveG.EnvironmentController
 
         [Space(10)]
         [Header("Prefab References")]
-        [SerializeField] private GameObject[] checkpointPrefabs;
+        [SerializeField] private GameObject[] storedPrefabs;
 
         private void Awake()
         {
@@ -105,14 +105,14 @@ namespace TwelveG.EnvironmentController
             }
         }
 
-        public void ToggleCheckpointPrefabs(ObjectData objectData)
+        public void ToggleStoredPrefabs(ObjectData objectData)
         {
-            if (checkpointPrefabs == null || checkpointPrefabs.Length == 0)
+            if (storedPrefabs == null || storedPrefabs.Length == 0)
             {
                 return;
             }
 
-            foreach (GameObject prefab in checkpointPrefabs)
+            foreach (GameObject prefab in storedPrefabs)
             {
                 if (prefab.name == objectData.objectID)
                 {

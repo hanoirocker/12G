@@ -31,6 +31,7 @@ namespace TwelveG.EnvironmentController
     {
         EntranceMainDoor,
         GarageNoise,
+        GarageDoor, // TODO: agregar transform
     }
 
     public class PlayerHouseHandler : MonoBehaviour
@@ -39,12 +40,13 @@ namespace TwelveG.EnvironmentController
 
         [Header("Prefab References")]
         [Tooltip("Prefabs that will be enabled/disabled based on checkpoint data")]
-        [SerializeField] private GameObject[] checkpointPrefabs;
+        [SerializeField] private GameObject[] storedPrefabs;
         [Space(5)]
         [SerializeField] private DownstairsOfficeDoorHandler[] lockeableDoorsInHouse;
         [Space(5)]
         [SerializeField] private Transform entranceMainDoorTransform;
         [SerializeField] private Transform garageNoiseTransform;
+        [SerializeField] private Transform garageDoorTransform;
 
         [Header("Light References")]
         [SerializeField] private Light[] HouseLights;
@@ -179,6 +181,8 @@ namespace TwelveG.EnvironmentController
                     return entranceMainDoorTransform;
                 case HouseObjects.GarageNoise:
                     return garageNoiseTransform;
+                case HouseObjects.GarageDoor:
+                    return garageDoorTransform;
                 default:
                     Debug.LogWarning("Objeto de casa inválido.");
                     return null;
@@ -193,14 +197,14 @@ namespace TwelveG.EnvironmentController
             }
         }
 
-        public void ToggleCheckpointPrefabs(ObjectData objectData)
+        public void ToggleStoredPrefabs(ObjectData objectData)
         {
-            if (checkpointPrefabs == null || checkpointPrefabs.Length == 0)
+            if (storedPrefabs == null || storedPrefabs.Length == 0)
             {
                 return;
             }
 
-            foreach (GameObject prefab in checkpointPrefabs)
+            foreach (GameObject prefab in storedPrefabs)
             {
                 if (prefab.name == objectData.objectID)
                 {

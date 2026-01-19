@@ -164,7 +164,7 @@ namespace TwelveG.PlayerController
                     case ItemType.Broom:
                         hasRightHandOccupied = false;
                         broom.SetActive(false);
-                        PlayerHouseHandler.Instance?.ToggleCheckpointPrefabs(new ObjectData("Used - Broom", true));
+                        PlayerHouseHandler.Instance?.ToggleStoredPrefabs(new ObjectData("Used - Broom", true));
                         break;
                     case ItemType.FullTrashBag:
                         hasLeftHandOcuppied = false;

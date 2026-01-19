@@ -79,7 +79,7 @@ namespace TwelveG.GameController
       // Nota: Estos colliders son dos y cada uno dispara un evento distinto para activar, o desactivar,
       // los 2 objetos con ZoneSpotterHandler de Mica Entrance house. Luego, según el spot area
       // activo al observar, se dispara un evento para distinguir si se observó desde arriba o desde abajo.
-      playerHouseHandler.ToggleCheckpointPrefabs(new ObjectData("Visions - Colliders", true));
+      playerHouseHandler.ToggleStoredPrefabs(new ObjectData("Visions - Colliders", true));
 
       // Comienza música ""
       if (track2Clip != null)
@@ -125,7 +125,7 @@ namespace TwelveG.GameController
       // "onVideoCanvasFinished"
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
-      playerHouseHandler.ToggleCheckpointPrefabs(new ObjectData("Visions - Colliders", false));
+      playerHouseHandler.ToggleStoredPrefabs(new ObjectData("Visions - Colliders", false));
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(null));
       GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
       environmentHandler.ShowEnemy(EnemyPositions.None);
