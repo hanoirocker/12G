@@ -1,5 +1,6 @@
 NOVEDADES:
-- Se empezó a trabajar en Red Hour event.
+- Se continuó trabajando en Red Hour event.
+- Se creo checkpoint provisional de prueba para Red Hour event.
 
 TOCHECK:
 
@@ -11,6 +12,8 @@ TOFIX:
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 
 TODO - próximo:
+- Cambiar sonido de garageDoorKnockingClip en Red Hour event por uno adecuado.
+- Trabajar en el evento en sí.
 - Visions - Agregar sonido (CHAN) al ver al enemigo en downstairs hall.
 - Actualmente el sistema de audio por perfiles de ambiente funciona en base a la escena. Por ende, si quisieramos detener la lluvia en algun momento, la lluvia estereo del los perfiles seguiria sonando. Analizar si es conveniente o no ampliar la estructura logica.
 - Finalizar Visions y comenzar con RedHour
