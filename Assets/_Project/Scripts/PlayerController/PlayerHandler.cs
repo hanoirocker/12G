@@ -14,6 +14,7 @@ namespace TwelveG.PlayerController
         [Header("References")]
         [SerializeField] private GameObject playerCapsule;
         [SerializeField] private GameObject mainCamera;
+        [SerializeField] private PlayerSpotter playerSpotter;
 
         [SerializeField] private FPController fpController;
 
@@ -22,6 +23,7 @@ namespace TwelveG.PlayerController
 
         public AudioSource PlayerCapsuleAudioSource => playerCapsuleAudioSource;
         public FPController FPController => fpController;
+        public PlayerSpotter PlayerSpotter => playerSpotter;
 
 
         private HouseArea currentHouseArea = HouseArea.None;
@@ -172,6 +174,7 @@ namespace TwelveG.PlayerController
             playerCapsule.SetActive(enable);
             playerContemplation.enabled = enable;
             playerInteraction.enabled = enable;
+            playerSpotter.enabled = enable;
         }
 
         private void HandleExamination(bool isExamining)

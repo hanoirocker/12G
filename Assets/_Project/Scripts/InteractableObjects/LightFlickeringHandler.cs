@@ -17,7 +17,7 @@ namespace TwelveG.InteractableObjects
     [Header("Audio Settings")]
     [SerializeField] private AudioClip sparkSoundClip;
     [Tooltip("Volumen base del chispazo.")]
-    [SerializeField, Range(0f, 1f)] private float sparkSoundVolume = 0.7f;
+    [SerializeField, Range(0f, 1f)] private float sparkSoundVolume = 0.07f;
 
     private Light targetLight;
     private AudioSource audioSource;

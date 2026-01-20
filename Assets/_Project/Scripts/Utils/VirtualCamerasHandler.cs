@@ -41,6 +41,11 @@ namespace TwelveG.Utils
         private CinemachineVirtualCamera currentActiveCamera;
         private CinemachineVirtualCamera lastActiveCamera;
 
+        // Variables de Noise
+        private float storedAmplitude;
+        private float storedFrequency;
+        private bool isNoiseSuspended = false;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -252,6 +257,49 @@ namespace TwelveG.Utils
                 VirtualCameraTarget.Focus => focusVC,
                 _ => null
             };
+        }
+
+        public void ToggleActiveCameraNoise(bool enableNoise)
+        {
+            CinemachineVirtualCamera vCam = GetCurrentActiveCamera();
+            if (vCam == null) return;
+
+            var noise = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+            if (noise == null) return;
+
+            if (!enableNoise)
+            {
+                if (!isNoiseSuspended)
+                {
+                    storedAmplitude = noise.m_AmplitudeGain;
+                    storedFrequency = noise.m_FrequencyGain;
+
+                    noise.m_AmplitudeGain = 0f;
+                    noise.m_FrequencyGain = 0f;
+
+                    isNoiseSuspended = true;
+                }
+            }
+            else
+            {
+                if (isNoiseSuspended)
+                {
+                    // Restauramos los valores guardados
+                    noise.m_AmplitudeGain = storedAmplitude;
+                    noise.m_FrequencyGain = storedFrequency;
+
+                    isNoiseSuspended = false;
+                }
+                else
+                {
+                    if (vCam == playerVC)
+                    {
+                        noise.m_AmplitudeGain = defaultAmplitude;
+                        noise.m_FrequencyGain = defaultFrequency;
+                    }
+                }
+            }
         }
     }
 }

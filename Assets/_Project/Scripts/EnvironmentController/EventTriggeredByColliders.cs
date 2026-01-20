@@ -8,12 +8,15 @@ namespace TwelveG.EnvironmentController
         public GameEventSO eventTriggerOnExit;
         public bool disableOnTriggerEnter = true;
         public bool disableOnTriggerExit = true;
+        public bool IsPlayerInside { get; private set; } = false;
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("PlayerCapsule"))
             {
-                eventTriggered.Raise(this, null);
+                IsPlayerInside = true;
+
+                eventTriggered?.Raise(this, null);
 
                 if (disableOnTriggerEnter)
                 {
@@ -26,7 +29,10 @@ namespace TwelveG.EnvironmentController
         {
             if (other.gameObject.CompareTag("PlayerCapsule"))
             {
-                eventTriggerOnExit.Raise(this, null);
+                IsPlayerInside = false;
+
+                eventTriggerOnExit?.Raise(this, null);
+
                 if (disableOnTriggerExit)
                 {
                     gameObject.SetActive(false);

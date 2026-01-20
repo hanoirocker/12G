@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se continuó trabajando en Red Hour event, con corrutina de apertura de puerta.
+- Se continuó trabajando en Red Hour event, con corrutina de pieza de los padres. Se creó el handler PulsingGlowHandler para variar en runtime la intensidad de emisión de un material.
 NOTA: BORRAR CHECKPOINT AL TERMINAR DE PROBAR.
 
 TOCHECK:

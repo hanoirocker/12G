@@ -6,6 +6,7 @@ using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
+using TwelveG.Utils;
 using UnityEngine;
 
 /**
@@ -65,24 +66,97 @@ namespace TwelveG.GameController
 
     private IEnumerator ParentsBedRoomRoutine()
     {
+      // Destraba y abre la puerta del cuarto de los padres
+      PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().UnlockDoorByEvent();
+      yield return new WaitForSeconds(3f);
+      PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().Interact(null);
+      yield return new WaitForSeconds(0.5f);
+
       GameObject parentsLight = PlayerHouseHandler.Instance.GetStoredObjectByID("Parents light");
       float originalLightIntensity = parentsLight.GetComponent<Light>().intensity;
       float originalLightColorTemperature = parentsLight.GetComponent<Light>().colorTemperature;
       float originalLightMaximumRange = parentsLight.GetComponent<Light>().range;
 
       // Hace empezar a parpadear la luz del cuarto de los padres
-      parentsLight.GetComponent<Light>().intensity = originalLightIntensity * 2f;
-      parentsLight.GetComponent<Light>().range = originalLightMaximumRange * 2;
+      parentsLight.GetComponent<Light>().intensity = originalLightIntensity * 3f;
+      parentsLight.GetComponent<Light>().range = originalLightMaximumRange * 4;
       parentsLight.GetComponent<LightFlickeringHandler>().StartFlickering();
 
-      // Destraba y abre la puerta del cuarto de los padres
-      PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().UnlockDoorByEvent();
-      yield return new WaitForSeconds(3f);
-      PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().Interact(null);
+      // Activa el collider spotteable de la pieza de los padres y el collider de ubicación del jugador
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Red Hour - Spottable", true));
+      ISpot spotteablePortrait = PlayerHouseHandler.Instance.GetStoredObjectByID("Red Hour - Spottable").GetComponent<ISpot>();
+      ISpot spotteableStatue = PlayerHouseHandler.Instance.GetStoredObjectByID("Sculpture").GetComponent<ISpot>();
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Red Hour - Collider", true));
+      EventTriggeredByColliders zoneTrigger = PlayerHouseHandler.Instance.GetStoredObjectByID("Red Hour - Collider").GetComponent<EventTriggeredByColliders>();
 
-      // Espera a que el jugador entre al cuarto de los padres
-      yield return new WaitUntil(() => PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.ParentsBedroom);
+      // Activa objeto de pajaros muertos en el Zoom
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Zoom - Dead Birds", true));
 
+      // Espera para apagar la luz y alternar entre los muebles ordenados y desordenados
+      yield return new WaitUntil(() =>
+      {
+        bool playerInZoom = PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.Zoom;
+        bool isLookingAtTarget = PlayerHandler.Instance.PlayerSpotter.GetCurrentlySpottedObject() == spotteableStatue;
+
+        return playerInZoom && isLookingAtTarget;
+      });
+
+      parentsLight.GetComponent<LightFlickeringHandler>().StopFlickering(false);
+
+      // Cambiamos el cuadro normal por el cuadro con la cara rara
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Lady Portrait", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Empty Face Portrait", true));
+
+      // Espera a que el jugador spottee el cuadro dentro del collider frente a la cama
+      yield return new WaitUntil(() =>
+      {
+        bool inZone = zoneTrigger.IsPlayerInside;
+        bool isLookingAtTarget = PlayerHandler.Instance.PlayerSpotter.GetCurrentlySpottedObject() == spotteablePortrait;
+
+        return inZone && isLookingAtTarget;
+      });
+
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+      VirtualCamerasHandler.Instance.ToggleActiveCameraNoise(false);
+
+      parentsLight.GetComponent<Light>().color = Color.red;
+      parentsLight.GetComponent<Light>().intensity = 55f;
+      parentsLight.GetComponent<Light>().enabled = true;
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", true));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Empty Face Portrait", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Bigger Empty Face Portrait", true));
+      yield return new WaitForSeconds(1f);
+      parentsLight.GetComponent<Light>().enabled = false;
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", true));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Bigger Empty Face Portrait", false));
+      yield return new WaitForSeconds(1f);
+      Debug.Log("ENEMIGO EN FRENTE");
+      parentsLight.GetComponent<Light>().enabled = true;
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", true));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Bigger Empty Face Portrait", true));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", false));
+      yield return new WaitForSeconds(1f);
+      parentsLight.GetComponent<Light>().enabled = false;
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", true));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Bigger Empty Face Portrait", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Lady Portrait", true));
+      Debug.Log("Orden en la pieza");
+
+      // Restaura la luz del cuarto de los padres a su estado original
+      parentsLight.GetComponent<Light>().colorTemperature = originalLightColorTemperature;
+      parentsLight.GetComponent<Light>().intensity = originalLightIntensity;
+      parentsLight.GetComponent<Light>().range = originalLightMaximumRange;
+
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Red Hour - Spottable", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Red Hour - Collider", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Zoom - Dead Birds", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Sculpture", false));
+
+      VirtualCamerasHandler.Instance.ToggleActiveCameraNoise(true);
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
     }
 
     // Recibe "OnGarageCollidersTriggered" para disparar sonido enemigo golpeado

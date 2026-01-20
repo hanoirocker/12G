@@ -74,6 +74,22 @@ namespace TwelveG.PlayerController
 
         lastSpottedObject = potentialTarget;
       }
+      else
+      {
+        // Si antes estaba mirando algo, le aviso que ya no lo miro
+        if (lastSpottedObject != null)
+        {
+          lastSpottedObject.IsAbleToBeSpotted(true);
+        }
+
+        lastSpottedObject = null;
+      }
+    }
+
+    public ISpot GetCurrentlySpottedObject()
+    {
+      // Solo devolvemos el objeto si NO es nulo (es decir, si lo estamos mirando ahora)
+      return lastSpottedObject;
     }
 
     private void OnDrawGizmos()
