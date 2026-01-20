@@ -11,35 +11,11 @@ namespace TwelveG.VFXController
         [Header("References")]
         [SerializeField] private Volume headacheVolume;
         [SerializeField] private Volume electricFeelVolume;
+        [SerializeField] private Volume space1Volume;
 
         // Variables para guardar las referencias a los Overrides del perfil
         private DepthOfField electricDoF;
         private Vignette electricVignette;
-
-        private void Awake()
-        {
-            if (headacheVolume == null)
-            {
-                Debug.LogError("[PostProcessingHandler]: Headache Volume not assigned via Inspector!");
-            }
-
-            if (electricFeelVolume == null)
-            {
-                Debug.LogError("[PostProcessingHandler]: Electric Feel Volume not assigned via Inspector!");
-            }
-            else
-            {
-                if (!electricFeelVolume.profile.TryGet(out electricDoF))
-                {
-                    Debug.LogWarning("[PostProcessingHandler]: No se encontró 'DepthOfField' en el perfil de Electric Feel.");
-                }
-
-                if (!electricFeelVolume.profile.TryGet(out electricVignette))
-                {
-                    Debug.LogWarning("[PostProcessingHandler]: No se encontró 'Vignette' en el perfil de Electric Feel.");
-                }
-            }
-        }
 
         public void SetHeadacheWeight(float weight)
         {
@@ -51,7 +27,22 @@ namespace TwelveG.VFXController
             if (electricFeelVolume != null) electricFeelVolume.weight = Mathf.Clamp01(weight);
         }
 
-        // Corrutina llamada desde VFXManager
+        public IEnumerator SetRedHourWeight(float weight, float duration)
+        {
+            float initialWeight = space1Volume.weight;
+            float timer = 0f;
+
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+                float progress = timer / duration;
+                space1Volume.weight = Mathf.Lerp(initialWeight, weight, progress);
+                yield return null;
+            }
+
+            space1Volume.weight = Mathf.Clamp01(weight);
+        }
+
         public IEnumerator DoFAndVignetteRoutine(float duration, float targetVignetteIntensity, float minFocusDist, float maxFocusDist)
         {
 

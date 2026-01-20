@@ -7,6 +7,7 @@ using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.Utils;
+using TwelveG.VFXController;
 using UnityEngine;
 
 /**
@@ -122,6 +123,7 @@ namespace TwelveG.GameController
       parentsLight.GetComponent<Light>().color = Color.red;
       parentsLight.GetComponent<Light>().intensity = 55f;
       parentsLight.GetComponent<Light>().enabled = true;
+      VFXManager.Instance.SetRedHourIntensity(1f, 1f);
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", true));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Empty Face Portrait", false));
@@ -134,11 +136,13 @@ namespace TwelveG.GameController
       yield return new WaitForSeconds(1f);
       Debug.Log("ENEMIGO EN FRENTE");
       parentsLight.GetComponent<Light>().enabled = true;
+      VFXManager.Instance.SetRedHourIntensity(1f, 0f);
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", true));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Bigger Empty Face Portrait", true));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", false));
       yield return new WaitForSeconds(1f);
       parentsLight.GetComponent<Light>().enabled = false;
+      VFXManager.Instance.SetRedHourIntensity(0f, 10f);
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", true));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Bigger Empty Face Portrait", false));

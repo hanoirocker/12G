@@ -29,8 +29,6 @@ namespace TwelveG.VFXController
             if (Instance == null) Instance = this;
             else { Destroy(gameObject); return; }
 
-            headacheHandler = GetComponent<HeadacheEffectHandler>();
-            electricFeelHandler = GetComponent<ElectricFeelHandler>();
             postProcessingHandler = GetComponentInChildren<PostProcessingHandler>();
 
             if (postProcessingHandler == null)
@@ -39,6 +37,17 @@ namespace TwelveG.VFXController
                 this.enabled = false;
                 return;
             }
+
+            SceneEnum currentScene = SceneUtils.RetrieveCurrentSceneEnum();
+
+            if (currentScene != SceneEnum.Evening)
+            {
+                return;
+            }
+
+            // Bloque de ejecución exclusivo para la escena Evening
+            headacheHandler = GetComponent<HeadacheEffectHandler>();
+            electricFeelHandler = GetComponent<ElectricFeelHandler>();
 
             if (headacheHandler == null)
             {
@@ -64,13 +73,13 @@ namespace TwelveG.VFXController
         {
             if (headacheGeneralConfigsSO == null)
             {
-                Debug.LogError("[VFXManager]: Falta asignar el HeadacheFXGeneralConfigSO!");
+                Debug.LogWarning("[VFXManager]: Falta asignar el HeadacheFXGeneralConfigSO!");
                 return;
             }
 
             if (electricFeelGeneralConfigsSO == null)
             {
-                Debug.LogError("[VFXManager]: Falta asignar el ElectricFeelFXGeneralConfigSO!");
+                Debug.LogWarning("[VFXManager]: Falta asignar el ElectricFeelFXGeneralConfigSO!");
                 return;
             }
 
@@ -154,6 +163,11 @@ namespace TwelveG.VFXController
             {
                 electricFeelHandler.StartTransition(newMultiplier < 1f ? 15f : 5f);
             }
+        }
+
+        public void SetRedHourIntensity(float newMultiplier, float fadeDuration)
+        {
+            StartCoroutine(postProcessingHandler.SetRedHourWeight(newMultiplier, fadeDuration));
         }
 
         public void TriggerProceduralFaint()
