@@ -1,7 +1,5 @@
 NOVEDADES:
-- Se continuó trabajando en Red Hour event, agregando volumen de efecto Red Hour al post processing handler para ejecutar mediante el método "SetRedHourIntensity" desde el VFXManager.
-NOTA: BORRAR CHECKPOINT AL TERMINAR DE PROBAR.
-
+- Se agregó audio y texto Helper en Visions event.
 TOCHECK:
 
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)
@@ -13,7 +11,7 @@ TOFIX:
 
 TODO - próximo:
 - Editar y usar el sonido descargado para sparking light del LightFlickeringHandler.
-- Componer audio para EnemySurpriseReaction.
+- Componer audio para ScaredReactionLong.
 - Trabajar en el evento en sí.
 - Visions - Agregar sonido (CHAN) al ver al enemigo en downstairs hall.
 - Actualmente el sistema de audio por perfiles de ambiente funciona en base a la escena. Por ende, si quisieramos detener la lluvia en algun momento, la lluvia estereo del los perfiles seguiria sonando. Analizar si es conveniente o no ampliar la estructura logica.

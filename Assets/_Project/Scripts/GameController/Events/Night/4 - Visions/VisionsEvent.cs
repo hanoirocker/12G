@@ -131,6 +131,7 @@ namespace TwelveG.GameController
       environmentHandler.ShowEnemy(EnemyPositions.None);
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
+      GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
       // Self Dialog de simón después de la visión
       yield return new WaitForSeconds(0.25f);
@@ -155,6 +156,7 @@ namespace TwelveG.GameController
         PlayPlayerSound(PlayerSoundsType.VisionsNeckWhisper)
       );
 
+      GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[2]);
       // Espera a que Simon no esté en las áreas de pasillo de abajo ni entrada
       // para hacer aparecer al enemigo
       yield return new WaitUntil(
@@ -163,7 +165,7 @@ namespace TwelveG.GameController
         && playerHandler.GetCurrentHouseArea() != HouseArea.None
       );
 
-      enemySpottedListener.enabled = true; // Vuelve a activar el listener para que detecte al jugador
+      enemySpottedListener.enabled = true; // Vuelve a activar el listener para que detecte al enemigo
       environmentHandler.ShowEnemy(EnemyPositions.DownstairsHallWindow);
       GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.DownstairsHallWindow);
 
@@ -177,8 +179,12 @@ namespace TwelveG.GameController
       );
 
       // Espera a que termine de recuperarse del susto
+      StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.
+        PlayPlayerSound(PlayerSoundsType.Terror1));
       yield return StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.
-        PlayPlayerSound(PlayerSoundsType.EnemySurpriseReaction));
+        PlayPlayerSound(PlayerSoundsType.ScaredReactionLong));
+
+      GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
     }
 
     // Hace aparecer el enemigo dependiendo del lugar donde esté el jugador

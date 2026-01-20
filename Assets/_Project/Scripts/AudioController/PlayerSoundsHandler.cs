@@ -18,8 +18,9 @@ namespace TwelveG.AudioController
         NormalBreathing,
         HardBreathing, // Ya incluye al final la recuperacion
         StomachGrowl,
-        EnemySurpriseReaction, // TODO: Componer sonido de sorpresa enemigo (Sorpresa + Respiración agitada + Latidos + Recuperacion del aire)
+        ScaredReactionLong, // TODO: Componer sonido de sorpresa enemigo (Sorpresa + Respiración agitada + Latidos + Recuperacion del aire)
         Doubt, // Hmmm?
+        Terror1, // Sonido de terror 1
     }
 
     public enum FSMaterial
@@ -40,13 +41,28 @@ namespace TwelveG.AudioController
         public List<AudioClip> mosaicBathroomFS;
 
         [Space(10)]
-        [Header("Other Clips")]
+        [Header("Player related:")]
+        [SerializeField] private AudioClip standUpEveningClip;
+        [SerializeField, Range(0f, 1f)] private float standUpEveningClipVolume = 0.7f;
         [SerializeField] private AudioClip wakeUpAfternoonClip;
         [SerializeField, Range(0f, 1f)] private float wakeUpAfternoonClipVolume = 0.7f;
         [SerializeField] private AudioClip fallAsleepAfternoonClip;
         [SerializeField, Range(0f, 1f)] private float fallAsleepAfternoonClipVolume = 0.7f;
-        [SerializeField] private AudioClip standUpEveningClip;
-        [SerializeField, Range(0f, 1f)] private float standUpEveningClipVolume = 0.7f;
+        [SerializeField] private AudioClip softBreathingClip;
+        [SerializeField, Range(0f, 1f)] private float softBreathingClipVolume = 0.7f;
+        [SerializeField] private AudioClip hardBreathingClip;
+        [SerializeField, Range(0f, 1f)] private float hardBreathingClipVolume = 0.7f;
+        [SerializeField] private AudioClip stomachGrowlClip;
+        [SerializeField, Range(0f, 1f)] private float stomachGrowlClipVolume = 0.7f;
+        [SerializeField] private AudioClip longScaredReactionClip;
+        [SerializeField, Range(0f, 1f)] private float longScaredReactionVolume = 0.7f;
+        [SerializeField] private AudioClip doubtClip;
+        [SerializeField, Range(0f, 1f)] private float doubtClipVolume = 0.7f;
+
+        [Space(10)]
+        [Header("VFX & events related:")]
+        [SerializeField] private AudioClip heartBeatClip;
+        [SerializeField, Range(0f, 1f)] private float heartBeatClipVolume = 0.2f;
         [SerializeField] private AudioClip chairMovingClip;
         [SerializeField, Range(0f, 1f)] private float chairMovingClipVolume = 0.8f;
         [SerializeField] private AudioClip standUpNightClip;
@@ -55,18 +71,8 @@ namespace TwelveG.AudioController
         [SerializeField, Range(0f, 1f)] private float unwiredNeckWhisperClipVolume = 0.35f;
         [SerializeField] private AudioClip visionsNeckWhisperClip;
         [SerializeField, Range(0f, 1f)] private float visionsNeckWhisperClipVolume = 0.4f;
-        [SerializeField] private AudioClip heartBeatClip;
-        [SerializeField, Range(0f, 1f)] private float heartBeatClipVolume = 0.2f;
-        [SerializeField] private AudioClip softBreathingClip;
-        [SerializeField, Range(0f, 1f)] private float softBreathingClipVolume = 0.7f;
-        [SerializeField] private AudioClip hardBreathingClip;
-        [SerializeField, Range(0f, 1f)] private float hardBreathingClipVolume = 0.7f;
-        [SerializeField] private AudioClip stomachGrowlClip;
-        [SerializeField, Range(0f, 1f)] private float stomachGrowlClipVolume = 0.7f;
-        [SerializeField] private AudioClip enemySurprisedClip;
-        [SerializeField, Range(0f, 1f)] private float enemySurprisedClipVolume = 0.7f;
-        [SerializeField] private AudioClip doubtClip;
-        [SerializeField, Range(0f, 1f)] private float doubtClipVolume = 0.7f;
+        [SerializeField] private AudioClip terror1Clip;
+        [SerializeField, Range(0f, 1f)] private float terror1ClipVolume = 1f;
 
         [Space(10)]
         [Header("Footsteps Settings")]
@@ -227,10 +233,12 @@ namespace TwelveG.AudioController
                     return (hardBreathingClip, hardBreathingClipVolume);
                 case PlayerSoundsType.StomachGrowl:
                     return (stomachGrowlClip, stomachGrowlClipVolume);
-                case PlayerSoundsType.EnemySurpriseReaction:
-                    return (enemySurprisedClip, enemySurprisedClipVolume);
+                case PlayerSoundsType.ScaredReactionLong:
+                    return (longScaredReactionClip, longScaredReactionVolume);
                 case PlayerSoundsType.Doubt:
                     return (doubtClip, doubtClipVolume);
+                case PlayerSoundsType.Terror1:
+                    return (terror1Clip, terror1ClipVolume);
                 default:
                     return (null, 0f);
             }
