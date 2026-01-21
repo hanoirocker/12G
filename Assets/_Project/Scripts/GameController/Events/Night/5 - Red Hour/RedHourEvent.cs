@@ -32,6 +32,9 @@ namespace TwelveG.GameController
     [Space(10)]
     [Header("Event options")]
     [SerializeField, Range(1f, 15f)] private float initialTime = 5f;
+    [SerializeField, Range(0f, 10f)] private float firstDistortionTime = 3f;
+    [SerializeField, Range(0f, 10f)] private float timeUntilSecondDistortion = 0.5f;
+    [SerializeField, Range(0f, 10f)] private float secondDistortionTime = 2f;
 
     [Space(10)]
     [Header("Text event SO")]
@@ -52,6 +55,7 @@ namespace TwelveG.GameController
     public override IEnumerator Execute()
     {
       GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
+
       AlternatePortraits();
       // Se habilitan colliders de garage para que luego se ejecute "OnGarageEntered".
       // Estos colliders se desactivan luego de que el jugador entre al garage.
@@ -60,6 +64,12 @@ namespace TwelveG.GameController
       yield return new WaitForSeconds(initialTime);
 
       stopGlowingRoutine = false;
+
+      // Destraba y abre la puerta del cuarto de los padres
+      PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().UnlockDoorByEvent();
+      yield return new WaitForSeconds(3f);
+      PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().Interact(null);
+      yield return new WaitForSeconds(3f);
 
       Coroutine portraitsGlowingCoroutine = StartCoroutine(HandlePortraitsGlowingRoutine());
 
@@ -99,12 +109,6 @@ namespace TwelveG.GameController
 
     private IEnumerator ParentsBedRoomRoutine()
     {
-      // Destraba y abre la puerta del cuarto de los padres
-      PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().UnlockDoorByEvent();
-      yield return new WaitForSeconds(3f);
-      PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().Interact(null);
-      yield return new WaitForSeconds(0.5f);
-
       GameObject parentsLight = PlayerHouseHandler.Instance.GetStoredObjectByID("Parents light");
       float originalParentsLightIntensity = parentsLight.GetComponent<Light>().intensity;
       float originalParentsLightColorTemperature = parentsLight.GetComponent<Light>().colorTemperature;
@@ -118,7 +122,7 @@ namespace TwelveG.GameController
       float originalZoomLightIntensity = zoomLight.GetComponent<Light>().intensity;
       float originalZoomLightColorTemperature = zoomLight.GetComponent<Light>().colorTemperature;
 
-      zoomLight.GetComponent<Light>().intensity = originalZoomLightIntensity * 3.5f;
+      zoomLight.GetComponent<Light>().intensity = originalZoomLightIntensity * 5f;
       zoomLight.GetComponent<Light>().color = Color.red;
       zoomLight.GetComponent<LightFlickeringHandler>().StartFlickering();
 
@@ -141,9 +145,8 @@ namespace TwelveG.GameController
         return playerInZoom && isLookingAtTarget;
       });
 
-      GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
-
       parentsLight.GetComponent<LightFlickeringHandler>().StopFlickering(false);
+      GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
 
       // Cambiamos el cuadro normal por el cuadro con la cara rara
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", false));
@@ -166,31 +169,26 @@ namespace TwelveG.GameController
       parentsLight.GetComponent<Light>().color = Color.red;
       parentsLight.GetComponent<Light>().intensity = 55f;
       parentsLight.GetComponent<Light>().enabled = true;
-      VFXManager.Instance.SetRedHourIntensity(1f, 1f);
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", false));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", true));
+      VFXManager.Instance.TriggerDistortionEffect(1f, firstDistortionTime, true);
+      yield return new WaitForSeconds(firstDistortionTime);
+      parentsLight.GetComponent<Light>().enabled = false;
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Empty Face Portrait", false));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Bigger Empty Face Portrait", true));
-      yield return new WaitForSeconds(1f);
-      parentsLight.GetComponent<Light>().enabled = false;
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", false));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", true));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Bigger Empty Face Portrait", false));
-      yield return new WaitForSeconds(1f);
-      Debug.Log("ENEMIGO EN FRENTE");
-      parentsLight.GetComponent<Light>().enabled = true;
-      VFXManager.Instance.SetRedHourIntensity(1f, 0f);
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", true));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Bigger Empty Face Portrait", true));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", false));
-      yield return new WaitForSeconds(1f);
-      parentsLight.GetComponent<Light>().enabled = false;
-      VFXManager.Instance.SetRedHourIntensity(0f, 10f);
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", false));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", true));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Bigger Empty Face Portrait", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", true));
-      Debug.Log("Orden en la pieza");
+      yield return new WaitForSeconds(timeUntilSecondDistortion);
+
+      // Flash visual de Fernandez
+      parentsLight.GetComponent<Light>().enabled = true;
+      VFXManager.Instance.TriggerDistortionEffect(1f, 0f, false);
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", true));
+      yield return new WaitForSeconds(secondDistortionTime);
+
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", true));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", true));
+      parentsLight.GetComponent<Light>().enabled = false;
+      VFXManager.Instance.TriggerDistortionEffect(0f, 10f, true);
 
       // Restaura la luz del cuarto de los padres y zoom a su estado original
       parentsLight.GetComponent<Light>().colorTemperature = originalParentsLightColorTemperature;

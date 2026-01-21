@@ -11,7 +11,7 @@ namespace TwelveG.VFXController
         [Header("References")]
         [SerializeField] private Volume headacheVolume;
         [SerializeField] private Volume electricFeelVolume;
-        [SerializeField] private Volume space1Volume;
+        [SerializeField] private Volume redDistortionVolume;
 
         // Variables para guardar las referencias a los Overrides del perfil
         private DepthOfField electricDoF;
@@ -27,20 +27,20 @@ namespace TwelveG.VFXController
             if (electricFeelVolume != null) electricFeelVolume.weight = Mathf.Clamp01(weight);
         }
 
-        public IEnumerator SetRedHourWeight(float weight, float duration)
+        public IEnumerator SetRedDistortionWeight(float weight, float duration)
         {
-            float initialWeight = space1Volume.weight;
+            float initialWeight = redDistortionVolume.weight;
             float timer = 0f;
 
             while (timer < duration)
             {
                 timer += Time.deltaTime;
                 float progress = timer / duration;
-                space1Volume.weight = Mathf.Lerp(initialWeight, weight, progress);
+                redDistortionVolume.weight = Mathf.Lerp(initialWeight, weight, progress);
                 yield return null;
             }
 
-            space1Volume.weight = Mathf.Clamp01(weight);
+            redDistortionVolume.weight = Mathf.Clamp01(weight);
         }
 
         public IEnumerator DoFAndVignetteRoutine(float duration, float targetVignetteIntensity, float minFocusDist, float maxFocusDist)

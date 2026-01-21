@@ -23,6 +23,7 @@ namespace TwelveG.VFXController
         // --- EFFECT HANDLERS ---
         private HeadacheEffectHandler headacheHandler;
         private ElectricFeelHandler electricFeelHandler;
+        private DistortionEffectHandler distortionHandler;
 
         private void Awake()
         {
@@ -33,39 +34,54 @@ namespace TwelveG.VFXController
 
             if (postProcessingHandler == null)
             {
-                Debug.LogError("VFXManager: PostProcessingHandler missing!");
+                Debug.LogError("VFXManager: Falta PostProcessingHandler");
                 this.enabled = false;
                 return;
             }
 
             SceneEnum currentScene = SceneUtils.RetrieveCurrentSceneEnum();
 
-            if (currentScene != SceneEnum.Evening)
+            if (currentScene == SceneEnum.Evening)
             {
-                return;
+                headacheHandler = GetComponent<HeadacheEffectHandler>();
+                electricFeelHandler = GetComponent<ElectricFeelHandler>();
+
+                if (headacheHandler == null)
+                {
+                    Debug.LogError("VFXManager: Falta HeadacheEffectHandler");
+                    this.enabled = false;
+                    return;
+                }
+
+                if (electricFeelHandler == null)
+                {
+                    Debug.LogError("VFXManager: Falta ElectricFeelHandler");
+                    this.enabled = false;
+                    return;
+                }
+
+                headacheHandler.Initialize(postProcessingHandler);
+                electricFeelHandler.Initialize(postProcessingHandler);
             }
-
-            // Bloque de ejecución exclusivo para la escena Evening
-            headacheHandler = GetComponent<HeadacheEffectHandler>();
-            electricFeelHandler = GetComponent<ElectricFeelHandler>();
-
-            if (headacheHandler == null)
+            else if( currentScene == SceneEnum.Night)
             {
-                Debug.LogError("VFXManager: HeadacheEffectHandler missing!");
+                distortionHandler = GetComponent<DistortionEffectHandler>();
+
+                if (distortionHandler == null)
+                {
+                    Debug.LogError("VFXManager: Falta DistortionEffectHandler");
+                    this.enabled = false;
+                    return;
+                }
+
+                distortionHandler.Initialize(postProcessingHandler);
+            }
+            else
+            {
+                Debug.LogWarning("VFXManager: No hay VFX configurados para esta escena.");
                 this.enabled = false;
                 return;
             }
-
-            if (electricFeelHandler == null)
-            {
-                Debug.LogError("VFXManager: ElectricFeelHandler missing!");
-                this.enabled = false;
-                return;
-            }
-
-            // Inyectamos las dependencias globales a los workers
-            headacheHandler.Initialize(postProcessingHandler);
-            electricFeelHandler.Initialize(postProcessingHandler);
         }
 
         // Llamado desde EventsHandler.cs al iniciar un nuevo evento para configurar los VFX iniciales
@@ -165,9 +181,9 @@ namespace TwelveG.VFXController
             }
         }
 
-        public void SetRedHourIntensity(float newMultiplier, float fadeDuration)
+        public void TriggerDistortionEffect(float newMultiplier, float fadeDuration, bool hasAudio)
         {
-            StartCoroutine(postProcessingHandler.SetRedHourWeight(newMultiplier, fadeDuration));
+            StartCoroutine(distortionHandler.DistortionEffectRoutine(newMultiplier, fadeDuration, hasAudio));
         }
 
         public void TriggerProceduralFaint()
