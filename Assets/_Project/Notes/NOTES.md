@@ -1,5 +1,7 @@
 NOVEDADES:
-- Se agregó audio y texto Helper en Visions event.
+- Se trabajó sobre Red Hour event, creando un sistema de reglas para el glowing de los cuadros alternados en la casa, como también textos de contemplation exclusivos para ellos y modificación de los textos de contemplación de sus respectivos cuadros originales.
+NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
+
 TOCHECK:
 
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
+  m_Name: Contemplation - Mother Portrait - 3
+  m_EditorClassIdentifier: 
+  contemplationTextsStructure:
+  - language: 0
+    contemplationTexts:
+    - Mi hermana siempre habla sobre lo libre que sos para decir las cosas que nadie
+      quiere oir ..
+    - "Quiz\xE1s sea algo que justamente no hered\xE9 de vos .."
+    - "A\xFAn as\xED, nunca te cont\xE9 sobre ella. Creo que sabr\xEDas entenderme
+      bien."
+    - El problema es que soy yo quien no suele sentirse libre al hablar ..
+    - CUAL ES MI PUTO PROBLEMA
+  - language: 1
+    contemplationTexts:
+    - My sister always talks about how free you are to say things that nobody wants
+      to hear ..
+    - Perhaps it's something I didn't inherit from you...
+    - Even so, I never told you about her. I think you'd understand me.
+    - The problem is that I'm the one who doesn't usually feel free to speak.
+    - WHAT'S MY FUCKING PROBLEM?

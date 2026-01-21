@@ -13,7 +13,7 @@ namespace TwelveG.Utils
         [Header("Optional References")]
         [Tooltip("Si se deja vacío, busca el Renderer en este objeto.")]
         [SerializeField] private Renderer targetRenderer;
-        
+
         private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
         private Material targetMaterial;
         private float currentIntensity;
@@ -23,7 +23,7 @@ namespace TwelveG.Utils
             if (targetRenderer == null) targetRenderer = GetComponent<Renderer>();
 
             targetMaterial = targetRenderer.material;
-            
+
             targetMaterial.EnableKeyword("_EMISSION");
         }
 
@@ -36,6 +36,12 @@ namespace TwelveG.Utils
             Color finalColor = glowColor * currentIntensity;
 
             targetMaterial.SetColor(EmissionColor, finalColor);
+        }
+
+        public void TurnOffGlow()
+        {
+            enabled = false;
+            targetMaterial.SetColor(EmissionColor, Color.black);
         }
     }
 }

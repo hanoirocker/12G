@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation - flowers portrait - 3
+  m_Name: Contemplation - Flowers Portrait - 3
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Es como si se estuviese riendo de mi.
+    - "El hogar ideal para tus peque\xF1as y amadas mascotas .. Dios."
   - language: 1
     contemplationTexts:
-    - It's like it's laughing at me.
+    - The ideal home for your small and beloved pets... God.

@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "No parece ser de alguna pel\xEDcula que haya visto \xFAtimamente."
+    - No me caes bien en absoluto
   - language: 1
     contemplationTexts:
-    - It doesn't seem to be from any movie I've seen lately.
+    - I don't like you at all

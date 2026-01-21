@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation - Flowers Portrait - 2
+  m_Script: {fileID: 11500000, guid: 16d9a8e54e1054f03bd40c7a55a3b0b2, type: 3}
+  m_Name: UI - Player Helper Data - Red Hour.3
   m_EditorClassIdentifier: 
-  contemplationTextsStructure:
+  uImenuTextStructure:
   - language: 0
-    contemplationTexts:
-    - "Seguir\xE1 siendo simplemente un cuadro."
+    value: NO ES CULPTA TUYA
   - language: 1
-    contemplationTexts:
-    - It will remain simply a painting.
+    value: IT'S NOT YOUR FAULT

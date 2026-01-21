@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation- mother portrait - 2
+  m_Name: Contemplation - Scared Lady Portrait  - 1
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "No puedo creer necesitar que vuelvan tan r\xE1pido"
-    - Maldito fin de semana sin padres
+    - Ayudame ..
   - language: 1
     contemplationTexts:
-    - I can't believe I need you to come back so quickly.
-    - Damn weekend without parents
+    - Help me ..

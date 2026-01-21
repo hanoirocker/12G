@@ -24,6 +24,8 @@ namespace TwelveG.EnvironmentController
         DownstairsOffice,
         Entrance,
         Garage,
+        LowerStairs,
+        UpperStairs,
         None
     }
 

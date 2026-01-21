@@ -10,18 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
-  m_Name: Context - Flowers Portrait
+  m_Name: Context - Scared Lady Portrait
   m_EditorClassIdentifier: 
   entries:
-  - sceneEnum: 1
-    minEventIndex: 0
-    maxEventIndex: 6
-    texts: {fileID: 11400000, guid: 0294436d831884dc4ab217cf06f79556, type: 2}
-  - sceneEnum: 1
-    minEventIndex: 7
-    maxEventIndex: 10
-    texts: {fileID: 11400000, guid: 1822e980780704157ba8606fd0c5e9de, type: 2}
   - sceneEnum: 2
     minEventIndex: 1
     maxEventIndex: 15
-    texts: {fileID: 11400000, guid: 4b835147580b0634fbfe41d63328c540, type: 2}
+    texts: {fileID: 11400000, guid: 9ca1c7530601a438ab29b48b4e0e88c7, type: 2}

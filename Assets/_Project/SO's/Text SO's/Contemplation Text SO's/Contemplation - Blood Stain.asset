@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation - Birds Portrait  - 2
+  m_Name: Contemplation - Blood Stain
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Sus miradas  .. Ser\xE1 que ..."
-    - Espero no estar volviendome loco.
+    - Otra ave?
+    - Es como si alguien la hubiese lanzado contra el vidrio pero ... nah. No puede
+      ser.
   - language: 1
     contemplationTexts:
-    - Their looks .. Could it be that ...
-    - I hope I'm not going crazy.
+    - Another bird?
+    - 'It''s like someone threw her against the glass but... nah. It just can''t
+      be. '

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation- Blood Stain
+  m_Name: Contemplation - Mother Portrait - 1
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Otra ave?
-    - Es como si alguien la hubiese lanzado contra el vidrio pero ... nah. No puede
-      ser.
+    - "Mi madre realmente sab\xEDa como posar en sus \xE9pocas. De su luna de miel
+      en Brasil."
+    - "No quisiera saber que hay mas all\xE1 de esa foto."
   - language: 1
     contemplationTexts:
-    - Another bird?
-    - 'It''s like someone threw her against the glass but... nah. It just can''t
-      be. '
+    - 'My mother really knew how to pose back in the day. From their honeymoon in
+      Brazil. '
+    - I wouldn't like to know what's beyond that photo.
