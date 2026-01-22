@@ -40,3 +40,5 @@ Modelos:
 * 03201 closing garage gate.wav by Robinhood76 at freesound.org
 * 101127__CGEffex__Bug_Zapper_Long_moth_electrocution_Remix.wav by Timbre at freesound.org
 * Big Metal Door-1.wav by Deathscyp at freesound.org
+* Woman Scared Breathe Sound Effect by ALexis KB Sounds at youtube.com
+* Romantic Kisses | ASMR Couple Kissing Sounds by Loving Tingles ASMR at youtube.com

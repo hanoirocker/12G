@@ -181,9 +181,9 @@ namespace TwelveG.VFXController
             }
         }
 
-        public void TriggerDistortionEffect(float newMultiplier, float fadeDuration, bool hasAudio)
+        public void TriggerDistortionEffect(DistortionEffectType distortionType, float newMultiplier, float fadeDuration, bool hasAudio)
         {
-            StartCoroutine(distortionHandler.DistortionEffectRoutine(newMultiplier, fadeDuration, hasAudio));
+            StartCoroutine(distortionHandler.DistortionEffectRoutine(distortionType, newMultiplier, fadeDuration, hasAudio));
         }
 
         public void TriggerProceduralFaint()

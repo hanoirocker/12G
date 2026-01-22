@@ -1,5 +1,7 @@
 NOVEDADES:
-- Se trabajó sobre Red Hour event, creando un sistema de reglas para el glowing de los cuadros alternados en la casa, como también textos de contemplation exclusivos para ellos y modificación de los textos de contemplación de sus respectivos cuadros originales.
+- Se creó GlowingPortraitsHandler para llevar lógica desde RedHourEvent.cs hacia este mismo. Adjunto en Red Hour object, para ser ejecutado desde RedHourEvent.cs.
+- Se agregó lógica para disparar audios dentro de las reglas de cada potrait dentro de GlowingPortraitsHandler.
+- Se modificó la curva Custom de AudioRolloffMode.Custom de todas las fuentes del pool de interactuables. Se agregaron 2 fuentes interactuables a la pool.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:

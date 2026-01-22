@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TwelveG.AudioController;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
@@ -13,21 +12,10 @@ using UnityEngine;
 
 namespace TwelveG.GameController
 {
-  [Serializable]
-  public struct PortraitGlowRule
-  {
-    public HouseArea[] validAreas;
-    public string[] portraitIDs;
-  }
-
   public class RedHourEvent : GameEventBase
   {
     [Header("References")]
     [SerializeField] private GameEventListener garageColliderListener;
-
-    [Space(10)]
-    [Header("Glow Logic Configuration")]
-    [SerializeField] private List<PortraitGlowRule> portraitGlowRules;
 
     [Space(10)]
     [Header("Event options")]
@@ -50,20 +38,17 @@ namespace TwelveG.GameController
     [SerializeField, Range(0f, 1f)] private float garageDoorKnockingVolume = 0.15f;
 
     private bool allowNextAction = false;
-    private bool stopGlowingRoutine = false;
 
     public override IEnumerator Execute()
     {
       GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
-      AlternatePortraits();
+      AlternatePortraits(false);
       // Se habilitan colliders de garage para que luego se ejecute "OnGarageEntered".
       // Estos colliders se desactivan luego de que el jugador entre al garage.
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Garage Colliders", true));
 
       yield return new WaitForSeconds(initialTime);
-
-      stopGlowingRoutine = false;
 
       // Destraba y abre la puerta del cuarto de los padres
       PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().UnlockDoorByEvent();
@@ -71,7 +56,7 @@ namespace TwelveG.GameController
       PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().Interact(null);
       yield return new WaitForSeconds(3f);
 
-      Coroutine portraitsGlowingCoroutine = StartCoroutine(HandlePortraitsGlowingRoutine());
+      GetComponent<GlowingPortraitsHandler>().StartGlowingRoutine();
 
       Coroutine mainCoroutine = StartCoroutine(ParentsBedRoomRoutine());
 
@@ -85,26 +70,25 @@ namespace TwelveG.GameController
 
       GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[2]);
 
-      // DETENEMOS LA RUTINA DE GLOW ACA
-      // Una vez que termina la rutina principal (ParentsBedRoomRoutine), detenemos la rutina de glow
-      stopGlowingRoutine = true;
-      StopCoroutine(portraitsGlowingCoroutine);
+      GetComponent<GlowingPortraitsHandler>().StopGlowingRoutine();
 
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
     }
 
-    private void AlternatePortraits()
+    private void AlternatePortraits(bool toNormalPortraits)
     {
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Old Woman Portrait", false));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Rose Portrait", false));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Birds Portrait", false));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Flowers Portrait", false));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Old Woman Portrait", toNormalPortraits));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Rose Portrait", toNormalPortraits));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Birds Portrait", toNormalPortraits));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Flowers Portrait", toNormalPortraits));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Woods Portrait", toNormalPortraits));
 
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Tonges Portrait", true));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Scattered Lady Portrait", true));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Scared Lady Portrait", true));
-      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Snake Portrait", true));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Tonges Portrait", !toNormalPortraits));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Scattered Lady Portrait", !toNormalPortraits));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Scared Lady Portrait", !toNormalPortraits));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Snake Portrait", !toNormalPortraits));
+      PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Heart Portrait", !toNormalPortraits));
     }
 
     private IEnumerator ParentsBedRoomRoutine()
@@ -161,6 +145,8 @@ namespace TwelveG.GameController
         return inZone && isLookingAtTarget;
       });
 
+      // Vuelve a los cuadros originales y detiene el parpadeo de las luces
+      AlternatePortraits(true);
       zoomLight.GetComponent<LightFlickeringHandler>().StopFlickering(false);
 
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
@@ -169,7 +155,7 @@ namespace TwelveG.GameController
       parentsLight.GetComponent<Light>().color = Color.red;
       parentsLight.GetComponent<Light>().intensity = 55f;
       parentsLight.GetComponent<Light>().enabled = true;
-      VFXManager.Instance.TriggerDistortionEffect(1f, firstDistortionTime, true);
+      VFXManager.Instance.TriggerDistortionEffect(DistortionEffectType.RedDistortion, 1f, firstDistortionTime, true);
       yield return new WaitForSeconds(firstDistortionTime);
       parentsLight.GetComponent<Light>().enabled = false;
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Empty Face Portrait", false));
@@ -178,17 +164,17 @@ namespace TwelveG.GameController
 
       // Flash visual de Fernandez
       parentsLight.GetComponent<Light>().enabled = true;
-      VFXManager.Instance.TriggerDistortionEffect(1f, 0f, false);
+      VFXManager.Instance.TriggerDistortionEffect(DistortionEffectType.None, 1f, 0f, false);
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", true));
       yield return new WaitForSeconds(secondDistortionTime);
 
+      VFXManager.Instance.TriggerDistortionEffect(DistortionEffectType.NormalDistortion, 0f, 10f, true);
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", true));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", true));
       parentsLight.GetComponent<Light>().enabled = false;
-      VFXManager.Instance.TriggerDistortionEffect(0f, 10f, true);
 
       // Restaura la luz del cuarto de los padres y zoom a su estado original
       parentsLight.GetComponent<Light>().colorTemperature = originalParentsLightColorTemperature;
@@ -239,68 +225,6 @@ namespace TwelveG.GameController
         AudioUtils.StopAndRestoreAudioSource(audioSource, audioState);
       }
       yield break;
-    }
-
-    private IEnumerator HandlePortraitsGlowingRoutine()
-    {
-      HouseArea lastArea = HouseArea.None;
-      List<string> currentActivePortraits = new List<string>();
-
-      while (!stopGlowingRoutine)
-      {
-        HouseArea currentArea = PlayerHandler.Instance.GetCurrentHouseArea();
-
-        if (currentArea != lastArea)
-        {
-          foreach (string id in currentActivePortraits)
-          {
-            SetPortraitGlow(id, false);
-          }
-          currentActivePortraits.Clear();
-
-          foreach (var rule in portraitGlowRules)
-          {
-            bool areaMatches = Array.Exists(rule.validAreas, area => area == currentArea);
-
-            if (areaMatches)
-            {
-              foreach (string id in rule.portraitIDs)
-              {
-                SetPortraitGlow(id, true);
-                currentActivePortraits.Add(id);
-              }
-              break;
-            }
-          }
-
-          lastArea = currentArea;
-        }
-
-        yield return new WaitForSeconds(0.2f);
-      }
-
-      foreach (string id in currentActivePortraits) SetPortraitGlow(id, false);
-    }
-
-    private void SetPortraitGlow(string objectID, bool enable)
-    {
-      GameObject portrait = PlayerHouseHandler.Instance.GetStoredObjectByID(objectID);
-      PulsingGlowHandler glowHandler = portrait.GetComponentInChildren<PulsingGlowHandler>();
-
-      if (portrait != null)
-      {
-        if (glowHandler != null)
-        {
-          if (enable)
-          {
-            glowHandler.enabled = true;
-          }
-          else
-          {
-            glowHandler.TurnOffGlow();
-          }
-        }
-      }
     }
 
     public void AllowNextActions(Component sender, object data)
