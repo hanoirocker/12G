@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "El hogar ideal para tus peque\xF1as y amadas mascotas .. Dios."
+    - "El hogar ideal para tus peque\xF1as y amadas mascotas... Dios."
   - language: 1
     contemplationTexts:
     - The ideal home for your small and beloved pets... God.

@@ -15,10 +15,10 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Al fin sos mia ..
+    - Al fin sos mia...
     - "Espero no cocinar ning\xFAn insecto en pasta t\xE9rmica en los pr\xF3ximos
       minutos."
   - language: 1
     contemplationTexts:
-    - You're finally mine..
+    - You're finally mine...
     - I hope I don't cook any bugs in thermal paste in the next few minutes.

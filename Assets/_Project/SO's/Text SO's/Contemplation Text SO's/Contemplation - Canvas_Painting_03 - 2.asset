@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "\xBFSabras vos d\xF3nde encontrar esa maldita saga? Mierda."
+    - "\xBFSabr\xE1s vos d\xF3nde encontrar esa maldita saga? Mierda."
   - language: 1
     contemplationTexts:
     - Do you know where to find that damn saga? Shit.

@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - No me caes bien en absoluto
+    - No me caes bien en absoluto.
   - language: 1
     contemplationTexts:
-    - I don't like you at all
+    - I don't like you at all.

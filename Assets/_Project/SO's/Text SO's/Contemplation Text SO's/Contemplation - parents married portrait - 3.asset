@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Nunca cre\xED necesitar que vuelvan tan pronto a casa .."
+    - "Nunca cre\xED necesitar que vuelvan tan pronto a casa..."
   - language: 1
     contemplationTexts:
-    - I never thought I needed you to come home so soon..
+    - I never thought I needed you to come home so soon...

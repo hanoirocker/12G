@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - '*suspiro'
+    - '*suspiro*'
   - language: 1
     contemplationTexts:
-    - '*sigh'
+    - '*sigh*'

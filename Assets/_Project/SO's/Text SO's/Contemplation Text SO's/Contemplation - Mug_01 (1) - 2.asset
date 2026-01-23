@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Luego de comer quiz\xE1s ..  je."
+    - "Luego de comer quiz\xE1s...  je."
   - language: 1
     contemplationTexts:
-    - After eating maybe.. heh.
+    - After eating maybe... heh.

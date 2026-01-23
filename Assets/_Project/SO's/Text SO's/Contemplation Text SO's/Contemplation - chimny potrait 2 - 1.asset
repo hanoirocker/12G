@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Mi viejo y mi hermanita, claramente algo aprendió de el.
-    - No cabe duda que aprendió rápido.
+    - "Mi viejo y mi hermanita, claramente algo aprendi\xF3 de el."
+    - "No cabe duda que aprendi\xF3 r\xE1pido."
   - language: 1
     contemplationTexts:
-    - My father and sister. I guess she really learned something from him.
+    - My father and little sister. I guess she really learned something from him.
     - No doubts she was a quick learner.

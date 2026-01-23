@@ -16,10 +16,10 @@ MonoBehaviour:
   - language: 0
     contemplationTexts:
     - "Mi madre siempre tuvo en duda Londres como destino tur\xEDstico. Pero qui\xE9n
-      sabe ..."
-    - "Quiz\xE1s en un futuro cercano .."
+      sabe..."
+    - "Quiz\xE1s en un futuro cercano..."
   - language: 1
     contemplationTexts:
     - My mother always had doubts about London as a tourist destination. But who
       knows...
-    - Maybe in the near future..
+    - Maybe in the near future...

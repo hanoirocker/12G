@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Hmmm ... Supongo que no estaba en mis planes hoy de todas formas.
-    - Lindo wallpaper por cierto
+    - Hmmm... Supongo que no estaba en mis planes hoy de todas formas.
+    - Lindo wallpaper por cierto.
   - language: 1
     contemplationTexts:
     - Hmmm... I guess that wasn't in my plans today anyway.
-    - Nice wallpaper by the way
+    - Nice wallpaper by the way.
