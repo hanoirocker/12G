@@ -43,3 +43,5 @@ Modelos:
 * Woman Scared Breathe Sound Effect by ALexis KB Sounds at youtube.com
 * Romantic Kisses | ASMR Couple Kissing Sounds by Loving Tingles ASMR at youtube.com
 * Snake sounds by Animal Sounds on youtube.com
+* Raw Sub Bass by Blackie666 at freesound.org
+* Witchy Laugh 6 by Ivan Milic at freesound.org
