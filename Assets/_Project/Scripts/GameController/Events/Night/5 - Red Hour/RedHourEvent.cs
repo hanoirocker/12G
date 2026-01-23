@@ -20,9 +20,7 @@ namespace TwelveG.GameController
     [Space(10)]
     [Header("Event options")]
     [SerializeField, Range(1f, 15f)] private float initialTime = 5f;
-    [SerializeField, Range(0f, 10f)] private float firstDistortionTime = 3f;
     [SerializeField, Range(0f, 10f)] private float timeUntilSecondDistortion = 0.5f;
-    [SerializeField, Range(0f, 10f)] private float secondDistortionTime = 2f;
 
     [Space(10)]
     [Header("Text event SO")]
@@ -155,26 +153,26 @@ namespace TwelveG.GameController
       parentsLight.GetComponent<Light>().color = Color.red;
       parentsLight.GetComponent<Light>().intensity = 55f;
       parentsLight.GetComponent<Light>().enabled = true;
-      VFXManager.Instance.TriggerDistortionEffect(DistortionEffectType.RedDistortion, 1f, firstDistortionTime, true);
-      yield return new WaitForSeconds(firstDistortionTime);
+      yield return StartCoroutine(VFXManager.Instance.TriggerHallucinationEffect(HallucinationEffectType.NPRedDistortionFadeIn));
       parentsLight.GetComponent<Light>().enabled = false;
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Empty Face Portrait", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", true));
+      
       yield return new WaitForSeconds(timeUntilSecondDistortion);
 
-      // Flash visual de Fernandez
+      // Flash visual de Fernandez y espera
       parentsLight.GetComponent<Light>().enabled = true;
-      VFXManager.Instance.TriggerDistortionEffect(DistortionEffectType.None, 1f, 0f, false);
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", true));
-      yield return new WaitForSeconds(secondDistortionTime);
+      yield return StartCoroutine(VFXManager.Instance.TriggerHallucinationEffect(HallucinationEffectType.FernandezHallucination));
 
-      VFXManager.Instance.TriggerDistortionEffect(DistortionEffectType.NormalDistortion, 0f, 10f, true);
+      // Vuelve todo a la normalidad con un efecto de Red Distortion Fade Out
+      parentsLight.GetComponent<Light>().enabled = false;
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Messy Objects", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", true));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", true));
-      parentsLight.GetComponent<Light>().enabled = false;
+      StartCoroutine(VFXManager.Instance.TriggerHallucinationEffect(HallucinationEffectType.RedDistortionFadeOut));
 
       // Restaura la luz del cuarto de los padres y zoom a su estado original
       parentsLight.GetComponent<Light>().colorTemperature = originalParentsLightColorTemperature;

@@ -1,7 +1,5 @@
 NOVEDADES:
-- Se creó GlowingPortraitsHandler para llevar lógica desde RedHourEvent.cs hacia este mismo. Adjunto en Red Hour object, para ser ejecutado desde RedHourEvent.cs.
-- Se agregó lógica para disparar audios dentro de las reglas de cada potrait dentro de GlowingPortraitsHandler.
-- Se modificó la curva Custom de AudioRolloffMode.Custom de todas las fuentes del pool de interactuables. Se agregaron 2 fuentes interactuables a la pool.
+- Se creó el contenedor de información de alucionaciones HalucinationsProfileSO para usar en el renombrado HallucinationsHandler (ex DistortionEffectHandler). Dependiendo del enum de alucinación se ejecutan distantas corrutinas.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:

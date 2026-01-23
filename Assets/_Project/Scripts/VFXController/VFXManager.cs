@@ -1,3 +1,4 @@
+using System.Collections;
 using TwelveG.AudioController;
 using TwelveG.GameController;
 using TwelveG.PlayerController;
@@ -23,7 +24,7 @@ namespace TwelveG.VFXController
         // --- EFFECT HANDLERS ---
         private HeadacheEffectHandler headacheHandler;
         private ElectricFeelHandler electricFeelHandler;
-        private DistortionEffectHandler distortionHandler;
+        private HallucinationHandler hallucinationHandler;
 
         private void Awake()
         {
@@ -65,16 +66,16 @@ namespace TwelveG.VFXController
             }
             else if( currentScene == SceneEnum.Night)
             {
-                distortionHandler = GetComponent<DistortionEffectHandler>();
+                hallucinationHandler = GetComponent<HallucinationHandler>();
 
-                if (distortionHandler == null)
+                if (hallucinationHandler == null)
                 {
-                    Debug.LogError("VFXManager: Falta DistortionEffectHandler");
+                    Debug.LogError("VFXManager: Falta HallucinationHandler");
                     this.enabled = false;
                     return;
                 }
 
-                distortionHandler.Initialize(postProcessingHandler);
+                hallucinationHandler.Initialize(postProcessingHandler);
             }
             else
             {
@@ -181,9 +182,9 @@ namespace TwelveG.VFXController
             }
         }
 
-        public void TriggerDistortionEffect(DistortionEffectType distortionType, float newMultiplier, float fadeDuration, bool hasAudio)
+        public IEnumerator TriggerHallucinationEffect(HallucinationEffectType hallucinationEffectType)
         {
-            StartCoroutine(distortionHandler.DistortionEffectRoutine(distortionType, newMultiplier, fadeDuration, hasAudio));
+            yield return StartCoroutine(hallucinationHandler.TriggerHallucinationRoutine(hallucinationEffectType));
         }
 
         public void TriggerProceduralFaint()
