@@ -3,9 +3,9 @@ NOVEDADES:
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:
-
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)
-- Agregar trueno al bajar por las escaleras en Unwired?
+- Agregar trueno al bajar por las escaleras en UNWIRED?
+- Red Hour: Construir un método quizás en un Walkie Talkie Helper para lograr que durante este evento el walkie walkie (independientemente de su está equipado o no) cambie de canal constantemente y haya ruidos sin sentido. Al finalizar este malfuncionamiento (al final del evento) debe quedar en el canal 1 para cargar el audio en loop de "Ve a la luz".
 - Agregar mas sonidos stereo para los perfiles sonoros de ambiente?
 
 TOFIX:
@@ -21,7 +21,7 @@ TODO - próximo:
 
 TODO - despues:
 
-- Modificar el Heartbeat clip eliminando rastros de frequencias agudas.
+- Quizás trabajar un poco mas sobre el audio de la alucinación de fernandez, agregar risas femeninas al audio del cuadro del corazón.
 - Agregar sonidos para cuando come la pizza.
 - Agregar sonidos al tomar bolsas de basura.
 - Agregar sonido de mareo y caida del jugador al suelo, dependiendo del lugar donde caiga debe sonar distinto (3 materiales: carpet, wood, mosaic)
