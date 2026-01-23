@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Algo familiar. Algo parecido a... mi?
+    - "Algo familiar. \xBFAlgo parecido a... mi?"
   - language: 1
     contemplationTexts:
     - Something familiar. Something like... me?

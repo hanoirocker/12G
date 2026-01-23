@@ -16,7 +16,7 @@ MonoBehaviour:
   - language: 0
     contemplationTexts:
     - Nada mejor para arrancar la noche del finde.
-    - La mejor pizzeria del la zona por lejos!
+    - "\xA1La mejor pizzeria del la zona por lejos!"
   - language: 1
     contemplationTexts:
     - Nothing better to start a weekend night.
