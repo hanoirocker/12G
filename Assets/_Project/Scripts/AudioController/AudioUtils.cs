@@ -72,6 +72,7 @@ namespace TwelveG.AudioController
       if(source == null) return;
       source.Stop();
       source.RestoreSnapshot(state);
+      AudioManager.Instance.PoolsHandler.ReleaseAudioSource(source);
     }
   }
 }

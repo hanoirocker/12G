@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace TwelveG.AudioController
 {
   public enum AudioPoolType
@@ -52,19 +53,20 @@ namespace TwelveG.AudioController
     [SerializeField] private List<AudioSource> PlayerSources;
     [SerializeField] private List<AudioSource> VFXSources;
     [SerializeField] private List<AudioSource> HouseStereoAmbientSources;
+
     [Space]
     [Header("Pause Settings")]
     [SerializeField]
     private AudioPoolType[] poolsToPause = new AudioPoolType[] {
-    AudioPoolType.Dialogs,
-    AudioPoolType.Interaction,
-    AudioPoolType.BGMusic,
-    AudioPoolType.Environment,
-    AudioPoolType.RainAndWind,
-    AudioPoolType.Player,
-    AudioPoolType.VFX,
-    AudioPoolType.HouseStereoAmbient
-    };
+            AudioPoolType.Dialogs,
+            AudioPoolType.Interaction,
+            AudioPoolType.BGMusic,
+            AudioPoolType.Environment,
+            AudioPoolType.RainAndWind,
+            AudioPoolType.Player,
+            AudioPoolType.VFX,
+            AudioPoolType.HouseStereoAmbient
+        };
 
     [Space]
     [Header("Audio References")]
@@ -72,36 +74,41 @@ namespace TwelveG.AudioController
     [SerializeField] private AudioClip softRainClip;
     [SerializeField] private AudioClip hardRainClip;
     [SerializeField] private AudioClip hardRainAndWindClip;
+
     [Space(5)]
     [Header("Volumes")]
-    [SerializeField, Range (0f, 1f)] private float softWindVolume = 0.225f;
-    [SerializeField, Range (0f, 1f)] private float softRainVolume = 0.6f;
-    [SerializeField, Range (0f, 1f)] private float hardWindVolume = 0.5f;
-    [SerializeField, Range (0f, 1f)] private float hardRainVolume = 1f;
-    [SerializeField, Range (0f, 1f)] private float hardRainAndWindVolume = 1f;
+    [SerializeField, Range(0f, 1f)] private float softWindVolume = 0.225f;
+    [SerializeField, Range(0f, 1f)] private float softRainVolume = 0.6f;
+    [SerializeField, Range(0f, 1f)] private float hardWindVolume = 0.5f;
+    [SerializeField, Range(0f, 1f)] private float hardRainVolume = 1f;
+    [SerializeField, Range(0f, 1f)] private float hardRainAndWindVolume = 1f;
 
     [Space]
     [Header("Weather Settings")]
-    [SerializeField, Range (1f, 4f)] private float softWeatherDefaultDistance = 4f;
-    [SerializeField, Range (4f, 5.5f)] private float hardWeatherDistance = 4.5f;
+    [SerializeField, Range(1f, 4f)] private float softWeatherDefaultDistance = 4f;
+    [SerializeField, Range(4f, 5.5f)] private float hardWeatherDistance = 4.5f;
 
     private Dictionary<AudioPoolType, List<AudioSource>> poolMap;
     private List<AudioSource> lastActiveAudioSources = new List<AudioSource>();
 
+    // Fuentes "Prestadas". 
+    // No se liberan hasta que el script que la pidió llame a ReleaseAudioSource.
+    private HashSet<int> claimedSourcesIDs = new HashSet<int>();
+
     private void Awake()
     {
       poolMap = new Dictionary<AudioPoolType, List<AudioSource>>
-      {
-        { AudioPoolType.BGMusic, BGMusicSources },
-        { AudioPoolType.Environment, EnvironmentSources },
-        { AudioPoolType.RainAndWind, RainAndWindSources },
-        { AudioPoolType.Interaction, InteractionSources },
-        { AudioPoolType.HouseStereoAmbient, HouseStereoAmbientSources },
-        { AudioPoolType.UI, UISources },
-        { AudioPoolType.Dialogs, DialogsSources},
-        { AudioPoolType.Player, PlayerSources},
-        { AudioPoolType.VFX, VFXSources}
-      };
+            {
+                { AudioPoolType.BGMusic, BGMusicSources },
+                { AudioPoolType.Environment, EnvironmentSources },
+                { AudioPoolType.RainAndWind, RainAndWindSources },
+                { AudioPoolType.Interaction, InteractionSources },
+                { AudioPoolType.HouseStereoAmbient, HouseStereoAmbientSources },
+                { AudioPoolType.UI, UISources },
+                { AudioPoolType.Dialogs, DialogsSources},
+                { AudioPoolType.Player, PlayerSources},
+                { AudioPoolType.VFX, VFXSources}
+            };
     }
 
     public void PauseActiveAudioSources(bool pauseSources)
@@ -136,7 +143,7 @@ namespace TwelveG.AudioController
         }
       }
     }
-    
+
     public void StopActivePoolSources(AudioPoolType audioPoolType)
     {
       if (!poolMap.TryGetValue(audioPoolType, out var sources))
@@ -217,22 +224,60 @@ namespace TwelveG.AudioController
         Debug.LogError($"[AudioPoolsHandler]: Couldn't find '{audioPoolType}' sources list");
         return null;
       }
-
       return CheckForFreeAudioSource(sources, audioPoolType);
     }
 
+    // Lógica de chequeo con doble validación (!isPlaying y !Reserved)
     private AudioSource CheckForFreeAudioSource(List<AudioSource> sources, AudioPoolType audioPoolType)
     {
       foreach (AudioSource audioSource in sources)
       {
-        if (audioSource != null && !audioSource.isPlaying)
+        if (audioSource != null)
         {
-          return audioSource;
+          int id = audioSource.GetInstanceID();
+
+          // CONDICIÓN ESTRICTA:
+          // Debe no estar sonando Y ADEMÁS no estar en la lista de "Prestados" (claimed)
+          if (!audioSource.isPlaying && !claimedSourcesIDs.Contains(id))
+          {
+            claimedSourcesIDs.Add(id); // La marcamos como Ocupada permanentemente
+            return audioSource;
+          }
         }
       }
-
-      Debug.LogWarning($"[AudioPoolsHandler]: Non '{audioPoolType}' free source");
+      Debug.LogWarning($"[AudioPoolsHandler]: No hay fuentes libres del tipo '{audioPoolType}'");
       return null;
+    }
+
+    // [NUEVO] Método VITAL: Los scripts deben llamar a esto cuando terminan de usar la fuente
+    public void ReleaseAudioSource(AudioSource source)
+    {
+      if (source == null) return;
+
+      int id = source.GetInstanceID();
+      if (claimedSourcesIDs.Contains(id))
+      {
+        claimedSourcesIDs.Remove(id);
+      }
+    }
+
+    // [NUEVO] Método para limpiar el HashSet y no bloquear fuentes eternamente
+    private void CleanUpReservations(List<AudioSource> sources)
+    {
+      foreach (var source in sources)
+      {
+        if (source == null) continue;
+
+        int id = source.GetInstanceID();
+
+        // Si está reservada PERO ya está sonando (isPlaying = true), 
+        // significa que la "reserva" cumplió su función y podemos quitarla del HashSet.
+        // Ahora la protección natural de 'isPlaying' es suficiente.
+        if (source.isPlaying && claimedSourcesIDs.Contains(id))
+        {
+          claimedSourcesIDs.Remove(id);
+        }
+      }
     }
 
     public void ResetWeatherSources()
@@ -248,10 +293,17 @@ namespace TwelveG.AudioController
     {
       AudioSource audioSource = AudioManager.Instance.
           PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
-      AudioSourceState originalSourceParams = audioSource.GetSnapshot();
-      audioSource.transform.position = transform.position;
-      audioSource.volume = clipsVolume;
-      return (audioSource, originalSourceParams);
+
+      // Protección contra nulos si el pool se agotó
+      if (audioSource != null)
+      {
+        AudioSourceState originalSourceParams = audioSource.GetSnapshot();
+        audioSource.transform.position = transform.position;
+        audioSource.volume = clipsVolume;
+        return (audioSource, originalSourceParams);
+      }
+
+      return (null, default(AudioSourceState));
     }
 
     public void AssignWeatherEvents(Component sender, object data)

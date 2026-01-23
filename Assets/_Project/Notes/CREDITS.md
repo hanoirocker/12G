@@ -42,3 +42,4 @@ Modelos:
 * Big Metal Door-1.wav by Deathscyp at freesound.org
 * Woman Scared Breathe Sound Effect by ALexis KB Sounds at youtube.com
 * Romantic Kisses | ASMR Couple Kissing Sounds by Loving Tingles ASMR at youtube.com
+* Snake sounds by Animal Sounds on youtube.com
