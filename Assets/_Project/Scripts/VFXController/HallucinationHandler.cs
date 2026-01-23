@@ -67,6 +67,7 @@ namespace TwelveG.VFXController
       if (source != null)
       {
         state = source.GetSnapshot();
+        source.volume = 0f;
         source.clip = data.audioClip;
         source.loop = true;
         source.spatialBlend = 0f;
@@ -206,7 +207,7 @@ namespace TwelveG.VFXController
         if (data.audioClip != null) waitTime = data.audioClip.length;
       }
 
-      StartCoroutine(postProcessingHandler.SetRedDistortionWeight(data.targetIntensity, 0.1f));
+      StartCoroutine(postProcessingHandler.SetRedDistortionWeight(data.targetIntensity, 0.05f));
 
       yield return new WaitForSeconds(waitTime);
 

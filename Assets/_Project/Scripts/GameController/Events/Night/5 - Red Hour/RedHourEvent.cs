@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Cinemachine;
 using TwelveG.AudioController;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
@@ -143,6 +144,16 @@ namespace TwelveG.GameController
         return inZone && isLookingAtTarget;
       });
 
+      // Indica a la Virtual Camera activa que debe mirar hacia el cuadro
+      GameEvents.Common.onVirtualCamerasControl.Raise(
+        this, new LookAtTarget(
+          PlayerHouseHandler.Instance.GetStoredObjectByID(
+            "Empty Face Portrait"
+          ).transform
+        )
+      );
+      GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseIn, 1));
+
       // Vuelve a los cuadros originales y detiene el parpadeo de las luces
       AlternatePortraits(true);
       zoomLight.GetComponent<LightFlickeringHandler>().StopFlickering(false);
@@ -157,7 +168,7 @@ namespace TwelveG.GameController
       parentsLight.GetComponent<Light>().enabled = false;
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Empty Face Portrait", false));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", true));
-      
+
       yield return new WaitForSeconds(timeUntilSecondDistortion);
 
       // Flash visual de Fernandez y espera
@@ -173,6 +184,10 @@ namespace TwelveG.GameController
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Parents - Organized Objects", true));
       PlayerHouseHandler.Instance.ToggleStoredPrefabs(new ObjectData("Mother Portrait", true));
       StartCoroutine(VFXManager.Instance.TriggerHallucinationEffect(HallucinationEffectType.RedDistortionFadeOut));
+
+      // Resetea la visual del jugador
+      GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(null));
+      GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
 
       // Restaura la luz del cuarto de los padres y zoom a su estado original
       parentsLight.GetComponent<Light>().colorTemperature = originalParentsLightColorTemperature;
