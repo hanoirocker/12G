@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Sus miradas  .. Ser\xE1 que ..."
+    - "Sus miradas... Ser\xE1 que..."
     - Espero no estar volviendome loco.
   - language: 1
     contemplationTexts:
-    - Their looks .. Could it be that ...
+    - Their looks... Could it be that...
     - I hope I'm not going crazy.

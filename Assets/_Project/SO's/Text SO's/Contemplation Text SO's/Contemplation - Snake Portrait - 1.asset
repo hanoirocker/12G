@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Es como si se estuviese riendo de mi .. o algo asi ..
+    - Es como si se estuviese riendo de mi... o algo asi...
   - language: 1
     contemplationTexts:
-    - It's like he's laughing at me... or something like that ..
+    - It's like he's laughing at me... or something like that...

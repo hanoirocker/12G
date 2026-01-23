@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - No ahora.
+    - Ahora no.
   - language: 1
     contemplationTexts:
     - Not now.

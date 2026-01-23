@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "La saga preferida de mi madre no parece estar entre esta colleci\xF3n ..."
+    - "La saga preferida de mi madre no parece estar entre esta colleci\xF3n..."
   - language: 1
     contemplationTexts:
     - My mother's favorite saga doesn't seem to be in this collection...

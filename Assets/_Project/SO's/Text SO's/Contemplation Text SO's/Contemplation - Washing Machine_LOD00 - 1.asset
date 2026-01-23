@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Creo que a\xFAn quedaron algunos boxers mios ah\xED dentro .. meh .."
+    - "Creo que a\xFAn quedaron algunos boxers mios ah\xED dentro... meh..."
     - No tengo intenciones alguna de ponerme a lavar ropa un fin de semana.
   - language: 1
     contemplationTexts:
-    - I think there are still some of my boxers in there.. meh..
+    - I think there are still some of my boxers in there... meh...
     - I have no intention of doing laundry on a weekend.

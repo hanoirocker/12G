@@ -16,8 +16,8 @@ MonoBehaviour:
   - language: 0
     contemplationTexts:
     - "No creo encontrar un libro de mi madre por ac\xE1."
-    - Mmmm .. no veo nada parecido a una un libro con varios tomos.
+    - Mmmm... no veo nada parecido a una un libro con varios tomos.
   - language: 1
     contemplationTexts:
-    - I don't think I'll find a book by my mother around here.
-    - Mmmm.. I don't see anything like a book with several volumes.
+    - I don't think I'll find one of my mother's books around here.
+    - Mmmm... I don't see anything like a book with several volumes.

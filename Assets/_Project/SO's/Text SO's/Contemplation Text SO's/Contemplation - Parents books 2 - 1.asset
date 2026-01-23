@@ -17,9 +17,9 @@ MonoBehaviour:
     contemplationTexts:
     - "No comprendo c\xF3mo precisan tantos libros sobre lugares del mundo con la
       cantidad de viajes que han hecho."
-    - "Libros libros y ....... m\xE1s libros."
+    - "Libros libros y....... m\xE1s libros."
   - language: 1
     contemplationTexts:
-    - I don't understand how they need so many books about places in the world with
+    - I don't understand how they need so many books about places of the world with
       the amount of travel they've done.
-    - Books books aaaaand .......... more books.
+    - Books books aaaaand.......... more books.

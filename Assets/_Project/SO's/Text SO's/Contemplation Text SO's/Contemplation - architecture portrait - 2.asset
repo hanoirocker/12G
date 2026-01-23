@@ -15,9 +15,8 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Todo bien con el paisajimos pero ahora es momento de encender mundos digitales
-      .. querido ..
+    - Todo bien con el paisajimo pero ahora es momento de encender mundos digitales...
+      querido...
   - language: 1
     contemplationTexts:
-    - All good with the landscaping but now it's time to light up digital worlds
-      ..
+    - All good with the landscaping but now it's time to light up digital worlds...
