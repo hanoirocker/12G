@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Si tan solo te hubieses quedado a dormir en casa anoche amiga ..
+    - Si tan solo te hubieses quedado a dormir en casa anoche, amiga...
   - language: 1
     contemplationTexts:
-    - If only you had stayed over last night my friend ..
+    - If only you had stayed over last night, my friend...

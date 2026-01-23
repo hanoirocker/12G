@@ -15,11 +15,11 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Creo que esto volvi\xF3 del \xFAltimo viaje de mis padres a Mexico .."
-    - "Porqu\xE9 esos brazos tan largos?"
+    - "Creo que esto volvi\xF3 del \xFAltimo viaje de mis padres a Mexico..."
+    - "\xBFPor qu\xE9 esos brazos tan largos?"
     - Noup. Definitivamente no es mi estilo.
   - language: 1
     contemplationTexts:
-    - I think this came back from my parents' last trip to Mexico..
+    - I think this came back from my parents' last trip to Mexico...
     - Why such long arms?
     - Nope. Definitely not my style.

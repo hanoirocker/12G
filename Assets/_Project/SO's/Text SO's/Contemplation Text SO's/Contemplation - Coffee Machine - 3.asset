@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Quiz\xE1s luego .."
+    - "Quiz\xE1s luego..."
   - language: 1
     contemplationTexts:
-    - Maybe later ..
+    - Maybe later...

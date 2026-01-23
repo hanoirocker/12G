@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Ese extra\xF1o sonido a fritura .."
+    - "Ese extra\xF1o sonido a fritura..."
   - language: 1
     contemplationTexts:
-    - That strange frying sound ..
+    - That strange frying sound...

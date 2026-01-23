@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - 'No creo que ese sonido haya provenido del horno '
+    - No creo que ese sonido haya provenido del horno.
   - language: 1
     contemplationTexts:
     - I don't think that sound came from the oven.

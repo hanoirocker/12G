@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Supongo que no puedes ayudarme ahora mismo Slender guy ..
+    - Supongo que no puedes ayudarme ahora mismo, Slender guy...
   - language: 1
     contemplationTexts:
-    - I guess you can't help me right now Slender guy..
+    - I guess you can't help me right now, Slender guy...

@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Mmmmh .. nop. No veo nada relacionado a una saga por aca.
+    - Mmmmh... nop. No veo nada relacionado a una saga por aca.
   - language: 1
     contemplationTexts:
-    - Mmmmh.. nope. I don't see anything saga-related here.
+    - Mmmmh... nope. I don't see anything saga-related here.

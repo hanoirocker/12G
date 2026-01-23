@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Nada de lo que sucede hasta ahora me resulva divertido.
+    - Nada de lo que sucede hasta ahora me resulta divertido.
   - language: 1
     contemplationTexts:
     - Nothing that's happened so far is funny to me.

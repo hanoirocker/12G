@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Espero no volver a precisarla pronto
+    - Espero no volver a precisarla pronto.
     - Nada mas que una escoba.
   - language: 1
     contemplationTexts:
-    - I hope I don't need it again soon
+    - I hope I don't need it again soon.
     - Nothing but a broom.

@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Creo que de hecho no todo lo vintage funciona como deber\xEDa .. "
+    - "Creo que de hecho no todo lo vintage funciona como deber\xEDa... "
   - language: 1
     contemplationTexts:
-    - I think that in fact not everything vintage works as it should..
+    - I think that in fact not everything vintage works as it should...

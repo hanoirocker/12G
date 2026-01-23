@@ -17,15 +17,14 @@ MonoBehaviour:
     contemplationTexts:
     - "Me pregunto si mi hermana extra\xF1ar\xE1 su cama. Definitivamente no podr\xEDa
       vivir sin la m\xEDa!"
-    - "Debo admitir que a veces suelo usar este colch\xF3n aunque no esa de mi mayor
-      agrado la decoraci\xF3n que qued\xF3 luego que mi hermana se fu\xE9 de casa
-      .."
+    - "Debo admitir que a veces suelo usar este colch\xF3n, aunque no sea de mi mayor
+      agrado la decoraci\xF3n que qued\xF3 luego que mi hermana se fu\xE9 de casa..."
     - "No recuerdo cu\xE1ndo fue la \xFAltima vez que Mica durmi\xF3 ac\xE1 pero
       amo tenerla cerca siempre que sus padres andan de buen humor."
   - language: 1
     contemplationTexts:
     - I wonder if my sister misses her bed. I definitely couldn't live without mine!
     - I must admit that I sometimes use this mattress, although I don't particularly
-      like the decor that was left after my sister left home.
+      like the decor that was left after my sister left home...
     - I don't remember the last time Mica slept here, but I love having her around
       whenever her parents are in a good mood.

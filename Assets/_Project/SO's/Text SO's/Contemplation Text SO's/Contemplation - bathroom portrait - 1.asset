@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Si por mi madre fuese, pondr\xEDa un jard\xEDn en el mism\xEDsimo ba\xF1o!"
+    - "\xA1Si por mi madre fuese, pondr\xEDa un jard\xEDn en el mism\xEDsimo ba\xF1o!"
     - Tannnnnn violeta.
   - language: 1
     contemplationTexts:

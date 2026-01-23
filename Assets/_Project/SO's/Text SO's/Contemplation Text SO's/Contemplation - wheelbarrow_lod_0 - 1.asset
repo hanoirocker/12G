@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Un extra\xF1o artefacto .. a su vez ajeno y odiado por m\xED y cualquier persona
-      con abiciones un poco m\xE1s .. digitales. "
+    - "Un extra\xF1o artefacto... a su vez ajeno y odiado por m\xED y cualquier persona
+      con abiciones un poco m\xE1s... digitales. "
   - language: 1
     contemplationTexts:
-    - A strange artifact... at once alien and hated by me and anyone with slightly
-      more... digital ambitions.
+    - A strange artifact... both alien and hated by me and anyone with slightly more...
+      digital ambitions.
