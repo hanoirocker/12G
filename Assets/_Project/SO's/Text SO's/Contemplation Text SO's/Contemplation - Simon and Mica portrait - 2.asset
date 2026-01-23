@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Necesito hablar con vos cuanto antes Mica .. Espero est\xE9s en tu casa y
-      tengas ese walkie talkie con vos."
+    - "Necesito hablar con vos cuanto antes Mica... Espero est\xE9s en tu casa y
+      tengas ese walkie talkie con vos..."
   - language: 1
     contemplationTexts:
-    - I need to talk to you as soon as possible Mica. I hope you're home and have
-      that walkie talkie with you as well ...
+    - I need to talk to you as soon as possible Mica... I hope you're home and have
+      that walkie-talkie with you as well...

@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Ahora mismo prefiero algo mas .. contundente.
+    - Ahora mismo prefiero algo mas... contundente.
   - language: 1
     contemplationTexts:
     - Right now I prefer something more... forceful.

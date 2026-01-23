@@ -16,10 +16,10 @@ MonoBehaviour:
   - language: 0
     contemplationTexts:
     - Incluso con mi hermana ya no viviendo en casa sigo sin encontrar espacio para
-      mis cosas ..
-    - '*suspiro ..'
+      mis cosas...
+    - '*suspiro*'
   - language: 1
     contemplationTexts:
     - Even with my sister no longer living at home I still can't find space for my
-      things..
-    - '*sight ..'
+      things...
+    - '*sigh*'

@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Necesitar\xE9 un buen descanso luego de toda esta mierda .. eso es seguro."
+    - "Necesitar\xE9 un buen descanso luego de toda esta mierda... eso es seguro."
   - language: 1
     contemplationTexts:
-    - I'll need a good rest after all this shit.. that's for sure.
+    - I'll need a good rest after all this shit... that's for sure.

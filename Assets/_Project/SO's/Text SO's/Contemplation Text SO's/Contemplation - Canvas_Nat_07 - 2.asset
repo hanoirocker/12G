@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Esto no luce como una revista o un libro con varios tomos ..
+    - Esto no luce como una revista o un libro con varios tomos...
   - language: 1
     contemplationTexts:
-    - This doesn't look like a magazine or a multi-volume book..
+    - This doesn't look like a magazine or a multi-volume book...

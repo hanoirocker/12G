@@ -15,8 +15,8 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Quiz\xE1s no sea tan mala idea hecharle una hojeada luego de que toda esta
-      pesadilla haya terminado ..."
+    - "Quiz\xE1s no sea tan mala idea echarle una hojeada luego de que toda esta
+      pesadilla haya terminado..."
   - language: 1
     contemplationTexts:
     - Maybe it's not such a bad idea to take a look at it after this whole nightmare

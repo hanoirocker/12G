@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - No puedo pensar en comer en estos momentos realmente
+    - No puedo pensar en comer en estos momentos realmente.
   - language: 1
     contemplationTexts:
-    - I can't think about eating right now really.
+    - I can't really think about eating right now.

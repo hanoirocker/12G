@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Amigo ...
-    - "\xBFEstar\xE1s viviendo cosas similares all\xE1 en Rio Cuarto?"
+    - Amigo...
+    - "\xBFEstar\xE1s viviendo cosas similares all\xE1 en R\xEDo Cuarto?"
   - language: 1
     contemplationTexts:
-    - My man ...
-    - Will you be experiencing similar things there in Rio Cuarto?
+    - My man...
+    - "Will you be experiencing similar things there in R\xEDo Cuarto?"

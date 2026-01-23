@@ -15,12 +15,12 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Jam\xE1s vivir\xEDa en un lugar tan colapsado .. eso es seguro."
+    - "Jam\xE1s vivir\xEDa en un lugar tan colapsado... eso es seguro."
     - "Creo que fue mi padre quien sugiri\xF3 Nueva York como nuestro \xFAltimo destino
       tur\xEDstico."
     - "La pr\xF3xima vez me aseguro de llevar mi skate, sin lugar a dudas."
   - language: 1
     contemplationTexts:
-    - I would never live in such a congested place... that's for sure.
+    - I would never live in such a crowded place... that's for sure.
     - I think it was my father who suggested New York as our last tourist destination.
     - Next time I'll definitely make sure to bring my skateboard.

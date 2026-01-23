@@ -16,10 +16,9 @@ MonoBehaviour:
   - language: 0
     contemplationTexts:
     - Otra ave?
-    - Es como si alguien la hubiese lanzado contra el vidrio pero ... nah. No puede
+    - Es como si alguien la hubiese lanzado contra el vidrio pero... nah. No puede
       ser.
   - language: 1
     contemplationTexts:
     - Another bird?
-    - 'It''s like someone threw her against the glass but... nah. It just can''t
-      be. '
+    - 'It''s like someone threw it against the glass but... nah. It just can''t be. '

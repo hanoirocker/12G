@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Hmmmm ... no hay de esos por aca.
-    - Aves enamoradas supongo
+    - Hmmmm... no hay de esos por aca.
+    - Aves enamoradas supongo.
   - language: 1
     contemplationTexts:
     - Hmmmm... there aren't any of those around here.
-    - Birds in love I guess
+    - Birds in love I guess.

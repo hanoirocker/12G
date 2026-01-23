@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Parece ser la \xFAnica saga que veo a mano de hecho .. quiz\xE1s sea esta."
+    - "Parece ser la \xFAnica saga que veo a mano de hecho... quiz\xE1s sea esta."
     - Tomo 1, 2 y 3.
   - language: 1
     contemplationTexts:
-    - It seems to be the only saga I see on hand in fact.. maybe this is it.
+    - It seems to be the only saga I see on hand in fact... maybe this is it.
     - Volume 1, 2 and 3.

@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Todo resulta tan t\xE9trico ahora mismo ..."
+    - "Todo resulta tan t\xE9trico ahora mismo..."
   - language: 1
     contemplationTexts:
-    - Everything feels so grim right now ...
+    - Everything feels so grim right now...

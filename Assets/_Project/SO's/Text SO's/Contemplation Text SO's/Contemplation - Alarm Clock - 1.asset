@@ -16,9 +16,10 @@ MonoBehaviour:
   - language: 0
     contemplationTexts:
     - "El dispositivo electr\xF3nico m\xE1s odiado por toda la humanidad, a 15 cm
-      de mi cama .. incre\xEDble."
+      de mi cama... incre\xEDble."
     - 5 alarmas no son suficientes. Nunca.
   - language: 1
     contemplationTexts:
-    - The most hated electronic device by all of humanity 15cm from my bed.. unbelievable.
-    - 5 alarms are never enough.
+    - The most hated electronic device by all of humanity 15 cm away from my bed...
+      unbelievable.
+    - 5 alarms are never enough. Ever.

@@ -16,7 +16,7 @@ MonoBehaviour:
   - language: 0
     contemplationTexts:
     - "Nunca comprend\xED qu\xE9 ven de interesante mis padres en esta pintura."
-    - "Pudiese al menos transmitir algo de .. \xBFAlegr\xEDa?"
+    - "Pudiese al menos transmitir algo de... \xBFAlegr\xEDa?"
   - language: 1
     contemplationTexts:
     - I never understood what my parents found interesting in this painting.

@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Esto s\xED que es una camaaaaa"
+    - "Esto s\xED que es una camaaaaa!"
     - "Hoy sos toda m\xEDa!"
   - language: 1
     contemplationTexts:
