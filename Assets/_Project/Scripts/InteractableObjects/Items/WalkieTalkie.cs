@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using TMPro;
 using TwelveG.DialogsController;
@@ -8,31 +7,6 @@ using UnityEngine;
 
 namespace TwelveG.InteractableObjects
 {
-    [System.Serializable]
-    public class WalkieTalkieChannel
-    {
-        public int channelIndex;
-        public AudioClip channelClip;
-        public DialogSO pendingDialog;
-
-        public bool HasPendingDialog()
-        {
-            return pendingDialog != null;
-        }
-
-        public void ClearPendingDialog()
-        {
-            pendingDialog = null;
-        }
-    }
-
-    [System.Serializable]
-    public struct WalkieTalkieChannelData
-    {
-        public string channelText;
-        public string frequencyText;
-    }
-
     public class WalkieTalkie : PlayerItemBase, IPlayerItem
     {
         [Header("General References")]
@@ -42,358 +16,209 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private WalkieTalkieChannelData[] walkieTalkieChannelData;
 
         [Space]
-        [Header("Data SO References")]
-        [SerializeField] private WalkieTalkieDataSO[] walkieTalkieEveningData;
-        [SerializeField] private WalkieTalkieDataSO[] walkieTalkieNightData;
-        [SerializeField] private WalkieTalkieDataSO walkieTalkieFreeRoamData;
-
-        [Space]
-        [Header("Audio")]
-        [SerializeField] private AudioClip channelSwitchAudioClip;
-        [SerializeField] private AudioClip incomingDialogAlertClip;
-        [SerializeField, Range(0f, 1f)] private float alertClipVolume = 0.7f;
-        [SerializeField, Range(0f, 1f)] private float switchChannelVolume = 0.8f;
+        [Header("Modules")]
+        [SerializeField] private WalkieTalkieAudioHandler audioHandler;
+        [SerializeField] private WalkieTalkieDataHandler dataHandler;
+        [SerializeField] private WalkieTalkieCallHandler callHandler;
 
         [Space]
         [Header("Runtime Data")]
         public WalkieTalkieChannel[] walkieTalkieChannels;
 
-        private DialogSO lastDialogReceived = null;
         private WalkieTalkieDataSO currentWalkieTalkieData;
-        private AudioSource audioSource;
+
+        // Estado
         private bool canSwitchChannel = true;
         private bool characterIsTalking = false;
-        private bool incomingCallWaiting = false;
         private int currentChannelIndex = 0;
-        private int micaChannelIndex = 2; // Canal 3
 
         void Start()
         {
-            audioSource = GetComponent<AudioSource>();
+            // Auto-asignación de módulos
+            if (audioHandler == null) audioHandler = GetComponent<WalkieTalkieAudioHandler>();
+            if (dataHandler == null) dataHandler = GetComponent<WalkieTalkieDataHandler>();
+            if (callHandler == null) callHandler = GetComponent<WalkieTalkieCallHandler>();
+
+            callHandler.Initialize(audioHandler, () => this.itemIsShown);
         }
 
         void Update()
         {
             if (isActiveOnGame)
             {
-                if (Input.GetKeyDown(KeyCode.K))
-                {
-                    ToggleItem();
-                }
+                if (Input.GetKeyDown(KeyCode.K)) ToggleItem();
+
                 if (itemIsShown && canSwitchChannel)
                 {
-                    if (Input.GetKeyDown(KeyCode.V))
-                    {
-                        StartCoroutine(SwitchChannel(-1));
-                    }
-                    if (Input.GetKeyDown(KeyCode.B))
-                    {
-                        StartCoroutine(SwitchChannel(+1));
-                    }
+                    if (Input.GetKeyDown(KeyCode.V)) StartCoroutine(SwitchChannel(-1));
+                    if (Input.GetKeyDown(KeyCode.B)) StartCoroutine(SwitchChannel(+1));
                 }
-            }
-        }
-
-        private IEnumerator SwitchChannel(int direction)
-        {
-            // Validaciones de seguridad
-            if (currentWalkieTalkieData == null)
-            {
-                // Fallback por si no se inicializó (testing)
-                if (walkieTalkieEveningData != null && walkieTalkieEveningData.Length > 0)
-                    currentWalkieTalkieData = walkieTalkieEveningData[0];
-                else
-                    yield break;
-            }
-
-            // Límites del dial
-            if (currentChannelIndex == 0 && direction == -1) yield break;
-            if (currentChannelIndex == currentWalkieTalkieData.FrequencyData.Count - 1 && direction == +1) yield break;
-
-            // Reproducir sonido de cambio de canal
-            if (audioSource.isPlaying) audioSource.Stop();
-            audioSource.PlayOneShot(channelSwitchAudioClip);
-            yield return new WaitForFixedUpdate();
-
-            currentChannelIndex += direction;
-            WalkieTalkieChannel currentChannelObj = walkieTalkieChannels[currentChannelIndex];
-
-            frequencyText.text = walkieTalkieChannelData[currentChannelIndex].frequencyText;
-            channelNumberText.text = walkieTalkieChannelData[currentChannelIndex].channelText;
-
-            try
-            {
-                if (currentChannelObj.channelClip != null)
-                {
-                    audioSource.clip = currentChannelObj.channelClip;
-                    audioSource.Play();
-                }
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogWarning($"[WT] Error reproduciendo audio canal: {e.Message}");
-            }
-
-            if (currentChannelObj.HasPendingDialog())
-            {
-                Debug.Log($"[WT] Disparando diálogo agendado en canal {currentChannelIndex}");
-
-                GameEvents.Common.onShowDialog.Raise(this, currentChannelObj.pendingDialog);
-
-                AllowChannelSwitching(false);
-                AllowItemToBeToggled(false);
-
-                // Limpiamos el diálogo para que no se repita loop
-                currentChannelObj.ClearPendingDialog();
-                yield break;
-            }
-
-            if (currentChannelIndex == micaChannelIndex && incomingCallWaiting)
-            {
-                incomingCallWaiting = false;
-
-                GameEvents.Common.onShowDialog.Raise(this, lastDialogReceived);
-
-                AllowChannelSwitching(false);
-                AllowItemToBeToggled(false);
-                yield break;
             }
         }
 
         public void SetWalkieTalkie(Component sender, object data)
         {
-            WalkieTalkieDataSO targetData = ResolveDataSO(data);
+            // 1. Resolver qué SO usar
+            WalkieTalkieDataSO targetData = dataHandler.ResolveDataSO(data);
 
             if (targetData == null)
             {
-                Debug.LogWarning($"[WT] No se pudo resolver la data para el input: {data}");
+                Debug.LogWarning($"[WT] Data invalida: {data}");
                 return;
             }
 
             currentWalkieTalkieData = targetData;
 
-            // Construir / Reconstruir los canales con la data obtenida
-            InitializeChannels(currentWalkieTalkieData);
+            // 2. Construir los canales (Delegado al DataHandler)
+            walkieTalkieChannels = dataHandler.BuildChannels(currentWalkieTalkieData);
+
+            // 3. Reproducir estática inicial si corresponde
+            PlayCurrentChannelStatic();
         }
 
-        // Helper para encontrar el SO correcto según el tipo de dato recibido
-        private WalkieTalkieDataSO ResolveDataSO(object data)
+        private IEnumerator SwitchChannel(int direction)
         {
-            if (data is string strData && strData == "FreeRoam")
+            // Fallback de inicialización si es null (Testing)
+            if (currentWalkieTalkieData == null)
             {
-                return walkieTalkieFreeRoamData;
+                currentWalkieTalkieData = dataHandler.GetDefaultData();
+                if (currentWalkieTalkieData != null)
+                {
+                    walkieTalkieChannels = dataHandler.BuildChannels(currentWalkieTalkieData);
+                }
+                else yield break;
             }
 
-            if (data is EventContextData context)
+            // Límites
+            if (currentChannelIndex == 0 && direction == -1) yield break;
+            if (currentChannelIndex == currentWalkieTalkieData.FrequencyData.Count - 1 && direction == +1) yield break;
+
+            // Audio Switch
+            audioHandler.PlayChannelSwitch();
+            yield return new WaitForFixedUpdate();
+
+            // Cambio de índice
+            currentChannelIndex += direction;
+            UpdateUI();
+
+            // Audio Estática
+            PlayCurrentChannelStatic();
+
+            // Lógica de Diálogos Pendientes
+            WalkieTalkieChannel currentChannelObj = walkieTalkieChannels[currentChannelIndex];
+
+            if (currentChannelObj.HasPendingDialog())
             {
-                if (context.sceneEnum == SceneEnum.Evening)
-                {
-                    return FindDataByEvent(walkieTalkieEveningData, context.eventEnum);
-                }
-                else if (context.sceneEnum == SceneEnum.Night)
-                {
-                    return FindDataByEvent(walkieTalkieNightData, context.eventEnum);
-                }
+                GameEvents.Common.onShowDialog.Raise(this, currentChannelObj.pendingDialog);
+                LockControls();
+                currentChannelObj.ClearPendingDialog();
+                yield break;
             }
 
-            return null;
+            // Lógica de Llamada Entrante
+            if (currentChannelIndex == callHandler.MicaChannelIndex && callHandler.IsIncomingCallWaiting)
+            {
+                callHandler.AcceptWaitingCall();
+                LockControls();
+            }
         }
 
-        // Helper para buscar en los arrays (evita repetir el bucle for)
-        private WalkieTalkieDataSO FindDataByEvent(WalkieTalkieDataSO[] dataArray, EventsEnum targetEvent)
-        {
-            if (dataArray == null) return null;
+        // --- HELPERS VISUALES Y AUDIO ---
 
-            for (int i = 0; i < dataArray.Length; i++)
-            {
-                if (dataArray[i].eventName == targetEvent)
-                {
-                    return dataArray[i]; // Retornamos el SO encontrado
-                }
-            }
-            return null;
+        private void UpdateUI()
+        {
+            frequencyText.text = walkieTalkieChannelData[currentChannelIndex].frequencyText;
+            channelNumberText.text = walkieTalkieChannelData[currentChannelIndex].channelText;
         }
 
-        // Helper para inicializar el array
-        private void InitializeChannels(WalkieTalkieDataSO data)
+        private void PlayCurrentChannelStatic()
         {
-            int frequencyCount = data.FrequencyData.Count;
-
-            if (walkieTalkieChannels == null || walkieTalkieChannels.Length != frequencyCount)
-            {
-                walkieTalkieChannels = new WalkieTalkieChannel[frequencyCount];
-            }
-
-            for (int i = 0; i < frequencyCount; i++)
-            {
-                if (walkieTalkieChannels[i] == null)
-                    walkieTalkieChannels[i] = new WalkieTalkieChannel();
-
-                walkieTalkieChannels[i].channelIndex = i;
-
-                if (data.FrequencyData[i].clips.Count > 0)
-                    walkieTalkieChannels[i].channelClip = data.FrequencyData[i].clips[0];
-                else
-                    walkieTalkieChannels[i].channelClip = null;
-
-                walkieTalkieChannels[i].ClearPendingDialog();
-            }
-
             if (currentChannelIndex < walkieTalkieChannels.Length)
             {
-                var initialClip = walkieTalkieChannels[currentChannelIndex].channelClip;
-                if (initialClip != null)
-                {
-                    audioSource.clip = initialClip;
-                }
+                var clip = walkieTalkieChannels[currentChannelIndex].channelClip;
+                audioHandler.PlayStatic(clip);
             }
         }
 
-        // Callback del GameEvent: "onLoadDialogForSpecificChannel"
-        // Inyecta el diálogo en el canal correspondiente
+        // --- MÉTODOS PÚBLICOS (CALLBACKS DE LISTENERS) ---
+
+        public void StartDialog(Component sender, object data)
+        {
+            DialogSO dialog = (DialogSO)data;
+            if (dialog == null) return;
+
+            bool shouldShowItem = callHandler.ProcessDialogRequest(dialog, currentChannelIndex);
+
+            if (dialog.characterName == CharacterName.Mica || (dialog.characterName == CharacterName.Simon && !dialog.isSelfDialog))
+            {
+                LockControls();
+            }
+
+            if (shouldShowItem)
+            {
+                if (currentChannelIndex != callHandler.MicaChannelIndex)
+                {
+                    StartCoroutine(ReturnToMicaChannelCoroutine());
+                }
+                if (!itemIsShown) ShowItem();
+            }
+        }
+
         public void onLoadDialogForSpecificChannel(Component sender, object data)
         {
             if (data == null) return;
-
             DialogForChannel dialogInfo = (DialogForChannel)data;
 
-            if (dialogInfo.channelIndex < 0 || dialogInfo.channelIndex >= walkieTalkieChannels.Length)
-            {
-                Debug.LogWarning("[WT] Invalid channel index received for specific dialog.");
-                return;
-            }
+            if (dialogInfo.channelIndex < 0 || dialogInfo.channelIndex >= walkieTalkieChannels.Length) return;
 
             walkieTalkieChannels[dialogInfo.channelIndex].pendingDialog = dialogInfo.dialogSO;
 
             if (currentChannelIndex == dialogInfo.channelIndex && itemIsShown)
             {
                 GameEvents.Common.onShowDialog.Raise(this, dialogInfo.dialogSO);
-                AllowChannelSwitching(false);
-                AllowItemToBeToggled(false);
+                LockControls();
                 walkieTalkieChannels[dialogInfo.channelIndex].ClearPendingDialog();
             }
         }
 
-        // Al terminar diálogo, restaurar el ruido de fondo si corresponde
         public void OnDialogEnded(Component sender, object data)
         {
-            AllowChannelSwitching(true);
-            AllowItemToBeToggled(true);
-
+            UnlockControls();
             if (itemIsShown)
             {
-                // Verificamos que el canal exista y tenga clip
-                if (currentChannelIndex < walkieTalkieChannels.Length)
+                // Solo reproducir estática si no quedó otro diálogo pendiente inmediatamente
+                if (!walkieTalkieChannels[currentChannelIndex].HasPendingDialog())
                 {
-                    var currentChannelObj = walkieTalkieChannels[currentChannelIndex];
-
-                    // Solo reproducimos ruido si NO quedó otro diálogo pendiente (raro, pero posible)
-                    if (!currentChannelObj.HasPendingDialog() && currentChannelObj.channelClip != null)
-                    {
-                        if (audioSource.clip != currentChannelObj.channelClip || !audioSource.isPlaying)
-                        {
-                            audioSource.clip = currentChannelObj.channelClip;
-                            audioSource.Play();
-                        }
-                    }
+                    PlayCurrentChannelStatic();
                 }
             }
         }
 
-        public void StartDialog(Component sender, object data)
+        public void ToggleWTAudioSource(Component sender, object data)
         {
-            lastDialogReceived = (DialogSO)data;
-
-            if (lastDialogReceived == null) return;
-
-            // Lógica de Micaela llamando
-            if (lastDialogReceived.characterName == CharacterName.Mica)
-            {
-                if (itemIsShown && currentChannelIndex == micaChannelIndex)
-                {
-                    AllowItemToBeToggled(false);
-                    AllowChannelSwitching(false);
-                    GameEvents.Common.onShowDialog.Raise(this, lastDialogReceived);
-                }
-                else if (itemIsShown && currentChannelIndex != micaChannelIndex)
-                {
-                    incomingCallWaiting = true;
-                }
-                else if (!itemIsShown)
-                {
-                    incomingCallWaiting = true;
-                    StartCoroutine(IncomingDialogAlertCourutine());
-                }
-            }
-
-            // Lógica de Simon iniciando (SelfDialog o llamando a Mica)
-            if (lastDialogReceived.characterName == CharacterName.Simon)
-            {
-                if (!lastDialogReceived.isSelfDialog)
-                {
-                    if (currentChannelIndex != micaChannelIndex)
-                    {
-                        StartCoroutine(ReturnToMicaChannelCoroutine());
-                    }
-
-                    if (!itemIsShown) ShowItem();
-                }
-
-                AllowItemToBeToggled(false);
-                AllowChannelSwitching(false);
-                GameEvents.Common.onShowDialog.Raise(this, lastDialogReceived);
-            }
-
-            if (lastDialogReceived.characterName == CharacterName.Unknown)
-            {
-                incomingCallWaiting = true;
-                StartCoroutine(IncomingDialogAlertCourutine());
-            }
+            if (data != null && !characterIsTalking) audioHandler.SetPaused((bool)data);
         }
 
-        private IEnumerator IncomingDialogAlertCourutine()
+        public void OnDialogNodeRunning(Component sender, object data)
         {
-            GameEvents.Common.onShowIncomingCallPanel.Raise(this, true);
-            audioSource.loop = true;
-            audioSource.clip = incomingDialogAlertClip;
-            audioSource.volume = alertClipVolume;
-            audioSource.Play();
-
-            yield return new WaitUntil(() => itemIsShown);
-
-            GameEvents.Common.onShowIncomingCallPanel.Raise(this, false);
-            audioSource.loop = false;
-            audioSource.Stop();
-            audioSource.clip = null;
-        }
-
-        private IEnumerator ReturnToMicaChannelCoroutine()
-        {
-            audioSource.Stop();
-            audioSource.clip = null;
-
-            while (currentChannelIndex != micaChannelIndex)
+            if (data != null)
             {
-                int direction = micaChannelIndex > currentChannelIndex ? 1 : -1;
-                currentChannelIndex += direction;
-
-                frequencyText.text = walkieTalkieChannelData[currentChannelIndex].frequencyText;
-                channelNumberText.text = walkieTalkieChannelData[currentChannelIndex].channelText;
-
-                audioSource.PlayOneShot(channelSwitchAudioClip, switchChannelVolume);
-                float waitTime = channelSwitchAudioClip.length / Mathf.Max(0.01f, audioSource.pitch);
-                yield return new WaitForSeconds(waitTime);
+                characterIsTalking = (bool)data;
+                audioHandler.SetPaused(characterIsTalking);
             }
         }
+
+        public void ToggleItem() => StartCoroutine(ToggleItemCoroutine());
+
+        // --- CORRUTINAS DE ANIMACIÓN ---
 
         private IEnumerator ToggleItemCoroutine()
         {
             if (anim == null || animationPlaying) yield break;
 
-            if (itemIsShown && canBeToogled)
+            if (itemIsShown && canBeToogled) // OCULTAR
             {
-                // Volver al canal de Mica si no estamos ahí
-                if (currentChannelIndex != micaChannelIndex)
+                if (currentChannelIndex != callHandler.MicaChannelIndex)
                 {
                     yield return StartCoroutine(ReturnToMicaChannelCoroutine());
                 }
@@ -402,21 +227,20 @@ namespace TwelveG.InteractableObjects
                 anim.Play("HideItem");
                 itemIsShown = false;
                 yield return new WaitUntil(() => !anim.isPlaying);
+
                 GetComponentInParent<PlayerInventory>().HandleTogglingItemsHandState(itemType, false);
                 onItemToggled.Raise(this, itemIsShown);
                 animationPlaying = false;
 
-                // Lógica de llamada perdida durante el guardado
-                if (incomingCallWaiting)
+                if (callHandler.IsIncomingCallWaiting)
                 {
                     yield return new WaitForSeconds(5f);
-                    StartCoroutine(IncomingDialogAlertCourutine());
+                    callHandler.ResumeRingingIfWaiting();
                 }
             }
-            else if (!itemIsShown && canBeToogled)
+            else if (!itemIsShown && canBeToogled) // MOSTRAR
             {
-                frequencyText.text = walkieTalkieChannelData[currentChannelIndex].frequencyText;
-                channelNumberText.text = walkieTalkieChannelData[currentChannelIndex].channelText;
+                UpdateUI();
                 GetComponentInParent<PlayerInventory>().HandleTogglingItemsHandState(itemType, true);
                 animationPlaying = true;
                 ShowItem();
@@ -425,75 +249,53 @@ namespace TwelveG.InteractableObjects
                 onItemToggled.Raise(this, itemIsShown);
                 animationPlaying = false;
 
-                // Al sacar el WT, si no hay llamada entrante, reproducir el ruido del canal actual
-                if (!incomingCallWaiting)
+                if (!callHandler.IsIncomingCallWaiting)
                 {
-                    // Revisamos si el canal actual tiene ruido o diálogo pendiente
-                    WalkieTalkieChannel currentCh = walkieTalkieChannels[currentChannelIndex];
-
-                    if (!currentCh.HasPendingDialog() && currentCh.channelClip != null)
+                    PlayCurrentChannelStatic();
+                }
+                else
+                {
+                    if (currentChannelIndex == callHandler.MicaChannelIndex)
                     {
-                        audioSource.clip = currentCh.channelClip;
-                        audioSource.Play();
+                        callHandler.AcceptWaitingCall();
+                        LockControls();
                     }
                 }
-
-                if (incomingCallWaiting)
-                {
-                    GameEvents.Common.onShowDialog.Raise(this, lastDialogReceived);
-                    incomingCallWaiting = false;
-                    AllowChannelSwitching(false);
-                    AllowItemToBeToggled(false);
-                }
             }
         }
 
-        public void AllowChannelSwitching(bool allow)
+        private IEnumerator ReturnToMicaChannelCoroutine()
         {
-            canSwitchChannel = allow;
-        }
+            audioHandler.Stop();
+            int targetIndex = callHandler.MicaChannelIndex;
 
-        public void SetChannelIndex(int index)
-        {
-            currentChannelIndex = index;
-        }
-
-        // Recibe "onPauseGame"
-        public void ToggleWTAudioSource(Component sender, object data)
-        {
-            if (data != null && !characterIsTalking)
+            while (currentChannelIndex != targetIndex)
             {
-                if ((bool)data)
-                {
-                    audioSource.Pause();
-                }
-                else
-                {
-                    audioSource.UnPause();
-                }
+                int direction = targetIndex > currentChannelIndex ? 1 : -1;
+                currentChannelIndex += direction;
+                UpdateUI();
+
+                float currentPitch = audioHandler.GetCurrentPitch();
+                audioHandler.PlayFastSwitch(currentPitch);
+
+                float waitTime = audioHandler.GetSwitchClipLength() / Mathf.Max(0.01f, currentPitch);
+                yield return new WaitForSeconds(waitTime);
             }
         }
 
-        public void OnDialogNodeRunning(Component sender, object data)
+        private void LockControls()
         {
-            if (data != null)
-            {
-                characterIsTalking = (bool)data;
-
-                if ((bool)data)
-                {
-                    audioSource.Pause();
-                }
-                else
-                {
-                    audioSource.UnPause();
-                }
-            }
+            canSwitchChannel = false;
+            canBeToogled = false;
         }
 
-        public void ToggleItem()
+        private void UnlockControls()
         {
-            StartCoroutine(ToggleItemCoroutine());
+            canSwitchChannel = true;
+            canBeToogled = true;
         }
+
+        public void AllowChannelSwitching(bool allow) => canSwitchChannel = allow;
+        public void SetChannelIndex(int index) => currentChannelIndex = index;
     }
 }
