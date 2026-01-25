@@ -40,6 +40,8 @@ namespace TwelveG.InteractableObjects
             if (callHandler == null) callHandler = GetComponent<WalkieTalkieCallHandler>();
 
             callHandler.Initialize(audioHandler, () => this.itemIsShown);
+
+            currentChannelIndex = callHandler.MicaChannelIndex;
         }
 
         void Update()
@@ -58,7 +60,7 @@ namespace TwelveG.InteractableObjects
 
         public void SetWalkieTalkie(Component sender, object data)
         {
-            // 1. Resolver qué SO usar
+            // Resolver qué SO usar (Delegado al DataHandler)
             WalkieTalkieDataSO targetData = dataHandler.ResolveDataSO(data);
 
             if (targetData == null)
@@ -69,10 +71,13 @@ namespace TwelveG.InteractableObjects
 
             currentWalkieTalkieData = targetData;
 
-            // 2. Construir los canales (Delegado al DataHandler)
+            // Logica de inicialización
             walkieTalkieChannels = dataHandler.BuildChannels(currentWalkieTalkieData);
 
-            // 3. Reproducir estática inicial si corresponde
+            currentChannelIndex = callHandler.MicaChannelIndex;
+            UpdateUI();
+
+            // Reproducir estática si corresponde
             PlayCurrentChannelStatic();
         }
 
@@ -147,10 +152,27 @@ namespace TwelveG.InteractableObjects
             DialogSO dialog = (DialogSO)data;
             if (dialog == null) return;
 
+            // El Manager decide si suena o si se atiende. 
+            // Devuelve TRUE solo si es Simon hablando (auto-show).
             bool shouldShowItem = callHandler.ProcessDialogRequest(dialog, currentChannelIndex);
 
-            if (dialog.characterName == CharacterName.Mica || (dialog.characterName == CharacterName.Simon && !dialog.isSelfDialog))
+            // Se bloquea el item si estamos atendiendo la llamada ahora mismo.
+            bool isMicaCall = dialog.characterName == CharacterName.Mica;
+            bool isSimonCall = dialog.characterName == CharacterName.Simon && !dialog.isSelfDialog;
+
+            if (isMicaCall)
             {
+                // Solo bloqueamos si lo tengo en la mano Y estoy en su canal
+                // Si está guardado, NO BLOQUEAMOS (para poder sacarlo con K)
+                // Si está en otro canal, NO BLOQUEAMOS (para poder cambiar de canal con V/B)
+                if (itemIsShown && currentChannelIndex == callHandler.MicaChannelIndex)
+                {
+                    LockControls();
+                }
+            }
+            else if (isSimonCall)
+            {
+                // Si habla Simon, como forzamos que salga el item, bloqueamos siempre
                 LockControls();
             }
 
