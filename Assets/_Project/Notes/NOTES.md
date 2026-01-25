@@ -1,5 +1,6 @@
 NOVEDADES:
-- Se utilizó un diccionario objectsMap para buscar luego de forma más rápida y eficiente los storedObjects por su ID.
+- Se refactorizó la lógica del WT, individualizandola en 3 handlers extras para trabajar cada uno las lógicas de audio, llamadas entrantes y construcción de datos en tiempo real.
+- Se modificó la lógica de Spotting, previamente luego de spotear un objeto incluso si se desactivaba por su handler, se reactivaba inmediatamente por el PlayerSpotter.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:
@@ -12,6 +13,7 @@ TOFIX:
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 
 TODO - próximo:
+- Al iniciar el evento "Red Hour" los cambios cambian de golpe antes de empezar la lógica de glowing, pudiendo ser observado este cambio por el jugador. Buscar la forma de que esto no suceda (Quizas agregar algo al evento al incio, antes del glowing?)
 - Editar y usar el sonido descargado para sparking light del LightFlickeringHandler.
 - Componer audio para ScaredReactionLong.
 - Trabajar en el evento en sí.
