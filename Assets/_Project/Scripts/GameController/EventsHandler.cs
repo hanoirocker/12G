@@ -66,7 +66,7 @@ namespace TwelveG.GameController
         private int eventIndexToLoad = 0;
         private float originalMasterVolume = 1f;
 
-        private SceneEnum currentSceneEnum;
+        private SceneEnum currentSceneEnum = SceneEnum.None;
         private Coroutine currentEventCoroutine;
         private GameEventBase currentExecutingEvent;
         private bool isEventRunning = false;
@@ -78,6 +78,7 @@ namespace TwelveG.GameController
         public void BuildEvents()
         {
             currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            currentSceneEnum = SceneUtils.RetrieveCurrentSceneEnum();
             VerifySpecificTestSettings();
             InstantiateSceneEventsParent();
             PopulateEventsLists();
@@ -236,8 +237,6 @@ namespace TwelveG.GameController
                 {
                     if (!freeRoam) Debug.LogWarning($"[EventsHandler]: No se encontró transform inicial para {targetEventEnumName}");
 
-                    currentSceneEnum = SceneUtils.RetrieveCurrentSceneEnum();
-
                     switch (currentSceneEnum)
                     {
                         case SceneEnum.Afternoon:
@@ -296,7 +295,7 @@ namespace TwelveG.GameController
 
                 currentExecutingEvent.gameObject.SetActive(true);
                 SetUpCurrentEvent();
-
+                
                 // Actualizar VFX Settings al iniciar el evento
                 if (VFXManager.Instance != null && currentSceneEnum == SceneEnum.Evening)
                 {
