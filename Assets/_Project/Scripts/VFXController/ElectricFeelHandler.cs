@@ -13,7 +13,7 @@ namespace TwelveG.VFXController
 
         [Header("Audio Settings")]
         [SerializeField] private AudioClip electricFeelClip;
-        [SerializeField] private AudioClip faintingClip;
+        // [SerializeField] private AudioClip faintingClip;
 
         private AudioClip currentAudioClip;
         private bool isEffectEnabled = false;
@@ -171,16 +171,17 @@ namespace TwelveG.VFXController
                 currentAudioClip = null;
                 // Al poner 0, el UpdateEffectCoroutine bajará el volumen y eventualmente llamará a ReleaseAudioSource
             }
-            else if (multiplier == 1f)
-            {
-                isEffectEnabled = true;
+            // else if (multiplier == 1f)
+            // {
+            //     isEffectEnabled = true;
 
-                if (electricFeelAudioSource != null && electricFeelAudioSource.isPlaying)
-                {
-                    electricFeelAudioSource.Stop();
-                }
-                currentAudioClip = faintingClip;
-            }
+            //     if (electricFeelAudioSource != null && electricFeelAudioSource.isPlaying)
+            //     {
+            //         electricFeelAudioSource.Stop();
+            //     }
+
+            //     currentAudioClip = faintingClip;
+            // }
 
             RecalculateTargetIntensity();
 

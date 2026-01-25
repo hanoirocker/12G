@@ -15,7 +15,7 @@ namespace TwelveG.VFXController
         [SerializeField] private VFXGeneralConfigSO electricFeelGeneralConfigsSO;
 
         [Header("Settings")]
-        [SerializeField, Range(0f, 1f)] private float electricFaintCoefficient = 0.2f;
+        [SerializeField, Range(0f, 1f)] private float electricFaintCoefficient = 0.1f;
 
         // --- DEPENDENCIAS ---
         private PostProcessingHandler postProcessingHandler;
