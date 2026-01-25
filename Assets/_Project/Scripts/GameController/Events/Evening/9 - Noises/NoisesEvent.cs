@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
-using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.UIController;
 using TwelveG.Utils;
@@ -16,10 +15,6 @@ namespace TwelveG.GameController
         [SerializeField, Range(1, 10)] private int initialTime = 0;
 
         [Space]
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onObservationCanvasShowText;
-
-        [Space]
         [Header("Text event SO")]
         [SerializeField] private List<ObservationTextSO> eventObservationsTextsSOs;
         [SerializeField] private DialogSO[] dialogSOs;
@@ -28,13 +23,13 @@ namespace TwelveG.GameController
 
         [Space]
         [Header("Other eventsSO references")]
-        [SerializeField] private GameEventSO activateMicaEntranceCollider;
+        [SerializeField] private GameEventSO activateMicaEntranceUpstairsCollider;
 
         private bool allowNextAction = false;
 
         public override IEnumerator Execute()
         {
-            // TODO: borrar (solo de prueba)
+            // NOTA: COMENTAR LUEGO DE PROBAR EVENTO EN SOLITARIO
             // GameEvents.Common.onEnablePlayerItem.Raise(this, ItemType.WalkieTalkie);
 
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
@@ -54,7 +49,7 @@ namespace TwelveG.GameController
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
 
-            activateMicaEntranceCollider.Raise(this, null);
+            activateMicaEntranceUpstairsCollider.Raise(this, null);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.Helicopter1);
 
             // "Entrance - Spot" dispara el evento micaEntranceSpotted al ser chekeado por Simon
@@ -139,6 +134,14 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
                 eventObservationsTextsSOs[2].observationTextsStructure[0].observationText
             ));
+        }
+
+        public void OnMicaEntranceSpotted(Component sender, object data)
+        {
+            // Desactivo el collider para que no pueda spottearlo otra vez
+            sender.gameObject.SetActive(false);
+
+            allowNextAction = true;
         }
 
         public void AllowNextActions(Component sender, object data)

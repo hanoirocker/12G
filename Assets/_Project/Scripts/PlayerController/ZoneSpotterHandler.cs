@@ -19,17 +19,20 @@ namespace TwelveG.PlayerController
     private void OnEnable()
     {
       hasBeenSpotted = false;
+      canBeSpotted = true;
     }
 
     public void SpotOnObject(bool playerIsZooming)
     {
       if (!needsToBeZoomed || (needsToBeZoomed && playerIsZooming))
       {
-        Debug.Log("Zone spotted!");
-        hasBeenSpotted = true;
-
+        // No desactivamos el objeto porque puede ser necesario que el jugador lo siga viendo 
+        // en pantalla aunque ya lo haya spotteado (ejemplo: Enemigo)
+        // Eventualmente para colliders se desactiva desde el listener del evento
         if (disableAfterSpotted) canBeSpotted = false;
 
+        Debug.Log("Zone spotted!");
+        hasBeenSpotted = true;
         eventToTrigger?.Raise(this, null);
       }
     }

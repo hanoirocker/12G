@@ -66,22 +66,11 @@ namespace TwelveG.PlayerController
       if (potentialTarget != null)
       {
         potentialTarget.SpotOnObject(cameraZoom.playerIsZooming());
-
-        if (lastSpottedObject != null && lastSpottedObject != potentialTarget)
-        {
-          lastSpottedObject.IsAbleToBeSpotted(true);
-        }
-
         lastSpottedObject = potentialTarget;
       }
       else
       {
-        // Si antes estaba mirando algo, le aviso que ya no lo miro
-        if (lastSpottedObject != null)
-        {
-          lastSpottedObject.IsAbleToBeSpotted(true);
-        }
-
+        // Si antes estaba mirando algo, borro su referencia
         lastSpottedObject = null;
       }
     }
