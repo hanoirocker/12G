@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se creó el contenedor de información de alucionaciones HalucinationsProfileSO para usar en el renombrado HallucinationsHandler (ex DistortionEffectHandler). Dependiendo del enum de alucinación se ejecutan distantas corrutinas.
+- Se utilizó un diccionario objectsMap para buscar luego de forma más rápida y eficiente los storedObjects por su ID.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:

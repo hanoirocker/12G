@@ -54,6 +54,7 @@ namespace TwelveG.EnvironmentController
 
         [Header("Light References")]
         [SerializeField] private Light[] HouseLights;
+        [Space(5)]
         [SerializeField] private Renderer[] HouseLightsBulbs;
         [Space(5)]
         [SerializeField] private LightSwitchHandler[] LightSwitches;
@@ -66,6 +67,9 @@ namespace TwelveG.EnvironmentController
 
         [SerializeField, Range(0f, 15f)] private float defaultDelay = 0.3f;
 
+        // Diccionario extras para optimizar la búsqueda de prefabs por ID
+        private Dictionary<string, GameObject> objectsMap = new Dictionary<string, GameObject>();
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -74,6 +78,28 @@ namespace TwelveG.EnvironmentController
                 return;
             }
             Instance = this;
+
+            // --- INICIALIZACIÓN DEL DICCIONARIO ---
+            InitializeObjectsMap();
+        }
+
+        private void InitializeObjectsMap()
+        {
+            objectsMap.Clear();
+            foreach (var prefab in storedPrefabs)
+            {
+                if (prefab != null)
+                {
+                    if (!objectsMap.ContainsKey(prefab.name))
+                    {
+                        objectsMap.Add(prefab.name, prefab);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[PlayerHouseHandler] DUPLICADO DETECTADO: El objeto '{prefab.name}' está dos veces en la lista. Se ignoró el segundo.");
+                    }
+                }
+            }
         }
 
         private void OnDestroy()
@@ -205,37 +231,28 @@ namespace TwelveG.EnvironmentController
 
         public GameObject GetStoredObjectByID(string objectID)
         {
-            if (storedPrefabs == null || storedPrefabs.Length == 0)
+            if (objectsMap.TryGetValue(objectID, out GameObject foundObject))
             {
-                return null;
+                return foundObject;
             }
 
-            foreach (GameObject prefab in storedPrefabs)
-            {
-                if (prefab.name == objectID)
-                {
-                    return prefab;
-                }
-            }
-
-            Debug.Log("Prefab con ID " + objectID + " no encontrado.");
+            Debug.LogWarning($"[PlayerHouseHandler] Objeto con ID '{objectID}' no encontrado en el Mapa.");
             return null;
         }
 
         public void ToggleStoredPrefabs(ObjectData objectData)
         {
-            if (storedPrefabs == null || storedPrefabs.Length == 0)
+            if (objectsMap.TryGetValue(objectData.objectID, out GameObject foundObject))
             {
-                return;
-            }
-
-            foreach (GameObject prefab in storedPrefabs)
-            {
-                if (prefab.name == objectData.objectID)
+                // Solo activar/desactivar si el estado es diferente
+                if (foundObject.activeSelf != objectData.isActive)
                 {
-                    prefab.SetActive(objectData.isActive);
-                    break;
+                    foundObject.SetActive(objectData.isActive);
                 }
+            }
+            else
+            {
+                Debug.LogWarning($"[PlayerHouseHandler] No se pudo hacer Toggle. ID '{objectData.objectID}' desconocido.");
             }
         }
     }
