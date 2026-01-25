@@ -1,7 +1,6 @@
 using UnityEngine;
 using TwelveG.AudioController;
 using TwelveG.PlayerController;
-using System;
 using System.Collections;
 
 namespace TwelveG.VFXController
@@ -41,6 +40,7 @@ namespace TwelveG.VFXController
 
         private AudioSource resonanceAudioSource;
         private AudioSourceState resonanceSourceState;
+
         private AudioSource heartBeatAudioSource;
         private AudioSourceState heartBeatSourceState;
         private Coroutine heartbeatCoroutine;
@@ -69,13 +69,11 @@ namespace TwelveG.VFXController
         {
             float targetIntensity = 0f;
 
-            // Solo calculamos objetivo si hay zona activa, el efecto está habilitado y tenemos player
             if (activeResonanceZone != null && isEffectEnabled && playerTransform != null)
             {
                 Vector3 directionToPlayer = playerTransform.position - activeResonanceZone.position;
                 float distance = directionToPlayer.magnitude;
 
-                // Raycast de oclusión
                 if (Physics.Raycast(activeResonanceZone.position, directionToPlayer.normalized, out RaycastHit hit, distance, obstacleLayer))
                 {
                     targetIntensity = 0f;
@@ -84,23 +82,16 @@ namespace TwelveG.VFXController
                 {
                     float rawIntensity = Mathf.InverseLerp(currentMaxEffectDistance, maxEffectDistanceOffset, distance);
                     targetIntensity = rawIntensity * resonanceIntensityMultiplier;
-
-                    // Loggear distancia actual entre zona y player
-                    // (Ideal para modificar minDistanceForMaxImpact en ResonanceZone.cs)
-                    // Debug.Log($"Distancia a centro de zona: {distance}");
                 }
             }
 
-            // Interpolación
             currentAppliedIntensity = Mathf.Lerp(currentAppliedIntensity, targetIntensity, Time.deltaTime * effectSmoothSpeed);
 
-            // Aplicar al PostProcessing
             if (postProcessingHandler != null)
             {
                 postProcessingHandler.SetHeadacheWeight(currentAppliedIntensity);
             }
 
-            // Comunicar al PlayerController para iniciar el efecto de mareo
             if (currentAppliedIntensity > dizzinessThreshold)
             {
                 if (!dizzinessEffectRunning)
@@ -141,20 +132,29 @@ namespace TwelveG.VFXController
 
             if (enable)
             {
+                // Solo pedimos fuente si no tenemos ya una
                 if (heartBeatAudioSource == null)
                 {
+                    // Asumiendo que ReturnFreeAudioSource devuelve una fuente YA reservada/claimed
                     heartBeatAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Player);
-                    heartBeatSourceState = heartBeatAudioSource.GetSnapshot();
-                    heartBeatAudioSource.clip = heartbeatClip;
-                    heartBeatAudioSource.loop = true;
-                    heartBeatAudioSource.volume = 0f;
-                    heartBeatAudioSource.Play();
+
+                    if (heartBeatAudioSource != null)
+                    {
+                        heartBeatSourceState = heartBeatAudioSource.GetSnapshot();
+                        heartBeatAudioSource.clip = heartbeatClip;
+                        heartBeatAudioSource.loop = true;
+                        heartBeatAudioSource.volume = 0f;
+                        heartBeatAudioSource.Play();
+                    }
                 }
 
-                float targetVol = resonanceIntensityMultiplier * heartBeatVolumeMultiplier;
-                heartbeatCoroutine = StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(
-                    heartBeatAudioSource, heartBeatAudioSource.volume, targetVol, heartBeatFadeInSpeed
-                ));
+                if (heartBeatAudioSource != null)
+                {
+                    float targetVol = resonanceIntensityMultiplier * heartBeatVolumeMultiplier;
+                    heartbeatCoroutine = StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(
+                        heartBeatAudioSource, heartBeatAudioSource.volume, targetVol, heartBeatFadeInSpeed
+                    ));
+                }
             }
             else
             {
@@ -165,7 +165,6 @@ namespace TwelveG.VFXController
             }
         }
 
-        // Corrutina auxiliar para manejar el ciclo de vida del Fade Out
         private IEnumerator FadeOutAndReturnRoutine()
         {
             if (heartBeatAudioSource == null) yield break;
@@ -176,8 +175,7 @@ namespace TwelveG.VFXController
 
             if (heartBeatAudioSource != null)
             {
-                heartBeatAudioSource.Stop();
-                heartBeatAudioSource.RestoreSnapshot(heartBeatSourceState);
+                AudioUtils.StopAndRestoreAudioSource(heartBeatAudioSource, heartBeatSourceState);
                 heartBeatAudioSource = null;
             }
             heartbeatCoroutine = null;
@@ -196,8 +194,6 @@ namespace TwelveG.VFXController
             }
         }
 
-        // --- Métodos Controlados por el Manager ---
-        // El radio real se calculo en el ResonanceZone.cs
         public void EnterZone(Transform zone, float radius, float minDistanceForMaxImpact)
         {
             if (!isEffectEnabled) return;
@@ -237,9 +233,10 @@ namespace TwelveG.VFXController
 
         private void PlayResonanceAudio(Vector3 position, float maxDist)
         {
-            if (resonanceAudioSource == null || !resonanceAudioSource.isPlaying)
+            if (resonanceAudioSource == null)
             {
                 resonanceAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
+
                 if (resonanceAudioSource != null)
                 {
                     resonanceSourceState = resonanceAudioSource.GetSnapshot();
@@ -251,14 +248,20 @@ namespace TwelveG.VFXController
                     resonanceAudioSource.Play();
                 }
             }
+            else
+            {
+                // Si ya teníamos una fuente (ej: salimos y entramos rápido), actualizamos posición
+                resonanceAudioSource.transform.position = position;
+                resonanceAudioSource.maxDistance = maxDist;
+                if (!resonanceAudioSource.isPlaying) resonanceAudioSource.Play();
+            }
         }
 
         private void StopResonanceAudio()
         {
             if (resonanceAudioSource != null)
             {
-                resonanceAudioSource.Stop();
-                resonanceAudioSource.RestoreSnapshot(resonanceSourceState);
+                AudioUtils.StopAndRestoreAudioSource(resonanceAudioSource, resonanceSourceState);
                 resonanceAudioSource = null;
             }
         }

@@ -17,6 +17,29 @@ namespace TwelveG.VFXController
         private DepthOfField electricDoF;
         private Vignette electricVignette;
 
+        private void Start()
+        {
+            InitializeOverrides();
+        }
+
+        private void InitializeOverrides()
+        {
+            if (electricFeelVolume != null && electricFeelVolume.profile != null)
+            {
+                // Intentamos obtener el componente DepthOfField del perfil
+                if (!electricFeelVolume.profile.TryGet(out electricDoF))
+                {
+                    Debug.LogWarning("[PostProcessingHandler] No se encontró 'DepthOfField' en el perfil de ElectricFeel.");
+                }
+
+                // Intentamos obtener el componente Vignette del perfil
+                if (!electricFeelVolume.profile.TryGet(out electricVignette))
+                {
+                    Debug.LogWarning("[PostProcessingHandler] No se encontró 'Vignette' en el perfil de ElectricFeel.");
+                }
+            }
+        }
+
         public void SetHeadacheWeight(float weight)
         {
             if (headacheVolume != null) headacheVolume.weight = Mathf.Clamp01(weight);
@@ -45,7 +68,6 @@ namespace TwelveG.VFXController
 
         public IEnumerator DoFAndVignetteRoutine(float duration, float targetVignetteIntensity, float minFocusDist, float maxFocusDist)
         {
-
             if (electricVignette != null)
             {
                 electricVignette.active = true;

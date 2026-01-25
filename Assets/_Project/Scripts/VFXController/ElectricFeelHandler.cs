@@ -17,13 +17,12 @@ namespace TwelveG.VFXController
 
         private AudioClip currentAudioClip;
         private bool isEffectEnabled = false;
-        private bool isItemShown = false; // Guardamos el estado del objeto
+        private bool isItemShown = false;
 
-        private float maxEventIntensity = 0f; // La intensidad "global" del evento
-        private float currentTargetIntensity = 0f; // La meta actual (depende del item)
+        private float maxEventIntensity = 0f;
+        private float currentTargetIntensity = 0f;
         private float minIntensityCoefficient = 0.5f;
 
-        // Variables para rastrear el estado actual exacto
         private float currentWeight = 0f;
         private float currentVolume = 0f;
 
@@ -31,29 +30,26 @@ namespace TwelveG.VFXController
 
         private Coroutine updateEffectCoroutine;
         private PostProcessingHandler postProcessingHandler;
+
         private AudioSource electricFeelAudioSource;
         private AudioSourceState audioSourceState;
 
         private void OnEnable()
         {
-            // Reseteamos valores actuales al habilitar para empezar limpios
             currentWeight = 0f;
             currentVolume = 0f;
-
-            // Calculamos objetivo inicial
             RecalculateTargetIntensity();
 
-            StartTransition(effectFadeInDuration);
+            // Solo pedimos fuente si realmente vamos a sonar (intensidad > 0)
+            if (currentTargetIntensity > 0 || isEffectEnabled)
+            {
+                StartTransition(effectFadeInDuration);
+            }
         }
 
         private void OnDisable()
         {
-            if (electricFeelAudioSource != null)
-            {
-                electricFeelAudioSource.Stop();
-                electricFeelAudioSource.RestoreSnapshot(audioSourceState);
-                electricFeelAudioSource = null;
-            }
+            ReleaseAudioSource();
 
             if (postProcessingHandler != null)
                 postProcessingHandler.SetElectricFeelWeight(0f);
@@ -61,7 +57,15 @@ namespace TwelveG.VFXController
             currentWeight = 0f;
         }
 
-        // Método centralizado para recalcular la meta basado en estado del evento y del item
+        private void ReleaseAudioSource()
+        {
+            if (electricFeelAudioSource != null)
+            {
+                AudioUtils.StopAndRestoreAudioSource(electricFeelAudioSource, audioSourceState);
+                electricFeelAudioSource = null;
+            }
+        }
+
         private void RecalculateTargetIntensity()
         {
             if (!isEffectEnabled)
@@ -70,29 +74,34 @@ namespace TwelveG.VFXController
             }
             else
             {
-                // Si el item está mostrado, usamos el 100% de la intensidad del evento.
-                // Si no, usamos el coeficiente (50%).
                 currentTargetIntensity = isItemShown ? maxEventIntensity : maxEventIntensity * minIntensityCoefficient * 0.5f;
             }
         }
 
         public void StartTransition(float duration)
         {
+            // Solo pedimos fuente si no tenemos una
             if (electricFeelAudioSource == null)
             {
                 electricFeelAudioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
-                audioSourceState = electricFeelAudioSource.GetSnapshot();
-                electricFeelAudioSource.spatialBlend = 0f;
-                electricFeelAudioSource.loop = true;
-                electricFeelAudioSource.volume = 0f;
+
+                if (electricFeelAudioSource != null)
+                {
+                    audioSourceState = electricFeelAudioSource.GetSnapshot();
+                    electricFeelAudioSource.spatialBlend = 0f;
+                    electricFeelAudioSource.loop = true;
+                    electricFeelAudioSource.volume = 0f;
+                }
             }
+
+            // Si falló al pedir fuente, salimos para evitar errores
+            if (electricFeelAudioSource == null) return;
 
             electricFeelAudioSource.clip = currentAudioClip;
 
             if (!electricFeelAudioSource.isPlaying)
             {
                 electricFeelAudioSource.Play();
-
             }
 
             if (updateEffectCoroutine != null) StopCoroutine(updateEffectCoroutine);
@@ -104,12 +113,8 @@ namespace TwelveG.VFXController
             float startWeight = currentWeight;
             float startVolume = currentVolume;
 
-            // Calculamos el volumen objetivo proporcional a la intensidad
-            // Si la intensidad objetivo es 0, volumen es 0. Si es maxEventIntensity, volumen es effectMaxVolume.
-            // Usamos una regla de tres simple basada en la intensidad máxima posible (1.0f)
             float targetVolume = (currentTargetIntensity > 0) ? effectMaxVolume * (currentTargetIntensity / maxEventIntensity) : 0f;
 
-            // Protección contra división por cero o duraciones muy cortas
             if (duration <= 0.01f) duration = 0.1f;
 
             float elapsedTime = 0f;
@@ -119,17 +124,17 @@ namespace TwelveG.VFXController
                 elapsedTime += Time.deltaTime;
                 float t = elapsedTime / duration;
 
-                // Lerp desde donde estábamos (startWeight) hasta la nueva meta
                 currentWeight = Mathf.Lerp(startWeight, currentTargetIntensity, t);
                 currentVolume = Mathf.Lerp(startVolume, targetVolume, t);
 
                 postProcessingHandler.SetElectricFeelWeight(currentWeight);
-                electricFeelAudioSource.volume = currentVolume;
+
+                if (electricFeelAudioSource != null)
+                    electricFeelAudioSource.volume = currentVolume;
 
                 yield return null;
             }
 
-            // Aseguramos valores finales exactos
             currentWeight = currentTargetIntensity;
             currentVolume = targetVolume;
 
@@ -138,6 +143,12 @@ namespace TwelveG.VFXController
 
             if (electricFeelAudioSource != null)
                 electricFeelAudioSource.volume = currentVolume;
+
+            // Si el volumen llegó a 0 y la intención es apagarse, liberamos la fuente
+            if (currentVolume <= 0.01f && currentTargetIntensity <= 0.01f)
+            {
+                ReleaseAudioSource();
+            }
         }
 
         public void SetAudioSettings(float volume)
@@ -145,11 +156,8 @@ namespace TwelveG.VFXController
             effectMaxVolume = volume;
         }
 
-        // Llamado por VFXManager
         public void SetIntensity(float multiplier)
         {
-            Debug.Log($"Updating to ...: {multiplier}");
-
             maxEventIntensity = multiplier;
 
             if (multiplier > 0f && multiplier < 1f)
@@ -161,12 +169,13 @@ namespace TwelveG.VFXController
             {
                 isEffectEnabled = false;
                 currentAudioClip = null;
+                // Al poner 0, el UpdateEffectCoroutine bajará el volumen y eventualmente llamará a ReleaseAudioSource
             }
             else if (multiplier == 1f)
             {
                 isEffectEnabled = true;
 
-                if (electricFeelAudioSource.isPlaying)
+                if (electricFeelAudioSource != null && electricFeelAudioSource.isPlaying)
                 {
                     electricFeelAudioSource.Stop();
                 }
@@ -174,9 +183,14 @@ namespace TwelveG.VFXController
             }
 
             RecalculateTargetIntensity();
+
+            // Si habilitamos el efecto y no hay corrutina corriendo, iniciamos una transición
+            if (isEffectEnabled)
+            {
+                StartTransition(effectFadeInDuration);
+            }
         }
 
-        // Callback del evento (OnItemShown / Hidden)
         public void ReduceEffectCoefficient(Component sender, object data)
         {
             if (sender.gameObject.name != "WalkieTalkie")
