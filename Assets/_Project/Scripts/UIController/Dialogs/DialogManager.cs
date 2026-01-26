@@ -77,24 +77,27 @@ namespace TwelveG.DialogsController
         private IEnumerator StartDialogCoroutine(DialogSO currentDialog)
         {
             float timeBeforeShowing = currentDialog.timeBeforeShowing;
-
             currentOptions = currentDialog.dialogOptions;
 
             yield return new WaitForSeconds(timeBeforeShowing);
 
-            if (currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
+            // Si NO es un pensamiento interno, asumimos que es audio que debe pausar la estática.
+            // Esto incluye a Mica, Simon (hablando), Policia, Unknown, etc.
+            bool shouldPauseStatic = !currentDialog.isSelfDialog;
+
+            if (shouldPauseStatic)
             {
-                if (!currentDialog.isSelfDialog)
-                {
-                    GameEvents.Common.onDialogNodeRunning.Raise(this, true);
-                }
+                // Enviamos TRUE a WT: El diálogo está corriendo, silencia la estática de fondo
+                GameEvents.Common.onDialogNodeRunning.Raise(this, true);
             }
 
+            // --- Preparación de Texto y Audio ---
             string textToShow = Utils.TextFunctions.RetrieveDialogText(
                     LocalizationManager.Instance.GetCurrentLanguageCode(),
                     currentDialog
                 );
 
+            // Beep inicial de Simon
             if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
             {
                 yield return StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayBeepSound());
@@ -102,64 +105,60 @@ namespace TwelveG.DialogsController
 
             float dialogTime = currentDialog.spanishDialogClip != null ? currentDialog.spanishDialogClip.length : Utils.TextFunctions.CalculateTextDisplayDuration(textToShow);
 
+            // Reproducción del clip de voz
             if (currentDialog.spanishDialogClip != null)
             {
-                if (currentDialog.characterName == CharacterName.Simon)
-                {
-                    StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip, isSimon: true));
-                }
-                else
-                {
-                    StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip, isSimon: false));
-                }
+                bool isSimon = currentDialog.characterName == CharacterName.Simon;
+                StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip, isSimon: isSimon));
             }
 
+            // Evento de inicio (ej: animaciones)
             if (currentDialog.startingEvent != null)
             {
                 currentDialog.startingEvent.Raise(this, null);
             }
 
-            CharacterName charName = currentDialog.characterName;
             string charNameString;
+            switch (currentDialog.characterName)
+            {
+                case CharacterName.Simon:
+                case CharacterName.Mica:
+                    charNameString = currentDialog.characterName.ToString();
+                    break;
+                case CharacterName.Cops:
+                    charNameString = "POLICIA";
+                    break;
+                case CharacterName.Unknown:
+                    charNameString = "???";
+                    break;
+                default:
+                    charNameString = "";
+                    break;
+            }
 
-            if (charName == CharacterName.Simon || charName == CharacterName.Mica)
-            {
-                charNameString = currentDialog.characterName.ToString();
-            }
-            else if( charName == CharacterName.Cops)
-            {
-                charNameString = " ... ";
-            }
-            else if( charName == CharacterName.Unknown)
-            {
-                charNameString = "UNKNOWN";
-            }
-            else
-            {
-                charNameString = "NO CHAR NAME";
-            }
-
+            // --- Mostrar UI y Esperar ---
             yield return ShowDialogCoroutine(charNameString, textToShow, dialogTime);
 
+            // Beep final de Simon
             if (currentDialog.characterName == CharacterName.Simon && !currentDialog.isSelfDialog)
             {
                 yield return StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayBeepSound());
             }
 
+            // Evento de finalización
             if (currentDialog.endingEvent != null)
             {
                 currentDialog.endingEvent.Raise(this, null);
             }
 
-            if (currentDialog.characterName == CharacterName.Simon || currentDialog.characterName == CharacterName.Mica)
+            // Reactivar Estática en WT
+            if (shouldPauseStatic)
             {
-                if (!currentDialog.isSelfDialog)
-                {
-                    GameEvents.Common.onDialogNodeRunning.Raise(this, false);
-                }
+                // Enviamos FALSE a WT: "El diálogo terminó, puedes reanudar el ruido de fondo"
+                GameEvents.Common.onDialogNodeRunning.Raise(this, false);
             }
 
-            // Verifica si el diálogo tiene opciones
+            // --- Siguiente Paso ---
             if (currentOptions != null && currentOptions.Count > 0)
             {
                 ShowOptions();
@@ -185,13 +184,8 @@ namespace TwelveG.DialogsController
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
-            // Elimina cualquier botón existente
-            foreach (Transform child in optionsPanel.transform)
-            {
-                Destroy(child.gameObject);
-            }
+            foreach (Transform child in optionsPanel.transform) Destroy(child.gameObject);
 
-            // Instancia botones basados en la cantidad de opciones
             for (int i = 0; i < currentOptions.Count; i++)
             {
                 GameObject optionButton = Instantiate(buttonPrefab, optionsPanel.transform);

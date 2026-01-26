@@ -99,8 +99,7 @@ namespace TwelveG.InteractableObjects
             if (currentChannelIndex == currentWalkieTalkieData.FrequencyData.Count - 1 && direction == +1) yield break;
 
             // Audio Switch
-            audioHandler.PlayChannelSwitch();
-            yield return new WaitForFixedUpdate();
+            yield return StartCoroutine(audioHandler.PlayChannelSwitch());
 
             // Cambio de índice
             currentChannelIndex += direction;
@@ -112,6 +111,39 @@ namespace TwelveG.InteractableObjects
             // Lógica de Diálogos Pendientes
             WalkieTalkieChannel currentChannelObj = walkieTalkieChannels[currentChannelIndex];
 
+            // 1. CHEQUEO DE LORE (Prioridad 1)
+            if (currentChannelObj.loreClip != null && !currentChannelObj.hasPlayedLore)
+            {
+                //LockControls();
+
+                // Reproducimos el Lore clips si existen
+                audioHandler.PlayLoreClip(currentChannelObj.loreClip);
+
+                // Esperamos que termine el audio
+                yield return new WaitForSeconds(currentChannelObj.loreClip.length);
+
+                // Marcamos como escuchado para que si vuelve al canal, suene estática
+                currentChannelObj.hasPlayedLore = true;
+
+                // ¿Hay reacción de Simon?
+                if (currentChannelObj.reactionDialog != null)
+                {
+                    GameEvents.Common.onShowDialog.Raise(this, currentChannelObj.reactionDialog);
+                }
+
+                // Al terminar el evento especial, pasamos a la estática de ese canal
+                audioHandler.PlayStatic(currentChannelObj.staticClip);
+
+                UnlockControls();
+            }
+            // 2. CHEQUEO DE ESTÁTICA NORMAL (Si no hubo lore o ya pasó)
+            else
+            {
+                // Reproducimos la estática propia del canal
+                audioHandler.PlayStatic(currentChannelObj.staticClip);
+            }
+
+            // 3. CHEQUEO DE DIÁLOGOS PENDIENTES (Policía / Eventos Scriptados)
             if (currentChannelObj.HasPendingDialog())
             {
                 GameEvents.Common.onShowDialog.Raise(this, currentChannelObj.pendingDialog);
@@ -120,7 +152,7 @@ namespace TwelveG.InteractableObjects
                 yield break;
             }
 
-            // Lógica de Llamada Entrante
+            // 4. Lógica de Llamada Entrante (Mica)
             if (currentChannelIndex == callHandler.MicaChannelIndex && callHandler.IsIncomingCallWaiting)
             {
                 callHandler.AcceptWaitingCall();
@@ -140,7 +172,7 @@ namespace TwelveG.InteractableObjects
         {
             if (currentChannelIndex < walkieTalkieChannels.Length)
             {
-                var clip = walkieTalkieChannels[currentChannelIndex].channelClip;
+                var clip = walkieTalkieChannels[currentChannelIndex].staticClip;
                 audioHandler.PlayStatic(clip);
             }
         }
@@ -218,7 +250,7 @@ namespace TwelveG.InteractableObjects
 
         public void ToggleWTAudioSource(Component sender, object data)
         {
-            if (data != null && !characterIsTalking) audioHandler.SetPaused((bool)data);
+            if (data != null) audioHandler.SetPaused((bool)data);
         }
 
         public void OnDialogNodeRunning(Component sender, object data)
@@ -226,7 +258,18 @@ namespace TwelveG.InteractableObjects
             if (data != null)
             {
                 characterIsTalking = (bool)data;
-                audioHandler.SetPaused(characterIsTalking);
+                // Llama a SetPaused en el AudioHandler
+                if (characterIsTalking)
+                {
+                    audioHandler.SetPaused(true);
+                }
+                else
+                {
+                    if (!walkieTalkieChannels[currentChannelIndex].HasPendingDialog())
+                    {
+                        PlayCurrentChannelStatic();
+                    }
+                }
             }
         }
 

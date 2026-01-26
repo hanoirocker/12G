@@ -15,18 +15,18 @@ MonoBehaviour:
   eventName: 17
   frequencyData:
   - frequencyName: Canal 1
-    hasSpecialAudio: 0
-    clips:
-    - {fileID: 0}
+    staticSignalClip: {fileID: 8300000, guid: 3e7aec5f7f2a14245a37271edc3b0ef6, type: 3}
+    loreEventClip: {fileID: 0}
+    reactionDialog: {fileID: 0}
   - frequencyName: Canal 2
-    hasSpecialAudio: 0
-    clips:
-    - {fileID: 0}
+    staticSignalClip: {fileID: 8300000, guid: 3e7aec5f7f2a14245a37271edc3b0ef6, type: 3}
+    loreEventClip: {fileID: 0}
+    reactionDialog: {fileID: 0}
   - frequencyName: Canal 3 (Mica)
-    hasSpecialAudio: 0
-    clips:
-    - {fileID: 0}
+    staticSignalClip: {fileID: 0}
+    loreEventClip: {fileID: 0}
+    reactionDialog: {fileID: 0}
   - frequencyName: Canal 4
-    hasSpecialAudio: 0
-    clips:
-    - {fileID: 8300000, guid: 3e7aec5f7f2a14245a37271edc3b0ef6, type: 3}
+    staticSignalClip: {fileID: 8300000, guid: 3e7aec5f7f2a14245a37271edc3b0ef6, type: 3}
+    loreEventClip: {fileID: 0}
+    reactionDialog: {fileID: 0}

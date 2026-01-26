@@ -20,11 +20,15 @@ namespace TwelveG.InteractableObjects
 
             for (int i = 0; i < frequencyCount; i++)
             {
+                var soData = data.FrequencyData[i];
+
                 channels[i] = new WalkieTalkieChannel
                 {
                     channelIndex = i,
-                    // Si hay clips, tomamos el primero, si no, null
-                    channelClip = (data.FrequencyData[i].clips.Count > 0) ? data.FrequencyData[i].clips[0] : null,
+                    staticClip = soData.staticSignalClip, // Mapeamos estática
+                    loreClip = soData.loreEventClip,      // Mapeamos lore
+                    reactionDialog = soData.reactionDialog, // Mapeamos reacción
+                    hasPlayedLore = false, // Reseteamos el flag al cargar nueva data
                     pendingDialog = null
                 };
             }

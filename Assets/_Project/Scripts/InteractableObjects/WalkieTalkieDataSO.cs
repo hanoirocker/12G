@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TwelveG.DialogsController;
 using TwelveG.GameController;
 using UnityEngine;
 
@@ -12,10 +13,10 @@ namespace TwelveG.InteractableObjects
         [SerializeField]
         private List<FrequencyDataStructure> frequencyData = new List<FrequencyDataStructure>(4)
         {
-            new FrequencyDataStructure("Canal 1"),
-            new FrequencyDataStructure("Canal 2"),
+            new FrequencyDataStructure("Canal 1 (Aguirre)"),
+            new FrequencyDataStructure("Canal 2 (Noticias)"),
             new FrequencyDataStructure("Canal 3 (Mica)"),
-            new FrequencyDataStructure("Canal 4")
+            new FrequencyDataStructure("Canal 4 (Policía)")
         };
 
         public List<FrequencyDataStructure> FrequencyData => frequencyData;
@@ -24,28 +25,38 @@ namespace TwelveG.InteractableObjects
         public class FrequencyDataStructure
         {
             [HideInInspector] public string frequencyName;
-            public bool hasSpecialAudio;
-            public List<AudioClip> clips;
+
+            [Header("Atmosphere")]
+            [Tooltip("El ruido de fondo/estática único de este canal.")]
+            public AudioClip staticSignalClip;
+
+            [Header("Lore Event (Optional)")]
+            [Tooltip("Audio especial (Historia, interferencia, bebé). Se reproduce UNA vez.")]
+            public AudioClip loreEventClip;
+
+            [Tooltip("Diálogo opcional de Simon al terminar el clip de Lore.")]
+            public DialogSO reactionDialog;
 
             public FrequencyDataStructure(string name)
             {
                 frequencyName = name;
-                hasSpecialAudio = false;
-                clips = new List<AudioClip>();
+                staticSignalClip = null;
+                loreEventClip = null;
+                reactionDialog = null;
             }
         }
+
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            // Asegura que siempre haya 4 entradas con nombres fijos
             if (frequencyData == null || frequencyData.Count != 4)
             {
                 frequencyData = new List<FrequencyDataStructure>
                 {
-                    new FrequencyDataStructure("Canal 1"),
-                    new FrequencyDataStructure("Canal 2"),
+                    new FrequencyDataStructure("Canal 1 (Aguirre)"),
+                    new FrequencyDataStructure("Canal 2 (Noticias)"),
                     new FrequencyDataStructure("Canal 3 (Mica)"),
-                    new FrequencyDataStructure("Canal 4")
+                    new FrequencyDataStructure("Canal 4 (Policía)")
                 };
             }
         }

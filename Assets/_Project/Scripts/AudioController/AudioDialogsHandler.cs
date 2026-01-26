@@ -54,6 +54,7 @@ namespace TwelveG.AudioController
         currentSource.clip = dialogClip;
         currentSource.Play();
         yield return new WaitForSeconds(dialogClip.length);
+        currentSource.clip = null;
       }
     }
 
@@ -87,9 +88,11 @@ namespace TwelveG.AudioController
       {
         WTSource.volume = WTBeepVolume;
         WTSource.pitch = 1f;
+        WTSource.loop = false;
         WTSource.clip = WTBeepClip;
         WTSource.Play();
         yield return new WaitForSeconds(WTBeepClip.length);
+        WTSource.clip = null;
       }
     }
   }

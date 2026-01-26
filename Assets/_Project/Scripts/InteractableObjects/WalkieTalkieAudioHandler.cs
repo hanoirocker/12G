@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace TwelveG.InteractableObjects
@@ -20,13 +21,16 @@ namespace TwelveG.InteractableObjects
             audioSource = GetComponent<AudioSource>();
         }
 
-        public void PlayChannelSwitch()
+        public IEnumerator PlayChannelSwitch()
         {
             if (audioSource.isPlaying) audioSource.Stop();
 
             audioSource.loop = false;
             audioSource.pitch = 1f;
-            audioSource.PlayOneShot(channelSwitchClip, switchVolume);
+            audioSource.clip = channelSwitchClip;
+            audioSource.volume = switchVolume;
+            audioSource.Play();
+            yield return new WaitForSeconds(channelSwitchClip.length);
         }
 
         public void PlayFastSwitch(float pitch)
@@ -46,14 +50,30 @@ namespace TwelveG.InteractableObjects
             audioSource.Play();
         }
 
+        // Para el Lore: Volumen alto, sin loop
+        public void PlayLoreClip(AudioClip clip)
+        {
+            if (clip == null) return;
+
+            // Si ya está sonando, paramos
+            if (audioSource.isPlaying) audioSource.Stop();
+
+            audioSource.clip = clip;
+            audioSource.loop = false;
+            audioSource.volume = 1f;
+            audioSource.pitch = 1f;
+            audioSource.Play();
+        }
+
+        // Para la estática: Volumen normal, loop
         public void PlayStatic(AudioClip staticClip)
         {
-            // Solo reproduce si es necesario para evitar cortes
+            // Solo reproducir si no está sonando ya ese mismo clip
             if (staticClip != null && (audioSource.clip != staticClip || !audioSource.isPlaying))
             {
                 audioSource.loop = true;
                 audioSource.clip = staticClip;
-                audioSource.volume = 1f; 
+                audioSource.volume = 0.6f; // Un poco más bajo que el lore quizás
                 audioSource.pitch = 1f;
                 audioSource.Play();
             }
