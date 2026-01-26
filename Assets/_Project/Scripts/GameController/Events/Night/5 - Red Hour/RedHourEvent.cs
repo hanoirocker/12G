@@ -7,6 +7,7 @@ using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
+using TwelveG.UIController;
 using TwelveG.Utils;
 using TwelveG.VFXController;
 using UnityEngine;
@@ -71,6 +72,10 @@ namespace TwelveG.GameController
 
       GetComponent<GlowingPortraitsHandler>().StopGlowingRoutine();
 
+      // Qué carajo fue eso
+      GameEvents.Common.onStartDialog.Raise(this, dialogSOs[0]);
+
+      // "conversationHasEnded"
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
     }
@@ -143,6 +148,12 @@ namespace TwelveG.GameController
 
         return inZone && isLookingAtTarget;
       });
+
+      // Cancelar contemplaciones si se estaban mostrando
+      if(UIManager.Instance.ContemplationCanvasHandler.IsShowingText())
+      {
+        UIManager.Instance.ContemplationCanvasHandler.HideContemplationCanvas();
+      }
 
       // Indica a la Virtual Camera activa que debe mirar hacia el cuadro
       GameEvents.Common.onVirtualCamerasControl.Raise(

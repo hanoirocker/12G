@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6bf10f9dd00a9904ea30ad6e98304f54, type: 3}
-  m_Name: Context - Sculpture_apt_Body
+  m_Name: Context - Night Scul
   m_EditorClassIdentifier: 
   entries:
   - sceneEnum: 1
@@ -25,7 +25,3 @@ MonoBehaviour:
     minEventIndex: 8
     maxEventIndex: 10
     texts: {fileID: 11400000, guid: 0264f7eda44e04bfaa7f2b69cb85e0fc, type: 2}
-  - sceneEnum: 2
-    minEventIndex: 0
-    maxEventIndex: 10
-    texts: {fileID: 11400000, guid: 150589b636d214c4d8c097955b4a0bd8, type: 2}
