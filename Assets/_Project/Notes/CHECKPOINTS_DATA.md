@@ -44,8 +44,8 @@
     - Habilitar item Walkie Talkie. \*DONE
     - {Pickable - Walkie Talkie, unchecked} \*DONE
     - {Player Door Lock, UNLOCKED} \*DONE
-    - {Unwired - Entrance colliders, unchecked} \*DONE
-    - {Unwired - Garage colliders, unchecked} \*DONE
+    - {Entrance Colliders, unchecked} \*DONE
+    - {Garage Colliders, unchecked} \*DONE
     - {Pickable - Flashlight, unchecked} \*DONE
     - Deshabilitar energía en la casa del jugador. \*DONE
     - Habilitar Flashlight. \*DONE
