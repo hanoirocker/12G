@@ -9,6 +9,7 @@ TOCHECK:
 - Agregar mas sonidos stereo para los perfiles sonoros de ambiente?
 
 TOFIX:
+- Hay que limitar la velocidad de los cambios de canal en el walkie talkie. Se puede cambiar tan rápido que faltan instancias del ruido de cambio de canal. Por lo que vi en WalkieTalkieAudioHandler.cs:37, debería funcionar. Agregar un delay extra en esa linea?
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 
 TODO - próximo:

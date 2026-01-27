@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using TMPro;
 using TwelveG.DialogsController;
 using TwelveG.GameController;
 using TwelveG.PlayerController;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace TwelveG.InteractableObjects
 {
@@ -32,6 +36,10 @@ namespace TwelveG.InteractableObjects
         private bool characterIsTalking = false;
         private int currentChannelIndex = 0;
 
+        private int channelCount = 0;
+
+        private Coroutine randomSwitchingCR;
+
         void Start()
         {
             // Auto-asignación de módulos
@@ -52,8 +60,18 @@ namespace TwelveG.InteractableObjects
 
                 if (itemIsShown && canSwitchChannel)
                 {
-                    if (Input.GetKeyDown(KeyCode.V)) StartCoroutine(SwitchChannel(-1));
-                    if (Input.GetKeyDown(KeyCode.B)) StartCoroutine(SwitchChannel(+1));
+                    if (Input.GetKeyDown(KeyCode.V)) StartCoroutine(SwitchChannel(currentChannelIndex - 1, true));
+                    if (Input.GetKeyDown(KeyCode.B)) StartCoroutine(SwitchChannel(currentChannelIndex + 1, true));
+
+                    // for debug
+                    // -1 channel with no switching sound
+                    if (Input.GetKeyDown(KeyCode.N)) StartCoroutine(SwitchChannel(currentChannelIndex - 1, false)); 
+                    // +1 channel with no switching sound
+                    if (Input.GetKeyDown(KeyCode.M)) StartCoroutine(SwitchChannel(currentChannelIndex + 1, false));
+                    // start random channel switching 
+                    if (Input.GetKeyDown(KeyCode.O)) StartRandomChannelSwitching();
+                    // stop random channel switching
+                    if (Input.GetKeyDown(KeyCode.P)) StopRandomChannelSwitching();
                 }
             }
         }
@@ -74,6 +92,8 @@ namespace TwelveG.InteractableObjects
             // Logica de inicialización
             walkieTalkieChannels = dataHandler.BuildChannels(currentWalkieTalkieData);
 
+            channelCount = walkieTalkieChannels.Length;
+
             currentChannelIndex = callHandler.MicaChannelIndex;
             UpdateUI();
 
@@ -81,7 +101,7 @@ namespace TwelveG.InteractableObjects
             PlayCurrentChannelStatic();
         }
 
-        private IEnumerator SwitchChannel(int direction)
+        private IEnumerator SwitchChannel(int newChannel, bool manual)
         {
             // Fallback de inicialización si es null (Testing)
             if (currentWalkieTalkieData == null)
@@ -95,14 +115,23 @@ namespace TwelveG.InteractableObjects
             }
 
             // Límites
-            if (currentChannelIndex == 0 && direction == -1) yield break;
-            if (currentChannelIndex == currentWalkieTalkieData.FrequencyData.Count - 1 && direction == +1) yield break;
+            if (newChannel > channelCount -1 || newChannel < 0) yield break;    
+            
+            if (newChannel > currentWalkieTalkieData.FrequencyData.Count - 1) yield break;
+        
+            currentChannelIndex = newChannel;
 
-            // Audio Switch
-            yield return StartCoroutine(audioHandler.PlayChannelSwitch());
+            if (manual) 
+            {
+                // Audio Switch
+                yield return StartCoroutine(audioHandler.PlayChannelSwitch());
+            }
+            else
+            {
+                // Stop static
+                audioHandler.StopAudioSource();
+            }
 
-            // Cambio de índice
-            currentChannelIndex += direction;
             UpdateUI();
 
             // Audio Estática
@@ -362,5 +391,42 @@ namespace TwelveG.InteractableObjects
 
         public void AllowChannelSwitching(bool allow) => canSwitchChannel = allow;
         public void SetChannelIndex(int index) => currentChannelIndex = index;
+
+
+        public void SwitchToRandomChannel()
+        {
+            int newChannel;
+            // make sure the new random channel is not the same, to avoid affecting the perceived delays
+            do
+            {
+                newChannel = UnityEngine.Random.Range(0, channelCount);
+            } while (newChannel == currentChannelIndex);
+            
+            StartCoroutine(SwitchChannel(newChannel, false));
+        }
+
+        public void StartRandomChannelSwitching()
+        {
+            float minDelay = 0.15f; // hardcoded here for now
+            float maxDelay = 1.0f;
+            // stop any preexisting coroutines to make sure there's only one active at a time
+            if (randomSwitchingCR != null) StopCoroutine(randomSwitchingCR);
+            // keep track of the coroutine to be able to stop it later
+            randomSwitchingCR = StartCoroutine(LoopRandomChannelSwitch(minDelay, maxDelay));
+        }
+
+        private IEnumerator LoopRandomChannelSwitch(float minDelay, float maxDelay)
+            {
+                while (true)
+                {
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(minDelay, maxDelay));
+                    SwitchToRandomChannel();
+                }
+            }
+
+        public void StopRandomChannelSwitching()
+        {
+            if (randomSwitchingCR != null) StopCoroutine(randomSwitchingCR);
+        }
     }
 }
