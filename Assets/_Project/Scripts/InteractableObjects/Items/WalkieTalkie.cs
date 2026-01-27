@@ -61,13 +61,13 @@ namespace TwelveG.InteractableObjects
 
                     // for debug
                     // -1 channel with no switching sound
-                    if (Input.GetKeyDown(KeyCode.N)) StartCoroutine(SwitchChannel(currentChannelIndex - 1, false)); 
+                    // if (Input.GetKeyDown(KeyCode.N)) StartCoroutine(SwitchChannel(currentChannelIndex - 1, false)); 
                     // +1 channel with no switching sound
-                    if (Input.GetKeyDown(KeyCode.M)) StartCoroutine(SwitchChannel(currentChannelIndex + 1, false));
+                    // if (Input.GetKeyDown(KeyCode.M)) StartCoroutine(SwitchChannel(currentChannelIndex + 1, false));
                     // start random channel switching 
-                    if (Input.GetKeyDown(KeyCode.O)) StartRandomChannelSwitching();
+                    // if (Input.GetKeyDown(KeyCode.O)) StartRandomChannelSwitching();
                     // stop random channel switching
-                    if (Input.GetKeyDown(KeyCode.P)) StopRandomChannelSwitching();
+                    // if (Input.GetKeyDown(KeyCode.P)) StopRandomChannelSwitching();
                 }
             }
         }
