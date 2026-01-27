@@ -1,6 +1,7 @@
 using System.Collections;
 using TwelveG.AudioController;
 using TwelveG.GameController;
+using TwelveG.InteractableObjects;
 using TwelveG.PlayerController;
 using UnityEngine;
 
@@ -25,6 +26,10 @@ namespace TwelveG.VFXController
         private HeadacheEffectHandler headacheHandler;
         private ElectricFeelHandler electricFeelHandler;
         private HallucinationHandler hallucinationHandler;
+
+        private WalkieTalkie walkieTalkie;
+
+        private EventsEnum currentEventEnum = EventsEnum.None;
 
         private void Awake()
         {
@@ -64,7 +69,7 @@ namespace TwelveG.VFXController
                 headacheHandler.Initialize(postProcessingHandler);
                 electricFeelHandler.Initialize(postProcessingHandler);
             }
-            else if( currentScene == SceneEnum.Night)
+            else if (currentScene == SceneEnum.Night)
             {
                 hallucinationHandler = GetComponent<HallucinationHandler>();
 
@@ -88,6 +93,8 @@ namespace TwelveG.VFXController
         // Llamado desde EventsHandler.cs al iniciar un nuevo evento para configurar los VFX iniciales
         public void UpdateSceneVFXSettings(EventsEnum eventEnum)
         {
+            currentEventEnum = eventEnum;
+
             if (headacheGeneralConfigsSO == null)
             {
                 Debug.LogWarning("[VFXManager]: Falta asignar el HeadacheFXGeneralConfigSO!");
@@ -110,8 +117,11 @@ namespace TwelveG.VFXController
             }
             if (electricFeelHandler != null)
             {
-                electricFeelHandler.SetIntensity(electricFeelSettings.effectIntensity);
-                electricFeelHandler.SetAudioSettings(electricFeelSettings.volumeCoefficient);
+                if (walkieTalkie?.IsItemActiveInGame() == true)
+                {
+                    electricFeelHandler.SetIntensity(electricFeelSettings.effectIntensity);
+                    electricFeelHandler.SetAudioSettings(electricFeelSettings.volumeCoefficient);
+                }
             }
 
             // Si el efecto ya estaba habilitado, actualizamos su estado de intensidad y volumen
@@ -195,6 +205,13 @@ namespace TwelveG.VFXController
             {
                 proceduralFaint.enabled = true;
             }
+        }
+        
+        // Llamado desde PlayerItemBase.cs al activar el WT
+        public void Initialize(WalkieTalkie walkieTalkieRef)
+        {
+            this.walkieTalkie = walkieTalkieRef;
+            UpdateSceneVFXSettings(currentEventEnum);
         }
     }
 }

@@ -25,7 +25,6 @@ namespace TwelveG.PlayerController
         public FPController FPController => fpController;
         public PlayerSpotter PlayerSpotter => playerSpotter;
 
-
         private HouseArea currentHouseArea = HouseArea.None;
         private PlayerShortcuts playerShortcuts;
 

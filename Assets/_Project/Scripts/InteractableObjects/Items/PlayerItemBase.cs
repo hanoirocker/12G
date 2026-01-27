@@ -1,6 +1,7 @@
 using TwelveG.GameController;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
+using TwelveG.VFXController;
 using UnityEngine;
 
 namespace TwelveG.InteractableObjects
@@ -44,6 +45,13 @@ namespace TwelveG.InteractableObjects
                 ItemType.WalkieTalkie => InteractionObjectType.WalkieTalkie,
                 _ => InteractionObjectType.None,
             };
+
+            // Si se activa el WT, inicializar en el VFXManager para actualizar efecto ElectricFeel
+            // con los settings del evento actual
+            if(gameObject.TryGetComponent(out WalkieTalkie walkieTalkie) && activate)
+            {
+                VFXManager.Instance.Initialize(walkieTalkie);
+            }
 
             UIManager.Instance.ControlCanvasHandler.SetInteractionSpecificOptions(interactionType, activate);
         }

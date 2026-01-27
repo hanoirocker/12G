@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se retrabajaron las estructuras de datos de Walkie Talkie. Ahora se pueden agregar clips de estática como los clips para el Lore del juego (especiales) que se reproducen una única vez y bloquean los controles del jugador, pudiendo disparar un dialogo al finalizar.
+- Se restringió la actualización de efecto ElectricFeel sólo si el VFXManager posee una referencia no nula del Walkie Talkie y a su vez, está activo.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:
@@ -9,7 +9,6 @@ TOCHECK:
 - Agregar mas sonidos stereo para los perfiles sonoros de ambiente?
 
 TOFIX:
-- El sonido de interferencia de Electric Feel está al máximo (0.25) al iniciar el evento First Contact. Esto se debe a que Walkie Talkie no está activo cuando inicia el evento, por eso se carga el valor por defecto (maximo).
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 
 TODO - próximo:
