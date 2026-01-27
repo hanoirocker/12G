@@ -56,7 +56,9 @@ namespace TwelveG.GameController
       PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().Interact(null);
       yield return new WaitForSeconds(3f);
 
+      // Empiezan a brillar cuadros y se descontrola el WT
       GetComponent<GlowingPortraitsHandler>().StartGlowingRoutine();
+      PlayerHandler.Instance.GetComponentInChildren<WalkieTalkie>().StartRandomChannelSwitching();
 
       Coroutine mainCoroutine = StartCoroutine(ParentsBedRoomRoutine());
 
@@ -66,7 +68,9 @@ namespace TwelveG.GameController
       GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
       // Espera a que haya terminado la rutina principal
+      // y luego detiene la rutina de mal funcionamiento del WT
       yield return mainCoroutine;
+      PlayerHandler.Instance.GetComponentInChildren<WalkieTalkie>().StopRandomChannelSwitching();
 
       GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[2]);
 

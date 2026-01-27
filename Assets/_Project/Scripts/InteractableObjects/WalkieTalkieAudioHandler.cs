@@ -21,10 +21,14 @@ namespace TwelveG.InteractableObjects
             audioSource = GetComponent<AudioSource>();
         }
 
-        public IEnumerator PlayChannelSwitch()
+        public void StopAudioSource()
         {
             if (audioSource.isPlaying) audioSource.Stop();
+        }
 
+        public IEnumerator PlayChannelSwitch()
+        {
+            StopAudioSource();
             audioSource.loop = false;
             audioSource.pitch = 1f;
             audioSource.clip = channelSwitchClip;

@@ -1,4 +1,5 @@
 NOVEDADES:
+- Implementado el efecto de cambio de canal aleatorio en el walkie-talkie, y su uso durante red hour.
 - Se restringió la actualización de efecto ElectricFeel sólo si el VFXManager posee una referencia no nula del Walkie Talkie y a su vez, está activo.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
