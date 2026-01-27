@@ -1,13 +1,9 @@
-using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using TMPro;
 using TwelveG.DialogsController;
 using TwelveG.GameController;
 using TwelveG.PlayerController;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace TwelveG.InteractableObjects
 {
@@ -124,7 +120,9 @@ namespace TwelveG.InteractableObjects
             if (manual) 
             {
                 // Audio Switch
+                LockControls();
                 yield return StartCoroutine(audioHandler.PlayChannelSwitch());
+                UnlockControls();
             }
             else
             {
