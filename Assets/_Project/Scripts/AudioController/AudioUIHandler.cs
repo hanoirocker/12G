@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace TwelveG.AudioController
@@ -17,6 +18,7 @@ namespace TwelveG.AudioController
     [SerializeField, Range(0f, 1f)] private float inGameMenuVolume = 1f;
 
     private AudioSource uiAudioSource;
+    private Coroutine uiSoundCoroutine;
 
     private void Start()
     {
@@ -25,17 +27,27 @@ namespace TwelveG.AudioController
 
     public void PlayPointerEnterSound()
     {
-      uiAudioSource.PlayOneShot(pointerSelectClip, pointerSelectVolume);
+      uiSoundCoroutine = StartCoroutine(PlayUISound(pointerSelectClip, pointerSelectVolume));
     }
 
     public void PlayPointerClickSound()
     {
-      uiAudioSource.PlayOneShot(pointerClickClip, pointerClickVolume);
+      uiSoundCoroutine = StartCoroutine(PlayUISound(pointerClickClip, pointerClickVolume));
     }
 
     public void PlayGameSound()
     {
-      uiAudioSource.PlayOneShot(playGameClip, playGameVolume);
+      uiSoundCoroutine = StartCoroutine(PlayUISound(playGameClip, playGameVolume));
+    }
+
+    private IEnumerator PlayUISound(AudioClip clip, float volume)
+    {
+      if (uiSoundCoroutine != null) { StopCoroutine(uiSoundCoroutine); }
+
+      uiAudioSource.PlayOneShot(clip, volume);
+      yield return new WaitForSeconds(clip.length);
+      AudioManager.Instance.PoolsHandler.ReleaseAudioSource(uiAudioSource);
+      uiSoundCoroutine = null;
     }
 
     public void PlayPauseMenuSound()
@@ -45,7 +57,7 @@ namespace TwelveG.AudioController
       if (uiAudioSource)
       {
         if (uiAudioSource.isPlaying) { uiAudioSource.Stop(); }
-        uiAudioSource.PlayOneShot(inGameMenuClip, inGameMenuVolume);
+        uiSoundCoroutine = StartCoroutine(PlayUISound(inGameMenuClip, inGameMenuVolume));
       }
     }
   }

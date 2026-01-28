@@ -15,11 +15,12 @@ namespace TwelveG.GameController
         [SerializeField, Range(1f, 10f)] float fadeInDuration;
 
         [HideInInspector]
-        public AudioSource introSource = null;
         private Coroutine fadeInCoroutine = null;
 
         public override IEnumerator Execute()
         {
+            // Verificar si ya hay un audio source activo para evitar superposiciones
+            AudioSource introSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
             if (introSource == null)
             {
                 introSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
@@ -40,18 +41,19 @@ namespace TwelveG.GameController
             // del audio)
             if (fadeInCoroutine != null)
             {
-                print("Deteniendo coroutina!");
                 StopCoroutine(fadeInCoroutine);
                 fadeInCoroutine = null;
             }
 
             // Fade out del audio al mismo tiempo
             yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(introSource, fadeOutDuration));
+            introSource.Stop();
+            AudioManager.Instance.PoolsHandler.ReleaseAudioSource(introSource);
 
             GameEvents.Common.onDeactivateCanvas.Raise(this, CanvasHandlerType.StudioInformation);
 
             // TODO: Carga asincrónica del Menu, esperar hasta que termine
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(1f);
         }
     }
 }

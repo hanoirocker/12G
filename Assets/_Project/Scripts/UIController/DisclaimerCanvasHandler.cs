@@ -47,6 +47,10 @@ namespace TwelveG.UIController
 
       yield return StartCoroutine(UIUtils.FadeIntroCanvasGroup(canvasGroups[0], 0f, 1f, 2f, 2f)); // Title
       yield return StartCoroutine(UIUtils.FadeIntroCanvasGroup(canvasGroups[1], 0f, 1f, 2f, 7f)); // Content
+
+      // Espera para sincronizar con la batería del clip de audio
+      yield return new WaitForSeconds(1.2f);
+
       yield return StartCoroutine(UIUtils.FadeIntroCanvasGroup(canvasGroups[2], 0f, 1f, 6f, 4f)); // Phrase
     }
 

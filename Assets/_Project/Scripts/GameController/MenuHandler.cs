@@ -12,10 +12,14 @@ namespace TwelveG.GameController
     [Header("Settings")]
     [SerializeField, Range(1f, 5f)] float blackFadeInDuration;
 
+    // TODO: Quizas mover esto a un scriptable object de audio para menus
     [Header("Menu audio")]
-    public AudioClip afternoonMusic;
-    public AudioClip eveningMusic;
-    public AudioClip nightMusic;
+    [SerializeField] private AudioClip afternoonMusic;
+    [SerializeField, Range(0f, 1f)] private float afternoonMusicVolume = 0.7f;
+    [SerializeField] private AudioClip eveningMusic;
+    [SerializeField, Range(0f, 1f)] private float eveningMusicVolume = 0.7f;
+    [SerializeField] private AudioClip nightMusic;
+    [SerializeField, Range(0f, 1f)] private float nightMusicVolume = 0.7f;
 
     private void Start()
     {
@@ -59,17 +63,23 @@ namespace TwelveG.GameController
 
       AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
       string currentSceneName = SceneManager.GetActiveScene().name;
+      float targetVolume;
 
+      // TODO: asignar variables de clip y volumen especificos en caso
+      // de usar múltiples escenas de Menu el día de mañana.
       switch (currentSceneName)
       {
         case "Menu Afternoon":
           source.clip = afternoonMusic;
+          targetVolume = afternoonMusicVolume;
           break;
         case "Menu Evening":
           source.clip = afternoonMusic;
+          targetVolume = afternoonMusicVolume;
           break;
         case "Menu Night":
           source.clip = afternoonMusic;
+          targetVolume = afternoonMusicVolume;
           break;
         default:
           Debug.LogWarning($"[MenuHandler]: No background music assigned for scene '{currentSceneName}'");
@@ -77,7 +87,11 @@ namespace TwelveG.GameController
       }
 
       source.loop = true;
+      source.volume = 0f;
       source.Play();
+      StartCoroutine(
+        AudioManager.Instance.FaderHandler.AudioSourceFadeIn(source, 0f, targetVolume, 2f)
+      );
     }
   }
 }

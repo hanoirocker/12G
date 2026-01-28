@@ -249,10 +249,12 @@ namespace TwelveG.AudioController
       return null;
     }
 
-    // [NUEVO] Método VITAL: Los scripts deben llamar a esto cuando terminan de usar la fuente
+    // Los scripts deben llamar a esto cuando terminan de usar la fuente
     public void ReleaseAudioSource(AudioSource source)
     {
       if (source == null) return;
+
+      source.clip = null;
 
       int id = source.GetInstanceID();
       if (claimedSourcesIDs.Contains(id))
@@ -261,7 +263,7 @@ namespace TwelveG.AudioController
       }
     }
 
-    // [NUEVO] Método para limpiar el HashSet y no bloquear fuentes eternamente
+    // Método para limpiar el HashSet y no bloquear fuentes eternamente
     private void CleanUpReservations(List<AudioSource> sources)
     {
       foreach (var source in sources)

@@ -1,5 +1,6 @@
 NOVEDADES:
-- Se agregó al menu evening, la rotación de la puerta de la casa al iniciar el juego. También se agregó el sonido al presionar dicho botón.
+- Se solucionaron problemas de fuentes ocupadas del tipo UI.
+- Se modificaron los eventos de Disclaimer e Information.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:

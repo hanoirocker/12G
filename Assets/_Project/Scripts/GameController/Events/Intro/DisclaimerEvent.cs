@@ -20,12 +20,13 @@ namespace TwelveG.GameController
 
             // Cargar audio clip y hacer
             // introAudioController.AudioFadeInSequence()
-            AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
-            source.clip = introTrack;
-            source.volume = 0f;
-            GameManager.Instance.GetComponentInChildren<InformationEvent>().introSource = source;
-
-            yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(source, 0f, 1f, 2f));
+            AudioSource introSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
+            if(introSource != null)
+            {
+                introSource.clip = introTrack;
+                introSource.volume = 0f;
+                yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(introSource, 0f, 1f, 2f));
+            }
 
             yield return fadeInSequence;
 
