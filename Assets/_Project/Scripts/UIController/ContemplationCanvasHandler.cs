@@ -39,7 +39,9 @@ namespace TwelveG.UIController
         public void HideContemplationCanvas()
         {
             if (currentDisplayCoroutine != null) StopCoroutine(currentDisplayCoroutine);
-            contemplationCanvas.enabled = false;
+            if(contemplationCanvas != null)
+                contemplationCanvas.enabled = false;
+
             currentDisplayCoroutine = null;
         }
 

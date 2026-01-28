@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se agregó curva de apuerta para rotación en puertas (para darle mas realismo a la interacción con las mismas)
+- Se agregó al menu evening, la rotación de la puerta de la casa al iniciar el juego. También se agregó el sonido al presionar dicho botón.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:

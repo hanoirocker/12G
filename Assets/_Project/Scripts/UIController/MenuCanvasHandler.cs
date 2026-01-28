@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using TMPro;
+using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
 using TwelveG.GameController;
+using TwelveG.InteractableObjects;
 using UnityEngine;
 
 namespace TwelveG.UIController
@@ -46,6 +49,14 @@ namespace TwelveG.UIController
 
     private IEnumerator StartPlaying(bool isNewGame)
     {
+      AudioManager.Instance.AudioUIHandler.PlayGameSound();
+
+      if ( SceneUtils.RetrieveCurrentSceneEnum() == SceneEnum.MenuEvening)
+      {
+        PlayerHouseHandler.Instance.GetStoredObjectByID("Entrance MainDoor Lock").GetComponent<RotativeDoorHandler>().Interact(null);
+        yield return new WaitForSeconds(2f);
+      }
+
       yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, fadeOutDuration));
 
       GameManager.Instance.PlayGame(isNewGame);

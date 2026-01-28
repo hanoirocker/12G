@@ -35,9 +35,7 @@ namespace TwelveG.AudioController
 
     public void PlayGameSound()
     {
-      // TODO: Asignar placeholder para playGameSound
-      Debug.LogWarning("[AudioUIHandler]: Playing playGameSound!");
-      // uiAudioSource.PlayOneShot(playGameClip, playGameVolume);
+      uiAudioSource.PlayOneShot(playGameClip, playGameVolume);
     }
 
     public void PlayPauseMenuSound()

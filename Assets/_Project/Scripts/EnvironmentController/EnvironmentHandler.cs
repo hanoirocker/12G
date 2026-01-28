@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TwelveG.AudioController;
 using TwelveG.GameController;
 using TwelveG.PlayerController;
@@ -14,7 +15,7 @@ namespace TwelveG.EnvironmentController
         LivingRoomRightWindow,
         DownstairsHallWindow
     }
-    
+
     public class EnvironmentHandler : MonoBehaviour
     {
         public static EnvironmentHandler Instance { get; private set; }
@@ -41,7 +42,10 @@ namespace TwelveG.EnvironmentController
 
         [Space(10)]
         [Header("Prefab References")]
+        [Tooltip("Arrastra aquí los objetos. El nombre del GameObject en la escena será su ID.")]
         [SerializeField] private GameObject[] storedPrefabs;
+
+        private Dictionary<string, GameObject> prefabsDictionary;
 
         private void Awake()
         {
@@ -51,6 +55,8 @@ namespace TwelveG.EnvironmentController
                 return;
             }
             Instance = this;
+
+            InitializePrefabsDictionary();
         }
 
         private void OnDestroy()
@@ -58,6 +64,27 @@ namespace TwelveG.EnvironmentController
             if (Instance == this)
             {
                 Instance = null;
+            }
+        }
+
+        private void InitializePrefabsDictionary()
+        {
+            prefabsDictionary = new Dictionary<string, GameObject>();
+
+            if (storedPrefabs == null) return;
+
+            foreach (var prefab in storedPrefabs)
+            {
+                if (prefab == null) continue;
+
+                if (!prefabsDictionary.ContainsKey(prefab.name))
+                {
+                    prefabsDictionary.Add(prefab.name, prefab);
+                }
+                else
+                {
+                    Debug.LogWarning($"[EnvironmentHandler] ID Duplicado encontrado: '{prefab.name}'. Se omitirá el duplicado.");
+                }
             }
         }
 
@@ -105,21 +132,31 @@ namespace TwelveG.EnvironmentController
             }
         }
 
-        public void ToggleStoredPrefabs(ObjectData objectData)
+        public GameObject GetStoredObjectByID(string objectID)
         {
-            if (storedPrefabs == null || storedPrefabs.Length == 0)
+            if (prefabsDictionary.TryGetValue(objectID, out GameObject foundObject))
             {
-                return;
+                return foundObject;
             }
 
-            foreach (GameObject prefab in storedPrefabs)
+            Debug.LogWarning($"[EnvironmentHandler] Objeto con ID '{objectID}' no encontrado en el Mapa.");
+            return null;
+        }
+
+        public void ToggleStoredPrefabs(ObjectData objectData)
+        {
+            if (prefabsDictionary == null) return;
+
+            if (prefabsDictionary.TryGetValue(objectData.objectID, out GameObject targetPrefab))
             {
-                if (prefab.name == objectData.objectID)
+                if (targetPrefab != null)
                 {
-                    // Debug.Log("Toggling prefab: " + prefab.name + " to " + objectData.isActive);
-                    prefab.SetActive(objectData.isActive);
-                    break;
+                    targetPrefab.SetActive(objectData.isActive);
                 }
+            }
+            else
+            {
+                Debug.LogWarning($"[EnvironmentHandler] No se encontró ningún prefab con el ID: {objectData.objectID}");
             }
         }
 
@@ -131,17 +168,22 @@ namespace TwelveG.EnvironmentController
 
         public IEnumerator PlayEnemyAnimation(string animationName, bool deactivateAfter)
         {
-            animationComponent.Play(animationName);
-
-            if (deactivateAfter)
+            if (animationComponent != null)
             {
-                yield return new WaitForSeconds(animationComponent[animationName].length);
-                enemyPrefab.SetActive(false);
+                animationComponent.Play(animationName);
+
+                if (deactivateAfter)
+                {
+                    yield return new WaitForSeconds(animationComponent[animationName].length);
+                    enemyPrefab.SetActive(false);
+                }
             }
             else
             {
-                yield return null;
+                Debug.LogWarning("[EnvironmentHandler] Animation Component es nulo.");
             }
+
+            if (!deactivateAfter) yield return null;
         }
 
         public void ShowEnemy(EnemyPositions position)
@@ -173,7 +215,9 @@ namespace TwelveG.EnvironmentController
             }
 
             enemyPrefab.SetActive(true);
-            enemyPrefab.GetComponent<ZoneSpotterHandler>().canBeSpotted = true;
+
+            var spotter = enemyPrefab.GetComponent<ZoneSpotterHandler>();
+            if (spotter != null) spotter.canBeSpotted = true;
         }
     }
 }

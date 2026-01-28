@@ -45,3 +45,4 @@ Modelos:
 * Snake sounds by Animal Sounds on youtube.com
 * Raw Sub Bass by Blackie666 at freesound.org
 * Witchy Laugh 6 by Ivan Milic at freesound.org
+* Jumpscare SFX.wav by deleted_user_9768630 on freesound.org
