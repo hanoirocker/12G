@@ -4,6 +4,7 @@ using TwelveG.AudioController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
+using TwelveG.PlayerController;
 using TwelveG.UIController;
 using TwelveG.Utils;
 using UnityEngine;
@@ -52,6 +53,8 @@ namespace TwelveG.GameController
 
                 StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, hauntingSoundVolume, 10f));
             }
+
+            StartCoroutine(ThunderOnMiddleStairs());
 
             // Corrutina que hace parpadear las luces de la casa mientras el jugador no haya entrado al garage
             // finalmente corta la luz cuando toque los colliders.
@@ -142,6 +145,16 @@ namespace TwelveG.GameController
                 playerSoundsHandler.PlayPlayerSound(PlayerSoundsType.UnwiredNeckWhisper)
             );
             yield return new WaitForSeconds(4f);
+        }
+
+        private IEnumerator ThunderOnMiddleStairs()
+        {
+            yield return new WaitUntil(() =>
+            {
+                return PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.MiddleStairs;
+            });
+            GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
+            yield break;
         }
 
         private IEnumerator FlickeringLightsAndPowerOutage()

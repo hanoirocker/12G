@@ -1,10 +1,9 @@
 NOVEDADES:
-- Se refactorizó el OldRadioHandler.cs
+- Se agregó trueno al bajar por middle stairs para Unwired event.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)
-- Agregar trueno al bajar por las escaleras en UNWIRED?
 - Red Hour: Construir un método quizás en un Walkie Talkie Helper para lograr que durante este evento el walkie walkie (independientemente de su está equipado o no) cambie de canal constantemente y haya ruidos sin sentido. Al finalizar este malfuncionamiento (al final del evento) debe quedar en el canal 1 para cargar el audio en loop de "Ve a la luz".
 - Agregar mas sonidos stereo para los perfiles sonoros de ambiente?
 
