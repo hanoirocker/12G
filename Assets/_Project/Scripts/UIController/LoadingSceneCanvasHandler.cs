@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
+
 namespace TwelveG.UIController
 {
   public class LoadingSceneCanvasHandler : MonoBehaviour
@@ -7,63 +10,77 @@ namespace TwelveG.UIController
     [Header("References")]
     [SerializeField] private CanvasGroup logoCanvasGroup;
     [SerializeField] private GameObject continueText;
+    [SerializeField] private TextMeshProUGUI continueTextComponent;
 
     [Header("Transition Settings")]
-
     [SerializeField, Range(0.25f, 2f)] private float blinkSpeed = 2f;
-    [SerializeField, Range(0.25f, 1f)] private float blinkTime = 0.25f;
     [SerializeField, Range(0f, 3f)] private float delayBeforeText = 0.5f;
 
-    private bool keepBlinking = true;
-    private Canvas menuCanvas;
+    private Coroutine blinkLogoRoutine;
+    private Coroutine blinkTextRoutine;
+    private CanvasGroup continueTextCG;
 
     private void Awake()
     {
-      menuCanvas = GetComponent<Canvas>();
+      if (continueText != null)
+      {
+        continueTextCG = continueText.GetComponent<CanvasGroup>();
+      }
     }
 
     private void OnEnable()
     {
-      keepBlinking = true;
-      StartCoroutine(BlinkingSequence());
-    }
-
-    private IEnumerator BlinkingSequence()
-    {
-      while (keepBlinking)
-      {
-        blinkTime += Time.deltaTime * blinkSpeed;
-        logoCanvasGroup.alpha = Mathf.PingPong(blinkTime, 1f);
-        yield return null;
-      }
-
-      logoCanvasGroup.alpha = 1f;
-
-      yield return new WaitForSeconds(delayBeforeText);
-
-      Debug.Log("Scene loaded. Waiting for key press...");
+      blinkLogoRoutine = StartCoroutine(UIUtils.BlinkAlphaContinuous(logoCanvasGroup, blinkSpeed));
+      UIManager.Instance.UIFormatter.AssignFontByType(UIFormatingType.PlayerInteractionText, continueTextComponent);
     }
 
     private void OnDisable()
     {
-      continueText.SetActive(false);
+      StopAllCoroutines();
+      if (continueText != null) continueText.SetActive(false);
     }
 
+    // Llamado cuando la carga termina
     public void SceneLoaded()
     {
-      keepBlinking = false;
-      if (!continueText.activeSelf)
+      if (blinkLogoRoutine != null) StopCoroutine(blinkLogoRoutine);
+
+      logoCanvasGroup.alpha = 1f;
+
+      StartCoroutine(ShowTextSequence());
+    }
+
+    private IEnumerator ShowTextSequence()
+    {
+      yield return new WaitForSeconds(delayBeforeText);
+
+      Debug.Log("Scene loaded. Waiting for key press...");
+
+      if (continueText != null && !continueText.activeSelf)
       {
         continueText.SetActive(true);
+        // Iniciamos el parpadeo del texto
+        blinkTextRoutine = StartCoroutine(UIUtils.BlinkAlphaContinuous(continueTextCG, blinkSpeed));
       }
     }
 
-    public void OnAnyKeyPressed()
+    // Recibe "onAnyKeyPressed" desde SceneLoaderHandler.cs que envía con la duración
+    // del fade out de la música para usar como fade del texto y logo
+    public void OnAnyKeyPressed(Component component, object data)
     {
+      float fadeDuration = (float)data;
+
       if (continueText.activeSelf)
       {
-        continueText.SetActive(false);
+        if (blinkTextRoutine != null) StopCoroutine(blinkTextRoutine);
+        VanishTextAndLogoRoutine(fadeDuration);
       }
+    }
+
+    private void VanishTextAndLogoRoutine(float fadeDuration)
+    {
+      StartCoroutine(UIUtils.FadeCanvasGroup(continueTextCG, 1f, 0f, fadeDuration));
+      StartCoroutine(UIUtils.FadeCanvasGroup(logoCanvasGroup, 1f, 0f, fadeDuration));
     }
   }
 }

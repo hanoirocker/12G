@@ -13,6 +13,7 @@ namespace TwelveG.GameController
     [Space]
     [SerializeField, Range(1f, 5f)] private float delayTime = 2.5f;
     [SerializeField, Range(1f, 5f)] private float bgMusicFadeOut = 3f;
+    [SerializeField, Range(1f, 5f)] private float extraTimeBeforeSceneActivation = 4f;
 
     [Header("References")]
     [Space]
@@ -61,7 +62,7 @@ namespace TwelveG.GameController
       yield return new WaitUntil(() => Input.anyKeyDown);
 
       // Escucha el LoadingSceneCanvasHandler para ocultar el texto "Press any Button"
-      GameEvents.Common.onAnyKeyPressed.Raise(this, null);
+      GameEvents.Common.onAnyKeyPressed.Raise(this, bgMusicFadeOut);
 
       AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnActiveSourceByType(AudioPoolType.BGMusic);
 
@@ -71,6 +72,8 @@ namespace TwelveG.GameController
       }
 
       yield return new WaitForSeconds(bgMusicFadeOut);
+
+      yield return new WaitForSeconds(extraTimeBeforeSceneActivation);
 
       // Ahora sí, activar la escena cargada
       asyncLoad.allowSceneActivation = true;

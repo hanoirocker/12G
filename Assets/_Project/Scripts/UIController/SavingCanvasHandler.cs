@@ -8,6 +8,8 @@ namespace TwelveG.UIController
   {
     [Header("References")]
     [SerializeField] private CanvasGroup canvasGroup;
+
+    [Header("Settings")]
     [SerializeField, Range(0f, 5f)] private float delayTime = 1f;
     [SerializeField, Range(1f, 16f)] private float routineDuration = 4f;
     [SerializeField, Range(1, 10)] private int cycles = 4;
@@ -30,8 +32,6 @@ namespace TwelveG.UIController
     {
       EventsEnum currentEvent = (EventsEnum)data;
 
-      // Si bien se guarda el juego al despertar tanto a la tare
-      // como a la noche, no mostramos la animación de guardado
       if (currentEvent == EventsEnum.WakeUp || currentEvent == EventsEnum.WakeUpAtNight) return;
 
       StartCoroutine(SavingSequence());
@@ -43,15 +43,7 @@ namespace TwelveG.UIController
 
       savingCanvas.enabled = true;
 
-      float elapsed = 0f;
-      float cycleTime = routineDuration / cycles;
-
-      while (elapsed < routineDuration)
-      {
-        elapsed += Time.deltaTime;
-        canvasGroup.alpha = Mathf.PingPong(elapsed, cycleTime) / cycleTime;
-        yield return null;
-      }
+      yield return StartCoroutine(UIUtils.BlinkAlphaForDuration(canvasGroup, routineDuration, cycles));
 
       savingCanvas.enabled = false;
     }

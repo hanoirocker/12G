@@ -12,6 +12,34 @@ namespace TwelveG.UIController
 
   public static class UIUtils
   {
+    // Usado para: Logo de carga y Texto "Press Key"
+    public static IEnumerator BlinkAlphaContinuous(CanvasGroup canvasGroup, float speed, float minAlpha = 0f, float maxAlpha = 1f)
+    {
+      float t = 0f;
+      while (true)
+      {
+        t += Time.deltaTime * speed;
+        canvasGroup.alpha = Mathf.Lerp(minAlpha, maxAlpha, Mathf.PingPong(t, 1f));
+        yield return null;
+      }
+    }
+
+    // Usado para: Ícono de guardado
+    public static IEnumerator BlinkAlphaForDuration(CanvasGroup canvasGroup, float duration, int cycles)
+    {
+      float elapsed = 0f;
+      float cycleTime = duration / cycles;
+
+      while (elapsed < duration)
+      {
+        elapsed += Time.deltaTime;
+        canvasGroup.alpha = Mathf.PingPong(elapsed, cycleTime) / cycleTime;
+        yield return null;
+      }
+
+      canvasGroup.alpha = 0f;
+    }
+
     public static IEnumerator FadeCanvasGroup(CanvasGroup canvasGroup, float from, float to, float duration)
     {
       float elapsed = 0f;

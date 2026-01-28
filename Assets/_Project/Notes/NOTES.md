@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se agregó trueno al bajar por middle stairs para Unwired event.
+- Se agregó fade del alpha desde 1 a 0 del continue text y del logo del LoadingSceneCanvasHandler, además de formato de fuente al continue text y cambio de tamaño. Se extrajeron y crearon funciones mudadas a UIUtils de fade de canvas groups.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:
