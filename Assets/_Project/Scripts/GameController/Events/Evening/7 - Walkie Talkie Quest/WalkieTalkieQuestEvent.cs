@@ -34,6 +34,7 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             yield return new WaitForSeconds(initialTime);
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
 
