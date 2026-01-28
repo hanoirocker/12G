@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se agregó fade del alpha desde 1 a 0 del continue text y del logo del LoadingSceneCanvasHandler, además de formato de fuente al continue text y cambio de tamaño. Se extrajeron y crearon funciones mudadas a UIUtils de fade de canvas groups.
+- Se agregó curva de apuerta para rotación en puertas (para darle mas realismo a la interacción con las mismas)
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:

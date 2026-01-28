@@ -25,8 +25,11 @@ namespace TwelveG.InteractableObjects
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.7f;
         [SerializeField, Range(0f, 1f)] private float hardClipsVolume = 1f;
 
-        [Header("Settings")]
+        [Header("Movement Settings")]
         [SerializeField, Range(0.1f, 1f)] private float quickToggleDuration = 0.45f;
+
+        [Tooltip("Define la velocidad de apertura. Recomendado: Ease-Out (Rápido al inicio, suave al final).")]
+        [SerializeField] private AnimationCurve openingMovementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
         private bool isMoving;
         private Quaternion initialRotation;
@@ -41,6 +44,7 @@ namespace TwelveG.InteractableObjects
         {
             Quaternion targetRotation = doorIsOpen ? initialRotation : initialRotation * Quaternion.Euler(0, 90, 0);
             StartCoroutine(RotateDoor(targetRotation));
+
             if (doorPickAnimation && !doorIsOpen)
             {
                 doorPickAnimation.Play();
@@ -50,32 +54,52 @@ namespace TwelveG.InteractableObjects
         private IEnumerator RotateDoor(Quaternion targetRotation)
         {
             isMoving = true;
+            bool isOpeningAction = !doorIsOpen;
 
-            AudioClip clip = doorIsOpen ? closingDoorSound : openingDoorSound;
+            AudioClip clip = isOpeningAction ? openingDoorSound : closingDoorSound;
+
             (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
                 door.transform,
                 clipsVolume
             );
-            audioSource.pitch = Random.Range(0.8f, 1.4f);
-            audioSource.clip = clip;
-            audioSource.Play();
 
-            float coroutineDuration = AudioUtils.CalculateDurationWithPitch(clip, audioSource.pitch);
+            if (audioSource != null)
+            {
+                audioSource.pitch = Random.Range(0.8f, 1.4f);
+                audioSource.clip = clip;
+                audioSource.Play();
+            }
+
+            // Calculamos duración basada en el audio
+            // Agregamos un pequeño clamp para evitar duraciones de 0 si el clip es null
+            float coroutineDuration = (clip != null && audioSource != null)
+                ? AudioUtils.CalculateDurationWithPitch(clip, audioSource.pitch)
+                : 1.0f;
 
             float elapsedTime = 0f;
             Quaternion startRotation = door.transform.localRotation;
 
             while (elapsedTime < coroutineDuration)
             {
-                door.transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, elapsedTime / coroutineDuration);
                 elapsedTime += Time.deltaTime;
+
+                float t = Mathf.Clamp01(elapsedTime / coroutineDuration);
+
+                // Si estamos abriendo, usamos la curva. Si cerramos, lineal (o podríamos poner otra curva EVENTUALMENTE).
+                float evaluationT = isOpeningAction ? openingMovementCurve.Evaluate(t) : t;
+
+                door.transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, evaluationT);
+
                 yield return null;
             }
 
             door.transform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
-            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
-            audioSource = null;
+
+            if (audioSource != null)
+            {
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            }
 
             isMoving = false;
         }
@@ -90,8 +114,7 @@ namespace TwelveG.InteractableObjects
 
         public bool CanBeInteractedWith(PlayerInteraction playerCamera)
         {
-            if (isMoving) { return false; }
-            else { return true; }
+            return !isMoving;
         }
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
@@ -116,15 +139,15 @@ namespace TwelveG.InteractableObjects
 
         public void StrongClosing()
         {
-            Quaternion targetRotation = doorIsOpen ? initialRotation : initialRotation * Quaternion.Euler(0, 90, 0);
+            if (!doorIsOpen) return;
+
+            Quaternion targetRotation = initialRotation;
             StartCoroutine(StrongRotationCoroutine(targetRotation));
         }
 
         private IEnumerator StrongRotationCoroutine(Quaternion targetRotation)
         {
             isMoving = true;
-
-            AudioClip clip = doorIsOpen ? closingDoorSound : openingDoorSound;
 
             float elapsedTime = 0f;
             Quaternion startRotation = door.transform.localRotation;
@@ -137,7 +160,7 @@ namespace TwelveG.InteractableObjects
             }
 
             door.transform.localRotation = targetRotation;
-            doorIsOpen = !doorIsOpen;
+            doorIsOpen = false;
 
             (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
                 door.transform,
@@ -148,9 +171,15 @@ namespace TwelveG.InteractableObjects
             {
                 audioSource.clip = hardClosingDoorSound;
                 audioSource.Play();
-                yield return new WaitUntil(() => !audioSource.isPlaying);
+
+                yield return new WaitForSeconds(hardClosingDoorSound.length);
+
                 AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
-                audioSource = null;
+            }
+            else if (audioSource != null)
+            {
+                // Si no había clip pero pedimos fuente, la liberamos igual
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             }
 
             isMoving = false;

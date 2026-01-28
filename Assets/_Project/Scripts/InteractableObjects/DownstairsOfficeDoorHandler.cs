@@ -20,6 +20,10 @@ namespace TwelveG.InteractableObjects
         [SerializeField] Animation doorPickAnimation;
         [SerializeField, Range(0.5f, 2f)] float rotationTime;
 
+        [Header("Movement Settings")]
+        [Tooltip("Define la velocidad de apertura. Recomendado: Ease-Out.")]
+        [SerializeField] private AnimationCurve openingMovementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
         [Header("Text Settings")]
         [SerializeField] private ObservationTextSO observationFallback;
         [SerializeField, Range(0f, 5f)] private float timeBeforeShowingFallbackText = 0f;
@@ -44,8 +48,10 @@ namespace TwelveG.InteractableObjects
 
         List<String> playerItems = new List<String>();
         private Quaternion initialRotation;
+
         private AudioSource audioSource;
         private AudioSourceState audioSourceState;
+
         private int lockedIndex = 0;
         private bool isMoving;
 
@@ -56,7 +62,6 @@ namespace TwelveG.InteractableObjects
             initialRotation = door.transform.localRotation;
         }
 
-        // --- INTERFACE IMPLEMENTATION ---
 
         public bool CanBeInteractedWith(PlayerInteraction playerCamera)
         {
@@ -70,7 +75,7 @@ namespace TwelveG.InteractableObjects
 
         public bool Interact(PlayerInteraction playerCamera)
         {
-            SetupAudioSource();
+            EnsureAudioSource();
 
             if (doorIsLocked)
             {
@@ -97,7 +102,6 @@ namespace TwelveG.InteractableObjects
 
         public bool VerifyIfPlayerCanInteract(PlayerInteraction playerCamera)
         {
-            // Si no se necesitan objetos pero la puerta está cerrada lógicamente, asumimos que no se puede abrir.
             if (objectsNeededType.Count == 0 && doorIsLocked) return false;
 
             var inventory = playerCamera.GetComponentInChildren<PlayerInventory>();
@@ -113,11 +117,20 @@ namespace TwelveG.InteractableObjects
             StartCoroutine(UnlockDoorByEventCoroutine());
         }
 
-        private void SetupAudioSource()
+        private void EnsureAudioSource()
         {
             if (audioSource == null)
             {
                 (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(transform, clipsVolume);
+            }
+        }
+
+        private void ReleaseAudio()
+        {
+            if (audioSource != null)
+            {
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+                audioSource = null;
             }
         }
 
@@ -138,11 +151,12 @@ namespace TwelveG.InteractableObjects
         private IEnumerator RotateDoor(Quaternion targetRotation)
         {
             isMoving = true;
+            bool isOpeningAction = !doorIsOpened;
 
             float duration = rotationTime;
             AudioClip clipToPlay = doorIsOpened ? closingDoorSound : openingDoorSound;
 
-            if (clipToPlay != null)
+            if (clipToPlay != null && audioSource != null)
             {
                 audioSource.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
                 audioSource.clip = clipToPlay;
@@ -155,8 +169,14 @@ namespace TwelveG.InteractableObjects
 
             while (elapsedTime < duration)
             {
-                door.transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, elapsedTime / duration);
                 elapsedTime += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsedTime / duration);
+
+                // Solo aplicamos la curva si estamos abriendo la puerta
+                float evaluationT = isOpeningAction ? openingMovementCurve.Evaluate(t) : t;
+
+                door.transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, evaluationT);
+
                 yield return null;
             }
 
@@ -164,8 +184,7 @@ namespace TwelveG.InteractableObjects
             doorIsOpened = !doorIsOpened;
             isMoving = false;
 
-            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
-            audioSource = null;
+            ReleaseAudio();
         }
 
         private IEnumerator PlayLockCoroutine()
@@ -174,14 +193,13 @@ namespace TwelveG.InteractableObjects
 
             if (doorPickAnimation) doorPickAnimation.Play();
 
-            // Manejo especial si es una pesadilla
             if (isNightmare)
             {
                 GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
                 if (tryToOpenDesperatelyClips != null && tryToOpenDesperatelyClips.Length > 0)
                 {
-                    var clip = tryToOpenDesperatelyClips[UnityEngine.Random.Range(0, tryToOpenDesperatelyClips.Length - 1)];
+                    var clip = tryToOpenDesperatelyClips[UnityEngine.Random.Range(0, tryToOpenDesperatelyClips.Length)]; // Fixed Range max exclusive
                     yield return PlaySoundAndWait(clip);
                 }
 
@@ -194,27 +212,31 @@ namespace TwelveG.InteractableObjects
 
             lockedIndex++;
             isMoving = false;
+
+            ReleaseAudio();
         }
 
         private IEnumerator UnlockDoor(PlayerInteraction playerCamera)
         {
-            if (unclockedSound != null)
+            if (unclockedSound != null && audioSource != null)
             {
                 audioSource.PlayOneShot(unclockedSound);
                 yield return new WaitForSeconds(unclockedSound.length);
             }
             else
             {
-                yield return new WaitForSeconds(0.5f); // Pequeña espera por default si no hay sonido
+                yield return new WaitForSeconds(0.5f);
             }
 
             RemoveUsedItems(playerCamera);
             doorIsLocked = false;
+
+            ReleaseAudio();
         }
 
         private IEnumerator UnlockDoorByEventCoroutine()
         {
-            SetupAudioSource();
+            EnsureAudioSource(); // Pedimos fuente específicamente para el evento
 
             if (eventUnlockedSound != null)
             {
@@ -222,6 +244,22 @@ namespace TwelveG.InteractableObjects
             }
 
             doorIsLocked = false;
+
+            // Liberamos audio tras el evento
+            ReleaseAudio();
+        }
+
+        // --- HELPERS ---
+
+        private IEnumerator PlaySoundAndWait(AudioClip clip)
+        {
+            if (clip != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(clip);
+                // Esperamos un frame para asegurar que isPlaying se actualice
+                yield return null;
+                yield return new WaitUntil(() => !audioSource.isPlaying);
+            }
         }
 
         private InteractionTextSO GetDoorTextForCanvas()
@@ -230,7 +268,6 @@ namespace TwelveG.InteractableObjects
             {
                 return lockedIndex == 0 ? interactionTextsSO_tryToOpen : interactionTextsSO_tryToOpenAgain;
             }
-
             return doorIsOpened ? interactionTextsSO_close : interactionTextsSO_open;
         }
 
@@ -246,25 +283,10 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        private IEnumerator PlaySoundAndWait(AudioClip clip)
-        {
-            if (clip != null && audioSource != null)
-            {
-                audioSource.PlayOneShot(clip);
-                yield return new WaitUntil(() => !audioSource.isPlaying);
-            }
-        }
-
         public void OnCheckpointReached(string state)
         {
-            if (state == "UNLOCKED")
-            {
-                doorIsLocked = false;
-            }
-            else if (state == "LOCKED")
-            {
-                doorIsLocked = true;
-            }
+            if (state == "UNLOCKED") doorIsLocked = false;
+            else if (state == "LOCKED") doorIsLocked = true;
         }
     }
 }
