@@ -4,7 +4,6 @@ NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJ
 
 TOCHECK:
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)
-- Red Hour: Construir un método quizás en un Walkie Talkie Helper para lograr que durante este evento el walkie walkie (independientemente de su está equipado o no) cambie de canal constantemente y haya ruidos sin sentido. Al finalizar este malfuncionamiento (al final del evento) debe quedar en el canal 1 para cargar el audio en loop de "Ve a la luz".
 - Agregar mas sonidos stereo para los perfiles sonoros de ambiente?
 
 TOFIX:
@@ -12,15 +11,12 @@ TOFIX:
 
 TODO - próximo:
 - Al iniciar el evento "Red Hour" los cambios cambian de golpe antes de empezar la lógica de glowing, pudiendo ser observado este cambio por el jugador. Buscar la forma de que esto no suceda (Quizas agregar algo al evento al incio, antes del glowing?)
-- Editar y usar el sonido descargado para sparking light del LightFlickeringHandler.
-- Componer audio para ScaredReactionLong.
-- Trabajar en el evento en sí.
-- Visions - Agregar sonido (CHAN) al ver al enemigo en downstairs hall.
+- Componer audio para ScaredReactionLong // LISTO PERO NO FINAL
 - Actualmente el sistema de audio por perfiles de ambiente funciona en base a la escena. Por ende, si quisieramos detener la lluvia en algun momento, la lluvia estereo del los perfiles seguiria sonando. Analizar si es conveniente o no ampliar la estructura logica.
-- Finalizar Visions y comenzar con RedHour
 
 TODO - despues:
 
+- Walkie Talkie: Agregar ruidos de estática distintos para cada canal (En todos los assets de WalkieTalkieData).
 - Quizás trabajar un poco mas sobre el audio de la alucinación de fernandez, agregar risas femeninas al audio del cuadro del corazón.
 - Agregar sonidos para cuando come la pizza.
 - Agregar sonidos al tomar bolsas de basura.
@@ -37,8 +33,6 @@ TODO - despues:
 - Mostrar Settings Menu Canvas desde el Pause Menu Canvas. Esto implica alterar la lógica del Settings Menu Canvas ya que actualmente al retornar desde cualquier botón "Return" muestra el Main Menu Canvas.
 
 - Eliminar evento de gatito. Ahora se abre la puerta del garage luego de salir de la piecita de la cocina y es el momento de salir de la casa por el garage.
-
-- Red Hours: Luz de velador normal que titila en la pieza de los padres. Collider en medio de la pieza spotteable. Una vez spotteado, se apaga la luz (no controls) --> luz roja durante 1.5 seg aprox con toda la pieza dada vuelta y el vecino muerto en su sofá. SANGRE. --> oscuridad (aun sin controles) 1 seg --> 0.5 seg luz roja con enemigo EN FRENTE a simon --> oscuridad y retoma controles.
 
 - Something Else: pasillo de la escuela.
   1) Si el jugador luego de "X" cantidad de loops cuando empieza a crecer la luz roja y se acerca el enemigo decide quedarse quieto (jumpscare, bla).
