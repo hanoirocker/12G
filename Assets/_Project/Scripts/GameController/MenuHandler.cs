@@ -62,27 +62,27 @@ namespace TwelveG.GameController
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.SoftWind);
 
       AudioSource source = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
-      string currentSceneName = SceneManager.GetActiveScene().name;
+      SceneEnum sceneEnum = SceneUtils.RetrieveCurrentSceneEnum();
       float targetVolume;
 
       // TODO: asignar variables de clip y volumen especificos en caso
       // de usar múltiples escenas de Menu el día de mañana.
-      switch (currentSceneName)
+      switch (sceneEnum)
       {
-        case "Menu Afternoon":
+        case SceneEnum.MenuAfternoon:
           source.clip = afternoonMusic;
           targetVolume = afternoonMusicVolume;
           break;
-        case "Menu Evening":
+        case SceneEnum.MenuEvening:
           source.clip = afternoonMusic;
           targetVolume = afternoonMusicVolume;
           break;
-        case "Menu Night":
+        case SceneEnum.MenuNight:
           source.clip = afternoonMusic;
           targetVolume = afternoonMusicVolume;
           break;
         default:
-          Debug.LogWarning($"[MenuHandler]: No background music assigned for scene '{currentSceneName}'");
+          Debug.LogWarning($"[MenuHandler]: No background music assigned for scene '{sceneEnum}'");
           return;
       }
 
