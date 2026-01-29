@@ -37,8 +37,36 @@ namespace TwelveG.GameController
       public AudioSourceState originalState;
     }
 
-    // Diccionario: ID_Cuadro -> DatosAudio (Para el manejo interno de audio)
+    // Diccionario para manejo de audio activo
     private Dictionary<string, ActiveAudioData> activeAudiosMap = new Dictionary<string, ActiveAudioData>();
+
+    // Diccionario para búsqueda rápida de reglas (evita usar .Find en el Update)
+    private Dictionary<string, PortraitGlowRule> rulesLookup = new Dictionary<string, PortraitGlowRule>();
+
+    private void Start()
+    {
+      InitializeRulesAndPreload();
+    }
+
+    // Cargamos clips al inicio para evitar picos luego al iniciar la corrutina
+    private void InitializeRulesAndPreload()
+    {
+      rulesLookup.Clear();
+
+      foreach (var rule in portraitGlowRules)
+      {
+        if (!rulesLookup.ContainsKey(rule.portraitID))
+        {
+          rulesLookup.Add(rule.portraitID, rule);
+        }
+
+        if (rule.portraitClip != null)
+        {
+          // Esto fuerza la carga en memoria RAM.
+          rule.portraitClip.LoadAudioData();
+        }
+      }
+    }
 
     public void StopGlowingRoutine()
     {
@@ -91,8 +119,7 @@ namespace TwelveG.GameController
             }
           }
 
-          // APAGAR lo que ya no sirve
-          // Estaba activo, pero NO está en los requeridos de la nueva zona
+          // APAGAR lo obsoleto
           List<string> toRemove = new List<string>();
           foreach (string id in activePortraitIDs)
           {
@@ -112,29 +139,25 @@ namespace TwelveG.GameController
           {
             if (!activePortraitIDs.Contains(id))
             {
-              // Buscamos la regla para sacar los datos de config
-              var rule = portraitGlowRules.Find(r => r.portraitID == id);
-
-              SetPortraitGlow(id, true);
-
-              if (rule.portraitClip != null)
+              // Usamos el diccionario pre-cargado
+              if (rulesLookup.TryGetValue(id, out PortraitGlowRule rule))
               {
-                EnablePortraitAudio(id, rule.portraitClip, rule.maxVolume > 0 ? rule.maxVolume : 1f);
+                SetPortraitGlow(id, true);
+
+                if (rule.portraitClip != null)
+                {
+                  EnablePortraitAudio(id, rule.portraitClip, rule.maxVolume > 0 ? rule.maxVolume : 1f);
+                }
+                activePortraitIDs.Add(id);
               }
-
-              activePortraitIDs.Add(id);
             }
-            // NOTA: Si el ID ya estaba activo y sigue siendo requerido,
-            // no entramos al if, por lo que el audio y glow siguen sin interrupción.
           }
-
           lastArea = currentArea;
         }
 
         yield return new WaitForSeconds(0.2f);
       }
 
-      // Limpieza final al detener la rutina manualmente
       foreach (string id in activePortraitIDs) SetPortraitGlow(id, false);
       ForceStopAllPortraits();
       portraitsGlowingCoroutine = null;
