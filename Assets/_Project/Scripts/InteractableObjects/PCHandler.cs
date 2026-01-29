@@ -95,11 +95,9 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(0.5f);
 
             // Frenar audiosource de sonido de CPU funcionando
-
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
-            yield return new WaitUntil(() => !pcAudioSource.isPlaying);
+            yield return new WaitForSeconds(logOutClip.length);
             AudioUtils.StopAndRestoreAudioSource(pcAudioSource, pcAudioSourceState);
-            pcAudioSource = null;
 
             pcScreens[5].SetActive(false);
             pcScreens[0].SetActive(true);

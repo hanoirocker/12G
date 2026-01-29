@@ -88,7 +88,7 @@ namespace TwelveG.InteractableObjects
             {
                 (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(bottomOfTrashCanTransform, clipsVolume);
                 audioSource.PlayOneShot(dumpingTrashSound);
-                yield return new WaitUntil(() => !audioSource.isPlaying);
+                yield return new WaitForSeconds(dumpingTrashSound.length);
                 AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
                 audioSource = null;
             }
@@ -116,6 +116,9 @@ namespace TwelveG.InteractableObjects
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
+
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            audioSource = null;
             gameObject.transform.localRotation = targetRotation;
             doorIsOpen = !doorIsOpen;
         }

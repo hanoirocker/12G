@@ -1,6 +1,7 @@
 NOVEDADES:
-- Se solucionaron problemas de fuentes ocupadas del tipo UI.
-- Se modificaron los eventos de Disclaimer e Information.
+- Se solucionaron problemas de fuentes interactuables no devueltas luego de ser usadas (mayormente debido a PickableItem.cs)
+- Se corrigió un collider del garaga trash can que impedia que el rayo de interactuable diera con la tapa.
+- Se solucionó pico de consumo de GPU al comenzar la rutina de glowing portraits debido a audios no precargados.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:

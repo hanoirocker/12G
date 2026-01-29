@@ -44,7 +44,7 @@ namespace TwelveG.EnvironmentController
             (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, crashingVolume);
             audioSource.clip = crashingBirdClip;
             audioSource.Play();
-            yield return new WaitUntil(() => !audioSource.isPlaying);
+            yield return new WaitForSeconds(crashingBirdClip.length);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             audioSource = null;
         }

@@ -72,7 +72,7 @@ namespace TwelveG.InteractableObjects
             backpackAnimation.PlayQueued("Night - Backpack - Search 1");
 
             audioSource.PlayOneShot(searchingSounds[0]);
-            yield return new WaitUntil(() => !audioSource.isPlaying);
+            yield return new WaitForSeconds(searchingSounds[0].length);
 
             yield return new WaitForSeconds(1f);
             // Un par de forros ( sin usar obviamente )
@@ -82,7 +82,7 @@ namespace TwelveG.InteractableObjects
             backpackAnimation.PlayQueued("Night - Backpack - Search 2");
 
             audioSource.PlayOneShot(searchingSounds[1]);
-            yield return new WaitUntil(() => !audioSource.isPlaying);
+            yield return new WaitForSeconds(searchingSounds[1].length);
 
             yield return new WaitForSeconds(1f);
             // Caramelos cubiertos de pelos?
@@ -92,7 +92,7 @@ namespace TwelveG.InteractableObjects
             backpackAnimation.PlayQueued("Night - Backpack - Search 3");
 
             audioSource.PlayOneShot(searchingSounds[2]);
-            yield return new WaitUntil(() => !audioSource.isPlaying);
+            yield return new WaitForSeconds(searchingSounds[2].length);
 
             yield return new WaitForSeconds(1f);
             // Definitivamente no está aca dentro

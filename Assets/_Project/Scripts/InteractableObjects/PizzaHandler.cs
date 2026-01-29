@@ -120,11 +120,7 @@ namespace TwelveG.InteractableObjects
             }
 
             boxTop.transform.localRotation = targetRotation;
-            if (actionSound)
-            {
-                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
-                audioSource = null;
-            }
+            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
 
             pizzaBoxIsOpen = !pizzaBoxIsOpen;
             canBeInteractedWith = true;

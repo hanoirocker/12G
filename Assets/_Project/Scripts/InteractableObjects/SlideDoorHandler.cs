@@ -8,13 +8,19 @@ namespace TwelveG.InteractableObjects
 {
     public class SlideDoorHandler : MonoBehaviour, IInteractable
     {
-        [Header("Object Settings: ")]
+        [Header("Object Settings")]
         [SerializeField] private GameObject door;
         [SerializeField] private bool doorIsOpen;
-        [SerializeField] Transform parent;
-        [SerializeField, Range(0.5f, 1.5f)] float slidingDuration;
 
-        [Header("Audio Settings: ")]
+        [Tooltip("Dirección y distancia del deslizamiento (Local). Ej: (1.45, 0, 0)")]
+        [SerializeField] private Vector3 slideOffset = new Vector3(1.45f, 0f, 0f);
+
+        [Header("Movement Settings")]
+        [Tooltip("Curva de movimiento. Recomendado: Ease-Out para puertas pesadas.")]
+        [SerializeField] private AnimationCurve movementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+        [SerializeField, Range(0.5f, 2.0f)] float fallbackDuration = 1.0f;
+
+        [Header("Audio Settings")]
         [SerializeField] AudioClip openingDoorSound;
         [SerializeField] AudioClip closingDoorSound;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.8f;
@@ -23,135 +29,102 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
         [SerializeField] private InteractionTextSO interactionTextsSO_close;
 
-        private AudioSource audioSource;
-        private AudioSourceState audioSourceState;
         private bool isMoving;
-        private string doorTag;
-        private Vector3 initialPosition;
+        private Vector3 closedLocalPosition;
+        private Vector3 openLocalPosition;
 
         private void Awake()
         {
             isMoving = false;
-            initialPosition = door.transform.localPosition;
-        }
 
-        private void Start()
-        {
-            doorTag = door.tag;
-        }
-
-        private void ToggleDoor(Vector3 playerPosition)
-        {
-            if (!doorIsOpen)
+            if (doorIsOpen)
             {
-                OpenDoor();
+                openLocalPosition = door.transform.localPosition;
+                closedLocalPosition = door.transform.localPosition - slideOffset;
             }
             else
             {
-                CloseDoor();
+                closedLocalPosition = door.transform.localPosition;
+                openLocalPosition = door.transform.localPosition + slideOffset;
             }
         }
 
-        private void OpenDoor()
+        private void ToggleDoor()
         {
-            float xOffset;
-            xOffset = doorIsOpen ? (1.45f) * parent.localScale.x : (-1.45f) * parent.localScale.x;
-            Vector3 currentPosition = door.transform.position;
-            Vector3 targetPosition = new Vector3(currentPosition.x + xOffset, currentPosition.y, currentPosition.z);
-            StartCoroutine(SlideDoorOpen(targetPosition));
+            Vector3 targetLocalPos = doorIsOpen ? closedLocalPosition : openLocalPosition;
+            StartCoroutine(SlideDoorRoutine(targetLocalPos));
         }
 
-        private void CloseDoor()
-        {
-            StartCoroutine(SlideDoorClose());
-        }
-
-
-        private float PlayDoorSounds()
-        {
-            (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
-
-            audioSource.pitch = Random.Range(0.9f, 1.2f);
-            if (doorIsOpen & closingDoorSound != null)
-            {
-                audioSource.clip = closingDoorSound;
-                audioSource.Play();
-                return AudioUtils.CalculateDurationWithPitch(null, audioSource.pitch, closingDoorSound.length);
-            }
-            else if (!doorIsOpen & openingDoorSound != null)
-            {
-                audioSource.clip = openingDoorSound;
-                audioSource.Play();
-                return AudioUtils.CalculateDurationWithPitch(null, audioSource.pitch, openingDoorSound.length);
-            }
-            else
-            {
-                return slidingDuration;
-            }
-        }
-
-        private IEnumerator SlideDoorOpen(Vector3 targetPosition)
+        private IEnumerator SlideDoorRoutine(Vector3 targetLocalPos)
         {
             isMoving = true;
-            float duration = PlayDoorSounds();
+
+            bool isOpeningAction = !doorIsOpen;
+
+            AudioClip clip = isOpeningAction ? openingDoorSound : closingDoorSound;
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+                door.transform,
+                clipsVolume
+            );
+
+            float duration = fallbackDuration;
+
+            if (audioSource != null)
+            {
+                audioSource.pitch = Random.Range(0.9f, 1.1f);
+
+                if (clip != null)
+                {
+                    audioSource.clip = clip;
+                    audioSource.Play();
+                    duration = AudioUtils.CalculateDurationWithPitch(clip, audioSource.pitch);
+                }
+            }
 
             float elapsedTime = 0f;
-            Vector3 startPosition = door.transform.position;
+            Vector3 startLocalPos = door.transform.localPosition;
 
             while (elapsedTime < duration)
             {
-                door.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
                 elapsedTime += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsedTime / duration);
+
+                float curveT = movementCurve.Evaluate(t);
+
+                door.transform.localPosition = Vector3.Lerp(startLocalPos, targetLocalPos, curveT);
                 yield return null;
             }
 
-            door.transform.position = targetPosition;
+            door.transform.localPosition = targetLocalPos;
             doorIsOpen = !doorIsOpen;
-            isMoving = false;
-        }
 
-        private IEnumerator SlideDoorClose()
-        {
-            isMoving = true;
-            float duration = 1f; // Adjust the duration of the rotation as needed
-            float elapsedTime = 0f;
-            Vector3 startPosition = door.transform.position;
-
-            while (elapsedTime < duration)
+            if (audioSource != null)
             {
-                door.transform.position = Vector3.Lerp(startPosition, initialPosition, elapsedTime / duration);
-                elapsedTime += Time.deltaTime;
-                yield return null;
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+                AudioManager.Instance.PoolsHandler.ReleaseAudioSource(audioSource);
             }
-            doorIsOpen = !doorIsOpen;
+
             isMoving = false;
         }
 
         public bool Interact(PlayerInteraction interactor)
         {
-            ToggleDoor(interactor.transform.position);
+            ToggleDoor();
             return true;
         }
 
         public bool CanBeInteractedWith(PlayerInteraction playerCamera)
         {
-            return isMoving;
+            return !isMoving;
         }
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
-            return doorIsOpen ? interactionTextsSO_close : interactionTextsSO_close;
+            return doorIsOpen ? interactionTextsSO_close : interactionTextsSO_open;
         }
 
-        public bool VerifyIfPlayerCanInteract(PlayerInteraction interactor)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool VerifyIfPlayerCanInteract(PlayerInteraction interactor) => throw new System.NotImplementedException();
 
-        public (ObservationTextSO, float timeUntilShown) GetFallBackText()
-        {
-            throw new System.NotImplementedException();
-        }
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText() => throw new System.NotImplementedException();
     }
-
 }

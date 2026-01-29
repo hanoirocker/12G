@@ -59,9 +59,9 @@ namespace TwelveG.InteractableObjects
             (audioSource, audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(gameObject.transform, clipsVolume);
             audioSource.clip = clickSound;
             audioSource.pitch = Random.Range(0.9f, 1.2f);
-
+            float duration = AudioUtils.CalculateDurationWithPitch(clickSound, audioSource.pitch);
             audioSource.Play();
-            yield return new WaitUntil(() => !audioSource.isPlaying);
+            yield return new WaitForSeconds(duration);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
             audioSource = null;
         }

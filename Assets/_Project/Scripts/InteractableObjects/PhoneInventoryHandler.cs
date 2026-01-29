@@ -111,7 +111,6 @@ namespace TwelveG.InteractableObjects
 
             finishedUsingPhone.Raise(this, null);
             AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
-            audioSource = null;
 
             yield return new WaitForSeconds(5f);
             // Destruye el Inventory - Phone pero no lo elimina de la lista de objetos

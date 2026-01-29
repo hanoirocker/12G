@@ -39,8 +39,8 @@ namespace TwelveG.InteractableObjects
 
       if (beepAudioSource)
       {
-        beepAudioSource.Stop(); ;
-        beepAudioSource.RestoreSnapshot(beepAudioSourceState);
+        AudioUtils.StopAndRestoreAudioSource(beepAudioSource, beepAudioSourceState);
+        beepAudioSource = null;
       }
     }
 

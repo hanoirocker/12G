@@ -21,7 +21,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField, Range(0.5f, 1f)] private float minPitch = 0.8f;
         [SerializeField, Range(1f, 2f)] private float maxPitch = 1.5f;
 
-        [Tooltip("Ajusta cuánto tarda en girar respecto al audio. Valor Negativo = Gira más rápido que el audio (Ideal para portazos).")]
+        [Tooltip("Ajusta cuánto tarda en girar respecto al audio. Valor Negativo = Gira más rápido que el audio.")]
         [SerializeField, Range(-2f, 2f)] private float openingSoundOffset = 0f;
         [SerializeField, Range(-2f, 2f)] private float closingSoundOffset = 0f;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
@@ -59,10 +59,8 @@ namespace TwelveG.InteractableObjects
             StartCoroutine(RotateDrawerDoor(targetRotation));
         }
 
-
         private IEnumerator RotateDrawerDoor(Quaternion targetRotation)
         {
-            // 1. Configuración Inicial
             if (!doorIsOpen && consequentObjectsToActivate != null)
             {
                 consequentObjectsToActivate.SetActive(true);
@@ -75,15 +73,26 @@ namespace TwelveG.InteractableObjects
             (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
                 parentObject != null ? parentObject.transform : gameObject.transform, clipsVolume);
 
-            float randomPitch = Random.Range(minPitch, maxPitch);
-            audioSource.pitch = randomPitch;
-            audioSource.clip = clip;
-            audioSource.Play();
+            float realAudioDuration = fallbackDuration;
 
-            float realAudioDuration = (clip != null) ? (clip.length / randomPitch) : fallbackDuration;
+            if (audioSource != null)
+            {
+                if (clip != null)
+                {
+                    float randomPitch = Random.Range(minPitch, maxPitch);
+                    audioSource.pitch = randomPitch;
+                    audioSource.clip = clip;
+                    audioSource.Play();
+
+                    realAudioDuration = clip.length / randomPitch;
+                }
+                else
+                {
+                    realAudioDuration = fallbackDuration;
+                }
+            }
 
             float rotationDuration = realAudioDuration + offsetUsed;
-
             if (rotationDuration < 0.1f) rotationDuration = 0.1f;
 
             float elapsedTime = 0f;
@@ -107,14 +116,19 @@ namespace TwelveG.InteractableObjects
 
             isMoving = false;
 
-            float remainingAudioTime = realAudioDuration - rotationDuration;
-
-            if (remainingAudioTime > 0f)
+            if (audioSource != null)
             {
-                yield return new WaitForSeconds(remainingAudioTime);
-            }
+                float remainingAudioTime = realAudioDuration - rotationDuration;
 
-            AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+                if (remainingAudioTime > 0f && audioSource.isPlaying)
+                {
+                    yield return new WaitForSeconds(remainingAudioTime);
+                }
+
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+                AudioManager.Instance.PoolsHandler.ReleaseAudioSource(audioSource);
+                audioSource = null;
+            }
         }
 
         private (float, AudioClip, float) AudioClipData()
@@ -133,10 +147,7 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        public bool DoorIsOpen()
-        {
-            return doorIsOpen;
-        }
+        public bool DoorIsOpen() => doorIsOpen;
 
         public bool Interact(PlayerInteraction interactor)
         {
@@ -144,25 +155,15 @@ namespace TwelveG.InteractableObjects
             return true;
         }
 
-        public bool CanBeInteractedWith(PlayerInteraction playerCamera)
-        {
-            // Solo bloqueamos si se está moviendo visualmente.
-            return !isMoving;
-        }
+        public bool CanBeInteractedWith(PlayerInteraction playerCamera) => !isMoving;
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
             return doorIsOpen ? interactionTextsSO_close : interactionTextsSO_open;
         }
 
-        public bool VerifyIfPlayerCanInteract(PlayerInteraction interactor)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool VerifyIfPlayerCanInteract(PlayerInteraction interactor) => throw new System.NotImplementedException();
 
-        public (ObservationTextSO, float timeUntilShown) GetFallBackText()
-        {
-            throw new System.NotImplementedException();
-        }
+        public (ObservationTextSO, float timeUntilShown) GetFallBackText() => throw new System.NotImplementedException();
     }
 }

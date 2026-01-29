@@ -12,6 +12,7 @@ namespace TwelveG.InteractableObjects
         [Header("Item settings")]
         [Space]
         [SerializeField] private ItemType itemType;
+        [SerializeField] private MeshRenderer[] itemRenderer;
         public bool canBePicked;
         public bool triggerEventWhenPicked = false;
 
@@ -71,11 +72,18 @@ namespace TwelveG.InteractableObjects
                         pickItemSoundVolume
                 );
 
-                audioSource.PlayOneShot(pickItemSound);
-                gameObject.SetActive(false);
-                yield return new WaitUntil(() => !audioSource.isPlaying);
+                audioSource.clip = pickItemSound;
+                audioSource.Play();
+
+                foreach (MeshRenderer renderer in itemRenderer)
+                {
+                    renderer.enabled = false;
+                }
+                
+                canBePicked = false;
+                yield return new WaitForSeconds(pickItemSound.length);
                 AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
-                audioSource = null;
+                gameObject.SetActive(false);
             }
             else
             {
