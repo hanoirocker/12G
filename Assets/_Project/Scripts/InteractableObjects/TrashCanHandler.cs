@@ -80,8 +80,6 @@ namespace TwelveG.InteractableObjects
                 yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 1f));
             }
 
-            yield return new WaitUntil(() => !audioSource.isPlaying);
-
             RemoveUsedItems(playerCamera);
 
             if (dumpingTrashSound != null)

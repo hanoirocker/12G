@@ -1,7 +1,6 @@
 NOVEDADES:
-- Se solucionaron problemas de fuentes interactuables no devueltas luego de ser usadas (mayormente debido a PickableItem.cs)
-- Se corrigió un collider del garaga trash can que impedia que el rayo de interactuable diera con la tapa.
-- Se solucionó pico de consumo de GPU al comenzar la rutina de glowing portraits debido a audios no precargados.
+- Se retrabajó BirdsEvents usando las instancias de PlayerHouseHandler y EnvironmentHandler. Se modificaron a su vez los prefabs usados de las aves muertas, ventana rota y vidrios.
+- Como se modificó la lista de PlayerHouseHandler de stored objects, también los checkpoint stored objects.
 NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
 
 TOCHECK:
@@ -9,6 +8,7 @@ TOCHECK:
 - Agregar mas sonidos stereo para los perfiles sonoros de ambiente?
 
 TOFIX:
+- Por alguna razón, al contemplar la escoba ya usada "Used Broom" no devuelve texto.
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 
 TODO - próximo:

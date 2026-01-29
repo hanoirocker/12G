@@ -19,12 +19,9 @@ MonoBehaviour:
   flashlightEnabled: 0
   walkieTalkieEnabled: 0
   playerCanSprint: 1
+  houseHasEnergy: 1
   initialWeather: 6
   objectsToToggle:
-  - objectID: Window To Replace
-    isActive: 0
-  - objectID: New Window
-    isActive: 1
   - objectID: Broom
     isActive: 0
   - objectID: Pickable - Empty Trash Bag (1)
@@ -33,6 +30,12 @@ MonoBehaviour:
     isActive: 1
   - objectID: Blood Stain
     isActive: 1
+  - objectID: Kitchen Washed Plate
+    isActive: 0
+  - objectID: Pizza Slice To Take
+    isActive: 0
+  - objectID: Sofa Phone
+    isActive: 0
   environmentObjectsToToggle: []
   objectsWithCheckpointListener:
   - objectID: Garage Trash Can Top

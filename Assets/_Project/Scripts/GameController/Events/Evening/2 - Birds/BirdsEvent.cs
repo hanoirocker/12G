@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TwelveG.PlayerController;
 using TwelveG.Utils;
 using TwelveG.EnvironmentController;
+using TwelveG.InteractableObjects;
 
 namespace TwelveG.GameController
 {
@@ -20,13 +21,6 @@ namespace TwelveG.GameController
         [SerializeField] private List<ObservationTextSO> eventsObservationTextSO;
         [SerializeField] private List<UIOptionsTextSO> playerHelperDataTextSO;
 
-        [Header("Other eventsSO references")]
-        [Space]
-        [SerializeField] GameEventSO trashBagCanBePicked;
-        [SerializeField] GameEventSO broomCanBePicked;
-        [SerializeField] GameEventSO destroyWindowToReplace;
-        [SerializeField] GameEventSO zoomBirdIsInteractable;
-
         private bool allowNextAction = false;
 
         public override IEnumerator Execute()
@@ -37,10 +31,8 @@ namespace TwelveG.GameController
             // Actualizar text de ayuda del canvas del menu de pausa al presionar ESC
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
 
-            // Llega al Window to replace que deshabilita el mesh renderer de la ventana, y luego ejecuta
-            // el InstantiateZoomBird del WindowToReplaceHandler.
-            // zoomBird inicia con su collider interactuable apagado, se prende con el próximo eventoSO.
-            destroyWindowToReplace.Raise(this, null);
+            GameObject zoomBird = PlayerHouseHandler.Instance.GetStoredObjectByID("ZoomBird");
+            zoomBird.SetActive(true);
             GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
@@ -54,8 +46,7 @@ namespace TwelveG.GameController
                 eventsObservationTextSO[0]
             );
 
-            yield return new WaitUntil(() => allowNextAction);
-            ResetAllowNextActions();
+            yield return new WaitUntil(() => PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.Zoom);
 
             // Uff, voy a tener que limpiar esto si no quiero que vuelvan 
             // y me culpen por esta desastre.
@@ -65,31 +56,26 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
                 eventsObservationTextSO[1].observationTextsStructure[0].observationText
             ));
+            
+            // Ahora hacemos interactuable el ave para que el jugador pueda limpiarla
+            zoomBird.GetComponentInChildren<CleanBirdsHandler>().gameObject.GetComponent<Collider>().enabled = true;
 
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]);
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[1]);
 
-            // Se habilita el collider del interactuable de zoomBird
-            zoomBirdIsInteractable.Raise(this, null);
+            PlayerHouseHandler.Instance.GetStoredObjectByID("Broom").GetComponent<PickableItem>().canBePicked = true;
+            PlayerHouseHandler.Instance.GetStoredObjectByID("Pickable - Empty Trash Bag (1)").GetComponent<PickableItem>().canBePicked = true;
 
-            broomCanBePicked.Raise(this, true);
-
-            trashBagCanBePicked.Raise(this, true);
-
-            // Instanciar collider Crashing Bird con script TriggerByCollider
-            // TODO: enviar un evento para activar el objeto en vez de instanciarlo directamente
-            GameObject crashingBird = Instantiate(crashingBirdPrefab);
-
-            yield return new WaitUntil(() => allowNextAction);
-            ResetAllowNextActions();
-
-            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
+            yield return new WaitUntil(() => PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.MiddleStairs);
+            EnvironmentHandler.Instance.ToggleStoredPrefabs(new ObjectData("Crashing Bird", true));
 
             // Y ahora qué m...
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[2]
             );
+
+            GameEvents.Common.onSpawnVehicle.Raise(this, VehicleType.SlowCars);
 
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();

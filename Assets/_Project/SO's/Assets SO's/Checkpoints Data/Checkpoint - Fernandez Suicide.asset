@@ -19,12 +19,9 @@ MonoBehaviour:
   flashlightEnabled: 0
   walkieTalkieEnabled: 0
   playerCanSprint: 1
+  houseHasEnergy: 1
   initialWeather: 2
   objectsToToggle:
-  - objectID: Window To Replace
-    isActive: 0
-  - objectID: New Window
-    isActive: 1
   - objectID: Broom
     isActive: 0
   - objectID: Pickable - Empty Trash Bag (1)

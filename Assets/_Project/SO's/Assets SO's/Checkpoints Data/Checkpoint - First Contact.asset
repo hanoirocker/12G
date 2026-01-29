@@ -22,10 +22,6 @@ MonoBehaviour:
   houseHasEnergy: 1
   initialWeather: 3
   objectsToToggle:
-  - objectID: Window To Replace
-    isActive: 0
-  - objectID: New Window
-    isActive: 1
   - objectID: Broom
     isActive: 0
   - objectID: Pickable - Empty Trash Bag (1)
@@ -39,12 +35,6 @@ MonoBehaviour:
   - objectID: Pizza Slice To Take
     isActive: 0
   - objectID: Sofa Phone
-    isActive: 0
-  - objectID: Wardrobe L Interactable
-    isActive: 1
-  - objectID: Wardrobe R Interactable
-    isActive: 1
-  - objectID: Pickable - Walkie Talkie
     isActive: 0
   environmentObjectsToToggle: []
   objectsWithCheckpointListener:

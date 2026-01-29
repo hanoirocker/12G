@@ -31,8 +31,6 @@ namespace TwelveG.InteractableObjects
 
         [Header("EventsSO references")]
         public GameEventSO cleanZoomBird;
-        public GameEventSO onPlayerControls;
-        public GameEventSO onImageCanvasControls;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO;

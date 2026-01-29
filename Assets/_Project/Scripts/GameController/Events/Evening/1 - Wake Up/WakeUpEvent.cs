@@ -1,5 +1,6 @@
 using System.Collections;
 using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
@@ -17,6 +18,11 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
         [SerializeField] private ObservationTextSO eventsObservationTextSO;
         [SerializeField] private EventsInteractionTextsSO eventsInteractionTextsSO;
+
+        [Space(10)]
+        [Header("Audio settings")]
+        [SerializeField] private AudioClip windowCrashingSound;
+        [SerializeField, Range(0f, 1f)] private float windowCrashingSoundVolume = 0.8f;
 
         private bool allowNextAction = false;
 
@@ -38,8 +44,15 @@ namespace TwelveG.GameController
 
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(false));
 
-            GameEvents.Common.playCrashingWindowSound.Raise(this, null);
-            yield return new WaitForSeconds(3f);
+            Transform windowTransform = PlayerHouseHandler.Instance.GetStoredObjectByID("Ok Window").transform;
+            (AudioSource source, AudioSourceState state) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(windowTransform, windowCrashingSoundVolume);
+            if (source != null)
+            {
+                source.clip = windowCrashingSound;
+                source.Play();
+                yield return new WaitForSeconds(windowCrashingSound.length);
+                AudioUtils.StopAndRestoreAudioSource(source, state);
+            }
 
             yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.WakeUpBlinkingCoroutine());
 
