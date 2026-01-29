@@ -49,9 +49,12 @@ namespace TwelveG.UIController
 
     private IEnumerator StartPlaying(bool isNewGame)
     {
+      Cursor.visible = false;
+      Cursor.lockState = CursorLockMode.Locked;
+
       AudioManager.Instance.AudioUIHandler.PlayGameSound();
 
-      if ( SceneUtils.RetrieveCurrentSceneEnum() == SceneEnum.MenuEvening)
+      if (SceneUtils.RetrieveCurrentSceneEnum() == SceneEnum.MenuEvening)
       {
         PlayerHouseHandler.Instance.GetStoredObjectByID("Entrance MainDoor Lock").GetComponent<RotativeDoorHandler>().Interact(null);
         yield return new WaitForSeconds(2f);
