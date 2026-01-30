@@ -1,4 +1,5 @@
 using System.Collections;
+using Cinemachine;
 using TwelveG.AudioController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
@@ -59,7 +60,7 @@ namespace TwelveG.GameController
       // Luz y Puerta Depot
       ToggleDepotState(true);
 
-      StartCoroutine(EnemyInvasionSequence());
+      // StartCoroutine(EnemyInvasionSequence());
 
       // "ALGUIEN HA INGRESADO A TU HOGAR"
       GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
@@ -72,9 +73,10 @@ namespace TwelveG.GameController
       // ------------------------------------------------------------
 
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+      GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 3));
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDepot, true));
 
-      yield return new WaitForSeconds(0.5f);
+      yield return new WaitForSeconds(3.5f);
       ToggleDepotState(false);
 
       yield return new WaitUntil(() => allowNextAction);
