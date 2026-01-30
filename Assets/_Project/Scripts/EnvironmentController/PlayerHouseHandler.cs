@@ -34,7 +34,7 @@ namespace TwelveG.EnvironmentController
         EntranceMainDoor,
         GarageNoise,
         GarageGate,
-        GarageDoor
+        GarageDoor,
     }
 
     public class PlayerHouseHandler : MonoBehaviour

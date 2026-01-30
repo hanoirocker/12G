@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd898e50876474ecfbe1e282dac01260, type: 3}
-  m_Name: Checkpoint - Red Hour
+  m_Name: Checkpoint - Voices
   m_EditorClassIdentifier: 
-  eventEnum: 19
-  chapterName: Red Hour
+  eventEnum: 20
+  chapterName: Voices
   chapterThumbnail: {fileID: 0}
   startingInventory: 
   flashlightEnabled: 1
@@ -33,4 +33,6 @@ MonoBehaviour:
   environmentObjectsToToggle: []
   objectsWithCheckpointListener:
   - objectID: Players Door Lock
+    state: UNLOCKED
+  - objectID: Parents Door Lock
     state: UNLOCKED

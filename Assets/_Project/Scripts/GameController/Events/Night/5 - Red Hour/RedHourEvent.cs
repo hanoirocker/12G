@@ -51,7 +51,7 @@ namespace TwelveG.GameController
       yield return new WaitForSeconds(initialTime);
 
       // Destraba y abre la puerta del cuarto de los padres
-      PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().UnlockDoorByEvent();
+      yield return PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().UnlockDoorByEventCoroutine();
       yield return new WaitForSeconds(3f);
       PlayerHouseHandler.Instance.GetStoredObjectByID("Parents Door Lock").GetComponent<DownstairsOfficeDoorHandler>().Interact(null);
       yield return new WaitForSeconds(3f);

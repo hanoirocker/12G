@@ -13,7 +13,8 @@ namespace TwelveG.EnvironmentController
         PlayerHouseCorner,
         MiddleOfTheStreet,
         LivingRoomRightWindow,
-        DownstairsHallWindow
+        DownstairsHallWindow,
+        GarageMainDoor
     }
 
     public class EnvironmentHandler : MonoBehaviour
@@ -39,6 +40,7 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private Transform middleOfTheStreetTransform;
         [SerializeField] private Transform livingRoomRightWindowTransform;
         [SerializeField] private Transform downstairsHallWindowTransform;
+        [SerializeField] private Transform garageMainDoorTransform;
 
         [Space(10)]
         [Header("Prefab References")]
@@ -205,6 +207,10 @@ namespace TwelveG.EnvironmentController
                 case EnemyPositions.DownstairsHallWindow:
                     enemyPrefab.transform.position = downstairsHallWindowTransform.position;
                     enemyPrefab.transform.rotation = downstairsHallWindowTransform.rotation;
+                    break;
+                case EnemyPositions.GarageMainDoor:
+                    enemyPrefab.transform.position = garageMainDoorTransform.position;
+                    enemyPrefab.transform.rotation = garageMainDoorTransform.rotation;
                     break;
                 case EnemyPositions.None:
                     enemyPrefab.SetActive(false);

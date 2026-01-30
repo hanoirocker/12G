@@ -22,6 +22,7 @@ namespace TwelveG.Utils
         [SerializeField] private CinemachineVirtualCamera sofaVC;
         [SerializeField] private CinemachineVirtualCamera flashlightVC;
         [SerializeField] private CinemachineVirtualCamera focusVC;
+        [SerializeField] private CinemachineVirtualCamera kitchenDepotVC;
 
         [Space(10)]
         [Header("Camera Shake Profiles")]
@@ -255,6 +256,7 @@ namespace TwelveG.Utils
                 VirtualCameraTarget.SafeBox => safeBox,
                 VirtualCameraTarget.Flashlight => flashlightVC,
                 VirtualCameraTarget.Focus => focusVC,
+                VirtualCameraTarget.KitchenDepot => kitchenDepotVC,
                 _ => null
             };
         }

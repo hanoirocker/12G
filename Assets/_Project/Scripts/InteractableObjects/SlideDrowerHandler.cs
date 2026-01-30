@@ -56,7 +56,7 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        private void ToggleDrawer(Vector3 playerPosition)
+        private void ToggleDrawer()
         {
             Vector3 targetPosition = doorIsOpen 
                 ? initialPosition 
@@ -129,7 +129,7 @@ namespace TwelveG.InteractableObjects
 
         public bool Interact(PlayerInteraction interactor)
         {
-            ToggleDrawer(interactor.transform.position);
+            ToggleDrawer();
             return true;
         }
 

@@ -1,7 +1,9 @@
 NOVEDADES:
-- Se retrabajó BirdsEvents usando las instancias de PlayerHouseHandler y EnvironmentHandler. Se modificaron a su vez los prefabs usados de las aves muertas, ventana rota y vidrios.
-- Como se modificó la lista de PlayerHouseHandler de stored objects, también los checkpoint stored objects.
-NOTA: BORRAR TODO LO RELACIONADO AL CHECKPOINT DE RED HOUR AL TERMINAR DE TRABAJAR EN EL EVENTO.
+- Se empezó a trabajar en evento Voices, creando rutina de ingreso del enemigo al hogar
+- SE IMPLEMENTARA MUERTE DEL JUGADOR.
+- Se realizaron modificaciones simples de llamadas a métodos en Red Hour prefab.
+- Se eliminaron event SO's en LockedUpEvent para destrabar puerta. Ahora destrabada por llamada directa al objeto.
+- Se agregó Kitchen Depot VC.
 
 TOCHECK:
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)

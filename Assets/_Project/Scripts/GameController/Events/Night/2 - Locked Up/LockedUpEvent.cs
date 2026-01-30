@@ -1,5 +1,6 @@
 using System.Collections;
 using TwelveG.DialogsController;
+using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
@@ -18,10 +19,6 @@ namespace TwelveG.GameController
         [Header("Text event SO")]
         [SerializeField] private ObservationTextSO[] observationTextSOs;
         [SerializeField] private DialogSO[] dialogSOs;
-
-        [Space]
-        [Header("Game Event SO's")]
-        [SerializeField] private GameEventSO onPlayerDoorUnlock;
 
         private bool walkieTalkiePickedUp = false;
         private bool allowNextAction = false;
@@ -80,7 +77,9 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(2f);
 
             // Se desbloquea sola la puerta de su pieza
-            onPlayerDoorUnlock.Raise(this, null);
+            yield return StartCoroutine(PlayerHouseHandler.Instance.
+                GetStoredObjectByID("Players Door Lock").
+                GetComponent<DownstairsOfficeDoorHandler>().UnlockDoorByEventCoroutine());
 
             yield return new WaitForSeconds(3f);
         }

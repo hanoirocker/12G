@@ -18,7 +18,8 @@ namespace TwelveG.Utils
     Sofa,
     SafeBox,
     Flashlight,
-    Focus
+    Focus,
+    KitchenDepot
   }
 
   public class ToggleVirtualCamera : VirtualCamerasCommandsBase

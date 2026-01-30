@@ -9,7 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aef92f1ed08c84d0e9fc780eca8090ec, type: 3}
-  m_Name: onPlayerDoorUnlock
+  m_Script: {fileID: 11500000, guid: 16d9a8e54e1054f03bd40c7a55a3b0b2, type: 3}
+  m_Name: UI - Player Helper Data - Voices.2
   m_EditorClassIdentifier: 
-  listeners: []
+  uImenuTextStructure:
+  - language: 0
+    value: SIEMPRE FUISTE UNA VICTIMA DESPUES DE TODO
+  - language: 1
+    value: YOU WERE ALWAYS A VICTIM AFTER ALL
