@@ -1,9 +1,5 @@
 NOVEDADES:
-- Se empezó a trabajar en evento Voices, creando rutina de ingreso del enemigo al hogar
-- SE IMPLEMENTARA MUERTE DEL JUGADOR.
-- Se realizaron modificaciones simples de llamadas a métodos en Red Hour prefab.
-- Se eliminaron event SO's en LockedUpEvent para destrabar puerta. Ahora destrabada por llamada directa al objeto.
-- Se agregó Kitchen Depot VC.
+- Se continuó trabajando con Voices, creando una segunda rutina del enemigo para cuando el jugador safa al entrar al kitchen Depot. Se agregaron audios y animaciones para esta parte.
 
 TOCHECK:
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)
