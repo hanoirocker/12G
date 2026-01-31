@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation - Birds Portrait  - 3
+  m_Name: Contemplation - Birds Portrait  - 2
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Sus ojos  .. Ser\xE1 que ..."
-    - Definitivamente me estoy volviendo loco ..
+    - "Sus miradas... Ser\xE1 que..."
+    - Espero no estar volviendome loco.
   - language: 1
     contemplationTexts:
-    - Her eyes .. Could it be that ...
-    - I'm definitely going crazy...
+    - Their looks... Could it be that...
+    - I hope I'm not going crazy.

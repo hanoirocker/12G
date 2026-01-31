@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 140f4d353cbcd4e0e8d8cc727557bad4, type: 3}
-  m_Name: Contemplation - Birds Portrait  - 1
+  m_Name: Contemplation - Flowers Portrait - 3
   m_EditorClassIdentifier: 
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Hmmmm ... no hay de esos por aca.
-    - Aves enamoradas supongo
+    - "El hogar ideal para tus peque\xF1as y amadas mascotas... Dios."
   - language: 1
     contemplationTexts:
-    - Hmmmm... there aren't any of those around here.
-    - Birds in love I guess
+    - The ideal home for your small and beloved pets... God.

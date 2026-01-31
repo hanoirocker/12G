@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - No suelo leer demasiado y tampoco encuentro este el momento adecuado para comenzar
-      a hacerlo ..
+    - No suelo leer mucho y tampoco encuentro este el momento adecuado para comenzar
+      a hacerlo...
   - language: 1
     contemplationTexts:
-    - I don't usually read too much and I don't find this the right time to start
-      doing it either.
+    - I don't usually read much and I don't find this the right time to start doing
+      it either.

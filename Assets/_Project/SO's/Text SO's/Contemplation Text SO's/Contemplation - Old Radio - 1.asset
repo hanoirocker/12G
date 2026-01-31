@@ -16,12 +16,12 @@ MonoBehaviour:
   - language: 0
     contemplationTexts:
     - "Definitivamente uno de los regalos m\xE1s atractivos que me hizo mi padre
-      alguna vez .. aunque poco \xFAtil hoy por hoy."
+      alguna vez... aunque poco \xFAtil hoy por hoy."
     - "Si lo encend\xED dos veces es demasiado."
-    - Lo vintage funciona Jorge.
+    - Lo vintage funciona, Jorge.
   - language: 1
     contemplationTexts:
-    - Definitely one of the coolest gifts my dad ever gave me...although a bit useless
+    - Definitely one of the coolest gifts my dad ever gave me... although a bit useless
       these days.
-    - If I turned it on twice that's too much.
-    - It will remain the most "useful" gift
+    - Must have turned it on twice, ever.
+    - Vintage stuff works, Jorge.

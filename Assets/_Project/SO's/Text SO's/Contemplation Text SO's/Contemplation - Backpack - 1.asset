@@ -15,10 +15,10 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Si no fuese por mi madre seguir\xEDa usando mi antigua mochila ro\xF1osa jeje"
+    - "Si no fuese por mi madre seguir\xEDa usando mi antigua mochila ro\xF1osa jeje."
     - "No est\xE1 tan mal para una mochila supongo."
   - language: 1
     contemplationTexts:
-    - 'If it weren''t for my mother I would still be using my old, shabby backpack
-      hehe '
+    - If it weren't for my mother I would still be using my old, shabby backpack
+      heheh.
     - Not so bad for a backpack I guess.

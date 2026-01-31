@@ -15,9 +15,9 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Espero no tener que usar cosas como estas nunca ..
-    - Puede ser muy elegante pero definitivamente no es mi estilo ..
+    - Espero no tener que usar cosas como estas nunca...
+    - Puede ser muy elegante pero definitivamente no es mi estilo...
   - language: 1
     contemplationTexts:
-    - I hope I never have to use things like this ..
-    - It may be very elegant but it is definitely not my style..
+    - I hope I never have to wear things like this...
+    - It may be very elegant but it is definitely not my style...

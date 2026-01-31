@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Tu boca .. \xBFMi boca?"
+    - "Tu boca... \xBFMi boca?"
   - language: 1
     contemplationTexts:
-    - Your mouth .. My mouth?
+    - Your mouth... My mouth?

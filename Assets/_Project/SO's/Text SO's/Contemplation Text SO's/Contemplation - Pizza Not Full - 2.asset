@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Nuestro momento es ahora querida amiga.
+    - Nuestro momento es ahora, querida amiga.
   - language: 1
     contemplationTexts:
     - Our time is now, my dear friend.

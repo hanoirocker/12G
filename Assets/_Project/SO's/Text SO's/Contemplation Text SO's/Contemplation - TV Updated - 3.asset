@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Aunque esta mierda funcionase definitivamente no me sentar\xEDa a verla ahora
+    - "Aunque esta mierda funcionase, definitivamente no me sentar\xEDa a verla ahora
       mismo."
   - language: 1
     contemplationTexts:

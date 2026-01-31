@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Ayudame ..
+    - "Ay\xFAdame..."
   - language: 1
     contemplationTexts:
-    - Help me ..
+    - Help me...

@@ -15,13 +15,13 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Jonny boy ...
+    - Jonny boy...
     - Mi loco siempre dispuesto a hacerle frente a cualquier personaje. Una pena
-      que el trabajo de mi padre nos haya sepado hermano.
-    - Definitivamente necesitas actualizar tu gpu mi querido awper.
+      que el trabajo de mi padre nos haya separado, hermano.
+    - Definitivamente necesitas actualizar tu gpu, mi querido awper.
   - language: 1
     contemplationTexts:
     - Jonny boy...
-    - My crazy, always ready to take on any challenge. It's a shame my father's job
-      has separated us, brother.
-    - You definitely need to upgrade your gpu my dear awper.
+    - My bro, always ready to take on any challenge. It's a shame my father's job
+      broke us apart, brother.
+    - You definitely need to upgrade your gpu, my dear awper.

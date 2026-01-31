@@ -15,11 +15,11 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - Cada vez que llega a casa un tomo nuevo de esta novela mi madre se vuelve loca.
-      Supongo que no herede la lectura de ella.
+    - "Cada vez que llega a casa un tomo nuevo de esta novela mi madre se vuelve
+      loca. Supongo que no herede su pasi\xF3n por la lectura."
     - "Se la pasa leyendo esta novela \xFAltimamente."
   - language: 1
     contemplationTexts:
     - Every time a new volume of this novel arrives home my mother goes crazy. I
-      guess I didn't inherit her reading experience.
+      guess I didn't inherit her passion for reading.
     - She's been reading this novel a lot lately.

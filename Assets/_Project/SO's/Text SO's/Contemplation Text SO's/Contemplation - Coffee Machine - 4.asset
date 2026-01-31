@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "No preciso caf\xE9 en estos momentos para mantenerme despierto realmente"
+    - "No preciso caf\xE9 en estos momentos para mantenerme despierto realmente."
   - language: 1
     contemplationTexts:
-    - I don't need coffee right now to really keep me awake.
+    - I don't need coffee to really keep me awake right now.

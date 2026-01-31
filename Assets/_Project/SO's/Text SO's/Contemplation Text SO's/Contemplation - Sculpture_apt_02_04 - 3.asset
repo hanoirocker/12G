@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Me pregunto que har\xEDa una gallina colorida en momentos como este .."
+    - "Me pregunto que har\xEDa una gallina colorida en momentos como este..."
   - language: 1
     contemplationTexts:
-    - I wonder what a colorful hen would do at times like this..
+    - I wonder what a colorful hen would do at times like this...

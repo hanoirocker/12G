@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Es extra\xF1o .. siempre cre\xED conocer a esta mujer pero no es as\xED."
+    - "Es extra\xF1o... siempre cre\xED conocer a esta mujer pero no es as\xED."
     - "Creo que a Mica tambi\xE9n le encanta esta pintura."
   - language: 1
     contemplationTexts:

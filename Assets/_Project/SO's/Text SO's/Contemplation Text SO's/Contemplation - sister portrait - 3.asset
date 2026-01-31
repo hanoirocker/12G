@@ -15,7 +15,7 @@ MonoBehaviour:
   contemplationTextsStructure:
   - language: 0
     contemplationTexts:
-    - "Supongo que es mejor tenerte cerca despu\xE9s de todo .."
+    - "Supongo que es mejor tenerte cerca despu\xE9s de todo..."
   - language: 1
     contemplationTexts:
-    - I guess it's better to have you around after all..
+    - I guess it's better to have you around after all...
