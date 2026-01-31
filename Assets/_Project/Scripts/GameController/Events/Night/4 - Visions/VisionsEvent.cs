@@ -19,10 +19,6 @@ namespace TwelveG.GameController
     [SerializeField] private GameEventListener enemySpottedListener;
 
     [Space(10)]
-    [Header("Enemy Configuration")]
-    [SerializeField] private string animDHallToEntrance = "Enemy - DHall to Entrance";
-
-    [Space(10)]
     [Header("Event options")]
     [SerializeField, Range(1, 10)] private int initialTime = 0;
 
@@ -179,7 +175,7 @@ namespace TwelveG.GameController
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
       // Se ejecuta animación del enemigo caminando hacia la entrada principal y desactiva al terminar
       environmentHandler.StartCoroutine(
-        environmentHandler.EnemyHandler.PlayEnemyAnimation(animDHallToEntrance, true)
+        environmentHandler.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.Visions1, true)
       );
 
       // Espera a que termine de recuperarse del susto

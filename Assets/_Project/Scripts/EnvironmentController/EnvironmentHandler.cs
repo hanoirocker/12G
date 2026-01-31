@@ -12,7 +12,8 @@ namespace TwelveG.EnvironmentController
         [Header("References")]
         [Space]
         public GameObject Enemy;
-        public EnemyHandler EnemyHandler => EnemyHandler;
+        [SerializeField] private EnemyHandler enemyHandler;
+        public EnemyHandler EnemyHandler => enemyHandler;
 
         [SerializeField] private GameObject rainObject;
         [SerializeField] private LightningStormHandler lightningStormHandler;

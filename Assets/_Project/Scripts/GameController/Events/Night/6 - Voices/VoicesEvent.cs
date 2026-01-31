@@ -15,17 +15,21 @@ namespace TwelveG.GameController
     [Header("Timing")]
     [SerializeField, Range(1, 10)] private int initialTime = 2;
 
-    [Header("Enemy Configuration")]
-    [SerializeField] private string animGarageToEntrance = "Enemy - Garage to Entrance";
-    [SerializeField] private string animEntranceToHall = "Enemy - Entrance to DHall";
-
+    [Space(5)]
     [Header("Text & Dialogs")]
     [SerializeField] private UIOptionsTextSO[] playerHelperDataTextSO;
 
+    [Space(5)]
     [Header("Audio - Sequence")]
     [Tooltip("Música de tensión que incrementa mientras el enemigo avanza")]
     [SerializeField] private AudioClip tensionRampClip;
 
+    [Space(5)]
+    [Header("Timing - Sequence")]
+    [SerializeField, Range(0f, 5f)] private float GARAGE_OPEN_WAIT = 3f;
+    [SerializeField, Range(0f, 5f)] private float DRAMATIC_PAUSE = 1.5f;
+
+    [Space(5)]
     [Header("Audio - Outcome")]
     [Tooltip("Sonido de miedo constante (cuando el enemigo ya es omnipresente)")]
     [SerializeField] private AudioClip constantFearClip;
@@ -60,10 +64,7 @@ namespace TwelveG.GameController
       // Luz y Puerta Depot
       ToggleDepotState(true);
 
-      // StartCoroutine(EnemyInvasionSequence());
-
-      // "ALGUIEN HA INGRESADO A TU HOGAR"
-      GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
+      StartCoroutine(EnemyInvasionSequence());
 
       // Monitor de estado (Controla Audio, Muerte y Exito)
       yield return StartCoroutine(MonitorInvasionRoutine());
@@ -89,6 +90,9 @@ namespace TwelveG.GameController
       Coroutine enemyWalkingCoroutine;
       enemyIsOmnipresent = false;
 
+      // Posicionar en Garage (o donde empiece la animación)
+      EnvironmentHandler.Instance.EnemyHandler.ShowEnemy(EnemyPositions.GarageMainDoor);
+
       // Apertura forzada de la puerta del garage
       DownstairsOfficeDoorHandler garageMainDoorHandler =
         PlayerHouseHandler.Instance.GetStoredObjectByID("Garage MainDoor Lock")
@@ -96,65 +100,73 @@ namespace TwelveG.GameController
       garageMainDoorHandler.ForceOpenDoor();
       garageMainDoorHandler.isNightmare = false;
 
-      // Posicionar en Garage (o donde empiece la animación)
-      // TODO: Nunca se va a ejecutar ShowEnemy porque el prefab está apagado
-      EnvironmentHandler.Instance.EnemyHandler.ShowEnemy(EnemyPositions.GarageMainDoor);
+      // Esperar hasta que se abra la puerta del garage
+      yield return new WaitForSeconds(GARAGE_OPEN_WAIT);
+
+      // "ALGUIEN HA INGRESADO A TU HOGAR"
+      GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
 
       // Garage -> Entrada
       enemyWalkingCoroutine = StartCoroutine(
         EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.MosaicGarage)
       );
-      // yield return StartCoroutine(
-      //   EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(animGarageToEntrance, false)
-      // );
-      yield return new WaitForSeconds(11f);
+      yield return StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.Voices1, false)
+      );
+
       StopCoroutine(enemyWalkingCoroutine);
 
-      yield return new WaitForSeconds(3f); // Delay antes de abrir la puerta
-      // Abrir Puerta Garage hacia la entrada de la casa
+      // Esperar hasta que se abra la puerta del garage al hall
       InteractWithDoor("Garage Door Lock");
-
-      // Pausa Dramática
-      yield return new WaitForSeconds(1.5f);
+      yield return new WaitForSeconds(GARAGE_OPEN_WAIT);
 
       // Entrada --> DownstairsHall
       enemyWalkingCoroutine = StartCoroutine(
         EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.MosaicGarage)
       );
-      // yield return StartCoroutine(
-      //   EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(animEntranceToHall, false)
-      // );
-      yield return new WaitForSeconds(11f);
+      yield return StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.Voices2, false)
+      );
       StopCoroutine(enemyWalkingCoroutine);
 
       // Abrir Puerta Hall
       InteractWithDoor("Main Hall Door Lock");
+      yield return new WaitForSeconds(GARAGE_OPEN_WAIT);
 
       // El enemigo desaparece visualmente pero está "en todos lados"
       // Desactivar modelo enemigo acá si es necesario
-      yield return new WaitForSeconds(1.5f);
+      // Pausa Dramática
+      yield return new WaitForSeconds(DRAMATIC_PAUSE);
       enemyIsOmnipresent = true;
     }
 
     // Monitor de supervivencia del jugador y audio de tensión
+    // Monitor de supervivencia del jugador y audio de tensión
     private IEnumerator MonitorInvasionRoutine()
     {
+      // ... (Cálculo de duración y setup inicial igual que antes) ...
+      float invasionDuration = EnvironmentHandler.Instance.EnemyHandler.GetInvasionSequenceDuration(
+          (GARAGE_OPEN_WAIT * 3) + DRAMATIC_PAUSE
+      );
+
       PlayerHandler player = PlayerHandler.Instance;
 
-      // Configurar Música de Tensión (Loop)
-      AudioSource tensionSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
+      // Configurar Música de Tensión
+      tensionSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
       tensionSource.clip = tensionRampClip;
       tensionSource.loop = true;
-      tensionSource.volume = 0.1f;
+      tensionSource.volume = 0f;
       tensionSource.Play();
 
-      float estimatedDuration = 10f;
-      float timer = 0f;
+      StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(tensionSource, 0f, 1f, invasionDuration));
 
       HouseArea lastArea = player.GetCurrentHouseArea();
 
+      bool omnipresentPhaseTriggered = false;
+
       while (!playerIsSafe)
       {
+        // 1. FASE: JUGADOR LOGRA ENTRAR AL DEPOT (EVENTO SUPERADO)
         if (player.GetCurrentHouseArea() == HouseArea.KitchenDepot)
         {
           playerIsSafe = true;
@@ -162,47 +174,57 @@ namespace TwelveG.GameController
           yield break;
         }
 
-        // Lógica de audio para cuando el enemigo está avanzando
+        // 2. FASE: EL ENEMIGO AVANZA
         if (!enemyIsOmnipresent)
         {
-          timer += Time.deltaTime;
-          float progress = Mathf.Clamp01(timer / estimatedDuration);
-          tensionSource.volume = Mathf.Lerp(0.2f, 1f, progress);
-          tensionSource.pitch = Mathf.Lerp(0.8f, 1.1f, progress);
+          // Sin logica por ahora .. quizas luego? Quizas no.
         }
-        // Lógica para cuando el enemigo completó su ingreso
+        // 3. FASE: ENEMIGO OMNIPRESENTE (Llegó)
         else
         {
-          // TODO: Sonido de respiración del jugador constante 
-          GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]); // "SIEMPRE FUISTE UNA VICTIMA"
+          if (!omnipresentPhaseTriggered)
+          {
+            omnipresentPhaseTriggered = true; // Bajamos la bandera para que no entre más
 
+            StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(tensionSource, 1f));
+
+            StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.PlayPlayerSound(PlayerSoundsType.ScaredReactionLong));
+
+            GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]); // "SIEMPRE FUISTE UNA VICTIMA"
+          }
+
+          // --- BLOQUE DE EJECUCIÓN CONTINUA (MONITOR DE MUERTE) ---
           HouseArea currentArea = player.GetCurrentHouseArea();
 
           // A: Jugador cambia de cuarto -> MUERTE
           if (currentArea != lastArea && currentArea != HouseArea.None && currentArea != HouseArea.KitchenDepot)
           {
             yield return StartCoroutine(TriggerDeath());
+            yield break;
           }
 
-          // Jugador en Kitchen -> MUERTE INSTANTÁNEA
+          // B: Jugador en Kitchen -> MUERTE INSTANTÁNEA
           if (currentArea == HouseArea.Kitchen)
           {
             yield return StartCoroutine(TriggerDeath());
+            yield break;
           }
 
-          // Jugador en Living -> MUERTE CON DELAY
+          // C: Jugador en Living -> MUERTE CON DELAY
           if (currentArea == HouseArea.LivingRoom)
           {
             yield return new WaitForSeconds(2.5f);
-            // Chequeamos de nuevo por si se movió en esos 2.5s
-            if (!playerIsSafe) yield return StartCoroutine(TriggerDeath());
-          }
 
-          // Actualizamos lastArea para el chequeo de movimiento
+            // Si tras la espera no entró al depot (safety check), muere.
+            if (!playerIsSafe)
+            {
+              yield return StartCoroutine(TriggerDeath());
+              yield break;
+            }
+          }
           if (currentArea != HouseArea.None) lastArea = currentArea;
         }
-
-        yield return null;
+        yield return null; // Esperar al siguiente frame
       }
     }
 
@@ -240,8 +262,6 @@ namespace TwelveG.GameController
       {
         StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(tensionSource, 1.5f));
       }
-
-      // Reproducir sonido de alivio
     }
 
     private void ToggleDepotState(bool open)

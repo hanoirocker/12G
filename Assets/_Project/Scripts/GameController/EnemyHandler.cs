@@ -1,10 +1,18 @@
 using System.Collections;
 using TwelveG.AudioController;
 using TwelveG.PlayerController;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TwelveG.GameController
 {
+  public enum EnemyAnimations
+  {
+    Visions1,
+    Voices1,
+    Voices2
+  }
+
   public enum EnemyPositions
   {
     None,
@@ -17,11 +25,17 @@ namespace TwelveG.GameController
 
   public class EnemyHandler : MonoBehaviour
   {
-    [Space(10)]
-    [Header("Enemy References")]
     [Space(5)]
-    [SerializeField] GameObject enemyPrefab;
+    [Header("Animations References")]
     [SerializeField] private Animation animationComponent;
+    [Space(2)]
+    [SerializeField] private AnimationClip visions1Clip;
+    [SerializeField] private AnimationClip voices1Clip;
+    [SerializeField] private AnimationClip voices2Clip;
+
+    [Space(5)]
+    [Header("Renderer References")]
+    [SerializeField] private Renderer[] enemyRenderers;
 
     [Space(5)]
     [Header("Transforms")]
@@ -39,35 +53,65 @@ namespace TwelveG.GameController
 
     private AudioSource enemySource;
 
+    private ZoneSpotterHandler zoneSpotterHandler;
+
     private void Awake()
     {
       enemySource = gameObject.GetComponent<AudioSource>();
+      zoneSpotterHandler = gameObject.GetComponent<ZoneSpotterHandler>();
+    }
+
+    private void Start()
+    {
+      HideEnemy();
+    }
+
+    private void OnDisable()
+    {
+      StopAllCoroutines();
     }
 
     public Transform GetCurrentEnemyTransform()
     {
-      Transform headTransform = enemyPrefab.transform.Find("Head");
+      Transform headTransform = gameObject.transform.Find("Head");
       return headTransform;
     }
 
-    public IEnumerator PlayEnemyAnimation(string animationName, bool deactivateAfter)
+    public IEnumerator PlayEnemyAnimation(EnemyAnimations enemyAnimations, bool deactivateAfter)
     {
+      AnimationClip clipToPlay;
+
+      switch (enemyAnimations)
+      {
+        case EnemyAnimations.Visions1:
+          clipToPlay = visions1Clip;
+          break;
+        case EnemyAnimations.Voices1:
+          clipToPlay = voices1Clip;
+          break;
+        case EnemyAnimations.Voices2:
+          clipToPlay = voices2Clip;
+          break;
+        default:
+          Debug.LogWarning("[EnemyHandler] Animación de enemigo inválida especificada.");
+          yield break;
+      }
+
       if (animationComponent != null)
       {
-        animationComponent.Play(animationName);
+        animationComponent.Play(clipToPlay.name);
+
+        yield return new WaitForSeconds(animationComponent[clipToPlay.name].length);
 
         if (deactivateAfter)
         {
-          yield return new WaitForSeconds(animationComponent[animationName].length);
-          enemyPrefab.SetActive(false);
+          HideEnemy();
         }
       }
       else
       {
-        Debug.LogWarning("[EnvironmentHandler] Animation Component es nulo.");
+        yield return null;
       }
-
-      if (!deactivateAfter) yield return null;
     }
 
     public IEnumerator PlayEnemyWalkingRoutine(FSMaterial fSMaterial)
@@ -106,37 +150,69 @@ namespace TwelveG.GameController
       switch (position)
       {
         case EnemyPositions.PlayerHouseCorner:
-          enemyPrefab.transform.position = cornerTransform.position;
-          enemyPrefab.transform.rotation = cornerTransform.rotation;
+          gameObject.transform.position = cornerTransform.position;
+          gameObject.transform.rotation = cornerTransform.rotation;
           break;
         case EnemyPositions.MiddleOfTheStreet:
-          enemyPrefab.transform.position = middleOfTheStreetTransform.position;
-          enemyPrefab.transform.rotation = middleOfTheStreetTransform.rotation;
+          gameObject.transform.position = middleOfTheStreetTransform.position;
+          gameObject.transform.rotation = middleOfTheStreetTransform.rotation;
           break;
         case EnemyPositions.LivingRoomRightWindow:
-          enemyPrefab.transform.position = livingRoomRightWindowTransform.position;
-          enemyPrefab.transform.rotation = livingRoomRightWindowTransform.rotation;
+          gameObject.transform.position = livingRoomRightWindowTransform.position;
+          gameObject.transform.rotation = livingRoomRightWindowTransform.rotation;
           break;
         case EnemyPositions.DownstairsHallWindow:
-          enemyPrefab.transform.position = downstairsHallWindowTransform.position;
-          enemyPrefab.transform.rotation = downstairsHallWindowTransform.rotation;
+          gameObject.transform.position = downstairsHallWindowTransform.position;
+          gameObject.transform.rotation = downstairsHallWindowTransform.rotation;
           break;
         case EnemyPositions.GarageMainDoor:
-          enemyPrefab.transform.position = garageMainDoorTransform.position;
-          enemyPrefab.transform.rotation = garageMainDoorTransform.rotation;
+          gameObject.transform.position = garageMainDoorTransform.position;
+          gameObject.transform.rotation = garageMainDoorTransform.rotation;
           break;
         case EnemyPositions.None:
-          enemyPrefab.SetActive(false);
+          HideEnemy();
           return;
         default:
           Debug.LogWarning("Posición de enemigo inválida especificada.");
           return;
       }
 
-      enemyPrefab.SetActive(true);
+      // Mostramos al enemigo
+      foreach (var renderer in enemyRenderers)
+      {
+        renderer.enabled = true;
+      }
 
-      var spotter = enemyPrefab.GetComponent<ZoneSpotterHandler>();
-      if (spotter != null) spotter.canBeSpotted = true;
+      if (zoneSpotterHandler != null) zoneSpotterHandler.canBeSpotted = true;
+    }
+
+    private void HideEnemy()
+    {
+      foreach (var renderer in enemyRenderers)
+      {
+        renderer.enabled = false;
+      }
+      zoneSpotterHandler.canBeSpotted = false;
+    }
+
+    // Calcula la duración exacta de la secuencia de invasión basada en los clips asignados
+    public float GetInvasionSequenceDuration(float totalExtraTimes)
+    {
+      float totalDuration = 0f;
+
+      totalDuration += totalExtraTimes;
+
+      if (voices1Clip != null)
+      {
+        totalDuration += voices1Clip.length;
+      }
+
+      if (voices2Clip != null)
+      {
+        totalDuration += voices2Clip.length;
+      }
+
+      return totalDuration;
     }
   }
 }
