@@ -125,7 +125,7 @@ namespace TwelveG.GameController
         EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.MosaicGarage)
       );
       yield return StartCoroutine(
-        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.Voices2, false)
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.Voices2, true)
       );
       StopCoroutine(enemyWalkingCoroutine);
 
