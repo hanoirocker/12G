@@ -16,10 +16,10 @@ namespace TwelveG.GameController
     [Header("Menu audio")]
     [SerializeField] private AudioClip afternoonMusic;
     [SerializeField, Range(0f, 1f)] private float afternoonMusicVolume = 0.7f;
-    [SerializeField] private AudioClip eveningMusic;
-    [SerializeField, Range(0f, 1f)] private float eveningMusicVolume = 0.7f;
-    [SerializeField] private AudioClip nightMusic;
-    [SerializeField, Range(0f, 1f)] private float nightMusicVolume = 0.7f;
+    // [SerializeField] private AudioClip eveningMusic;
+    // [SerializeField, Range(0f, 1f)] private float eveningMusicVolume = 0.7f;
+    // [SerializeField] private AudioClip nightMusic;
+    // [SerializeField, Range(0f, 1f)] private float nightMusicVolume = 0.7f;
 
     private void Start()
     {

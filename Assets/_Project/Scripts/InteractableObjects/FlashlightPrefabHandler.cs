@@ -20,7 +20,6 @@ namespace TwelveG.InteractableObjects
     [SerializeField] private GameObject pickableObject;
     [SerializeField] private GameObject parentObject;
 
-    private bool vcAnimationHasEnded = false;
     private bool canBeInteractedWith = true;
 
     public bool CanBeInteractedWith(PlayerInteraction playerCameraObject)

@@ -49,7 +49,7 @@ namespace TwelveG.EnvironmentController
 
         private CinemachineVirtualCamera currentActiveCamera;
 
-        private bool isFlashingLight = false;
+        public bool isFlashingLight = false;
 
         private void Start()
         {
