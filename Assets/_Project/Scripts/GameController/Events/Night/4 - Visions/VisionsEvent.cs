@@ -33,8 +33,6 @@ namespace TwelveG.GameController
 
     [Space(10)]
     [Header("Audio Options")]
-    [SerializeField] private AudioClip track2Clip;
-    [SerializeField, Range(0f, 1f)] private float track2Volume = 0.15f;
     [SerializeField] private AudioClip[] forcingDoorClips;
     [SerializeField, Range(0f, 1f)] private float forcingDoorClipsVolume = 0.5f;
 
@@ -53,7 +51,6 @@ namespace TwelveG.GameController
 
     public override IEnumerator Execute()
     {
-      AudioSource bgMusicSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
       EnvironmentHandler environmentHandler = EnvironmentHandler.Instance;
       PlayerHouseHandler playerHouseHandler = PlayerHouseHandler.Instance;
       PlayerHandler playerHandler = PlayerHandler.Instance;
@@ -80,17 +77,6 @@ namespace TwelveG.GameController
       // los 2 objetos con ZoneSpotterHandler de Mica Entrance house. Luego, según el spot area
       // activo al observar, se dispara un evento para distinguir si se observó desde arriba o desde abajo.
       playerHouseHandler.ToggleStoredPrefabs(new ObjectData("Visions - Colliders", true));
-
-      // Comienza música ""
-      if (track2Clip != null)
-      {
-        bgMusicSource.clip = track2Clip;
-        bgMusicSource.volume = 0f;
-        bgMusicSource.loop = true;
-        bgMusicSource.Play();
-
-        StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(bgMusicSource, 0f, track2Volume, 2f));
-      }
 
       // Preparamos el video con las imágenes subliminales
       if (subliminalJSClip1 != null)
@@ -151,6 +137,7 @@ namespace TwelveG.GameController
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
 
+      yield return new WaitForSeconds(2f);
       yield return StartCoroutine(
         AudioManager.Instance.PlayerSoundsHandler.
         PlayPlayerSound(PlayerSoundsType.VisionsNeckWhisper)
