@@ -161,7 +161,7 @@ namespace TwelveG.GameController
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
       // Se ejecuta animación del enemigo caminando hacia la entrada principal y desactiva al terminar
       environmentHandler.StartCoroutine(
-        environmentHandler.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.Visions1, true)
+        environmentHandler.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VisionsOutsideDhallToEntrance, true)
       );
 
       // Espera a que termine de recuperarse del susto

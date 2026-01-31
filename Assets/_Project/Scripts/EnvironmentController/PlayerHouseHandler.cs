@@ -35,6 +35,9 @@ namespace TwelveG.EnvironmentController
         GarageNoise,
         GarageGate,
         GarageDoor,
+        KitchenKnifeStack,
+        KitchenTable,
+        KitchenDepotDoor
     }
 
     public class PlayerHouseHandler : MonoBehaviour
@@ -51,6 +54,9 @@ namespace TwelveG.EnvironmentController
         [SerializeField] private Transform garageNoiseTransform;
         [SerializeField] private Transform garageDoorTransform;
         [SerializeField] private Transform garageGateTransform;
+        [SerializeField] private Transform kitchenKnifeStackTransform;
+        [SerializeField] private Transform kitchenTableTransform;
+        [SerializeField] private Transform kitchenDepotDoorTransform;
 
         [Header("Light References")]
         [SerializeField] private Light[] HouseLights;
@@ -215,6 +221,12 @@ namespace TwelveG.EnvironmentController
                     return garageGateTransform;
                 case HouseObjects.GarageDoor:
                     return garageDoorTransform;
+                case HouseObjects.KitchenKnifeStack:
+                    return kitchenKnifeStackTransform;
+                case HouseObjects.KitchenTable:
+                    return kitchenTableTransform;
+                case HouseObjects.KitchenDepotDoor:
+                    return kitchenDepotDoorTransform;
                 default:
                     Debug.LogWarning("Objeto de casa inválido.");
                     return null;

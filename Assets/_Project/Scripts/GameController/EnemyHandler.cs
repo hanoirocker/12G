@@ -1,16 +1,19 @@
 using System.Collections;
 using TwelveG.AudioController;
 using TwelveG.PlayerController;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TwelveG.GameController
 {
   public enum EnemyAnimations
   {
-    Visions1,
-    Voices1,
-    Voices2
+    VisionsOutsideDhallToEntrance,
+    VoicesMainGarageToEntrance,
+    VoicesGarageToDhall,
+    VoicesDhallToKichen,
+    VoicesKichenToKichenDepot,
+    VoicesKichenDepotToKichenTable,
+    VoicesKitchenTableToGarage
   }
 
   public enum EnemyPositions
@@ -29,10 +32,13 @@ namespace TwelveG.GameController
     [Header("Animations References")]
     [SerializeField] private Animation animationComponent;
     [Space(2)]
-    [SerializeField] private AnimationClip visions1Clip;
-    [SerializeField] private AnimationClip voices1Clip;
-    [SerializeField] private AnimationClip voices2Clip;
-
+    [SerializeField] private AnimationClip visionsOutsideDhallToEntranceClip;
+    [SerializeField] private AnimationClip voicesMainGarageToEntranceClip;
+    [SerializeField] private AnimationClip voicesGarageToDhallClip;
+    [SerializeField] private AnimationClip voicesDhallToKichenClip;
+    [SerializeField] private AnimationClip voicesKichenToKichenDepotClip;
+    [SerializeField] private AnimationClip voicesKichenDepotToKichenTableClip;
+    [SerializeField] private AnimationClip voicesKitchenTableToGarageClip;
     [Space(5)]
     [Header("Renderer References")]
     [SerializeField] private Renderer[] enemyRenderers;
@@ -83,14 +89,26 @@ namespace TwelveG.GameController
 
       switch (enemyAnimations)
       {
-        case EnemyAnimations.Visions1:
-          clipToPlay = visions1Clip;
+        case EnemyAnimations.VisionsOutsideDhallToEntrance:
+          clipToPlay = visionsOutsideDhallToEntranceClip;
           break;
-        case EnemyAnimations.Voices1:
-          clipToPlay = voices1Clip;
+        case EnemyAnimations.VoicesMainGarageToEntrance:
+          clipToPlay = voicesMainGarageToEntranceClip;
           break;
-        case EnemyAnimations.Voices2:
-          clipToPlay = voices2Clip;
+        case EnemyAnimations.VoicesGarageToDhall:
+          clipToPlay = voicesGarageToDhallClip;
+          break;
+        case EnemyAnimations.VoicesDhallToKichen:
+          clipToPlay = voicesDhallToKichenClip;
+          break;
+        case EnemyAnimations.VoicesKichenToKichenDepot:
+          clipToPlay = voicesKichenToKichenDepotClip;
+          break;
+        case EnemyAnimations.VoicesKichenDepotToKichenTable:
+          clipToPlay = voicesKichenDepotToKichenTableClip;
+          break;
+        case EnemyAnimations.VoicesKitchenTableToGarage:
+          clipToPlay = voicesKitchenTableToGarageClip;
           break;
         default:
           Debug.LogWarning("[EnemyHandler] Animación de enemigo inválida especificada.");
@@ -202,14 +220,14 @@ namespace TwelveG.GameController
 
       totalDuration += totalExtraTimes;
 
-      if (voices1Clip != null)
+      if (voicesMainGarageToEntranceClip != null)
       {
-        totalDuration += voices1Clip.length;
+        totalDuration += voicesMainGarageToEntranceClip.length;
       }
 
-      if (voices2Clip != null)
+      if (voicesGarageToDhallClip != null)
       {
-        totalDuration += voices2Clip.length;
+        totalDuration += voicesGarageToDhallClip.length;
       }
 
       return totalDuration;

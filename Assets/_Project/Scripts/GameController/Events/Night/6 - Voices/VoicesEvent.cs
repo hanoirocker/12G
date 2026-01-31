@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Cinemachine;
 using TwelveG.AudioController;
@@ -5,6 +6,7 @@ using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
+using TwelveG.UIController;
 using TwelveG.Utils;
 using UnityEngine;
 
@@ -32,12 +34,14 @@ namespace TwelveG.GameController
     [SerializeField, Range(0f, 5f)] private float DRAMATIC_PAUSE = 1.5f;
 
     [Space(5)]
-    [Header("Audio - Outcome")]
-    [Tooltip("Sonido de miedo constante (cuando el enemigo ya es omnipresente)")]
-    [SerializeField] private AudioClip constantFearClip;
-    [Tooltip("Sonido de alivio/recuperar aliento (al entrar al depot a tiempo)")]
-    [SerializeField] private AudioClip breathRecoveryClip;
+    [Header("Audio")]
     [SerializeField] private AudioClip jumpscareClip;
+    [Space(2)]
+    [SerializeField] private AudioClip kitchenKnifeSoundClip;
+    [SerializeField, Range(0f, 1f)] private float kitchenKnifeSoundVolume = 0.7f;
+    [Space(2)]
+    [SerializeField] private AudioClip doorKnockingClip;
+    [SerializeField, Range(0f, 1f)] private float doorKnockingSoundVolume = 0.7f;
 
     private bool allowNextAction = false;
     private bool enemyIsOmnipresent = false;
@@ -64,7 +68,7 @@ namespace TwelveG.GameController
       );
 
       // Luz y Puerta Depot
-      ToggleDepotState(true);
+      StartCoroutine(ToggleDepotDoor(true));
 
       // Posicionar en Garage (o donde empiece la animación)
       EnvironmentHandler.Instance.EnemyHandler.ShowEnemy(EnemyPositions.GarageMainDoor);
@@ -80,7 +84,7 @@ namespace TwelveG.GameController
       yield return new WaitForSeconds(GARAGEMAIN_OPEN_WAIT);
 
       // Rutina del enemigo
-      StartCoroutine(EnemyInvasionSequence());
+      Coroutine enemyInvasion = StartCoroutine(EnemyInvasionSequence());
 
       // Monitor de estado (Controla Audio, Muerte y Exito)
       yield return StartCoroutine(MonitorInvasionRoutine());
@@ -89,13 +93,11 @@ namespace TwelveG.GameController
       // SI LLEGAMOS HASTA ACÁ, EL JUGADOR SUPERO LA INVASIÓN
       // ------------------------------------------------------------
 
-      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
-      GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 3));
-      GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDepot, true));
+      // Aca continúa la rutian del enemigo pero en la cocina, esperamos a que termine
+      // para terminar con PlayerInsideDepotRoutine
+      yield return StartCoroutine(PlayerInsideDepotRoutine(enemyInvasion));
 
-      yield return new WaitForSeconds(3.5f);
-      ToggleDepotState(false);
-
+      // BLA
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
     }
@@ -114,7 +116,7 @@ namespace TwelveG.GameController
         EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.MosaicGarage)
       );
       yield return StartCoroutine(
-        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.Voices1, false)
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VoicesMainGarageToEntrance, false)
       );
 
       StopCoroutine(enemyWalkingCoroutine);
@@ -128,7 +130,7 @@ namespace TwelveG.GameController
         EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.MosaicGarage)
       );
       yield return StartCoroutine(
-        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.Voices2, true)
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VoicesGarageToDhall, true)
       );
       StopCoroutine(enemyWalkingCoroutine);
 
@@ -141,6 +143,12 @@ namespace TwelveG.GameController
       // Pausa Dramática
       yield return new WaitForSeconds(DRAMATIC_PAUSE);
       enemyIsOmnipresent = true;
+
+      // Si el jugador está a salvo, reproducir el resto de la rutina del enemigo
+      if (playerIsSafe)
+      {
+        StartCoroutine(EnemyInsideKitchenRoutine());
+      }
     }
 
     // Monitor de supervivencia del jugador y audio de tensión
@@ -269,12 +277,25 @@ namespace TwelveG.GameController
       }
     }
 
-    private void ToggleDepotState(bool open)
+    private IEnumerator ToggleDepotDoor(bool open)
     {
       GameObject lightObj = PlayerHouseHandler.Instance.GetStoredObjectByID("Kitchen Depot Light");
-      if (lightObj) lightObj.GetComponent<Light>().enabled = open;
+      GameObject doorObj = PlayerHouseHandler.Instance.GetStoredObjectByID("Kitchen Depot Door Lock");
+      SlideDrawerHandler doorHandler = doorObj.GetComponent<SlideDrawerHandler>();
 
-      InteractWithDoor("Kitchen Depot Door Lock");
+      if (doorObj == null) yield break;
+      if (open)
+      {
+        if (lightObj) lightObj.GetComponent<Light>().enabled = open;
+        if (!doorHandler.IsDoorOpen()) doorHandler.Interact(null);
+        yield break;
+      }
+      else
+      {
+        if (doorHandler.IsDoorOpen()) doorHandler.Interact(null);
+        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(doorHandler.PlayLockSound());
+      }
     }
 
     private void InteractWithDoor(string doorID)
@@ -285,6 +306,86 @@ namespace TwelveG.GameController
         var interactable = doorObj.GetComponent<RotativeDoorHandler>();
         if (interactable != null && !interactable.IsDoorOpen()) interactable.Interact(null);
       }
+    }
+
+    private IEnumerator PlayerInsideDepotRoutine(Coroutine enemyInvasion)
+    {
+      UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(false);
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+      GameEvents.Common.onPlayerControls.Raise(this, new EnableInteractionModules(false));
+      GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
+      StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.PlayPlayerSound(PlayerSoundsType.ScaredReactionLong));
+      GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 3));
+      GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDepot, true));
+
+      yield return new WaitForSeconds(3f);
+      yield return StartCoroutine(ToggleDepotDoor(false));
+
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
+
+      // Esperamos a que haya termiando la rutina del enemigo antes de continuar
+      yield return enemyInvasion;
+    }
+
+    private IEnumerator EnemyInsideKitchenRoutine()
+    {
+      AudioSource audioSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.Interaction);
+      AudioSourceState audioState = audioSource.GetSnapshot();
+
+      PlayerHouseHandler playerHouseHandler = PlayerHouseHandler.Instance;
+
+      // Dhall --> Kitchen
+      Coroutine enemyWalkingCoroutine = StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.Wood)
+      );
+      yield return StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VoicesDhallToKichen, false)
+      );
+      StopCoroutine(enemyWalkingCoroutine);
+
+      // Sonido de que agarra un cuchillo de la cocina
+      audioSource.transform.position =  playerHouseHandler.GetTransformByObject(HouseObjects.KitchenKnifeStack).position;
+      audioSource.PlayOneShot(kitchenKnifeSoundClip, kitchenKnifeSoundVolume);
+      yield return new WaitForSeconds(kitchenKnifeSoundClip.length + 0.5f);
+
+      // Kitchen --> Kitchen Depot
+      enemyWalkingCoroutine = StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.Wood)
+      );
+      yield return StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VoicesKichenToKichenDepot, false)
+      );
+      StopCoroutine(enemyWalkingCoroutine);
+      yield return new WaitForSeconds(2f);
+
+      // Enemigo llama a la puerta a Simon
+      audioSource.transform.position =  playerHouseHandler.GetTransformByObject(HouseObjects.KitchenDepotDoor).position;
+      audioSource.PlayOneShot(doorKnockingClip, doorKnockingSoundVolume);
+      yield return new WaitForSeconds(doorKnockingClip.length + 1.5f);
+
+      // Kitchen Depot --> Kitchen Table
+      enemyWalkingCoroutine = StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.Wood)
+      );
+      yield return StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VoicesKichenDepotToKichenTable, false)
+      );
+      StopCoroutine(enemyWalkingCoroutine);
+
+      yield return new WaitForSeconds(doorKnockingClip.length + 2f);
+
+      // Kitchen --> Garage (ocultar enemigo al terminar)
+      enemyWalkingCoroutine = StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.Wood)
+      );
+      yield return StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VoicesKitchenTableToGarage, true)
+      );
+      StopCoroutine(enemyWalkingCoroutine);
+
+      AudioUtils.StopAndRestoreAudioSource(audioSource, audioState);
     }
 
     public void AllowNextActions(Component sender, object data) => allowNextAction = true;
