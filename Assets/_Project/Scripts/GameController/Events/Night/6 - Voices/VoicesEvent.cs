@@ -26,7 +26,9 @@ namespace TwelveG.GameController
 
     [Space(5)]
     [Header("Timing - Sequence")]
+    [SerializeField, Range(0f, 5f)] private float GARAGEMAIN_OPEN_WAIT = 6.7f; // Tiempo que dura aprox el clip "Garage Door Foced by Enemy"
     [SerializeField, Range(0f, 5f)] private float GARAGE_OPEN_WAIT = 3f;
+    [SerializeField, Range(0f, 5f)] private float HALL_OPEN_WAIT = 3f;
     [SerializeField, Range(0f, 5f)] private float DRAMATIC_PAUSE = 1.5f;
 
     [Space(5)]
@@ -64,6 +66,20 @@ namespace TwelveG.GameController
       // Luz y Puerta Depot
       ToggleDepotState(true);
 
+      // Posicionar en Garage (o donde empiece la animación)
+      EnvironmentHandler.Instance.EnemyHandler.ShowEnemy(EnemyPositions.GarageMainDoor);
+
+      // Apertura forzada de la puerta del garage
+      DownstairsOfficeDoorHandler garageMainDoorHandler =
+        PlayerHouseHandler.Instance.GetStoredObjectByID("Garage MainDoor Lock")
+        .GetComponent<DownstairsOfficeDoorHandler>();
+      garageMainDoorHandler.ForceOpenDoor();
+      garageMainDoorHandler.isNightmare = false;
+
+      // Esperar hasta que se abra la puerta del garage
+      yield return new WaitForSeconds(GARAGEMAIN_OPEN_WAIT);
+
+      // Rutina del enemigo
       StartCoroutine(EnemyInvasionSequence());
 
       // Monitor de estado (Controla Audio, Muerte y Exito)
@@ -89,19 +105,6 @@ namespace TwelveG.GameController
     {
       Coroutine enemyWalkingCoroutine;
       enemyIsOmnipresent = false;
-
-      // Posicionar en Garage (o donde empiece la animación)
-      EnvironmentHandler.Instance.EnemyHandler.ShowEnemy(EnemyPositions.GarageMainDoor);
-
-      // Apertura forzada de la puerta del garage
-      DownstairsOfficeDoorHandler garageMainDoorHandler =
-        PlayerHouseHandler.Instance.GetStoredObjectByID("Garage MainDoor Lock")
-        .GetComponent<DownstairsOfficeDoorHandler>();
-      garageMainDoorHandler.ForceOpenDoor();
-      garageMainDoorHandler.isNightmare = false;
-
-      // Esperar hasta que se abra la puerta del garage
-      yield return new WaitForSeconds(GARAGE_OPEN_WAIT);
 
       // "ALGUIEN HA INGRESADO A TU HOGAR"
       GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
@@ -131,7 +134,7 @@ namespace TwelveG.GameController
 
       // Abrir Puerta Hall
       InteractWithDoor("Main Hall Door Lock");
-      yield return new WaitForSeconds(GARAGE_OPEN_WAIT);
+      yield return new WaitForSeconds(HALL_OPEN_WAIT);
 
       // El enemigo desaparece visualmente pero está "en todos lados"
       // Desactivar modelo enemigo acá si es necesario
@@ -146,7 +149,7 @@ namespace TwelveG.GameController
     {
       // ... (Cálculo de duración y setup inicial igual que antes) ...
       float invasionDuration = EnvironmentHandler.Instance.EnemyHandler.GetInvasionSequenceDuration(
-          (GARAGE_OPEN_WAIT * 3) + DRAMATIC_PAUSE
+          GARAGEMAIN_OPEN_WAIT + GARAGE_OPEN_WAIT + HALL_OPEN_WAIT + DRAMATIC_PAUSE
       );
 
       PlayerHandler player = PlayerHandler.Instance;
@@ -240,6 +243,8 @@ namespace TwelveG.GameController
       }
 
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+
+      // Metodo para detener todas las UI activas
 
       if (jumpscareClip)
       {
