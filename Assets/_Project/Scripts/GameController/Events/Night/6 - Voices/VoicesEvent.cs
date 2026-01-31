@@ -16,8 +16,8 @@ namespace TwelveG.GameController
     [SerializeField, Range(1, 10)] private int initialTime = 2;
 
     [Header("Enemy Configuration")]
-    [SerializeField] private string animGarageToEntrance = "Enemy_GarageToEntrance";
-    [SerializeField] private string animEntranceToHall = "Enemy_EntranceToHall";
+    [SerializeField] private string animGarageToEntrance = "Enemy - Garage to Entrance";
+    [SerializeField] private string animEntranceToHall = "Enemy - Entrance to DHall";
 
     [Header("Text & Dialogs")]
     [SerializeField] private UIOptionsTextSO[] playerHelperDataTextSO;
@@ -86,6 +86,7 @@ namespace TwelveG.GameController
     // --- RUTINA DEL ENEMIGO ---
     private IEnumerator EnemyInvasionSequence()
     {
+      Coroutine enemyWalkingCoroutine;
       enemyIsOmnipresent = false;
 
       // Apertura forzada de la puerta del garage
@@ -96,12 +97,18 @@ namespace TwelveG.GameController
       garageMainDoorHandler.isNightmare = false;
 
       // Posicionar en Garage (o donde empiece la animación)
-      EnvironmentHandler.Instance.ShowEnemy(EnemyPositions.GarageMainDoor);
+      // TODO: Nunca se va a ejecutar ShowEnemy porque el prefab está apagado
+      EnvironmentHandler.Instance.EnemyHandler.ShowEnemy(EnemyPositions.GarageMainDoor);
 
       // Garage -> Entrada
-      StartCoroutine(
-        EnvironmentHandler.Instance.PlayEnemyAnimation("Enemy_GarageToEntrance", true)
+      enemyWalkingCoroutine = StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.MosaicGarage)
       );
+      // yield return StartCoroutine(
+      //   EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(animGarageToEntrance, false)
+      // );
+      yield return new WaitForSeconds(11f);
+      StopCoroutine(enemyWalkingCoroutine);
 
       yield return new WaitForSeconds(3f); // Delay antes de abrir la puerta
       // Abrir Puerta Garage hacia la entrada de la casa
@@ -110,23 +117,22 @@ namespace TwelveG.GameController
       // Pausa Dramática
       yield return new WaitForSeconds(1.5f);
 
-      // Entrada -> Hall
-      // if (enemyPrefab != null)
-      // {
-      //   var anim = enemyPrefab.GetComponent<Animation>();
-      //   if (anim && !string.IsNullOrEmpty(animEntranceToHall))
-      //   {
-      //     anim.Play(animEntranceToHall);
-      //     yield return new WaitForSeconds(anim[animEntranceToHall].length);
-      //   }
-      // }
+      // Entrada --> DownstairsHall
+      enemyWalkingCoroutine = StartCoroutine(
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.MosaicGarage)
+      );
+      // yield return StartCoroutine(
+      //   EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(animEntranceToHall, false)
+      // );
+      yield return new WaitForSeconds(11f);
+      StopCoroutine(enemyWalkingCoroutine);
 
       // Abrir Puerta Hall
       InteractWithDoor("Main Hall Door Lock");
 
       // El enemigo desaparece visualmente pero está "en todos lados"
-      // if (enemyPrefab) enemyPrefab.SetActive(false);
-
+      // Desactivar modelo enemigo acá si es necesario
+      yield return new WaitForSeconds(1.5f);
       enemyIsOmnipresent = true;
     }
 
@@ -211,21 +217,21 @@ namespace TwelveG.GameController
         tensionSource = null;
       }
 
-        GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+      GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
 
-        if (jumpscareClip)
-        {
-          AudioSource vfxSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
-          vfxSource.PlayOneShot(jumpscareClip);
+      if (jumpscareClip)
+      {
+        AudioSource vfxSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.VFX);
+        vfxSource.PlayOneShot(jumpscareClip);
 
-          // TODO: Animación de muerte del jugador (pantalla, zoom, etc.)
-        }
-
-        Debug.Log("<color=red><b>JUMPSCARE! YOU DIED.</b></color>");
-        yield return new WaitForSeconds(2f);
-
-        // UI de muerte
+        // TODO: Animación de muerte del jugador (pantalla, zoom, etc.)
       }
+
+      Debug.Log("<color=red><b>JUMPSCARE! YOU DIED.</b></color>");
+      yield return new WaitForSeconds(2f);
+
+      // UI de muerte
+    }
 
     private void HandleWinAudio()
     {

@@ -70,7 +70,7 @@ namespace TwelveG.GameController
       if (!deactivateAfter) yield return null;
     }
 
-    public IEnumerator EnemyWalkingCoroutine(FSMaterial fSMaterial)
+    public IEnumerator PlayEnemyWalkingRoutine(FSMaterial fSMaterial)
     {
       AudioClip[] selectedClips;
       float targetVolume;

@@ -19,6 +19,10 @@ namespace TwelveG.GameController
     [SerializeField] private GameEventListener enemySpottedListener;
 
     [Space(10)]
+    [Header("Enemy Configuration")]
+    [SerializeField] private string animDHallToEntrance = "Enemy - DHall to Entrance";
+
+    [Space(10)]
     [Header("Event options")]
     [SerializeField, Range(1, 10)] private int initialTime = 0;
 
@@ -167,7 +171,7 @@ namespace TwelveG.GameController
 
       enemySpottedListener.enabled = true; // Vuelve a activar el listener para que detecte al enemigo
       environmentHandler.EnemyHandler.ShowEnemy(EnemyPositions.DownstairsHallWindow);
-      GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.DownstairsHallWindow);
+      // GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.DownstairsHallWindow);
 
       // "OnEnemySpotted" (el ZoneSpotterHandler del enemigo no precisa needsToBeZoomed)
       yield return new WaitUntil(() => allowNextAction);
@@ -175,7 +179,7 @@ namespace TwelveG.GameController
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
       // Se ejecuta animación del enemigo caminando hacia la entrada principal y desactiva al terminar
       environmentHandler.StartCoroutine(
-        environmentHandler.EnemyHandler.PlayEnemyAnimation("Enemy - From DHall to Entrance", true)
+        environmentHandler.EnemyHandler.PlayEnemyAnimation(animDHallToEntrance, true)
       );
 
       // Espera a que termine de recuperarse del susto
