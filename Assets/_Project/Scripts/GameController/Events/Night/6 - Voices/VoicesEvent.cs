@@ -282,8 +282,8 @@ namespace TwelveG.GameController
       GameObject doorObj = PlayerHouseHandler.Instance.GetStoredObjectByID(doorID);
       if (doorObj)
       {
-        var interactable = doorObj.GetComponent<IInteractable>();
-        if (interactable != null) interactable.Interact(null);
+        var interactable = doorObj.GetComponent<RotativeDoorHandler>();
+        if (interactable != null && !interactable.IsDoorOpen()) interactable.Interact(null);
       }
     }
 

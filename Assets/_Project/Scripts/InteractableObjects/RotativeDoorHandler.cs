@@ -40,6 +40,11 @@ namespace TwelveG.InteractableObjects
             initialRotation = door.transform.localRotation;
         }
 
+        public bool IsDoorOpen()
+        {
+            return doorIsOpen;
+        }
+
         private void ToggleDoor()
         {
             Quaternion targetRotation = doorIsOpen ? initialRotation : initialRotation * Quaternion.Euler(0, 90, 0);
