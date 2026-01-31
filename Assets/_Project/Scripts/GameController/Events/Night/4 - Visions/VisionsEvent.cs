@@ -128,7 +128,7 @@ namespace TwelveG.GameController
       playerHouseHandler.ToggleStoredPrefabs(new ObjectData("Visions - Colliders", false));
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(null));
       GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
-      environmentHandler.ShowEnemy(EnemyPositions.None);
+      environmentHandler.EnemyHandler.ShowEnemy(EnemyPositions.None);
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
       GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
@@ -166,7 +166,7 @@ namespace TwelveG.GameController
       );
 
       enemySpottedListener.enabled = true; // Vuelve a activar el listener para que detecte al enemigo
-      environmentHandler.ShowEnemy(EnemyPositions.DownstairsHallWindow);
+      environmentHandler.EnemyHandler.ShowEnemy(EnemyPositions.DownstairsHallWindow);
       GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.DownstairsHallWindow);
 
       // "OnEnemySpotted" (el ZoneSpotterHandler del enemigo no precisa needsToBeZoomed)
@@ -175,7 +175,7 @@ namespace TwelveG.GameController
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
       // Se ejecuta animación del enemigo caminando hacia la entrada principal y desactiva al terminar
       environmentHandler.StartCoroutine(
-        environmentHandler.PlayEnemyAnimation("Enemy - From DHall to Entrance", true)
+        environmentHandler.EnemyHandler.PlayEnemyAnimation("Enemy - From DHall to Entrance", true)
       );
 
       // Espera a que termine de recuperarse del susto
@@ -195,17 +195,17 @@ namespace TwelveG.GameController
       switch (currentHouseArea)
       {
         case HouseArea.PlayerBedroom:
-          environmentHandler.ShowEnemy(EnemyPositions.LivingRoomRightWindow);
+          environmentHandler.EnemyHandler.ShowEnemy(EnemyPositions.LivingRoomRightWindow);
           break;
         case HouseArea.GuestsBedroom:
-          environmentHandler.ShowEnemy(EnemyPositions.PlayerHouseCorner);
+          environmentHandler.EnemyHandler.ShowEnemy(EnemyPositions.PlayerHouseCorner);
           break;
         default:
           Debug.LogWarning("El jugador no está en una habitación válida para que aparezca el enemigo.");
           break;
       }
 
-      enemyTransform = environmentHandler.GetCurrentEnemyTransform();
+      enemyTransform = environmentHandler.EnemyHandler.GetCurrentEnemyTransform();
     }
 
     public void AllowNextActions(Component sender, object data)

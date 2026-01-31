@@ -1,46 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
 using TwelveG.AudioController;
 using TwelveG.GameController;
-using TwelveG.PlayerController;
 using UnityEngine;
 
 namespace TwelveG.EnvironmentController
 {
-    public enum EnemyPositions
-    {
-        None,
-        PlayerHouseCorner,
-        MiddleOfTheStreet,
-        LivingRoomRightWindow,
-        DownstairsHallWindow,
-        GarageMainDoor
-    }
-
     public class EnvironmentHandler : MonoBehaviour
     {
         public static EnvironmentHandler Instance { get; private set; }
 
         [Header("References")]
         [Space]
+        public GameObject Enemy;
+        public EnemyHandler EnemyHandler => EnemyHandler;
+
         [SerializeField] private GameObject rainObject;
         [SerializeField] private LightningStormHandler lightningStormHandler;
         [SerializeField] private GameObject windZoneObject;
         [SerializeField] private WindZone windZone;
-
-        [Space(10)]
-        [Header("Enemy References")]
-        [Space(5)]
-        [SerializeField] GameObject enemyPrefab;
-        [SerializeField] private Animation animationComponent;
-
-        [Space(5)]
-        [Header("Transforms")]
-        [SerializeField] private Transform cornerTransform;
-        [SerializeField] private Transform middleOfTheStreetTransform;
-        [SerializeField] private Transform livingRoomRightWindowTransform;
-        [SerializeField] private Transform downstairsHallWindowTransform;
-        [SerializeField] private Transform garageMainDoorTransform;
 
         [Space(10)]
         [Header("Prefab References")]
@@ -160,70 +137,6 @@ namespace TwelveG.EnvironmentController
             {
                 Debug.LogWarning($"[EnvironmentHandler] No se encontró ningún prefab con el ID: {objectData.objectID}");
             }
-        }
-
-        public Transform GetCurrentEnemyTransform()
-        {
-            Transform headTransform = enemyPrefab.transform.Find("Head");
-            return headTransform;
-        }
-
-        public IEnumerator PlayEnemyAnimation(string animationName, bool deactivateAfter)
-        {
-            if (animationComponent != null)
-            {
-                animationComponent.Play(animationName);
-
-                if (deactivateAfter)
-                {
-                    yield return new WaitForSeconds(animationComponent[animationName].length);
-                    enemyPrefab.SetActive(false);
-                }
-            }
-            else
-            {
-                Debug.LogWarning("[EnvironmentHandler] Animation Component es nulo.");
-            }
-
-            if (!deactivateAfter) yield return null;
-        }
-
-        public void ShowEnemy(EnemyPositions position)
-        {
-            switch (position)
-            {
-                case EnemyPositions.PlayerHouseCorner:
-                    enemyPrefab.transform.position = cornerTransform.position;
-                    enemyPrefab.transform.rotation = cornerTransform.rotation;
-                    break;
-                case EnemyPositions.MiddleOfTheStreet:
-                    enemyPrefab.transform.position = middleOfTheStreetTransform.position;
-                    enemyPrefab.transform.rotation = middleOfTheStreetTransform.rotation;
-                    break;
-                case EnemyPositions.LivingRoomRightWindow:
-                    enemyPrefab.transform.position = livingRoomRightWindowTransform.position;
-                    enemyPrefab.transform.rotation = livingRoomRightWindowTransform.rotation;
-                    break;
-                case EnemyPositions.DownstairsHallWindow:
-                    enemyPrefab.transform.position = downstairsHallWindowTransform.position;
-                    enemyPrefab.transform.rotation = downstairsHallWindowTransform.rotation;
-                    break;
-                case EnemyPositions.GarageMainDoor:
-                    enemyPrefab.transform.position = garageMainDoorTransform.position;
-                    enemyPrefab.transform.rotation = garageMainDoorTransform.rotation;
-                    break;
-                case EnemyPositions.None:
-                    enemyPrefab.SetActive(false);
-                    return;
-                default:
-                    Debug.LogWarning("Posición de enemigo inválida especificada.");
-                    return;
-            }
-
-            enemyPrefab.SetActive(true);
-
-            var spotter = enemyPrefab.GetComponent<ZoneSpotterHandler>();
-            if (spotter != null) spotter.canBeSpotted = true;
         }
     }
 }
