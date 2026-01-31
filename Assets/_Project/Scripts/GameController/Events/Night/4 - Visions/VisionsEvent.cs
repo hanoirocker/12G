@@ -111,13 +111,13 @@ namespace TwelveG.GameController
       // "onVideoCanvasFinished"
       yield return new WaitUntil(() => allowNextAction);
       ResetAllowNextActions();
+      GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
       playerHouseHandler.ToggleStoredPrefabs(new ObjectData("Visions - Colliders", false));
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new LookAtTarget(null));
       GameEvents.Common.onMainCameraSettings.Raise(this, new ResetCinemachineBrain());
       environmentHandler.EnemyHandler.ShowEnemy(EnemyPositions.None);
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
-      GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
       // Self Dialog de simón después de la visión
       yield return new WaitForSeconds(0.25f);
@@ -154,7 +154,6 @@ namespace TwelveG.GameController
 
       enemySpottedListener.enabled = true; // Vuelve a activar el listener para que detecte al enemigo
       environmentHandler.EnemyHandler.ShowEnemy(EnemyPositions.DownstairsHallWindow);
-      // GameEvents.Common.onShowEnemy.Raise(this, EnemyPositions.DownstairsHallWindow);
 
       // "OnEnemySpotted" (el ZoneSpotterHandler del enemigo no precisa needsToBeZoomed)
       yield return new WaitUntil(() => allowNextAction);
@@ -182,7 +181,7 @@ namespace TwelveG.GameController
       switch (currentHouseArea)
       {
         case HouseArea.PlayerBedroom:
-          environmentHandler.EnemyHandler.ShowEnemy(EnemyPositions.LivingRoomRightWindow);
+          environmentHandler.EnemyHandler.ShowEnemy(EnemyPositions.MiddleOfTheStreet);
           break;
         case HouseArea.GuestsBedroom:
           environmentHandler.EnemyHandler.ShowEnemy(EnemyPositions.PlayerHouseCorner);
