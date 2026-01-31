@@ -12,9 +12,7 @@ namespace TwelveG.EnvironmentController
     {
       if (other.CompareTag("PlayerCapsule"))
       {
-        // Escucha el Player Handler para que cualquier script pueda obtener 
-        // la posición del jugador en la casa.
-        // También posiblemente a futuroel Audio Controller para cambiar audios de ambiente.
+        // Escuchan PlayerHandler y EnvironmentAudioHandler.
         GameEvents.Common.onPlayerEnteredHouseArea.Raise(this, houseArea);
       }
     }
