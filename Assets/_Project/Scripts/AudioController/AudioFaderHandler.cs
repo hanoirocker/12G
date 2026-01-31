@@ -40,6 +40,10 @@ namespace TwelveG.AudioController
       }
       source.volume = 0f;
       source.Stop();
+
+      // Por seguridad devolvemos la fuente al pool en caso de no hacerlo desde donde llamemos
+      // a esta corrutina
+      AudioManager.Instance.PoolsHandler.ReleaseAudioSource(source);
     }
 
     public void FadeAudioGroup(AudioGroup audioGroup, float from, float to, float duration)
