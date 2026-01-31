@@ -86,6 +86,9 @@ namespace TwelveG.PlayerController
         {
             switch (data)
             {
+                case EnableInteractionModules cmd:
+                    ToggleInteractionModules(cmd.Enabled);
+                    break;
                 case ToggleToObjectExamination cmd:
                     bool isActive = !cmd.Enabled;
 
