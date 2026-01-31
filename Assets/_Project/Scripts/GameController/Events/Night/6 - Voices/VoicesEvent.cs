@@ -315,7 +315,6 @@ namespace TwelveG.GameController
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
       GameEvents.Common.onPlayerControls.Raise(this, new EnableInteractionModules(false));
       GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
-      StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.PlayPlayerSound(PlayerSoundsType.ScaredReactionLong));
       GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 3));
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDepot, true));
 
@@ -363,7 +362,9 @@ namespace TwelveG.GameController
       // Enemigo llama a la puerta a Simon
       audioSource.transform.position =  playerHouseHandler.GetTransformByObject(HouseObjects.KitchenDepotDoor).position;
       audioSource.PlayOneShot(doorKnockingClip, doorKnockingSoundVolume);
-      yield return new WaitForSeconds(doorKnockingClip.length + 1.5f);
+      yield return new WaitForSeconds(1f);
+      StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.PlayPlayerSound(PlayerSoundsType.ScaredReactionLong));
+      yield return new WaitForSeconds(doorKnockingClip.length + 0.5f);
 
       // Kitchen Depot --> Kitchen Table
       enemyWalkingCoroutine = StartCoroutine(
