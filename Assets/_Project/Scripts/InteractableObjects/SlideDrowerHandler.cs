@@ -17,7 +17,8 @@ namespace TwelveG.InteractableObjects
         [Header("Audio Settings: ")]
         [SerializeField] private AudioClip openingDoorSound;
         [SerializeField] private AudioClip closingDoorSound;
-        
+        [SerializeField] private AudioClip lockDoorSound;
+
         [SerializeField, Range(0.9f, 1.2f)] private float minPitch = 0.9f;
         [SerializeField, Range(1.2f, 1.5f)] private float maxPitch = 1.2f;
 
@@ -25,6 +26,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField, Range(-2f, 2f)] private float openingSoundOffset = 0f;
         [SerializeField, Range(-2f, 2f)] private float closingSoundOffset = 0f;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
+        [SerializeField, Range(0f, 1f)] private float lockDoorVolume = 0.8f;
 
         [Header("Testing Settings: ")]
         [SerializeField] private bool doorIsOpen;
@@ -56,12 +58,37 @@ namespace TwelveG.InteractableObjects
             }
         }
 
+        public bool IsDoorOpen()
+        {
+            return doorIsOpen;
+        }
+
+        public IEnumerator PlayLockSound()
+        {
+            (AudioSource audioSource, AudioSourceState audioSourceState) = AudioManager.Instance.PoolsHandler.GetFreeSourceForInteractable(
+                transform,
+                lockDoorVolume
+            );
+
+            if (audioSource != null && lockDoorSound != null)
+            {
+                audioSource.clip = lockDoorSound;
+                audioSource.Play();
+                yield return new WaitForSeconds(lockDoorSound.length);
+                AudioUtils.StopAndRestoreAudioSource(audioSource, audioSourceState);
+            }
+            else
+            {
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
         private void ToggleDrawer()
         {
-            Vector3 targetPosition = doorIsOpen 
-                ? initialPosition 
+            Vector3 targetPosition = doorIsOpen
+                ? initialPosition
                 : new Vector3(initialPosition.x + xOffSet, initialPosition.y, initialPosition.z + zOffSet);
-            
+
             StartCoroutine(SlideDrawerDoor(targetPosition));
         }
 
@@ -82,7 +109,7 @@ namespace TwelveG.InteractableObjects
             float realAudioDuration = (clip != null) ? (clip.length / randomPitch) : fallbackDuration;
 
             float slidingDuration = realAudioDuration + offsetUsed;
-            
+
             if (slidingDuration < 0.1f) slidingDuration = 0.1f;
 
             float elapsedTime = 0f;

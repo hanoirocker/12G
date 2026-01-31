@@ -48,3 +48,5 @@ Modelos:
 * Jumpscare SFX.wav by deleted_user_9768630 on freesound.org
 * Trying to open a locked door by Kodack at freesound.org
 * door wood kick open rattle creak.wav by kyles at freesound.org
+* hotel_room_door_locking.wav by joedeshon at freesound.org
+* Door Knock 1 by blou27 at freesound.org
