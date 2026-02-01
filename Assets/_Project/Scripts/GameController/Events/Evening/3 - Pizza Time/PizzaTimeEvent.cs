@@ -86,6 +86,8 @@ namespace TwelveG.GameController
             ResetAllowNextActions();
 
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableInteractionModules(false));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
 
             StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 1f));
 
@@ -97,8 +99,6 @@ namespace TwelveG.GameController
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
             yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
-
-            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
             // Unity Event (PizzaSliceHandler - instantiatePoliceCar)
             // Avisa que va por la segunda mordida y se debe instanciar el auto de policia
@@ -135,6 +135,8 @@ namespace TwelveG.GameController
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDesk, false));
             yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableInteractionModules(true));
 
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
         }

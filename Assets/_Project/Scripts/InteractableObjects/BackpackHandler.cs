@@ -16,20 +16,22 @@ namespace TwelveG.InteractableObjects
     {
         [Header("Settings")]
         [SerializeField, Range(2, 4)] private int cameraTrasitionTime = 2;
+        
+        [Space(5)]
+        [Header("Animations")]
+        [SerializeField] private AnimationClip searchAnimation1;
+        [SerializeField] private AnimationClip searchAnimation2;
+        [SerializeField] private AnimationClip searchAnimation3;
 
+        [Space(5)]
         [Header("Audio settings")]
         [SerializeField] private List<AudioClip> searchingSounds = null;
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 1f;
-
+        
+        [Space(5)]
         [Header("Interaction Texts SO's")]
         [SerializeField] private InteractionTextSO interactionTextsSO;
         [SerializeField] private List<ObservationTextSO> searchingTexts = new List<ObservationTextSO>();
-
-        [Header("EventsSO references")]
-        [SerializeField] private GameEventSO onObservationCanvasShowText;
-        [SerializeField] private GameEventSO onPlayerControls;
-        [SerializeField] private GameEventSO onVirtualCamerasControl;
-        [SerializeField] private GameEventSO onMainCameraSettings;
 
         private Animation backpackAnimation = null;
         private bool canBeInteractedWith = true;
@@ -69,7 +71,7 @@ namespace TwelveG.InteractableObjects
             yield return new WaitForSeconds(cameraTrasitionTime);
 
             yield return new WaitUntil(() => backpackAnimation != null);
-            backpackAnimation.PlayQueued("Night - Backpack - Search 1");
+            backpackAnimation.PlayQueued(searchAnimation1.name);
 
             audioSource.PlayOneShot(searchingSounds[0]);
             yield return new WaitForSeconds(searchingSounds[0].length);
@@ -79,7 +81,7 @@ namespace TwelveG.InteractableObjects
             UIManager.Instance.ObservationCanvasHandler.ShowObservationText(searchingTexts[0]);
             yield return new WaitForSeconds(1f);
 
-            backpackAnimation.PlayQueued("Night - Backpack - Search 2");
+            backpackAnimation.PlayQueued(searchAnimation2.name);
 
             audioSource.PlayOneShot(searchingSounds[1]);
             yield return new WaitForSeconds(searchingSounds[1].length);
@@ -89,7 +91,7 @@ namespace TwelveG.InteractableObjects
             UIManager.Instance.ObservationCanvasHandler.ShowObservationText(searchingTexts[1]);
             yield return new WaitForSeconds(1f);
 
-            backpackAnimation.PlayQueued("Night - Backpack - Search 3");
+            backpackAnimation.PlayQueued(searchAnimation3.name);
 
             audioSource.PlayOneShot(searchingSounds[2]);
             yield return new WaitForSeconds(searchingSounds[2].length);
