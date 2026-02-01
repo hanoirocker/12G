@@ -39,6 +39,8 @@ namespace TwelveG.UIController
             float elapsed = 0f;
             float duration = 1f;
 
+            float onScreenDuration = 6f;
+
             // Fade In
             while (elapsed < duration)
             {
@@ -49,13 +51,13 @@ namespace TwelveG.UIController
             textCanvasGroup.alpha = endAlpha;
 
             // Esperar texto visible
-            yield return new WaitForSeconds(8f);
+            yield return new WaitForSeconds(onScreenDuration);
 
             // Fade Out
             startAlpha = 1f;
             endAlpha = 0f;
             elapsed = 0f;
-            duration = 3f;
+            duration = 2.5f;
 
             while (elapsed < duration)
             {

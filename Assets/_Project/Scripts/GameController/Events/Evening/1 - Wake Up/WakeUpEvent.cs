@@ -89,9 +89,7 @@ namespace TwelveG.GameController
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(true));
 
-            yield return new WaitForSeconds(1f);
-
-            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
+            yield return new WaitForSeconds(0.5f);
         }
 
         public void AllowNextActions(Component sender, object data)

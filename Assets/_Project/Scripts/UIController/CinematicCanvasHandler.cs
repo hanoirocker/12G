@@ -15,27 +15,24 @@ namespace TwelveG.UIController
         [SerializeField] private AnimationClip showBarsAnimationClip;
         [SerializeField] private AnimationClip hideBarsAnimationClip;
 
-        private IEnumerator ShowBars()
-        {
-            container.SetActive(true);
-            panelAnimation.Play(showBarsAnimationClip.name);
-            yield return null; // Esperar un frame para que actualice el estado el animator
 
-            yield return new WaitUntil(() => !panelAnimation.isPlaying);
-            GameEvents.Common.onCinematicBarsAnimationFinished.Raise(this, null);
-        }
-
-        private IEnumerator HideBars()
+        private IEnumerator ToggleBars()
         {
             if (container.activeSelf)
             {
                 panelAnimation.Play(hideBarsAnimationClip.name);
                 yield return null; // Esperar un frame para que actualice el estado el animator
-
                 yield return new WaitUntil(() => !panelAnimation.isPlaying);
                 container.SetActive(false);
-                GameEvents.Common.onCinematicBarsAnimationFinished.Raise(this, null);
             }
+            else
+            {
+                container.SetActive(true);
+                panelAnimation.Play(showBarsAnimationClip.name);
+                yield return null; // Esperar un frame para que actualice el estado el animator
+                yield return new WaitUntil(() => !panelAnimation.isPlaying);
+            }
+            GameEvents.Common.onCinematicBarsAnimationFinished.Raise(this, null);
         }
 
         public void CinematicCanvasControls(Component sender, object data)
@@ -43,14 +40,7 @@ namespace TwelveG.UIController
             switch (data)
             {
                 case ShowCinematicBars cmd:
-                    if (cmd.Show)
-                    {
-                        StartCoroutine(ShowBars());
-                    }
-                    else
-                    {
-                        StartCoroutine(HideBars());
-                    }
+                    StartCoroutine(ToggleBars());
                     break;
                 default:
                     Debug.LogWarning($"[CinematicCanvasHandler] Received unknown command: {data}");

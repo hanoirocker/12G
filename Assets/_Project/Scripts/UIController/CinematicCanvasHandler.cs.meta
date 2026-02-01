@@ -3,7 +3,12 @@ guid: 1f05e953c810c4358ab9334de8979064
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - container: {instanceID: 0}
+  - panelAnimation: {instanceID: 0}
+  - showBarsAnimationClip: {fileID: 7400000, guid: b13be72c54c1f4c30b035dea5d448806,
+      type: 2}
+  - hideBarsAnimationClip: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
