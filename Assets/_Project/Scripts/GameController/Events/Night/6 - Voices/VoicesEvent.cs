@@ -387,6 +387,7 @@ namespace TwelveG.GameController
       StopCoroutine(enemyWalkingCoroutine);
 
       AudioUtils.StopAndRestoreAudioSource(audioSource, audioState);
+      audioSource = null;
     }
 
     public void AllowNextActions(Component sender, object data) => allowNextAction = true;
