@@ -12,9 +12,10 @@ namespace TwelveG.GameController
 {
     public class BirdsEvent : GameEventBase
     {
-        [Header("Event references: ")]
-        [Space]
-        [SerializeField] private GameObject crashingBirdPrefab;
+        [Header("Event options")]
+        [SerializeField, Range(1, 10)] private float initialTime = 1.5f;
+
+        [Space(10)]
         [Header("Text event SO")]
         [Space]
         [SerializeField] private List<ObservationTextSO> mainDoorsFallbacksTextsSO;
@@ -25,7 +26,6 @@ namespace TwelveG.GameController
 
         public override IEnumerator Execute()
         {
-
             // Esto es para actualizar los fallback texts para las Main Doors en particular
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[0]);
             // Actualizar text de ayuda del canvas del menu de pausa al presionar ESC
@@ -39,7 +39,11 @@ namespace TwelveG.GameController
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Backpack, false));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(true));
 
-            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 2f));
+            yield return new WaitForSeconds(initialTime);
+
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
+
+            GameEvents.Common.onPlayerControls.Raise(this, new EnableControlCanvasAccess(true));
 
             // Parece que algo pasó arriba, mejor reviso qué fue eso.
             UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
@@ -56,7 +60,7 @@ namespace TwelveG.GameController
             yield return new WaitForSeconds(TextFunctions.CalculateTextDisplayDuration(
                 eventsObservationTextSO[1].observationTextsStructure[0].observationText
             ));
-            
+
             // Ahora hacemos interactuable el ave para que el jugador pueda limpiarla
             zoomBird.GetComponentInChildren<CleanBirdsHandler>().gameObject.GetComponent<Collider>().enabled = true;
 
