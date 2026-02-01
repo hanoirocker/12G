@@ -2,12 +2,15 @@ Videos/
 Textures/
 Models/
 
-Scenes/Afternoon Scene/
-Scenes/Evening Scene/
-Scenes/Night Scene/
-Scenes/Menu Afternoon/
-Scenes/Menu Evening/
-Scenes/Menu Night/
+Scenes/Afternoon Scene/*
+Scenes/Evening Scene/*
+Scenes/Night Scene/*
+Scenes/Menu Afternoon/*
+Scenes/Menu Evening/*
+Scenes/Menu Night/*
+
+!**/OcclusionCullingData.asset
+!**/OcclusionCullingData.asset.meta
 
 !.gitignore
 
