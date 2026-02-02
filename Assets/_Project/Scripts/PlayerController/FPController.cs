@@ -76,7 +76,7 @@ namespace TwelveG.PlayerController
         private Inputs _input;
         private GameObject _mainCamera;
 
-        private const float _threshold = 0.01f;
+        private const float _threshold = 0.0005f;
 
         private bool IsCurrentDeviceMouse
         {
