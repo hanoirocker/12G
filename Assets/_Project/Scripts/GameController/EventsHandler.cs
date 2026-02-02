@@ -175,7 +175,11 @@ namespace TwelveG.GameController
             SetUpPlayerTransform();
 
             VFXManager.Instance?.SetResonanceIntensityMultiplier(headacheVFXIntensity);
-            VFXManager.Instance?.SetFreeRoamElectricFeelIntensity(electricFeelVFXIntensity, freeRoamVolumeCoefficient);
+
+            if (enableWalkieTalkie)
+            {
+                VFXManager.Instance?.SetFreeRoamElectricFeelIntensity(electricFeelVFXIntensity, freeRoamVolumeCoefficient);
+            }
             StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
         }
 
@@ -295,7 +299,7 @@ namespace TwelveG.GameController
 
                 currentExecutingEvent.gameObject.SetActive(true);
                 SetUpCurrentEvent();
-                
+
                 // Actualizar VFX Settings al iniciar el evento
                 if (VFXManager.Instance != null && currentSceneEnum == SceneEnum.Evening)
                 {
