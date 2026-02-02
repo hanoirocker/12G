@@ -204,7 +204,7 @@ namespace TwelveG.GameController
       if (zoneSpotterHandler != null) zoneSpotterHandler.canBeSpotted = true;
     }
 
-    private void HideEnemy()
+    public void HideEnemy()
     {
       foreach (var renderer in enemyRenderers)
       {

@@ -8,6 +8,7 @@ using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
 using TwelveG.Utils;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TwelveG.GameController
@@ -49,6 +50,9 @@ namespace TwelveG.GameController
 
     private AudioSource tensionSource;
 
+    private Coroutine enemyInvasionCoroutine;
+    private Coroutine enemyAtKitchenRoutine;
+
     public override IEnumerator Execute()
     {
       PlayerHandler playerHandler = PlayerHandler.Instance;
@@ -84,7 +88,7 @@ namespace TwelveG.GameController
       yield return new WaitForSeconds(GARAGEMAIN_OPEN_WAIT);
 
       // Rutina del enemigo
-      Coroutine enemyInvasion = StartCoroutine(EnemyInvasionSequence());
+      enemyInvasionCoroutine = StartCoroutine(EnemyInvasionSequence());
 
       // Monitor de estado (Controla Audio, Muerte y Exito)
       yield return StartCoroutine(MonitorInvasionRoutine());
@@ -95,7 +99,7 @@ namespace TwelveG.GameController
 
       // Aca continúa la rutian del enemigo pero en la cocina, esperamos a que termine
       // para terminar con PlayerInsideDepotRoutine
-      yield return StartCoroutine(PlayerInsideDepotRoutine(enemyInvasion));
+      yield return StartCoroutine(PlayerInsideDepotRoutine());
 
       // BLA
       yield return new WaitUntil(() => allowNextAction);
@@ -143,12 +147,6 @@ namespace TwelveG.GameController
       // Pausa Dramática
       yield return new WaitForSeconds(DRAMATIC_PAUSE);
       enemyIsOmnipresent = true;
-
-      // Si el jugador está a salvo, reproducir el resto de la rutina del enemigo
-      if (playerIsSafe)
-      {
-        StartCoroutine(EnemyInsideKitchenRoutine());
-      }
     }
 
     // Monitor de supervivencia del jugador y audio de tensión
@@ -172,6 +170,7 @@ namespace TwelveG.GameController
       StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(tensionSource, 0f, 1f, invasionDuration));
 
       HouseArea lastArea = player.GetCurrentHouseArea();
+      HouseArea currentArea = lastArea;
 
       bool omnipresentPhaseTriggered = false;
 
@@ -205,7 +204,7 @@ namespace TwelveG.GameController
           }
 
           // --- BLOQUE DE EJECUCIÓN CONTINUA (MONITOR DE MUERTE) ---
-          HouseArea currentArea = player.GetCurrentHouseArea();
+          currentArea = player.GetCurrentHouseArea();
 
           // A: Jugador cambia de cuarto -> MUERTE
           if (currentArea != lastArea && currentArea != HouseArea.None && currentArea != HouseArea.KitchenDepot)
@@ -235,14 +234,16 @@ namespace TwelveG.GameController
           }
           if (currentArea != HouseArea.None) lastArea = currentArea;
         }
+
+        currentArea = player.GetCurrentHouseArea();
+        if (currentArea != HouseArea.None) lastArea = currentArea;
+
         yield return null; // Esperar al siguiente frame
       }
     }
 
     private IEnumerator TriggerDeath()
     {
-      // Detener lógicas
-      StopAllCoroutines();
       if (tensionSource)
       {
         tensionSource.Stop();
@@ -264,6 +265,8 @@ namespace TwelveG.GameController
 
       Debug.Log("<color=red><b>JUMPSCARE! YOU DIED.</b></color>");
       yield return new WaitForSeconds(2f);
+
+      StopAllCoroutines();
 
       // UI de muerte
     }
@@ -308,7 +311,7 @@ namespace TwelveG.GameController
       }
     }
 
-    private IEnumerator PlayerInsideDepotRoutine(Coroutine enemyInvasion)
+    private IEnumerator PlayerInsideDepotRoutine()
     {
       UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(false);
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
@@ -325,7 +328,13 @@ namespace TwelveG.GameController
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerCameraZoom(true));
 
       // Esperamos a que haya termiando la rutina del enemigo antes de continuar
-      yield return enemyInvasion;
+      // hacia la rutina de la cocina ..
+      if (enemyInvasionCoroutine != null)
+      {
+        yield return enemyInvasionCoroutine;
+      }
+
+      yield return StartCoroutine(EnemyInsideKitchenRoutine());
     }
 
     private IEnumerator EnemyInsideKitchenRoutine()
@@ -345,7 +354,7 @@ namespace TwelveG.GameController
       StopCoroutine(enemyWalkingCoroutine);
 
       // Sonido de que agarra un cuchillo de la cocina
-      audioSource.transform.position =  playerHouseHandler.GetTransformByObject(HouseObjects.KitchenKnifeStack).position;
+      audioSource.transform.position = playerHouseHandler.GetTransformByObject(HouseObjects.KitchenKnifeStack).position;
       audioSource.PlayOneShot(kitchenKnifeSoundClip, kitchenKnifeSoundVolume);
       yield return new WaitForSeconds(kitchenKnifeSoundClip.length + 0.5f);
 
@@ -360,7 +369,7 @@ namespace TwelveG.GameController
       yield return new WaitForSeconds(2f);
 
       // Enemigo llama a la puerta a Simon
-      audioSource.transform.position =  playerHouseHandler.GetTransformByObject(HouseObjects.KitchenDepotDoor).position;
+      audioSource.transform.position = playerHouseHandler.GetTransformByObject(HouseObjects.KitchenDepotDoor).position;
       audioSource.PlayOneShot(doorKnockingClip, doorKnockingSoundVolume);
       yield return new WaitForSeconds(1f);
       StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.PlayPlayerSound(PlayerSoundsType.ScaredReactionLong));
@@ -387,7 +396,26 @@ namespace TwelveG.GameController
       StopCoroutine(enemyWalkingCoroutine);
 
       AudioUtils.StopAndRestoreAudioSource(audioSource, audioState);
-      audioSource = null;
+    }
+
+    public void OnEnemySpotted(Component sender, object data)
+    {
+      StartCoroutine(EnemySpottedRoutine(sender));
+    }
+
+    // Recibe "onEnemySpotted" desde ZoneSpotterHandler del enemigo
+    private IEnumerator EnemySpottedRoutine(Component sender)
+    {
+      sender.gameObject.GetComponent<ZoneSpotterHandler>().canBeSpotted = false;
+      GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
+
+      yield return new WaitForSeconds(0.5f);
+
+      EnvironmentHandler.Instance.EnemyHandler.HideEnemy();
+      StopCoroutine(enemyInvasionCoroutine);
+      enemyInvasionCoroutine = null;
+      enemyIsOmnipresent = true;
+      Debug.Log("Enemy Spotted! Now Omnipresent.");
     }
 
     public void AllowNextActions(Component sender, object data) => allowNextAction = true;
