@@ -8,7 +8,6 @@ using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
 using TwelveG.Utils;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TwelveG.GameController
@@ -74,6 +73,10 @@ namespace TwelveG.GameController
         && playerHandler.GetCurrentHouseArea() != HouseArea.None
       );
 
+      // Comenzar a drenar baterías de la linterna (Los dialogos están en la linterna)
+      PlayerHandler.Instance.GetComponentInChildren<Flashlight>()
+        .GetComponent<Flashlight>().TriggerDrainBatteriesRoutine(7f);
+
       // Luz y Puerta Depot
       StartCoroutine(ToggleDepotDoor(true));
 
@@ -137,7 +140,7 @@ namespace TwelveG.GameController
         EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.MosaicGarage)
       );
       enemyAnimationRoutine = StartCoroutine(
-        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VoicesGarageToDhall, true)
+        EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VoicesGarageToDhall, false)
       );
       yield return enemyAnimationRoutine;
       StopCoroutine(enemyWalkingRoutine);
