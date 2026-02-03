@@ -24,7 +24,9 @@ namespace TwelveG.GameController
     [Space(5)]
     [Header("Audio - Sequence")]
     [Tooltip("Música de tensión que incrementa mientras el enemigo avanza")]
-    [SerializeField] private AudioClip tensionRampClip;
+    [SerializeField] private AudioClip enemyInvasionClip1;
+    [SerializeField, Range(0f, 1f)] private float enemyInvasionVolume = 0.5f;
+    [SerializeField] private AudioClip enemyInvasionClip2;
 
     [Space(5)]
     [Header("Timing - Sequence")]
@@ -57,6 +59,9 @@ namespace TwelveG.GameController
 
     public override IEnumerator Execute()
     {
+      enemyInvasionClip1.LoadAudioData();
+      enemyInvasionClip2.LoadAudioData();
+
       PlayerHandler playerHandler = PlayerHandler.Instance;
       GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
@@ -169,12 +174,12 @@ namespace TwelveG.GameController
 
       // Configurar Música de Tensión
       tensionSource = AudioManager.Instance.PoolsHandler.ReturnFreeAudioSource(AudioPoolType.BGMusic);
-      tensionSource.clip = tensionRampClip;
+      tensionSource.clip = enemyInvasionClip1;
       tensionSource.loop = true;
       tensionSource.volume = 0f;
       tensionSource.Play();
 
-      StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(tensionSource, 0f, 1f, invasionDuration));
+      Coroutine fadeInRoutine = StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeIn(tensionSource, 0f, enemyInvasionVolume, invasionDuration));
 
       HouseArea lastArea = player.GetCurrentHouseArea();
       HouseArea currentArea = lastArea;
@@ -187,7 +192,7 @@ namespace TwelveG.GameController
         if (player.GetCurrentHouseArea() == HouseArea.KitchenDepot)
         {
           playerIsSafe = true;
-          HandleWinAudio();
+          StartCoroutine(HandleWinAudio(fadeInRoutine));
           yield break;
         }
 
@@ -281,12 +286,30 @@ namespace TwelveG.GameController
       // UI de muerte
     }
 
-    private void HandleWinAudio()
+    private IEnumerator HandleWinAudio(Coroutine fadeInRoutine)
     {
       // Fade out de la tensión
       if (tensionSource != null)
       {
-        StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(tensionSource, 1.5f));
+        tensionSource.loop = false;
+        yield return new WaitUntil(() => !tensionSource.isPlaying);
+
+        float reachedVolume = tensionSource.volume;
+
+        if(fadeInRoutine != null)
+        {
+          StopCoroutine(fadeInRoutine);
+        }
+
+        // Crossfade al segundo clip de tensión
+        tensionSource.clip = enemyInvasionClip2;
+        tensionSource.loop = true;
+        tensionSource.volume = reachedVolume;
+        tensionSource.Play();
+
+        yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(tensionSource, 6f));
+        AudioManager.Instance.PoolsHandler.ReleaseAudioSource(tensionSource);
+        tensionSource = null;
       }
     }
 
