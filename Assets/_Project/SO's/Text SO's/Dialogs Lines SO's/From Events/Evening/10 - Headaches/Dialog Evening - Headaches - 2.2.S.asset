@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: Mierda .. debe haber sido el patrullero que enviaron ..
+    dialogText: Mierda... debe haber sido el patrullero que enviaron...
   - language: 1
     dialogText: Damn... it must have been the patrol car they sent...
   spanishDialogClip: {fileID: 0}

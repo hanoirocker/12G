@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Sintonicemos el canal 4 e intentemos comunicarnos con ellos .. \xBFQuizas
+    dialogText: "Sintonicemos el canal 4 e intentemos comunicarnos con ellos... \xBFQuizas
       pueda servir de algo no?"
   - language: 1
     dialogText: Let's tune in to channel 4 and try to contact them... Maybe it'll

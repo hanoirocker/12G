@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Que?
+    dialogText: "\xBFQu\xE9?"
   - language: 1
     dialogText: What?
   spanishDialogClip: {fileID: 0}

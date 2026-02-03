@@ -16,8 +16,8 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Uff qu\xE9 bueno que podemos hablar por ac\xE1 al menos .. No tengo
-      se\xF1al en la compu, en el celu. No anda nada no s\xE9 qu\xE9 onda .."
+    dialogText: "Uff qu\xE9 bueno que podemos hablar por ac\xE1 al menos... No tengo
+      se\xF1al en la compu, en el celu. No anda nada no s\xE9 qu\xE9 onda..."
   - language: 1
     dialogText: Phew, it's good we can talk here at least... I have no signal on
       my computer or my phone. Nothing's working, I don't know what's wrong...

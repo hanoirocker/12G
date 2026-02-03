@@ -16,7 +16,7 @@ MonoBehaviour:
   observationTextsStructure:
   - language: 0
     observationText: "Si vuelven mis padres y ven el ave muerta, el pr\xF3ximo muerto
-      ser\xE9 yo .."
+      ser\xE9 yo..."
   - language: 1
     observationText: If my parents come back and see the dead bird I'll be the next
-      one to die ..
+      one to die...

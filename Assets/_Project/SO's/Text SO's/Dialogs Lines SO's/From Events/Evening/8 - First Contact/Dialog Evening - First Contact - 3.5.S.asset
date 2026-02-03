@@ -16,11 +16,11 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Si boluda .. fue el vecino Fernandez. Me parece que se meti\xF3
-      un tiro en la cabeza el chab\xF3n .."
+    dialogText: "Si, boluda... fue el vecino Fernandez. Me parece que se meti\xF3
+      un tiro en la cabeza el chab\xF3n..."
   - language: 1
     dialogText: Yeah... it was neighbor Fernandez. I think the guy shot himself in
-      the head ..
+      the head...
   spanishDialogClip: {fileID: 8300000, guid: 19d086449e9c5f846964f7d45001937d, type: 3}
   timeBeforeShowing: 1
   startingEvent: {fileID: 0}

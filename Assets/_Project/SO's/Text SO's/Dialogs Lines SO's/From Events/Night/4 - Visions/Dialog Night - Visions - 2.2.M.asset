@@ -16,9 +16,9 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "No creo .. Podr\xEDas chequear mejor desde el piso de arriba?"
+    dialogText: "No creo... \xBFPodr\xEDas chequear mejor desde el piso de arriba?"
   - language: 1
-    dialogText: I don't think so... Could you check better from upstairs?
+    dialogText: I don't think so... Could you take a better look from upstairs?
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}

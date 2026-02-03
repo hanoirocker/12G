@@ -16,8 +16,8 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Cierto que tu vieja te lo hab\xEDa escondido .. yo tampoco tengo
-      se\xF1al, esto tiene que ser un problema de una antena .. no s\xE9 // MISING
+    dialogText: "Cierto que tu vieja te lo hab\xEDa escondido... yo tampoco tengo
+      se\xF1al, esto tiene que ser un problema de una antena... no s\xE9 // MISSING
       AUDIO!"
   - language: 1
     dialogText: It's true your mom hid it from you... I don't have a signal either,

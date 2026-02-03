@@ -16,7 +16,8 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Hay alguien afuera Mica. Estoy seguro que vi a alguien afuera! Mierda!
+    dialogText: "Hay alguien afuera, Mica. \xA1Estoy seguro que vi a alguien afuera!
+      \xA1Mierda!"
   - language: 1
     dialogText: Mica there's someone out there. I'm sure I saw someone out there!
       FUCK!

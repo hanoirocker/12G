@@ -16,13 +16,14 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Mica .. no veo nada raro en la entrada de tu casa .. Estas segura
+    dialogText: Mica... no veo nada raro en la entrada de tu casa... Estas segura
       que escuchaste algo?
   - language: 1
     dialogText: Mica, I don't see anything strange at the entrance to your house.
       Are you sure you heard something?
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 8cdad0291a43b4943b7a2b29180a57d8, type: 2}
   timeBeforeShowing: 1
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 8cdad0291a43b4943b7a2b29180a57d8, type: 2}
   dialogOptions: []

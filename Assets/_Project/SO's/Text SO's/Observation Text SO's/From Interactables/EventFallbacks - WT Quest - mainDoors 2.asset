@@ -15,8 +15,7 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: Debo encontrar mi Walkie Talkie y hablar con Mica cuanto antes
-      ...
+    observationText: Debo encontrar mi Walkie Talkie y hablar con Mica cuanto antes...
   - language: 1
     observationText: I have to find my walkie-talkie and talk to Mica as soon as
       possible...

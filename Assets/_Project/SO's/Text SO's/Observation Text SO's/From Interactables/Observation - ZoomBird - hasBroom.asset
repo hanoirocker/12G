@@ -15,8 +15,7 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: "A\xFAn preciso una bolsa. Creo que en el garage quedan algunas
-      aun .."
+    observationText: "A\xFAn preciso una bolsa. Creo que en el garage quedan algunas..."
   - language: 1
-    observationText: I still need a garbage bag. I think there are still some on
-      the garage ..
+    observationText: I still need a garbage bag. I think there are still some in
+      the garage...

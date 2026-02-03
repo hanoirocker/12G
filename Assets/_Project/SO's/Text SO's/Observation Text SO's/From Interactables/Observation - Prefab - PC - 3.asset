@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
   m_Name: Observation - Prefab - PC - 3
   m_EditorClassIdentifier: 
+  isEventText: 0
   observationTextsStructure:
   - language: 0
     observationText: Parece que no hay chances que algo salga bien hoy. Fibertol
       me re contra defeco en vos.
   - language: 1
     observationText: It seems like there's no chance that anything will go right
-      today. Fibertol I'm going to shit on you for this.
+      today. Fibertol you may go eat a dick.

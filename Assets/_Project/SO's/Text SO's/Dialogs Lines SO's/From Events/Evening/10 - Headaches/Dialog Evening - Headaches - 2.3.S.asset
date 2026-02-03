@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Mica ! Ac\xE1 estoy !"
+    dialogText: "\xA1Mica! \xA1Ac\xE1 estoy!"
   - language: 1
     dialogText: Mica! I'm here !
   spanishDialogClip: {fileID: 0}

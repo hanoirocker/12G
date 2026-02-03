@@ -15,7 +15,6 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: Mejor esperar hasta poder contactarme con la maldita policia
-      ..
+    observationText: Mejor esperar hasta poder contactarme con la maldita policia...
   - language: 1
     observationText: I'd better wait until I can get in touch with the damn police...

@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Dale .. volvemos a contactarnos en unos minutos entonces.
+    dialogText: Dale... volvemos a contactarnos en unos minutos entonces.
   - language: 1
     dialogText: Okay, we'll get back in touch in a few minutes then.
   spanishDialogClip: {fileID: 0}

@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Para colmo esta neblina de mierda se pone cada vez peor .. Dios.
+    dialogText: Para colmo esta neblina de mierda se pone cada vez peor... Dios.
   - language: 1
     dialogText: To make matters worse, this damn fog is getting worse and worse...
       God.

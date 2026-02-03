@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Sim\xF3n respondeme por favor!"
+    dialogText: "\xA1Sim\xF3n, respondeme por favor!"
   - language: 1
     dialogText: Simon, please answer me!
   spanishDialogClip: {fileID: 0}

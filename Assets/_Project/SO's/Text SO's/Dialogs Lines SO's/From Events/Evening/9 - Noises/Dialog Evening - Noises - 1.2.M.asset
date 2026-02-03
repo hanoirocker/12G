@@ -16,13 +16,14 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: (... Suspiros ...) Estoy casi segura que si .. aunque tampoco puede
+    dialogText: (...Suspiros...) Estoy casi segura que si... aunque tampoco puede
       ver nada en realidad ..
   - language: 1
     dialogText: (...Sighs...) I'm almost sure that's right... although I can't really
       see anything either...
   spanishDialogClip: {fileID: 0}
-  nextDialog: {fileID: 11400000, guid: 96c28e66b5acb0440a46660a7b4300f1, type: 2}
   timeBeforeShowing: 4
+  startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 96c28e66b5acb0440a46660a7b4300f1, type: 2}
   dialogOptions: []

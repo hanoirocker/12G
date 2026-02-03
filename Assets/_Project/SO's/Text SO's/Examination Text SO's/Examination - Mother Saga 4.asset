@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   examinationTextStructure:
   - language: 0
-    examinationText: 'El asesinato de la huida
+    examinationText: 'El Asesinato de la Huida
 
 
 
       Volumen 4'
   - language: 1
-    examinationText: 'The get away murder
+    examinationText: 'The Get Away Murder
 
 
       Volume 4'

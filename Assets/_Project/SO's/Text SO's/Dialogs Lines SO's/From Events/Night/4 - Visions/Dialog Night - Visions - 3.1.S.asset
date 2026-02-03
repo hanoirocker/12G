@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: No no no no no no!
+    dialogText: "\xA1No no no no no no!"
   - language: 1
     dialogText: Oh god c'mon c'mon!
   spanishDialogClip: {fileID: 0}

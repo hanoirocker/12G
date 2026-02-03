@@ -15,6 +15,6 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: Ni mierda ..
+    observationText: Ni mierda...
   - language: 1
-    observationText: No fucking way ..
+    observationText: No fucking way...

@@ -16,9 +16,9 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Hey! Estas ahi!?
+    dialogText: "\xA1Hey! \xA1\xBFEstas ahi?!"
   - language: 1
-    dialogText: Hey! Are you there!?
+    dialogText: Hey! Are you there?!
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 6
   startingEvent: {fileID: 0}

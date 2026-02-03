@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Ya van 3 p\xE1jaros que chocan contra mis ventanas ... parecen desorientados
+    dialogText: "Ya van 3 p\xE1jaros que chocan contra mis ventanas... parecen desorientados
       o algo."
   - language: 1
     dialogText: Three birds have already crashed into my windows... they seem disoriented

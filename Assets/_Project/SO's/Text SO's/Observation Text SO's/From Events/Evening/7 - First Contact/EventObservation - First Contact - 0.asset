@@ -15,8 +15,8 @@ MonoBehaviour:
   isEventText: 1
   observationTextsStructure:
   - language: 0
-    observationText: "No parece tenerlo encendido. Realmente ser\xEDa una gran coincidencia
-      .. la puta madre."
+    observationText: "No parece tenerlo encendido. Realmente ser\xEDa una gran coincidencia...
+      la puta madre."
   - language: 1
     observationText: It doesn't seem to be turned on. That would be quite a coincidence
-      actually... holy shit.
+      actually... damn it.

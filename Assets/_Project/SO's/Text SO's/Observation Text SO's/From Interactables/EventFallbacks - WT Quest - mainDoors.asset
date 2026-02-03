@@ -16,7 +16,6 @@ MonoBehaviour:
   observationTextsStructure:
   - language: 0
     observationText: No hay posibilidades de que salga ahora. Necesito pensar en
-      alguna alternativa ..
+      alguna alternativa...
   - language: 1
-    observationText: There's no way it'll happen now. I need to think of an alternative
-      ..
+    observationText: There's no way it'll happen now. I need to think of an alternative...

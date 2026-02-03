@@ -20,7 +20,7 @@ MonoBehaviour:
       \xFAnico sin sentido."
   - language: 1
     dialogText: I don't want to scare you even more but what happened to Fernandez
-      isn't the only thing making no sense so far ..
+      isn't the only thing making no sense so far...
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 3
   startingEvent: {fileID: 0}

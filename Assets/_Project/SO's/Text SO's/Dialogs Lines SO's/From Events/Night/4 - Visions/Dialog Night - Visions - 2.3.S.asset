@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Qu\xE9 hay de malo con estas ventanas?"
+    dialogText: "\xBFQu\xE9 hay de malo con estas ventanas?"
   - language: 1
     dialogText: What's wrong with these windows?
   spanishDialogClip: {fileID: 0}

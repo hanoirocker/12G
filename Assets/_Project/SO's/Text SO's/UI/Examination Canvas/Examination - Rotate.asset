@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uImenuTextStructure:
   - language: 0
-    value: GIRAR [ CLICK IZQ + ROTAR]
+    value: GIRAR [ CLICK IZQ + ROTAR ]
   - language: 1
-    value: SPIN [ L CLICK + ROTATE]
+    value: SPIN [ L CLICK + ROTATE ]

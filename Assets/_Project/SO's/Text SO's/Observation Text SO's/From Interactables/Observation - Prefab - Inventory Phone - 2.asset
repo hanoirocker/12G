@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
   m_Name: Observation - Prefab - Inventory Phone - 2
   m_EditorClassIdentifier: 
+  isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: "Menos mal que no pago por todos estos servicios, a\xFAn..."
+    observationText: "Menos mal que no pago por todos estos servicios a\xFAn..."
   - language: 1
     observationText: Thank goodness I don't pay for all these services yet...

@@ -16,8 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "(Estatica) ... Si ... Perd\xF3n, estoy sin palabras. No puedo creerlo
-      .."
+    dialogText: "(Estatica)... Si... Perd\xF3n, estoy sin palabras. No puedo creerlo..."
   - language: 1
     dialogText: Yes... I'm sorry, I'm speechless. I can't believe it.
   spanishDialogClip: {fileID: 0}

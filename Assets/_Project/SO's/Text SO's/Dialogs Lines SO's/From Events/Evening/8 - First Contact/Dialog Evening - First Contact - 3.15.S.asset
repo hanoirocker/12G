@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Hey .. Mica! Me escuchas?
+    dialogText: Hey... Mica! Me escuchas?
   - language: 1
     dialogText: Hey... Che! Can you hear me?
   spanishDialogClip: {fileID: 0}

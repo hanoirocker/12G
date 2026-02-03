@@ -16,8 +16,8 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "No veo asbolutamente nada extra\xF1o Mica .. Estas segura que no
-      te estas volviendo loca?"
+    dialogText: "No veo asbolutamente nada extra\xF1o Mica.. \xBFEstas segura que
+      no te estas volviendo loca?"
   - language: 1
     dialogText: I don't see anything strange at all Mica... Are you sure you're not
       going crazy?

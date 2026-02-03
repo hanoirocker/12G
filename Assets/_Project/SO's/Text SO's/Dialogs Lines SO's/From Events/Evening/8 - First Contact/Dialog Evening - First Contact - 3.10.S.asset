@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Eso creo .. no vi a nadie entrar o salir de su casa ..
+    dialogText: Eso creo... no vi a nadie entrar o salir de su casa...
   - language: 1
     dialogText: I think so... I didn't see anyone going in or out of their house...
   spanishDialogClip: {fileID: 0}

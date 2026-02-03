@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Mica pod\xE9s escucharme? Necesito que me respondas .."
+    dialogText: "\xBFMica, pod\xE9s escucharme? Necesito que me respondas..."
   - language: 1
     dialogText: Mica, can you hear me? I need you to answer me...
   spanishDialogClip: {fileID: 0}

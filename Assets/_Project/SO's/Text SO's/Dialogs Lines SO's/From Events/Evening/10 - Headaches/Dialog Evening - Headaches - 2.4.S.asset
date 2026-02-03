@@ -16,8 +16,8 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: La policia .. escuche hace unos minutos que hablaban de enviar un
-      patrullero .. te quise avisar pero no respondias ..
+    dialogText: La policia... escuche hace unos minutos que hablaban de enviar un
+      patrullero... te quise avisar pero no respondias..
   - language: 1
     dialogText: The police... I heard a few minutes ago that they were talking about
       sending a patrol car... I wanted to let you know but you didn't answer...
