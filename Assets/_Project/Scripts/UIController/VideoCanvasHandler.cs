@@ -39,8 +39,12 @@ namespace TwelveG.UIController
         videoPlayer.Stop();
         videoPlayer.clip = null;
         videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
-        videoAudioSource.RestoreSnapshot(videoAudioSourceState);
-        videoAudioSource = null;
+
+        if (videoAudioSource != null)
+        {
+          AudioUtils.StopAndRestoreAudioSource(videoAudioSource, videoAudioSourceState);
+          videoAudioSource = null;
+        }
 
         rawImage.enabled = false;
         videoCanvas.enabled = false;
