@@ -20,7 +20,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField, Range(0f, 1f)] private float clipsVolume = 0.7f;
 
         [Header("Safe Combination")]
-        [SerializeField] private string correctCombination = "1234";
+        [SerializeField] private string correctCombination = "42516";
 
         [Header("Event SO references")]
         public GameEventSO onVirtualCamerasControl;

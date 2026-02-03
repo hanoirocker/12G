@@ -162,7 +162,6 @@ namespace TwelveG.GameController
     }
 
     // Monitor de supervivencia del jugador y audio de tensión
-    // Monitor de supervivencia del jugador y audio de tensión
     private IEnumerator MonitorInvasionRoutine()
     {
       // ... (Cálculo de duración y setup inicial igual que antes) ...
