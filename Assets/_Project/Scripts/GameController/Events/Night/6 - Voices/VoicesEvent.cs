@@ -207,8 +207,9 @@ namespace TwelveG.GameController
           currentArea = player.GetCurrentHouseArea();
 
           // A: Jugador cambia de cuarto -> MUERTE
-          if (currentArea != lastArea && currentArea != HouseArea.None && currentArea != HouseArea.KitchenDepot)
+          if (currentArea != lastArea && !PlayerIsInNeutralZone())
           {
+            Debug.Log("A: Jugador cambia de cuarto -> MUERTE");
             yield return StartCoroutine(TriggerDeath());
             yield break;
           }
@@ -216,6 +217,7 @@ namespace TwelveG.GameController
           // B: Jugador en Kitchen -> MUERTE INSTANTÁNEA
           if (currentArea == HouseArea.Kitchen)
           {
+            Debug.Log("B: Jugador en Kitchen -> MUERTE INSTANTÁNEA");
             yield return StartCoroutine(TriggerDeath());
             yield break;
           }
@@ -223,6 +225,7 @@ namespace TwelveG.GameController
           // C: Jugador en Living -> MUERTE CON DELAY
           if (currentArea == HouseArea.LivingRoom)
           {
+            Debug.Log("C: Jugador en Living -> MUERTE CON DELAY");
             yield return new WaitForSeconds(2.5f);
 
             // Si tras la espera no entró al depot (safety check), muere.
@@ -416,6 +419,16 @@ namespace TwelveG.GameController
       enemyInvasionCoroutine = null;
       enemyIsOmnipresent = true;
       Debug.Log("Enemy Spotted! Now Omnipresent.");
+    }
+
+    private bool PlayerIsInNeutralZone()
+    {
+      return
+        PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.UpstairsHall
+        || PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.UpperStairs
+        || PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.MiddleStairs
+        || PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.LowerStairs
+        || PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.None;
     }
 
     public void AllowNextActions(Component sender, object data) => allowNextAction = true;
