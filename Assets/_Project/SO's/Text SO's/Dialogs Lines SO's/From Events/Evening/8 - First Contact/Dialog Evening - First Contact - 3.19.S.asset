@@ -16,11 +16,11 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Uff .. Pens\xE9 que algo hab\xEDa pasado con tu walkie. Ok, chekeo
+    dialogText: "Uff... Pens\xE9 que algo hab\xEDa pasado con tu walkie. Ok, chekeo
       y te aviso. Quedate atenta porfa."
   - language: 1
     dialogText: Phew... I thought something had happened to your walkie-talkie. Okay,
-      I'll check it and let you know. Please stay tuned.
+      I'll check it out and let you know. Please stay tuned.
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 1
   startingEvent: {fileID: 0}

@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: Siempre la misma mierda con estos aparatos!
+    dialogText: "\xA1Siempre la misma mierda con estos aparatos!"
   - language: 1
     dialogText: It's always the same crap with these devices!
   spanishDialogClip: {fileID: 0}

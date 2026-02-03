@@ -16,10 +16,12 @@ MonoBehaviour:
   isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: Ok .. Intentemos. A ver ..
+    dialogText: Ok... Intentemos. A ver...
   - language: 1
-    dialogText: Ok .. Let's try this ..
+    dialogText: Ok... Let's try this...
   spanishDialogClip: {fileID: 8300000, guid: d097951e0e67cf4479bbade3d4dbf238, type: 3}
-  nextDialog: {fileID: 0}
   timeBeforeShowing: 0
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 0}
   dialogOptions: []

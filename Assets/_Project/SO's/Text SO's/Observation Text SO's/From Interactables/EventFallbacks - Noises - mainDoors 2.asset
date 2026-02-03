@@ -15,6 +15,6 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: Necesito pedir ayuda a la policia cuano antes ..
+    observationText: Necesito pedir ayuda a la policia cuano antes...
   - language: 1
-    observationText: I need to ask the police for help as soon as possible ..
+    observationText: I need to ask the police for help as soon as possible...

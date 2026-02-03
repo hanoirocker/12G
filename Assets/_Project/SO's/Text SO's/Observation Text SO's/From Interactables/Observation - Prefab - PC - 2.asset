@@ -15,8 +15,8 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: "Nunca me sent\xED tan raro frente a mi PC a decir verdad ..
-      esta sensaci\xF3n .."
+    observationText: "Nunca me sent\xED tan raro frente a mi PC a decir verdad...
+      esta sensaci\xF3n..."
   - language: 1
     observationText: I've never felt so strange in front of my PC to be honest...
       this feeling...

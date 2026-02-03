@@ -16,9 +16,9 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Simon ..... por favor .. amigo ..
+    dialogText: Simon... por favor... amigo...
   - language: 1
-    dialogText: Simon..... please ..my friend ..
+    dialogText: Simon... please... my friend...
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 7
   startingEvent: {fileID: 0}

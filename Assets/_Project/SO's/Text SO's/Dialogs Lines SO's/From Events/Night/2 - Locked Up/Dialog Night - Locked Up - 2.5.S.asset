@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Abajo? No entiendo ..
+    dialogText: "\xBFAbajo? No entiendo..."
   - language: 1
     dialogText: Downstairs? I don't understand...
   spanishDialogClip: {fileID: 0}

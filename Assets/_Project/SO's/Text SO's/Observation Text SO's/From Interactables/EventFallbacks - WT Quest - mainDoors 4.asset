@@ -16,7 +16,7 @@ MonoBehaviour:
   observationTextsStructure:
   - language: 0
     observationText: Las referencias mencionadas en la nota deben encontrarse dentro
-      de casa ..
+      de casa...
   - language: 1
     observationText: The references mentioned in the note should be found inside
-      the house ..
+      the house...

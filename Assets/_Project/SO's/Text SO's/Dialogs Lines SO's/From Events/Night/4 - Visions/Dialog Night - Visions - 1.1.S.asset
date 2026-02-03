@@ -16,8 +16,8 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Mica se acaba de cortar la luz dentro de casa, esto es una locura
-      ... una mierda.
+    dialogText: Mica se acaba de cortar la luz dentro de casa, esto es una locura...
+      una mierda.
   - language: 1
     dialogText: Mica, the power just went out inside the house, this is crazy...
       a load of crap!

@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Podr\xEDas ver qui\xE9n carajo es?"
+    dialogText: "\xBFPodr\xEDas ver qui\xE9n carajo es?"
   - language: 1
     dialogText: Could you see who the hell it is?
   spanishDialogClip: {fileID: 0}

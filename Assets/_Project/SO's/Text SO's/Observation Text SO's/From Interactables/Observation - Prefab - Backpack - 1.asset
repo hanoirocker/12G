@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
   m_Name: Observation - Prefab - Backpack - 1
   m_EditorClassIdentifier: 
+  isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: Caramelos cubiertos de pelo?
+    observationText: "\xBFCaramelos cubiertos de pelo?"
   - language: 1
     observationText: Candies covered in hair?

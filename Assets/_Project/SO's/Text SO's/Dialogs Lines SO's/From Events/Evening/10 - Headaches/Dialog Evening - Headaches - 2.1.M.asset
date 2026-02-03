@@ -16,10 +16,10 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Simon! ... Simon respondeme! Una explosi\xF3n ... no entiendo qu\xE9
-      mierda pasa .. amigo .."
+    dialogText: "Simon!... Simon respondeme! Una explosi\xF3n... no entiendo qu\xE9
+      mierda pasa... amigo..."
   - language: 1
-    dialogText: Simon! ... Simon, answer me! An explosion... I don't understand what
+    dialogText: Simon!... Simon, answer me! An explosion... I don't understand what
       the hell is going on... dude...
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 1

@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Llamo desde el barrio centro en Maria Acosta y Sarmiento .. necesitamos
+    dialogText: Llamo desde el barrio centro en Maria Acosta y Sarmiento... necesitamos
       ayuda urgente!
   - language: 1
     dialogText: I'm calling from the downtown area at Maria Acosta and Sarmiento...

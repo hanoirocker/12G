@@ -16,7 +16,7 @@ MonoBehaviour:
   observationTextsStructure:
   - language: 0
     observationText: Desde cualquier ventana del primer piso deberia poder tener
-      un buen angulo supongo ..
+      un buen angulo supongo...
   - language: 1
     observationText: I suppose I should be able to get a good view from any window
       on the first floor...

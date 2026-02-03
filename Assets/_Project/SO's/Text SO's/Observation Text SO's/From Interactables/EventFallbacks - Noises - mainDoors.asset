@@ -15,8 +15,7 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: Mejor informo a Mica si veo algo raro en la entrada de su casa
-      ..
+    observationText: Mejor informo a Mica si veo algo raro en la entrada de su casa...
   - language: 1
     observationText: I'd better let Mica know if I see anything strange at the entrance
-      to her house ..
+      to her house...

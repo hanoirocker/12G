@@ -16,10 +16,12 @@ MonoBehaviour:
   isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: "A ver esto qu\xE9 onda .. Deber\xEDa tener las pilas puestas .."
+    dialogText: "A ver esto qu\xE9 onda... Deber\xEDa tener las pilas puestas..."
   - language: 1
-    dialogText: Let's see .. It should already have all batteries on it ..
+    dialogText: Let's see... It should already have all batteries on it...
   spanishDialogClip: {fileID: 8300000, guid: 6ffe3534d3b27ce489950b2a4f9993bd, type: 3}
-  nextDialog: {fileID: 11400000, guid: ab0d7d5f4b4b4344aacf71ad53d8be93, type: 2}
   timeBeforeShowing: 2
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: ab0d7d5f4b4b4344aacf71ad53d8be93, type: 2}
   dialogOptions: []

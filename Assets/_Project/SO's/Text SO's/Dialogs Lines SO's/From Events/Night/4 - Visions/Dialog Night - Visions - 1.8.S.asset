@@ -16,9 +16,9 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Ok ... dame un segundo ..
+    dialogText: Ok... dame un segundo...
   - language: 1
-    dialogText: Okay ... give me a second...
+    dialogText: Okay... give me a second...
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 2
   startingEvent: {fileID: 0}

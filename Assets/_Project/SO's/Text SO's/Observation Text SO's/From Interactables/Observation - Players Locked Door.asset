@@ -15,7 +15,6 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: No parece haber algo del otro lado bloqueandola ..
+    observationText: "No parece haber algo del otro lado bloque\xE1ndola..."
   - language: 1
-    observationText: There doesn't seem to be anything blocking it on the other side
-      ..
+    observationText: There doesn't seem to be anything blocking it on the other side...

@@ -16,9 +16,9 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Parece que alguien se levant\xF3 de mal humor .."
+    dialogText: "Parece que alguien se levant\xF3 de mal humor..."
   - language: 1
-    dialogText: It seems someone woke up in a bad mood ..
+    dialogText: It seems someone woke up in a bad mood...
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}

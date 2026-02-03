@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Mica?
+    dialogText: "\xBFMica?"
   - language: 1
     dialogText: Mica?
   spanishDialogClip: {fileID: 0}

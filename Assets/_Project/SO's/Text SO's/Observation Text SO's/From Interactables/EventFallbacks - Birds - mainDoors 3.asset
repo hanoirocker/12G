@@ -16,7 +16,7 @@ MonoBehaviour:
   observationTextsStructure:
   - language: 0
     observationText: "No hay tachos de basura en la calle a\xFAn. Las ventajas de
-      vivir en un pueblo de mierda supongo .."
+      vivir en un pueblo de mierda supongo..."
   - language: 1
     observationText: There aren't any trash cans on the street yet. The perks of
       living in a shitty town I guess...

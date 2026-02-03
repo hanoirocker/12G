@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: Este dolor de cabeza se pone peor y peor ..
+    dialogText: Este dolor de cabeza se pone peor y peor...
   - language: 1
     dialogText: This headache is getting worse and worse...
   spanishDialogClip: {fileID: 0}

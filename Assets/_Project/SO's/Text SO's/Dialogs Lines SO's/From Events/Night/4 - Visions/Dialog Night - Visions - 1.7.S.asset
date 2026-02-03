@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: 'Supongo que siempre conviene que lo haga yo, no? '
+    dialogText: "\xBFSupongo que siempre conviene que lo haga yo, no? "
   - language: 1
     dialogText: I suppose it's always best if I do it, right?
   spanishDialogClip: {fileID: 0}

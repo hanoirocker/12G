@@ -16,9 +16,9 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Micaaaaaa ... (Suspiro)
+    dialogText: Micaaaaaa... (Suspiro)
   - language: 1
-    dialogText: Micaaaaaa ... (Sight)
+    dialogText: Micaaaaaa... (Sigh)
   spanishDialogClip: {fileID: 8300000, guid: 2ced42c81fd02b347b6d1a3461c5c188, type: 3}
   timeBeforeShowing: 10
   startingEvent: {fileID: 0}

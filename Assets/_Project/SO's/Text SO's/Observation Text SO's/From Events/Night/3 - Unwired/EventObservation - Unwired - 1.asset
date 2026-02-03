@@ -16,7 +16,7 @@ MonoBehaviour:
   observationTextsStructure:
   - language: 0
     observationText: "Deber\xEDa tener mi linterna entre las cosas del garage, si
-      a\xFAn funciona al menos .."
+      a\xFAn funciona al menos..."
   - language: 1
-    observationText: I should have my flashlight among things in the garage, if it
+    observationText: My flashlight should be among the things in the garage, if it
       still works at least...

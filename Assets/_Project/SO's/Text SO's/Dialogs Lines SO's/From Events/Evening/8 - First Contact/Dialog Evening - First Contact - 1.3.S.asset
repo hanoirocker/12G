@@ -16,11 +16,13 @@ MonoBehaviour:
   isSelfDialog: 1
   dialogTextStructure:
   - language: 0
-    dialogText: Hmm .. Si no mal recuerdo el canal que usabamos con Mica era el 3.
+    dialogText: Hmm... Si no mal recuerdo el canal que usabamos con Mica era el 3.
   - language: 1
     dialogText: Hmm... if I remember correctly the channel we used with Mica was
       channel 3
   spanishDialogClip: {fileID: 8300000, guid: 8c7a62c5714d0ef459d9e70f31effec2, type: 3}
-  nextDialog: {fileID: 11400000, guid: b240e1f2c9e566c41a7711fbaf8eee6b, type: 2}
   timeBeforeShowing: 0
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: b240e1f2c9e566c41a7711fbaf8eee6b, type: 2}
   dialogOptions: []

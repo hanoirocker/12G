@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   examinationTextStructure:
   - language: 0
-    examinationText: "TRAVEL & FUN\n\nRecife, Brasil:\nDonde la Ciudad Se adrenta
+    examinationText: "TRAVEL & FUN\n\nRecife, Brasil:\nDonde la Ciudad Se Adrenta
       en el Mar\n\nN\xFAmero 16\n"
   - language: 1
     examinationText: 'TRAVEL & FUN

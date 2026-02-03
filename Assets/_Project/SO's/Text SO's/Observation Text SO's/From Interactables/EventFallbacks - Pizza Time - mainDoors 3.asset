@@ -16,7 +16,7 @@ MonoBehaviour:
   observationTextsStructure:
   - language: 0
     observationText: "Por alguna raz\xF3n prefiero pizza sentado en las comodidades
-      de mi cocina .."
+      de mi cocina..."
   - language: 1
     observationText: For some reason I prefer to eat pizza sitting in the comfort
-      of my kitchen.
+      of my kitchen...

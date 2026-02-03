@@ -16,7 +16,7 @@ MonoBehaviour:
   observationTextsStructure:
   - language: 0
     observationText: "Supongo que las bromas que les jugabamos a la polic\xEDa durante
-      la cuarentena no resultan graciosas ahora mismo .. Maldita sea."
+      la cuarentena no resultan graciosas ahora mismo... Maldita sea."
   - language: 1
     observationText: I guess the pranks we played on the police during quarantine
       aren't funny anymore. Damn.

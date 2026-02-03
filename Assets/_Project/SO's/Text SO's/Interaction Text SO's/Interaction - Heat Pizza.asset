@@ -16,4 +16,4 @@ MonoBehaviour:
   - language: 0
     interactionText: CALENTAR PORCION
   - language: 1
-    interactionText: HEAT PIZZA
+    interactionText: HEAT UP PIZZA

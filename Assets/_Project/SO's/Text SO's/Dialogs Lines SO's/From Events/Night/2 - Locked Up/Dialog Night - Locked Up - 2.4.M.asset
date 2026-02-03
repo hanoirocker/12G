@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "En tu habitaci\xF3n? Pens\xE9 que estabas abajo .."
+    dialogText: "\xBFEn tu habitaci\xF3n? Pens\xE9 que estabas abajo..."
   - language: 1
     dialogText: In your room? I thought you were downstairs...
   spanishDialogClip: {fileID: 0}

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
   m_Name: Observation - Prefab - PC - 0
   m_EditorClassIdentifier: 
+  isEventText: 0
   observationTextsStructure:
   - language: 0
     observationText: "Qu\xE9 raro \xBFLa habr\xE1n cagado con la \xFAltima actualizaci\xF3n?"
   - language: 1
-    observationText: That's weird. Maybe they screw it up on the latest update?
+    observationText: That's weird. Maybe they screwed up on the latest update?

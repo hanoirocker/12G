@@ -18,8 +18,10 @@ MonoBehaviour:
   - language: 0
     dialogText: Si, todo perfecto.
   - language: 1
-    dialogText: Yeah .. all good.
+    dialogText: Yeah... all good.
   spanishDialogClip: {fileID: 8300000, guid: 1a556e20a7ca6b24f90a096614f2b895, type: 3}
-  nextDialog: {fileID: 11400000, guid: 1b3474b0af50198449ee660548e87f72, type: 2}
   timeBeforeShowing: 1
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: 1b3474b0af50198449ee660548e87f72, type: 2}
   dialogOptions: []

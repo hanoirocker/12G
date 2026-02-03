@@ -16,8 +16,8 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Hey .. estoy escuchando ruidos raros fuera de la puerta de casa pero
-      .. no alcanzo a ver algo.
+    dialogText: Hey... estoy escuchando ruidos raros fuera de la puerta de casa pero...
+      no alcanzo a ver algo.
   - language: 1
     dialogText: Hey... I'm hearing strange noises outside my front door, but I can't
       see anything.

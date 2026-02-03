@@ -16,8 +16,8 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Hey! Acabo de escuchar hablar a la cana sobre el disparo de Fernandez
-      .. Estan viniendo!
+    dialogText: Hey! Acabo de escuchar hablar a la cana sobre el disparo de Fernandez...
+      Estan viniendo!
   - language: 1
     dialogText: Hey! I just heard the cops talking about Fernandez's shooting...
       They're coming!

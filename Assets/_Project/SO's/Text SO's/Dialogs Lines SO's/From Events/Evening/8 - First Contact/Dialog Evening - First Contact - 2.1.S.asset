@@ -16,11 +16,13 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "\xA1Mica! \xA1Mica! \xBFMe escuch\xE1s? \xA1Necesito que me respondas
+    dialogText: "\xA1Mica! \xA1Mica! \xBFMe escuch\xE1s? \xA1Necesito que me respondas,
       amiga!"
   - language: 1
     dialogText: Mica! Mica! Can you hear me? I need you to answer me!
   spanishDialogClip: {fileID: 8300000, guid: c8376a40b047142f88fedf0c7a16c478, type: 3}
-  nextDialog: {fileID: 11400000, guid: f474b7cbb29863a44ac3cc70a12f6f68, type: 2}
   timeBeforeShowing: 2
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: f474b7cbb29863a44ac3cc70a12f6f68, type: 2}
   dialogOptions: []

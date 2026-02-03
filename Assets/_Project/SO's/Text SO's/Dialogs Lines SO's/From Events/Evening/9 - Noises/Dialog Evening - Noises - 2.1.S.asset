@@ -16,8 +16,8 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Hola ... Intento comunicarme con la frencuencia policial, necesito
-      ayuda urgente ..
+    dialogText: Hola... Intento comunicarme con la frencuencia policial, necesito
+      ayuda urgente...
   - language: 1
     dialogText: Hello... I'm trying to contact the police frequency, I need urgent
       help...

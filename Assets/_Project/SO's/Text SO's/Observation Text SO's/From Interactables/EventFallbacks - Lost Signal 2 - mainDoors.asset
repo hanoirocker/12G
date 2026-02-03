@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5cc4c7d791f46f0866f9054f497311, type: 3}
   m_Name: EventFallbacks - Lost Signal 2 - mainDoors
   m_EditorClassIdentifier: 
+  isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: "Necesito encontrar ese tel\xE9fono primero .."
+    observationText: "Necesito encontrar ese tel\xE9fono primero..."
   - language: 1
-    observationText: I need to find my phone first..
+    observationText: I need to find my phone first...

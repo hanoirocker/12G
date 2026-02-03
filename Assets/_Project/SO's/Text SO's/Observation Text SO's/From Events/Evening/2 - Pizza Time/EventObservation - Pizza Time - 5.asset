@@ -15,6 +15,6 @@ MonoBehaviour:
   isEventText: 1
   observationTextsStructure:
   - language: 0
-    observationText: Siento que voy a morir de hambre en cualquier momento
+    observationText: Siento que voy a morir de hambre en cualquier momento.
   - language: 1
-    observationText: I feel like I'm going to starve to death any minute now
+    observationText: I feel like I'm going to starve to death any minute now.

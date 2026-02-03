@@ -16,7 +16,7 @@ MonoBehaviour:
   observationTextsStructure:
   - language: 0
     observationText: "\xBFUn ave? Como sea deber\xE9 limpiar esto antes que vuelvan
-      mis padres y lo vean. Qu\xE9 mierda ...."
+      mis padres y lo vean. Qu\xE9 mierda..."
   - language: 1
     observationText: "A bird? Anyway, I'll have to clean this up before my parents
       get back and see it. What a mess...\r"

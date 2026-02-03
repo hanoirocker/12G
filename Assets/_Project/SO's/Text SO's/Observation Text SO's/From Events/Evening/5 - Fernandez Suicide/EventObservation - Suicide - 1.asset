@@ -15,6 +15,6 @@ MonoBehaviour:
   isEventText: 1
   observationTextsStructure:
   - language: 0
-    observationText: Ese sonido ... no puede ser.
+    observationText: Ese sonido... no puede ser.
   - language: 1
     observationText: That sound... it can't be.

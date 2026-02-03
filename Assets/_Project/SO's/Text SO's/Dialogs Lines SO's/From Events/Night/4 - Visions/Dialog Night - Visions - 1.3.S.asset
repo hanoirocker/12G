@@ -16,9 +16,9 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Te pensas que es gracioso?
+    dialogText: "\xBFTe pens\xE1s que es gracioso?"
   - language: 1
-    dialogText: Do you think this is funny, right?
+    dialogText: Do you think this is funny?
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 1.5
   startingEvent: {fileID: 0}

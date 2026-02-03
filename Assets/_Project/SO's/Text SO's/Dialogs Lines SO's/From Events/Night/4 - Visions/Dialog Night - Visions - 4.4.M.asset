@@ -16,9 +16,9 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: (*Interferencia) ... No ... tonto  ... Simon .. con vos ..
+    dialogText: (Interferencia)... No... tonto... Simon... con vos...
   - language: 1
-    dialogText: (*Interference) ... No ... silly ... Simon .. with you ..
+    dialogText: (Interference)... No... silly... Simon... with you...
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 2
   startingEvent: {fileID: 0}

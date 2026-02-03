@@ -16,7 +16,7 @@ MonoBehaviour:
   observationTextsStructure:
   - language: 0
     observationText: "\xA1Mi tel\xE9fono! Necesito hablar con Mica y ver si soy el
-      \xFAnico con esta suerte. Pero .. \xBFD\xF3nde lo habr\xE9 dejado?"
+      \xFAnico con esta suerte. Pero... \xBFD\xF3nde lo habr\xE9 dejado?"
   - language: 1
     observationText: My phone! I need to talk to Mica and see if I'm the only one
-      this lucky. But... Where did I leave it?
+      this unlucky. But... Where did I leave it?

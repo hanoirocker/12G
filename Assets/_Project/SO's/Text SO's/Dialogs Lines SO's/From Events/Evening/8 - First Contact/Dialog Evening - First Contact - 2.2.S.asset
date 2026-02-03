@@ -16,11 +16,13 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Dale Micaaaaaa respondemeeee .. Dale que lo ten\xE9s encendido .."
+    dialogText: "Dale Micaaaaaa respondemeeee... Dale que lo ten\xE9s encendido..."
   - language: 1
-    dialogText: Come on Micaaaaaa answer meeee . Come on, please tell me it's turned
-      onnn ..
+    dialogText: Come on Micaaaaaa answer meeee. Come on, please tell me it's turned
+      onnn...
   spanishDialogClip: {fileID: 8300000, guid: 1e3dc62cced26f54bb5107c50f7a8766, type: 3}
-  nextDialog: {fileID: 11400000, guid: f17c619c0004756478a3180c0c3d3955, type: 2}
   timeBeforeShowing: 7
+  startingEvent: {fileID: 0}
+  endingEvent: {fileID: 0}
+  nextDialog: {fileID: 11400000, guid: f17c619c0004756478a3180c0c3d3955, type: 2}
   dialogOptions: []

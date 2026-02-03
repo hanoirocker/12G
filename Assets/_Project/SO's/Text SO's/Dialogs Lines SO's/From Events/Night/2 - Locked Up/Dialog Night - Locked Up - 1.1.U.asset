@@ -16,9 +16,9 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: ( ... Interferencia ... )
+    dialogText: (...Interferencia...)
   - language: 1
-    dialogText: ( ... Interference ... )
+    dialogText: (...Interference...)
   spanishDialogClip: {fileID: 0}
   timeBeforeShowing: 0.5
   startingEvent: {fileID: 0}

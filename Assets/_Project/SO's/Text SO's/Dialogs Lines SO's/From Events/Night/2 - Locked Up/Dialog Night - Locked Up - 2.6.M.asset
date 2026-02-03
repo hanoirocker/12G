@@ -17,7 +17,7 @@ MonoBehaviour:
   dialogTextStructure:
   - language: 0
     dialogText: Las luces la entrada de tu casa no paran de prender y apagarse, pense
-      que eras vos ..
+      que eras vos...
   - language: 1
     dialogText: The lights at the entrance of your house keep turning on and off,
       I thought it was you...

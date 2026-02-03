@@ -16,7 +16,7 @@ MonoBehaviour:
   isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: Te escucho. Algo alterado de hecho. Pasa algo?
+    dialogText: "Te escucho. Algo alterado de hecho. \xBFPasa algo?"
   - language: 1
     dialogText: I can hear you. You sound a bit agitated, actually. Is something
       wrong?
