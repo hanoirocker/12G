@@ -15,6 +15,10 @@ namespace TwelveG.EnvironmentController
         // Escuchan PlayerHandler y EnvironmentAudioHandler.
         GameEvents.Common.onPlayerEnteredHouseArea.Raise(this, houseArea);
       }
+      if (other.CompareTag("Enemy"))
+      {
+        EnvironmentHandler.Instance.EnemyHandler.SetEnemyCurrentHouseArea(houseArea);
+      }
     }
 
     private void OnTriggerExit(Collider other)
@@ -22,6 +26,10 @@ namespace TwelveG.EnvironmentController
       if (other.CompareTag("PlayerCapsule"))
       {
         GameEvents.Common.onPlayerExitedHouseArea.Raise(this, houseArea);
+      }
+      if (other.CompareTag("Enemy"))
+      {
+        EnvironmentHandler.Instance.EnemyHandler.SetEnemyCurrentHouseArea(HouseArea.None);
       }
     }
   }

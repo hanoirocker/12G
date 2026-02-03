@@ -20,6 +20,7 @@ TagManager:
   - GarageNoise
   - HouseAreaCollider
   - EntranceMainDoor
+  - Enemy
   layers:
   - Default
   - TransparentFX

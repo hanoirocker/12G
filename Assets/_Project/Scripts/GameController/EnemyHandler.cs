@@ -1,5 +1,6 @@
 using System.Collections;
 using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
 using TwelveG.PlayerController;
 using UnityEngine;
 
@@ -45,6 +46,8 @@ namespace TwelveG.GameController
 
     [Space(5)]
     [Header("Transforms")]
+    public HouseArea enemyCurrentArea = HouseArea.None;
+    [Space(5)]
     [SerializeField] private Transform cornerTransform;
     [SerializeField] private Transform middleOfTheStreetTransform;
     [SerializeField] private Transform livingRoomRightWindowTransform;
@@ -58,7 +61,6 @@ namespace TwelveG.GameController
     [SerializeField, Range(0f, 1f)] private float woodWalkingVolume = 0.7f;
 
     private AudioSource enemySource;
-
     private ZoneSpotterHandler zoneSpotterHandler;
 
     private void Awake()
@@ -211,6 +213,11 @@ namespace TwelveG.GameController
         renderer.enabled = false;
       }
       zoneSpotterHandler.canBeSpotted = false;
+    }
+
+    public void SetEnemyCurrentHouseArea(HouseArea houseArea)
+    {
+      enemyCurrentArea = houseArea;
     }
 
     // Calcula la duración exacta de la secuencia de invasión basada en los clips asignados
