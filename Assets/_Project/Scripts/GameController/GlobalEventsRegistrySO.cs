@@ -32,7 +32,7 @@ namespace TwelveG.GameController
         public GameEventSO onProceduralFaintFinished;
         public GameEventSO playWakeUpVCAnimation; // WakeUpEvent
         public GameEventSO triggerHouseLightsFlickering; // WakeUpEvent
-        public GameEventSO onEnablePlayerHouseEnergy; // WakeUpAtNightEvent
+        public GameEventSO onTogglePlayerHouseEnergy; // WakeUpAtNightEvent
         public GameEventSO playWakeUpAtNightVCAnimation; // WakeUpAtNightEvent
         public GameEventSO playFlashlightVCAnimation; // UnwiredEvent
 

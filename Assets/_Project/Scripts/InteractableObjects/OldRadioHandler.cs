@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
 using TwelveG.UIController;
@@ -46,6 +47,7 @@ namespace TwelveG.InteractableObjects
     private AudioSource audioSource;
     private AudioSourceState audioSourceState;
     private Coroutine activeCoroutine;
+    private bool isTogglingSwitch = false;
 
     void Awake()
     {
@@ -70,6 +72,12 @@ namespace TwelveG.InteractableObjects
     {
       if (activeCoroutine != null) StopCoroutine(activeCoroutine);
 
+      if (PlayerHouseHandler.Instance.HouseHasPower() == false)
+      {
+        activeCoroutine = StartCoroutine(InteractionClickSoundCoroutine());
+        return true;
+      }
+  
       if (isTurnedOn)
       {
         activeCoroutine = StartCoroutine(TurnOffRoutine());
@@ -81,30 +89,46 @@ namespace TwelveG.InteractableObjects
       return true;
     }
 
-    // No implementados por diseño
-    public (ObservationTextSO, float timeUntilShown) GetFallBackText() => throw new NotImplementedException();
-    public bool VerifyIfPlayerCanInteract(PlayerInteraction interactor) => throw new NotImplementedException();
+    private IEnumerator PerformPhysicalToggle()
+    {
+      isTogglingSwitch = true;
+      EnsureAudioSource(interactionVolume);
 
-    // ----- LOGICA PRINCIPAL -----
+      if (toggleClip != null)
+      {
+        audioSource.loop = false;
+        audioSource.clip = toggleClip;
+        audioSource.volume = interactionVolume;
+        audioSource.Play();
+        yield return new WaitForSeconds(toggleClip.length * 0.7f); // Pequeña espera para sincronía
+      }
+      else
+      {
+        yield return new WaitForSeconds(0.2f);
+      }
+      isTogglingSwitch = false;
+    }
+
+    private IEnumerator InteractionClickSoundCoroutine()
+    {
+      // Simplemente reproduce el sonido del botón y libera el audio al terminar
+      yield return StartCoroutine(PerformPhysicalToggle());
+      ReleaseAudio();
+    }
 
     private IEnumerator TurnOnRoutine()
     {
-      EnsureAudioSource(interactionVolume);
+      // Sonido físico del botón (Se espera a que termine el click)
+      yield return StartCoroutine(PerformPhysicalToggle());
 
+      // Encendido Visual
       ToggleVisuals(true);
-
-      audioSource.loop = false;
-      audioSource.clip = toggleClip;
-      audioSource.volume = interactionVolume;
-      audioSource.Play();
-
-      yield return new WaitForSeconds(toggleClip != null ? toggleClip.length * 0.7f : 0.2f);
-
-      // 2. Estado encendido (Efecto visual y lógico)
       isTurnedOn = true;
       if (resonanceZone != null) resonanceZone.SetActive(true);
 
-      // 3. Ruido de fondo
+      // Ruido de fondo (Estática/Radio)
+      EnsureAudioSource(clipsVolume);
+
       if (noTuneClip != null)
       {
         audioSource.clip = noTuneClip;
@@ -120,40 +144,28 @@ namespace TwelveG.InteractableObjects
 
     private IEnumerator TurnOffRoutine()
     {
-      EnsureAudioSource(interactionVolume);
       ToggleVisuals(false);
-
-      audioSource.loop = false;
-      audioSource.clip = toggleClip;
-      audioSource.volume = interactionVolume;
-      audioSource.Play();
-
-      yield return new WaitForSeconds(toggleClip != null ? toggleClip.length : 0.2f);
-
-      // Apagar efecto visual y lógico
       if (resonanceZone != null) resonanceZone.SetActive(false);
       isTurnedOn = false;
 
+      yield return StartCoroutine(PerformPhysicalToggle());
+
       ReleaseAudio();
 
-      // Chequear si esto fue disparado por eventos especiales
       HandlePostTurnOffEvents();
     }
 
     private void HandlePostTurnOffEvents()
     {
-      // La radio se prendió sola por un evento
       if (turnedOnByEvent)
       {
-        StartCoroutine(MakeObservation(0, 1.5f)); // Observación de simón luego de apagarla
+        StartCoroutine(MakeObservation(0, 1.5f));
         turnedOnByEvent = false;
         canBeInteractedWith = false;
 
-        // Secuencia de evento: Se vuelve a prender sola y fuerte
         if (activeCoroutine != null) StopCoroutine(activeCoroutine);
         activeCoroutine = StartCoroutine(SuddenLoudNoiseCoroutine());
       }
-      // La radio ya estaba en modo estaba prendida de forma random y el jugador la apagó
       else if (turnedOnRandomly)
       {
         StartCoroutine(MakeObservation(1, 1.5f));
@@ -175,15 +187,13 @@ namespace TwelveG.InteractableObjects
       isTurnedOn = true;
       canBeInteractedWith = true;
 
-      // Prendido fuerte random
       if (randomTunningClip != null)
       {
         audioSource.PlayOneShot(randomTunningClip);
         yield return new WaitForSeconds(randomTunningClip.length);
       }
 
-      // Volver a sintonía normal
-      if (audioSource != null) // Check de seguridad por si el jugador la apagó durante el susto
+      if (audioSource != null)
       {
         audioSource.loop = true;
         audioSource.clip = noTuneClip;
@@ -256,5 +266,7 @@ namespace TwelveG.InteractableObjects
         );
       }
     }
+    public (ObservationTextSO, float timeUntilShown) GetFallBackText() => throw new NotImplementedException();
+    public bool VerifyIfPlayerCanInteract(PlayerInteraction interactor) => throw new NotImplementedException();
   }
 }

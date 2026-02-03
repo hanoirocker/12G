@@ -75,6 +75,7 @@ namespace TwelveG.EnvironmentController
 
         // Diccionario extras para optimizar la búsqueda de prefabs por ID
         private Dictionary<string, GameObject> objectsMap = new Dictionary<string, GameObject>();
+        private bool houseHasPower = true;
 
         private void Awake()
         {
@@ -114,6 +115,11 @@ namespace TwelveG.EnvironmentController
             {
                 Instance = null;
             }
+        }
+
+        public bool HouseHasPower()
+        {
+            return houseHasPower;
         }
 
         public void FlickerLights(Component sender, object data)
@@ -180,32 +186,24 @@ namespace TwelveG.EnvironmentController
             }
         }
 
-        public void EnablePlayerHouseEnergy(Component sender, object data)
+        public void TogglePlayerHouseEnergy(Component sender, object data)
         {
             if (data == null) return;
 
-            foreach (LightSwitchHandler lightSwitch in LightSwitches)
-            {
-                lightSwitch.itWorks = (bool)data;
-            }
+            houseHasPower = (bool)data;
 
-            if ((bool)data == false)
+            if (!houseHasPower)
             {
                 // Apagar todas las luces de la casa
                 foreach (Light light in HouseLights)
                 {
-                    light.enabled = false;
+                    light.enabled = houseHasPower;
                 }
 
                 foreach (Renderer bulb in HouseLightsBulbs)
                 {
                     bulb.material.DisableKeyword("_EMISSION");
                 }
-            }
-
-            foreach (Collider col in electricInteractableColliders)
-            {
-                col.enabled = (bool)data;
             }
         }
 

@@ -1,5 +1,7 @@
 NOVEDADES:
-- Se continuó trabajando con Voices, creando una segunda rutina del enemigo para cuando el jugador safa al entrar al kitchen Depot. Se agregaron audios y animaciones para esta parte.
+- Se reemplazo la desactivacion de colliders electricos en PlayerHouseHandler cuando no hay luz por un metodo que devuelve eso .. si hay luz. Este metodo se llama desde los interactuables electricos para distintas cosas.
+- Se reemplazo la musica de la rutina de invasion del enemy en Voices por un track propio.
+- Se corrigió bug en Pause Menu Canvas con la info de ayuda del jugador. Ahora se hace null la variable privada al recibir evento OnResetEventDriveTexts.
 
 TOCHECK:
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)

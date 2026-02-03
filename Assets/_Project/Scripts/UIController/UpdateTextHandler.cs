@@ -97,6 +97,11 @@ namespace TwelveG.UIController
       }
     }
 
+    public void ResetEventDrivenTextSO()
+    {
+      eventDrivenTextSO = null;
+    }
+
     private void OnValidate()
     {
       if (Application.isPlaying && isActiveAndEnabled)

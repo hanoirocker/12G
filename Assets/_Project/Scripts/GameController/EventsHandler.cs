@@ -527,7 +527,7 @@ namespace TwelveG.GameController
             // 2. Configurar del mundo
             if (!profile.houseHasEnergy)
             {
-                GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, false);
+                GameEvents.Common.onTogglePlayerHouseEnergy.Raise(this, false);
                 yield return new WaitForFixedUpdate();
             }
 

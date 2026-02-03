@@ -17,49 +17,16 @@ MonoBehaviour:
   onVideoCanvasLoadClip: {fileID: 11400000, guid: 4405009a0d1d546c6a0616680c8df027,
     type: 2}
   onVideoCanvasPlay: {fileID: 11400000, guid: 4ac3890b622594f56a4ec9cb4f512da5, type: 2}
-  onObservationCanvasShowText: {fileID: 11400000, guid: 21665bdceeba748ad93c85a910b97415,
-    type: 2}
   onActivateCanvas: {fileID: 11400000, guid: d59bf113ac1e54e4d946d872d08be254, type: 2}
-  onImageCanvasControls: {fileID: 11400000, guid: 6ed7b5d382bf14b7b8225d4b72510118,
-    type: 2}
   updateFallbackTexts: {fileID: 11400000, guid: 960edcd17c689451396d8aef90eb3b02,
     type: 2}
   onLoadPlayerHelperData: {fileID: 11400000, guid: 116d222d7ca66464885ddec24f3e959a,
-    type: 2}
-  onControlCanvasSetInteractionOptions: {fileID: 11400000, guid: 2d2876dd06799469eab991b1765d3d76,
-    type: 2}
-  onControlCanvasControls: {fileID: 11400000, guid: 18ed3eac9dddd437281c87a3cb0eb108,
-    type: 2}
-  onEventInteractionCanvasShowText: {fileID: 11400000, guid: 5b0e93544dc8c40808b75435a043db4b,
-    type: 2}
-  onContemplationCanvasControls: {fileID: 11400000, guid: 2bd0991b7334a423693ab54b3ed0b438,
-    type: 2}
-  onContemplationCanvasShowText: {fileID: 11400000, guid: a0d4aac956bd34d2e9e2e8b33fb85b30,
-    type: 2}
-  onInteractionCanvasControls: {fileID: 11400000, guid: b4a74bc53b9144d37b48a814bbba6dc6,
-    type: 2}
-  onInteractionCanvasShowText: {fileID: 11400000, guid: 6443abf2bf85845498159e5a01a28243,
     type: 2}
   onShowNarrativeIntro: {fileID: 11400000, guid: 00106ca0eebe84adcb6158e1c532ced7,
     type: 2}
   onToggleInGameCanvasAll: {fileID: 11400000, guid: d595e2334b5094974818344a114be2b4,
     type: 2}
-  onInformationFadeIn: {fileID: 11400000, guid: c2f2fc0896aad4998993e4653fb916e2,
-    type: 2}
-  onInformationFadeOut: {fileID: 11400000, guid: 3beaa58fcfd814376ad4a31048258f7e,
-    type: 2}
   onDeactivateCanvas: {fileID: 11400000, guid: 1673cdbea93744c308d5cb84ba0f1258, type: 2}
-  onDisclaimerFadeIn: {fileID: 11400000, guid: ecc17ef6098224b3f8bbbea47865e7aa, type: 2}
-  onDisclaimerFadeInFinished: {fileID: 11400000, guid: 0df2428aee2a6453299a54b15957eedc,
-    type: 2}
-  onDisclaimerFadeOut: {fileID: 11400000, guid: e3d21aee5b42046a08612d9b0bdf93ab,
-    type: 2}
-  onDisclaimerFadeOutFinished: {fileID: 11400000, guid: 2d05e678d9cb94771803c2ca7788926a,
-    type: 2}
-  onInformationFadeInFinished: {fileID: 11400000, guid: 731bc51ba5941440bb7406fbbf68b078,
-    type: 2}
-  onInformationFadeOutFinished: {fileID: 11400000, guid: 2b1e24c0d99fc42ffbb9e38a076fa563,
-    type: 2}
   onShowIncomingCallPanel: {fileID: 11400000, guid: d1db1c9ba396c4faca369b1d69e08abe,
     type: 2}
   onExaminationCanvasControls: {fileID: 11400000, guid: 17fe1262bc4f246f9a5909aa358fdcd2,
@@ -81,24 +48,22 @@ MonoBehaviour:
     type: 2}
   playWakeUpVCAnimation: {fileID: 11400000, guid: a5ac32080ee2c40f0a927e8a4e9845ea,
     type: 2}
-  playCrashingWindowSound: {fileID: 11400000, guid: 7f19d8987ec97492f9b7a0d8d9948b03,
-    type: 2}
   triggerHouseLightsFlickering: {fileID: 11400000, guid: 0f71c96d3baf6664b94de18f0305cd02,
     type: 2}
-  onEnablePlayerHouseEnergy: {fileID: 11400000, guid: ce42476a207fa4c1987b3884ba0fd9e3,
+  onTogglePlayerHouseEnergy: {fileID: 11400000, guid: ce42476a207fa4c1987b3884ba0fd9e3,
     type: 2}
   playWakeUpAtNightVCAnimation: {fileID: 11400000, guid: 63ebebc29696c4eb7927dd7984e38e09,
     type: 2}
   playFlashlightVCAnimation: {fileID: 11400000, guid: 3654b22f5f81b448093f32656e466f8a,
     type: 2}
-  onEnablePlayerItem: {fileID: 11400000, guid: db3f86513c173994cbebbc47a6a65d05, type: 2}
-  onRemovePlayerItem: {fileID: 11400000, guid: dc4cd2c022a0a43519fc164a582b9930, type: 2}
   onPlayerDying: {fileID: 11400000, guid: 5d7613b2c6cb646c09460070afb0a95c, type: 2}
   onPlayerControls: {fileID: 11400000, guid: 451880e154eb744aaa22ab8cf5b0b202, type: 2}
   onVirtualCamerasControl: {fileID: 11400000, guid: 3acb40e7a3c524168b69676446ac2f6a,
     type: 2}
   onMainCameraSettings: {fileID: 11400000, guid: 8f576867975014f8fbb8407594c8ba38,
     type: 2}
+  onEnablePlayerItem: {fileID: 11400000, guid: db3f86513c173994cbebbc47a6a65d05, type: 2}
+  onRemovePlayerItem: {fileID: 11400000, guid: dc4cd2c022a0a43519fc164a582b9930, type: 2}
   onPizzaPickedUp: {fileID: 11400000, guid: 0655c3c6307484235bd7de1c9b08bd1d, type: 2}
   onFlashlightPickedUp: {fileID: 11400000, guid: 375b543779b874613a6d38cabcb345d7,
     type: 2}
@@ -124,7 +89,6 @@ MonoBehaviour:
   onSceneLoaded: {fileID: 11400000, guid: f8e2983d3a7a6466391c628112c18ac2, type: 2}
   onSceneActivated: {fileID: 11400000, guid: dd460a392a8434bb1aa0b87a7d4a5804, type: 2}
   onAnyKeyPressed: {fileID: 11400000, guid: 73fde926fb431b5438950349d7e271aa, type: 2}
-  onPlayGame: {fileID: 11400000, guid: cbdce6e253f894a86b079cf805899625, type: 2}
   onPauseGame: {fileID: 11400000, guid: 13a63d0eb1c1b411e81c5be2e547a739, type: 2}
   onFinishedNarrativeCouritine: {fileID: 11400000, guid: 57a1f58459c9b408a9f6c800316908a7,
     type: 2}

@@ -32,7 +32,7 @@ namespace TwelveG.GameController
             );
 
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
-            GameEvents.Common.onEnablePlayerHouseEnergy.Raise(this, true);
+            GameEvents.Common.onTogglePlayerHouseEnergy.Raise(this, true);
             GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.HardRainAndWind);
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.Bed, true));

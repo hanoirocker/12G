@@ -1,5 +1,6 @@
 using System.Collections;
 using TwelveG.AudioController;
+using TwelveG.EnvironmentController;
 using TwelveG.GameController;
 using TwelveG.Localization;
 using TwelveG.PlayerController;
@@ -37,7 +38,7 @@ namespace TwelveG.InteractableObjects
         [SerializeField] private EventsEnum jumpScareTriggerEvent;
 
         [Header("Other Settings: ")]
-        [SerializeField] private GameObject consequentObjectsToActivate;
+        [SerializeField] private GameObject LightToToggle;
 
         [Header("Interaction Texts SO")]
         [SerializeField] private InteractionTextSO interactionTextsSO_open;
@@ -71,9 +72,9 @@ namespace TwelveG.InteractableObjects
 
         private IEnumerator RotateDrawerDoor(Quaternion targetRotation, bool isJumpscareAction)
         {
-            if (!doorIsOpen && consequentObjectsToActivate != null)
+            if (!doorIsOpen && LightToToggle != null && PlayerHouseHandler.Instance.HouseHasPower())
             {
-                consequentObjectsToActivate.SetActive(true);
+                LightToToggle.SetActive(true);
             }
 
             isMoving = true;
@@ -143,9 +144,9 @@ namespace TwelveG.InteractableObjects
             else
             {
                 // Finalización normal
-                if (!doorIsOpen && consequentObjectsToActivate != null)
+                if (!doorIsOpen && LightToToggle != null && PlayerHouseHandler.Instance.HouseHasPower())
                 {
-                    consequentObjectsToActivate.SetActive(false);
+                    LightToToggle.SetActive(false);
                 }
 
                 isMoving = false;

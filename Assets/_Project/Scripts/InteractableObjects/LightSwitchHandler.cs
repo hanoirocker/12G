@@ -3,6 +3,7 @@ using TwelveG.Localization;
 using UnityEngine;
 using TwelveG.AudioController;
 using System.Collections;
+using TwelveG.EnvironmentController;
 
 namespace TwelveG.InteractableObjects
 {
@@ -10,7 +11,6 @@ namespace TwelveG.InteractableObjects
     {
         [Header("Object settings: ")]
         [SerializeField] private bool isTableLamp;
-        public bool itWorks = true;
         [SerializeField] private Light[] lights;
         [SerializeField] private Renderer[] bulbsRenderers;
 
@@ -30,7 +30,7 @@ namespace TwelveG.InteractableObjects
 
         private void Start()
         {
-            if (lightsAreActive && itWorks)
+            if (lightsAreActive && PlayerHouseHandler.Instance.HouseHasPower())
             {
                 foreach (Light singleLight in lights)
                 {
@@ -105,14 +105,14 @@ namespace TwelveG.InteractableObjects
 
         public InteractionTextSO RetrieveInteractionSO(PlayerInteraction playerCamera)
         {
-            if (!itWorks) return null;
+            if (!PlayerHouseHandler.Instance.HouseHasPower()) return null;
 
             return lightsAreActive ? interactionTextsSO_turnOff : interactionTextsSO_turnOn;
         }
 
         public bool Interact(PlayerInteraction interactor)
         {
-            if (!itWorks)
+            if (!PlayerHouseHandler.Instance.HouseHasPower())
             {
                 StartCoroutine(PlayLightsSwitchSoundCoroutine());
                 return false;
