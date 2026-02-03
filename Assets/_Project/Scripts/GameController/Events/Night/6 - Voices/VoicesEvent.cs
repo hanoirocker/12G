@@ -419,12 +419,12 @@ namespace TwelveG.GameController
       sender.gameObject.GetComponent<ZoneSpotterHandler>().canBeSpotted = false;
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
 
-      if (enemyAnimationRoutine != null)
+      if (enemyInvasionCoroutine != null)
       {
         StopCoroutine(enemyInvasionCoroutine);
-        enemyAnimationRoutine = null;
+        enemyInvasionCoroutine = null;
       }
-      if (enemyAnimationRoutine != null)
+      if (enemyWalkingRoutine != null)
       {
         StopCoroutine(enemyWalkingRoutine);
         enemyWalkingRoutine = null;
