@@ -307,7 +307,7 @@ namespace TwelveG.GameController
         tensionSource.volume = reachedVolume;
         tensionSource.Play();
 
-        yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(tensionSource, 6f));
+        yield return StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(tensionSource, 12f));
         AudioManager.Instance.PoolsHandler.ReleaseAudioSource(tensionSource);
         tensionSource = null;
       }
