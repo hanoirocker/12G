@@ -50,8 +50,11 @@ namespace TwelveG.GameController
 
     private AudioSource tensionSource;
 
+    // Estas se pueden detener si el jugador ve al enemigo
+    // o se acerca demasiado a él sin mirarlo
     private Coroutine enemyInvasionCoroutine;
-    private Coroutine enemyAtKitchenRoutine;
+    private Coroutine enemyWalkingRoutine;
+    private Coroutine enemyAnimationRoutine;
 
     public override IEnumerator Execute()
     {
@@ -109,34 +112,35 @@ namespace TwelveG.GameController
     // --- RUTINA DEL ENEMIGO ---
     private IEnumerator EnemyInvasionSequence()
     {
-      Coroutine enemyWalkingCoroutine;
       enemyIsOmnipresent = false;
 
       // "ALGUIEN HA INGRESADO A TU HOGAR"
       GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[0]);
 
       // Garage -> Entrada
-      enemyWalkingCoroutine = StartCoroutine(
+      enemyWalkingRoutine = StartCoroutine(
         EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.MosaicGarage)
       );
-      yield return StartCoroutine(
+      enemyAnimationRoutine = StartCoroutine(
         EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VoicesMainGarageToEntrance, false)
       );
+      yield return enemyAnimationRoutine;
 
-      StopCoroutine(enemyWalkingCoroutine);
+      StopCoroutine(enemyWalkingRoutine);
 
       // Esperar hasta que se abra la puerta del garage al hall
       InteractWithDoor("Garage Door Lock");
       yield return new WaitForSeconds(GARAGE_OPEN_WAIT);
 
       // Entrada --> DownstairsHall
-      enemyWalkingCoroutine = StartCoroutine(
+      enemyWalkingRoutine = StartCoroutine(
         EnvironmentHandler.Instance.EnemyHandler.PlayEnemyWalkingRoutine(FSMaterial.MosaicGarage)
       );
-      yield return StartCoroutine(
+      enemyAnimationRoutine = StartCoroutine(
         EnvironmentHandler.Instance.EnemyHandler.PlayEnemyAnimation(EnemyAnimations.VoicesGarageToDhall, true)
       );
-      StopCoroutine(enemyWalkingCoroutine);
+      yield return enemyAnimationRoutine;
+      StopCoroutine(enemyWalkingRoutine);
 
       // Abrir Puerta Hall
       InteractWithDoor("Main Hall Door Lock");
@@ -412,10 +416,26 @@ namespace TwelveG.GameController
       sender.gameObject.GetComponent<ZoneSpotterHandler>().canBeSpotted = false;
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
 
-      yield return new WaitForSeconds(0.5f);
+      if (enemyAnimationRoutine != null)
+      {
+        StopCoroutine(enemyInvasionCoroutine);
+        enemyAnimationRoutine = null;
+      }
+      if (enemyAnimationRoutine != null)
+      {
+        StopCoroutine(enemyWalkingRoutine);
+        enemyWalkingRoutine = null;
+      }
+      if (enemyAnimationRoutine != null)
+      {
+        StopCoroutine(enemyAnimationRoutine);
+        enemyAnimationRoutine = null;
+      }
+
+      // El jugador llega a visualizar levemente al enemigo antes de hacerlo desaparecer
+      yield return new WaitForSeconds(0.1f);
 
       EnvironmentHandler.Instance.EnemyHandler.HideEnemy();
-      StopCoroutine(enemyInvasionCoroutine);
       enemyInvasionCoroutine = null;
       enemyIsOmnipresent = true;
       Debug.Log("Enemy Spotted! Now Omnipresent.");
