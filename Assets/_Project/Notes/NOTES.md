@@ -9,7 +9,6 @@ TOCHECK:
 - Agregar mas sonidos stereo para los perfiles sonoros de ambiente?
 
 TOFIX:
-- Hide todos los canvases al abrir el Pause Menu Canvas.
 - Por alguna razón, al contemplar la escoba ya usada "Used Broom" no devuelve texto.
 - LS2: deshabilitar los controles del jugador apenas se enciende la PC, retomarlos al salir de la misma. Por otro lado, Al terminar de usar la misma debemos mostrar solo el cartel de LEVANTARSE []. Luego una vez recuperados los controles y estando parado, se debe poder apagar.
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
