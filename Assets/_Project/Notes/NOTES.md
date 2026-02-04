@@ -1,5 +1,5 @@
 NOVEDADES:
-- Se agregaron referencias de canvas faltantes para ocultar al pausar el juego.
+- Se agregaron referencias de canvas faltantes para ocultar al pausar el juego
 
 TOCHECK:
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)
