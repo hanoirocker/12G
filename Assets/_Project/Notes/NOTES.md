@@ -9,6 +9,8 @@ TOCHECK:
 - Por alguna razón, al contemplar la escoba ya usada "Used Broom" no devuelve texto. (Solucionado pero hay que checkear que los indexes nuevos sean correctos)
 
 TOFIX:
+- Al empezar el afternoon scene desde el evento PizzaTime, no hay plato colgado para levantar.
+- Al empezar el afternoon scene desde cualquier evento posterior a PizzaTime, la escoba está en el garage y no aparece la escoba usada.
 - LS2: deshabilitar los controles del jugador apenas se enciende la PC, retomarlos al salir de la misma. Por otro lado, Al terminar de usar la misma debemos mostrar solo el cartel de LEVANTARSE []. Luego una vez recuperados los controles y estando parado, se debe poder apagar.
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 
