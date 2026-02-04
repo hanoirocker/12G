@@ -1,8 +1,5 @@
 NOVEDADES:
-- Se agregó el parámetro forceChannelSwitch en DialogForChannel estructure que permite que el onLoadDialogForSpecificChannel del WT cargue forzadamente un dialogo en un canal sin necesidad que el jugador pase al mismo, originando que suena la llamada directamente.
-- Se implementó dialogo de "Ve a la luz" y "Ya es tarde" en Voices.
-- Se agregó parámetro de control de volumen para cada audioClip de los DialogSOs
-- Se cambió el diálogo de Simón al acabarse las baterias de la linterna por textos de observación
+- Se agregaron referencias de canvas faltantes para ocultar al pausar el juego.
 
 TOCHECK:
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)
@@ -21,7 +18,8 @@ TODO - próximo:
 TODO - despues:
 
 - Walkie Talkie: Agregar ruidos de estática distintos para cada canal (En todos los assets de WalkieTalkieData).
-- Quizás trabajar un poco mas sobre el audio de la alucinación de fernandez, agregar risas femeninas al audio del cuadro del corazón.
+- Quizás trabajar un poco mas sobre el audio de la alucinación de fernandez // LISTO PERO NO FINAL
+- Agregar risas femeninas al audio del cuadro del corazón.
 - Agregar sonidos para cuando come la pizza.
 - Agregar sonidos al tomar bolsas de basura.
 - Agregar sonido de mareo y caida del jugador al suelo, dependiendo del lugar donde caiga debe sonar distinto (3 materiales: carpet, wood, mosaic)
