@@ -1,5 +1,7 @@
 NOVEDADES:
-- Se agregaron referencias de canvas faltantes para ocultar al pausar el juego
+- Se implementó el nuevo evento SO onCancelCurrentDialog para justamente detener cualquier dialogo sucediendo de haberlo. Recibe DialogManager y WT.
+- Se crearon nuevos métodos en WalkieTalkie.cs y WalkieTalkieCallHandler para hacer uso de onCancelCurrentDialog.
+- Se corrigió un error introducido en la lógica expandida de dialogo forzado donde nunca se levantaba bandera de incomming call.
 
 TOCHECK:
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)

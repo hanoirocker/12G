@@ -30,6 +30,7 @@ namespace TwelveG.DialogsController
 
         private DialogSO currentDialog;
         private List<DialogOptions> currentOptions;
+        Coroutine currentDialogCoroutine = null;
 
         private void OnEnable()
         {
@@ -179,7 +180,7 @@ namespace TwelveG.DialogsController
             currentDialog = (DialogSO)data;
             if (currentDialog != null)
             {
-                StartCoroutine(StartDialogCoroutine(currentDialog));
+                currentDialogCoroutine = StartCoroutine(StartDialogCoroutine(currentDialog));
             }
         }
 
@@ -234,6 +235,20 @@ namespace TwelveG.DialogsController
             {
                 HideOptions();
             }
+        }
+
+        public void CancelCurrentDialog(Component sender, object data)
+        {
+            if (currentDialogCoroutine != null)
+            {
+                StopCoroutine(currentDialogCoroutine);
+                currentDialogCoroutine = null;
+            }
+
+            GameEvents.Common.onConversationHasEnded.Raise(this, null);
+            AudioManager.Instance.AudioDialogsHandler.StopAllDialogAudio();
+            HideOptions();
+            dialogCanvas.enabled = false;
         }
 
         private void HideOptions()

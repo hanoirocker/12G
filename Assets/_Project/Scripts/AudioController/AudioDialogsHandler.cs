@@ -69,6 +69,21 @@ namespace TwelveG.AudioController
       }
     }
 
+    public void StopAllDialogAudio()
+    {
+      if (WTSource != null && WTSource.isPlaying)
+      {
+        WTSource.Stop();
+        WTSource.clip = null;
+      }
+
+      if (simonSource != null && simonSource.isPlaying)
+      {
+        simonSource.Stop();
+        simonSource.clip = null;
+      }
+    }
+
     public IEnumerator PlayBeepSound()
     {
       if (WTBeepClip != null && WTSource != null)

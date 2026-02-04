@@ -31,6 +31,10 @@ namespace TwelveG.PlayerController
             {
                 GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
             }
+            else if(Input.GetKeyDown(KeyCode.J))
+            {
+                GameEvents.Common.onCancelCurrentDialog.Raise(this, null);
+            }
         }
     }
 

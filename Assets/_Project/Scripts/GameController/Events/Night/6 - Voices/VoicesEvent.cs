@@ -165,6 +165,14 @@ namespace TwelveG.GameController
       // Pausa Dramática
       yield return new WaitForSeconds(DRAMATIC_PAUSE);
       enemyIsOmnipresent = true;
+
+      // Dialogo de "Ya es tarde ..."
+      GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+      {
+        channelIndex = 1, // Canal 2 de vecinos
+        dialogSO = dialogSOs[1],
+        forceChannelSwitch = true
+      });
     }
 
     // Monitor de supervivencia del jugador y audio de tensión
@@ -215,14 +223,6 @@ namespace TwelveG.GameController
 
             StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(tensionSource, 1f));
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]); // "SIEMPRE FUISTE UNA VICTIMA"
-
-            // Dialogo de "Ya es tarde ..."
-            GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
-            {
-              channelIndex = 1, // Canal 2 de vecinos
-              dialogSO = dialogSOs[1],
-              forceChannelSwitch = true
-            });
           }
 
           // --- BLOQUE DE EJECUCIÓN CONTINUA (MONITOR DE MUERTE) ---
@@ -449,6 +449,11 @@ namespace TwelveG.GameController
     // Recibe "onEnemySpotted" desde ZoneSpotterHandler del enemigo
     private IEnumerator EnemySpottedRoutine(Component sender)
     {
+      if (!enemyIsOmnipresent)
+      {
+        GameEvents.Common.onCancelCurrentDialog.Raise(this, null); // Cancelamos el dialogo de "Ve a la luz" si estaba activo
+      }
+
       sender.gameObject.GetComponent<ZoneSpotterHandler>().canBeSpotted = false;
       GameEvents.Common.onStartWeatherEvent.Raise(this, WeatherEvent.CloseThunder);
 
@@ -470,11 +475,11 @@ namespace TwelveG.GameController
 
       // El jugador llega a visualizar levemente al enemigo antes de hacerlo desaparecer
       yield return new WaitForSeconds(0.1f);
+      StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.PlayPlayerSound(PlayerSoundsType.ScaredReactionLong));
 
       EnvironmentHandler.Instance.EnemyHandler.HideEnemy();
       enemyInvasionCoroutine = null;
       enemyIsOmnipresent = true;
-      Debug.Log("Enemy Spotted! Now Omnipresent.");
     }
 
     private bool PlayerIsInNeutralZone()

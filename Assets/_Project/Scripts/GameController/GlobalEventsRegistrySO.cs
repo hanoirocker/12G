@@ -56,6 +56,7 @@ namespace TwelveG.GameController
         [Header("Dialogs")]
         public GameEventSO onShowDialog; // WT
         public GameEventSO onStartDialog;
+        public GameEventSO onCancelCurrentDialog; // Recibe DialogManager y eventualmente avisa al WT con onConversationHasEnded
         public GameEventSO onLoadDialogForSpecificChannel;
         public GameEventSO onDialogNodeRunning;
         public GameEventSO onConversationHasEnded;

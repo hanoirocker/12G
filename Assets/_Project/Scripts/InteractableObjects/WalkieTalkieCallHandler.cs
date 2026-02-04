@@ -92,6 +92,7 @@ namespace TwelveG.InteractableObjects
       if (currentPendingDialog != null)
       {
         GameEvents.Common.onShowDialog.Raise(this, currentPendingDialog);
+        currentPendingDialog = null;
       }
     }
 
@@ -114,10 +115,15 @@ namespace TwelveG.InteractableObjects
 
     public void StopRinging()
     {
-      // Solo detenemos el audio y el panel, pero NO cambiamos IsIncomingCallWaiting a false aquí
-      // (eso solo se hace al atender).
       audioHandler.Stop();
       onShowIncomingCallPanelEvent.Raise(this, false);
+    }
+
+    public void AbortIncomingCall()
+    {
+      IsIncomingCallWaiting = false;
+      StopRinging();
+      currentPendingDialog = null;
     }
 
     private IEnumerator IncomingDialogAlertCoroutine()

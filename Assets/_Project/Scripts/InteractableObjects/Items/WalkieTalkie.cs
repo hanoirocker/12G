@@ -343,7 +343,7 @@ namespace TwelveG.InteractableObjects
                 onItemToggled.Raise(this, itemIsShown);
                 animationPlaying = false;
 
-                // Caso A: No hay nadie llamando -> Comportamiento normal
+                // Caso A: No hay nadie llamando
                 if (!callHandler.IsIncomingCallWaiting)
                 {
                     PlayCurrentChannelStatic();
@@ -356,7 +356,7 @@ namespace TwelveG.InteractableObjects
                         walkieTalkieChannels[currentChannelIndex].ClearPendingDialog();
                     }
                 }
-                // Caso B: Hay una llamada sonando (Mica O Evento Forzado)
+                // Caso B: Hay una llamada sonando
                 else
                 {
                     // 1. Es Micaela en su canal
@@ -365,12 +365,10 @@ namespace TwelveG.InteractableObjects
                         callHandler.AcceptWaitingCall();
                         LockControls();
                     }
-                    // 2. Es un evento forzado en el canal actual (Usado por ej en VoicesEvent)
-                    // Básicamente cambia de canal forzadamente sin que el jugador se de cuenta
+                    // 2. Es un evento forzado en el canal actual
                     else if (walkieTalkieChannels[currentChannelIndex].HasPendingDialog())
                     {
-                        // Solo paramos el ruido, y disparamos el diálogo manualmente
-                        callHandler.StopRinging();
+                        callHandler.AbortIncomingCall();
 
                         var dialog = walkieTalkieChannels[currentChannelIndex].pendingDialog;
                         GameEvents.Common.onShowDialog.Raise(this, dialog);
@@ -415,7 +413,7 @@ namespace TwelveG.InteractableObjects
             {
                 newChannel = UnityEngine.Random.Range(0, channelCount);
             } while (newChannel == currentChannelIndex);
-            
+
             StartCoroutine(SwitchChannel(newChannel, false));
         }
 
@@ -430,17 +428,31 @@ namespace TwelveG.InteractableObjects
         }
 
         private IEnumerator LoopRandomChannelSwitch(float minDelay, float maxDelay)
+        {
+            while (true)
             {
-                while (true)
-                {
-                    yield return new WaitForSeconds(UnityEngine.Random.Range(minDelay, maxDelay));
-                    SwitchToRandomChannel();
-                }
+                yield return new WaitForSeconds(UnityEngine.Random.Range(minDelay, maxDelay));
+                SwitchToRandomChannel();
             }
+        }
 
         public void StopRandomChannelSwitching()
         {
             if (randomSwitchingCR != null) StopCoroutine(randomSwitchingCR);
+        }
+
+        public void OnCancelCurrentDialog(Component sender, object data)
+        {
+            UnlockControls();
+
+            walkieTalkieChannels[currentChannelIndex].ClearPendingDialog();
+
+            callHandler.AbortIncomingCall();
+
+            if (itemIsShown)
+            {
+                PlayCurrentChannelStatic();
+            }
         }
     }
 }

@@ -70,6 +70,8 @@ MonoBehaviour:
   onLanguageChanged: {fileID: 11400000, guid: b02a0912e606340caba42a908fc8e7cf, type: 2}
   onShowDialog: {fileID: 11400000, guid: 9fcf4b0f869f6466eb2bb2b02aeb7b23, type: 2}
   onStartDialog: {fileID: 11400000, guid: 66b799bbe356f49f4a5fb671f7a5992f, type: 2}
+  onCancelCurrentDialog: {fileID: 11400000, guid: 93430b09c5047c04dacf866e0a8f6336,
+    type: 2}
   onLoadDialogForSpecificChannel: {fileID: 11400000, guid: d02c8bef7c363634581b3bc7bcd6f358,
     type: 2}
   onDialogNodeRunning: {fileID: 11400000, guid: eb45f135f0d3a0b4cb3bcfffbfefd349,
