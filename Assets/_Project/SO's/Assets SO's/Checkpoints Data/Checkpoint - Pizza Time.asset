@@ -30,12 +30,6 @@ MonoBehaviour:
     isActive: 1
   - objectID: Blood Stain
     isActive: 1
-  - objectID: Kitchen Washed Plate
-    isActive: 0
-  - objectID: Pizza Slice To Take
-    isActive: 0
-  - objectID: Sofa Phone
-    isActive: 0
   environmentObjectsToToggle: []
   objectsWithCheckpointListener:
   - objectID: Garage Trash Can Top
