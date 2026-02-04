@@ -86,10 +86,9 @@ namespace TwelveG.GameController
             GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
             {
                 channelIndex = 3, // Canal 4 de la Policia
-                dialogSO = dialogSOs[1]
+                dialogSO = dialogSOs[1],
+                forceChannelSwitch = false
             });
-
-            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             // "conversationHasEnded"
             yield return new WaitUntil(() => allowNextAction);
@@ -100,7 +99,8 @@ namespace TwelveG.GameController
             GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
             {
                 channelIndex = 3, // Canal 4 de la Policia
-                dialogSO = dialogSOs[2]
+                dialogSO = dialogSOs[2],
+                forceChannelSwitch = false
             });
 
             // "conversationHasEnded"
@@ -116,14 +116,15 @@ namespace TwelveG.GameController
             GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
             {
                 channelIndex = 3, // Canal 4 de la Policia
-                dialogSO = dialogSOs[3]
+                dialogSO = dialogSOs[3],
+                forceChannelSwitch = false
             });
 
-            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             // "conversationHasEnded"
             yield return new WaitUntil(() => allowNextAction);
             ResetAllowNextActions();
+            GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
             yield return new WaitForSeconds(2f);
             // Parece que alguien ya dió aviso sobre el disparo ..

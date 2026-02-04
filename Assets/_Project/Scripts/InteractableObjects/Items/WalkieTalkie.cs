@@ -59,15 +59,7 @@ namespace TwelveG.InteractableObjects
                     if (Input.GetKeyDown(KeyCode.V)) StartCoroutine(SwitchChannel(currentChannelIndex - 1, true));
                     if (Input.GetKeyDown(KeyCode.B)) StartCoroutine(SwitchChannel(currentChannelIndex + 1, true));
 
-                    // for debug
-                    // -1 channel with no switching sound
-                    // if (Input.GetKeyDown(KeyCode.N)) StartCoroutine(SwitchChannel(currentChannelIndex - 1, false)); 
-                    // +1 channel with no switching sound
-                    // if (Input.GetKeyDown(KeyCode.M)) StartCoroutine(SwitchChannel(currentChannelIndex + 1, false));
-                    // start random channel switching 
-                    // if (Input.GetKeyDown(KeyCode.O)) StartRandomChannelSwitching();
-                    // stop random channel switching
-                    // if (Input.GetKeyDown(KeyCode.P)) StopRandomChannelSwitching();
+                    // Debug keys...
                 }
             }
         }
@@ -111,13 +103,13 @@ namespace TwelveG.InteractableObjects
             }
 
             // Límites
-            if (newChannel > channelCount -1 || newChannel < 0) yield break;    
-            
+            if (newChannel > channelCount - 1 || newChannel < 0) yield break;
+
             if (newChannel > currentWalkieTalkieData.FrequencyData.Count - 1) yield break;
-        
+
             currentChannelIndex = newChannel;
 
-            if (manual) 
+            if (manual)
             {
                 // Audio Switch
                 LockControls();
@@ -141,8 +133,6 @@ namespace TwelveG.InteractableObjects
             // 1. CHEQUEO DE LORE (Prioridad 1)
             if (currentChannelObj.loreClip != null && !currentChannelObj.hasPlayedLore)
             {
-                //LockControls();
-
                 // Reproducimos el Lore clips si existen
                 audioHandler.PlayLoreClip(currentChannelObj.loreClip);
 
@@ -231,10 +221,8 @@ namespace TwelveG.InteractableObjects
             }
             else if (isSimonCall)
             {
-                // Si habla Simon, como forzamos que salga el item, bloqueamos siempre
                 LockControls();
             }
-
             if (shouldShowItem)
             {
                 if (currentChannelIndex != callHandler.MicaChannelIndex)
@@ -252,13 +240,31 @@ namespace TwelveG.InteractableObjects
 
             if (dialogInfo.channelIndex < 0 || dialogInfo.channelIndex >= walkieTalkieChannels.Length) return;
 
+            // 1. Asignar diálogo al canal correspondiente
             walkieTalkieChannels[dialogInfo.channelIndex].pendingDialog = dialogInfo.dialogSO;
 
-            if (currentChannelIndex == dialogInfo.channelIndex && itemIsShown)
+            // 2. Cambio forzado (Lógica Endemoniada)
+            if (dialogInfo.forceChannelSwitch)
             {
-                GameEvents.Common.onShowDialog.Raise(this, dialogInfo.dialogSO);
-                LockControls();
-                walkieTalkieChannels[dialogInfo.channelIndex].ClearPendingDialog();
+                // Cambiamos el índice silenciosamente
+                currentChannelIndex = dialogInfo.channelIndex;
+                UpdateUI();
+                callHandler.ProcessDialogRequest(dialogInfo.dialogSO, currentChannelIndex);
+
+                if (itemIsShown)
+                {
+                    audioHandler.StopAudioSource();
+                    callHandler.AnswerCall();
+                    LockControls();
+                    walkieTalkieChannels[dialogInfo.channelIndex].ClearPendingDialog();
+                }
+                else
+                {
+                    if (!callHandler.IsIncomingCallWaiting)
+                    {
+                        callHandler.TriggerManualIncomingAlert();
+                    }
+                }
             }
         }
 
@@ -285,7 +291,6 @@ namespace TwelveG.InteractableObjects
             if (data != null)
             {
                 characterIsTalking = (bool)data;
-                // Llama a SetPaused en el AudioHandler
                 if (characterIsTalking)
                 {
                     audioHandler.SetPaused(true);
@@ -310,6 +315,7 @@ namespace TwelveG.InteractableObjects
 
             if (itemIsShown && canBeToogled) // OCULTAR
             {
+                // SIEMPRE al guardar, volvemos al canal de Mica
                 if (currentChannelIndex != callHandler.MicaChannelIndex)
                 {
                     yield return StartCoroutine(ReturnToMicaChannelCoroutine());
@@ -324,11 +330,7 @@ namespace TwelveG.InteractableObjects
                 onItemToggled.Raise(this, itemIsShown);
                 animationPlaying = false;
 
-                if (callHandler.IsIncomingCallWaiting)
-                {
-                    yield return new WaitForSeconds(5f);
-                    callHandler.ResumeRingingIfWaiting();
-                }
+                // Si había una llamada sonando, seguirá sonando en el bolsillo hasta que pare o se atienda
             }
             else if (!itemIsShown && canBeToogled) // MOSTRAR
             {
@@ -341,16 +343,40 @@ namespace TwelveG.InteractableObjects
                 onItemToggled.Raise(this, itemIsShown);
                 animationPlaying = false;
 
+                // Caso A: No hay nadie llamando -> Comportamiento normal
                 if (!callHandler.IsIncomingCallWaiting)
                 {
                     PlayCurrentChannelStatic();
+
+                    if (walkieTalkieChannels[currentChannelIndex].HasPendingDialog())
+                    {
+                        var dialog = walkieTalkieChannels[currentChannelIndex].pendingDialog;
+                        GameEvents.Common.onShowDialog.Raise(this, dialog);
+                        LockControls();
+                        walkieTalkieChannels[currentChannelIndex].ClearPendingDialog();
+                    }
                 }
+                // Caso B: Hay una llamada sonando (Mica O Evento Forzado)
                 else
                 {
+                    // 1. Es Micaela en su canal
                     if (currentChannelIndex == callHandler.MicaChannelIndex)
                     {
                         callHandler.AcceptWaitingCall();
                         LockControls();
+                    }
+                    // 2. Es un evento forzado en el canal actual (Usado por ej en VoicesEvent)
+                    // Básicamente cambia de canal forzadamente sin que el jugador se de cuenta
+                    else if (walkieTalkieChannels[currentChannelIndex].HasPendingDialog())
+                    {
+                        // Solo paramos el ruido, y disparamos el diálogo manualmente
+                        callHandler.StopRinging();
+
+                        var dialog = walkieTalkieChannels[currentChannelIndex].pendingDialog;
+                        GameEvents.Common.onShowDialog.Raise(this, dialog);
+
+                        LockControls();
+                        walkieTalkieChannels[currentChannelIndex].ClearPendingDialog();
                     }
                 }
             }
@@ -375,18 +401,8 @@ namespace TwelveG.InteractableObjects
             }
         }
 
-        private void LockControls()
-        {
-            canSwitchChannel = false;
-            canBeToogled = false;
-        }
-
-        private void UnlockControls()
-        {
-            canSwitchChannel = true;
-            canBeToogled = true;
-        }
-
+        private void LockControls() { canSwitchChannel = false; canBeToogled = false; }
+        private void UnlockControls() { canSwitchChannel = true; canBeToogled = true; }
         public void AllowChannelSwitching(bool allow) => canSwitchChannel = allow;
         public void SetChannelIndex(int index) => currentChannelIndex = index;
 

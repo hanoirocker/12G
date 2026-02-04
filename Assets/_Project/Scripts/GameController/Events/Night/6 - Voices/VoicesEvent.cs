@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Cinemachine;
 using TwelveG.AudioController;
+using TwelveG.DialogsController;
 using TwelveG.EnvironmentController;
 using TwelveG.InteractableObjects;
 using TwelveG.Localization;
@@ -20,6 +21,7 @@ namespace TwelveG.GameController
     [Space(5)]
     [Header("Text & Dialogs")]
     [SerializeField] private UIOptionsTextSO[] playerHelperDataTextSO;
+    [SerializeField] private DialogSO[] dialogSOs;
 
     [Space(5)]
     [Header("Audio - Sequence")]
@@ -67,9 +69,13 @@ namespace TwelveG.GameController
 
       yield return new WaitForSeconds(initialTime);
 
-      // FIX: No sirve de nada cargar un dialogo si debe estar en loop
-      // y el jugador debe poder guardar el walkie talkie.
-      // TODO: Quizas un sonido en el player con una voz de fondo en loop?
+      // Dialogo forzado: "Ve a la luz"
+      GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+      {
+        channelIndex = 1, // Canal 2 de vecinos
+        dialogSO = dialogSOs[0],
+        forceChannelSwitch = true // forzamos a que cambie al canal 2
+      });
 
       // Esperar a que el jugador salga de zonas seguras de arriba
       yield return new WaitUntil(
@@ -208,10 +214,15 @@ namespace TwelveG.GameController
             omnipresentPhaseTriggered = true; // Bajamos la bandera para que no entre más
 
             StartCoroutine(AudioManager.Instance.FaderHandler.AudioSourceFadeOut(tensionSource, 1f));
-
-            StartCoroutine(AudioManager.Instance.PlayerSoundsHandler.PlayPlayerSound(PlayerSoundsType.ScaredReactionLong));
-
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[1]); // "SIEMPRE FUISTE UNA VICTIMA"
+
+            // Dialogo de "Ya es tarde ..."
+            GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+            {
+              channelIndex = 1, // Canal 2 de vecinos
+              dialogSO = dialogSOs[1],
+              forceChannelSwitch = true
+            });
           }
 
           // --- BLOQUE DE EJECUCIÓN CONTINUA (MONITOR DE MUERTE) ---
@@ -295,7 +306,7 @@ namespace TwelveG.GameController
 
         float reachedVolume = tensionSource.volume;
 
-        if(fadeInRoutine != null)
+        if (fadeInRoutine != null)
         {
           StopCoroutine(fadeInRoutine);
         }

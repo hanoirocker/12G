@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
-using TwelveG.DialogsController;
-using TwelveG.GameController;
+using TwelveG.Localization;
 using TwelveG.PlayerController;
+using TwelveG.UIController;
 using UnityEngine;
 
 namespace TwelveG.InteractableObjects
@@ -18,8 +18,8 @@ namespace TwelveG.InteractableObjects
 
         [Space(10)]
         [Header("Dialogs")]
-        [SerializeField] private DialogSO outOfBatteriesHoldingFlashlight;
-        [SerializeField] private DialogSO outOfBatteriesOnShowingFlashlight;
+        [SerializeField] private ObservationTextSO outOfBatteriesHoldingFlashlight;
+        [SerializeField] private ObservationTextSO outOfBatteriesOnShowingFlashlight;
 
         Coroutine drainBatteriesCoroutine = null;
         private bool fullBatteries = true;
@@ -73,7 +73,8 @@ namespace TwelveG.InteractableObjects
                 }
                 if (!fullBatteries && !playerNoticedBatteriesDrained)
                 {
-                    GameEvents.Common.onStartDialog.Raise(this, outOfBatteriesOnShowingFlashlight);
+                    yield return new WaitForSeconds(1f);
+                    UIManager.Instance.ObservationCanvasHandler.ShowObservationText(outOfBatteriesOnShowingFlashlight);
                     playerNoticedBatteriesDrained = true;
                 }
 
@@ -139,7 +140,7 @@ namespace TwelveG.InteractableObjects
 
                     if (!playerNoticedBatteriesDrained && itemIsShown && elapsed >= duration * 0.7f)
                     {
-                        GameEvents.Common.onStartDialog.Raise(this, outOfBatteriesHoldingFlashlight);
+                        UIManager.Instance.ObservationCanvasHandler.ShowObservationText(outOfBatteriesOnShowingFlashlight);
                         playerNoticedBatteriesDrained = true;
                     }
                     yield return null;

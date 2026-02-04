@@ -50,3 +50,5 @@ Modelos:
 * door wood kick open rattle creak.wav by kyles at freesound.org
 * hotel_room_door_locking.wav by joedeshon at freesound.org
 * Door Knock 1 by blou27 at freesound.org
+* radio t3 SW noise 4.wav by ERH at freesound.org
+* RadioNOIZE_2.wav by framixo at freesound.org

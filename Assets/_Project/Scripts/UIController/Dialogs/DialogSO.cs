@@ -27,6 +27,7 @@ namespace TwelveG.DialogsController
         public bool isSelfDialog = false;
         public List<DialogTextStructure> dialogTextStructure;
         public AudioClip spanishDialogClip;
+        [Range(0f, 1f)] public float clipVolume = 1f;
         [Range(0f, 100f)]
         public float timeBeforeShowing = 0f;
         public GameEventSO startingEvent = null;

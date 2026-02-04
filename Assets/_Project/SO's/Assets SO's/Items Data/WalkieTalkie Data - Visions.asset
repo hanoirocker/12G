@@ -20,8 +20,8 @@ MonoBehaviour:
     reactionDialog: {fileID: 0}
   - frequencyName: Canal 2
     staticSignalClip: {fileID: 8300000, guid: 3e7aec5f7f2a14245a37271edc3b0ef6, type: 3}
-    loreEventClip: {fileID: 8300000, guid: d648e1ee74b3d3d4cb8c75e083d7c7e8, type: 3}
-    reactionDialog: {fileID: 11400000, guid: a91e8a75bd0e7264087defd1408208d8, type: 2}
+    loreEventClip: {fileID: 0}
+    reactionDialog: {fileID: 0}
   - frequencyName: Canal 3 (Mica)
     staticSignalClip: {fileID: 0}
     loreEventClip: {fileID: 0}

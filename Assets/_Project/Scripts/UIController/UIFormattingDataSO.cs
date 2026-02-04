@@ -89,6 +89,12 @@ namespace TwelveG.UIController
         case UIFormatingType.PlayerObservationText:
           fontToReturn = observationTextFont;
           break;
+        case UIFormatingType.DialogContentText:
+          fontToReturn = dialogsContentFont;
+          break;
+        case UIFormatingType.DialogCharacterText:
+          fontToReturn = dialogsCharacterNameFont;
+          break;
         default:
           fontToReturn = defaultFont;
           break;

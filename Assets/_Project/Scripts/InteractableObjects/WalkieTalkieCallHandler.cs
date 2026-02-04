@@ -1,5 +1,6 @@
 using System.Collections;
 using TwelveG.DialogsController;
+using TwelveG.GameController;
 using UnityEngine;
 
 namespace TwelveG.InteractableObjects
@@ -11,7 +12,6 @@ namespace TwelveG.InteractableObjects
     [SerializeField] private int micaChannelIndex = 2;
 
     [Header("Game Events")]
-    [SerializeField] private GameEventSO onShowDialogEvent;
     [SerializeField] private GameEventSO onShowIncomingCallPanelEvent;
 
     // Estado público para que el WalkieTalkie sepa si hay alguien esperando
@@ -36,7 +36,7 @@ namespace TwelveG.InteractableObjects
     public bool ProcessDialogRequest(DialogSO dialog, int currentChannel)
     {
       currentPendingDialog = dialog;
-      bool isShown = checkItemShown(); // Consultamos el estado actual
+      bool isShown = checkItemShown();
 
       // CASO 1: MICAELA LLAMA
       if (dialog.characterName == CharacterName.Mica)
@@ -61,21 +61,19 @@ namespace TwelveG.InteractableObjects
         }
       }
 
-      // CASO 2: SIMON HABLA (O llama a Mica)
+      // CASO 2: SIMON HABLA
       if (dialog.characterName == CharacterName.Simon)
       {
         if (dialog.isSelfDialog)
         {
-          onShowDialogEvent.Raise(this, dialog);
+          GameEvents.Common.onShowDialog.Raise(this, dialog);
           return false;
         }
-
-        // Simon va a usar el radio -> Atendemos lógicamente y pedimos al WT que se muestre
         AnswerCall();
         return true;
       }
 
-      // CASO 3: DESCONOCIDO (Ringtone)
+      // CASO 3: DESCONOCIDO / OTROS
       if (dialog.characterName == CharacterName.Unknown)
       {
         StartCoroutine(IncomingDialogAlertCoroutine());
@@ -93,7 +91,7 @@ namespace TwelveG.InteractableObjects
 
       if (currentPendingDialog != null)
       {
-        onShowDialogEvent.Raise(this, currentPendingDialog);
+        GameEvents.Common.onShowDialog.Raise(this, currentPendingDialog);
       }
     }
 
@@ -114,7 +112,7 @@ namespace TwelveG.InteractableObjects
       }
     }
 
-    private void StopRinging()
+    public void StopRinging()
     {
       // Solo detenemos el audio y el panel, pero NO cambiamos IsIncomingCallWaiting a false aquí
       // (eso solo se hace al atender).
@@ -135,6 +133,14 @@ namespace TwelveG.InteractableObjects
       // Al sacar el objeto, el ringtone se corta visualmente
       onShowIncomingCallPanelEvent.Raise(this, false);
       audioHandler.Stop();
+    }
+
+    public void TriggerManualIncomingAlert()
+    {
+      if (!IsIncomingCallWaiting)
+      {
+        StartCoroutine(IncomingDialogAlertCoroutine());
+      }
     }
   }
 }

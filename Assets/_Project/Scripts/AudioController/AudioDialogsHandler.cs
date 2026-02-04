@@ -15,9 +15,6 @@ namespace TwelveG.AudioController
     [Header("Audio Settings")]
     [SerializeField, Range(0f, 1f)] private float WTBeepVolume = 0.55f;
     [Space(5)]
-    [SerializeField, Range(0f, 3f)] float charactersPitch = 1f;
-    [SerializeField, Range(0f, 1f)] float simonClipsVolume = 0.55f;
-    [SerializeField, Range(0f, 1f)] float recievedClipsVolume = 0.3f;
 
     [Space(10)]
     [Header("Debug")]
@@ -32,24 +29,14 @@ namespace TwelveG.AudioController
       GetAudioSources();
     }
 
-    public IEnumerator PlayDialogClip(AudioClip dialogClip, bool isSimon)
+    public IEnumerator PlayDialogClip(AudioClip dialogClip, float clipVolume, bool isSimon)
     {
       currentSource = isSimon ? simonSource : WTSource;
 
       if (dialogClip != null)
       {
         currentClip = dialogClip;
-
-        if (isSimon)
-        {
-          currentSource.volume = simonClipsVolume;
-        }
-        else
-        {
-          currentSource.volume = recievedClipsVolume;
-        }
-
-        currentSource.pitch = charactersPitch;
+        currentSource.volume = clipVolume;
         currentSource.loop = false;
         currentSource.clip = dialogClip;
         currentSource.Play();

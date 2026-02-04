@@ -1,7 +1,8 @@
 NOVEDADES:
-- Se reemplazo la desactivacion de colliders electricos en PlayerHouseHandler cuando no hay luz por un metodo que devuelve eso .. si hay luz. Este metodo se llama desde los interactuables electricos para distintas cosas.
-- Se reemplazo la musica de la rutina de invasion del enemy en Voices por un track propio.
-- Se corrigió bug en Pause Menu Canvas con la info de ayuda del jugador. Ahora se hace null la variable privada al recibir evento OnResetEventDriveTexts.
+- Se agregó el parámetro forceChannelSwitch en DialogForChannel estructure que permite que el onLoadDialogForSpecificChannel del WT cargue forzadamente un dialogo en un canal sin necesidad que el jugador pase al mismo, originando que suena la llamada directamente.
+- Se implementó dialogo de "Ve a la luz" y "Ya es tarde" en Voices.
+- Se agregó parámetro de control de volumen para cada audioClip de los DialogSOs
+- Se cambió el diálogo de Simón al acabarse las baterias de la linterna por textos de observación
 
 TOCHECK:
 - HEADACHES: actualmente se terminó el final de la primera parte, pero queda aún se podría mencionar al inicio de Headaches el dolor de cabeza que le ocasiona el walkie talkie y los aparatos electrónicos. Quizas luego de eso podriamos prender y apagar aparatos aleatoriamente? (microondas, radio, luces de la casa)

@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
-  m_Name: Self Dialog - Flashlight - On Showing Flashlight No Batteries
+  m_Name: Dialog Night - Voices- 1.1.U
   m_EditorClassIdentifier: 
-  characterName: 0
-  isSelfDialog: 1
+  repeatable: 0
+  characterName: 3
+  isSelfDialog: 0
   dialogTextStructure:
   - language: 0
-    dialogText: "Mierdaaaaa... \xA1No ahora!"
+    dialogText: Ve a la luz...
   - language: 1
-    dialogText: Shit... Not now!
-  spanishDialogClip: {fileID: 0}
-  timeBeforeShowing: 2
+    dialogText: Follow the light...
+  spanishDialogClip: {fileID: 8300000, guid: eb19ed7028904d74ebae350e30d95dcd, type: 3}
+  clipVolume: 0.075
+  timeBeforeShowing: 0
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
   nextDialog: {fileID: 0}

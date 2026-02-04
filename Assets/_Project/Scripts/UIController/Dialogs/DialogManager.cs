@@ -4,6 +4,7 @@ using TMPro;
 using TwelveG.AudioController;
 using TwelveG.GameController;
 using TwelveG.Localization;
+using TwelveG.UIController;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ namespace TwelveG.DialogsController
     {
         public int channelIndex;
         public DialogSO dialogSO;
+        public bool forceChannelSwitch;
     }
 
     public class DialogManager : MonoBehaviour
@@ -32,6 +34,9 @@ namespace TwelveG.DialogsController
         private void OnEnable()
         {
             UpdateCanvasTextOnLanguageChanged();
+
+            UIManager.Instance.UIFormatter.AssignFontByType(UIFormatingType.DialogCharacterText, characterNameCanvasText);
+            UIManager.Instance.UIFormatter.AssignFontByType(UIFormatingType.DialogContentText, dialogCanvasText);
         }
 
         void Start()
@@ -109,7 +114,7 @@ namespace TwelveG.DialogsController
             if (currentDialog.spanishDialogClip != null)
             {
                 bool isSimon = currentDialog.characterName == CharacterName.Simon;
-                StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip, isSimon: isSimon));
+                StartCoroutine(AudioManager.Instance.AudioDialogsHandler.PlayDialogClip(currentDialog.spanishDialogClip, currentDialog.clipVolume, isSimon));
             }
 
             // Evento de inicio (ej: animaciones)

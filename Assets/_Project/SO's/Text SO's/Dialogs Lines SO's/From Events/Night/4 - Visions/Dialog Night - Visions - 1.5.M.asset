@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e573528be6914cd88b9a51e641a9aba, type: 3}
   m_Name: Dialog Night - Visions - 1.5.M
   m_EditorClassIdentifier: 
+  repeatable: 0
+  isPrimaryDialog: 1
   characterName: 1
   isSelfDialog: 0
   dialogTextStructure:
@@ -22,6 +24,7 @@ MonoBehaviour:
     dialogText: Hey... I need you to do me a favor. Someone's ringing the doorbell,
       but I'm not going to open it in the rain...
   spanishDialogClip: {fileID: 0}
+  clipVolume: 1
   timeBeforeShowing: 1
   startingEvent: {fileID: 0}
   endingEvent: {fileID: 0}
