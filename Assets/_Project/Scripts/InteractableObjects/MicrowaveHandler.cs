@@ -158,7 +158,7 @@ namespace TwelveG.InteractableObjects
         private IEnumerator UpdateMicrowaveTextRoutine()
         {
             float timePassed = 0f;
-            float totalDuration = heatingSound.length; // Guardamos la referencia para limpieza
+            float totalDuration = heatingSound.length + 1 ; // Guardamos la referencia para limpieza
             float targetTriggerTime = totalDuration / 2f;
             bool eventFired = false;
 
