@@ -79,6 +79,9 @@ namespace TwelveG.GameController
             GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[2]);
             GameEvents.Common.updateFallbackTexts.Raise(this, mainDoorsFallbacksTextsSO[2]);
 
+            // Habilitar collider de la mesa de la cocina para poder sentarse a comer la pizza
+            PlayerHouseHandler.Instance.GetStoredObjectByID("Dinner Table Interactable").GetComponent<Collider>().enabled = true;
+
             // Unity Event (SitAndEat - sitAndEatPizza):
             // Al interactuar con SitAndEat (mesa de la cocina) se deshabilitan controles pples 
             // del jugador y se pasa a la VC KitchenDeskVC
