@@ -1,7 +1,10 @@
 NOVEDADES:
 
-- Se corrigió tamaño de interacción de colliders de puertas.
-- Se redujo el brillo de la luz del prefab del teléfono del inventario.
+- Se cambió los colliders esféricos de los prefabs "Broom" y "Used Broom" por colliders tipo cápsula que abarcan toda la geometría. Ahora es más fácil tomarla o contemplarla.
+- Se modificaron los textos de observación al intentar limpiar el ave y no poseer los items. Ahora todos indican que los items necesarios están en el garage.
+- Se recalculó el occlusion culling ya que se movió la escoba desde la cocina al garage.
+- Se agregó luz de area interna de la caja fuerte. Surgirá efecto al cocinar las luces de la escena.
+- Se solucionó un problema en el PCHandler que apagaba la PC al mismo tiempo que el jugador se levantaba de la misma. Ahora se espera a que el jugador se levante de la PC para poder apagarla.
 
 TOCHECK:
 
@@ -12,17 +15,11 @@ TOCHECK:
 TOFIX:
 
 - No había audio (voces) después de progresar linealmente al first contact. Tuve que cargar el evento manualmente
-- Agregar luz area baked al interior de la caja fuerte (la luz puntal realtime se nota como reflejo en el material)
-- Used Broom: cambiar collider circular por rectangular.
 - Control Canvas: agregar control principal de Menu Pausa / Pistas [Esc]
 - Pizza time: agregar posibilidad de tomar plato de la pila del estante. Si se toma de uno, se inhabilita el collider del otro desde sus scripts con método extra.
 - Birds: colocar collider de pajaro que choca contra ventana un poco antes (entre middle stairs y upper stairs).
-- Birds: modificar texto al intentar limpiar ave (Indicar que la bolsa y escoba están en el garage) --> Mover escoba al garage. También modificar texto del player helper data indicando lo del garage.
-- Revisar cuadros examinables, hay uno que la pata trasera no se renderiza en overlay.
+- Revisar cuadros examinables, hay uno que la pata trasera no se renderiza en overlay. // EVENING OK .. NIGHT?
 - Revisar UI de examinación (estilos).
-- Al empezar el afternoon scene desde el evento PizzaTime, no hay plato colgado para levantar.
-- Al empezar el afternoon scene desde cualquier evento posterior a PizzaTime, la escoba está en el garage y no aparece la escoba usada.
-- LS2: deshabilitar los controles del jugador apenas se enciende la PC, retomarlos al salir de la misma. Por otro lado, Al terminar de usar la misma debemos mostrar solo el cartel de LEVANTARSE []. Luego una vez recuperados los controles y estando parado, se debe poder apagar.
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
 
 TODO - próximo:

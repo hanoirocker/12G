@@ -190,6 +190,10 @@ namespace TwelveG.InteractableObjects
             AudioUtils.StopAndRestoreAudioSource(pcAudioSource, pcAudioSourceState);
             pcAudioSource = null;
 
+            // Espera a que el jugador se levante de la PC y se haga el FadeOut + FadeIn
+            // para volver a la cámara del jugador antes de poder apagar la PC.
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
+            yield return new WaitForSeconds(4.5f);
             turnOffCollider.enabled = true;
         }
 

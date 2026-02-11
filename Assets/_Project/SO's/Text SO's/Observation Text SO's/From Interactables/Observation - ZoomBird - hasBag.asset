@@ -15,6 +15,6 @@ MonoBehaviour:
   isEventText: 0
   observationTextsStructure:
   - language: 0
-    observationText: "A\xFAn preciso la escoba. Deber\xEDa estar en la cocina."
+    observationText: "A\xFAn preciso la escoba. Deber\xEDa estar en el garage tambi\xE9n..."
   - language: 1
-    observationText: I still need the broom. It should be in the kitchen.
+    observationText: I still need the broom. It should be in the garage as well...

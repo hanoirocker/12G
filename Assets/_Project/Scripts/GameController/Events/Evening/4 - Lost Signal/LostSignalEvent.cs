@@ -52,11 +52,12 @@ namespace TwelveG.GameController
 
             GameEvents.Common.onResetEventDrivenTexts.Raise(this, null);
 
-            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 1f));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
+            yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeOut, 1f));
             GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.PC, true));
             GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerHeadLookAround(true));
             yield return StartCoroutine(UIManager.Instance.ImageCanvasHandler.FadeImageCanvas(FadeType.FadeIn, 1f));
+
             // Unity Event (PCHandler - onPC):
             // El jugador abandona la PC y vuelve a retomar control
             yield return new WaitUntil(() => allowNextAction);
