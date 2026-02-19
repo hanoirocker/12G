@@ -38,6 +38,14 @@ namespace TwelveG.InteractableObjects
         {
             isActiveOnGame = activate;
 
+            // Ocultamos el item si se desactiva y avisamos al Item Canvas para que oculte sus íconos
+            if (!activate)
+            {
+                anim.Play("HideItem");
+                itemIsShown = false;
+                onItemToggled.Raise(this, itemIsShown);
+            }
+
             // Avisarle al Control Canvas para que muestre/oculte las opciones del item
             InteractionObjectType interactionType = itemType switch
             {
@@ -48,7 +56,7 @@ namespace TwelveG.InteractableObjects
 
             // Si se activa el WT, inicializar en el VFXManager para actualizar efecto ElectricFeel
             // con los settings del evento actual
-            if(gameObject.TryGetComponent(out WalkieTalkie walkieTalkie) && activate)
+            if (gameObject.TryGetComponent(out WalkieTalkie walkieTalkie) && activate)
             {
                 VFXManager.Instance.Initialize(walkieTalkie);
             }

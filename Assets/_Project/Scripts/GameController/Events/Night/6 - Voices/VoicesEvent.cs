@@ -164,15 +164,20 @@ namespace TwelveG.GameController
       // Desactivar modelo enemigo acá si es necesario
       // Pausa Dramática
       yield return new WaitForSeconds(DRAMATIC_PAUSE);
-      enemyIsOmnipresent = true;
 
-      // Dialogo de "Ya es tarde ..."
-      GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+      if (playerIsSafe) yield break; // Si el jugador ya ganó, no activamos la fase omnipresente
+      else
       {
-        channelIndex = 1, // Canal 2 de vecinos
-        dialogSO = dialogSOs[1],
-        forceChannelSwitch = true
-      });
+        enemyIsOmnipresent = true;
+
+        // Dialogo de "Ya es tarde ..."
+        GameEvents.Common.onLoadDialogForSpecificChannel.Raise(this, new DialogForChannel
+        {
+          channelIndex = 1, // Canal 2 de vecinos
+          dialogSO = dialogSOs[1],
+          forceChannelSwitch = true
+        });
+      }
     }
 
     // Monitor de supervivencia del jugador y audio de tensión
@@ -357,9 +362,16 @@ namespace TwelveG.GameController
     private IEnumerator PlayerInsideDepotRoutine()
     {
       UIManager.Instance.ControlCanvasHandler.ToggleControlCanvas(false);
+
+      // Desactivamos el WT y la linterna por las dudas si el jugador los tiene equipados
+      GameEvents.Common.onRemovePlayerItem.Raise(this, ItemType.Flashlight);
+      GameEvents.Common.onRemovePlayerItem.Raise(this, ItemType.WalkieTalkie);
+      // Cancelamos cualquier dialogo activo por las dudas y desactivamos controles
+      GameEvents.Common.onCancelCurrentDialog.Raise(this, null);
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerShortcuts(false));
       GameEvents.Common.onPlayerControls.Raise(this, new EnablePlayerControllers(false));
       GameEvents.Common.onPlayerControls.Raise(this, new EnableInteractionModules(false));
+      // Mostramos barras cinematográficas y cambiamos settings de cámara
       GameEvents.Common.onCinematicCanvasControls.Raise(this, new ShowCinematicBars(true));
       GameEvents.Common.onMainCameraSettings.Raise(this, new SetCameraBlend(CinemachineBlendDefinition.Style.EaseInOut, 3));
       GameEvents.Common.onVirtualCamerasControl.Raise(this, new ToggleVirtualCamera(VirtualCameraTarget.KitchenDepot, true));

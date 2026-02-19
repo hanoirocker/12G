@@ -1,11 +1,12 @@
 NOVEDADES:
 
+- Se arreglaron varias cosas de VoicesEvent. Ahora se cancela el diálogo "Ve a la luz" si el jugador está a salvo, y sólo se dispara el diálogo "Ya es tarde" si no está a salvo. También se desactivan el WT y la linterna al entrar en el depósito.
+- Se modificó BirdsEvents.cs para hacer chocar el ave contra la ventana cuando el jugador ingrese a la escalera superior (previa a la escalera intermedia).
 - Se cambió los colliders esféricos de los prefabs "Broom" y "Used Broom" por colliders tipo cápsula que abarcan toda la geometría. Ahora es más fácil tomarla o contemplarla.
 - Se modificaron los textos de observación al intentar limpiar el ave y no poseer los items. Ahora todos indican que los items necesarios están en el garage.
 - Se recalculó el occlusion culling ya que se movió la escoba desde la cocina al garage.
 - Se agregó luz de area interna de la caja fuerte. Surgirá efecto al cocinar las luces de la escena.
 - Se solucionó un problema en el PCHandler que apagaba la PC al mismo tiempo que el jugador se levantaba de la misma. Ahora se espera a que el jugador se levante de la PC para poder apagarla.
-- Se modificó BirdsEvents.cs para hacer chocar el ave contra la ventana cuando el jugador ingrese a la escalera superior (previa a la escalera intermedia).
 
 TOCHECK:
 
