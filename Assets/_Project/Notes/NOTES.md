@@ -5,6 +5,7 @@ NOVEDADES:
 - Se recalculó el occlusion culling ya que se movió la escoba desde la cocina al garage.
 - Se agregó luz de area interna de la caja fuerte. Surgirá efecto al cocinar las luces de la escena.
 - Se solucionó un problema en el PCHandler que apagaba la PC al mismo tiempo que el jugador se levantaba de la misma. Ahora se espera a que el jugador se levante de la PC para poder apagarla.
+- Se modificó BirdsEvents.cs para hacer chocar el ave contra la ventana cuando el jugador ingrese a la escalera superior (previa a la escalera intermedia).
 
 TOCHECK:
 
@@ -17,7 +18,6 @@ TOFIX:
 - No había audio (voces) después de progresar linealmente al first contact. Tuve que cargar el evento manualmente
 - Control Canvas: agregar control principal de Menu Pausa / Pistas [Esc]
 - Pizza time: agregar posibilidad de tomar plato de la pila del estante. Si se toma de uno, se inhabilita el collider del otro desde sus scripts con método extra.
-- Birds: colocar collider de pajaro que choca contra ventana un poco antes (entre middle stairs y upper stairs).
 - Revisar cuadros examinables, hay uno que la pata trasera no se renderiza en overlay. // EVENING OK .. NIGHT?
 - Revisar UI de examinación (estilos).
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.

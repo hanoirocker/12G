@@ -69,12 +69,15 @@ namespace TwelveG.GameController
 
             PlayerHouseHandler.Instance.GetStoredObjectByID("Broom").GetComponent<PickableItem>().canBePicked = true;
             PlayerHouseHandler.Instance.GetStoredObjectByID("Pickable - Empty Trash Bag (1)").GetComponent<PickableItem>().canBePicked = true;
-
-            yield return new WaitUntil(() => PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.MiddleStairs);
+            
+            // Espera a que el jugador llegue a las escaleras altas + delay para asegurar
+            // que el jugador vea el ave chocando contra el vidrio
+            yield return new WaitUntil(() => PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.UpperStairs);
+            yield return new WaitForSeconds(1f);
             EnvironmentHandler.Instance.ToggleStoredPrefabs(new ObjectData("Crashing Bird", true));
 
             // Y ahora qué m...
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             UIManager.Instance.ObservationCanvasHandler.ShowObservationText(
                 eventsObservationTextSO[2]
             );
