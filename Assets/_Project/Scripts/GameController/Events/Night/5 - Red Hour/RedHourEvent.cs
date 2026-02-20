@@ -58,7 +58,7 @@ namespace TwelveG.GameController
 
       // Empiezan a brillar cuadros y se descontrola el WT
       GetComponent<GlowingPortraitsHandler>().StartGlowingRoutine();
-      PlayerHandler.Instance.GetComponentInChildren<WalkieTalkie>().StartRandomChannelSwitching();
+      PlayerHandler.Instance.WalkieTalkie.StartRandomChannelSwitching();
 
       Coroutine mainCoroutine = StartCoroutine(ParentsBedRoomRoutine());
 
@@ -70,7 +70,7 @@ namespace TwelveG.GameController
       // Espera a que haya terminado la rutina principal
       // y luego detiene la rutina de mal funcionamiento del WT
       yield return mainCoroutine;
-      PlayerHandler.Instance.GetComponentInChildren<WalkieTalkie>().StopRandomChannelSwitching();
+      PlayerHandler.Instance.WalkieTalkie.StopRandomChannelSwitching();
 
       GameEvents.Common.onLoadPlayerHelperData.Raise(this, playerHelperDataTextSO[2]);
 

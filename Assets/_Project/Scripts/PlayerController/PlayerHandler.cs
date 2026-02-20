@@ -15,15 +15,15 @@ namespace TwelveG.PlayerController
         [SerializeField] private GameObject playerCapsule;
         [SerializeField] private GameObject mainCamera;
         [SerializeField] private PlayerSpotter playerSpotter;
-
         [SerializeField] private FPController fpController;
-
         [SerializeField] private AudioSource playerCapsuleAudioSource;
         [SerializeField] private Transform playerCameraRoot;
+        [SerializeField] private WalkieTalkie walkieTalkie;
 
         public AudioSource PlayerCapsuleAudioSource => playerCapsuleAudioSource;
         public FPController FPController => fpController;
         public PlayerSpotter PlayerSpotter => playerSpotter;
+        public WalkieTalkie WalkieTalkie => walkieTalkie;
 
         private HouseArea currentHouseArea = HouseArea.None;
         private PlayerShortcuts playerShortcuts;
@@ -80,6 +80,7 @@ namespace TwelveG.PlayerController
         {
             VFXManager.Instance?.RegisterPlayer(playerCameraRoot);
             AudioManager.Instance.PlayerSoundsHandler.RegisterPlayerHandler(this);
+            AudioManager.Instance.AudioDialogsHandler.Initialize(WalkieTalkie);
         }
 
         public void PlayerControls(Component sender, object data)

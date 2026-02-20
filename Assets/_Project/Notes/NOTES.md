@@ -1,5 +1,6 @@
 NOVEDADES:
 
+- Se arregló la falta de referencia a la fuente de Simón en FirstContact si se iniciaba el juego desde la intro. Ahora el AudioDialogsHandler no busca las fuentes al iniciar, sino que inicializa sus referencias cuando PlayerHandler haga Start. De esta forma nos aseguramos que las referencias siempre existan cuando existe el jugador.
 - Se arreglaron varias cosas de VoicesEvent. Ahora se cancela el diálogo "Ve a la luz" si el jugador está a salvo, y sólo se dispara el diálogo "Ya es tarde" si no está a salvo. También se desactivan el WT y la linterna al entrar en el depósito.
 - Se modificó BirdsEvents.cs para hacer chocar el ave contra la ventana cuando el jugador ingrese a la escalera superior (previa a la escalera intermedia).
 - Se cambió los colliders esféricos de los prefabs "Broom" y "Used Broom" por colliders tipo cápsula que abarcan toda la geometría. Ahora es más fácil tomarla o contemplarla.
