@@ -73,7 +73,6 @@ namespace TwelveG.GameController
             // Espera a que el jugador llegue a las escaleras altas + delay para asegurar
             // que el jugador vea el ave chocando contra el vidrio
             yield return new WaitUntil(() => PlayerHandler.Instance.GetCurrentHouseArea() == HouseArea.UpperStairs);
-            yield return new WaitForSeconds(1f);
             EnvironmentHandler.Instance.ToggleStoredPrefabs(new ObjectData("Crashing Bird", true));
 
             // Y ahora qué m...
