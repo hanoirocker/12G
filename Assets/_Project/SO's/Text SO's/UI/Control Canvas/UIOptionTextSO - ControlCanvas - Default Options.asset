@@ -16,8 +16,14 @@ MonoBehaviour:
   - language: 0
     value: '~ Mostrar/Ocultar [H]
 
-      ~ Obsevar (Zoom) [Click D]'
+      ~ Obsevar (Zoom) [Click D]
+
+      ~ Menu
+      de Pausa / Pistas [Esc]'
   - language: 1
     value: '~ Show/Hide [H]
 
-      ~ Check (Zoom In) [R Click]'
+      ~ Check on (Zoom in) [R Click]
+
+      ~ Pause
+      Menu / Hints [Esc]'

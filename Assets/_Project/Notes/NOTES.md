@@ -1,5 +1,6 @@
 NOVEDADES:
 
+- Se agregó el texto "Pause Menu / Hints [Esc]" en el Control canvas. Además se modificaron parámetros de texto y contenedor de opciones.
 - Se quitó el tiempo de espera para iniciar el ave que choca contra la ventana al pasar por Upper Stairs, y se cambió el collider de la bolsa de basura a tomar por uno esférico mucho mas grande.
 - Se arregló la falta de referencia a la fuente de Simón en FirstContact si se iniciaba el juego desde la intro. Ahora el AudioDialogsHandler no busca las fuentes al iniciar, sino que inicializa sus referencias cuando PlayerHandler haga Start. De esta forma nos aseguramos que las referencias siempre existan cuando existe el jugador.
 - Se arreglaron varias cosas de VoicesEvent. Ahora se cancela el diálogo "Ve a la luz" si el jugador está a salvo, y sólo se dispara el diálogo "Ya es tarde" si no está a salvo. También se desactivan el WT y la linterna al entrar en el depósito.
@@ -18,8 +19,6 @@ TOCHECK:
 
 TOFIX:
 
-- Control Canvas: agregar control principal de Menu Pausa / Pistas [Esc]
-- Pizza time: agregar posibilidad de tomar plato de la pila del estante. Si se toma de uno, se inhabilita el collider del otro desde sus scripts con método extra.
 - Revisar cuadros examinables, hay uno que la pata trasera no se renderiza en overlay. // EVENING OK .. NIGHT?
 - Revisar UI de examinación (estilos).
 - Si habilitamos el Walkie Talkie mediante un checkpoint asset, se rompe al mostrarlo o intentar cambiar el canal debido a que no genera una estructura de canales --> Esto sucede cuando no existe extructura de audios de canales para el evento en particular.
@@ -32,6 +31,9 @@ TODO - próximo:
 - TIPS LOGIC: Nueva idea. Si el jugador presiona una tecla asociada INDICADA como comando extra en opciones principales de canvas de control, se abre un nuevo canvas TIPS CANVAS sobre la esquina inferior derecha que indica lo que diría el Player Helper Data.
 
 TODO - despues:
+
+- Pizza time: agregar posibilidad de tomar plato de la pila del estante. Si se toma de uno, se inhabilita el collider del otro desde sus scripts con método extra. Esto implica modificar ampliar el esquema del archivo .data del sistema de guardado. Posible solución:
+  - Implementar IDataPersistence interface en PlayerHouseHandler para hacer uso de métodos load y save data. Con estos podríamos obtener de alguna forma los datos que precisamos de los objetos a alterar al guardar, y alterarlos al cargar.
 
 - Verificar si es necesario cambiar texto de observación apenas comienza Walkie Talkie Quest para dejar en claro que hablar con Mica NO ES SALIR DE LA CASA.
 - Poblar la heladera.
