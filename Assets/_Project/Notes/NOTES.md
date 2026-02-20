@@ -18,7 +18,6 @@ TOCHECK:
 
 TOFIX:
 
-- No había audio (voces) después de progresar linealmente al first contact. Tuve que cargar el evento manualmente
 - Control Canvas: agregar control principal de Menu Pausa / Pistas [Esc]
 - Pizza time: agregar posibilidad de tomar plato de la pila del estante. Si se toma de uno, se inhabilita el collider del otro desde sus scripts con método extra.
 - Revisar cuadros examinables, hay uno que la pata trasera no se renderiza en overlay. // EVENING OK .. NIGHT?
